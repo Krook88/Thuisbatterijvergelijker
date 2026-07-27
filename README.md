@@ -23,11 +23,26 @@ assets/style.css                Vormgeving
 assets/app.js                   Filter-, sorteer- en renderlogica
 assets/rekenmodule.js           Rekenlogica terugverdientijd
 data/batterijen.json            Alle batterijgegevens, prijzen en aanbiedingen
+assets/prijs.js                 Prijsvergelijking: één vergelijkprijs incl. btw
+assets/iconen.js                Lijniconen (Lucide), gedeeld met de generator
+api/contact.js                  Serverloze functie achter het contactformulier
 scripts/update-prices.mjs       Dagelijks prijsupdate-script (Node.js)
+scripts/controleer-links.mjs    Controleert interne en externe links
 vercel.json                     Cache- en beveiligingsheaders voor Vercel
 .github/workflows/
   update-prijzen.yml            Dagelijkse GitHub Action die prijzen ververst
+  controleer-links.yml          Wekelijkse controle op kapotte links
 ```
+
+## Prijzen vergelijkbaar houden
+
+Winkelprijzen komen zowel incl. als excl. btw binnen en dekken niet altijd hetzelfde.
+`assets/prijs.js` rekent alles om naar één vergelijkprijs incl. btw en is de enige plek
+waar korting wordt bepaald; de vergelijker, de keuzehulp, de rekenmodule en de generator
+van de batterijpagina's gebruiken dezelfde functies. Voeg je een aanbieding toe waarvan
+de prijs excl. btw is, zet dan `"btw_inbegrepen": false` bij die aanbieding. Dekt hij
+minder dan de richtprijs (bijvoorbeeld zonder P1-meter), zet dan `"omvat": "excl.
+P1-meter"`; dan wordt het verschil niet als korting getoond.
 
 ## Publiceren
 
@@ -55,6 +70,15 @@ Handmatig draaien kan ook: `node scripts/update-prices.mjs` (Node.js 18 of hoger
 ## Data bijwerken of batterijen toevoegen
 
 Alle inhoud staat in `data/batterijen.json`. Voeg een object toe aan de `batterijen`-array met dezelfde velden als de bestaande items. De site pikt nieuwe items automatisch op; er is geen build-stap.
+
+## Contactformulier en linkcontrole
+
+Het contactformulier draait op een serverloze functie (`api/contact.js`) die verstuurt via
+de mailserver van TransIP; er is geen externe maildienst en geen DNS-wijziging voor nodig.
+Zonder inloggegevens toont het formulier netjes het mailadres in plaats van berichten te
+verliezen. De linkcontrole draait wekelijks en
+meldt winkelpagina's die verdwenen zijn. Beide staan uitgelegd in
+[VERCEL-DEPLOY.md](VERCEL-DEPLOY.md).
 
 ## Disclaimer
 

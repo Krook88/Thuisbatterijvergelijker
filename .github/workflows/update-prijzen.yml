@@ -34,6 +34,11 @@ jobs:
       - name: Batterijpagina's en sitemap herbouwen
         run: node scripts/genereer-batterijpaginas.mjs
 
+      # Kost geen seconde en geen internet, maar vangt af dat de generator een
+      # pagina wegschrijft die naar een bestand verwijst dat niet bestaat.
+      - name: Interne links controleren
+        run: node scripts/controleer-links.mjs --intern
+
       - name: Wijzigingen committen en pushen
         id: commit
         run: |

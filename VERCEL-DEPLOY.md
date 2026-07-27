@@ -174,7 +174,77 @@ Met Vercel krijg je dat gratis:
 
 ---
 
-## 5. Zustersites
+## 5. Contactformulier instellen
+
+Het formulier op `contact.html` post naar `api/contact.js`, een serverloze functie die
+Vercel automatisch oppakt omdat het bestand in de map `api/` staat.
+
+Verzenden gaat via de mailserver van TransIP, dezelfde die de mailbox van het domein
+bedient. Daardoor is er geen externe maildienst nodig en **hoeft er niets aan de DNS te
+veranderen**: het SPF-record dat de mail van het domein regelt dekt deze verzending al.
+
+Zonder inloggegevens accepteert het formulier niets en krijgt de bezoeker het mailadres
+te zien. Het is dus nooit stuk, alleen niet actief. Aanzetten gaat zo:
+
+1. Zet in Vercel onder **Settings → Environment Variables** deze waarden, voor de omgeving
+   *Production* (en desgewenst *Preview*):
+
+   | Naam | Waarde | Toelichting |
+   | --- | --- | --- |
+   | `SMTP_GEBRUIKER` | `info@batterijmaatje.nl` | de mailbox die verstuurt |
+   | `SMTP_WACHTWOORD` | het wachtwoord van die mailbox | zie de waarschuwing hieronder |
+   | `CONTACT_AAN` | `info@batterijmaatje.nl` | optioneel; standaard gelijk aan SMTP_GEBRUIKER |
+   | `CONTACT_VAN` | `info@batterijmaatje.nl` | optioneel; TransIP staat alleen verzenden toe namens de eigen mailbox |
+   | `SMTP_HOST` | `smtp.transip.email` | optioneel; dit is de standaard |
+   | `SMTP_POORT` | `465` | optioneel; dit is de standaard |
+
+2. Deploy opnieuw. Omgevingsvariabelen gelden pas vanaf de volgende deployment.
+
+De bezoeker komt in `Reply-To` te staan, dus "beantwoorden" gaat rechtstreeks naar degene
+die het formulier invulde. In je postvak staat als afzender "Naam via het contactformulier",
+zodat je meteen ziet waar het bericht vandaan komt.
+
+**Over dat wachtwoord.** Deze waarde geeft toegang tot de mailbox, niet alleen tot
+versturen. Maak er daarom bij voorkeur een aparte mailbox voor aan (bijvoorbeeld
+`formulier@batterijmaatje.nl`) die alleen dit doet, en laat die doorsturen naar je gewone
+postbus. Lekt de waarde ooit, dan is de schade beperkt tot die ene postbus.
+
+**Tegen misbruik** zitten er drie eenvoudige remmen in: een veld dat onzichtbaar is voor
+bezoekers maar dat bots vaak invullen, een controle of het formulier niet binnen enkele
+milliseconden werd verstuurd, en een grens van vijf berichten per tien minuten per
+IP-adres. Regeleindes in de naam en het onderwerp worden verwijderd, zodat niemand extra
+kopregels in de mail kan smokkelen. Loopt er ooit toch een spamgolf binnen, dan is de
+firewall van Vercel de volgende stap; die staat los van deze code.
+
+**Let op bij de zustersites:** wil je daar ooit wél een externe maildienst gebruiken, dan
+mag een domein maar één SPF-record hebben. Voeg de include dan tóe aan het bestaande
+record in plaats van er een tweede TXT-regel bij te zetten; twee SPF-records maken ze
+allebei ongeldig.
+
+## 6. Linkcontrole
+
+Winkels halen productpagina's weg of hernoemen ze zonder iets te zeggen. De bezoeker
+klikt dan op "Bekijk aanbieding" en landt op een foutpagina, terwijl de site nog een
+prijs toont. `scripts/controleer-links.mjs` spoort dat op:
+
+- **Interne links** worden tegen de bestanden in de repository gehouden. Die controle
+  draait ook dagelijks mee in de prijsupdate (`--intern`, kost geen seconde en heeft
+  geen internet nodig) en laat de run mislukken als er iets niet klopt: een interne
+  link die nergens heen gaat is altijd onze eigen fout.
+- **Externe links** (winkels, fabrikanten, bronnen) worden echt opgehaald door de
+  workflow `controleer-links.yml`, elke maandagochtend. De uitkomst staat in de
+  samenvatting van de run: welke link kapot is en bij welke batterij of winkel hij
+  hoort. Die maken de run niet rood, want een winkel die even plat ligt is geen fout
+  van ons; het is een lijst om langs te lopen.
+
+Adressen die 401, 403 of 429 teruggeven worden apart gezet als "niet te controleren".
+Dat betekent meestal dat de webshop geautomatiseerde verzoeken weert, niet dat de
+pagina verdwenen is.
+
+Handmatig draaien: `node scripts/controleer-links.mjs` (alles) of
+`node scripts/controleer-links.mjs --intern` (zonder internet).
+
+## 7. Zustersites
 
 Kopieer `vercel.json` ongewijzigd naar `Krook88/Zonnemaatje` en `Krook88/Warmtepompmaatje`
 en doorloop stap 1 en 2 per repository met het bijbehorende domein
