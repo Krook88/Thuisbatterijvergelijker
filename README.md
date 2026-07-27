@@ -29,6 +29,12 @@ scripts/update-prices.mjs       Dagelijks prijsupdate-script (Node.js)
   deploy-pages.yml              Publicatie naar GitHub Pages
 ```
 
+## Publiceren
+
+De site draait zonder build-stap en kan zowel op Vercel als op GitHub Pages staan.
+Voor de overstap naar Vercel en het koppelen van `batterijmaatje.nl`: zie
+[VERCEL-DEPLOY.md](VERCEL-DEPLOY.md). De headers voor Vercel staan in `vercel.json`.
+
 ## GitHub Pages activeren
 
 1. Ga in de repository naar **Settings → Pages**.
