@@ -87,7 +87,7 @@ async function bolApiPrijs(aanbieding) {
     headers: { "Authorization": `Bearer ${token}`, "Accept": "application/json" },
   });
   if (!res.ok) {
-    console.log(`  ~ bol-API ${m[1]}: HTTP ${res.status} (respons kort: ${(await res.text()).slice(0, 120)})`);
+    console.log(`  ~ bol-API ${m[1]}: HTTP ${res.status} (respons: ${(await res.text()).slice(0, 500)})`);
     return null;
   }
   const prijs = zoekPrijsInRespons(await res.json());
