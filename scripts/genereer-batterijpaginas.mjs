@@ -48,6 +48,42 @@ const datumNL = (iso) => {
   return Number.isNaN(d.getTime()) ? String(iso) : d.toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
 };
 
+// Zoekmachines tonen ongeveer 60 tekens van een titel en 155 van een
+// omschrijving; de rest wordt afgekapt. Dat is meestal net de merknaam of de
+// zin die de bezoeker moest overhalen. Deze functies houden daar rekening mee
+// in plaats van te hopen dat het past.
+const TITEL_MAX = 60;
+const OMSCHRIJVING_MAX = 155;
+const MERK_ACHTERVOEGSEL = " | Batterijmaatje";
+
+// De merknaam achteraan is prettig voor herkenning, maar niet ten koste van de
+// inhoud: past hij niet, dan valt hij weg in plaats van de titel af te kappen.
+function titelMetMerk(kern) {
+  return kern.length + MERK_ACHTERVOEGSEL.length <= TITEL_MAX ? kern + MERK_ACHTERVOEGSEL : kern;
+}
+
+// Kiest de eerste variant die binnen de ruimte past. De modelnaam staat altijd
+// vooraan, want daar zoekt de bezoeker op; het achtervoegsel mag wijken.
+function besteTitel(varianten) {
+  for (const variant of varianten) {
+    const metMerk = titelMetMerk(variant);
+    if (metMerk.length <= TITEL_MAX) return metMerk;
+  }
+  return varianten[varianten.length - 1];
+}
+
+// Afkappen op een woordgrens, zodat er geen half woord blijft staan.
+function kortOmschrijving(tekst, maximum = OMSCHRIJVING_MAX) {
+  if (tekst.length <= maximum) return tekst;
+  const geknipt = tekst.slice(0, maximum - 1);
+  const spatie = geknipt.lastIndexOf(" ");
+  return (spatie > maximum * 0.6 ? geknipt.slice(0, spatie) : geknipt).replace(/[,.;:]$/, "") + "\u2026";
+}
+
+// Voor titels: de capaciteit tussen haakjes achter een modelnaam is nuttig op
+// de pagina zelf, maar vreet de ruimte op in een zoekresultaat.
+const naamZonderHaakjes = (b) => volledigeNaam(b).replace(/\s*\([^)]*\)\s*$/, "").trim();
+
 const bestePrijs = Prijs.beste;
 const perKwhInclBtw = Prijs.prijsPerKwh;
 
@@ -194,9 +230,18 @@ function pagina(b) {
   const nood = vierwaardig(b.noodstroom);
   const typeLabel = { "plug-in": "Plug-in (stopcontact)", "ac-gekoppeld": "AC-gekoppeld", "hybride": "Hybride omvormer" }[b.type] || b.type;
 
-  const metaDesc = `${volledigeNaam(b)}: ${nl(b.capaciteit_kwh)} kWh thuisbatterij` +
-    (beste ? `, vanaf ${eur(Prijs.vergelijkPrijs(beste)).replace(" ", " ")} incl. btw bij ${beste.winkel}` : "") +
-    ". Bekijk specificaties, koppeling met zonnepanelen, Homey en Home Assistant, en bereken je terugverdientijd.";
+  const metaDesc = kortOmschrijving(
+    `${naamZonderHaakjes(b)}: ${nl(b.capaciteit_kwh)} kWh thuisbatterij` +
+    (beste ? `, vanaf ${eur(Prijs.vergelijkPrijs(beste)).replace(" ", " ")} incl. btw` : "") +
+    ". Specificaties, koppeling met Homey en Home Assistant, en je terugverdientijd."
+  );
+  const kortenaam = naamZonderHaakjes(b);
+  const paginaTitel = besteTitel([
+    `${kortenaam}: prijs en specificaties`,
+    `${kortenaam}: prijs en specs`,
+    `${kortenaam}: prijs`,
+    kortenaam,
+  ]);
 
   const specRij = (label, waarde) => waarde == null || waarde === "" ? "" :
     `<tr><th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);white-space:nowrap;width:40%;">${esc(label)}</th><td style="padding:10px 14px;">${waarde}</td></tr>`;
@@ -210,7 +255,7 @@ function pagina(b) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${esc(volledigeNaam(b))}: prijs, specificaties en beste aanbieding | Batterijmaatje.nl</title>
+  <title>${esc(paginaTitel)}</title>
   <meta name="description" content="${esc(metaDesc)}">
   <link rel="canonical" href="${SITE}/batterij/${esc(b.id)}.html">
   <meta property="og:title" content="${esc(volledigeNaam(b))}: prijs en specificaties">
@@ -416,7 +461,8 @@ function overzichtsPagina(cfg) {
   const deels = data.batterijen.filter((b) => driewaardig(b[cfg.veld]).status === "deels");
   const nee = data.batterijen.filter((b) => driewaardig(b[cfg.veld]).status === "nee");
   const titel = `Beste thuisbatterij voor ${cfg.naam} (2026): ${ja.length + deels.length} modellen vergeleken`;
-  const metaDesc = `Welke thuisbatterij werkt met ${cfg.naam}? Overzicht van ${ja.length} batterijen met volledige en ${deels.length} met gedeeltelijke ondersteuning, met actuele prijzen, prijs per kWh en Koppel-score. Dagelijks bijgewerkt.`;
+  const paginaTitel = titelMetMerk(`Beste thuisbatterij voor ${cfg.naam} (2026)`);
+  const metaDesc = kortOmschrijving(`Welke thuisbatterij werkt met ${cfg.naam}? ${ja.length} met volledige en ${deels.length} met gedeeltelijke ondersteuning, met dagelijks gecontroleerde prijzen en Koppel-score.`);
   const alleGetoond = [...ja, ...deels];
 
   const itemList = JSON.stringify({
@@ -436,7 +482,7 @@ function overzichtsPagina(cfg) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${esc(titel)} | Batterijmaatje.nl</title>
+  <title>${esc(paginaTitel)}</title>
   <meta name="description" content="${esc(metaDesc)}">
   <link rel="canonical" href="${SITE}/${cfg.bestand}">
   <meta property="og:title" content="${esc(titel)}">
@@ -594,7 +640,8 @@ function vergelijkingsPagina(v) {
 
   const plusA = pluspunten(A, B), plusB = pluspunten(B, A);
   const titel = `${naam(A)} vs ${naam(B)}: welke thuisbatterij?`;
-  const metaDesc = `${naam(A)} of ${naam(B)}? Vergelijk prijs, prijs per kWh, capaciteit, noodstroom en slimme aansturing (Homey, Home Assistant, dynamisch contract). Prijzen dagelijks gecontroleerd.`;
+  const paginaTitel = besteTitel([`${naamZonderHaakjes(A)} vs ${naamZonderHaakjes(B)}`]);
+  const metaDesc = kortOmschrijving(`${naamZonderHaakjes(A)} of ${naamZonderHaakjes(B)}? Vergelijk prijs per kWh, capaciteit, noodstroom en slimme aansturing. Prijzen dagelijks gecontroleerd.`);
 
   const itemList = JSON.stringify({
     "@context": "https://schema.org",
@@ -610,7 +657,7 @@ function vergelijkingsPagina(v) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${esc(titel)} (2026) | Batterijmaatje.nl</title>
+  <title>${esc(paginaTitel)}</title>
   <meta name="description" content="${esc(metaDesc)}">
   <link rel="canonical" href="${SITE}/vergelijk/${esc(v.slug)}.html">
   <meta property="og:title" content="${esc(titel)}">
