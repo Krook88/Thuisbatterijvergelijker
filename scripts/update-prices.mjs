@@ -78,22 +78,70 @@ function zoekPrijsInRespons(obj) {
   return null;
 }
 
+// Defensief, net als hierboven: pak de eerste waarde die eruitziet als een
+// EAN. Zo blijft de omzetting werken als bol het veld ooit anders noemt.
+function zoekEanInRespons(obj) {
+  if (obj == null) return null;
+  if (typeof obj === "string") return /^\d{13}$/.test(obj) ? obj : null;
+  if (typeof obj !== "object") return null;
+  if (Array.isArray(obj)) {
+    for (const x of obj) { const e = zoekEanInRespons(x); if (e) return e; }
+    return null;
+  }
+  for (const k of Object.keys(obj)) {
+    const e = zoekEanInRespons(obj[k]);
+    if (e) return e;
+  }
+  return null;
+}
+
+const BOL_BASIS = "https://api.bol.com/marketing/catalog/v1";
+
+// Accept-Language is verplicht. Node stuurt zonder deze regel "*", en dat
+// wijst bol af met HTTP 400 (violation: acceptLanguage).
+function bolHeaders(token) {
+  return {
+    "Authorization": `Bearer ${token}`,
+    "Accept": "application/json",
+    "Accept-Language": "nl",
+  };
+}
+
+// De catalogus werkt op EAN's van 13 cijfers, maar een bol-URL bevat het
+// bol-product-ID van 16 cijfers. Bol heeft daar een omzet-endpoint voor.
+async function bolEan(bolProductId, token) {
+  const res = await fetch(`${BOL_BASIS}/products/${bolProductId}/to-ean?country-code=NL`, {
+    headers: bolHeaders(token),
+  });
+  if (!res.ok) {
+    console.log(`  ~ bol-API ${bolProductId}: omzetten naar EAN gaf HTTP ${res.status} (${(await res.text()).slice(0, 300)})`);
+    return null;
+  }
+  const ean = zoekEanInRespons(await res.json());
+  if (!ean) console.log(`  ~ bol-API ${bolProductId}: geen EAN in de respons`);
+  return ean;
+}
+
 async function bolApiPrijs(aanbieding) {
   const token = await haalBolToken();
   if (!token) return null;
-  const m = (aanbieding.url || "").match(/\/(\d{8,})\/?$/);
-  if (!m) { console.log(`  ~ bol-API: geen product-id herkend in ${aanbieding.url}`); return null; }
-  const res = await fetch(`https://api.bol.com/marketing/catalog/v1/products/${m[1]}/offers/best?country-code=NL`, {
-    // Accept-Language is verplicht. Node stuurt zonder deze regel "*", en dat
-    // wijst bol af met HTTP 400 (violation: acceptLanguage).
-    headers: {
-      "Authorization": `Bearer ${token}`,
-      "Accept": "application/json",
-      "Accept-Language": "nl",
-    },
+
+  // De EAN wordt na de eerste keer in de gegevens bewaard, zodat een dagelijkse
+  // run maar één aanroep per aanbieding nodig heeft.
+  let ean = typeof aanbieding.ean === "string" && /^\d{13}$/.test(aanbieding.ean) ? aanbieding.ean : null;
+  if (!ean) {
+    const m = (aanbieding.url || "").match(/\/(\d{8,})\/?$/);
+    if (!m) { console.log(`  ~ bol-API: geen product-id herkend in ${aanbieding.url}`); return null; }
+    ean = await bolEan(m[1], token);
+    if (!ean) return null;
+    aanbieding.ean = ean;
+  }
+
+  const res = await fetch(`${BOL_BASIS}/products/${ean}/offers/best?country-code=NL`, {
+    headers: bolHeaders(token),
   });
   if (!res.ok) {
-    console.log(`  ~ bol-API ${m[1]}: HTTP ${res.status} (respons: ${(await res.text()).slice(0, 500)})`);
+    console.log(`  ~ bol-API ${ean}: HTTP ${res.status} (respons: ${(await res.text()).slice(0, 300)})`);
     return null;
   }
   const prijs = zoekPrijsInRespons(await res.json());
