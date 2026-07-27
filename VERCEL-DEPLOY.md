@@ -26,11 +26,17 @@ per project.
 
 De standaardbranch van deze repository is nu `claude/home-battery-comparison-nl-qxolhe`.
 Vercel gebruikt de standaardbranch als **productiebranch**. Controleer dit onder
-**Settings → Git → Production Branch** en zet hem op de branch die je live wilt hebben.
+**Settings → Environments → Production → Branch Tracking** (in oudere dashboards stond dit
+onder Settings → Git) en zet hem op de branch die je live wilt hebben.
 
-Aanbevolen opruimactie: hernoem de standaardbranch op GitHub naar `main` en zet daarna de
-productiebranch in Vercel op `main`. Pas dan ook de branchnamen in
-`.github/workflows/update-prijzen.yml` en `deploy-pages.yml` aan.
+Staat de branch goed maar blijft productie op een oude versie hangen, dan is er simpelweg
+nog geen productie-deployment gemaakt: ga naar **Deployments**, kies de bovenste van de
+productiebranch en gebruik **Promote to Production**. Elke volgende push gaat daarna
+vanzelf.
+
+Aanbevolen opruimactie: hernoem de standaardbranch op GitHub naar `main`, zet Branch
+Tracking in Vercel op `main` en pas de branchnaam in
+`.github/workflows/update-prijzen.yml` aan.
 
 ### Automatisch opnieuw publiceren
 
@@ -159,9 +165,12 @@ Met Vercel krijg je dat gratis:
 
 - Controleer: `https://batterijmaatje.nl/`, een batterijpagina, de rekenmodule, de
   keuzehulp en een niet-bestaande URL (moet `404.html` tonen).
-- Zet daarna GitHub Pages uit: GitHub **Settings → Pages** bron op *None*, en verwijder
-  `.github/workflows/deploy-pages.yml`. Laat je Pages aan staan, dan blijft er een tweede,
-  half werkende kopie op `krook88.github.io` staan die Google kan indexeren.
+- Zet GitHub Pages uit: **Settings → Pages** → bron op *None*. Blijft Pages aan staan, dan
+  is er een tweede, half werkende kopie op `krook88.github.io` die Google kan indexeren.
+  Het bestand `CNAME` en de workflow `deploy-pages.yml` zijn in deze repository al
+  verwijderd; publiceren gebeurt volledig via Vercel.
+- Verwijder bij de registrar het TXT-record `_github-pages-challenge`; dat heeft geen
+  functie meer.
 
 ---
 
