@@ -70,10 +70,16 @@
     knop.disabled = true;
 
     try {
+      // Bewust urlencoded en geen FormData: die stuurt multipart/form-data, en
+      // dat formaat leest de serveromgeving niet uit naar losse velden. Dit is
+      // ook precies wat het formulier zonder JavaScript zou versturen.
       const antwoord = await fetch(formulier.action, {
         method: "POST",
-        headers: { "Accept": "application/json" },
-        body: new FormData(formulier),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        },
+        body: new URLSearchParams(new FormData(formulier)).toString(),
       });
       const uitkomst = await antwoord.json().catch(() => ({}));
 
