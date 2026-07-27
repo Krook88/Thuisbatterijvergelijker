@@ -16,10 +16,17 @@
  *   probleem: de bezoeker klikt dan op "Bekijk aanbieding" en landt op een
  *   foutpagina, terwijl wij nog een prijs tonen.
  *
+ * Winkel-URL's worden hier standaard overgeslagen wanneer --zonder-winkels
+ * meegegeven wordt. Reden: scripts/update-prices.mjs bezoekt elke dag al
+ * precies die pagina's om de prijs te lezen, en meldt zelf welke verdwenen
+ * zijn. Ze hier nog een keer ophalen belast dezelfde winkels dubbel zonder
+ * iets extra's op te leveren.
+ *
  * Gebruik:
- *   node scripts/controleer-links.mjs              alles
- *   node scripts/controleer-links.mjs --intern     alleen interne links (geen internet nodig)
- *   node scripts/controleer-links.mjs --streng     externe fouten geven ook een foutcode
+ *   node scripts/controleer-links.mjs                  alles
+ *   node scripts/controleer-links.mjs --intern         alleen interne links (geen internet nodig)
+ *   node scripts/controleer-links.mjs --zonder-winkels alles behalve de winkel-URL's
+ *   node scripts/controleer-links.mjs --streng         externe fouten geven ook een foutcode
  */
 
 import { readFileSync, existsSync, appendFileSync } from "node:fs";
@@ -30,6 +37,7 @@ import { readdirSync, statSync } from "node:fs";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const ALLEEN_INTERN = process.argv.includes("--intern");
+const ZONDER_WINKELS = process.argv.includes("--zonder-winkels");
 const STRENG = process.argv.includes("--streng");
 
 // Sommige winkels weigeren alles wat geen browser is. Een nette user-agent met
@@ -110,6 +118,7 @@ function externeLinks() {
   const batterijen = JSON.parse(readFileSync(resolve(ROOT, "data/batterijen.json"), "utf8"));
   for (const b of batterijen.batterijen || []) {
     if (b.product_url) noteer(b.product_url, `${b.id} (fabrikant)`);
+    if (ZONDER_WINKELS) continue; // de prijsupdate bezoekt deze pagina's al dagelijks
     for (const a of b.aanbiedingen || []) {
       if (a.url) noteer(a.url, `${b.id} @ ${a.winkel}`);
       if (a.affiliate_url) noteer(a.affiliate_url, `${b.id} @ ${a.winkel} (commissielink)`);
@@ -203,7 +212,7 @@ async function main() {
   }
 
   const bronnen = externeLinks();
-  console.log(`\nExterne links: ${bronnen.size} adressen controleren...`);
+  console.log(`\nExterne links: ${bronnen.size} adressen controleren${ZONDER_WINKELS ? " (winkel-URL's overgeslagen; die doet de prijsupdate)" : ""}...`);
   const uitkomsten = await controleerExtern(bronnen);
 
   // 401/403/429 betekent doorgaans "wij houden bots buiten", niet "de pagina

@@ -31,8 +31,7 @@ scripts/update-prices.mjs       Dagelijks prijsupdate-script (Node.js)
 scripts/controleer-links.mjs    Controleert interne en externe links
 vercel.json                     Cache- en beveiligingsheaders voor Vercel
 .github/workflows/
-  update-prijzen.yml            Dagelijkse GitHub Action die prijzen ververst
-  controleer-links.yml          Wekelijkse controle op kapotte links
+  update-prijzen.yml            Dagelijkse Action: prijzen, pagina's en linkcontrole
 ```
 
 ## De vergelijker staat in de HTML
@@ -89,8 +88,9 @@ Alle inhoud staat in `data/batterijen.json`. Voeg een object toe aan de `batteri
 Het contactformulier draait op een serverloze functie (`api/contact.js`) die verstuurt via
 de mailserver van TransIP; er is geen externe maildienst en geen DNS-wijziging voor nodig.
 Zonder inloggegevens toont het formulier netjes het mailadres in plaats van berichten te
-verliezen. De linkcontrole draait wekelijks en
-meldt winkelpagina's die verdwenen zijn. Beide staan uitgelegd in
+verliezen. De linkcontrole draait mee in de dagelijkse
+prijsupdate: het prijsscript meldt zelf welke winkelpagina's verdwenen zijn (het bezoekt
+ze toch al), en `controleer-links.mjs` doet de interne links en de overige externe links. Beide staan uitgelegd in
 [VERCEL-DEPLOY.md](VERCEL-DEPLOY.md).
 
 ## Disclaimer
