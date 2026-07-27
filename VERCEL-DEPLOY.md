@@ -77,20 +77,37 @@ Controleren kan in **Settings → Domains** (moet "Valid Configuration" tonen).
 
 ---
 
-## 3. Na de overstap
+## 3. Dev-omgeving
+
+Gebruik hiervoor de **preview-deployments van Vercel**, niet GitHub Pages.
+
+Reden: de site linkt overal naar rootpaden (`/assets/style.css`, `/index.html`,
+`/uitleg.html` — 60 van de 63 HTML-bestanden). Zonder eigen domein staat Pages op
+`krook88.github.io/Thuisbatterijvergelijker/`, dus onder een submap. Daar breken de
+stylesheet, `nav.js` en vrijwel alle interne links. Pages is alleen bruikbaar op een
+domein dat in de root staat.
+
+Met Vercel krijg je dat gratis:
+
+- Elke push naar een niet-productiebranch krijgt een eigen preview-URL op de root van een
+  `*.vercel.app`-hostnaam. Alles werkt daar identiek aan productie.
+- Wil je een vaste dev-URL: voeg in **Settings → Domains** bijvoorbeeld
+  `dev.batterijmaatje.nl` toe en koppel die aan een branch (`dev`). DNS: `CNAME dev` naar
+  de waarde die Vercel toont.
+- `vercel.json` zet op zowel `*.vercel.app` als `dev.*` de header `X-Robots-Tag: noindex`,
+  zodat Google alleen het echte domein indexeert.
+
+## 4. Na de overstap
 
 - Controleer: `https://batterijmaatje.nl/`, een batterijpagina, de rekenmodule, de
   keuzehulp en een niet-bestaande URL (moet `404.html` tonen).
-- Zet de GitHub Pages-workflow uit als je Pages niet meer gebruikt: verwijder
-  `.github/workflows/deploy-pages.yml` of zet in GitHub **Settings → Pages** de bron op
-  *None*. Laat je hem staan, dan blijft de site óók bereikbaar via
-  `krook88.github.io/Thuisbatterijvergelijker` — dat kan dubbele indexering opleveren.
-- Preview-deployments op `*.vercel.app` krijgen via `vercel.json` een `X-Robots-Tag:
-  noindex`, zodat Google alleen het echte domein indexeert.
+- Zet daarna GitHub Pages uit: GitHub **Settings → Pages** bron op *None*, en verwijder
+  `.github/workflows/deploy-pages.yml`. Laat je Pages aan staan, dan blijft er een tweede,
+  half werkende kopie op `krook88.github.io` staan die Google kan indexeren.
 
 ---
 
-## 4. Zustersites
+## 5. Zustersites
 
 Kopieer `vercel.json` ongewijzigd naar `Krook88/Zonnemaatje` en `Krook88/Warmtepompmaatje`
 en doorloop stap 1 en 2 per repository met het bijbehorende domein

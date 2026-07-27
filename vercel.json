@@ -15,7 +15,7 @@
     },
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": ".*\\.vercel\\.app" }],
+      "has": [{ "type": "host", "value": "(.*\\.vercel\\.app|dev\\..*)" }],
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
     },
     {
