@@ -31,11 +31,14 @@
 
   /* ------------------------------------------------------------------ */
 
-  function bestePrijs(b) {
-    const a = (b.aanbiedingen || []).filter((x) => x && x.prijs_eur);
-    if (a.length) return a.reduce((m, x) => (x.prijs_eur < m.prijs_eur ? x : m));
-    if (b.richtprijs_eur) return { winkel: b.prijs_bron || "richtprijs", prijs_eur: b.richtprijs_eur, url: b.product_url };
-    return null;
+  // Zelfde prijslogica als de vergelijker: budget en ranking gaan over de
+  // vergelijkprijs incl. btw, anders wint een groothandelsprijs excl. btw
+  // altijd van een eerlijke consumentenprijs.
+  const bestePrijs = Prijs.beste;
+
+  function vergelijkPrijs(b) {
+    const prijs = Prijs.vergelijkPrijs(bestePrijs(b));
+    return prijs === null ? Infinity : prijs;
   }
 
   function driewaardig(v) {
@@ -143,7 +146,7 @@
       if (maat.basis === "dynamisch" && driewaardig(b.dynamisch_contract) === "nee") return false;
 
       // Budget (alleen als ingevuld)
-      if (budget > 0 && prijs && prijs.prijs_eur > budget) return false;
+      if (budget > 0 && prijs && Prijs.vergelijkPrijs(prijs) > budget) return false;
 
       // Capaciteit: past binnen ruime marge rond het advies,
       // of is modulair uitbreidbaar tot binnen de bandbreedte
@@ -157,7 +160,7 @@
     // Score: capaciteitspassing (belangrijkst), dan prijs per kWh, dan koppelgemak
     const scored = kandidaten.map((b) => {
       const prijs = bestePrijs(b);
-      const perKwh = prijs ? prijs.prijs_eur / b.capaciteit_kwh : 9999;
+      const perKwh = prijs ? Prijs.vergelijkPrijs(prijs) / b.capaciteit_kwh : 9999;
       const afwijking = Math.abs(b.capaciteit_kwh - maat.kern) / Math.max(maat.kern, 1);
       const capScore = Math.max(0, 1 - afwijking);                    // 0..1
       const prijsScore = Math.max(0, 1 - (perKwh - 150) / 850);       // ~150 euro/kWh = top
@@ -241,7 +244,7 @@
           </div>
           <div class="kaart-specs">
             <div class="spec"><span class="spec-label">Capaciteit</span><span class="spec-waarde">${String(b.capaciteit_kwh).replace(".", ",")} kWh${b.uitbreidbaar_tot_kwh ? ` <small>(tot ${String(b.uitbreidbaar_tot_kwh).replace(".", ",")})</small>` : ""}</span></div>
-            <div class="spec"><span class="spec-label">Prijs</span><span class="spec-waarde">${prijs ? eurFmt.format(prijs.prijs_eur) : "op aanvraag"}</span></div>
+            <div class="spec"><span class="spec-label">Prijs incl. btw</span><span class="spec-waarde" title="${escapeHtml(Prijs.prijsToelichting(prijs))}">${prijs ? eurFmt.format(Prijs.vergelijkPrijs(prijs)) : "op aanvraag"}</span></div>
             <div class="spec"><span class="spec-label">Per kWh</span><span class="spec-waarde">${prijs ? eurFmt.format(perKwh) : "n.b."}</span></div>
             <div class="spec"><span class="spec-label">Installatie</span><span class="spec-waarde">${b.installatie === "zelf" ? "Zelf" : "Installateur"}</span></div>
           </div>

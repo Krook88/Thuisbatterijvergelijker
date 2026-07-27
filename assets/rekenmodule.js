@@ -36,10 +36,11 @@
 
   let batterijen = [];
 
+  // De investering waarmee gerekend wordt is de vergelijkprijs incl. btw: een
+  // particulier betaalt nu eenmaal btw, dus rekenen met een prijs excl. btw
+  // levert een terugverdientijd op die 21% te gunstig is.
   function bestePrijs(b) {
-    const a = (b.aanbiedingen || []).filter((x) => x && x.prijs_eur);
-    if (a.length) return a.reduce((m, x) => (x.prijs_eur < m.prijs_eur ? x : m)).prijs_eur;
-    return b.richtprijs_eur || null;
+    return Prijs.vergelijkPrijs(Prijs.beste(b));
   }
 
   function getal(id, fallback) {

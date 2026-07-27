@@ -18,7 +18,7 @@
  *     en de rest gaat door.
  */
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -136,7 +136,12 @@ function prijsUitJsonLd(html) {
         if (!k || typeof k !== "object") continue;
         const offers = k.offers ? (Array.isArray(k.offers) ? k.offers : [k.offers]) : [];
         for (const offer of offers) {
-          const p = parsePrijsWaarde(offer.price ?? offer.lowPrice);
+          // lowPrice hoort bij een AggregateOffer en is de goedkoopste variant
+          // van de pagina - bij een productpagina met varianten (met of zonder
+          // P1-meter, kleiner model) is dat niet de prijs van dit product.
+          // Alleen de losse price is betrouwbaar genoeg om automatisch over te
+          // nemen; de rest laten we aan een mens over.
+          const p = parsePrijsWaarde(offer.price);
           if (p) return p;
         }
       }
@@ -176,12 +181,24 @@ function prijsUitTekst(html) {
   return max >= 2 ? beste : null; // alleen bij herhaald voorkomen
 }
 
+// Een echte prijswijziging is zelden groot. Een sprong van tientallen procenten
+// betekent meestal iets anders: een andere variant op dezelfde pagina, een
+// accessoire, een bundel of een prijs excl. btw. Die nemen we niet automatisch
+// over, want een verkeerde prijs is schadelijker dan een dag een oude prijs.
+const MARGE_ONDER = 0.75;
+const MARGE_BOVEN = 1.25;
+
 function plausibel(nieuw, oud) {
   if (!oud) return nieuw >= 100 && nieuw <= 30000;
-  return nieuw >= oud * 0.4 && nieuw <= oud * 2.5;
+  return nieuw >= oud * MARGE_ONDER && nieuw <= oud * MARGE_BOVEN;
 }
 
 /* ------------------------------------------------------------------ */
+
+// Prijzen die te veel afweken om automatisch over te nemen. Die komen aan het
+// eind in de samenvatting te staan, zodat een variantwissel of een prijs excl.
+// btw wordt opgemerkt door een mens in plaats van door een bezoeker.
+const teControleren = [];
 
 async function updateAanbieding(batterij, aanbieding) {
   if (!aanbieding.url) return false;
@@ -198,7 +215,9 @@ async function updateAanbieding(batterij, aanbieding) {
       return false;
     }
     if (!plausibel(nieuw, aanbieding.prijs_eur)) {
-      console.log(`  ! ${batterij.id} @ ${aanbieding.winkel}: gevonden prijs €${nieuw} niet plausibel t.o.v. €${aanbieding.prijs_eur}, overgeslagen`);
+      const verschil = Math.round((nieuw / aanbieding.prijs_eur - 1) * 100);
+      console.log(`  ! ${batterij.id} @ ${aanbieding.winkel}: gevonden prijs €${nieuw} wijkt ${verschil > 0 ? "+" : ""}${verschil}% af van €${aanbieding.prijs_eur}, overgeslagen`);
+      teControleren.push({ id: batterij.id, winkel: aanbieding.winkel, oud: aanbieding.prijs_eur, nieuw, verschil, url: aanbieding.url });
       return false;
     }
     const veranderd = nieuw !== aanbieding.prijs_eur;
@@ -232,6 +251,27 @@ async function main() {
   // scripts/genereer-batterijpaginas.mjs (zie de workflow).
 
   console.log(`\nKlaar. ${wijzigingen} prijswijziging(en). laatst_bijgewerkt = ${VANDAAG}`);
+
+  if (teControleren.length) {
+    console.log(`\n${teControleren.length} prijs(en) overgeslagen wegens een te grote afwijking:`);
+    for (const t of teControleren) {
+      console.log(`  ${t.id} @ ${t.winkel}: €${t.oud} -> €${t.nieuw} (${t.verschil > 0 ? "+" : ""}${t.verschil}%)  ${t.url}`);
+    }
+    // In GitHub Actions verschijnt dit bovenaan de run, zodat het opvalt
+    // zonder de logs te openen.
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      const regels = [
+        `### ${teControleren.length} prijs(en) handmatig controleren`,
+        "",
+        "Deze afwijkingen zijn te groot om automatisch over te nemen. Vaak is het een andere variant op dezelfde productpagina, een bundel of een prijs excl. btw.",
+        "",
+        "| Batterij | Winkel | Nu in de data | Gevonden | Verschil |",
+        "| --- | --- | --- | --- | --- |",
+        ...teControleren.map((t) => `| ${t.id} | ${t.winkel} | € ${t.oud} | € ${t.nieuw} | ${t.verschil > 0 ? "+" : ""}${t.verschil}% |`),
+      ];
+      appendFileSync(process.env.GITHUB_STEP_SUMMARY, regels.join("\n") + "\n");
+    }
+  }
 }
 
 main().catch((err) => {

@@ -431,6 +431,7 @@
       "type": "hybride",
       "fase": "beide",
       "richtprijs_eur": 6499,
+      "richtprijs_btw_inbegrepen": false,
       "prijs_omvat": "excl. btw, incl. geïntegreerde 8 kW hybride omvormer, via Frank Energie incl. installatie",
       "prijs_datum": "2026-07-27",
       "installatie": "installateur",
@@ -447,6 +448,7 @@
       "aanbiedingen": [
         {
           "winkel": "Frank Energie (incl. installatie en slimme sturing)",
+          "btw_inbegrepen": false,
           "prijs_eur": 6499,
           "url": "https://www.frankenergie.nl/nl/thuisbatterij/sigenergy/8-06-kwh-sigenergy-5-in-1-thuisbatterij-met-8-kw-omvormer-3-fase",
           "datum": "2026-07-27"
@@ -756,12 +758,14 @@
       "aanbiedingen": [
         {
           "winkel": "Groothandel Solar (prijs excl. btw)",
+          "btw_inbegrepen": false,
           "prijs_eur": 4552,
           "url": "https://www.groothandelsolar.com/accu-systemen/huawei/huawei-luna2000-10-kwh",
           "datum": "2026-07-27"
         },
         {
           "winkel": "Zonnepanelenkopen.com (prijs excl. btw)",
+          "btw_inbegrepen": false,
           "prijs_eur": 4552,
           "url": "https://www.zonnepanelenkopen.com/thuisbatterij/huawei/huawei-luna2000-10-kwh",
           "datum": "2026-07-13"
@@ -988,6 +992,7 @@
       "type": "hybride",
       "fase": "1- of 3-fase (afhankelijk van omvormer)",
       "richtprijs_eur": 1545,
+      "richtprijs_btw_inbegrepen": false,
       "prijs_omvat": "prijs excl. btw; losse batterijmodule, omvormer en installatie apart",
       "prijs_datum": "2026-07-26",
       "installatie": "installateur",
@@ -1004,12 +1009,14 @@
       "aanbiedingen": [
         {
           "winkel": "Zonnige Winkel",
+          "btw_inbegrepen": false,
           "prijs_eur": 1545,
           "url": "https://zonnigewinkel.nl/product/dyness-powerbox-g2-lv-1024-kwh/",
           "datum": "2026-07-25"
         },
         {
           "winkel": "Thuisaccu Webshop",
+          "btw_inbegrepen": false,
           "prijs_eur": 1650,
           "url": "https://thuisaccuwebshop.nl/product/dyness-powerbox-g2-1024-kwh/",
           "datum": "2026-07-26"
@@ -1480,6 +1487,7 @@
       "aanbiedingen": [
         {
           "winkel": "Marstek.nl (officieel, excl. P1-meter)",
+          "omvat": "excl. P1-meter",
           "prijs_eur": 1274,
           "url": "https://www.marstek.nl/product/marstek-venus-e-4-0-plug-charge-thuisbatterij/",
           "datum": "2026-07-27"

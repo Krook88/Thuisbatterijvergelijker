@@ -10,6 +10,11 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
+
+// Dezelfde prijslogica als de browser gebruikt, zodat een batterijpagina nooit
+// een ander bedrag toont dan de vergelijker.
+const Prijs = createRequire(import.meta.url)("../assets/prijs.js");
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -17,7 +22,7 @@ const SITE = "https://batterijmaatje.nl";
 const VANDAAG = new Date().toISOString().slice(0, 10);
 // Versienummer achter css/js-links: dwingt browsers om na een wijziging
 // het nieuwe bestand op te halen in plaats van een oude kopie uit de cache.
-const ASSET_VERSIE = "20260723d";
+const ASSET_VERSIE = "20260727a";
 
 const data = JSON.parse(readFileSync(resolve(ROOT, "data/batterijen.json"), "utf8"));
 mkdirSync(resolve(ROOT, "batterij"), { recursive: true });
@@ -37,20 +42,8 @@ const datumNL = (iso) => {
   return Number.isNaN(d.getTime()) ? String(iso) : d.toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
 };
 
-// Excl-btw-prijzen worden voor kWh-vergelijkingen omgerekend naar incl. btw
-const exclBtw = (b) => /excl\.? btw/i.test(b.prijs_omvat || "");
-const perKwhInclBtw = (b) => {
-  const beste = bestePrijs(b);
-  if (!beste || !b.capaciteit_kwh) return null;
-  return Math.round((exclBtw(b) ? beste.prijs_eur * 1.21 : beste.prijs_eur) / b.capaciteit_kwh);
-};
-
-function bestePrijs(b) {
-  const a = (b.aanbiedingen || []).filter((x) => x && x.prijs_eur);
-  if (a.length) return a.reduce((m, x) => (x.prijs_eur < m.prijs_eur ? x : m));
-  if (b.richtprijs_eur) return { winkel: b.prijs_bron || "richtprijs", prijs_eur: b.richtprijs_eur, url: b.product_url };
-  return null;
-}
+const bestePrijs = Prijs.beste;
+const perKwhInclBtw = Prijs.prijsPerKwh;
 
 function driewaardig(v) {
   // Objectvorm {status, tekst}: officiële ondersteuning ("ja") mét uitlegtekst
@@ -159,9 +152,9 @@ function productLd(b) {
     "url": `${SITE}/batterij/${b.id}.html`,
   };
   if (offers.length === 1) {
-    ld.offers = { "@type": "Offer", "price": offers[0].prijs_eur, "priceCurrency": "EUR", "url": offers[0].url };
+    ld.offers = { "@type": "Offer", "price": Prijs.vergelijkPrijs(offers[0]), "priceCurrency": "EUR", "url": offers[0].url };
   } else if (offers.length > 1) {
-    const prijzen = offers.map((o) => o.prijs_eur);
+    const prijzen = offers.map((o) => Prijs.vergelijkPrijs(o));
     ld.offers = {
       "@type": "AggregateOffer",
       "lowPrice": Math.min(...prijzen),
@@ -195,7 +188,7 @@ function pagina(b) {
   const typeLabel = { "plug-in": "Plug-in (stopcontact)", "ac-gekoppeld": "AC-gekoppeld", "hybride": "Hybride omvormer" }[b.type] || b.type;
 
   const metaDesc = `${volledigeNaam(b)}: ${nl(b.capaciteit_kwh)} kWh thuisbatterij` +
-    (beste ? `, vanaf ${eur(beste.prijs_eur).replace(" ", " ")} bij ${beste.winkel}` : "") +
+    (beste ? `, vanaf ${eur(Prijs.vergelijkPrijs(beste)).replace(" ", " ")} incl. btw bij ${beste.winkel}` : "") +
     ". Bekijk specificaties, koppeling met zonnepanelen, Homey en Home Assistant, en bereken je terugverdientijd.";
 
   const specRij = (label, waarde) => waarde == null || waarde === "" ? "" :
@@ -272,7 +265,7 @@ ${breadcrumbLd(b)}
   </div>
 
   <div class="info-kader">
-    ${beste ? `<div style="font-size:1.6rem;font-weight:800;">${eur(beste.prijs_eur)} <span style="font-size:0.95rem;font-weight:400;color:var(--kleur-tekst-licht);">bij ${esc(beste.winkel)}${perKwh ? ` · ${eur(perKwh)} per kWh opslag${exclBtw(b) ? " (omgerekend incl. btw)" : ""}` : ""}</span></div>` : "<div><b>Prijs op aanvraag</b></div>"}
+    ${beste ? `<div style="font-size:1.6rem;font-weight:800;">${eur(Prijs.vergelijkPrijs(beste))} <span style="font-size:0.95rem;font-weight:400;color:var(--kleur-tekst-licht);">incl. btw bij ${esc(beste.winkel)}${perKwh ? ` · ${eur(perKwh)} per kWh opslag` : ""}</span></div>${Prijs.prijsToelichting(beste) ? `<div class="prijs-let-op">${esc(Prijs.prijsToelichting(beste))}</div>` : ""}` : "<div><b>Prijs op aanvraag</b></div>"}
     ${b.prijs_omvat ? `<div style="font-size:0.9rem;color:var(--kleur-tekst-licht);">Deze prijs dekt: ${esc(b.prijs_omvat)}</div>` : ""}
     <div style="font-size:0.95rem;margin-top:6px;" title="${esc(b.totaalprijs_toelichting || "")}">Compleet gebruiksklaar (indicatie): <b>${totaal || "op aanvraag"}</b></div>
     <p style="margin:14px 0 0;">
@@ -318,7 +311,7 @@ ${breadcrumbLd(b)}
 
   ${(b.aanbiedingen || []).length ? `<h2>Verkrijgbaar bij</h2>
   <ul>
-    ${b.aanbiedingen.map((a) => `<li><a href="${esc(a.affiliate_url || a.url)}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">${esc(a.winkel)}</a>: <b>${eur(a.prijs_eur)}</b> <span class="datum-stempel">${a.datum ? `(gecontroleerd ${esc(datumNL(a.datum))})` : "(prijsindicatie; klik voor de actuele prijs)"}</span></li>`).join("\n    ")}
+    ${b.aanbiedingen.map((a) => `<li><a href="${esc(a.affiliate_url || a.url)}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">${esc(a.winkel)}</a>: <b>${eur(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""}${a.omvat ? ` <small>${esc(a.omvat)}</small>` : ""} <span class="datum-stempel">${a.datum ? `(gecontroleerd ${esc(datumNL(a.datum))})` : "(prijsindicatie; klik voor de actuele prijs)"}</span></li>`).join("\n    ")}
   </ul>
   <p class="datum-stempel">Prijzen worden dagelijks automatisch gecontroleerd; de prijs op de website van de winkel is altijd leidend.${(b.aanbiedingen || []).some((a) => a.affiliate_url) ? " Sommige links zijn commissielinks: koop je via die link, dan ontvangen wij een kleine vergoeding van de winkel. Dit kost jou niets en be\u00efnvloedt onze prijzen, scores en volgorde niet." : ""}</p>` : ""}
 
@@ -400,7 +393,7 @@ function overzichtTabel(lijst, veld) {
       <tr>
         <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);position:sticky;left:0;z-index:1;background:var(--kleur-wit);box-shadow:2px 0 0 var(--kleur-rand);">${merkLogoHtml(b.merk)}<a href="/batterij/${esc(b.id)}.html"><b>${esc(volledigeNaam(b))}</b></a></td>
         <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);white-space:nowrap;">${nl(b.capaciteit_kwh)} kWh</td>
-        <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);white-space:nowrap;">${beste ? `<b>${eur(beste.prijs_eur)}</b><br><small>bij ${esc(beste.winkel)}</small>` : "op aanvraag"}</td>
+        <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);white-space:nowrap;">${beste ? `<b>${eur(Prijs.vergelijkPrijs(beste))}</b><br><small>bij ${esc(beste.winkel)}</small>` : "op aanvraag"}</td>
         <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);white-space:nowrap;">${perKwh ? eur(perKwh) : "n.b."}</td>
         <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);white-space:nowrap;"><b>${koppelScore(b)}/6</b></td>
         <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);">${d.tekst && d.tekst !== "Ja" ? esc(d.tekst) : "Officiële ondersteuning"}</td>
@@ -669,7 +662,7 @@ ${itemList}
       <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);"><a href="/batterij/${esc(B.id)}.html">${esc(naam(B))}</a></th>
     </tr></thead>
     <tbody>
-      ${rij("Beste winkelprijs", besteA ? `${eur(besteA.prijs_eur)}<br><small>bij ${esc(besteA.winkel)}</small>` : "op aanvraag", besteB ? `${eur(besteB.prijs_eur)}<br><small>bij ${esc(besteB.winkel)}</small>` : "op aanvraag")}
+      ${rij("Beste prijs incl. btw", besteA ? `${eur(Prijs.vergelijkPrijs(besteA))}<br><small>bij ${esc(besteA.winkel)}</small>` : "op aanvraag", besteB ? `${eur(Prijs.vergelijkPrijs(besteB))}<br><small>bij ${esc(besteB.winkel)}</small>` : "op aanvraag")}
       ${rij("Compleet gebruiksklaar (indicatie)", totaalprijsTekst(A) || "op aanvraag", totaalprijsTekst(B) || "op aanvraag")}
       ${rij("Prijs per kWh opslag", perA ? eur(perA) : "n.b.", perB ? eur(perB) : "n.b.", laagWint(perA, perB))}
       ${rij("Capaciteit", `${nl(A.capaciteit_kwh)} kWh${A.uitbreidbaar_tot_kwh ? ` <small>(tot ${nl(A.uitbreidbaar_tot_kwh)})</small>` : ""}`, `${nl(B.capaciteit_kwh)} kWh${B.uitbreidbaar_tot_kwh ? ` <small>(tot ${nl(B.uitbreidbaar_tot_kwh)})</small>` : ""}`)}

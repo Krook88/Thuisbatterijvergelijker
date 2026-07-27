@@ -48,34 +48,16 @@
     return (a && (a.affiliate_url || a.url)) || "";
   }
 
-  function bestePrijs(b) {
-    const aanbiedingen = (b.aanbiedingen || []).filter((a) => a && a.prijs_eur);
-    if (aanbiedingen.length) {
-      return aanbiedingen.reduce((min, a) => (a.prijs_eur < min.prijs_eur ? a : min));
-    }
-    if (b.richtprijs_eur) {
-      return { winkel: b.prijs_bron || "richtprijs", prijs_eur: b.richtprijs_eur, url: b.product_url };
-    }
-    return null;
-  }
+  // Alle prijsvergelijking loopt via assets/prijs.js, zodat de vergelijker, de
+  // keuzehulp, de rekenmodule en de batterijpagina's dezelfde bedragen tonen.
+  const bestePrijs = Prijs.beste;
+  const heeftKorting = Prijs.heeftKorting;
+  const prijsPerKwh = Prijs.prijsPerKwh;
 
-  function heeftKorting(b) {
-    const beste = bestePrijs(b);
-    return !!(beste && b.richtprijs_eur && beste.prijs_eur < b.richtprijs_eur * 0.97);
-  }
-
-  // Prijzen die excl. btw gelden worden voor de kWh-vergelijking (en de
-  // sortering daarop) omgerekend naar incl. btw, anders vergelijk je kale
-  // modules met complete consumentenprijzen.
-  function exclBtw(b) {
-    return /excl\.? btw/i.test(b.prijs_omvat || "");
-  }
-
-  function prijsPerKwh(b) {
-    const beste = bestePrijs(b);
-    if (!beste || !b.capaciteit_kwh) return null;
-    const prijs = exclBtw(b) ? beste.prijs_eur * 1.21 : beste.prijs_eur;
-    return Math.round(prijs / b.capaciteit_kwh);
+  // Het bedrag waarop gesorteerd en gefilterd wordt: altijd incl. btw.
+  function vergelijkPrijs(b) {
+    const prijs = Prijs.vergelijkPrijs(bestePrijs(b));
+    return prijs === null ? Infinity : prijs;
   }
 
   function totaalprijsTekst(b) {
@@ -163,7 +145,7 @@
 
   function gesorteerd(lijst) {
     const kopie = [...lijst];
-    const prijsVan = (b) => { const p = bestePrijs(b); return p ? p.prijs_eur : Infinity; };
+    const prijsVan = vergelijkPrijs;
     switch (state.sortering) {
       case "prijs-oplopend": kopie.sort((a, b) => prijsVan(a) - prijsVan(b)); break;
       case "totaalprijs": kopie.sort((a, b) => (a.totaalprijs_van_eur || Infinity) - (b.totaalprijs_van_eur || Infinity)); break;
@@ -240,6 +222,11 @@
     const beste = bestePrijs(b);
     const korting = heeftKorting(b);
     const perKwh = prijsPerKwh(b);
+    // De prijs die groot in beeld komt is de vergelijkprijs incl. btw. Wijkt die
+    // af van wat de winkel toont, dan staat de winkelprijs er zichtbaar bij.
+    const vergelijk = Prijs.vergelijkPrijs(beste);
+    const omgerekend = Prijs.isOmgerekend(beste);
+    const vanPrijs = Prijs.vanPrijs(b);
     // Prijzen excl. btw/installatie krijgen een nadrukkelijker waarschuwing,
     // zodat de kale winkelprijs geen verkeerd prijsbeeld geeft
     const exclPrijs = /excl/i.test(b.prijs_omvat || "");
@@ -293,16 +280,18 @@
         ${b.cycli ? `<dt>Laadcycli (garantie)</dt><dd>${escapeHtml(String(b.cycli))}</dd>` : ""}
         ${b.fase ? `<dt>Aansluiting</dt><dd>${escapeHtml(b.fase)}</dd>` : ""}
         ${b.app ? `<dt>App</dt><dd>${escapeHtml(b.app)}</dd>` : ""}
-        ${(b.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${b.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${eurFmt.format(a.prijs_eur)}</b> &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul></dd>` : ""}
+        ${(b.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${b.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${eurFmt.format(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""}${a.omvat ? ` <small>${escapeHtml(a.omvat)}</small>` : ""} &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul></dd>` : ""}
         ${b.product_url ? `<dt>Fabrikant</dt><dd><a href="${escapeHtml(b.product_url)}" target="_blank" rel="noopener">officiële productpagina</a></dd>` : ""}
         ${b.prijs_datum ? `<dd class="datum-stempel" style="margin-top:8px;">Prijs gecontroleerd: ${escapeHtml(datumNL(b.prijs_datum))}</dd>` : ""}
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
-          ${korting ? `<div class="van-prijs">${eurFmt.format(b.richtprijs_eur)}</div>` : ""}
-          <div class="prijs">${beste ? eurFmt.format(beste.prijs_eur) : "Prijs op aanvraag"}</div>
-          ${perKwh ? `<div class="prijs-per-kwh">${eurFmt.format(perKwh)} per kWh opslag${exclPrijs ? " <small>(omgerekend incl. btw)</small>" : ""}</div>` : ""}
+          ${vanPrijs ? `<div class="van-prijs">${eurFmt.format(vanPrijs)}</div>` : ""}
+          <div class="prijs">${vergelijk !== null ? eurFmt.format(vergelijk) : "Prijs op aanvraag"}</div>
+          ${perKwh ? `<div class="prijs-per-kwh">${eurFmt.format(perKwh)} per kWh opslag</div>` : ""}
           ${beste && beste.winkel ? `<div class="prijs-winkel">bij ${escapeHtml(beste.winkel)}</div>` : ""}
+          ${omgerekend ? `<div class="prijs-let-op">De winkel toont ${eurFmt.format(beste.prijs_eur)} <b>excl. btw</b>. Hierboven staat het bedrag incl. btw, zodat het te vergelijken is met de andere batterijen.</div>` : ""}
+          ${beste && beste.omvat && b.richtprijs_eur ? `<div class="prijs-let-op">Deze winkelprijs is <b>${escapeHtml(beste.omvat)}</b>; de richtprijs van ${eurFmt.format(b.richtprijs_eur)} dekt meer. Het verschil is dus geen korting.</div>` : ""}
           ${b.prijs_omvat ? `<div class="prijs-winkel"${exclPrijs ? ' style="color:var(--kleur-accent-donker);font-weight:700;"' : ""}>${exclPrijs ? "⚠ " : ""}${escapeHtml(b.prijs_omvat)}</div>` : ""}
           <div class="prijs-winkel" style="margin-top:6px;border-top:1px dashed var(--kleur-rand);padding-top:6px;${exclPrijs ? "font-size:0.95rem;color:var(--kleur-tekst);" : ""}" title="${escapeHtml(b.totaalprijs_toelichting || "")}">
             ${beste && b.totaalprijs_van_eur === beste.prijs_eur && !b.totaalprijs_tot_eur
@@ -328,7 +317,7 @@
     { key: "capaciteit", label: "kWh", get: (b) => b.capaciteit_kwh || 0 },
     { key: "vermogen", label: "kW", get: (b) => b.vermogen_kw || 0 },
     { key: "type", label: "Type", get: (b) => b.type },
-    { key: "prijs", label: "Winkelprijs", get: (b) => { const p = bestePrijs(b); return p ? p.prijs_eur : Infinity; } },
+    { key: "prijs", label: "Prijs incl. btw", get: vergelijkPrijs },
     { key: "totaal", label: "Totaal (indicatie)", get: (b) => b.totaalprijs_van_eur || Infinity },
     { key: "perkwh", label: "€/kWh", get: (b) => prijsPerKwh(b) || Infinity },
     { key: "koppeling", label: "PV-koppeling", get: (b) => b.koppeling_gemak || 0 },
@@ -366,7 +355,7 @@
             <td>${b.capaciteit_kwh ? String(b.capaciteit_kwh).replace(".", ",") : "?"}</td>
             <td>${b.vermogen_kw ? String(b.vermogen_kw).replace(".", ",") : "?"}</td>
             <td>${escapeHtml(b.type)}</td>
-            <td class="tabel-prijs" title="${escapeHtml(b.prijs_omvat || "")}">${beste ? eurFmt.format(beste.prijs_eur) : "n.b."}${heeftKorting(b) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
+            <td class="tabel-prijs" title="${escapeHtml([b.prijs_omvat, Prijs.prijsToelichting(beste)].filter(Boolean).join(" | "))}">${Prijs.vergelijkPrijs(beste) !== null ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "n.b."}${heeftKorting(b) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
             <td title="${escapeHtml(b.totaalprijs_toelichting || "")}">${totaalprijsTekst(b) || "op aanvraag"}</td>
             <td>${perKwh ? eurFmt.format(perKwh) : "n.b."}</td>
             <td title="${escapeHtml(b.zonnepanelen_koppeling || "")}"><span class="sterren" style="color:var(--kleur-accent)">${sterren(b.koppeling_gemak)}</span></td>
@@ -396,7 +385,12 @@
         ${rij("Type", (b) => escapeHtml(b.type))}
         ${rij("Capaciteit", (b) => (b.capaciteit_kwh ? String(b.capaciteit_kwh).replace(".", ",") + " kWh" : "?") + (b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${String(b.uitbreidbaar_tot_kwh).replace(".", ",")} kWh)` : ""))}
         ${rij("Vermogen", (b) => (b.vermogen_kw ? String(b.vermogen_kw).replace(".", ",") + " kW" : "?"))}
-        ${rij("Beste winkelprijs", (b) => { const p = bestePrijs(b); return p ? `<b>${eurFmt.format(p.prijs_eur)}</b> bij ${escapeHtml(p.winkel || "")}` : "n.b."; })}
+        ${rij("Beste prijs incl. btw", (b) => {
+          const p = bestePrijs(b);
+          if (!p) return "n.b.";
+          const toelichting = Prijs.prijsToelichting(p);
+          return `<b>${eurFmt.format(Prijs.vergelijkPrijs(p))}</b> bij ${escapeHtml(p.winkel || "")}${toelichting ? `<br><small>${escapeHtml(toelichting)}</small>` : ""}`;
+        })}
         ${rij("Compleet gebruiksklaar (indicatie)", (b) => `${totaalprijsTekst(b) || "op aanvraag"}<br><small>${escapeHtml(b.totaalprijs_toelichting || "")}</small>`)}
         ${rij("Prijs per kWh", (b) => { const p = prijsPerKwh(b); return p ? eurFmt.format(p) : "n.b."; })}
         ${rij("Prijs dekt", (b) => `<small>${escapeHtml(b.prijs_omvat || "")}</small>`)}
