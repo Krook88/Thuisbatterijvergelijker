@@ -56,7 +56,17 @@ aan GitHub Pages hangt, kan Vercel geen SSL-certificaat aanvragen.
 1. Vercel → project → **Settings → Domains**.
 2. Voeg `batterijmaatje.nl` toe.
 3. Voeg ook `www.batterijmaatje.nl` toe en kies **Redirect to batterijmaatje.nl** (308).
-   Zo blijft er één canonieke URL, precies zoals de `<link rel="canonical">`-tags aangeven.
+
+**Controleer de richting van de redirect.** Vercel stelt standaard het omgekeerde voor: het
+kale domein dat naar `www` doorstuurt, met `www` als productiedomein. Dat botst met de site:
+alle pagina's hebben een `<link rel="canonical">` naar de kale domeinnaam en `sitemap.xml`
+bevat alleen kale URL's. Staat er bij het kale domein een pijl `↳ 308 www.…`, dan klopt het
+niet. Corrigeren:
+
+- bij `www.batterijmaatje.nl` → **Edit** → **Redirect to** `batterijmaatje.nl`, status 308;
+- bij `batterijmaatje.nl` → **Edit** → redirect eraf en koppelen aan **Production**.
+
+De vereiste DNS-records veranderen hier niet van.
 
 ### 2c. DNS-records bij de registrar zetten
 
@@ -65,8 +75,8 @@ over**, ze verschillen per account en per domein. Het patroon is:
 
 | Type  | Naam  | Waarde                                    |
 | ----- | ----- | ----------------------------------------- |
-| A     | `@`   | het IP-adres dat Vercel toont (bijv. `76.76.21.21`) |
-| CNAME | `www` | de hostnaam die Vercel toont (bijv. `cname.vercel-dns-0.com`) |
+| A     | `@`   | het IP-adres dat Vercel toont (bij batterijmaatje.nl: `216.198.79.1`) |
+| CNAME | `www` | de hostnaam die Vercel toont, per domein uniek (bijv. `2a491db5428b0710.vercel-dns-017.com.`) |
 
 Verwijder de oude GitHub Pages-records (de vier A-records `185.199.108–111.153` en het
 `www`-CNAME naar `krook88.github.io`).
