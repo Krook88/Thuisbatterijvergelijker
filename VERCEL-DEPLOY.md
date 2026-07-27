@@ -108,6 +108,31 @@ Draait het domein op een TransIP-webhostingpakket, dan staan de DNS-velden mogel
 slot. Ontkoppel dan eerst het hostingpakket van het domein (of zet de DNS op
 "eigen instellingen") voordat je de records aanpast.
 
+#### E-mail op het domein blijft werken
+
+TransIP zet standaard `@ MX 10 @` neer: mail wordt dan bezorgd op het IP van het
+A-record van het domein. Zodra dat A-record naar Vercel wijst, komt inkomende mail bij
+Vercel terecht en bounct alles, want Vercel doet geen SMTP. Zet het MX-record dus los van
+het A-record:
+
+| Naam | TTL   | Type | Waarde                                  |
+| ---- | ----- | ---- | --------------------------------------- |
+| `@`  | 1 Uur | MX   | `10 mx.transip.email.`                  |
+| `@`  | 1 Uur | TXT  | `v=spf1 include:_spf.transip.email ~all` |
+
+Een SPF-record als `v=spf1 ~all` machtigt niemand om namens het domein te verzenden en
+schaadt de bezorging; vervang die door de include hierboven. De DKIM-records
+(`transip-a/b/c._domainkey` → `_dkim-A/B/C.transip.email.`) en het DMARC-record kunnen
+blijven staan.
+
+Controleer de inkomende mailserver voor je eigen pakket in het TransIP-paneel onder
+**Mail**; gebruikt jouw pakket een andere hostnaam, houd die dan aan. Zorg er ook voor dat
+er daadwerkelijk een mailbox of doorstuuradres bestaat voor het adres dat op de site staat
+(`info@…`), anders bounct mail ondanks kloppende records.
+
+**Gebruik nooit de knop "standaard DNS-instellingen herstellen".** Die zet het A-record
+terug naar TransIP en haalt de site op Vercel offline.
+
 ---
 
 ## 3. Dev-omgeving
