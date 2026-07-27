@@ -630,7 +630,7 @@
       "fase": "3-fase",
       "richtprijs_eur": 3985,
       "prijs_omvat": "alleen batterij incl. btw; excl. omvormer (SH10RT ca. 1.400 euro incl. btw) en installatie",
-      "prijs_datum": "2026-07-25",
+      "prijs_datum": "2026-07-27",
       "prijs_bron": "Sunnergie",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "DC-gekoppeld: werkt uitsluitend met Sungrow SH-hybride omvormers (1-fase SH-RS, 3-fase SH-RT serie). Bij bestaande panelen van een ander merk moet de omvormer worden vervangen.",
@@ -648,7 +648,7 @@
           "winkel": "Thuisbatterij Outlet",
           "prijs_eur": 3695,
           "url": "https://thuisbatterijoutlet.eu/product/sungrow-sbr-hoogspannings-lfp-batterij-96kw-sbr096/",
-          "datum": "2026-07-25"
+          "datum": "2026-07-27"
         }
       ],
       "totaalprijs_van_eur": 5500,
@@ -944,7 +944,7 @@
       "fase": "1- of 3-fase (afhankelijk van X1/X3-omvormer)",
       "richtprijs_eur": 1735,
       "prijs_omvat": "vanaf-prijs master-module; hybride omvormer en installatie apart",
-      "prijs_datum": "2026-07-26",
+      "prijs_datum": "2026-07-27",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Hoogspanningsbatterij bij een SolaX hybride omvormer (X1 voor 1-fase, X3 voor 3-fase). Vooral interessant bij een nieuw systeem of als de omvormer toch vervangen wordt.",
       "koppeling_gemak": 2,
@@ -964,7 +964,7 @@
           "winkel": "Alma Solar",
           "prijs_eur": 1625,
           "url": "https://www.alma-solarshop.nl/triple-power-batterij/1241-triple-power-batterij-58kwh-hoogspanning.html",
-          "datum": "2026-07-26"
+          "datum": "2026-07-27"
         }
       ],
       "totaalprijs_van_eur": 5700,
@@ -987,7 +987,7 @@
       "richtprijs_eur": 1545,
       "richtprijs_btw_inbegrepen": false,
       "prijs_omvat": "prijs excl. btw; losse batterijmodule, omvormer en installatie apart",
-      "prijs_datum": "2026-07-26",
+      "prijs_datum": "2026-07-27",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Laagspanningsmodule (51,2 V) die aan een hybride omvormer van bijvoorbeeld Victron, Solis of GoodWe wordt gekoppeld; parallel uit te breiden met extra modules. Veel batterij voor weinig geld, maar de omvormer bepaalt de mogelijkheden.",
       "koppeling_gemak": 2,
@@ -1005,14 +1005,14 @@
           "btw_inbegrepen": false,
           "prijs_eur": 1545,
           "url": "https://zonnigewinkel.nl/product/dyness-powerbox-g2-lv-1024-kwh/",
-          "datum": "2026-07-25"
+          "datum": "2026-07-27"
         },
         {
           "winkel": "Thuisaccu Webshop",
           "btw_inbegrepen": false,
           "prijs_eur": 1650,
           "url": "https://thuisaccuwebshop.nl/product/dyness-powerbox-g2-1024-kwh/",
-          "datum": "2026-07-26"
+          "datum": "2026-07-27"
         }
       ],
       "totaalprijs_van_eur": 7000,
@@ -1034,7 +1034,7 @@
       "fase": "1-fase (als H2-T2 ook leverbaar in 3-fase)",
       "richtprijs_eur": 4566,
       "prijs_omvat": "compleet pakket: hybride omvormer plus 10 kWh batterij, excl. installatie",
-      "prijs_datum": "2026-07-25",
+      "prijs_datum": "2026-07-27",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "All-in-one: hybride omvormer en batterij in één systeem, zonnepanelen sluiten er rechtstreeks op aan. Bij een bestaand systeem vervangt dit meestal de huidige omvormer.",
       "koppeling_gemak": 3,
@@ -1051,7 +1051,7 @@
           "winkel": "Thuisbatterij Outlet",
           "prijs_eur": 4566,
           "url": "https://thuisbatterijoutlet.eu/product/saj-h2-5k-s2-10kwh-all-in-one-solution/",
-          "datum": "2026-07-25"
+          "datum": "2026-07-27"
         },
         {
           "winkel": "bol.com",
