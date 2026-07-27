@@ -182,25 +182,26 @@
   function koppelScoreBadge(b) {
     const score = koppelScore(b);
     const klasse = score >= 5 ? "koppel-hoog" : score >= 3 ? "koppel-midden" : "koppel-laag";
-    return `<span class="badge koppel-score ${klasse}" title="Koppel-score ${score} van 6: punten voor samenwerking met Homey, Home Assistant en een dynamisch energiecontract (2 punten per volledige, 1 per gedeeltelijke ondersteuning). Tik voor de details.">🔗 Koppel-score ${score}/6</span>`;
+    return `<span class="badge koppel-score ${klasse}" title="Koppel-score ${score} van 6: punten voor samenwerking met Homey, Home Assistant en een dynamisch energiecontract (2 punten per volledige, 1 per gedeeltelijke ondersteuning). Tik voor de details.">${Iconen.svg("koppeling")} Koppel-score ${score}/6</span>`;
   }
 
   function badgeHtml(label, waarde, titelJa, titelDeels) {
     const d = driewaardig(waarde);
-    const icoon = d.status === "ja" ? "✓" : d.status === "deels" ? "~" : "✕";
+    const icoon = Iconen.svg(d.status === "ja" ? "ja" : d.status === "deels" ? "deels" : "nee");
     const titel = d.status === "deels" ? d.tekst : d.status === "ja" ? (titelJa || "Ondersteund") : "Niet ondersteund";
     return `<span class="badge ${d.status}" data-uitleg="${escapeHtml(label)}" title="${escapeHtml(titel)}">${icoon} ${escapeHtml(label)}</span>`;
   }
 
   function noodstroomBadge(b) {
     const d = vierwaardig(b.noodstroom);
-    const icoon = { ja: "✓", deels: "~", nee: "✕", onbekend: "?" }[d.status];
+    const icoon = Iconen.svg({ ja: "ja", deels: "deels", nee: "nee", onbekend: "onbekend" }[d.status]);
     return `<span class="badge ${d.status}" data-uitleg="Noodstroom" title="${escapeHtml(b.noodstroom_uitleg || d.tekst)}">${icoon} Noodstroom</span>`;
   }
 
   function sterren(score) {
     const s = Math.max(0, Math.min(5, Math.round(score || 0)));
-    return "★".repeat(s) + "☆".repeat(5 - s);
+    const ster = (gevuld) => Iconen.svg("ster", { gevuld });
+    return `<span class="sterren-rij" role="img" aria-label="${s} van 5 sterren">${ster(true).repeat(s)}${ster(false).repeat(5 - s)}</span>`;
   }
 
   function escapeHtml(str) {
@@ -259,7 +260,7 @@
         <div class="spec"><span class="spec-label">Garantie</span><span class="spec-waarde">${b.garantie_jaar ? b.garantie_jaar + " jaar" : "Onbekend"}</span></div>
       </div>
       <div class="koppelgemak" title="Aansluitgemak: hoe makkelijk sluit je deze batterij aan op je bestaande zonnepanelensysteem? 5 sterren = plug &amp; play.">
-        <span class="spec-label" style="font-size:0.75rem;color:var(--kleur-tekst-licht);font-weight:600;text-transform:uppercase;">Aansluitgemak op je zonnepanelen</span><br>
+        <span class="spec-label">Aansluitgemak op je zonnepanelen</span><br>
         <span class="sterren">${sterren(b.koppeling_gemak)}</span>
         <div class="uitleg">${escapeHtml(b.zonnepanelen_koppeling || "")}</div>
       </div>
@@ -292,16 +293,16 @@
           ${beste && beste.winkel ? `<div class="prijs-winkel">bij ${escapeHtml(beste.winkel)}</div>` : ""}
           ${omgerekend ? `<div class="prijs-let-op">De winkel toont ${eurFmt.format(beste.prijs_eur)} <b>excl. btw</b>. Hierboven staat het bedrag incl. btw, zodat het te vergelijken is met de andere batterijen.</div>` : ""}
           ${beste && beste.omvat && b.richtprijs_eur ? `<div class="prijs-let-op">Deze winkelprijs is <b>${escapeHtml(beste.omvat)}</b>; de richtprijs van ${eurFmt.format(b.richtprijs_eur)} dekt meer. Het verschil is dus geen korting.</div>` : ""}
-          ${b.prijs_omvat ? `<div class="prijs-winkel"${exclPrijs ? ' style="color:var(--kleur-accent-donker);font-weight:700;"' : ""}>${exclPrijs ? "⚠ " : ""}${escapeHtml(b.prijs_omvat)}</div>` : ""}
+          ${b.prijs_omvat ? `<div class="prijs-winkel prijs-dekt">${escapeHtml(b.prijs_omvat)}</div>` : ""}
           <div class="prijs-winkel" style="margin-top:6px;border-top:1px dashed var(--kleur-rand);padding-top:6px;${exclPrijs ? "font-size:0.95rem;color:var(--kleur-tekst);" : ""}" title="${escapeHtml(b.totaalprijs_toelichting || "")}">
             ${beste && b.totaalprijs_van_eur === beste.prijs_eur && !b.totaalprijs_tot_eur
-              ? "✓ Dit is de complete prijs, gebruiksklaar"
+              ? `${Iconen.svg("ja")} Dit is de complete prijs, gebruiksklaar`
               : `Compleet gebruiksklaar (indicatie): <b>${totaalprijsTekst(b) || "op aanvraag"}</b>`}
           </div>
         </div>
       </div>
       <div class="kaart-acties">
-        ${beste && beste.url ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))} bij ${escapeHtml(beste.winkel || "de winkel")}">Bekijk aanbieding →</a>` : (b.product_url ? `<a class="knop" href="${escapeHtml(b.product_url)}" target="_blank" rel="noopener" aria-label="Naar de aanbieder van de ${escapeHtml(naamVan(b))}">Naar aanbieder →</a>` : "")}
+        ${beste && beste.url ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))} bij ${escapeHtml(beste.winkel || "de winkel")}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>` : (b.product_url ? `<a class="knop" href="${escapeHtml(b.product_url)}" target="_blank" rel="noopener" aria-label="Naar de aanbieder van de ${escapeHtml(naamVan(b))}">Naar aanbieder ${Iconen.svg("pijl-rechts")}</a>` : "")}
         <a class="knop knop-secundair" href="rekenmodule.html?batterij=${encodeURIComponent(b.id)}" title="Bereken de terugverdientijd van deze batterij voor jouw situatie" aria-label="Bereken de terugverdientijd van de ${escapeHtml(naamVan(b))}">Terugverdientijd</a>
       </div>
       ${beste && beste.affiliate_url ? `<div class="datum-stempel" style="padding:0 20px 12px;">Dit is een commissielink: kost jou niets, beïnvloedt de vergelijking niet. <a href="over-ons.html">Uitleg</a></div>` : ""}
@@ -339,13 +340,13 @@
     }
     const checkCel = (v) => {
       const d = driewaardig(v);
-      if (d.status === "ja") return '<span class="check-ja">✓</span>';
+      if (d.status === "ja") return `<span class="check-ja">${Iconen.svg("ja")}</span>`;
       if (d.status === "deels") return `<span class="check-deels" title="${escapeHtml(d.tekst)}">~</span>`;
-      return '<span class="check-nee">✕</span>';
+      return `<span class="check-nee">${Iconen.svg("nee")}</span>`;
     };
     return `
     <table class="vergelijk-tabel">
-      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}">${k.label}${k.key !== "actie" ? ' <span class="sorteer-pijl">⇅</span>' : ""}</th>`).join("")}</tr></thead>
+      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}">${k.label}${k.key !== "actie" ? ' <span class="sorteer-pijl">${Iconen.svg("chevron")}</span>' : ""}</th>`).join("")}</tr></thead>
       <tbody>
         ${rijen.map((b) => {
           const beste = bestePrijs(b);
@@ -362,7 +363,7 @@
             <td title="Punten voor Homey, Home Assistant en dynamisch contract"><b>${koppelScore(b)}/6</b></td>
             <td>${checkCel(b.homey)}</td>
             <td>${checkCel(b.home_assistant)}</td>
-            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:0.85rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))}">Bekijk →</a>` : ""}</td>
+            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:0.85rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
           </tr>`;
         }).join("")}
       </tbody>
@@ -376,7 +377,7 @@
   function vergelijkModalHtml(items) {
     // Eerste kolom sticky, zodat de labels leesbaar blijven bij horizontaal scrollen op een telefoon
     const rij = (label, fn) => `<tr><th style="text-align:left;padding:8px 10px;background:var(--kleur-achtergrond);white-space:nowrap;position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">${label}</th>${items.map((b) => `<td style="padding:8px 10px;border-bottom:1px solid var(--kleur-rand);">${fn(b)}</td>`).join("")}</tr>`;
-    const d3 = (v) => { const d = driewaardig(v); return d.status === "nee" ? "✕ Nee" : d.status === "deels" ? `~ ${escapeHtml(d.tekst)}` : `✓ ${escapeHtml(d.tekst)}`; };
+    const d3 = (v) => { const d = driewaardig(v); return d.status === "nee" ? `${Iconen.svg("nee")} Nee` : d.status === "deels" ? `${Iconen.svg("deels")} ${escapeHtml(d.tekst)}` : `${Iconen.svg("ja")} ${escapeHtml(d.tekst)}`; };
     return `
       <h2>Vergelijking</h2>
       <div style="overflow-x:auto;">
@@ -402,7 +403,7 @@
         ${rij("Dynamisch contract", (b) => d3(b.dynamisch_contract))}
         ${rij("Beschermingsgraad (IP)", (b) => b.ip_klasse ? `${escapeHtml(b.ip_klasse)}${b.buiten_toelichting ? `<br><small>${escapeHtml(b.buiten_toelichting)}</small>` : ""}` : "?")}
         ${rij("Garantie", (b) => (b.garantie_jaar ? b.garantie_jaar + " jaar" : "?"))}
-        ${rij("", (b) => { const p = bestePrijs(b); return p && p.url ? `<a class="knop" href="${escapeHtml(koopUrl(p))}" target="_blank" rel="noopener${p.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding →</a>` : ""; })}
+        ${rij("", (b) => { const p = bestePrijs(b); return p && p.url ? `<a class="knop" href="${escapeHtml(koopUrl(p))}" target="_blank" rel="noopener${p.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>` : ""; })}
       </table>
       </div>`;
   }
@@ -462,7 +463,7 @@
       filterToggle.addEventListener("click", () => {
         const balk = el("filterbalk");
         const ingeklapt = balk.classList.toggle("ingeklapt");
-        filterToggle.textContent = ingeklapt ? "🔍 Filteren en sorteren ▾" : "🔍 Filteren en sorteren ▴";
+        filterToggle.innerHTML = `${Iconen.svg("filter")} Filteren en sorteren ${Iconen.svg("chevron", { klasse: ingeklapt ? "" : "gedraaid" })}`;
       });
     }
 

@@ -12,9 +12,14 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 
-// Dezelfde prijslogica als de browser gebruikt, zodat een batterijpagina nooit
-// een ander bedrag toont dan de vergelijker.
-const Prijs = createRequire(import.meta.url)("../assets/prijs.js");
+// Dezelfde prijslogica en iconen als de browser gebruikt, zodat een
+// batterijpagina nooit een ander bedrag of ander icoon toont dan de vergelijker.
+const vereis = createRequire(import.meta.url);
+const Prijs = vereis("../assets/prijs.js");
+const Iconen = vereis("../assets/iconen.js");
+
+// Het merkicoon staat in de kop en de voet van elke pagina.
+const ICOON_LOGO = Iconen.svg("batterij", { klasse: "icoon-groot" });
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -65,7 +70,8 @@ function totaalprijsTekst(b) {
 
 function sterren(score) {
   const s = Math.max(0, Math.min(5, Math.round(score || 0)));
-  return "★".repeat(s) + "☆".repeat(5 - s);
+  const ster = (gevuld) => Iconen.svg("ster", { gevuld });
+  return `<span class="sterren-rij" role="img" aria-label="${s} van 5 sterren">${ster(true).repeat(s)}${ster(false).repeat(5 - s)}</span>`;
 }
 
 // Koppel-score: zelfde formule als assets/app.js en uitleg.html#koppel-score.
@@ -78,7 +84,7 @@ function koppelScore(b) {
 function koppelScoreBadge(b) {
   const score = koppelScore(b);
   const klasse = score >= 5 ? "koppel-hoog" : score >= 3 ? "koppel-midden" : "koppel-laag";
-  return `<span class="badge koppel-score ${klasse}" title="Punten voor Homey, Home Assistant en dynamisch contract">\u{1F3E0} Koppel-score ${score}/6</span>`;
+  return `<span class="badge koppel-score ${klasse}" title="Punten voor Homey, Home Assistant en dynamisch contract">${Iconen.svg("koppeling")} Koppel-score ${score}/6</span>`;
 }
 
 // Merklogo: officiële logo's uit assets/logos/, geregistreerd in data (merk_logos)
@@ -194,7 +200,7 @@ function pagina(b) {
   const specRij = (label, waarde) => waarde == null || waarde === "" ? "" :
     `<tr><th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);white-space:nowrap;width:40%;">${esc(label)}</th><td style="padding:10px 14px;">${waarde}</td></tr>`;
 
-  const badgeIcoon = { ja: "✓", deels: "~", nee: "✕", onbekend: "?" };
+  const badgeIcoon = { ja: Iconen.svg("ja"), deels: Iconen.svg("deels"), nee: Iconen.svg("nee"), onbekend: Iconen.svg("onbekend") };
   const badge = (label, d) =>
     `<span class="badge ${d.status}" title="${esc(d.tekst || "")}">${badgeIcoon[d.status] || "?"} ${esc(label)}</span>`;
 
@@ -222,6 +228,7 @@ ${productLd(b)}
   <script type="application/ld+json">
 ${breadcrumbLd(b)}
   </script>
+  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
@@ -231,7 +238,7 @@ ${breadcrumbLd(b)}
 <header class="site-header">
   <div class="container">
     <a class="logo" href="/index.html">
-      <span class="logo-icoon">\u{1F50B}</span>
+      <span class="logo-icoon">${ICOON_LOGO}</span>
       <span>Batterij<b>maatje</b></span>
     </a>
     <nav class="hoofdnav">
@@ -269,7 +276,7 @@ ${breadcrumbLd(b)}
     ${b.prijs_omvat ? `<div style="font-size:0.9rem;color:var(--kleur-tekst-licht);">Deze prijs dekt: ${esc(b.prijs_omvat)}</div>` : ""}
     <div style="font-size:0.95rem;margin-top:6px;" title="${esc(b.totaalprijs_toelichting || "")}">Compleet gebruiksklaar (indicatie): <b>${totaal || "op aanvraag"}</b></div>
     <p style="margin:14px 0 0;">
-      ${beste && beste.url ? `<a class="knop" href="${esc(beste.affiliate_url || beste.url)}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding →</a>&nbsp;` : ""}
+      ${beste && beste.url ? `<a class="knop" href="${esc(beste.affiliate_url || beste.url)}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>&nbsp;` : ""}
       <a class="knop knop-secundair" href="/rekenmodule.html?batterij=${encodeURIComponent(b.id)}">Bereken terugverdientijd</a>
     </p>
   </div>
@@ -331,7 +338,7 @@ ${breadcrumbLd(b)}
 
 <footer class="site-footer">
   <div class="container">
-    <b>\u{1F50B} Batterijmaatje</b>
+    <b>${ICOON_LOGO} Batterijmaatje</b>
     <p>Onafhankelijke vergelijking van thuisbatterijen voor Nederlandse huishoudens.</p>
     <p><a href="/index.html">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
@@ -444,6 +451,7 @@ function overzichtsPagina(cfg) {
   <script type="application/ld+json">
 ${itemList}
   </script>
+  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
@@ -453,7 +461,7 @@ ${itemList}
 <header class="site-header">
   <div class="container">
     <a class="logo" href="/index.html">
-      <span class="logo-icoon">\u{1F50B}</span>
+      <span class="logo-icoon">${ICOON_LOGO}</span>
       <span>Batterij<b>maatje</b></span>
     </a>
     <nav class="hoofdnav">
@@ -476,13 +484,13 @@ ${itemList}
 </header>
 
 <main class="container" style="max-width:900px;">
-  <p class="datum-stempel" style="margin-top:22px;"><a href="/index.html">← Alle thuisbatterijen vergelijken</a></p>
+  <p class="datum-stempel" style="margin-top:22px;"><a href="/index.html">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
   <h1>Beste thuisbatterij voor ${esc(cfg.naam)} (2026)</h1>
   <p class="datum-stempel">Dagelijks automatisch bijgewerkt · laatst gecontroleerd op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
   <p>${esc(cfg.intro)}</p>
   <p>Hieronder zie je alle ${data.batterijen.length} thuisbatterijen uit onze vergelijker, ingedeeld naar ${esc(cfg.naam)}-ondersteuning. De prijzen worden dagelijks automatisch gecontroleerd bij de winkels. De <a href="/uitleg.html#koppel-score">Koppel-score</a> (0 tot 6 punten) telt daarnaast ook de ondersteuning voor ${cfg.veld === "homey" ? "Home Assistant" : "Homey"} en een dynamisch energiecontract mee.</p>
 
-  <h2>✓ Volledige ${esc(cfg.naam)}-ondersteuning (${ja.length})</h2>
+  <h2>${Iconen.svg("ja")} Volledige ${esc(cfg.naam)}-ondersteuning (${ja.length})</h2>
   <p>Deze batterijen hebben een officiële ${esc(cfg.naam)}-koppeling van de fabrikant. Installeren, koppelen en klaar.</p>
   ${overzichtTabel(ja, cfg.veld)}
 
@@ -490,7 +498,7 @@ ${itemList}
   <p>${esc(cfg.deelsUitleg)}</p>
   ${overzichtTabel(deels, cfg.veld)}
 
-  <h2>✕ Geen ${esc(cfg.naam)}-ondersteuning (${nee.length})</h2>
+  <h2>${Iconen.svg("nee")} Geen ${esc(cfg.naam)}-ondersteuning (${nee.length})</h2>
   <p>${nee.length ? `Van deze batterijen is geen bruikbare ${esc(cfg.naam)}-koppeling bekend: ${nee.map((b) => `<a href="/batterij/${esc(b.id)}.html">${esc(volledigeNaam(b))}</a>`).join(", ")}.` : `Alle batterijen in onze vergelijker hebben een vorm van ${esc(cfg.naam)}-ondersteuning.`}</p>
 
   <h2>Zo kies je</h2>
@@ -513,7 +521,7 @@ ${itemList}
 
 <footer class="site-footer">
   <div class="container">
-    <b>\u{1F50B} Batterijmaatje</b>
+    <b>${ICOON_LOGO} Batterijmaatje</b>
     <p>Onafhankelijke vergelijking van thuisbatterijen voor Nederlandse huishoudens.</p>
     <p><a href="/index.html">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
@@ -568,7 +576,7 @@ function vergelijkingsPagina(v) {
   const A = batterijById[v.a], B = batterijById[v.b];
   const naam = volledigeNaam;
   const besteA = bestePrijs(A), besteB = bestePrijs(B);
-  const badgeIcoon = { ja: "✓", deels: "~", nee: "✕", onbekend: "?" };
+  const badgeIcoon = { ja: Iconen.svg("ja"), deels: Iconen.svg("deels"), nee: Iconen.svg("nee"), onbekend: Iconen.svg("onbekend") };
   const d3kort = (w) => { const d = driewaardig(w); return `${badgeIcoon[d.status]} ${d.status === "ja" ? "Ja" : d.status === "nee" ? "Nee" : esc(d.tekst)}`; };
 
   const celStijl = 'style="padding:10px 14px;border-top:1px solid var(--kleur-rand);vertical-align:top;"';
@@ -617,6 +625,7 @@ function vergelijkingsPagina(v) {
   <script type="application/ld+json">
 ${itemList}
   </script>
+  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
@@ -626,7 +635,7 @@ ${itemList}
 <header class="site-header">
   <div class="container">
     <a class="logo" href="/index.html">
-      <span class="logo-icoon">\u{1F50B}</span>
+      <span class="logo-icoon">${ICOON_LOGO}</span>
       <span>Batterij<b>maatje</b></span>
     </a>
     <nav class="hoofdnav">
@@ -649,7 +658,7 @@ ${itemList}
 </header>
 
 <main class="container" style="max-width:900px;">
-  <p class="datum-stempel" style="margin-top:22px;"><a href="/index.html">← Alle thuisbatterijen vergelijken</a></p>
+  <p class="datum-stempel" style="margin-top:22px;"><a href="/index.html">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
   <h1>${esc(naam(A))} vs ${esc(naam(B))}</h1>
   <p class="datum-stempel">Prijzen dagelijks automatisch gecontroleerd · laatst op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
   <p>Twee veelvergeleken thuisbatterijen naast elkaar, op basis van dezelfde feiten als in onze <a href="/index.html">vergelijker</a>. Onder de tabel staan de belangrijkste verschillen op een rij. Vetgedrukt betekent: op dit punt objectief in het voordeel.</p>
@@ -701,7 +710,7 @@ ${itemList}
 
 <footer class="site-footer">
   <div class="container">
-    <b>\u{1F50B} Batterijmaatje</b>
+    <b>${ICOON_LOGO} Batterijmaatje</b>
     <p>Onafhankelijke vergelijking van thuisbatterijen voor Nederlandse huishoudens.</p>
     <p><a href="/index.html">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>

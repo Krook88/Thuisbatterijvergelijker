@@ -62,7 +62,7 @@
   function koppelScoreBadge(b) {
     const score = koppelScore(b);
     const klasse = score >= 5 ? "koppel-hoog" : score >= 3 ? "koppel-midden" : "koppel-laag";
-    return `<span class="badge koppel-score ${klasse}" title="Punten voor Homey, Home Assistant en dynamisch contract (2 per volledige, 1 per gedeeltelijke ondersteuning)">\u{1F517} Koppel-score ${score}/6</span>`;
+    return `<span class="badge koppel-score ${klasse}" title="Punten voor Homey, Home Assistant en dynamisch contract (2 per volledige, 1 per gedeeltelijke ondersteuning)">${Iconen.svg("koppeling")} Koppel-score ${score}/6</span>`;
   }
 
   function getal(id, fallback) {
@@ -236,7 +236,7 @@
         <article class="batterij-kaart">
           <div class="kaart-kop">
             <div>
-              <div class="merk">${i === 0 ? "🏆 Beste match · " : ""}${merkLogos[b.merk] ? `<img class="merk-logo" src="${escapeHtml(merkLogos[b.merk])}" alt="" loading="lazy"> ` : ""}${escapeHtml(b.merk)}</div>
+              <div class="merk">${i === 0 ? `${Iconen.svg("aanbieding")} Beste match · ` : ""}${merkLogos[b.merk] ? `<img class="merk-logo" src="${escapeHtml(merkLogos[b.merk])}" alt="" loading="lazy"> ` : ""}${escapeHtml(b.merk)}</div>
               <h3><a href="batterij/${encodeURIComponent(b.id)}.html" style="color:inherit;text-decoration:none;" title="Alle details van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">${escapeHtml(b.model)}</a></h3>
               <span class="type-badge type-${escapeHtml(b.type)}">${escapeHtml({ "plug-in": "Plug-in (stopcontact)", "ac-gekoppeld": "AC-gekoppeld", "hybride": "Hybride omvormer" }[b.type] || b.type)}</span>
               <div style="margin-top:6px;">${koppelScoreBadge(b)}</div>
@@ -252,7 +252,7 @@
           <div class="koppelgemak"><span class="uitleg">Compleet gebruiksklaar (indicatie): <b>${b.totaalprijs_van_eur ? eurFmt.format(b.totaalprijs_van_eur) + (b.totaalprijs_tot_eur ? " tot " + eurFmt.format(b.totaalprijs_tot_eur) : "") : "op aanvraag"}</b></span></div>
           ${b.prijs_omvat ? `<div class="koppelgemak"><span class="uitleg">Winkelprijs dekt: ${escapeHtml(b.prijs_omvat)}</span></div>` : ""}
           <div class="kaart-acties" style="margin-top:auto;">
-            ${prijs && prijs.url ? `<a class="knop" href="${escapeHtml(prijs.affiliate_url || prijs.url)}" target="_blank" rel="noopener${prijs.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">Bekijk aanbieding →</a>` : ""}
+            ${prijs && prijs.url ? `<a class="knop" href="${escapeHtml(prijs.affiliate_url || prijs.url)}" target="_blank" rel="noopener${prijs.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>` : ""}
             <a class="knop knop-secundair" href="rekenmodule.html?batterij=${encodeURIComponent(b.id)}" aria-label="Bereken de terugverdientijd van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">Terugverdientijd</a>
           </div>
         </article>`).join("") + "</div>";
@@ -272,7 +272,7 @@
       ${heeftPv ? '<div class="waarschuwing-kader">Let op: tot en met 31 december 2026 geldt de salderingsregeling nog, waardoor opslaan van eigen zonnestroom financieel weinig oplevert. Dit advies kijkt naar de situatie vanaf 2027.</div>' : ""}
       <h2 style="margin-top:26px;">Beste matches (${top.length} van ${totaal} passende batterijen)</h2>
       ${kaarten}
-      <p style="margin-top:14px;"><a href="index.html">Bekijk alle batterijen in de vergelijker →</a></p>
+      <p style="margin-top:14px;"><a href="index.html">Bekijk alle batterijen in de vergelijker</a></p>
     `;
   }
 
