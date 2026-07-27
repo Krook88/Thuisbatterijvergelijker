@@ -123,6 +123,87 @@ function uitTekst(ruw) {
   return null;
 }
 
+/* --------------------------------------------------------------------------
+   Opmaak van de mail
+
+   E-mailprogramma's zijn geen browsers: stylesheets worden weggeknipt, moderne
+   layout wordt genegeerd en een webfont laadt vrijwel nergens. Daarom staat de
+   opmaak hier in tabellen met stijl per element, en gebruiken we de kleuren van
+   de site met een gewoon systeemlettertype. Elke mail krijgt daarnaast een
+   platte-tekstversie, voor wie geen HTML wil of kan tonen.
+   -------------------------------------------------------------------------- */
+
+const KLEUR = {
+  inkt: "#0a3733",
+  primair: "#0f766e",
+  accent: "#f59e0b",
+  papier: "#f6f3ec",
+  rand: "#e7e1d3",
+  tekst: "#24312f",
+  tekstLicht: "#5d6d6a",
+  wit: "#ffffff",
+};
+
+const LETTER = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+
+function ontsnap(waarde) {
+  return String(waarde == null ? "" : waarde)
+    .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;").replaceAll("'", "&#39;");
+}
+
+// Regeleinden in het bericht van de bezoeker moeten zichtbaar blijven, maar de
+// tekst mag geen HTML kunnen injecteren.
+function alinea(inhoud) {
+  return ontsnap(inhoud).replaceAll("\n", "<br>");
+}
+
+function mailOpmaak({ titel, intro, rijen, bericht, voettekst, site }) {
+  const rijenHtml = (rijen || [])
+    .map(
+      ([label, waarde]) => `
+              <tr>
+                <td style="padding:6px 0;font-family:${LETTER};font-size:14px;color:${KLEUR.tekstLicht};width:120px;vertical-align:top;">${ontsnap(label)}</td>
+                <td style="padding:6px 0;font-family:${LETTER};font-size:15px;color:${KLEUR.tekst};font-weight:600;">${waarde}</td>
+              </tr>`
+    )
+    .join("");
+
+  return `<!DOCTYPE html>
+<html lang="nl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${ontsnap(titel)}</title></head>
+<body style="margin:0;padding:0;background:${KLEUR.papier};">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${KLEUR.papier};padding:24px 12px;">
+    <tr><td align="center">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:${KLEUR.wit};border:1px solid ${KLEUR.rand};border-radius:14px;overflow:hidden;">
+        <tr>
+          <td style="background:${KLEUR.inkt};padding:18px 24px;">
+            <span style="font-family:${LETTER};font-size:17px;font-weight:700;color:${KLEUR.wit};">Batterij<span style="color:${KLEUR.accent};">maatje</span></span>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:24px;">
+            <h1 style="margin:0 0 10px;font-family:${LETTER};font-size:19px;line-height:1.3;color:${KLEUR.inkt};">${ontsnap(titel)}</h1>
+            <p style="margin:0 0 18px;font-family:${LETTER};font-size:15px;line-height:1.6;color:${KLEUR.tekst};">${intro}</p>
+            ${rijenHtml ? `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-top:1px solid ${KLEUR.rand};border-bottom:1px solid ${KLEUR.rand};margin-bottom:18px;">${rijenHtml}</table>` : ""}
+            ${bericht ? `<div style="background:${KLEUR.papier};border-left:3px solid ${KLEUR.accent};border-radius:0 8px 8px 0;padding:14px 16px;font-family:${LETTER};font-size:15px;line-height:1.6;color:${KLEUR.tekst};">${alinea(bericht)}</div>` : ""}
+          </td>
+        </tr>
+        <tr>
+          <td style="border-top:1px solid ${KLEUR.rand};padding:16px 24px;">
+            <p style="margin:0;font-family:${LETTER};font-size:13px;line-height:1.5;color:${KLEUR.tekstLicht};">${ontsnap(voettekst)}</p>
+            <p style="margin:8px 0 0;font-family:${LETTER};font-size:13px;">
+              <a href="https://${ontsnap(site)}/" style="color:${KLEUR.primair};text-decoration:underline;">${ontsnap(site)}</a>
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
 function wilJson(req) {
   return String(req.headers["accept"] || "").includes("application/json");
 }
@@ -191,7 +272,11 @@ module.exports = async function handler(req, res) {
     return antwoord(req, res, 503, `Het formulier is nog niet ingesteld. Mail zolang naar ${aan}.`);
   }
 
-  const regels = [
+  const site = veiligVoorKopregel(req.headers["host"] || "batterijmaatje.nl");
+
+  // Melding aan onszelf: alles wat de bezoeker invulde, met zijn adres in
+  // Reply-To zodat beantwoorden meteen goed gaat.
+  const meldingTekst = [
     `Naam: ${naam}`,
     `E-mail: ${email}`,
     `Onderwerp: ${onderwerp}`,
@@ -199,12 +284,53 @@ module.exports = async function handler(req, res) {
     bericht,
     "",
     "---",
-    `Verstuurd via het contactformulier op ${veiligVoorKopregel(req.headers["host"] || "de site")}`,
-  ];
+    `Verstuurd via het contactformulier op ${site}`,
+  ].join("\n");
 
+  const meldingHtml = mailOpmaak({
+    titel: "Nieuw bericht via het contactformulier",
+    intro: `${ontsnap(naam)} heeft het contactformulier ingevuld. Antwoorden op deze mail gaat rechtstreeks naar de afzender.`,
+    rijen: [
+      ["Naam", ontsnap(naam)],
+      ["E-mail", `<a href="mailto:${ontsnap(email)}" style="color:${KLEUR.primair};">${ontsnap(email)}</a>`],
+      ["Onderwerp", ontsnap(onderwerp)],
+    ],
+    bericht,
+    voettekst: "Deze melding is automatisch verstuurd door het contactformulier.",
+    site,
+  });
+
+  // Bevestiging aan de bezoeker: die weet dan dat zijn bericht is aangekomen en
+  // heeft meteen een kopie van wat hij schreef.
+  const bevestigingTekst = [
+    `Hallo ${naam},`,
+    "",
+    "Bedankt voor je bericht aan Batterijmaatje. We hebben het ontvangen en je krijgt doorgaans binnen een dag antwoord.",
+    "",
+    "Dit is wat je ons stuurde:",
+    "",
+    `Onderwerp: ${onderwerp}`,
+    "",
+    bericht,
+    "",
+    "---",
+    "Je hoeft niets te doen. Antwoorden op deze mail kan wel; die komt bij ons binnen.",
+    `https://${site}/`,
+  ].join("\n");
+
+  const bevestigingHtml = mailOpmaak({
+    titel: `Bedankt voor je bericht, ${naam}`,
+    intro: "We hebben je bericht ontvangen en je krijgt doorgaans binnen een dag antwoord. Hieronder staat wat je ons stuurde, zodat je het bij de hand hebt.",
+    rijen: [["Onderwerp", ontsnap(onderwerp)]],
+    bericht,
+    voettekst: "Je hoeft niets te doen. Antwoorden op deze mail kan wel; die komt bij ons binnen.",
+    site,
+  });
+
+  let postbode;
   try {
     const poort = Number(process.env.SMTP_POORT) || 465;
-    const postbode = nodemailer.createTransport({
+    postbode = nodemailer.createTransport({
       host: process.env.SMTP_HOST || "smtp.transip.email",
       port: poort,
       // Poort 465 is versleuteld vanaf het eerste moment; 587 begint open en
@@ -225,11 +351,28 @@ module.exports = async function handler(req, res) {
       to: aan,
       replyTo: { name: veiligVoorKopregel(naam), address: email },
       subject: `[Contactformulier] ${veiligVoorKopregel(onderwerp)}`,
-      text: regels.join("\n"),
+      text: meldingTekst,
+      html: meldingHtml,
     });
   } catch (fout) {
     console.error("Contactformulier: versturen mislukt:", fout && fout.message);
     return antwoord(req, res, 502, `Het versturen lukte niet. Mail ons rechtstreeks op ${aan}.`);
+  }
+
+  // De bevestiging is een extraatje. Mislukt die, dan is het bericht zelf al
+  // aangekomen en zou het misleidend zijn om de bezoeker te vertellen dat het
+  // versturen niet lukte. Dus loggen en doorgaan.
+  try {
+    await postbode.sendMail({
+      from: { name: "Batterijmaatje", address: van },
+      to: { name: veiligVoorKopregel(naam), address: email },
+      replyTo: aan,
+      subject: "We hebben je bericht ontvangen",
+      text: bevestigingTekst,
+      html: bevestigingHtml,
+    });
+  } catch (fout) {
+    console.error("Contactformulier: bevestiging aan de afzender mislukt:", fout && fout.message);
   }
 
   return antwoord(req, res, 200, "Bedankt, je bericht is verstuurd. Je krijgt doorgaans binnen een dag antwoord.");
