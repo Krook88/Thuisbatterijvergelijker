@@ -15,6 +15,7 @@
     tabelSortRichting: 1,
     vergelijkSelectie: [],
     filters: {
+      zoek: "",
       type: "alle",
       capaciteit: "alle",
       installatie: "alle",
@@ -83,6 +84,7 @@
   function syncUrl() {
     const f = state.filters;
     const p = new URLSearchParams();
+    if (f.zoek.trim()) p.set("zoek", f.zoek.trim());
     FILTER_KEYS.forEach((k) => { if (f[k] !== "alle") p.set(k, f[k]); });
     CHECK_KEYS.forEach(([k, kort]) => { if (f[k]) p.set(kort, "1"); });
     if (state.sortering !== "prijs-per-kwh") p.set("sorteer", state.sortering);
@@ -92,11 +94,13 @@
 
   function leesUrl() {
     const p = new URLSearchParams(location.search);
+    if (p.get("zoek")) state.filters.zoek = p.get("zoek");
     FILTER_KEYS.forEach((k) => { if (p.get(k)) state.filters[k] = p.get(k); });
     CHECK_KEYS.forEach(([k, kort]) => { if (p.get(kort) === "1") state.filters[k] = true; });
     if (p.get("sorteer")) state.sortering = p.get("sorteer");
     // Formulier gelijkzetten met de ingelezen status
     const zet = (id, w) => { const n = el(id); if (n) n.value = w; };
+    zet("zoekVeld", state.filters.zoek);
     zet("filterType", state.filters.type); zet("filterCapaciteit", state.filters.capaciteit);
     zet("filterInstallatie", state.filters.installatie); zet("filterMerk", state.filters.merk);
     zet("sorteer", state.sortering);
@@ -107,9 +111,21 @@
     vink("checkAanbieding", state.filters.aanbieding);
   }
 
+  // Zoeken gaat over merk en model samen, zodat zowel "marstek" als
+  // "venus e 4" en "marstek venus" iets opleveren. Losse woorden mogen in
+  // willekeurige volgorde staan: iemand die zijn offerte overtypt, doet dat
+  // zelden precies zoals wij het noteren.
+  function komtOvereen(b, zoekterm) {
+    const woorden = zoekterm.toLowerCase().split(/\s+/).filter(Boolean);
+    if (!woorden.length) return true;
+    const hooiberg = `${b.merk} ${b.model}`.toLowerCase();
+    return woorden.every((w) => hooiberg.includes(w));
+  }
+
   function gefilterd() {
     const f = state.filters;
     return state.batterijen.filter((b) => {
+      if (!komtOvereen(b, f.zoek)) return false;
       if (f.type !== "alle" && b.type !== f.type) return false;
       if (f.merk !== "alle" && b.merk !== f.merk) return false;
       if (!capaciteitInBereik(b.capaciteit_kwh || 0, f.capaciteit)) return false;
@@ -292,6 +308,13 @@
 
     el("sorteer").addEventListener("change", (e) => { state.sortering = e.target.value; render(); });
 
+    const zoekVeld = el("zoekVeld");
+    if (zoekVeld) {
+      zoekVeld.addEventListener("input", (e) => { state.filters.zoek = e.target.value; render(); });
+      // Enter mag de pagina niet herladen; er is niets te versturen
+      zoekVeld.addEventListener("keydown", (e) => { if (e.key === "Enter") e.preventDefault(); });
+    }
+
     // Mobiel: filters in- en uitklappen
     const filterToggle = el("filterToggle");
     if (filterToggle) {
@@ -303,7 +326,8 @@
     }
 
     el("resetFilters").addEventListener("click", () => {
-      state.filters = { type: "alle", capaciteit: "alle", installatie: "alle", merk: "alle", homey: false, homeAssistant: false, dynamisch: false, officieel: false, noodstroom: false, aanbieding: false };
+      state.filters = { zoek: "", type: "alle", capaciteit: "alle", installatie: "alle", merk: "alle", homey: false, homeAssistant: false, dynamisch: false, officieel: false, noodstroom: false, aanbieding: false };
+      el("zoekVeld").value = "";
       el("filterType").value = "alle"; el("filterCapaciteit").value = "alle";
       el("filterInstallatie").value = "alle"; el("filterMerk").value = "alle";
       ["checkHomey", "checkHA", "checkDynamisch", "checkOfficieel", "checkNoodstroom", "checkAanbieding"].forEach((id) => { el(id).checked = false; });
