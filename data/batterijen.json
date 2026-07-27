@@ -1,6 +1,6 @@
 {
   "merk_logos": {},
-  "laatst_bijgewerkt": "2026-07-26",
+  "laatst_bijgewerkt": "2026-07-27",
   "toelichting": "Prijzen zijn indicatief en gebaseerd op openbaar vindbare winkel- en aanbiedersprijzen op de genoemde datum. De prijs op de website van de aanbieder is altijd leidend. Let op wat een prijs dekt (prijs_omvat): sommige prijzen zijn hardware-only of exclusief btw en installatie.",
   "batterijen": [
     {
@@ -24,7 +24,7 @@
       "app": "Marstek app",
       "garantie_jaar": 10,
       "cycli": 6000,
-      "opmerkingen": "AI-/handelsmodus voor dynamische prijzen ingebouwd. LiFePO4, IP65, back-up stopcontact (2,5 kW off-grid). Set van 3 units (15,36 kWh) circa 3.799 euro. Opvolger aangekondigd: Venus E 4.0 (3 kW, >10.000 cycli, adviesprijs 1.699 euro, verwacht begin augustus 2026); de 3.0 blijft voorlopig leverbaar.",
+      "opmerkingen": "AI-/handelsmodus voor dynamische prijzen ingebouwd. LiFePO4, IP65, back-up stopcontact (2,5 kW off-grid). Set van 3 units (15,36 kWh) circa 3.799 euro. Opvolger Venus E 4.0 is sinds medio juli in pre-order (levering verwacht rond begin augustus 2026, zie het aparte item); de 3.0 blijft voorlopig leverbaar.",
       "product_url": "https://eu.marstekenergy.com/pages/marstek-venus-c-e",
       "aanbiedingen": [
         {
@@ -76,7 +76,7 @@
       "app": "Marstek app",
       "garantie_jaar": 10,
       "cycli": 6000,
-      "opmerkingen": "Opvallend lage prijs per kWh in de huidige aanbieding bij Marstek.nl. De reguliere prijs buiten de aanbieding is niet geverifieerd.",
+      "opmerkingen": "Opvallend lage prijs per kWh in de huidige aanbieding bij Marstek.nl. De reguliere prijs buiten de aanbieding is niet geverifieerd. Prijs van 1.950 euro op 27 juli 2026 opnieuw via meerdere bronnen bevestigd; een eerder gesignaleerd lager prijspunt (1.274 euro) hoort bij de Venus E 4.0 zonder P1-meter, niet bij dit model.",
       "product_url": "https://www.marstek.nl/product/marstek-venus-c-1-0-plug-charge-thuisbatterij-7-68-kwh-incl-p1-meter/",
       "aanbiedingen": [
         {
@@ -116,7 +116,7 @@
       "app": "Sessy app",
       "garantie_jaar": 10,
       "cycli": 6000,
-      "opmerkingen": "Nederlands product (Charged B.V., Enschede). Dynamische EPEX-strategie en deelname aan de onbalansmarkt ingebouwd; ook aanstuurbaar via Frank Energie Slim Handelen. Garantie: 10 jaar op batterij, 5 jaar op omvormer. Inmiddels opgevolgd door de Sessy 2.0 (stiller, betere koeling); er is ook een 10 kWh-uitvoering (adviesprijs 5.500 euro incl. btw, excl. installatie).",
+      "opmerkingen": "Nederlands product (Charged B.V., Enschede). Dynamische EPEX-strategie en deelname aan de onbalansmarkt ingebouwd; ook aanstuurbaar via Frank Energie Slim Handelen. Garantie: 10 jaar op batterij, 5 jaar op omvormer. Inmiddels opgevolgd door de Sessy 2.0 (stiller, betere koeling); er is ook een 10 kWh-uitvoering (adviesprijs 5.500 euro incl. btw, excl. installatie). Aangekondigd: Sessy Plus (15 kWh, met noodstroom), eerste leveringen gepland vanaf oktober 2026.",
       "product_url": "https://www.sessy.nl/sessy-5-kwh/",
       "aanbiedingen": [
         {
@@ -204,7 +204,7 @@
       "app": "EcoFlow app",
       "garantie_jaar": 10,
       "cycli": 6000,
-      "opmerkingen": "Tot 6 units koppelbaar (11,52 kWh). Laden uit het net max. 1.050 W. Regelmatig in aanbieding bij bol.com en iBOOD.",
+      "opmerkingen": "Tot 6 units koppelbaar (11,52 kWh). Laden uit het net max. 1.050 W. Regelmatig in aanbieding bij bol.com en iBOOD. De grotere STREAM AC 5000 (5 kWh) staat sinds 15 juli 2026 in pre-sale en wordt in vakmedia als opvolger gepositioneerd; zie het aparte item.",
       "product_url": "https://nl.ecoflow.com/products/stream-ac-pro",
       "aanbiedingen": [
         {
@@ -751,7 +751,7 @@
       "app": "Huawei FusionSolar",
       "garantie_jaar": 10,
       "cycli": null,
-      "opmerkingen": "Modulair: 2 modules van 5 kWh plus power control unit, schaalbaar van 5 tot 30 kWh. Piekvermogen 7 kW (10 seconden), LFP, IP66 (datasheet S0-serie). Let op: de nieuwere S1-serie heeft modules van ca. 7 kWh (7/14/21 kWh); een 10 kWh-configuratie bestaat alleen in de S0-serie. De nieuwere S1-generatie (5-21 kWh, IP66) is inmiddels breed leverbaar in Nederland; de S0 wordt nog verkocht.",
+      "opmerkingen": "Modulair: 2 modules van 5 kWh plus power control unit, schaalbaar van 5 tot 30 kWh. Piekvermogen 7 kW (10 seconden), LFP, IP66 (datasheet S0-serie). Let op: de nieuwere S1-serie heeft modules van ca. 7 kWh (7/14/21 kWh); een 10 kWh-configuratie bestaat alleen in de S0-serie. De nieuwere S1-generatie (5-21 kWh, IP66) is inmiddels breed leverbaar in Nederland; de S0 wordt nog verkocht. Update juli 2026: de S1-serie is inmiddels bij meerdere Nederlandse winkels te koop (richtprijs 13,8 kWh: circa 6.800 tot 8.300 euro incl. btw, excl. installatie).",
       "product_url": "https://solar.huawei.com/nl/",
       "aanbiedingen": [
         {
@@ -1090,7 +1090,7 @@
       "app": "Duracell Energy App",
       "garantie_jaar": 10,
       "cycli": 8000,
-      "opmerkingen": "Bekende merknaam, verkocht als compleet geïnstalleerd pakket (5 kWh voor 5.000 euro, 10 kWh voor 9.000 euro, tot 25 kWh voor 17.500 euro bij Batterijenhuis). Handelt op dynamische contracten, onder meer via een samenwerking met easyEnergy. Geen Homey- of Home Assistant-koppeling bekend; alleen de eigen app.",
+      "opmerkingen": "Bekende merknaam, verkocht als compleet geïnstalleerd pakket (5 kWh voor 5.000 euro, 10 kWh voor 9.000 euro, tot 25 kWh voor 17.500 euro bij Batterijenhuis). Handelt op dynamische contracten, onder meer via een samenwerking met easyEnergy. Geen Homey- of Home Assistant-koppeling bekend; alleen de eigen app. Eind juli 2026 bij sommige webwinkels uitverkocht; via installateurs nog leverbaar.",
       "product_url": "https://duracellenergy.com/nl-be/products/dura5-solar-battery/",
       "aanbiedingen": [
         {
@@ -1168,7 +1168,7 @@
       "app": "Anker app",
       "garantie_jaar": 10,
       "cycli": "10.000 (fabrieksopgave)",
-      "opmerkingen": "Nieuw sinds 2 juli 2026; volgens vakmedia de eerste 7 kWh all-in-one plug-in batterij. Uitbreidbaar met modules van 7 kWh (ca. 1.999 euro per module) tot 42 kWh. Homey- en Home Assistant-ondersteuning nog niet vastgesteld (juli 2026); IP-klasse onbekend.",
+      "opmerkingen": "Nieuw sinds 2 juli 2026; volgens vakmedia de eerste 7 kWh all-in-one plug-in batterij. Uitbreidbaar met modules van 7 kWh (ca. 1.999 euro per module) tot 42 kWh. Eind juli 2026 bij meerdere winkels rond 2.099 euro gezien (adviesprijs 2.499 euro; met kortingscodes soms lager). Er bestaat een community-integratie voor Home Assistant (HACS, cloud-gebaseerd), maar ondersteuning van dit model is nog niet bevestigd. Homey-ondersteuning en IP-klasse onbekend (juli 2026).",
       "product_url": "https://www.ankersolix.com/nl/plug-and-play-thuisbatterij/thuisbatterij-a17e2",
       "aanbiedingen": [
         {
@@ -1178,7 +1178,7 @@
           "datum": "2026-07-26"
         }
       ],
-      "totaalprijs_van_eur": 2199,
+      "totaalprijs_van_eur": 2099,
       "totaalprijs_tot_eur": null,
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren",
       "noodstroom": true,
@@ -1205,7 +1205,7 @@
       "app": "Zendure app (HEMS 2.0)",
       "garantie_jaar": 10,
       "cycli": null,
-      "opmerkingen": "Nieuw in Q2 2026. Fabrikant kondigt uitbreiding tot 50+ kWh aan, maar de uitbreidingsmodules zijn nog niet leverbaar (verwacht Q4 2026); daarom staat uitbreidbaarheid hier nog niet vermeld. Homey-ondersteuning en IP-klasse nog niet vastgesteld (juli 2026).",
+      "opmerkingen": "Nieuw in Q2 2026. Fabrikant kondigt uitbreiding tot 50+ kWh aan, maar de uitbreidingsmodules zijn nog niet leverbaar (verwacht Q4 2026); daarom staat uitbreidbaarheid hier nog niet vermeld. Homey-ondersteuning nog niet vastgesteld (juli 2026).",
       "product_url": "https://www.zendure.nl/products/solarflow-3000-mix-ac",
       "aanbiedingen": [
         {
@@ -1219,7 +1219,9 @@
       "totaalprijs_tot_eur": null,
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren",
       "noodstroom": true,
-      "noodstroom_uitleg": "Noodstroomuitgang tot 3.680 W continu (fabrieksopgave)."
+      "noodstroom_uitleg": "Noodstroomuitgang tot 3.680 W continu (fabrieksopgave).",
+      "ip_klasse": "IP65",
+      "buiten_toelichting": "fabrieksopgave (metalen behuizing); eisen voor buitenplaatsing niet geverifieerd"
     },
     {
       "id": "zendure-solarflow-4000-mix-pro",
@@ -1242,7 +1244,7 @@
       "app": "Zendure app (HEMS 2.0)",
       "garantie_jaar": 10,
       "cycli": "10.000 (fabrieksopgave)",
-      "opmerkingen": "Nieuw in Q2 2026; hybride topmodel van de Mix-serie. Uitbreidingsmodules nog niet leverbaar (verwacht Q4 2026). Homey-ondersteuning en IP-klasse nog niet vastgesteld (juli 2026).",
+      "opmerkingen": "Nieuw in Q2 2026; hybride topmodel van de Mix-serie. Uitbreidingsmodules nog niet leverbaar (verwacht Q4 2026). Homey-ondersteuning nog niet vastgesteld (juli 2026).",
       "product_url": "https://www.zendure.nl/products/solarflow-4000-mix-pro",
       "aanbiedingen": [
         {
@@ -1256,7 +1258,9 @@
       "totaalprijs_tot_eur": null,
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren",
       "noodstroom": null,
-      "noodstroom_uitleg": "Niet vastgesteld of dit model een noodstroomuitgang heeft; controleer bij de fabrikant."
+      "noodstroom_uitleg": "Niet vastgesteld of dit model een noodstroomuitgang heeft; controleer bij de fabrikant.",
+      "ip_klasse": "IP65",
+      "buiten_toelichting": "fabrieksopgave (metalen behuizing); eisen voor buitenplaatsing niet geverifieerd"
     },
     {
       "id": "mova-lumegret-a4000",
@@ -1277,9 +1281,9 @@
       "home_assistant": false,
       "dynamisch_contract": "AI-energiemanagement in de app; werking met dynamische contracten niet in detail geverifieerd",
       "app": "MOVA app",
-      "garantie_jaar": null,
-      "cycli": null,
-      "opmerkingen": "Nieuw merk (juli 2026) van moederbedrijf Dreame, met reparatiecentrum in 's-Hertogenbosch. Bij introductie gezien voor 1.190 euro bij thuisbatterij.io. Garantie, cycli, Homey/Home Assistant-ondersteuning en IP-klasse nog niet vastgesteld.",
+      "garantie_jaar": 10,
+      "cycli": "10.000 (fabrieksopgave)",
+      "opmerkingen": "Nieuw merk (juli 2026) van moederbedrijf Dreame, met reparatiecentrum in 's-Hertogenbosch. Winkelprijs eind juli 2026: 1.190 euro bij Thuisbatterij.io (adviesprijs wisselt per bron: 1.399 tot 1.699 euro). Geen open koppeling voor Home Assistant of Homey: aansturing loopt via de MOVA-app, wel met ondersteuning voor Shelly-meters en slimme stekkers. Garantie 10 jaar, 10.000 cycli (fabrieksopgave).",
       "product_url": "https://www.mova.tech/products/lumegret-a4000-solar-power-system",
       "aanbiedingen": [
         {
@@ -1287,6 +1291,12 @@
           "prijs_eur": 1399,
           "url": "https://www.mova.tech/products/lumegret-a4000-solar-power-system",
           "datum": null
+        },
+        {
+          "winkel": "Thuisbatterij.io",
+          "prijs_eur": 1190,
+          "url": "https://thuisbatterij.io/shop/",
+          "datum": "2026-07-27"
         }
       ],
       "totaalprijs_van_eur": 1190,
@@ -1311,12 +1321,12 @@
       "zonnepanelen_koppeling": "AC-gekoppeld via het stopcontact met P1- of CT-meter; werkt naast elk bestaand zonnepanelensysteem.",
       "koppeling_gemak": 5,
       "homey": false,
-      "home_assistant": false,
+      "home_assistant": "Via de lokale open API (HTTP) goed koppelbaar; geen officiële integratie",
       "dynamisch_contract": "Sturing via eigen app; werking met dynamische contracten niet in detail geverifieerd",
       "app": "Indevolt app",
-      "garantie_jaar": null,
-      "cycli": null,
-      "opmerkingen": "Nieuw (juni 2026); bijzonder vanwege semi-solid-state LFP-cellen. Basisunit is klein (1,8 kWh) maar per unit uitbreidbaar tot 19,8 kWh. Garantie, cycli, noodstroom en Homey/Home Assistant-ondersteuning nog niet vastgesteld (juli 2026).",
+      "garantie_jaar": 10,
+      "cycli": "8.000 (fabrieksopgave)",
+      "opmerkingen": "Nieuw (juni 2026); bijzonder vanwege semi-solid-state LFP-cellen. Basisunit is klein (1,8 kWh) maar per unit uitbreidbaar tot 19,8 kWh. Garantie 10 jaar / 8.000 cycli (fabrieksopgave). Noodstroom en Homey-ondersteuning nog niet vastgesteld (juli 2026). Er is inmiddels ook een kleinere SolidFlex 2000-variant via Thuisbatterij.nl.",
       "product_url": "https://nl.indevolt.com/collections/plug-in-thuisbatterij",
       "aanbiedingen": [
         {
@@ -1394,7 +1404,7 @@
       "app": "AEG/SolarCube app",
       "garantie_jaar": null,
       "cycli": "ca. 6.000",
-      "opmerkingen": "Sinds kort ook verkrijgbaar bij de Albert Heijn Voordeelshop (4,8 kWh 1.449 euro; 9,6 kWh 2.549; 14,4 kWh 3.649). White-label op hardware van Sunpura/NOVGEN, gedistribueerd door Apex Power Supplies B.V. Garantie, noodstroom en Homey/Home Assistant-ondersteuning nog niet vastgesteld (juli 2026).",
+      "opmerkingen": "Sinds kort ook verkrijgbaar bij de Albert Heijn Voordeelshop (4,8 kWh 1.449 euro; 9,6 kWh 2.549; 14,4 kWh 3.649, laatstgenoemde eind juli bijna uitverkocht). White-label op hardware van Sunpura/NOVGEN, gedistribueerd door Apex Power Supplies B.V. Bronnen spreken elkaar tegen over Home Assistant-ondersteuning (van 'native, lezen en schrijven' tot 'alleen uitlezen, lokale API komt nog'); daarom hier nog niet als ondersteund gemarkeerd. Garantie en Homey-ondersteuning nog niet vastgesteld (juli 2026).",
       "product_url": "https://aegthuisbatterij.nl/products/aeg-as-bbl09/",
       "aanbiedingen": [
         {
@@ -1407,8 +1417,8 @@
       "totaalprijs_van_eur": 1449,
       "totaalprijs_tot_eur": null,
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren",
-      "noodstroom": null,
-      "noodstroom_uitleg": "Niet vastgesteld; controleer bij de fabrikant.",
+      "noodstroom": true,
+      "noodstroom_uitleg": "Noodstroomuitgang tot 2.400 W continu (fabrieksopgave); omschakeltijd niet gespecificeerd gevonden.",
       "ip_klasse": "IP65",
       "buiten_toelichting": "fabrieksopgave; eisen voor buitenplaatsing niet geverifieerd"
     },
@@ -1429,12 +1439,12 @@
       "zonnepanelen_koppeling": "AC-gekoppeld via het stopcontact; compatibel met o.a. HomeWizard P1 en Shelly 3EM Pro.",
       "koppeling_gemak": 5,
       "homey": false,
-      "home_assistant": false,
+      "home_assistant": "Via community-integratie (HACS, 100% lokaal via TCP); sinds eind 2025 ook aansturing, niet alleen uitlezen",
       "dynamisch_contract": "Via de eigen app met P1-meter; werking met dynamische contracten niet in detail geverifieerd",
       "app": "Sunpura app",
       "garantie_jaar": 10,
       "cycli": "6.000 (bij 90% ontlaaddiepte, tot 70% restcapaciteit)",
-      "opmerkingen": "Nieuw merk in Nederland (sub-merk van NOVGEN/Jiawei); dezelfde hardware-basis als de AEG SolarCube. Let op: teruglevering aan het net is beperkt tot 800 W; alleen de noodstroomuitgang levert meer (2.400 W, piek 3.600 W). Homey/Home Assistant-ondersteuning en IP-klasse nog niet vastgesteld (juli 2026).",
+      "opmerkingen": "Nieuw merk in Nederland (sub-merk van NOVGEN/Jiawei); dezelfde hardware-basis als de AEG SolarCube. Inmiddels leverbaar via meerdere webwinkels (ca. 1.330 tot 1.439 euro, eind juli 2026). Let op: teruglevering aan het net is beperkt tot 800 W; alleen de noodstroomuitgang levert meer (2.400 W, piek 3.600 W). Garantie 10 jaar. Homey-ondersteuning en IP-klasse nog niet vastgesteld (juli 2026).",
       "product_url": "https://sunpuraenergy.nl/en",
       "aanbiedingen": [],
       "totaalprijs_van_eur": 1330,
@@ -1442,6 +1452,176 @@
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren; richtprijs uit prijsvergelijking",
       "noodstroom": true,
       "noodstroom_uitleg": "Off-grid/noodstroomuitgang tot 2.400 W continu (piek 3.600 W, fabrieksopgave)."
+    },
+    {
+      "id": "marstek-venus-e-4",
+      "merk": "Marstek",
+      "model": "Venus E 4.0 (5,12 kWh)",
+      "capaciteit_kwh": 5.12,
+      "uitbreidbaar_tot_kwh": null,
+      "vermogen_kw": 3,
+      "type": "plug-in",
+      "fase": "1-fase",
+      "richtprijs_eur": 1699,
+      "prijs_bron": "adviesprijs incl. P1-meter (vakmedia/winkels, juli 2026)",
+      "prijs_omvat": "incl. btw en P1-meter, zelf te installeren; laagste winkelprijs is exclusief P1-meter",
+      "prijs_datum": "2026-07-27",
+      "installatie": "zelf",
+      "zonnepanelen_koppeling": "Werkt net als de Venus E 3.0 met elk bestaand zonnepanelensysteem: een P1-meter meet je overschot en de batterij laadt daarop, via het stopcontact.",
+      "koppeling_gemak": 5,
+      "homey": null,
+      "home_assistant": null,
+      "dynamisch_contract": null,
+      "app": "Marstek app",
+      "garantie_jaar": null,
+      "cycli": "meer dan 10.000 (fabrieksopgave)",
+      "opmerkingen": "PRE-ORDER: opvolger van de Venus E 3.0, sinds medio juli 2026 te bestellen; eerste leveringen verwacht rond begin augustus (sommige winkels noemen september of later). 3 kW laden en ontladen, 314 Ah-cellen. Garantie, IP-klasse, noodstroom en Homey/Home Assistant-ondersteuning voor dit nieuwe model zijn nog niet vastgesteld; de community-integraties voor de Venus-serie werken mogelijk ook op de 4.0, maar dat is niet bevestigd (juli 2026).",
+      "product_url": "https://www.marstek.nl/product/marstek-venus-e-4-0-plug-charge-thuisbatterij/",
+      "aanbiedingen": [
+        {
+          "winkel": "Marstek.nl (officieel, excl. P1-meter)",
+          "prijs_eur": 1274,
+          "url": "https://www.marstek.nl/product/marstek-venus-e-4-0-plug-charge-thuisbatterij/",
+          "datum": "2026-07-27"
+        }
+      ],
+      "totaalprijs_van_eur": 1274,
+      "totaalprijs_tot_eur": 1699,
+      "totaalprijs_toelichting": "pre-order; stekkerklaar, zelf te installeren; laagste prijs is zonder P1-meter",
+      "noodstroom": null,
+      "noodstroom_uitleg": "Nog niet vastgesteld voor dit model; de Venus E 3.0 heeft een noodstroom-stopcontact."
+    },
+    {
+      "id": "ecoflow-stream-ac-5000",
+      "merk": "EcoFlow",
+      "model": "STREAM AC 5000 (5 kWh)",
+      "capaciteit_kwh": 5.02,
+      "uitbreidbaar_tot_kwh": 15,
+      "vermogen_kw": 2.5,
+      "type": "plug-in",
+      "fase": "1-fase",
+      "richtprijs_eur": 1699,
+      "prijs_omvat": "incl. btw, stekkerklaar; excl. installatie",
+      "prijs_datum": "2026-07-27",
+      "installatie": "zelf",
+      "zonnepanelen_koppeling": "AC-gekoppeld via het stopcontact; werkt naast elk bestaand zonnepanelensysteem (geen directe paneel-aansluiting op dit model).",
+      "koppeling_gemak": 5,
+      "homey": "Officiële EcoFlow-app op Homey bestaat; ondersteuning van de STREAM-serie is niet bevestigd",
+      "home_assistant": "Via community-integratie 'EcoFlow Cloud' (HACS, cloud-API); ondersteuning voor dit nieuwe model nog niet bevestigd",
+      "dynamisch_contract": "Zelfde EcoFlow-app als de STREAM AC Pro (AI-TOU op dynamische prijzen); werking op dit model niet apart geverifieerd",
+      "app": "EcoFlow app",
+      "garantie_jaar": 10,
+      "cycli": "10.000 (tot 60% restcapaciteit, fabrieksopgave)",
+      "opmerkingen": "PRE-SALE: sinds 15 juli 2026 bij Thuisbatterij.nl (1.399 in plaats van 1.699 euro, met gratis P1-meter); eerste leveringen tussen eind juli en september, bronnen verschillen. Laden 2,5 kW, ontladen tot 3 kW (fabrieksopgave). Uitbreidbaar met maximaal 2 EB 5000-accu's (pre-sale 1.199 euro per stuk) tot 15 kWh per set; tot 6 sets per woning. Wordt in vakmedia als opvolger van de STREAM AC Pro gepositioneerd. Noodstroom en IP-klasse nog niet vastgesteld (juli 2026).",
+      "product_url": "https://nl.ecoflow.com/products/stream-ac-solar-battery",
+      "aanbiedingen": [
+        {
+          "winkel": "Thuisbatterij.nl (pre-sale)",
+          "prijs_eur": 1399,
+          "url": "https://thuisbatterij.nl/winkel/ecoflow-stream-ac-5000/",
+          "datum": "2026-07-27"
+        }
+      ],
+      "totaalprijs_van_eur": 1399,
+      "totaalprijs_tot_eur": 1699,
+      "totaalprijs_toelichting": "stekkerklaar, zelf te installeren; pre-saleprijs",
+      "noodstroom": null,
+      "noodstroom_uitleg": "Niet vastgesteld; controleer bij de fabrikant."
+    },
+    {
+      "id": "samduo-nex-e6000",
+      "merk": "SAMDUO",
+      "model": "Nex E6000 (6 kWh)",
+      "capaciteit_kwh": 6,
+      "uitbreidbaar_tot_kwh": null,
+      "vermogen_kw": 2.6,
+      "type": "plug-in",
+      "fase": "1-fase",
+      "richtprijs_eur": 1999,
+      "prijs_bron": "adviesprijs fabrikant (samduo.nl, juli 2026)",
+      "prijs_omvat": "incl. btw, stekkerklaar; excl. installatie",
+      "prijs_datum": "2026-07-27",
+      "installatie": "zelf",
+      "zonnepanelen_koppeling": "AC-gekoppelde plug-in batterij; werkt naast elk bestaand zonnepanelensysteem.",
+      "koppeling_gemak": 5,
+      "homey": null,
+      "home_assistant": null,
+      "dynamisch_contract": null,
+      "app": "SAMDUO app",
+      "garantie_jaar": null,
+      "cycli": null,
+      "opmerkingen": "Nieuw merk: directe onlineverkoop in Nederland gestart op 13 juli 2026 via samduo.nl. Opvallend dun model (11,9 cm) dat plat tegen de muur kan. Er is ook een Nex E6000H-variant (10 jaar garantie, IP65, noodstroom 2.600 W) en een modulaire Nex P2800 Pro; prijzen daarvan zijn nog onbekend. Garantie, IP-klasse, noodstroom, uitbreidbaarheid en Homey/Home Assistant-ondersteuning van deze E6000 zijn nog niet vastgesteld; specificaties komen uit berichtgeving rond de lancering (juli 2026).",
+      "product_url": "https://samduo.nl",
+      "aanbiedingen": [],
+      "totaalprijs_van_eur": 1999,
+      "totaalprijs_tot_eur": null,
+      "totaalprijs_toelichting": "stekkerklaar, zelf te installeren; adviesprijs fabrikant",
+      "noodstroom": null,
+      "noodstroom_uitleg": "Niet vastgesteld voor de E6000; de duurdere E6000H-variant heeft wel noodstroom (2.600 W)."
+    },
+    {
+      "id": "voltdeer-sr5000",
+      "merk": "Voltdeer",
+      "model": "SR5000 (5,12 kWh)",
+      "capaciteit_kwh": 5.12,
+      "uitbreidbaar_tot_kwh": null,
+      "vermogen_kw": null,
+      "type": "plug-in",
+      "fase": "1-fase",
+      "richtprijs_eur": 1295,
+      "prijs_bron": "richtprijs uit prijsvergelijkingen (juli 2026); winkelprijzen lopen uiteen",
+      "prijs_omvat": "incl. btw en P1-meter, stekkerklaar; excl. installatie",
+      "prijs_datum": "2026-07-27",
+      "installatie": "zelf",
+      "zonnepanelen_koppeling": "AC-gekoppelde plug-in batterij met P1-meter; werkt naast elk bestaand zonnepanelensysteem.",
+      "koppeling_gemak": 5,
+      "homey": null,
+      "home_assistant": null,
+      "dynamisch_contract": null,
+      "app": "Voltdeer app",
+      "garantie_jaar": 10,
+      "cycli": "6.000 (bij 90% ontlaaddiepte, fabrieksopgave)",
+      "opmerkingen": "Consumentenmerk van batterijfabrikant Pylontech; sinds begin 2026 in Nederland via onder meer Plugin-Batterij.nl. Piekvermogen 3,6 kW (fabrieksopgave); het continue laad-/ontlaadvermogen is niet eenduidig gevonden, daarom staat het vermogen hier nog leeg. Winkelprijzen lopen uiteen van circa 1.295 tot 1.799 euro. Er is ook een SR5000 AC Pro-variant (2,5 kW, circa 1.299 euro). Homey/Home Assistant-ondersteuning en dynamische-contractwerking nog niet vastgesteld (juli 2026).",
+      "product_url": "https://stekkerdeal.nl/products/voltdeer-sr5000/",
+      "aanbiedingen": [],
+      "totaalprijs_van_eur": 1295,
+      "totaalprijs_tot_eur": 1799,
+      "totaalprijs_toelichting": "stekkerklaar, zelf te installeren; prijzen lopen per winkel uiteen",
+      "noodstroom": true,
+      "noodstroom_uitleg": "De SR-serie heeft een noodstroomfunctie (fabrieksopgave); vermogen en omschakeltijd niet gespecificeerd gevonden.",
+      "ip_klasse": "IP65",
+      "buiten_toelichting": "fabrieksopgave; eisen voor buitenplaatsing niet geverifieerd"
+    },
+    {
+      "id": "zendure-solarflow-2400-pro",
+      "merk": "Zendure",
+      "model": "SolarFlow 2400 Pro (2,88 kWh)",
+      "capaciteit_kwh": 2.88,
+      "uitbreidbaar_tot_kwh": 17.28,
+      "vermogen_kw": 2.4,
+      "type": "plug-in",
+      "fase": "1-fase",
+      "richtprijs_eur": 1209,
+      "prijs_bron": "prijsoverzichten en webshops (juli 2026); actieprijzen wisselen",
+      "prijs_omvat": "incl. btw, stekkerklaar met ingebouwde hybride omvormer; excl. installatie",
+      "prijs_datum": "2026-07-27",
+      "installatie": "zelf",
+      "zonnepanelen_koppeling": "Hybride plug-in: AC-gekoppeld én 4 MPPT-ingangen om zonnepanelen direct aan te sluiten (tot ca. 3.000 W PV).",
+      "koppeling_gemak": 4,
+      "homey": null,
+      "home_assistant": "Community-integraties via HACS (o.a. zenSDK, lokaal); ondersteuning van de 2400 Pro niet in detail geverifieerd",
+      "dynamisch_contract": "Ingebouwd energiemanagement (HEMS 2.0) met sturing op dynamische tarieven (fabrieksopgave)",
+      "app": "Zendure app",
+      "garantie_jaar": null,
+      "cycli": null,
+      "opmerkingen": "Sinds voorjaar 2026 leverbaar, onder meer via zendure.nl en meerdere Nederlandse webshops. Let op: bronnen verschillen over de capaciteit per module (2,4 versus 2,88 kWh bruikbaar); wij hanteren de opgave van de Nederlandse winkels (2,88 kWh) tot dit is geverifieerd, en dat beïnvloedt de prijs per kWh. Prijzen wisselen sterk per actie (999 tot 1.339 euro gezien). Garantie, IP-klasse en Homey-ondersteuning nog niet vastgesteld (juli 2026).",
+      "product_url": "https://www.zendure.nl/products/zendure-solarflow-2400-pro",
+      "aanbiedingen": [],
+      "totaalprijs_van_eur": 999,
+      "totaalprijs_tot_eur": 1339,
+      "totaalprijs_toelichting": "stekkerklaar, zelf te installeren; prijzen wisselen per actie",
+      "noodstroom": null,
+      "noodstroom_uitleg": "Niet vastgesteld; controleer bij de fabrikant."
     }
   ]
 }
