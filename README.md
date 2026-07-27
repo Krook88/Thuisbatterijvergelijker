@@ -46,6 +46,31 @@ Pas je iets aan de kaart aan, doe dat dan in `assets/kaart.js` en draai daarna
 `npm run genereer`. Bewerk de kaarten nooit met de hand in `index.html`: die
 worden bij de eerstvolgende generatie overschreven.
 
+## Productfoto's toevoegen
+
+Per batterij kunnen twee velden in `data/batterijen.json`:
+
+```json
+"afbeelding": "assets/producten/sessy-5kwh.webp",
+"afbeelding_bron": "foto: Sessy"
+```
+
+`afbeelding` mag een bestand in de repository zijn of een volledige URL naar een
+externe bron. Zonder dit veld verandert er niets: de kaart blijft zoals hij was en de
+detailpagina houdt zijn eigen type-illustratie. Er komt dus nooit een leeg vak.
+
+De foto krijgt een vaste verhouding (4:3 op een kaart, 3:2 op een detailpagina) en wordt
+ingepast in plaats van bijgesneden, zodat een platte wandbatterij en een hoge staande
+kast naast elkaar in de pas lopen. Breedte en hoogte staan in de HTML, zodat de pagina
+niet verspringt zodra de afbeelding binnenkomt. Alle foto's laden lui.
+
+Staat er een `afbeelding`, dan komt die ook in de `Product`-markup van de detailpagina;
+dat vergroot de kans op een uitgebreid zoekresultaat.
+
+Bewaar bestanden als `.webp` in `assets/producten/`, ongeveer 900 pixels breed. Vul
+`afbeelding_bron` als de foto niet van jezelf is: die bronvermelding verschijnt klein in
+de hoek van de foto en hoort bij het tonen van andermans beeld.
+
 ## Prijzen vergelijkbaar houden
 
 Winkelprijzen komen zowel incl. als excl. btw binnen en dekken niet altijd hetzelfde.

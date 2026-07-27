@@ -117,6 +117,24 @@
     return `<span class="sterren-rij" role="img" aria-label="${s} van 5 sterren">${ster(true).repeat(s)}${ster(false).repeat(5 - s)}</span>`;
   }
 
+  // Productfoto van een batterij, als die er is. Twee vormen zijn toegestaan:
+  // een bestand in de repository ("assets/producten/sessy-5kwh.webp") of een
+  // volledige URL naar een externe bron. Zonder foto blijft de kaart zoals hij
+  // was; er komt geen leeg vak.
+  //
+  // De afmetingen staan vast in de opmaak, zodat de kaart niet verspringt zodra
+  // de afbeelding binnenkomt. Alle foto's laden lui: op de vergelijker staan er
+  // tientallen onder de vouw.
+  function fotoHtml(b) {
+    const foto = b.afbeelding;
+    if (!foto) return "";
+    const bron = b.afbeelding_bron ? `<span class="foto-bron">${escapeHtml(b.afbeelding_bron)}</span>` : "";
+    return `<div class="kaart-foto">
+          <img src="${escapeHtml(foto)}" alt="${escapeHtml(naamVan(b))}" loading="lazy" decoding="async" width="600" height="450">
+          ${bron}
+        </div>`;
+  }
+
   // De volgorde waarin de vergelijker begint: beste prijs per kWh bovenaan.
   // De generator gebruikt dezelfde volgorde, zodat de voorgerenderde kaarten
   // gelijk staan aan wat de bezoeker ziet voordat hij iets aanraakt.
@@ -151,6 +169,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(b.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
         </label>
       </div>
+      ${fotoHtml(b)}
       <div class="kaart-kop">
         <div>
           <div class="merk">${merkHtml(b, o.merkLogos)}</div>
@@ -231,6 +250,7 @@
     noodstroomBadge,
     sterren,
     standaardVolgorde,
+    fotoHtml,
     kaartHtml,
   };
 });

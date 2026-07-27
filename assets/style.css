@@ -1210,3 +1210,51 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
     min-height: 44px;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Productfoto op een kaart
+
+   De hoogte ligt vast en de foto wordt niet bijgesneden maar ingepast. Zo
+   staan een platte wandbatterij en een hoge staande kast naast elkaar zonder
+   dat de kaarten in de rij uit de pas lopen, en verspringt de pagina niet
+   zodra de afbeelding binnenkomt.
+   -------------------------------------------------------------------------- */
+
+.kaart-foto {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--kleur-achtergrond);
+  border-bottom: 1px solid var(--kleur-rand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.kaart-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 14px;
+}
+
+/* Bronvermelding klein in de hoek: hoort erbij als je andermans foto toont,
+   en het staat een vergelijker die onafhankelijkheid claimt goed. */
+.kaart-foto .foto-bron {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  font-size: 0.7rem;
+  color: var(--kleur-tekst-licht);
+  background: rgba(255, 255, 255, 0.82);
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+
+/* Op een detailpagina mag de foto groter, want daar is hij het onderwerp */
+.batterij-foto-groot {
+  aspect-ratio: 3 / 2;
+  max-width: 520px;
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius);
+}
