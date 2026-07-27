@@ -56,7 +56,17 @@ aan GitHub Pages hangt, kan Vercel geen SSL-certificaat aanvragen.
 1. Vercel → project → **Settings → Domains**.
 2. Voeg `batterijmaatje.nl` toe.
 3. Voeg ook `www.batterijmaatje.nl` toe en kies **Redirect to batterijmaatje.nl** (308).
-   Zo blijft er één canonieke URL, precies zoals de `<link rel="canonical">`-tags aangeven.
+
+**Controleer de richting van de redirect.** Vercel stelt standaard het omgekeerde voor: het
+kale domein dat naar `www` doorstuurt, met `www` als productiedomein. Dat botst met de site:
+alle pagina's hebben een `<link rel="canonical">` naar de kale domeinnaam en `sitemap.xml`
+bevat alleen kale URL's. Staat er bij het kale domein een pijl `↳ 308 www.…`, dan klopt het
+niet. Corrigeren:
+
+- bij `www.batterijmaatje.nl` → **Edit** → **Redirect to** `batterijmaatje.nl`, status 308;
+- bij `batterijmaatje.nl` → **Edit** → redirect eraf en koppelen aan **Production**.
+
+De vereiste DNS-records veranderen hier niet van.
 
 ### 2c. DNS-records bij de registrar zetten
 
@@ -65,8 +75,8 @@ over**, ze verschillen per account en per domein. Het patroon is:
 
 | Type  | Naam  | Waarde                                    |
 | ----- | ----- | ----------------------------------------- |
-| A     | `@`   | het IP-adres dat Vercel toont (bijv. `76.76.21.21`) |
-| CNAME | `www` | de hostnaam die Vercel toont (bijv. `cname.vercel-dns-0.com`) |
+| A     | `@`   | het IP-adres dat Vercel toont (bij batterijmaatje.nl: `216.198.79.1`) |
+| CNAME | `www` | de hostnaam die Vercel toont, per domein uniek (bijv. `2a491db5428b0710.vercel-dns-017.com.`) |
 
 Verwijder de oude GitHub Pages-records (de vier A-records `185.199.108–111.153` en het
 `www`-CNAME naar `krook88.github.io`).
@@ -74,6 +84,54 @@ Verwijder de oude GitHub Pages-records (de vier A-records `185.199.108–111.153
 DNS-wijzigingen zijn meestal binnen enkele minuten actief; reken op maximaal 24 uur.
 Vercel vraagt automatisch een Let's Encrypt-certificaat aan zodra de records kloppen.
 Controleren kan in **Settings → Domains** (moet "Valid Configuration" tonen).
+
+#### Bij TransIP
+
+1. Bedieningspaneel → **Domein & hosting** → klik op de domeinnaam → tabblad **DNS**.
+2. **Laat de MX-records en de bijbehorende TXT-records (SPF, DKIM, DMARC) staan.** Die
+   regelen de e-mail op het domein (bijvoorbeeld `info@batterijmaatje.nl`). Raak alleen de
+   records aan die naar de website wijzen.
+3. Verwijder de oude GitHub Pages-records:
+   - de vier A-records op `@` met `185.199.108.153`, `185.199.109.153`, `185.199.110.153`
+     en `185.199.111.153`;
+   - het CNAME-record `www` naar `krook88.github.io`.
+4. Voeg toe wat Vercel toont:
+   - **A** · naam `@` · TTL `300` · waarde: het IP-adres uit het Vercel-dashboard;
+   - **CNAME** · naam `www` · TTL `300` · waarde: de hostnaam uit het Vercel-dashboard.
+5. **Let op de punt.** TransIP plakt er anders je eigen domein achter. Vul de CNAME-waarde
+   in als `cname.vercel-dns-0.com.` — mét de punt op het eind. Zonder punt wordt het
+   `cname.vercel-dns-0.com.batterijmaatje.nl` en werkt het niet.
+6. Opslaan. TTL op 300 houdt de omzetting snel; die kun je later terugzetten naar de
+   standaardwaarde.
+
+Draait het domein op een TransIP-webhostingpakket, dan staan de DNS-velden mogelijk op
+slot. Ontkoppel dan eerst het hostingpakket van het domein (of zet de DNS op
+"eigen instellingen") voordat je de records aanpast.
+
+#### E-mail op het domein blijft werken
+
+TransIP zet standaard `@ MX 10 @` neer: mail wordt dan bezorgd op het IP van het
+A-record van het domein. Zodra dat A-record naar Vercel wijst, komt inkomende mail bij
+Vercel terecht en bounct alles, want Vercel doet geen SMTP. Zet het MX-record dus los van
+het A-record:
+
+| Naam | TTL   | Type | Waarde                                  |
+| ---- | ----- | ---- | --------------------------------------- |
+| `@`  | 1 Uur | MX   | `10 mx.transip.email.`                  |
+| `@`  | 1 Uur | TXT  | `v=spf1 include:_spf.transip.email ~all` |
+
+Een SPF-record als `v=spf1 ~all` machtigt niemand om namens het domein te verzenden en
+schaadt de bezorging; vervang die door de include hierboven. De DKIM-records
+(`transip-a/b/c._domainkey` → `_dkim-A/B/C.transip.email.`) en het DMARC-record kunnen
+blijven staan.
+
+Controleer de inkomende mailserver voor je eigen pakket in het TransIP-paneel onder
+**Mail**; gebruikt jouw pakket een andere hostnaam, houd die dan aan. Zorg er ook voor dat
+er daadwerkelijk een mailbox of doorstuuradres bestaat voor het adres dat op de site staat
+(`info@…`), anders bounct mail ondanks kloppende records.
+
+**Gebruik nooit de knop "standaard DNS-instellingen herstellen".** Die zet het A-record
+terug naar TransIP en haalt de site op Vercel offline.
 
 ---
 
