@@ -98,13 +98,29 @@ function veiligVoorKopregel(waarde) {
   return String(waarde).replace(/[\r\n]+/g, " ").trim();
 }
 
+// De omgeving levert de inhoud van het verzoek soms al uitgepakt aan (bij JSON
+// en urlencoded) en soms onbewerkt als Buffer (bij alle andere formaten, zoals
+// multipart). Lukt uitpakken niet, dan geeft deze functie null terug in plaats
+// van een leeg object: anders lijkt een leesfout op een bezoeker die niets
+// invulde, en krijgt hij "vul je naam in" terwijl zijn naam er wel degelijk
+// stond.
 function velden(req) {
   const body = req.body;
-  if (!body) return {};
-  if (typeof body === "string") {
-    try { return JSON.parse(body); } catch { return Object.fromEntries(new URLSearchParams(body)); }
+  if (body == null) return null;
+  if (Buffer.isBuffer(body)) return uitTekst(body.toString("utf8"));
+  if (typeof body === "string") return uitTekst(body);
+  if (typeof body === "object") return body;
+  return null;
+}
+
+function uitTekst(ruw) {
+  const inhoud = String(ruw).trim();
+  if (!inhoud) return null;
+  if (inhoud.startsWith("{")) {
+    try { return JSON.parse(inhoud); } catch { return null; }
   }
-  return body;
+  if (inhoud.includes("=")) return Object.fromEntries(new URLSearchParams(inhoud));
+  return null;
 }
 
 function wilJson(req) {
@@ -129,6 +145,10 @@ module.exports = async function handler(req, res) {
   }
 
   const data = velden(req);
+  if (!data) {
+    console.error("Contactformulier: verzoek niet te lezen, content-type was", req.headers["content-type"]);
+    return antwoord(req, res, 400, `Het formulier kon niet gelezen worden. Probeer het opnieuw, of mail naar ${process.env.CONTACT_AAN || FALLBACK_ADRES}.`);
+  }
 
   // Honingpot: een veld dat onzichtbaar is voor bezoekers maar door veel bots
   // wordt ingevuld. Is het gevuld, dan doen we alsof alles goed ging: een bot
