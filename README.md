@@ -24,6 +24,7 @@ assets/app.js                   Filter-, sorteer- en renderlogica
 assets/rekenmodule.js           Rekenlogica terugverdientijd
 data/batterijen.json            Alle batterijgegevens, prijzen en aanbiedingen
 assets/prijs.js                 Prijsvergelijking: één vergelijkprijs incl. btw
+assets/kaart.js                 Opmaak van een batterijkaart, gedeeld met de generator
 assets/iconen.js                Lijniconen (Lucide), gedeeld met de generator
 api/contact.js                  Serverloze functie achter het contactformulier
 scripts/update-prices.mjs       Dagelijks prijsupdate-script (Node.js)
@@ -33,6 +34,18 @@ vercel.json                     Cache- en beveiligingsheaders voor Vercel
   update-prijzen.yml            Dagelijkse GitHub Action die prijzen ververst
   controleer-links.yml          Wekelijkse controle op kapotte links
 ```
+
+## De vergelijker staat in de HTML
+
+`index.html` bevat de 41 kaarten kant-en-klaar tussen de markeringen
+`<!-- kaarten:begin -->` en `<!-- kaarten:eind -->`. Die worden geschreven door
+`scripts/genereer-batterijpaginas.mjs`, met de opmaak uit `assets/kaart.js` -
+dezelfde module die de browser gebruikt, zodat er geen verschil kan ontstaan.
+Zodra de bezoeker filtert of sorteert neemt `assets/app.js` het over.
+
+Pas je iets aan de kaart aan, doe dat dan in `assets/kaart.js` en draai daarna
+`npm run genereer`. Bewerk de kaarten nooit met de hand in `index.html`: die
+worden bij de eerstvolgende generatie overschreven.
 
 ## Prijzen vergelijkbaar houden
 
@@ -60,7 +73,7 @@ De workflow `update-prijzen.yml` draait elke ochtend en:
 
 1. bezoekt de winkel-URL's uit `data/batterijen.json`;
 2. leest de actuele prijs uit structured data (schema.org JSON-LD), meta-tags of als laatste redmiddel de paginatekst;
-3. accepteert een nieuwe prijs alleen als die plausibel is ten opzichte van de vorige prijs (tussen 40% en 250%);
+3. accepteert een nieuwe prijs alleen als die dicht genoeg bij de vorige ligt (75% tot 125%); grotere sprongen komen in de samenvatting van de run te staan voor een menselijke controle, want die duiden meestal op een andere variant of een prijs excl. btw;
 4. commit de wijzigingen, waarna de site opnieuw wordt gepubliceerd.
 
 Winkels die zich niet automatisch laten uitlezen behouden de laatst bekende prijs. De datum van de laatste succesvolle controle staat per aanbieding in het databestand en per batterij zichtbaar op de site.

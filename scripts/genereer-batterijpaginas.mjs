@@ -17,6 +17,7 @@ import { createRequire } from "node:module";
 const vereis = createRequire(import.meta.url);
 const Prijs = vereis("../assets/prijs.js");
 const Iconen = vereis("../assets/iconen.js");
+const Kaart = vereis("../assets/kaart.js");
 
 // Het merkicoon staat in de kop en de voet van elke pagina.
 const ICOON_LOGO = Iconen.svg("batterij", { klasse: "icoon-groot" });
@@ -746,6 +747,73 @@ console.log(`${VERGELIJKINGEN.length} vergelijkingspagina's gegenereerd in /verg
 /* ------------------------------------------------------------------
    Sitemap herbouwen (vaste pagina's + batterijpagina's)
    ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------
+   De vergelijker voorrenderen in index.html
+
+   De kaarten werden pas in de browser getekend, waardoor de HTML van de
+   homepage alleen "Batterijen laden..." bevatte: geen prijzen, geen
+   modelnamen en geen enkele link naar de 41 batterijpagina's. Zoekmachines
+   voeren JavaScript wel uit, maar later en minder betrouwbaar, en interne
+   links bepalen mede hoe goed die pagina's gevonden worden.
+
+   Daarom zet de generator de kaarten hier kant-en-klaar tussen de markeringen
+   in index.html. De opmaak komt uit assets/kaart.js, dezelfde module die de
+   browser gebruikt, dus er kan geen verschil ontstaan. Zodra de bezoeker gaat
+   filteren of sorteren neemt app.js het over.
+   ------------------------------------------------------------------ */
+
+const BEGIN = "<!-- kaarten:begin -->";
+const EIND = "<!-- kaarten:eind -->";
+
+const gesorteerdeBatterijen = Kaart.standaardVolgorde(data.batterijen);
+
+const kaarten = gesorteerdeBatterijen
+  .map((b) => Kaart.kaartHtml(b, { merkLogos: data.merk_logos }))
+  .join("\n");
+
+// ItemList vertelt de zoekmachine dat dit een gerangschikte lijst producten is
+// en welke pagina bij elk item hoort.
+const itemLijst = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Thuisbatterijen vergeleken",
+  description: "Alle vergeleken thuisbatterijen, gerangschikt op prijs per kWh opslag.",
+  numberOfItems: gesorteerdeBatterijen.length,
+  itemListElement: gesorteerdeBatterijen.map((b, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    url: `${SITE}/batterij/${b.id}.html`,
+    name: volledigeNaam(b),
+  })),
+};
+
+let index = readFileSync(resolve(ROOT, "index.html"), "utf8");
+const beginPositie = index.indexOf(BEGIN);
+const eindPositie = index.indexOf(EIND);
+if (beginPositie === -1 || eindPositie === -1) {
+  throw new Error(`index.html mist de markeringen ${BEGIN} en ${EIND}; de kaarten kunnen er niet in gezet worden.`);
+}
+
+index =
+  index.slice(0, beginPositie + BEGIN.length) +
+  "\n" + kaarten + "\n    " +
+  index.slice(eindPositie);
+
+// De lijst-markup vervangen of toevoegen, zodat er nooit twee in de pagina staan
+const LD_BEGIN = '<script type="application/ld+json" data-lijst>';
+const LD_EIND = "</script>";
+const ldBlok = `${LD_BEGIN}\n${JSON.stringify(itemLijst, null, 2)}\n  ${LD_EIND}`;
+if (index.includes(LD_BEGIN)) {
+  const a = index.indexOf(LD_BEGIN);
+  const b = index.indexOf(LD_EIND, a) + LD_EIND.length;
+  index = index.slice(0, a) + ldBlok + index.slice(b);
+} else {
+  index = index.replace("</head>", `  ${ldBlok}\n</head>`);
+}
+
+writeFileSync(resolve(ROOT, "index.html"), index, "utf8");
+console.log(`index.html: ${gesorteerdeBatterijen.length} kaarten voorgerenderd en ItemList bijgewerkt`);
 
 const vast = [
   { loc: `${SITE}/`, freq: "daily", prio: "1.0" },
