@@ -14,7 +14,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 1299,
       "prijs_omvat": "incl. btw en P1-meter, zelf te installeren",
-      "prijs_datum": "2026-07-13",
+      "prijs_datum": "2026-07-27",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Werkt met elk bestaand zonnepanelensysteem en elke omvormer: de meegeleverde P1-meter meet je overschot en de batterij laadt daarop. Via het stopcontact max. 800 W terugleveren, tot 2,5 kW bij vaste aansluiting op een aparte groep.",
       "koppeling_gemak": 5,
@@ -35,10 +35,11 @@
         },
         {
           "winkel": "bol.com",
-          "prijs_eur": 1299,
+          "prijs_eur": 1300,
           "url": "https://www.bol.com/nl/nl/p/marstek-venus-e-3-0-5-12kwh-plug-play-thuisbatterij-via-230v-stopcontact/9300000240523865/",
           "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fmarstek-venus-e-3-0-5-12kwh-plug-play-thuisbatterij-via-230v-stopcontact%2F9300000240523865%2F&name=marstek-venus-e-3&subid=batterijmaatje",
-          "datum": null
+          "datum": "2026-07-27",
+          "ean": "9507399321460"
         },
         {
           "winkel": "Thuisbatterij.nl",
@@ -194,7 +195,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 849,
       "prijs_omvat": "incl. btw, zelf te installeren",
-      "prijs_datum": "2026-07-13",
+      "prijs_datum": "2026-07-27",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Gaat in het stopcontact en meet het huisverbruik in combinatie met de slimme meter; levert max. 800 W terug. Werkt naast elk bestaand zonnepanelensysteem (geen directe paneel-aansluiting op dit model).",
       "koppeling_gemak": 4,
@@ -209,10 +210,11 @@
       "aanbiedingen": [
         {
           "winkel": "bol.com",
-          "prijs_eur": 729,
+          "prijs_eur": 749,
           "url": "https://www.bol.com/nl/nl/p/ecoflow-stream-ac-pro-thuisbatterij/9300000232241116/",
-          "datum": "2026-07-13",
-          "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fecoflow-stream-ac-pro-thuisbatterij%2F9300000232241116%2F&name=ecoflow-stream-ac-pro&subid=batterijmaatje"
+          "datum": "2026-07-27",
+          "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fecoflow-stream-ac-pro-thuisbatterij%2F9300000232241116%2F&name=ecoflow-stream-ac-pro&subid=batterijmaatje",
+          "ean": "4895251643849"
         }
       ],
       "totaalprijs_van_eur": 729,
@@ -234,7 +236,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 1199,
       "prijs_omvat": "incl. btw, zelf te installeren",
-      "prijs_datum": "2026-07-13",
+      "prijs_datum": "2026-07-27",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Twee smaken: 4 MPPT-ingangen (tot 3.600 W) voor direct aangesloten panelen (balkon of klein dak) én AC-teruglevering tot 800 W via het stopcontact naast een bestaand systeem, gestuurd via slimme meter-koppeling in de app.",
       "koppeling_gemak": 4,
@@ -251,8 +253,9 @@
           "winkel": "bol.com",
           "prijs_eur": 1099,
           "url": "https://www.bol.com/nl/nl/p/anker-solix-solarbank-3-e2700-pro-2-688wh-thuisbatterij-voor-zonnepanelen-thuisbatterij-met-stekker-plug-and-play/9300000233342584/",
-          "datum": "2026-07-13",
-          "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fanker-solix-solarbank-3-e2700-pro-2-688wh-thuisbatterij-voor-zonnepanelen-thuisbatterij-met-stekker-plug-and-play%2F9300000233342584%2F&name=anker-solix-solarbank-3-pro&subid=batterijmaatje"
+          "datum": "2026-07-27",
+          "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fanker-solix-solarbank-3-e2700-pro-2-688wh-thuisbatterij-voor-zonnepanelen-thuisbatterij-met-stekker-plug-and-play%2F9300000233342584%2F&name=anker-solix-solarbank-3-pro&subid=batterijmaatje",
+          "ean": "0194644233945"
         }
       ],
       "totaalprijs_van_eur": 1099,
@@ -293,7 +296,8 @@
           "prijs_eur": 850,
           "url": "https://www.bol.com/nl/nl/p/zendure-solarflow-ab2000x-thuisbatterij-hyper-2000-omvormer/9300000243337538/",
           "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fzendure-solarflow-ab2000x-thuisbatterij-hyper-2000-omvormer%2F9300000243337538%2F&name=zendure-solarflow-hyper-2000&subid=batterijmaatje",
-          "datum": null
+          "datum": null,
+          "ean": "7440847461436"
         }
       ],
       "totaalprijs_van_eur": 850,
@@ -880,7 +884,8 @@
           "prijs_eur": 669,
           "url": "https://www.bol.com/nl/nl/p/jackery-homepower-2000-ultra-thuisbatterij-2-kwh-plug-in-lifepo4-1500w-noodstroom-uitbreidbaar-tot-8-kwh-ip65/9300000258671106/",
           "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fjackery-homepower-2000-ultra-thuisbatterij-2-kwh-plug-in-lifepo4-1500w-noodstroom-uitbreidbaar-tot-8-kwh-ip65%2F9300000258671106%2F&name=jackery-homepower-2000-ultra&subid=batterijmaatje",
-          "datum": null
+          "datum": null,
+          "ean": "6958657302128"
         }
       ],
       "totaalprijs_van_eur": 669,
@@ -1058,7 +1063,8 @@
           "prijs_eur": 4566,
           "url": "https://www.bol.com/nl/nl/p/saj-h2-5k-s2-10kwh-alles-in-een-oplossing/9300000150679949/",
           "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fsaj-h2-5k-s2-10kwh-alles-in-een-oplossing%2F9300000150679949%2F&name=saj-h2-5k-s2-10kwh&subid=batterijmaatje",
-          "datum": null
+          "datum": null,
+          "ean": "6096224278213"
         }
       ],
       "totaalprijs_van_eur": null,
