@@ -75,6 +75,29 @@ DNS-wijzigingen zijn meestal binnen enkele minuten actief; reken op maximaal 24 
 Vercel vraagt automatisch een Let's Encrypt-certificaat aan zodra de records kloppen.
 Controleren kan in **Settings → Domains** (moet "Valid Configuration" tonen).
 
+#### Bij TransIP
+
+1. Bedieningspaneel → **Domein & hosting** → klik op de domeinnaam → tabblad **DNS**.
+2. **Laat de MX-records en de bijbehorende TXT-records (SPF, DKIM, DMARC) staan.** Die
+   regelen de e-mail op het domein (bijvoorbeeld `info@batterijmaatje.nl`). Raak alleen de
+   records aan die naar de website wijzen.
+3. Verwijder de oude GitHub Pages-records:
+   - de vier A-records op `@` met `185.199.108.153`, `185.199.109.153`, `185.199.110.153`
+     en `185.199.111.153`;
+   - het CNAME-record `www` naar `krook88.github.io`.
+4. Voeg toe wat Vercel toont:
+   - **A** · naam `@` · TTL `300` · waarde: het IP-adres uit het Vercel-dashboard;
+   - **CNAME** · naam `www` · TTL `300` · waarde: de hostnaam uit het Vercel-dashboard.
+5. **Let op de punt.** TransIP plakt er anders je eigen domein achter. Vul de CNAME-waarde
+   in als `cname.vercel-dns-0.com.` — mét de punt op het eind. Zonder punt wordt het
+   `cname.vercel-dns-0.com.batterijmaatje.nl` en werkt het niet.
+6. Opslaan. TTL op 300 houdt de omzetting snel; die kun je later terugzetten naar de
+   standaardwaarde.
+
+Draait het domein op een TransIP-webhostingpakket, dan staan de DNS-velden mogelijk op
+slot. Ontkoppel dan eerst het hostingpakket van het domein (of zet de DNS op
+"eigen instellingen") voordat je de records aanpast.
+
 ---
 
 ## 3. Dev-omgeving
