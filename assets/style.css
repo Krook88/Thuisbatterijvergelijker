@@ -1100,3 +1100,113 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 .formulier-status.mislukt { color: var(--kleur-rood); }
 
 .formulier-voetnoot { margin-top: 16px; }
+
+/* --------------------------------------------------------------------------
+   Zoekbalk
+
+   Staat bewust bóven de filterknop en niet erin: op mobiel is de filterbalk
+   standaard ingeklapt, en juist wie een offerte naast zich heeft wil meteen
+   een modelnaam kunnen intypen.
+   -------------------------------------------------------------------------- */
+
+.zoekbalk {
+  position: relative;
+  margin: 18px 0 10px;
+}
+
+.zoekbalk .zoek-icoon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.15em;
+  height: 1.15em;
+  color: var(--kleur-tekst-licht);
+  pointer-events: none;
+}
+
+.zoekbalk input {
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 16px 12px 44px;
+  border: 1px solid var(--kleur-rand);
+  border-radius: 999px;
+  background: var(--kleur-wit);
+  font: inherit;
+  color: inherit;
+  box-shadow: var(--schaduw);
+}
+
+.zoekbalk input::placeholder { color: var(--kleur-tekst-licht); }
+
+.zoekbalk input:focus-visible {
+  outline: 2px solid var(--kleur-primair);
+  outline-offset: 1px;
+  border-color: var(--kleur-primair);
+}
+
+/* --------------------------------------------------------------------------
+   Aanraakdoelen op een telefoon
+
+   Een vinger is grover dan een muisaanwijzer: onder de 44 pixels wordt tikken
+   mikken. Dit geldt alleen op aanraakschermen, zodat de knoppen op een
+   desktop compact kunnen blijven.
+   -------------------------------------------------------------------------- */
+
+@media (pointer: coarse) {
+  .knop,
+  .filter-toggle,
+  .details-toggle,
+  .filter-reset,
+  .weergave-knoppen button,
+  .filterbalk select,
+  .hoofdnav a,
+  .hoofdnav details.nav-meer summary {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* De modelnaam is de belangrijkste link op een kaart; die mag niet zo'n
+     dunne strook zijn als de regelhoogte van de tekst. */
+  .kaart-kop h3 a {
+    display: inline-block;
+    padding: 9px 0;
+  }
+
+  /* Uitklappers ("Lees verder", de legenda) zijn ook knoppen om aan te tikken */
+  .lees-meer summary,
+  .legenda summary,
+  .faq-item summary {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Het vinkje om te vergelijken is klein; het label eromheen wordt de knop. */
+  .vergelijk-checkbox-wrap label {
+    min-height: 44px;
+    padding-left: 12px;
+    padding-right: 14px;
+  }
+  .vergelijk-checkbox-wrap input {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Voetlinks staan in een lopende regel; op een telefoon krijgen ze lucht
+     zodat je niet de verkeerde raakt. */
+  .site-footer a {
+    display: inline-block;
+    padding: 11px 2px;
+  }
+
+  /* Het typelabel op een kaart ("Plug-in", "Hybride omvormer") is een link naar
+     de woordenlijst en dus iets om aan te tikken. */
+  .kaart-kop .term-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
