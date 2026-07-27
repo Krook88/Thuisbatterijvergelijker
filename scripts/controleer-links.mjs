@@ -115,13 +115,19 @@ function externeLinks() {
     if (!bronnen.has(url)) bronnen.set(url, herkomst);
   };
 
+  // Winkel-URL's staan niet alleen in de data maar ook in de batterijpagina's
+  // die daaruit gegenereerd worden. Ze moeten dus op beide plekken overgeslagen
+  // worden, anders haalt de HTML-scan ze alsnog op.
+  const winkelUrls = new Set();
+
   const batterijen = JSON.parse(readFileSync(resolve(ROOT, "data/batterijen.json"), "utf8"));
   for (const b of batterijen.batterijen || []) {
     if (b.product_url) noteer(b.product_url, `${b.id} (fabrikant)`);
-    if (ZONDER_WINKELS) continue; // de prijsupdate bezoekt deze pagina's al dagelijks
     for (const a of b.aanbiedingen || []) {
-      if (a.url) noteer(a.url, `${b.id} @ ${a.winkel}`);
-      if (a.affiliate_url) noteer(a.affiliate_url, `${b.id} @ ${a.winkel} (commissielink)`);
+      for (const url of [a.url, a.affiliate_url].filter(Boolean)) {
+        if (ZONDER_WINKELS) { winkelUrls.add(url); continue; } // de prijsupdate bezoekt deze al dagelijks
+        noteer(url, `${b.id} @ ${a.winkel}${url === a.affiliate_url ? " (commissielink)" : ""}`);
+      }
     }
   }
 
@@ -133,7 +139,7 @@ function externeLinks() {
   for (const bestand of htmlBestanden()) {
     const kort = bestand.replace(ROOT + "/", "");
     for (const ruw of verwijzingen(readFileSync(bestand, "utf8"))) {
-      if (/^https?:/i.test(ruw)) noteer(ruw, kort);
+      if (/^https?:/i.test(ruw) && !winkelUrls.has(ruw)) noteer(ruw, kort);
     }
   }
 
