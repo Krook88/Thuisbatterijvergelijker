@@ -48,34 +48,16 @@
     return (a && (a.affiliate_url || a.url)) || "";
   }
 
-  function bestePrijs(b) {
-    const aanbiedingen = (b.aanbiedingen || []).filter((a) => a && a.prijs_eur);
-    if (aanbiedingen.length) {
-      return aanbiedingen.reduce((min, a) => (a.prijs_eur < min.prijs_eur ? a : min));
-    }
-    if (b.richtprijs_eur) {
-      return { winkel: b.prijs_bron || "richtprijs", prijs_eur: b.richtprijs_eur, url: b.product_url };
-    }
-    return null;
-  }
+  // Alle prijsvergelijking loopt via assets/prijs.js, zodat de vergelijker, de
+  // keuzehulp, de rekenmodule en de batterijpagina's dezelfde bedragen tonen.
+  const bestePrijs = Prijs.beste;
+  const heeftKorting = Prijs.heeftKorting;
+  const prijsPerKwh = Prijs.prijsPerKwh;
 
-  function heeftKorting(b) {
-    const beste = bestePrijs(b);
-    return !!(beste && b.richtprijs_eur && beste.prijs_eur < b.richtprijs_eur * 0.97);
-  }
-
-  // Prijzen die excl. btw gelden worden voor de kWh-vergelijking (en de
-  // sortering daarop) omgerekend naar incl. btw, anders vergelijk je kale
-  // modules met complete consumentenprijzen.
-  function exclBtw(b) {
-    return /excl\.? btw/i.test(b.prijs_omvat || "");
-  }
-
-  function prijsPerKwh(b) {
-    const beste = bestePrijs(b);
-    if (!beste || !b.capaciteit_kwh) return null;
-    const prijs = exclBtw(b) ? beste.prijs_eur * 1.21 : beste.prijs_eur;
-    return Math.round(prijs / b.capaciteit_kwh);
+  // Het bedrag waarop gesorteerd en gefilterd wordt: altijd incl. btw.
+  function vergelijkPrijs(b) {
+    const prijs = Prijs.vergelijkPrijs(bestePrijs(b));
+    return prijs === null ? Infinity : prijs;
   }
 
   function totaalprijsTekst(b) {
@@ -163,7 +145,7 @@
 
   function gesorteerd(lijst) {
     const kopie = [...lijst];
-    const prijsVan = (b) => { const p = bestePrijs(b); return p ? p.prijs_eur : Infinity; };
+    const prijsVan = vergelijkPrijs;
     switch (state.sortering) {
       case "prijs-oplopend": kopie.sort((a, b) => prijsVan(a) - prijsVan(b)); break;
       case "totaalprijs": kopie.sort((a, b) => (a.totaalprijs_van_eur || Infinity) - (b.totaalprijs_van_eur || Infinity)); break;
@@ -200,25 +182,26 @@
   function koppelScoreBadge(b) {
     const score = koppelScore(b);
     const klasse = score >= 5 ? "koppel-hoog" : score >= 3 ? "koppel-midden" : "koppel-laag";
-    return `<span class="badge koppel-score ${klasse}" title="Koppel-score ${score} van 6: punten voor samenwerking met Homey, Home Assistant en een dynamisch energiecontract (2 punten per volledige, 1 per gedeeltelijke ondersteuning). Tik voor de details.">🔗 Koppel-score ${score}/6</span>`;
+    return `<span class="badge koppel-score ${klasse}" title="Koppel-score ${score} van 6: punten voor samenwerking met Homey, Home Assistant en een dynamisch energiecontract (2 punten per volledige, 1 per gedeeltelijke ondersteuning). Tik voor de details.">${Iconen.svg("koppeling")} Koppel-score ${score}/6</span>`;
   }
 
   function badgeHtml(label, waarde, titelJa, titelDeels) {
     const d = driewaardig(waarde);
-    const icoon = d.status === "ja" ? "✓" : d.status === "deels" ? "~" : "✕";
+    const icoon = Iconen.svg(d.status === "ja" ? "ja" : d.status === "deels" ? "deels" : "nee");
     const titel = d.status === "deels" ? d.tekst : d.status === "ja" ? (titelJa || "Ondersteund") : "Niet ondersteund";
     return `<span class="badge ${d.status}" data-uitleg="${escapeHtml(label)}" title="${escapeHtml(titel)}">${icoon} ${escapeHtml(label)}</span>`;
   }
 
   function noodstroomBadge(b) {
     const d = vierwaardig(b.noodstroom);
-    const icoon = { ja: "✓", deels: "~", nee: "✕", onbekend: "?" }[d.status];
+    const icoon = Iconen.svg({ ja: "ja", deels: "deels", nee: "nee", onbekend: "onbekend" }[d.status]);
     return `<span class="badge ${d.status}" data-uitleg="Noodstroom" title="${escapeHtml(b.noodstroom_uitleg || d.tekst)}">${icoon} Noodstroom</span>`;
   }
 
   function sterren(score) {
     const s = Math.max(0, Math.min(5, Math.round(score || 0)));
-    return "★".repeat(s) + "☆".repeat(5 - s);
+    const ster = (gevuld) => Iconen.svg("ster", { gevuld });
+    return `<span class="sterren-rij" role="img" aria-label="${s} van 5 sterren">${ster(true).repeat(s)}${ster(false).repeat(5 - s)}</span>`;
   }
 
   function escapeHtml(str) {
@@ -240,6 +223,11 @@
     const beste = bestePrijs(b);
     const korting = heeftKorting(b);
     const perKwh = prijsPerKwh(b);
+    // De prijs die groot in beeld komt is de vergelijkprijs incl. btw. Wijkt die
+    // af van wat de winkel toont, dan staat de winkelprijs er zichtbaar bij.
+    const vergelijk = Prijs.vergelijkPrijs(beste);
+    const omgerekend = Prijs.isOmgerekend(beste);
+    const vanPrijs = Prijs.vanPrijs(b);
     // Prijzen excl. btw/installatie krijgen een nadrukkelijker waarschuwing,
     // zodat de kale winkelprijs geen verkeerd prijsbeeld geeft
     const exclPrijs = /excl/i.test(b.prijs_omvat || "");
@@ -272,7 +260,7 @@
         <div class="spec"><span class="spec-label">Garantie</span><span class="spec-waarde">${b.garantie_jaar ? b.garantie_jaar + " jaar" : "Onbekend"}</span></div>
       </div>
       <div class="koppelgemak" title="Aansluitgemak: hoe makkelijk sluit je deze batterij aan op je bestaande zonnepanelensysteem? 5 sterren = plug &amp; play.">
-        <span class="spec-label" style="font-size:0.75rem;color:var(--kleur-tekst-licht);font-weight:600;text-transform:uppercase;">Aansluitgemak op je zonnepanelen</span><br>
+        <span class="spec-label">Aansluitgemak op je zonnepanelen</span><br>
         <span class="sterren">${sterren(b.koppeling_gemak)}</span>
         <div class="uitleg">${escapeHtml(b.zonnepanelen_koppeling || "")}</div>
       </div>
@@ -293,26 +281,28 @@
         ${b.cycli ? `<dt>Laadcycli (garantie)</dt><dd>${escapeHtml(String(b.cycli))}</dd>` : ""}
         ${b.fase ? `<dt>Aansluiting</dt><dd>${escapeHtml(b.fase)}</dd>` : ""}
         ${b.app ? `<dt>App</dt><dd>${escapeHtml(b.app)}</dd>` : ""}
-        ${(b.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${b.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${eurFmt.format(a.prijs_eur)}</b> &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul></dd>` : ""}
+        ${(b.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${b.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${eurFmt.format(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""}${a.omvat ? ` <small>${escapeHtml(a.omvat)}</small>` : ""} &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul></dd>` : ""}
         ${b.product_url ? `<dt>Fabrikant</dt><dd><a href="${escapeHtml(b.product_url)}" target="_blank" rel="noopener">officiële productpagina</a></dd>` : ""}
         ${b.prijs_datum ? `<dd class="datum-stempel" style="margin-top:8px;">Prijs gecontroleerd: ${escapeHtml(datumNL(b.prijs_datum))}</dd>` : ""}
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
-          ${korting ? `<div class="van-prijs">${eurFmt.format(b.richtprijs_eur)}</div>` : ""}
-          <div class="prijs">${beste ? eurFmt.format(beste.prijs_eur) : "Prijs op aanvraag"}</div>
-          ${perKwh ? `<div class="prijs-per-kwh">${eurFmt.format(perKwh)} per kWh opslag${exclPrijs ? " <small>(omgerekend incl. btw)</small>" : ""}</div>` : ""}
+          ${vanPrijs ? `<div class="van-prijs">${eurFmt.format(vanPrijs)}</div>` : ""}
+          <div class="prijs">${vergelijk !== null ? eurFmt.format(vergelijk) : "Prijs op aanvraag"}</div>
+          ${perKwh ? `<div class="prijs-per-kwh">${eurFmt.format(perKwh)} per kWh opslag</div>` : ""}
           ${beste && beste.winkel ? `<div class="prijs-winkel">bij ${escapeHtml(beste.winkel)}</div>` : ""}
-          ${b.prijs_omvat ? `<div class="prijs-winkel"${exclPrijs ? ' style="color:var(--kleur-accent-donker);font-weight:700;"' : ""}>${exclPrijs ? "⚠ " : ""}${escapeHtml(b.prijs_omvat)}</div>` : ""}
+          ${omgerekend ? `<div class="prijs-let-op">De winkel toont ${eurFmt.format(beste.prijs_eur)} <b>excl. btw</b>. Hierboven staat het bedrag incl. btw, zodat het te vergelijken is met de andere batterijen.</div>` : ""}
+          ${beste && beste.omvat && b.richtprijs_eur ? `<div class="prijs-let-op">Deze winkelprijs is <b>${escapeHtml(beste.omvat)}</b>; de richtprijs van ${eurFmt.format(b.richtprijs_eur)} dekt meer. Het verschil is dus geen korting.</div>` : ""}
+          ${b.prijs_omvat ? `<div class="prijs-winkel prijs-dekt">${escapeHtml(b.prijs_omvat)}</div>` : ""}
           <div class="prijs-winkel" style="margin-top:6px;border-top:1px dashed var(--kleur-rand);padding-top:6px;${exclPrijs ? "font-size:0.95rem;color:var(--kleur-tekst);" : ""}" title="${escapeHtml(b.totaalprijs_toelichting || "")}">
             ${beste && b.totaalprijs_van_eur === beste.prijs_eur && !b.totaalprijs_tot_eur
-              ? "✓ Dit is de complete prijs, gebruiksklaar"
+              ? `${Iconen.svg("ja")} Dit is de complete prijs, gebruiksklaar`
               : `Compleet gebruiksklaar (indicatie): <b>${totaalprijsTekst(b) || "op aanvraag"}</b>`}
           </div>
         </div>
       </div>
       <div class="kaart-acties">
-        ${beste && beste.url ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))} bij ${escapeHtml(beste.winkel || "de winkel")}">Bekijk aanbieding →</a>` : (b.product_url ? `<a class="knop" href="${escapeHtml(b.product_url)}" target="_blank" rel="noopener" aria-label="Naar de aanbieder van de ${escapeHtml(naamVan(b))}">Naar aanbieder →</a>` : "")}
+        ${beste && beste.url ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))} bij ${escapeHtml(beste.winkel || "de winkel")}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>` : (b.product_url ? `<a class="knop" href="${escapeHtml(b.product_url)}" target="_blank" rel="noopener" aria-label="Naar de aanbieder van de ${escapeHtml(naamVan(b))}">Naar aanbieder ${Iconen.svg("pijl-rechts")}</a>` : "")}
         <a class="knop knop-secundair" href="rekenmodule.html?batterij=${encodeURIComponent(b.id)}" title="Bereken de terugverdientijd van deze batterij voor jouw situatie" aria-label="Bereken de terugverdientijd van de ${escapeHtml(naamVan(b))}">Terugverdientijd</a>
       </div>
       ${beste && beste.affiliate_url ? `<div class="datum-stempel" style="padding:0 20px 12px;">Dit is een commissielink: kost jou niets, beïnvloedt de vergelijking niet. <a href="over-ons.html">Uitleg</a></div>` : ""}
@@ -328,7 +318,7 @@
     { key: "capaciteit", label: "kWh", get: (b) => b.capaciteit_kwh || 0 },
     { key: "vermogen", label: "kW", get: (b) => b.vermogen_kw || 0 },
     { key: "type", label: "Type", get: (b) => b.type },
-    { key: "prijs", label: "Winkelprijs", get: (b) => { const p = bestePrijs(b); return p ? p.prijs_eur : Infinity; } },
+    { key: "prijs", label: "Prijs incl. btw", get: vergelijkPrijs },
     { key: "totaal", label: "Totaal (indicatie)", get: (b) => b.totaalprijs_van_eur || Infinity },
     { key: "perkwh", label: "€/kWh", get: (b) => prijsPerKwh(b) || Infinity },
     { key: "koppeling", label: "PV-koppeling", get: (b) => b.koppeling_gemak || 0 },
@@ -350,13 +340,13 @@
     }
     const checkCel = (v) => {
       const d = driewaardig(v);
-      if (d.status === "ja") return '<span class="check-ja">✓</span>';
+      if (d.status === "ja") return `<span class="check-ja">${Iconen.svg("ja")}</span>`;
       if (d.status === "deels") return `<span class="check-deels" title="${escapeHtml(d.tekst)}">~</span>`;
-      return '<span class="check-nee">✕</span>';
+      return `<span class="check-nee">${Iconen.svg("nee")}</span>`;
     };
     return `
     <table class="vergelijk-tabel">
-      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}">${k.label}${k.key !== "actie" ? ' <span class="sorteer-pijl">⇅</span>' : ""}</th>`).join("")}</tr></thead>
+      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}">${k.label}${k.key !== "actie" ? ' <span class="sorteer-pijl">${Iconen.svg("chevron")}</span>' : ""}</th>`).join("")}</tr></thead>
       <tbody>
         ${rijen.map((b) => {
           const beste = bestePrijs(b);
@@ -366,14 +356,14 @@
             <td>${b.capaciteit_kwh ? String(b.capaciteit_kwh).replace(".", ",") : "?"}</td>
             <td>${b.vermogen_kw ? String(b.vermogen_kw).replace(".", ",") : "?"}</td>
             <td>${escapeHtml(b.type)}</td>
-            <td class="tabel-prijs" title="${escapeHtml(b.prijs_omvat || "")}">${beste ? eurFmt.format(beste.prijs_eur) : "n.b."}${heeftKorting(b) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
+            <td class="tabel-prijs" title="${escapeHtml([b.prijs_omvat, Prijs.prijsToelichting(beste)].filter(Boolean).join(" | "))}">${Prijs.vergelijkPrijs(beste) !== null ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "n.b."}${heeftKorting(b) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
             <td title="${escapeHtml(b.totaalprijs_toelichting || "")}">${totaalprijsTekst(b) || "op aanvraag"}</td>
             <td>${perKwh ? eurFmt.format(perKwh) : "n.b."}</td>
             <td title="${escapeHtml(b.zonnepanelen_koppeling || "")}"><span class="sterren" style="color:var(--kleur-accent)">${sterren(b.koppeling_gemak)}</span></td>
             <td title="Punten voor Homey, Home Assistant en dynamisch contract"><b>${koppelScore(b)}/6</b></td>
             <td>${checkCel(b.homey)}</td>
             <td>${checkCel(b.home_assistant)}</td>
-            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:0.85rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))}">Bekijk →</a>` : ""}</td>
+            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:0.85rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
           </tr>`;
         }).join("")}
       </tbody>
@@ -387,7 +377,7 @@
   function vergelijkModalHtml(items) {
     // Eerste kolom sticky, zodat de labels leesbaar blijven bij horizontaal scrollen op een telefoon
     const rij = (label, fn) => `<tr><th style="text-align:left;padding:8px 10px;background:var(--kleur-achtergrond);white-space:nowrap;position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">${label}</th>${items.map((b) => `<td style="padding:8px 10px;border-bottom:1px solid var(--kleur-rand);">${fn(b)}</td>`).join("")}</tr>`;
-    const d3 = (v) => { const d = driewaardig(v); return d.status === "nee" ? "✕ Nee" : d.status === "deels" ? `~ ${escapeHtml(d.tekst)}` : `✓ ${escapeHtml(d.tekst)}`; };
+    const d3 = (v) => { const d = driewaardig(v); return d.status === "nee" ? `${Iconen.svg("nee")} Nee` : d.status === "deels" ? `${Iconen.svg("deels")} ${escapeHtml(d.tekst)}` : `${Iconen.svg("ja")} ${escapeHtml(d.tekst)}`; };
     return `
       <h2>Vergelijking</h2>
       <div style="overflow-x:auto;">
@@ -396,7 +386,12 @@
         ${rij("Type", (b) => escapeHtml(b.type))}
         ${rij("Capaciteit", (b) => (b.capaciteit_kwh ? String(b.capaciteit_kwh).replace(".", ",") + " kWh" : "?") + (b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${String(b.uitbreidbaar_tot_kwh).replace(".", ",")} kWh)` : ""))}
         ${rij("Vermogen", (b) => (b.vermogen_kw ? String(b.vermogen_kw).replace(".", ",") + " kW" : "?"))}
-        ${rij("Beste winkelprijs", (b) => { const p = bestePrijs(b); return p ? `<b>${eurFmt.format(p.prijs_eur)}</b> bij ${escapeHtml(p.winkel || "")}` : "n.b."; })}
+        ${rij("Beste prijs incl. btw", (b) => {
+          const p = bestePrijs(b);
+          if (!p) return "n.b.";
+          const toelichting = Prijs.prijsToelichting(p);
+          return `<b>${eurFmt.format(Prijs.vergelijkPrijs(p))}</b> bij ${escapeHtml(p.winkel || "")}${toelichting ? `<br><small>${escapeHtml(toelichting)}</small>` : ""}`;
+        })}
         ${rij("Compleet gebruiksklaar (indicatie)", (b) => `${totaalprijsTekst(b) || "op aanvraag"}<br><small>${escapeHtml(b.totaalprijs_toelichting || "")}</small>`)}
         ${rij("Prijs per kWh", (b) => { const p = prijsPerKwh(b); return p ? eurFmt.format(p) : "n.b."; })}
         ${rij("Prijs dekt", (b) => `<small>${escapeHtml(b.prijs_omvat || "")}</small>`)}
@@ -408,7 +403,7 @@
         ${rij("Dynamisch contract", (b) => d3(b.dynamisch_contract))}
         ${rij("Beschermingsgraad (IP)", (b) => b.ip_klasse ? `${escapeHtml(b.ip_klasse)}${b.buiten_toelichting ? `<br><small>${escapeHtml(b.buiten_toelichting)}</small>` : ""}` : "?")}
         ${rij("Garantie", (b) => (b.garantie_jaar ? b.garantie_jaar + " jaar" : "?"))}
-        ${rij("", (b) => { const p = bestePrijs(b); return p && p.url ? `<a class="knop" href="${escapeHtml(koopUrl(p))}" target="_blank" rel="noopener${p.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding →</a>` : ""; })}
+        ${rij("", (b) => { const p = bestePrijs(b); return p && p.url ? `<a class="knop" href="${escapeHtml(koopUrl(p))}" target="_blank" rel="noopener${p.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>` : ""; })}
       </table>
       </div>`;
   }
@@ -468,7 +463,7 @@
       filterToggle.addEventListener("click", () => {
         const balk = el("filterbalk");
         const ingeklapt = balk.classList.toggle("ingeklapt");
-        filterToggle.textContent = ingeklapt ? "🔍 Filteren en sorteren ▾" : "🔍 Filteren en sorteren ▴";
+        filterToggle.innerHTML = `${Iconen.svg("filter")} Filteren en sorteren ${Iconen.svg("chevron", { klasse: ingeklapt ? "" : "gedraaid" })}`;
       });
     }
 
