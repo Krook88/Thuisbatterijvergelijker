@@ -1,6 +1,6 @@
 # 🔋 Batterijmaatje.nl
 
-Een gebruiksvriendelijke, statische vergelijkingssite voor thuisbatterijen op de Nederlandse markt. Gebouwd voor GitHub Pages: geen build-stap, geen server nodig.
+Een gebruiksvriendelijke, statische vergelijkingssite voor thuisbatterijen op de Nederlandse markt. Draait op Vercel: geen build-stap, geen server nodig.
 
 ## Wat kan de site?
 
@@ -24,23 +24,20 @@ assets/app.js                   Filter-, sorteer- en renderlogica
 assets/rekenmodule.js           Rekenlogica terugverdientijd
 data/batterijen.json            Alle batterijgegevens, prijzen en aanbiedingen
 scripts/update-prices.mjs       Dagelijks prijsupdate-script (Node.js)
+vercel.json                     Cache- en beveiligingsheaders voor Vercel
 .github/workflows/
   update-prijzen.yml            Dagelijkse GitHub Action die prijzen ververst
-  deploy-pages.yml              Publicatie naar GitHub Pages
 ```
 
 ## Publiceren
 
-De site draait zonder build-stap en kan zowel op Vercel als op GitHub Pages staan.
-Voor de overstap naar Vercel en het koppelen van `batterijmaatje.nl`: zie
-[VERCEL-DEPLOY.md](VERCEL-DEPLOY.md). De headers voor Vercel staan in `vercel.json`.
+De site staat op Vercel en is gekoppeld aan deze repository: elke push naar de
+productiebranch levert automatisch een nieuwe versie op `https://batterijmaatje.nl/`.
+Andere branches krijgen een preview-URL die als testomgeving dient.
 
-## GitHub Pages activeren
-
-1. Ga in de repository naar **Settings → Pages**.
-2. Kies bij **Build and deployment** de bron **GitHub Actions**.
-3. Merge deze branch naar `main` (of pas de branchnaam in `deploy-pages.yml` aan).
-4. Na de eerste run van de workflow "Publiceren naar GitHub Pages" staat de site live op `https://batterijmaatje.nl/`.
+Cache- en beveiligingsheaders staan in `vercel.json`. Het opzetten van een project, het
+koppelen van een domein en de bijbehorende DNS-stappen staan in
+[VERCEL-DEPLOY.md](VERCEL-DEPLOY.md).
 
 ## Dagelijkse prijsupdate
 

@@ -49,12 +49,7 @@ jobs:
             echo "gewijzigd=true" >> "$GITHUB_OUTPUT"
           fi
 
-      # Een push met het standaard GITHUB_TOKEN start uit zichzelf geen andere
-      # workflows (beveiliging tegen kettingreacties). Daarom starten we de
-      # publicatie naar de website hier expliciet; workflow_dispatch is daarvan
-      # uitgezonderd.
-      - name: Publicatie naar de website starten
-        if: steps.commit.outputs.gewijzigd == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run deploy-pages.yml --ref "${{ github.ref_name }}"
+      # Publiceren gebeurt door Vercel: de Git-integratie luistert naar de push
+      # hierboven en bouwt de site opnieuw. De beperking dat een push met het
+      # standaard GITHUB_TOKEN geen andere workflows start, geldt alleen binnen
+      # GitHub Actions en dus niet voor Vercel. Er is hier geen extra stap nodig.
