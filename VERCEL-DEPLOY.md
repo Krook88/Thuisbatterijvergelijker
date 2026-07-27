@@ -176,36 +176,50 @@ Met Vercel krijg je dat gratis:
 
 ## 5. Contactformulier instellen
 
-Het formulier op `contact.html` post naar `api/contact.js`, een serverloze functie
-die Vercel automatisch oppakt omdat het bestand in de map `api/` staat. Er is geen
-build-stap voor nodig.
+Het formulier op `contact.html` post naar `api/contact.js`, een serverloze functie die
+Vercel automatisch oppakt omdat het bestand in de map `api/` staat.
 
-Zonder instellingen accepteert het formulier niets en krijgt de bezoeker het mailadres
+Verzenden gaat via de mailserver van TransIP, dezelfde die de mailbox van het domein
+bedient. Daardoor is er geen externe maildienst nodig en **hoeft er niets aan de DNS te
+veranderen**: het SPF-record dat de mail van het domein regelt dekt deze verzending al.
+
+Zonder inloggegevens accepteert het formulier niets en krijgt de bezoeker het mailadres
 te zien. Het is dus nooit stuk, alleen niet actief. Aanzetten gaat zo:
 
-1. Maak een account op [resend.com](https://resend.com) (de gratis laag is ruim
-   voldoende voor een contactformulier) en verifieer het domein `batterijmaatje.nl`.
-   Resend vraagt daarvoor een paar DNS-records bij TransIP; die staan los van de
-   records voor de website en de mailbox.
-2. Zet in Vercel onder **Settings → Environment Variables** drie waarden, voor de
-   omgeving *Production* (en desgewenst *Preview*):
+1. Zet in Vercel onder **Settings → Environment Variables** deze waarden, voor de omgeving
+   *Production* (en desgewenst *Preview*):
 
    | Naam | Waarde | Toelichting |
    | --- | --- | --- |
-   | `RESEND_API_KEY` | de sleutel uit Resend | mag alleen verzendrechten hebben |
-   | `CONTACT_AAN` | `info@batterijmaatje.nl` | waar de berichten binnenkomen |
-   | `CONTACT_VAN` | `formulier@batterijmaatje.nl` | moet op het geverifieerde domein staan |
+   | `SMTP_GEBRUIKER` | `info@batterijmaatje.nl` | de mailbox die verstuurt |
+   | `SMTP_WACHTWOORD` | het wachtwoord van die mailbox | zie de waarschuwing hieronder |
+   | `CONTACT_AAN` | `info@batterijmaatje.nl` | optioneel; standaard gelijk aan SMTP_GEBRUIKER |
+   | `CONTACT_VAN` | `info@batterijmaatje.nl` | optioneel; TransIP staat alleen verzenden toe namens de eigen mailbox |
+   | `SMTP_HOST` | `smtp.transip.email` | optioneel; dit is de standaard |
+   | `SMTP_POORT` | `465` | optioneel; dit is de standaard |
 
-3. Deploy opnieuw (environment variables gelden pas vanaf de volgende deployment).
+2. Deploy opnieuw. Omgevingsvariabelen gelden pas vanaf de volgende deployment.
 
-De bezoeker komt in `Reply-To` te staan, dus "beantwoorden" gaat rechtstreeks naar
-degene die het formulier invulde en niet naar het formulieradres.
+De bezoeker komt in `Reply-To` te staan, dus "beantwoorden" gaat rechtstreeks naar degene
+die het formulier invulde. In je postvak staat als afzender "Naam via het contactformulier",
+zodat je meteen ziet waar het bericht vandaan komt.
 
-Tegen misbruik zitten er drie eenvoudige remmen in: een veld dat onzichtbaar is voor
+**Over dat wachtwoord.** Deze waarde geeft toegang tot de mailbox, niet alleen tot
+versturen. Maak er daarom bij voorkeur een aparte mailbox voor aan (bijvoorbeeld
+`formulier@batterijmaatje.nl`) die alleen dit doet, en laat die doorsturen naar je gewone
+postbus. Lekt de waarde ooit, dan is de schade beperkt tot die ene postbus.
+
+**Tegen misbruik** zitten er drie eenvoudige remmen in: een veld dat onzichtbaar is voor
 bezoekers maar dat bots vaak invullen, een controle of het formulier niet binnen enkele
 milliseconden werd verstuurd, en een grens van vijf berichten per tien minuten per
-IP-adres. Loopt er ooit toch een spamgolf binnen, dan is de firewall van Vercel de
-volgende stap; die staat los van deze code.
+IP-adres. Regeleindes in de naam en het onderwerp worden verwijderd, zodat niemand extra
+kopregels in de mail kan smokkelen. Loopt er ooit toch een spamgolf binnen, dan is de
+firewall van Vercel de volgende stap; die staat los van deze code.
+
+**Let op bij de zustersites:** wil je daar ooit wél een externe maildienst gebruiken, dan
+mag een domein maar één SPF-record hebben. Voeg de include dan tóe aan het bestaande
+record in plaats van er een tweede TXT-regel bij te zetten; twee SPF-records maken ze
+allebei ongeldig.
 
 ## 6. Linkcontrole
 

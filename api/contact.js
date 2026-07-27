@@ -7,27 +7,36 @@
    mail doorgestuurd naar het adres uit CONTACT_AAN.
 
    Waarom niet gewoon een mailto-link? Die opent het mailprogramma van de
-   bezoeker, en op telefoons of bij webmail werkt dat vaak niet. Bovendien
-   moet iemand dan zelf bedenken wat hij erin zet; een formulier vraagt om de
-   dingen waar je iets aan hebt.
+   bezoeker, en op telefoons of bij webmail werkt dat vaak niet. Bovendien moet
+   iemand dan zelf bedenken wat hij erin zet; een formulier vraagt om de dingen
+   waar je iets aan hebt.
+
+   Verzending loopt via de mailserver van TransIP, dezelfde die de mailbox van
+   het domein bedient. Daardoor is er geen externe maildienst nodig en hoeft er
+   niets aan de DNS te veranderen: het SPF-record dat de mail van het domein
+   regelt dekt deze verzending al.
 
    Instellen (Vercel: Settings -> Environment Variables):
 
-     RESEND_API_KEY   Sleutel van resend.com. Zonder deze sleutel accepteert
-                      het formulier niets en krijgt de bezoeker het mailadres
-                      te zien, in plaats van dat zijn bericht stilletjes
-                      verdwijnt.
-     CONTACT_AAN      Ontvanger, bijvoorbeeld info@batterijmaatje.nl.
-     CONTACT_VAN      Afzender op een domein dat bij Resend geverifieerd is,
-                      bijvoorbeeld formulier@batterijmaatje.nl. De bezoeker
-                      komt in Reply-To te staan, zodat "beantwoorden" naar hem
-                      gaat en niet naar het formulier.
+     SMTP_GEBRUIKER    Het volledige mailadres van de mailbox die verstuurt,
+                       bijvoorbeeld info@batterijmaatje.nl.
+     SMTP_WACHTWOORD   Het wachtwoord van die mailbox. Gebruik hiervoor als het
+                       kan een aparte mailbox of een apart wachtwoord: deze
+                       waarde geeft toegang tot meer dan alleen versturen.
+     CONTACT_AAN       Ontvanger. Standaard hetzelfde adres als SMTP_GEBRUIKER.
+     CONTACT_VAN       Afzender. Standaard SMTP_GEBRUIKER; TransIP staat alleen
+                       verzenden toe namens een adres van de eigen mailbox.
+     SMTP_HOST         Standaard smtp.transip.email.
+     SMTP_POORT        Standaard 465 (TLS).
 
-   Zolang RESEND_API_KEY ontbreekt geeft de functie een nette melding met het
-   mailadres erin. Het formulier is dan dus niet stuk, alleen niet actief.
+   Ontbreken de inloggegevens, dan accepteert het formulier niets en krijgt de
+   bezoeker het mailadres te zien, in plaats van dat zijn bericht stilletjes
+   verdwijnt. Het formulier is dan dus niet stuk, alleen niet actief.
    ========================================================================== */
 
 "use strict";
+
+const nodemailer = require("nodemailer");
 
 const FALLBACK_ADRES = "info@batterijmaatje.nl";
 
@@ -52,6 +61,11 @@ const RATELIMIET_AANTAL = 5;
 const RATELIMIET_VENSTER_MS = 10 * 60 * 1000;
 const verzendingen = new Map();
 
+// Een functie mag op Vercel niet eindeloos wachten. Loopt de mailserver vast,
+// dan is een nette foutmelding met het mailadres beter dan een verlopen
+// verzoek waar de bezoeker niets van begrijpt.
+const SMTP_TIJDSLIMIET_MS = 8000;
+
 function magVerzenden(ip) {
   const nu = Date.now();
   const eerder = (verzendingen.get(ip) || []).filter((t) => nu - t < RATELIMIET_VENSTER_MS);
@@ -75,6 +89,13 @@ function tekst(waarde, maximum) {
 // sturen, en te streng afwijzen kost echte berichten.
 function lijktOpEmail(waarde) {
   return /^[^\s@]+@[^\s@.]+\.[^\s@]{2,}$/.test(waarde);
+}
+
+// Nieuwe regels in een kopregel maken het mogelijk om extra headers te
+// smokkelen. De naam van de bezoeker komt in de afzenderregel te staan, dus die
+// wordt hier ontdaan van alles wat een regeleinde kan vormen.
+function veiligVoorKopregel(waarde) {
+  return String(waarde).replace(/[\r\n]+/g, " ").trim();
 }
 
 function velden(req) {
@@ -140,12 +161,13 @@ module.exports = async function handler(req, res) {
     return antwoord(req, res, 429, "Er zijn net meerdere berichten verstuurd. Probeer het over een paar minuten opnieuw.");
   }
 
-  const sleutel = process.env.RESEND_API_KEY;
-  const aan = process.env.CONTACT_AAN || FALLBACK_ADRES;
-  const van = process.env.CONTACT_VAN;
+  const gebruiker = process.env.SMTP_GEBRUIKER;
+  const wachtwoord = process.env.SMTP_WACHTWOORD;
+  const aan = process.env.CONTACT_AAN || gebruiker || FALLBACK_ADRES;
+  const van = process.env.CONTACT_VAN || gebruiker;
 
-  if (!sleutel || !van) {
-    console.warn("Contactformulier: RESEND_API_KEY of CONTACT_VAN ontbreekt, bericht niet verstuurd.");
+  if (!gebruiker || !wachtwoord) {
+    console.warn("Contactformulier: SMTP_GEBRUIKER of SMTP_WACHTWOORD ontbreekt, bericht niet verstuurd.");
     return antwoord(req, res, 503, `Het formulier is nog niet ingesteld. Mail zolang naar ${aan}.`);
   }
 
@@ -157,30 +179,34 @@ module.exports = async function handler(req, res) {
     bericht,
     "",
     "---",
-    `Verstuurd via het contactformulier op ${req.headers["host"] || "de site"}`,
+    `Verstuurd via het contactformulier op ${veiligVoorKopregel(req.headers["host"] || "de site")}`,
   ];
 
   try {
-    const reactie = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${sleutel}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: van,
-        to: [aan],
-        reply_to: email,
-        subject: `[Contactformulier] ${onderwerp}`,
-        text: regels.join("\n"),
-      }),
+    const poort = Number(process.env.SMTP_POORT) || 465;
+    const postbode = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || "smtp.transip.email",
+      port: poort,
+      // Poort 465 is versleuteld vanaf het eerste moment; 587 begint open en
+      // schakelt over met STARTTLS. Nodemailer regelt dat tweede zelf, mits
+      // secure op false staat.
+      secure: poort === 465,
+      auth: { user: gebruiker, pass: wachtwoord },
+      connectionTimeout: SMTP_TIJDSLIMIET_MS,
+      greetingTimeout: SMTP_TIJDSLIMIET_MS,
+      socketTimeout: SMTP_TIJDSLIMIET_MS,
     });
 
-    if (!reactie.ok) {
-      const details = await reactie.text();
-      console.error("Contactformulier: Resend gaf", reactie.status, details.slice(0, 500));
-      return antwoord(req, res, 502, `Het versturen lukte niet. Mail ons rechtstreeks op ${aan}.`);
-    }
+    await postbode.sendMail({
+      // De afzender blijft het eigen adres, want de mailserver staat niet toe
+      // dat er namens een vreemd domein wordt verstuurd. De naam van de
+      // bezoeker staat ervoor, zodat je in je postvak ziet van wie het komt.
+      from: { name: `${veiligVoorKopregel(naam)} via het contactformulier`, address: van },
+      to: aan,
+      replyTo: { name: veiligVoorKopregel(naam), address: email },
+      subject: `[Contactformulier] ${veiligVoorKopregel(onderwerp)}`,
+      text: regels.join("\n"),
+    });
   } catch (fout) {
     console.error("Contactformulier: versturen mislukt:", fout && fout.message);
     return antwoord(req, res, 502, `Het versturen lukte niet. Mail ons rechtstreeks op ${aan}.`);

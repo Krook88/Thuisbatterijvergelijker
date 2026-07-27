@@ -73,9 +73,10 @@ Alle inhoud staat in `data/batterijen.json`. Voeg een object toe aan de `batteri
 
 ## Contactformulier en linkcontrole
 
-Het contactformulier draait op een serverloze functie (`api/contact.js`) en heeft drie
-omgevingsvariabelen nodig; zonder die instellingen toont het formulier netjes het
-mailadres in plaats van berichten te verliezen. De linkcontrole draait wekelijks en
+Het contactformulier draait op een serverloze functie (`api/contact.js`) die verstuurt via
+de mailserver van TransIP; er is geen externe maildienst en geen DNS-wijziging voor nodig.
+Zonder inloggegevens toont het formulier netjes het mailadres in plaats van berichten te
+verliezen. De linkcontrole draait wekelijks en
 meldt winkelpagina's die verdwenen zijn. Beide staan uitgelegd in
 [VERCEL-DEPLOY.md](VERCEL-DEPLOY.md).
 
