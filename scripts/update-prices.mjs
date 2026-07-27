@@ -9,8 +9,13 @@
  *   3. Een voorzichtige regex op zichtbare prijzen in de HTML
  *
  * Veiligheidsregels:
- *   - Een nieuwe prijs wordt alleen overgenomen als hij plausibel is
- *     (tussen 40% en 250% van de laatst bekende prijs).
+ *   - Een nieuwe prijs wordt alleen overgenomen als hij dicht genoeg bij de
+ *     vorige ligt (75% tot 125%); grotere sprongen komen in de samenvatting
+ *     van de run te staan voor een menselijke controle.
+ *   - Omdat dit script elke dag precies de winkelpagina's bezoekt waar de
+ *     "Bekijk aanbieding"-knoppen naartoe wijzen, meldt het meteen welke
+ *     daarvan verdwenen zijn. Een aparte controle daarvoor zou dezelfde
+ *     winkels een tweede keer belasten.
  *   - Bij fouten of onduidelijke pagina's blijft de oude prijs staan;
  *     alleen de datum "prijs_gecontroleerd" wordt dan NIET bijgewerkt,
  *     zodat zichtbaar blijft hoe vers elke prijs is.
@@ -200,6 +205,19 @@ function plausibel(nieuw, oud) {
 // btw wordt opgemerkt door een mens in plaats van door een bezoeker.
 const teControleren = [];
 
+// Winkelpagina's die niet meer op te halen zijn. Dit script bezoekt elke dag
+// precies de URL's waar de "Bekijk aanbieding"-knoppen naartoe wijzen, dus het
+// weet als eerste wanneer een winkel zijn productpagina weghaalt. Zonder deze
+// lijst verdween die kennis in het logboek en bleef de oude prijs staan alsof
+// er niets aan de hand was.
+const kapotteLinks = [];
+
+// Prijzen die al een tijd niet meer bevestigd konden worden. De prijs klopt dan
+// misschien nog, maar niemand weet het; dat hoort de bezoeker niet te merken
+// zonder dat wij het eerst zien.
+const VEROUDERD_NA_DAGEN = 21;
+const verouderd = [];
+
 async function updateAanbieding(batterij, aanbieding) {
   if (!aanbieding.url) return false;
   try {
@@ -212,6 +230,8 @@ async function updateAanbieding(batterij, aanbieding) {
     }
     if (!nieuw) {
       console.log(`  ~ ${batterij.id} @ ${aanbieding.winkel}: geen prijs gevonden, oude prijs blijft (€${aanbieding.prijs_eur})`);
+      // De pagina bestaat wel, maar de prijs staat er niet (meer) in leesbare
+      // vorm. Dat is geen kapotte link, dus alleen loggen.
       return false;
     }
     if (!plausibel(nieuw, aanbieding.prijs_eur)) {
@@ -227,6 +247,13 @@ async function updateAanbieding(batterij, aanbieding) {
     return veranderd;
   } catch (err) {
     console.log(`  x ${batterij.id} @ ${aanbieding.winkel}: ${err.message} (oude prijs blijft staan)`);
+    // 404 en 410 betekenen dat de pagina echt weg is; 403 en 429 betekenen
+    // meestal dat de winkel geautomatiseerde verzoeken weert. Alleen het eerste
+    // is een link die een bezoeker op een foutpagina laat belanden.
+    const status = (err.message.match(/HTTP (\d+)/) || [])[1];
+    if (status === "404" || status === "410" || err.name === "TypeError") {
+      kapotteLinks.push({ id: batterij.id, winkel: aanbieding.winkel, url: aanbieding.url, reden: err.message });
+    }
     return false;
   }
 }
@@ -243,6 +270,15 @@ async function main() {
     // prijs_datum van de batterij = meest recente controle-datum van zijn aanbiedingen
     const datums = (batterij.aanbiedingen || []).map((a) => a.datum).filter(Boolean).sort();
     if (datums.length) batterij.prijs_datum = datums[datums.length - 1];
+
+    for (const aanbieding of batterij.aanbiedingen || []) {
+      const dagen = aanbieding.datum
+        ? Math.round((Date.now() - new Date(`${aanbieding.datum}T12:00:00`)) / 86400000)
+        : null;
+      if (dagen === null || dagen >= VEROUDERD_NA_DAGEN) {
+        verouderd.push({ id: batterij.id, winkel: aanbieding.winkel, prijs: aanbieding.prijs_eur, dagen });
+      }
+    }
   }
 
   data.laatst_bijgewerkt = VANDAAG;
@@ -251,6 +287,40 @@ async function main() {
   // scripts/genereer-batterijpaginas.mjs (zie de workflow).
 
   console.log(`\nKlaar. ${wijzigingen} prijswijziging(en). laatst_bijgewerkt = ${VANDAAG}`);
+
+  if (kapotteLinks.length) {
+    console.log(`\n${kapotteLinks.length} winkelpagina('s) niet meer bereikbaar:`);
+    for (const k of kapotteLinks) console.log(`  ${k.id} @ ${k.winkel}: ${k.reden}\n     ${k.url}`);
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
+        `### ${kapotteLinks.length} winkelpagina('s) verdwenen`,
+        "",
+        "Een bezoeker die hierop klikt komt op een foutpagina terwijl de site nog een prijs toont. Haal de aanbieding weg of zoek een andere winkel.",
+        "",
+        "| Batterij | Winkel | Reden | Link |",
+        "| --- | --- | --- | --- |",
+        ...kapotteLinks.map((k) => `| ${k.id} | ${k.winkel} | ${k.reden} | ${k.url} |`),
+        "",
+      ].join("\n") + "\n");
+    }
+  }
+
+  if (verouderd.length) {
+    console.log(`\n${verouderd.length} prijs(en) al ${VEROUDERD_NA_DAGEN}+ dagen niet bevestigd:`);
+    for (const v of verouderd) console.log(`  ${v.id} @ ${v.winkel}: €${v.prijs} (${v.dagen === null ? "nooit bevestigd" : v.dagen + " dagen"})`);
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
+        `### ${verouderd.length} prijs(en) al lang niet bevestigd`,
+        "",
+        `Deze winkels laten zich niet automatisch uitlezen. De prijs klopt misschien nog, maar niemand heeft het de laatste ${VEROUDERD_NA_DAGEN} dagen kunnen vaststellen.`,
+        "",
+        "| Batterij | Winkel | Prijs in de data | Laatst bevestigd |",
+        "| --- | --- | --- | --- |",
+        ...verouderd.map((v) => `| ${v.id} | ${v.winkel} | € ${v.prijs} | ${v.dagen === null ? "nooit" : v.dagen + " dagen geleden"} |`),
+        "",
+      ].join("\n") + "\n");
+    }
+  }
 
   if (teControleren.length) {
     console.log(`\n${teControleren.length} prijs(en) overgeslagen wegens een te grote afwijking:`);

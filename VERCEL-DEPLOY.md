@@ -225,24 +225,33 @@ allebei ongeldig.
 
 Winkels halen productpagina's weg of hernoemen ze zonder iets te zeggen. De bezoeker
 klikt dan op "Bekijk aanbieding" en landt op een foutpagina, terwijl de site nog een
-prijs toont. `scripts/controleer-links.mjs` spoort dat op:
+prijs toont. Dat wordt op twee plekken opgevangen, en allebei draaien ze in dezelfde
+dagelijkse workflow.
 
-- **Interne links** worden tegen de bestanden in de repository gehouden. Die controle
-  draait ook dagelijks mee in de prijsupdate (`--intern`, kost geen seconde en heeft
-  geen internet nodig) en laat de run mislukken als er iets niet klopt: een interne
-  link die nergens heen gaat is altijd onze eigen fout.
-- **Externe links** (winkels, fabrikanten, bronnen) worden echt opgehaald door de
-  workflow `controleer-links.yml`, elke maandagochtend. De uitkomst staat in de
-  samenvatting van de run: welke link kapot is en bij welke batterij of winkel hij
-  hoort. Die maken de run niet rood, want een winkel die even plat ligt is geen fout
-  van ons; het is een lijst om langs te lopen.
+**De prijsupdate meldt de winkels.** `scripts/update-prices.mjs` bezoekt elke ochtend al
+precies de URL's waar de "Bekijk aanbieding"-knoppen naartoe wijzen. Geeft zo'n pagina
+404 of 410, dan komt dat nu in de samenvatting van de run te staan in plaats van in het
+logboek te verdwijnen. Datzelfde geldt voor prijzen die al 21 dagen of langer niet
+bevestigd konden worden: die kloppen misschien nog, maar niemand weet het.
 
-Adressen die 401, 403 of 429 teruggeven worden apart gezet als "niet te controleren".
-Dat betekent meestal dat de webshop geautomatiseerde verzoeken weert, niet dat de
-pagina verdwenen is.
+**`scripts/controleer-links.mjs` doet de rest.** Interne links worden tegen de bestanden
+in de repository gehouden; klopt er één niet, dan faalt de run, want dat is altijd onze
+eigen fout. Externe links (fabrikantpagina's, bronnen uit `leveranciers.json`, links in
+de teksten) worden opgehaald en gerapporteerd. Die maken de run niet rood: een site die
+even plat ligt is geen fout van ons.
 
-Handmatig draaien: `node scripts/controleer-links.mjs` (alles) of
-`node scripts/controleer-links.mjs --intern` (zonder internet).
+De workflow draait dit met `--zonder-winkels`, zodat de winkelpagina's niet twee keer per
+dag worden opgehaald. Adressen die 401, 403 of 429 geven komen apart te staan als "niet te
+controleren": dat betekent meestal dat de server bots weert, niet dat de pagina verdwenen
+is.
+
+Handmatig draaien:
+
+```
+node scripts/controleer-links.mjs                   alles, inclusief winkels
+node scripts/controleer-links.mjs --intern          alleen interne links, zonder internet
+node scripts/controleer-links.mjs --zonder-winkels  wat de workflow doet
+```
 
 ## 7. Zustersites
 

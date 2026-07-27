@@ -34,10 +34,13 @@ jobs:
       - name: Batterijpagina's en sitemap herbouwen
         run: node scripts/genereer-batterijpaginas.mjs
 
-      # Kost geen seconde en geen internet, maar vangt af dat de generator een
-      # pagina wegschrijft die naar een bestand verwijst dat niet bestaat.
-      - name: Interne links controleren
-        run: node scripts/controleer-links.mjs --intern
+      # Interne links kosten geen seconde en geen internet, maar vangen af dat de
+      # generator een pagina wegschrijft die naar een bestand verwijst dat niet
+      # bestaat. De externe links gaan mee in dezelfde run, minus de winkels:
+      # die heeft het prijsscript hierboven zojuist al bezocht, en het meldt zelf
+      # welke verdwenen zijn. Twee keer dezelfde webshop ophalen levert niets op.
+      - name: Links controleren
+        run: node scripts/controleer-links.mjs --zonder-winkels
 
       - name: Wijzigingen committen en pushen
         id: commit
