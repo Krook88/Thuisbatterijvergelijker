@@ -194,6 +194,9 @@ function productLd(b) {
     "description": `${volledigeNaam(b)}: thuisbatterij van ${nl(b.capaciteit_kwh)} kWh. ${b.zonnepanelen_koppeling || ""}`.slice(0, 300),
     "url": `${SITE}/batterij/${b.id}.html`,
   };
+  if (b.afbeelding) {
+    ld.image = /^https?:/i.test(b.afbeelding) ? b.afbeelding : `${SITE}/${b.afbeelding.replace(/^\//, "")}`;
+  }
   if (offers.length === 1) {
     ld.offers = { "@type": "Offer", "price": Prijs.vergelijkPrijs(offers[0]), "priceCurrency": "EUR", "url": offers[0].url };
   } else if (offers.length > 1) {
@@ -314,7 +317,12 @@ ${breadcrumbLd(b)}
       <h1>${merkLogoHtml(b.merk)}${esc(volledigeNaam(b))}</h1>
       <p class="intro">${esc(typeLabel)} thuisbatterij van ${nl(b.capaciteit_kwh)} kWh${b.uitbreidbaar_tot_kwh ? `, uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh` : ""}. Prijzen dagelijks gecontroleerd, laatst op ${esc(datumNL(b.prijs_datum || data.laatst_bijgewerkt))}.</p>
     </div>
-    ${typeIllustratie(b.type)}
+    ${b.afbeelding
+      ? `<div class="kaart-foto batterij-foto-groot">
+      <img src="/${esc(b.afbeelding.replace(/^\//, ""))}" alt="${esc(volledigeNaam(b))}" loading="lazy" decoding="async" width="900" height="600">
+      ${b.afbeelding_bron ? `<span class="foto-bron">${esc(b.afbeelding_bron)}</span>` : ""}
+    </div>`
+      : typeIllustratie(b.type)}
   </div>
 
   <div class="info-kader">
