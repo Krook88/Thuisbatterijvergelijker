@@ -140,6 +140,13 @@ async function bolApiPrijs(aanbieding) {
   const res = await fetch(`${BOL_BASIS}/products/${ean}/offers/best?country-code=NL`, {
     headers: bolHeaders(token),
   });
+  if (res.status === 404) {
+    // Geen storing: bol heeft dit artikel op dit moment gewoon niet in de
+    // verkoop. De oude prijs blijft staan en komt vanzelf in het overzicht
+    // van niet-bevestigde prijzen terecht.
+    console.log(`  ~ bol-API ${ean}: bol verkoopt dit artikel nu niet`);
+    return null;
+  }
   if (!res.ok) {
     console.log(`  ~ bol-API ${ean}: HTTP ${res.status} (respons: ${(await res.text()).slice(0, 300)})`);
     return null;

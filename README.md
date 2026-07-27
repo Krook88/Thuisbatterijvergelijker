@@ -104,6 +104,22 @@ Winkels die zich niet automatisch laten uitlezen behouden de laatst bekende prij
 
 Handmatig draaien kan ook: `node scripts/update-prices.mjs` (Node.js 18 of hoger) of via **Actions → Dagelijkse prijsupdate → Run workflow**.
 
+### Bol.com
+
+Bol weert gewone bezoeken van scripts, dus die prijzen lopen via de officiële
+partner-API. Zet daarvoor twee repository-secrets klaar onder
+**Settings → Secrets and variables → Actions**: `BOL_CLIENT_ID` en
+`BOL_CLIENT_SECRET`. Ontbreken ze, dan slaat het script bol over en blijft de
+oude prijs staan.
+
+De API werkt op EAN's van dertien cijfers, terwijl een bol-URL het
+bol-product-ID van zestien cijfers bevat. Het script zet dat één keer om via
+`/products/{bolProductId}/to-ean` en bewaart de gevonden EAN in
+`data/batterijen.json`, zodat een volgende run meteen de prijs kan opvragen.
+Meldt bol dat het artikel niet in de verkoop is, dan blijft de oude prijs
+staan en verschijnt de aanbieding in het overzicht van niet-bevestigde
+prijzen.
+
 ## Data bijwerken of batterijen toevoegen
 
 Alle inhoud staat in `data/batterijen.json`. Voeg een object toe aan de `batterijen`-array met dezelfde velden als de bestaande items. De site pikt nieuwe items automatisch op; er is geen build-stap.
