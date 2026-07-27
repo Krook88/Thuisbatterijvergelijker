@@ -84,7 +84,13 @@ async function bolApiPrijs(aanbieding) {
   const m = (aanbieding.url || "").match(/\/(\d{8,})\/?$/);
   if (!m) { console.log(`  ~ bol-API: geen product-id herkend in ${aanbieding.url}`); return null; }
   const res = await fetch(`https://api.bol.com/marketing/catalog/v1/products/${m[1]}/offers/best?country-code=NL`, {
-    headers: { "Authorization": `Bearer ${token}`, "Accept": "application/json" },
+    // Accept-Language is verplicht. Node stuurt zonder deze regel "*", en dat
+    // wijst bol af met HTTP 400 (violation: acceptLanguage).
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Accept": "application/json",
+      "Accept-Language": "nl",
+    },
   });
   if (!res.ok) {
     console.log(`  ~ bol-API ${m[1]}: HTTP ${res.status} (respons: ${(await res.text()).slice(0, 500)})`);
