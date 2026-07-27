@@ -44,7 +44,7 @@ jobs:
         run: |
           git config user.name "prijsupdate-bot"
           git config user.email "actions@github.com"
-          git add data/batterijen.json sitemap.xml batterij/ vergelijk/ beste-thuisbatterij-home-assistant.html beste-thuisbatterij-homey.html
+          git add data/batterijen.json sitemap.xml index.html batterij/ vergelijk/ beste-thuisbatterij-home-assistant.html beste-thuisbatterij-homey.html
           if git diff --cached --quiet; then
             echo "Geen prijswijzigingen vandaag."
             echo "gewijzigd=false" >> "$GITHUB_OUTPUT"
