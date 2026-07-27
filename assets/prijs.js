@@ -70,6 +70,10 @@
       prijs_eur: b.richtprijs_eur,
       url: b.product_url,
       btw_inbegrepen: b.richtprijs_btw_inbegrepen !== false,
+      // Geen winkel gevonden: dit is een indicatie, geen bedrag dat je ergens
+      // kunt afrekenen. De kaart benoemt dat, anders leest "richtprijs" als
+      // de naam van een webshop.
+      is_richtprijs: true,
     };
   }
 

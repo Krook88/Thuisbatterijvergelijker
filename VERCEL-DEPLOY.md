@@ -174,7 +174,63 @@ Met Vercel krijg je dat gratis:
 
 ---
 
-## 5. Zustersites
+## 5. Contactformulier instellen
+
+Het formulier op `contact.html` post naar `api/contact.js`, een serverloze functie
+die Vercel automatisch oppakt omdat het bestand in de map `api/` staat. Er is geen
+build-stap voor nodig.
+
+Zonder instellingen accepteert het formulier niets en krijgt de bezoeker het mailadres
+te zien. Het is dus nooit stuk, alleen niet actief. Aanzetten gaat zo:
+
+1. Maak een account op [resend.com](https://resend.com) (de gratis laag is ruim
+   voldoende voor een contactformulier) en verifieer het domein `batterijmaatje.nl`.
+   Resend vraagt daarvoor een paar DNS-records bij TransIP; die staan los van de
+   records voor de website en de mailbox.
+2. Zet in Vercel onder **Settings → Environment Variables** drie waarden, voor de
+   omgeving *Production* (en desgewenst *Preview*):
+
+   | Naam | Waarde | Toelichting |
+   | --- | --- | --- |
+   | `RESEND_API_KEY` | de sleutel uit Resend | mag alleen verzendrechten hebben |
+   | `CONTACT_AAN` | `info@batterijmaatje.nl` | waar de berichten binnenkomen |
+   | `CONTACT_VAN` | `formulier@batterijmaatje.nl` | moet op het geverifieerde domein staan |
+
+3. Deploy opnieuw (environment variables gelden pas vanaf de volgende deployment).
+
+De bezoeker komt in `Reply-To` te staan, dus "beantwoorden" gaat rechtstreeks naar
+degene die het formulier invulde en niet naar het formulieradres.
+
+Tegen misbruik zitten er drie eenvoudige remmen in: een veld dat onzichtbaar is voor
+bezoekers maar dat bots vaak invullen, een controle of het formulier niet binnen enkele
+milliseconden werd verstuurd, en een grens van vijf berichten per tien minuten per
+IP-adres. Loopt er ooit toch een spamgolf binnen, dan is de firewall van Vercel de
+volgende stap; die staat los van deze code.
+
+## 6. Linkcontrole
+
+Winkels halen productpagina's weg of hernoemen ze zonder iets te zeggen. De bezoeker
+klikt dan op "Bekijk aanbieding" en landt op een foutpagina, terwijl de site nog een
+prijs toont. `scripts/controleer-links.mjs` spoort dat op:
+
+- **Interne links** worden tegen de bestanden in de repository gehouden. Die controle
+  draait ook dagelijks mee in de prijsupdate (`--intern`, kost geen seconde en heeft
+  geen internet nodig) en laat de run mislukken als er iets niet klopt: een interne
+  link die nergens heen gaat is altijd onze eigen fout.
+- **Externe links** (winkels, fabrikanten, bronnen) worden echt opgehaald door de
+  workflow `controleer-links.yml`, elke maandagochtend. De uitkomst staat in de
+  samenvatting van de run: welke link kapot is en bij welke batterij of winkel hij
+  hoort. Die maken de run niet rood, want een winkel die even plat ligt is geen fout
+  van ons; het is een lijst om langs te lopen.
+
+Adressen die 401, 403 of 429 teruggeven worden apart gezet als "niet te controleren".
+Dat betekent meestal dat de webshop geautomatiseerde verzoeken weert, niet dat de
+pagina verdwenen is.
+
+Handmatig draaien: `node scripts/controleer-links.mjs` (alles) of
+`node scripts/controleer-links.mjs --intern` (zonder internet).
+
+## 7. Zustersites
 
 Kopieer `vercel.json` ongewijzigd naar `Krook88/Zonnemaatje` en `Krook88/Warmtepompmaatje`
 en doorloop stap 1 en 2 per repository met het bijbehorende domein

@@ -272,7 +272,7 @@ ${breadcrumbLd(b)}
   </div>
 
   <div class="info-kader">
-    ${beste ? `<div style="font-size:1.6rem;font-weight:800;">${eur(Prijs.vergelijkPrijs(beste))} <span style="font-size:0.95rem;font-weight:400;color:var(--kleur-tekst-licht);">incl. btw bij ${esc(beste.winkel)}${perKwh ? ` · ${eur(perKwh)} per kWh opslag` : ""}</span></div>${Prijs.prijsToelichting(beste) ? `<div class="prijs-let-op">${esc(Prijs.prijsToelichting(beste))}</div>` : ""}` : "<div><b>Prijs op aanvraag</b></div>"}
+    ${beste ? `<div style="font-size:1.6rem;font-weight:800;">${eur(Prijs.vergelijkPrijs(beste))} <span style="font-size:0.95rem;font-weight:400;color:var(--kleur-tekst-licht);">incl. btw ${beste.is_richtprijs ? "(richtprijs; op dit moment geen winkel met deze batterij)" : `bij ${esc(beste.winkel)}`}${perKwh ? ` · ${eur(perKwh)} per kWh opslag` : ""}</span></div>${Prijs.prijsToelichting(beste) ? `<div class="prijs-let-op">${esc(Prijs.prijsToelichting(beste))}</div>` : ""}` : "<div><b>Prijs op aanvraag</b></div>"}
     ${b.prijs_omvat ? `<div style="font-size:0.9rem;color:var(--kleur-tekst-licht);">Deze prijs dekt: ${esc(b.prijs_omvat)}</div>` : ""}
     <div style="font-size:0.95rem;margin-top:6px;" title="${esc(b.totaalprijs_toelichting || "")}">Compleet gebruiksklaar (indicatie): <b>${totaal || "op aanvraag"}</b></div>
     <p style="margin:14px 0 0;">
