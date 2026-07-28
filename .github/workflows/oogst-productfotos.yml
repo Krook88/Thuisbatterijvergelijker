@@ -1,0 +1,33 @@
+name: Productfoto's oogsten (tijdelijk)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  oogsten:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Code ophalen
+        uses: actions/checkout@v4
+
+      - name: Node.js instellen
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Oogsten
+        env:
+          BOL_CLIENT_ID: ${{ secrets.BOL_CLIENT_ID }}
+          BOL_CLIENT_SECRET: ${{ secrets.BOL_CLIENT_SECRET }}
+        run: node scripts/oogst-productfotos.mjs
+
+      - name: Vastleggen op een aparte tak
+        run: |
+          git config user.name "fotobot"
+          git config user.email "actions@github.com"
+          git checkout -B fotos-ruw
+          git add -f assets/producten/_ruw
+          git commit -m "Ruwe kandidaat-productfoto's om te beoordelen"
+          git push -f -u origin fotos-ruw
