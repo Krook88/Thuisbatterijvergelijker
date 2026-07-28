@@ -264,7 +264,9 @@
       "noodstroom": true,
       "noodstroom_uitleg": "Ingebouwd noodstroom-stopcontact van 1.200 W continu (1.800 W piek) voor essentiële apparaten; voedt niet de huisinstallatie.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "geschikt voor buiten; interne verwarming tot -20 °C"
+      "buiten_toelichting": "geschikt voor buiten; interne verwarming tot -20 °C",
+      "afbeelding": "assets/producten/anker-solix-solarbank-3-pro.webp",
+      "afbeelding_bron": "foto: Anker SOLIX"
     },
     {
       "id": "zendure-solarflow-hyper-2000",
@@ -306,7 +308,9 @@
       "noodstroom": false,
       "noodstroom_uitleg": "Niet praktisch beschikbaar: de Hyper 2000 stopt bij een storing en de losse Zendure Off-Grid stekkerdoos lijkt uit de verkoop. De nieuwere SolarFlow 2400 AC-lijn heeft wel een off-grid stopcontact.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "geldt voor de Hyper-unit; geschikt voor buiten"
+      "buiten_toelichting": "geldt voor de Hyper-unit; geschikt voor buiten",
+      "afbeelding": "assets/producten/zendure-solarflow-hyper-2000.webp",
+      "afbeelding_bron": "foto: Zendure"
     },
     {
       "id": "zonneplan-nexus",
@@ -385,7 +389,9 @@
       "noodstroom": "Alleen met de aparte IQ System Controller 3 INT (in NL verkrijgbaar): vormt bij netuitval automatisch een eilandnet voor (een deel van) de woning, ca. 3,84 kW per batterij.",
       "noodstroom_uitleg": "Alleen met de aparte IQ System Controller 3 INT (in NL verkrijgbaar): vormt bij netuitval automatisch een eilandnet voor (een deel van) de woning, ca. 3,84 kW per batterij.",
       "ip_klasse": "IP55",
-      "buiten_toelichting": "binnen en buiten installeerbaar volgens fabrikant"
+      "buiten_toelichting": "binnen en buiten installeerbaar volgens fabrikant",
+      "afbeelding": "assets/producten/enphase-iq-battery-5p.webp",
+      "afbeelding_bron": "foto: Enphase"
     },
     {
       "id": "victron-pylontech-3fase",
@@ -575,14 +581,7 @@
       "cycli": null,
       "opmerkingen": "Scherpe hardwareprijs per kWh. Vermogen afhankelijk van de gekozen omvormer (H1: 3,7 tot 6 kW; H3: 5 tot 12 kW). Prijs is de winkelprijs excl. btw (2.797 euro) omgerekend naar incl. btw. Geen officiële Homey-app; koppeling loopt via Home Assistant of community-projecten. De winkel is sinds medio juli 2026 onbereikbaar voor onze automatische prijscontrole en er is nog geen alternatieve Nederlandse winkel met een EP11-productpagina gevonden; de getoonde prijs kan verouderd zijn.",
       "product_url": "https://www.fox-ess.com/products/battery/23",
-      "aanbiedingen": [
-        {
-          "winkel": "Energiemagazijn",
-          "prijs_eur": 3385,
-          "url": "https://energiemagazijn.nl/thuisbatterijen/209-foxess-ep11.html",
-          "datum": "2026-07-13"
-        }
-      ],
+      "aanbiedingen": [],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
       "totaalprijs_toelichting": "geen betrouwbare totaalprijs bekend; vraag een offerte op",
@@ -646,7 +645,7 @@
       "garantie_jaar": 10,
       "cycli": null,
       "opmerkingen": "Modulair: 3 modules van 3,2 kWh, per toren uitbreidbaar tot 25,6 kWh. Prijs is de winkelprijs excl. btw (3.293 euro, afgeprijsd van 3.698 euro) omgerekend naar incl. btw. Compleet geïnstalleerd systeem indicatief 5.500 tot 7.000 euro. Winkel gewisseld naar Thuisbatterij Outlet (juli 2026) omdat de vorige winkel geautomatiseerde controles blokkeert.",
-      "product_url": "https://nl.sungrowpower.com/",
+      "product_url": "https://en.sungrowpower.com/productDetail/2255/battery-sbr064-096-128-160-192-224-256",
       "aanbiedingen": [
         {
           "winkel": "Thuisbatterij Outlet",
@@ -766,13 +765,6 @@
           "prijs_eur": 4552,
           "url": "https://www.groothandelsolar.com/accu-systemen/huawei/huawei-luna2000-10-kwh",
           "datum": "2026-07-27"
-        },
-        {
-          "winkel": "Zonnepanelenkopen.com (prijs excl. btw)",
-          "btw_inbegrepen": false,
-          "prijs_eur": 4552,
-          "url": "https://www.zonnepanelenkopen.com/thuisbatterij/huawei/huawei-luna2000-10-kwh",
-          "datum": "2026-07-13"
         }
       ],
       "totaalprijs_van_eur": 7500,
@@ -894,7 +886,9 @@
       "noodstroom": "Noodstroomaansluiting tot 1.500 W op het apparaat zelf; aangesloten apparaten blijven werken bij een storing, maar geen automatische huis-back-up",
       "noodstroom_uitleg": "Heeft een noodstroomuitgang tot 1.500 W: sluit tijdens een stroomstoring apparaten rechtstreeks op de batterij aan (bijvoorbeeld koelkast, router, lamp). Het huis zelf wordt niet automatisch overgenomen.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "ook voor balkon of terras; interne verwarming tot -20 °C"
+      "buiten_toelichting": "ook voor balkon of terras; interne verwarming tot -20 °C",
+      "afbeelding": "assets/producten/jackery-homepower-2000-ultra.webp",
+      "afbeelding_bron": "foto: Jackery"
     },
     {
       "id": "goodwe-lynx-home-u-54",
@@ -921,7 +915,7 @@
       "garantie_jaar": 10,
       "cycli": 4000,
       "opmerkingen": "Veelgebruikt merk onder installateurs. Dynamische prijssturing (EPEX-uurprijzen) via de SEMS+ app. Prijs is voor de losse module; reken op omvormer en installatie erbovenop. Winkel gewisseld naar Warmteservice (juli 2026) omdat de vorige productpagina verdween; prijs wordt bij de eerstvolgende dagelijkse controle geverifieerd.",
-      "product_url": "https://en.goodwe.com/lynx-home-u-series-low-voltage-lithium-battery",
+      "product_url": "https://emea.goodwe.com/lynx-home-u-series-low-voltage-lithium-battery",
       "aanbiedingen": [
         {
           "winkel": "Warmteservice",
@@ -936,7 +930,9 @@
       "noodstroom": "Via de hybride omvormer (bijvoorbeeld GoodWe ES G2 met UPS-omschakeling); laat de installateur dit inregelen",
       "noodstroom_uitleg": "De batterij zelf regelt geen noodstroom; in combinatie met een GoodWe hybride omvormer met back-upfunctie (zoals de ES G2, omschakeling binnen 10 ms) kan een deel van het huis doorwerken bij een storing.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "binnen en buiten; laden kan pas vanaf 0 °C"
+      "buiten_toelichting": "binnen en buiten; laden kan pas vanaf 0 °C",
+      "afbeelding": "assets/producten/goodwe-lynx-home-u-54.webp",
+      "afbeelding_bron": "foto: GoodWe"
     },
     {
       "id": "solax-triple-power-t58",
@@ -1151,7 +1147,9 @@
       "noodstroom": "Apart stopcontact op het apparaat (tot 3.680 W) blijft werken bij stroomuitval; geen automatische huis-back-up",
       "noodstroom_uitleg": "Het aparte stopcontact op de batterij (tot 3.680 W) blijft bij een stroomstoring gewoon werken: sluit daar bijvoorbeeld koelkast of router op aan. Het huis zelf wordt niet automatisch overgenomen.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "ontworpen voor balkon of buiten, -20 tot 55 °C"
+      "buiten_toelichting": "ontworpen voor balkon of buiten, -20 tot 55 °C",
+      "afbeelding": "assets/producten/bluetti-balco-500.webp",
+      "afbeelding_bron": "foto: Bluetti"
     },
     {
       "id": "anker-solix-solarbank-max-ac",
@@ -1227,7 +1225,9 @@
       "noodstroom": true,
       "noodstroom_uitleg": "Noodstroomuitgang tot 3.680 W continu (fabrieksopgave).",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "fabrieksopgave (metalen behuizing); eisen voor buitenplaatsing niet geverifieerd"
+      "buiten_toelichting": "fabrieksopgave (metalen behuizing); eisen voor buitenplaatsing niet geverifieerd",
+      "afbeelding": "assets/producten/zendure-solarflow-3000-mix-ac.webp",
+      "afbeelding_bron": "foto: Zendure"
     },
     {
       "id": "zendure-solarflow-4000-mix-pro",
@@ -1266,7 +1266,9 @@
       "noodstroom": null,
       "noodstroom_uitleg": "Niet vastgesteld of dit model een noodstroomuitgang heeft; controleer bij de fabrikant.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "fabrieksopgave (metalen behuizing); eisen voor buitenplaatsing niet geverifieerd"
+      "buiten_toelichting": "fabrieksopgave (metalen behuizing); eisen voor buitenplaatsing niet geverifieerd",
+      "afbeelding": "assets/producten/zendure-solarflow-4000-mix-pro.webp",
+      "afbeelding_bron": "foto: Zendure"
     },
     {
       "id": "mova-lumegret-a4000",
@@ -1309,7 +1311,9 @@
       "totaalprijs_tot_eur": 1399,
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren; prijzen wisselen per actie",
       "noodstroom": true,
-      "noodstroom_uitleg": "Fabrikant vermeldt noodstroom; vermogen en omschakeltijd niet gespecificeerd gevonden."
+      "noodstroom_uitleg": "Fabrikant vermeldt noodstroom; vermogen en omschakeltijd niet gespecificeerd gevonden.",
+      "afbeelding": "assets/producten/mova-lumegret-a4000.webp",
+      "afbeelding_bron": "foto: MOVA"
     },
     {
       "id": "indevolt-solidflex-3000",
@@ -1426,7 +1430,9 @@
       "noodstroom": true,
       "noodstroom_uitleg": "Noodstroomuitgang tot 2.400 W continu (fabrieksopgave); omschakeltijd niet gespecificeerd gevonden.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "fabrieksopgave; eisen voor buitenplaatsing niet geverifieerd"
+      "buiten_toelichting": "fabrieksopgave; eisen voor buitenplaatsing niet geverifieerd",
+      "afbeelding": "assets/producten/aeg-solarcube-48.webp",
+      "afbeelding_bron": "foto: AEG"
     },
     {
       "id": "sunpura-s4800",
@@ -1533,7 +1539,9 @@
       "totaalprijs_tot_eur": 1699,
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren; pre-saleprijs",
       "noodstroom": null,
-      "noodstroom_uitleg": "Niet vastgesteld; controleer bij de fabrikant."
+      "noodstroom_uitleg": "Niet vastgesteld; controleer bij de fabrikant.",
+      "afbeelding": "assets/producten/ecoflow-stream-ac-5000.webp",
+      "afbeelding_bron": "foto: EcoFlow"
     },
     {
       "id": "samduo-nex-e6000",
@@ -1597,7 +1605,9 @@
       "noodstroom": true,
       "noodstroom_uitleg": "De SR-serie heeft een noodstroomfunctie (fabrieksopgave); vermogen en omschakeltijd niet gespecificeerd gevonden.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "fabrieksopgave; eisen voor buitenplaatsing niet geverifieerd"
+      "buiten_toelichting": "fabrieksopgave; eisen voor buitenplaatsing niet geverifieerd",
+      "afbeelding": "assets/producten/voltdeer-sr5000.webp",
+      "afbeelding_bron": "foto: Voltdeer"
     },
     {
       "id": "zendure-solarflow-2400-pro",
