@@ -222,9 +222,12 @@ async function main() {
   const uitkomsten = await controleerExtern(bronnen);
 
   // 401/403/429 betekent doorgaans "wij houden bots buiten", niet "de pagina
-  // bestaat niet". Die apart houden, anders verdrinkt een echte 404 in de ruis.
-  const stuk = uitkomsten.filter((u) => u.status === 0 || (u.status >= 400 && ![401, 403, 429].includes(u.status)));
-  const geweerd = uitkomsten.filter((u) => [401, 403, 429].includes(u.status));
+  // bestaat niet". 415 hoort in datzelfde rijtje: bij een GET zonder body slaat
+  // "verkeerd mediatype" nergens op en komt het van een firewall die ons weert.
+  // Die apart houden, anders verdrinkt een echte 404 in de ruis.
+  const GEWEERD = [401, 403, 415, 429];
+  const stuk = uitkomsten.filter((u) => u.status === 0 || (u.status >= 400 && !GEWEERD.includes(u.status)));
+  const geweerd = uitkomsten.filter((u) => GEWEERD.includes(u.status));
   const goed = uitkomsten.length - stuk.length - geweerd.length;
 
   console.log(`\n${goed} in orde, ${stuk.length} kapot, ${geweerd.length} niet te controleren (server weert bots)`);
