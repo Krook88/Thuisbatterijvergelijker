@@ -122,6 +122,27 @@ async function bolEan(bolProductId, token) {
   return ean;
 }
 
+// Tweede route naar de EAN. Het omzet-endpoint kent niet elk product, maar het
+// zoek-endpoint geeft per resultaat zowel de EAN als het bol-product-ID terug.
+// Zoeken op de productnaam uit de URL en dan matchen op dat ID is exact: we
+// nemen alleen een EAN over als bol zelf hem aan hetzelfde product hangt.
+async function bolEanViaZoeken(bolProductId, url, token) {
+  const slug = (url.match(/\/p\/([^/]+)\//) || [])[1];
+  if (!slug) return null;
+  const zoekterm = decodeURIComponent(slug).replace(/-/g, " ").slice(0, 100);
+  const res = await fetch(
+    `${BOL_BASIS}/products/search?search-term=${encodeURIComponent(zoekterm)}&country-code=NL`,
+    { headers: bolHeaders(token) },
+  );
+  if (!res.ok) return null;
+  const data = await res.json();
+  const treffer = (data.results || []).find((r) => String(r.bolProductId) === String(bolProductId));
+  if (!treffer) return null;
+  const ean = zoekEanInRespons(treffer);
+  if (ean) console.log(`  ~ bol-API ${bolProductId}: EAN ${ean} gevonden via zoeken`);
+  return ean;
+}
+
 async function bolApiPrijs(aanbieding) {
   const token = await haalBolToken();
   if (!token) return null;
@@ -132,7 +153,7 @@ async function bolApiPrijs(aanbieding) {
   if (!ean) {
     const m = (aanbieding.url || "").match(/\/(\d{8,})\/?$/);
     if (!m) { console.log(`  ~ bol-API: geen product-id herkend in ${aanbieding.url}`); return null; }
-    ean = await bolEan(m[1], token);
+    ean = (await bolEan(m[1], token)) || (await bolEanViaZoeken(m[1], aanbieding.url, token));
     if (!ean) return null;
     aanbieding.ean = ean;
   }
@@ -279,6 +300,30 @@ const kapotteLinks = [];
 const VEROUDERD_NA_DAGEN = 21;
 const verouderd = [];
 
+// Aanbiedingen waarvan de winkelpagina iets anders over btw lijkt te zeggen dan
+// wat er bij ons staat. Dat is een dure vergissing: een prijs excl. btw die als
+// incl. btw wordt getoond scheelt 21 procent en zet de hele rangschikking op
+// zijn kop. Alleen melden, nooit zelf aanpassen - de pagina kan het ook over
+// verzendkosten of een ander product hebben.
+const btwTwijfel = [];
+
+// Kijkt of de pagina onmiskenbaar over prijzen excl. of incl. btw spreekt.
+// Staan beide er, of geen van beide, dan zegt de pagina er te weinig over en
+// houden we onze mond; alleen een eenduidig signaal is het melden waard.
+function btwVolgensPagina(html) {
+  const tekst = html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .toLowerCase();
+  const exclusief = /\b(excl\.?|exclusief|ex\.)\s*(btw|b\.t\.w)/.test(tekst);
+  const inclusief = /\b(incl\.?|inclusief|in\.)\s*(btw|b\.t\.w)/.test(tekst);
+  if (exclusief && !inclusief) return false;
+  if (inclusief && !exclusief) return true;
+  return null;
+}
+
 async function updateAanbieding(batterij, aanbieding) {
   if (!aanbieding.url) return false;
   try {
@@ -288,6 +333,20 @@ async function updateAanbieding(batterij, aanbieding) {
     } else {
       const html = await haalPagina(aanbieding.url);
       nieuw = prijsUitJsonLd(html) ?? prijsUitMeta(html) ?? prijsUitTekst(html);
+
+      // Zegt de pagina eenduidig iets anders over btw dan wij, dan is dat het
+      // melden waard. Zonder veld gaan wij uit van incl. btw.
+      const volgensPagina = btwVolgensPagina(html);
+      const bijOns = aanbieding.btw_inbegrepen !== false;
+      if (volgensPagina !== null && volgensPagina !== bijOns) {
+        btwTwijfel.push({
+          id: batterij.id,
+          winkel: aanbieding.winkel,
+          bijOns: bijOns ? "incl. btw" : "excl. btw",
+          volgensPagina: volgensPagina ? "incl. btw" : "excl. btw",
+          url: aanbieding.url,
+        });
+      }
     }
     if (!nieuw) {
       console.log(`  ~ ${batterij.id} @ ${aanbieding.winkel}: geen prijs gevonden, oude prijs blijft (€${aanbieding.prijs_eur})`);
@@ -378,6 +437,27 @@ async function main() {
         "| Batterij | Winkel | Prijs in de data | Laatst bevestigd |",
         "| --- | --- | --- | --- |",
         ...verouderd.map((v) => `| ${v.id} | ${v.winkel} | € ${v.prijs} | ${v.dagen === null ? "nooit" : v.dagen + " dagen geleden"} |`),
+        "",
+      ].join("\n") + "\n");
+    }
+  }
+
+  if (btwTwijfel.length) {
+    console.log(`\n${btwTwijfel.length} aanbieding(en) waarbij de winkelpagina iets anders over btw zegt:`);
+    for (const b of btwTwijfel) {
+      console.log(`  ${b.id} @ ${b.winkel}: bij ons ${b.bijOns}, pagina zegt ${b.volgensPagina}  ${b.url}`);
+    }
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
+        `### ${btwTwijfel.length} aanbieding(en) met twijfel over btw`,
+        "",
+        "Een prijs excl. btw die als incl. btw wordt getoond scheelt 21 procent en zet de rangschikking op zijn kop. Deze pagina's spreken zich eenduidig uit over btw, maar anders dan wat er bij ons staat. Klopt de pagina, zet dan `\"btw_inbegrepen\": false` bij die aanbieding (of haal het weg).",
+        "",
+        "Let op: dit is een signaal, geen bewijs. De pagina kan het ook over verzendkosten of een ander artikel hebben.",
+        "",
+        "| Batterij | Winkel | Bij ons | Volgens de pagina |",
+        "| --- | --- | --- | --- |",
+        ...btwTwijfel.map((b) => `| ${b.id} | ${b.winkel} | ${b.bijOns} | ${b.volgensPagina} |`),
         "",
       ].join("\n") + "\n");
     }
