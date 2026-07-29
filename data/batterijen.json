@@ -54,7 +54,9 @@
       "noodstroom": true,
       "noodstroom_uitleg": "Ingebouwd noodstroom-stopcontact op het apparaat (tot 2,5 kW): neemt bij netuitval binnen ca. 15 ms over voor direct aangesloten apparaten. Voedt niet de hele huisinstallatie.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "geschikt voor binnen en buiten, -20 tot 55 °C"
+      "buiten_toelichting": "geschikt voor binnen en buiten, -20 tot 55 °C",
+      "afbeelding": "assets/producten/marstek-venus-e-3.webp",
+      "afbeelding_bron": "foto: Marstek"
     },
     {
       "id": "marstek-venus-c-768",
@@ -182,7 +184,9 @@
       "noodstroom": false,
       "noodstroom_uitleg": "Geen noodstroom: de batterij schakelt bij een stroomstoring automatisch uit (bevestigd door HomeWizard zelf).",
       "ip_klasse": "onbekend",
-      "buiten_toelichting": "fabrikant: alleen binnen gebruiken, vorstvrij en droog"
+      "buiten_toelichting": "fabrikant: alleen binnen gebruiken, vorstvrij en droog",
+      "afbeelding": "assets/producten/homewizard-plug-in-battery.webp",
+      "afbeelding_bron": "foto: HomeWizard"
     },
     {
       "id": "ecoflow-stream-ac-pro",
@@ -223,7 +227,9 @@
       "noodstroom": true,
       "noodstroom_uitleg": "Twee AC-uitgangen met UPS-functie op het apparaat: direct aangesloten apparaten (tot ca. 800 W) blijven bij netuitval doorwerken.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "geschikt voor buiten, -20 tot 55 °C"
+      "buiten_toelichting": "geschikt voor buiten, -20 tot 55 °C",
+      "afbeelding": "assets/producten/ecoflow-stream-ac-pro.webp",
+      "afbeelding_bron": "foto: EcoFlow"
     },
     {
       "id": "anker-solix-solarbank-3-pro",
@@ -470,7 +476,9 @@
       "noodstroom": "Alleen met de optionele Sigen Energy Gateway (ca. 2.000 euro): schakelt de hele woning vrijwel naadloos om naar de batterij, tot ca. 10 kW.",
       "noodstroom_uitleg": "Alleen met de optionele Sigen Energy Gateway (ca. 2.000 euro): schakelt de hele woning vrijwel naadloos om naar de batterij, tot ca. 10 kW.",
       "ip_klasse": "IP66",
-      "buiten_toelichting": "binnen en buiten, zonder extra overkapping"
+      "buiten_toelichting": "binnen en buiten, zonder extra overkapping",
+      "afbeelding": "assets/producten/sigenergy-sigenstor-8kwh.webp",
+      "afbeelding_bron": "foto: Sigenergy"
     },
     {
       "id": "tesla-powerwall-3",
@@ -773,7 +781,9 @@
       "noodstroom": "Alleen met de aparte Huawei Backup Box (B0 voor 1-fase, B1 voor 3-fase): aparte backup-uitgang voor kritische groepen, ca. 3,3 tot 5 kW.",
       "noodstroom_uitleg": "Alleen met de aparte Huawei Backup Box (B0 voor 1-fase, B1 voor 3-fase): aparte backup-uitgang voor kritische groepen, ca. 3,3 tot 5 kW.",
       "ip_klasse": "IP66",
-      "buiten_toelichting": "binnen en buiten, -20 tot 55 °C"
+      "buiten_toelichting": "binnen en buiten, -20 tot 55 °C",
+      "afbeelding": "assets/producten/huawei-luna2000-10.webp",
+      "afbeelding_bron": "foto: Huawei"
     },
     {
       "id": "deye-rw-m61-set",
@@ -1022,7 +1032,9 @@
       "noodstroom": null,
       "noodstroom_uitleg": "Hangt volledig af van de gekozen omvormer; de batterijmodule zelf regelt geen noodstroom. Controleer dit bij de installateur.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "beschut buiten mogelijk; interne verwarming tot -20 °C"
+      "buiten_toelichting": "beschut buiten mogelijk; interne verwarming tot -20 °C",
+      "afbeelding": "assets/producten/dyness-powerbox-g2.webp",
+      "afbeelding_bron": "foto: Dyness"
     },
     {
       "id": "saj-h2-5k-s2-10kwh",
@@ -1108,7 +1120,9 @@
       "noodstroom": "Via de omvormer mogelijk, mits ingeregeld; vraag de installateur naar de back-upconfiguratie",
       "noodstroom_uitleg": "De Dura-i omvormer ondersteunt back-upfunctionaliteit, maar dit moet bij installatie worden ingeregeld. Vraag de installateur wat er bij stroomuitval blijft werken.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "wordt als buitenbatterij verkocht; werkt tot -10 °C"
+      "buiten_toelichting": "wordt als buitenbatterij verkocht; werkt tot -10 °C",
+      "afbeelding": "assets/producten/duracell-dura5.webp",
+      "afbeelding_bron": "foto: Duracell Energy"
     },
     {
       "id": "bluetti-balco-500",
@@ -1352,7 +1366,9 @@
       "noodstroom": null,
       "noodstroom_uitleg": "Niet vastgesteld; controleer bij de fabrikant.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "fabrieksopgave; eisen voor buitenplaatsing niet geverifieerd"
+      "buiten_toelichting": "fabrieksopgave; eisen voor buitenplaatsing niet geverifieerd",
+      "afbeelding": "assets/producten/indevolt-solidflex-3000.webp",
+      "afbeelding_bron": "foto: Indevolt"
     },
     {
       "id": "marstek-venus-d",
@@ -1572,7 +1588,9 @@
       "totaalprijs_tot_eur": null,
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren; adviesprijs fabrikant",
       "noodstroom": null,
-      "noodstroom_uitleg": "Niet vastgesteld voor de E6000; de duurdere E6000H-variant heeft wel noodstroom (2.600 W)."
+      "noodstroom_uitleg": "Niet vastgesteld voor de E6000; de duurdere E6000H-variant heeft wel noodstroom (2.600 W).",
+      "afbeelding": "assets/producten/samduo-nex-e6000.webp",
+      "afbeelding_bron": "foto: SAMDUO"
     },
     {
       "id": "voltdeer-sr5000",
