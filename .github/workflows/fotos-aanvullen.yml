@@ -1,0 +1,46 @@
+name: Productfoto's aanvullen (tijdelijk)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  aanvullen:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Code ophalen
+        uses: actions/checkout@v4
+
+      - name: Node.js instellen
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: sharp installeren
+        run: npm install --no-save sharp
+
+      - name: Kandidaten oogsten
+        env:
+          BOL_CLIENT_ID: ${{ secrets.BOL_CLIENT_ID }}
+          BOL_CLIENT_SECRET: ${{ secrets.BOL_CLIENT_SECRET }}
+        run: >
+          node scripts/oogst-productfotos2.mjs
+          fox-ess-ep11 marstek-venus-c-768 marstek-venus-e-4
+          growatt-apx-10 sungrow-sbr096 marstek-venus-d
+
+      - name: Beoordeelde keuzes toepassen
+        run: node scripts/fotos-toepassen.mjs
+
+      - name: Pagina's herbouwen
+        run: node scripts/genereer-batterijpaginas.mjs
+
+      - name: Vastleggen
+        run: |
+          # De ruwe kandidaten horen niet in de repository terecht te komen.
+          rm -rf assets/producten/_ruw2
+          git config user.name "fotobot"
+          git config user.email "actions@github.com"
+          git add assets/producten data/batterijen.json index.html sitemap.xml batterij/ vergelijk/ beste-thuisbatterij-home-assistant.html beste-thuisbatterij-homey.html
+          git commit -m "Zes extra productfoto's toegepast"
+          git push -u origin HEAD:claude/vergelijkingssites-vercel-deploy-4bq1ix
