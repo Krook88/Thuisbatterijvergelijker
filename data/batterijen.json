@@ -95,7 +95,9 @@
       "noodstroom": "Backup-aansluiting op het apparaat (ca. 2,2 kW continu) volgens de NL-productpagina; specificaties verschillen per Venus C-variant, controleer dit bij de leverancier.",
       "noodstroom_uitleg": "Backup-aansluiting op het apparaat (ca. 2,2 kW continu) volgens de NL-productpagina; specificaties verschillen per Venus C-variant, controleer dit bij de leverancier.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "geschikt voor binnen en buiten"
+      "buiten_toelichting": "geschikt voor binnen en buiten",
+      "afbeelding": "assets/producten/marstek-venus-c-768.webp",
+      "afbeelding_bron": "foto: Marstek"
     },
     {
       "id": "sessy-5kwh",
@@ -596,7 +598,9 @@
       "noodstroom": true,
       "noodstroom_uitleg": "De Fox ESS H1/H3-omvormers hebben standaard een EPS-poort die een aparte noodstroomgroep voedt bij netuitval; voor een groter deel van de installatie is de optionele EPS Box nodig. De noodstroomgroep moet door de installateur worden aangesloten.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "binnen en buiten"
+      "buiten_toelichting": "binnen en buiten",
+      "afbeelding": "assets/producten/fox-ess-ep11.webp",
+      "afbeelding_bron": "foto: Fox ESS"
     },
     {
       "id": "growatt-apx-10",
@@ -628,7 +632,9 @@
       "noodstroom": "Alleen met de aparte Growatt Backup Box (SYN-XH): schakelt de aangesloten groepen bij netuitval automatisch om naar batterijvoeding.",
       "noodstroom_uitleg": "Alleen met de aparte Growatt Backup Box (SYN-XH): schakelt de aangesloten groepen bij netuitval automatisch om naar batterijvoeding.",
       "ip_klasse": "IP66",
-      "buiten_toelichting": "binnen en buiten"
+      "buiten_toelichting": "binnen en buiten",
+      "afbeelding": "assets/producten/growatt-apx-10.webp",
+      "afbeelding_bron": "foto: Growatt"
     },
     {
       "id": "sungrow-sbr096",
@@ -668,7 +674,9 @@
       "noodstroom": true,
       "noodstroom_uitleg": "Backup-poort standaard op de SH-omvormers: voedt een aparte noodstroomgroep (of, afhankelijk van de installatie, de woning) bij netuitval, omschakeling binnen ca. 20 ms.",
       "ip_klasse": "IP55",
-      "buiten_toelichting": "binnen en buiten volgens fabrikant"
+      "buiten_toelichting": "binnen en buiten volgens fabrikant",
+      "afbeelding": "assets/producten/sungrow-sbr096.webp",
+      "afbeelding_bron": "foto: Sungrow"
     },
     {
       "id": "byd-battery-box-hvm-11",
@@ -1407,7 +1415,9 @@
       "noodstroom": true,
       "noodstroom_uitleg": "Aparte noodstroomuitgang: 2.200 W continu / 2.500 W piek, omschakeling ca. 15 ms (fabrieksopgave).",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "buitenplaatsing mogelijk volgens fabrikant"
+      "buiten_toelichting": "buitenplaatsing mogelijk volgens fabrikant",
+      "afbeelding": "assets/producten/marstek-venus-d.webp",
+      "afbeelding_bron": "foto: Marstek"
     },
     {
       "id": "aeg-solarcube-48",
@@ -1518,7 +1528,9 @@
       "totaalprijs_tot_eur": 1699,
       "totaalprijs_toelichting": "pre-order; stekkerklaar, zelf te installeren; laagste prijs is zonder P1-meter",
       "noodstroom": null,
-      "noodstroom_uitleg": "Nog niet vastgesteld voor dit model; de Venus E 3.0 heeft een noodstroom-stopcontact."
+      "noodstroom_uitleg": "Nog niet vastgesteld voor dit model; de Venus E 3.0 heeft een noodstroom-stopcontact.",
+      "afbeelding": "assets/producten/marstek-venus-e-4.webp",
+      "afbeelding_bron": "foto: Marstek"
     },
     {
       "id": "ecoflow-stream-ac-5000",
