@@ -43,4 +43,7 @@ jobs:
           git config user.email "actions@github.com"
           git add assets/producten data/batterijen.json index.html sitemap.xml batterij/ vergelijk/ beste-thuisbatterij-home-assistant.html beste-thuisbatterij-homey.html
           git commit -m "Zes extra productfoto's toegepast"
-          git push -u origin HEAD:claude/vergelijkingssites-vercel-deploy-4bq1ix
+          # Terugduwen naar de tak waarop deze run is gestart, net als de
+          # dagelijkse prijsupdate doet. Naar een andere tak duwen botst met
+          # een historie die daar al staat.
+          git push
