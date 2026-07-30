@@ -71,6 +71,36 @@ Bewaar bestanden als `.webp` in `assets/producten/`, ongeveer 900 pixels breed. 
 `afbeelding_bron` als de foto niet van jezelf is: die bronvermelding verschijnt klein in
 de hoek van de foto en hoort bij het tonen van andermans beeld.
 
+## Meten voor en na een wijziging
+
+Twee hulpmiddelen om een verbetering aantoonbaar te maken in plaats van
+aannemelijk. Beide draaien lokaal en starten zelf een server; er hoeft niets
+te draaien.
+
+```
+npm run meet                 meet de belangrijkste pagina's op 390px breed
+npm run meet -- --bewaar     leg de uitkomst vast als ijkpunt
+npm run meet:vergelijk       zet de huidige meting naast het ijkpunt
+```
+
+Gemeten wordt hoe hoog de navigatie is, waar de eerste knop staat, hoeveel
+aanklikbare dingen kleiner zijn dan 44 pixels (de maat waarop een duim
+betrouwbaar raakt), en het gewicht van de pagina. Tekstlinks binnen een alinea
+tellen niet mee als aanraakvlak: die horen de regelhoogte te volgen. Het
+ijkpunt staat in `meting-ijkpunt.json` en hoort mee de repository in, zodat je
+altijd kunt terugkijken.
+
+```
+npm run beeld:voor           leg de huidige site vast in beeld
+npm run beeld:na             leg de nieuwe situatie vast
+npm run beeld:verschil       zet ze naast elkaar
+```
+
+De afdrukken belanden in `.schermafdrukken/` en blijven buiten de repository.
+Het script wacht tot alle afbeeldingen en lettertypen echt binnen zijn, zodat
+twee afdrukken van dezelfde onveranderde pagina identiek zijn; zonder die
+zekerheid is een vergelijking waardeloos.
+
 ## Prijzen vergelijkbaar houden
 
 Winkelprijzen komen zowel incl. als excl. btw binnen en dekken niet altijd hetzelfde.
