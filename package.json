@@ -10,9 +10,18 @@
     "genereer": "node scripts/genereer-batterijpaginas.mjs",
     "prijzen": "node scripts/update-prices.mjs",
     "links": "node scripts/controleer-links.mjs",
-    "links:intern": "node scripts/controleer-links.mjs --intern"
+    "links:intern": "node scripts/controleer-links.mjs --intern",
+    "meet": "node scripts/meet-site.mjs",
+    "meet:vergelijk": "node scripts/meet-site.mjs --vergelijk",
+    "beeld:voor": "node scripts/schermafdrukken.mjs --voor",
+    "beeld:na": "node scripts/schermafdrukken.mjs --na",
+    "beeld:verschil": "node scripts/schermafdrukken.mjs --verschil"
   },
   "dependencies": {
     "nodemailer": "^9.0.3"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.0",
+    "sharp": "^0.33.5"
   }
 }
