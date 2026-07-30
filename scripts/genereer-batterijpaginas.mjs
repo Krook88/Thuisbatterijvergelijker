@@ -290,7 +290,8 @@ ${breadcrumbLd(b)}
       <span class="logo-icoon">${ICOON_LOGO}</span>
       <span>Batterij<b>maatje</b></span>
     </a>
-    <nav class="hoofdnav">
+    <button class="menu-knop" type="button" aria-expanded="false" aria-controls="hoofdnav" aria-label="Menu openen"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></svg></button>
+    <nav class="hoofdnav" id="hoofdnav">
       <a href="/index.html">Thuisbatterijen</a>
       <a href="/advies.html">Keuzehulp</a>
       <a href="/rekenmodule.html">Terugverdientijd</a>
@@ -519,7 +520,8 @@ ${itemList}
       <span class="logo-icoon">${ICOON_LOGO}</span>
       <span>Batterij<b>maatje</b></span>
     </a>
-    <nav class="hoofdnav">
+    <button class="menu-knop" type="button" aria-expanded="false" aria-controls="hoofdnav" aria-label="Menu openen"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></svg></button>
+    <nav class="hoofdnav" id="hoofdnav">
       <a href="/index.html">Thuisbatterijen</a>
       <a href="/advies.html">Keuzehulp</a>
       <a href="/rekenmodule.html">Terugverdientijd</a>
@@ -694,7 +696,8 @@ ${itemList}
       <span class="logo-icoon">${ICOON_LOGO}</span>
       <span>Batterij<b>maatje</b></span>
     </a>
-    <nav class="hoofdnav">
+    <button class="menu-knop" type="button" aria-expanded="false" aria-controls="hoofdnav" aria-label="Menu openen"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></svg></button>
+    <nav class="hoofdnav" id="hoofdnav">
       <a href="/index.html">Thuisbatterijen</a>
       <a href="/advies.html">Keuzehulp</a>
       <a href="/rekenmodule.html">Terugverdientijd</a>

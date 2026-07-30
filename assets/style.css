@@ -165,6 +165,124 @@ a { color: var(--kleur-primair); }
   flex-wrap: wrap;
 }
 
+/* --------------------------------------------------------------------------
+   Hero: wat je als eerste ziet
+
+   Op een telefoon telde alleen al de inleiding negen regels; samen met de
+   navigatie en drie badges stond de eerste knop op 710 pixels. De kern staat
+   nu boven, de onderbouwing achter "Lees verder", en de knoppen komen voor de
+   badges. Op een breed scherm is er ruimte zat: daar staat de volledige tekst
+   gewoon uitgeklapt en verdwijnt de samenvouwer.
+   -------------------------------------------------------------------------- */
+
+.hero-meer > summary {
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 6px 0;
+  list-style: none;
+}
+
+.hero-meer > summary::-webkit-details-marker { display: none; }
+.hero-meer > summary::after { content: " \2193"; }
+.hero-meer[open] > summary::after { content: " \2191"; }
+
+.hero-badges {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.hero-acties {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.hero-acties .knop[data-nadruk="primair"] {
+  background: var(--kleur-accent);
+  color: #422006;
+}
+
+.hero-acties .knop[data-nadruk="secundair"] {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+}
+
+@media (min-width: 768px) {
+  /* Ruimte genoeg: geen samenvouwer, gewoon de hele tekst. */
+  .hero-meer > summary { display: none; }
+  .hero-meer > p { display: block; }
+}
+
+@media (max-width: 767px) {
+  /* De knoppen voor de badges: eerst iets kunnen doen, dan pas de cijfers. */
+  .hero .container { display: flex; flex-direction: column; }
+  .hero-acties { order: 2; margin-top: 16px; }
+  .hero-badges { order: 3; margin-top: 14px; }
+}
+
+/* --------------------------------------------------------------------------
+   Menuknop op smalle schermen
+
+   Op een telefoon wikkelde de navigatie over drie regels; de inhoud begon
+   daardoor pas op 138 pixels. Achter een knop scheelt dat ruim 90 pixels,
+   precies boven de vouw waar het het meeste waard is.
+
+   De klasse "menu-inklapbaar" wordt door nav.js gezet. Zonder JavaScript
+   blijft het menu dus gewoon uitgeklapt staan, in plaats van onbereikbaar
+   achter een knop die niets doet.
+   -------------------------------------------------------------------------- */
+
+.menu-knop {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--kleur-rand);
+  border-radius: 10px;
+  background: var(--kleur-wit);
+  color: var(--kleur-tekst);
+  cursor: pointer;
+}
+
+.menu-knop:hover { background: var(--kleur-achtergrond); }
+.menu-knop .icoon { width: 22px; height: 22px; }
+
+@media (max-width: 767px) {
+  .site-header.menu-inklapbaar .menu-knop { display: inline-flex; }
+
+  .site-header.menu-inklapbaar .hoofdnav {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 0 12px;
+  }
+
+  .site-header.menu-inklapbaar.menu-open .hoofdnav { display: flex; }
+
+  /* Uitgeklapt hoort elk item een volle regel te zijn, niet een pilletje. */
+  .site-header.menu-inklapbaar .hoofdnav a,
+  .site-header.menu-inklapbaar .hoofdnav details.nav-meer summary {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .site-header.menu-inklapbaar .hoofdnav details.nav-meer .nav-meer-paneel {
+    position: static;
+    box-shadow: none;
+    border: 0;
+    padding: 0 0 0 12px;
+    min-width: 0;
+  }
+}
+
 .hoofdnav a {
   text-decoration: none;
   color: var(--kleur-tekst-licht);
@@ -1178,6 +1296,7 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   /* Uitklappers ("Lees verder", de legenda) zijn ook knoppen om aan te tikken */
   .lees-meer summary,
   .legenda summary,
+  .hero-meer > summary,
   .faq-item summary {
     min-height: 44px;
     display: flex;

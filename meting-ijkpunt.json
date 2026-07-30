@@ -3,9 +3,9 @@
   "gemetenOp": "2026-07-30",
   "paginas": {
     "vergelijker": {
-      "navHoogte": 138,
-      "eersteKnopOp": 710,
-      "raakbaar": 408,
+      "navHoogte": 65,
+      "eersteKnopOp": 359,
+      "raakbaar": 400,
       "teKlein": 87,
       "mediaanTeKlein": 38,
       "teKleinPerSoort": {
@@ -15,13 +15,13 @@
         "visueel-verborgen": 1
       },
       "horizontaalSchuiven": false,
-      "kB": 124,
+      "kB": 143,
       "verzoeken": 11
     },
     "keuzehulp": {
-      "navHoogte": 138,
-      "eersteKnopOp": 2421,
-      "raakbaar": 51,
+      "navHoogte": 65,
+      "eersteKnopOp": 2348,
+      "raakbaar": 42,
       "teKlein": 20,
       "mediaanTeKlein": 29,
       "teKleinPerSoort": {
@@ -32,13 +32,13 @@
         "a": 1
       },
       "horizontaalSchuiven": false,
-      "kB": 144,
+      "kB": 125,
       "verzoeken": 9
     },
     "rekenmodule": {
-      "navHoogte": 138,
+      "navHoogte": 65,
       "eersteKnopOp": null,
-      "raakbaar": 73,
+      "raakbaar": 64,
       "teKlein": 62,
       "mediaanTeKlein": 22,
       "teKleinPerSoort": {
@@ -49,13 +49,13 @@
         "logo": 1
       },
       "horizontaalSchuiven": false,
-      "kB": 160,
+      "kB": 58,
       "verzoeken": 9
     },
     "uitleg": {
-      "navHoogte": 138,
+      "navHoogte": 65,
       "eersteKnopOp": null,
-      "raakbaar": 55,
+      "raakbaar": 46,
       "teKlein": 13,
       "mediaanTeKlein": 19,
       "teKleinPerSoort": {
@@ -63,13 +63,13 @@
         "logo": 1
       },
       "horizontaalSchuiven": false,
-      "kB": 52,
+      "kB": 54,
       "verzoeken": 5
     },
     "contact": {
-      "navHoogte": 138,
-      "eersteKnopOp": 1043,
-      "raakbaar": 23,
+      "navHoogte": 65,
+      "eersteKnopOp": 970,
+      "raakbaar": 14,
       "teKlein": 6,
       "mediaanTeKlein": 27,
       "teKleinPerSoort": {
@@ -78,7 +78,7 @@
         "adres": 1
       },
       "horizontaalSchuiven": false,
-      "kB": 37,
+      "kB": 11,
       "verzoeken": 6
     }
   }
