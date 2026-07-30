@@ -1209,6 +1209,17 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
     align-items: center;
     min-height: 44px;
   }
+
+  /* De woordenlijstlinks boven een specificatie ("Capaciteit", "Vermogen")
+     krijgen een ruimer raakvlak dan hun regelhoogte, maar houden hun plek: de
+     negatieve marge haalt precies de toegevoegde ruimte er weer af. Ze op 44
+     pixels brengen zou elke kaart twee rijen hoger maken en de prijs verder uit
+     beeld duwen; dat kost meer dan het oplevert. */
+  .spec-label a.term-link {
+    display: inline-block;
+    padding: 9px 6px;
+    margin: -9px -6px;
+  }
 }
 
 /* --------------------------------------------------------------------------

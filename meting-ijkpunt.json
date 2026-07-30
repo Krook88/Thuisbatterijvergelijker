@@ -3,82 +3,82 @@
   "gemetenOp": "2026-07-30",
   "paginas": {
     "vergelijker": {
-      "navHoogte": 131,
-      "eersteKnopOp": 703,
+      "navHoogte": 138,
+      "eersteKnopOp": 710,
       "raakbaar": 408,
-      "teKlein": 287,
+      "teKlein": 87,
+      "mediaanTeKlein": 38,
       "teKleinPerSoort": {
-        "term-link": 123,
-        "badge": 41,
-        "vergelijk-check": 41,
-        "details-toggle": 41,
-        "a": 35
+        "term-link": 82,
+        "a": 3,
+        "logo": 1,
+        "visueel-verborgen": 1
       },
       "horizontaalSchuiven": false,
-      "kB": 143,
+      "kB": 124,
       "verzoeken": 11
     },
     "keuzehulp": {
-      "navHoogte": 131,
-      "eersteKnopOp": 2414,
+      "navHoogte": 138,
+      "eersteKnopOp": 2421,
       "raakbaar": 51,
-      "teKlein": 40,
+      "teKlein": 20,
+      "mediaanTeKlein": 29,
       "teKleinPerSoort": {
-        "a": 9,
         "label": 9,
-        "input": 7,
-        "avond-apparaat": 7,
-        "select": 5
+        "select": 5,
+        "input": 4,
+        "logo": 1,
+        "a": 1
       },
       "horizontaalSchuiven": false,
-      "kB": 40,
+      "kB": 144,
       "verzoeken": 9
     },
     "rekenmodule": {
-      "navHoogte": 131,
+      "navHoogte": 138,
       "eersteKnopOp": null,
       "raakbaar": 73,
-      "teKlein": 72,
+      "teKlein": 62,
+      "mediaanTeKlein": 22,
       "teKleinPerSoort": {
-        "a": 25,
         "label": 22,
         "input": 18,
+        "a": 17,
         "select": 4,
         "logo": 1
       },
       "horizontaalSchuiven": false,
-      "kB": 40,
+      "kB": 160,
       "verzoeken": 9
     },
     "uitleg": {
-      "navHoogte": 131,
+      "navHoogte": 138,
       "eersteKnopOp": null,
       "raakbaar": 55,
-      "teKlein": 23,
+      "teKlein": 13,
+      "mediaanTeKlein": 19,
       "teKleinPerSoort": {
-        "a": 20,
-        "logo": 1,
-        "actief": 1,
-        "summary": 1
+        "a": 12,
+        "logo": 1
       },
       "horizontaalSchuiven": false,
-      "kB": 71,
+      "kB": 52,
       "verzoeken": 5
     },
     "contact": {
-      "navHoogte": 131,
-      "eersteKnopOp": 1036,
+      "navHoogte": 138,
+      "eersteKnopOp": 1043,
       "raakbaar": 23,
-      "teKlein": 18,
+      "teKlein": 6,
+      "mediaanTeKlein": 27,
       "teKleinPerSoort": {
-        "a": 8,
         "label": 4,
-        "knop": 2,
         "logo": 1,
-        "summary": 1
+        "adres": 1
       },
       "horizontaalSchuiven": false,
-      "kB": 13,
+      "kB": 37,
       "verzoeken": 6
     }
   }
