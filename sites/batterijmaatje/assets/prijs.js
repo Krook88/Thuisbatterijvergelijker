@@ -33,8 +33,25 @@
                                  wordt er dus geen korting berekend.
      batterij.richtprijs_btw_inbegrepen
                                  Idem voor de richtprijs zelf.
+     batterij.capaciteit_soort   Waar het getal in capaciteit_kwh vandaan komt:
+                                 "bruikbaar"  = wat je er echt uit haalt (de norm)
+                                 "nominaal"   = de bruto pakketmaat
+                                 weggelaten   = niet vastgesteld
+                                 Zie hieronder waarom dit een apart veld is.
+     batterij.capaciteit_nominaal_kwh
+                                 De bruto opgave, als die bekend is naast de
+                                 bruikbare.
 
-   Werkt zowel in de browser (window.Prijs) als in Node (require).
+   Over capaciteit, en waarom hier hetzelfde speelt als bij btw: fabrikanten
+   geven twee verschillende getallen op. De bruto pakketmaat ("nominaal") en wat
+   je er werkelijk uit haalt ("bruikbaar"), en dat scheelt tot twintig procent.
+   Zet je die naast elkaar zonder onderscheid, dan lijkt een batterij goedkoper
+   per kWh zonder dat er iets goedkoper is - precies dezelfde fout als een prijs
+   excl. btw naast een prijs incl. btw.
+
+   De norm van deze site is de bruikbare capaciteit: dat is wat de besparing
+   bepaalt. Zolang dat voor een model niet is vastgesteld hoort de site dat te
+   zeggen in plaats van te doen alsof, en daar is capaciteit_soort voor.
    ========================================================================== */
 
 (function (root, factory) {
@@ -124,6 +141,22 @@
     return vergelijkPrijs(richtprijsAlsAanbieding(b));
   }
 
+  // Is voor dit model vastgesteld dat het getal de bruikbare capaciteit is?
+  // Zo niet, dan mag de site de prijs per kWh nog wel tonen - een indicatie is
+  // beter dan niets - maar niet als hard vergelijkbaar getal presenteren.
+  function capaciteitBevestigd(b) {
+    return !!b && b.capaciteit_soort === "bruikbaar";
+  }
+
+  function capaciteitToelichting(b) {
+    if (!b || typeof b.capaciteit_kwh !== "number") return null;
+    if (b.capaciteit_soort === "bruikbaar") return null;
+    if (b.capaciteit_soort === "nominaal") {
+      return "fabrieksopgave bruto; bruikbaar ligt lager";
+    }
+    return "niet vastgesteld of dit de bruto- of de bruikbare capaciteit is";
+  }
+
   function prijsPerKwh(b) {
     const aanbieding = beste(b);
     const prijs = vergelijkPrijs(aanbieding);
@@ -152,6 +185,8 @@
     zelfdeSamenstelling,
     heeftKorting,
     vanPrijs,
+    capaciteitBevestigd,
+    capaciteitToelichting,
     prijsPerKwh,
     prijsToelichting,
   };

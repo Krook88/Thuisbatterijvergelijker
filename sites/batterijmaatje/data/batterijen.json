@@ -750,7 +750,9 @@
       "noodstroom": false,
       "noodstroom_uitleg": "De SolarEdge 48V-lijn levert in Nederland geen noodstroom; SolarEdge biedt back-up alleen via de 400V-lijn met de Home Backup Interface.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "EU-uitvoering; binnen en buiten"
+      "buiten_toelichting": "EU-uitvoering; binnen en buiten",
+      "capaciteit_soort": "bruikbaar",
+      "capaciteit_nominaal_kwh": 9.7
     },
     {
       "id": "huawei-luna2000-10",
@@ -1649,8 +1651,8 @@
     {
       "id": "zendure-solarflow-2400-pro",
       "merk": "Zendure",
-      "model": "SolarFlow 2400 Pro (2,88 kWh)",
-      "capaciteit_kwh": 2.88,
+      "model": "SolarFlow 2400 Pro (2,4 kWh bruikbaar)",
+      "capaciteit_kwh": 2.4,
       "uitbreidbaar_tot_kwh": 17.28,
       "vermogen_kw": 2.4,
       "type": "plug-in",
@@ -1668,14 +1670,16 @@
       "app": "Zendure app",
       "garantie_jaar": null,
       "cycli": null,
-      "opmerkingen": "Sinds het voorjaar van 2026 leverbaar via zendure.nl en meerdere Nederlandse webshops. Eén ding om te weten voordat je de prijs per kWh vergelijkt: de bronnen zijn het oneens over de capaciteit per module, 2,4 of 2,88 kWh bruikbaar. Wij houden de opgave van de Nederlandse winkels aan (2,88 kWh) tot dit hard is, en dat verschil telt direct door in de prijs per kWh. De prijzen wisselen bovendien sterk per actie; we zagen 999 tot 1.339 euro. Garantie, IP-klasse en Homey-ondersteuning waren in juli 2026 nog niet vastgesteld.",
+      "opmerkingen": "Sinds het voorjaar van 2026 leverbaar via zendure.nl en meerdere Nederlandse webshops. Over de capaciteit bestond verwarring: winkels noemen 2,88 kWh en de fabrikant 2,4 kWh. Dat zijn geen tegenstrijdige opgaven maar twee verschillende maten - 2,88 kWh is het bruto pakket, 2,4 kWh is wat je er bij 90% ontlaaddiepte werkelijk uit haalt. Wij vergelijken op de bruikbare capaciteit, dus staat hier 2,4 kWh; dat telt direct door in de prijs per kWh. De prijzen wisselen sterk per actie; we zagen 999 tot 1.339 euro. Garantie, IP-klasse en Homey-ondersteuning waren in juli 2026 nog niet vastgesteld.",
       "product_url": "https://www.zendure.nl/products/zendure-solarflow-2400-pro",
       "aanbiedingen": [],
       "totaalprijs_van_eur": 999,
       "totaalprijs_tot_eur": 1339,
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren; prijzen wisselen per actie",
       "noodstroom": null,
-      "noodstroom_uitleg": "Niet vastgesteld; controleer bij de fabrikant."
+      "noodstroom_uitleg": "Niet vastgesteld; controleer bij de fabrikant.",
+      "capaciteit_soort": "bruikbaar",
+      "capaciteit_nominaal_kwh": 2.88
     }
   ]
 }

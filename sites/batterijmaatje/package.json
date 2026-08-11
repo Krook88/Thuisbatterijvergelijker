@@ -11,6 +11,7 @@
     "prijzen": "node scripts/update-prices.mjs",
     "modellen": "node scripts/nieuwe-modellen.mjs",
     "modellen:proef": "node scripts/nieuwe-modellen.mjs --proef",
+    "capaciteit": "node scripts/capaciteit-status.mjs",
     "links": "node scripts/controleer-links.mjs",
     "links:intern": "node scripts/controleer-links.mjs --intern",
     "meet": "node scripts/meet-site.mjs",

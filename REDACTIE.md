@@ -10,6 +10,37 @@ Dit bestand legt de keuzes vast die anders elke week opnieuw ter discussie
 staan. Wie een kandidaat uit `data/nieuwe-modellen.json` beoordeelt, kijkt
 eerst hier.
 
+## Capaciteit: we vergelijken op wat je er echt uit haalt
+
+Fabrikanten geven twee getallen op. De bruto pakketmaat ("nominaal") en wat je
+er werkelijk uit haalt ("bruikbaar"), en dat scheelt tot twintig procent. Zet je
+die naast elkaar zonder onderscheid, dan lijkt een batterij goedkoper per kWh
+zonder dat er iets goedkoper is - precies dezelfde fout als een prijs excl. btw
+naast een prijs incl. btw zetten.
+
+**Norm: `capaciteit_kwh` is de bruikbare capaciteit.** Dat is wat de besparing
+bepaalt, en dus wat de bezoeker vergelijkt.
+
+Dat dit ertoe doet bleek bij de Zendure SolarFlow 2400 Pro. Winkels noemden
+2,88 kWh, de fabrikant 2,4 kWh, en dat leek een tegenspraak. Het waren twee
+verschillende maten: 2,88 bruto, 2,4 bruikbaar bij 90% ontlaaddiepte. Op de
+site ging dat model daarmee van 420 naar 504 euro per kWh - van middenmoot naar
+de duurste in zijn klasse.
+
+Per model leggen we vast waar het getal vandaan komt:
+
+```json
+"capaciteit_kwh": 2.4,
+"capaciteit_soort": "bruikbaar",
+"capaciteit_nominaal_kwh": 2.88
+```
+
+`capaciteit_soort` is `"bruikbaar"`, `"nominaal"`, of afwezig als het niet is
+vastgesteld. Zolang het niet vaststaat hoort de site dat te zeggen in plaats van
+te doen alsof; `Prijs.capaciteitToelichting()` levert die tekst.
+
+`npm run capaciteit` laat zien hoe ver we zijn en waar je het eerst moet kijken.
+
 ## Capaciteitsvarianten van hetzelfde systeem: één regel
 
 De Huawei LUNA2000 staat in 7, 10 en 15 kWh in de schappen. Die krijgen samen
@@ -22,6 +53,10 @@ die via de omschrijving en de winkellink.
 
 Wat dit kost: iemand die op "LUNA2000 15 kWh" zoekt komt niet op een eigen
 pagina uit. Dat is bewust ingeruild tegen een leesbare lijst.
+
+Let op de grens van deze regel: een opvolger is geen variant. De LUNA2000-S1
+heeft een andere modulemaat, andere behuizing en andere garantie dan de S0 die
+wij hebben - dat zijn twee systemen en dus twee regels.
 
 ## Bundels en sets: wel opnemen
 
@@ -49,6 +84,10 @@ gaat het om panelen voor bedrijfsdaken, en die horen niet op een site voor
 huishoudens. Loopt de markt door, dan gaat die grens mee omhoog - dat is één
 regel in de configuratie.
 
+Kijk wel naar het formaat. Onze lijst staat vol panelen van 1762 mm; de Jinko
+470 Wp is 1903 mm en de Denim 490 Wp 1909 mm. Dat past niet vanzelf op een dak
+dat op die kleinere maat is ingedeeld, dus dat hoort in de tekst te staan.
+
 ## Wat we niet opnemen
 
 - Draagbare powerstations, kampeeraccu's en noodstroomkoffers. Die staan vol in
@@ -61,6 +100,10 @@ regel in de configuratie.
   naamloze titel ("Thuisbatterij 16Kwh LIFePO4"). Er valt niets over te
   schrijven dat de bezoeker verder helpt, en de aanbieder is er volgend jaar
   mogelijk niet meer.
+
+Dat laatste gaat over aanbieders zonder merk, niet over kleine merken. PEGO
+heeft een eigen productlijn en een eigen webshop en valt er dus niet onder - die
+beoordeel je op zijn eigen merites.
 
 Een kandidaat die hieronder valt hoort in `scripts/nieuwe-modellen.json` onder
 `afgewezen`; dan komt hij niet terug.
