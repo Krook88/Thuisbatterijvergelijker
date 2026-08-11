@@ -287,7 +287,7 @@ function pagina(p) {
     `. Bekijk specificaties, garanties, Zeker-score en bereken de opbrengst voor jouw dak.`;
 
   const specRij = (label, waarde) => waarde == null || waarde === "" ? "" :
-    `<tr><th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);white-space:nowrap;width:40%;">${esc(label)}</th><td style="padding:10px 14px;">${waarde}</td></tr>`;
+    `<tr><th>${esc(label)}</th><td>${waarde}</td></tr>`;
 
   return `${kop(
     `${volledigeNaam(p)}: prijs, specificaties en garantie`,
@@ -299,8 +299,8 @@ function pagina(p) {
 <main class="content-pagina">
 
   <p class="datum-stempel"><a href="/index.html">Zonnepanelen</a> › ${esc(volledigeNaam(p))}</p>
-  <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
-    <div style="flex:1;min-width:250px;">
+  <div class="product-kop">
+    <div class="product-kop-tekst">
       <h1>${merkLogoHtml(p.merk)}${esc(volledigeNaam(p))}</h1>
       <p class="intro">${esc(celtypeLabel(p))} zonnepaneel van ${p.vermogen_wp} Wp, ${esc(p.uitvoering)}${p.full_black ? ", full black" : ""}${p.bifaciaal ? ", bifaciaal" : ""}. Prijzen laatst gecontroleerd op ${esc(datumNL(p.prijs_datum || data.laatst_bijgewerkt))}.</p>
     </div>
@@ -308,17 +308,17 @@ function pagina(p) {
   </div>
 
   <div class="info-kader">
-    ${beste ? `<div style="font-size:1.6rem;font-weight:800;">${eur(Prijs.vergelijkPrijs(beste))} <span style="font-size:0.95rem;font-weight:400;color:var(--kleur-tekst-licht);">${perWp ? `${eurWp(perWp)} per Wp` : ""} · ${esc(beste.winkel)}</span></div>` : "<div><b>Prijs op aanvraag</b></div>"}
-    ${p.prijs_omvat ? `<div style="font-size:0.9rem;color:var(--kleur-tekst-licht);">${esc(p.prijs_omvat)}</div>` : ""}
-    <p style="margin:14px 0 0;">
+    ${beste ? `<div class="info-prijs">${eur(Prijs.vergelijkPrijs(beste))} <span class="info-prijs-bron">${perWp ? `${eurWp(perWp)} per Wp` : ""} · ${esc(beste.winkel)}</span></div>` : "<div><b>Prijs op aanvraag</b></div>"}
+    ${p.prijs_omvat ? `<div class="info-dekking">${esc(p.prijs_omvat)}</div>` : ""}
+    <p class="info-acties">
       ${beste && beste.url && !String(beste.winkel || "").startsWith("richtprijs") ? `<a class="knop" href="${esc(beste.affiliate_url || beste.url)}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk bij ${esc(beste.winkel)} ${Iconen.svg("pijl-rechts")}</a>&nbsp;` : ""}
       <a class="knop knop-secundair" href="/rekenmodule.html?paneel=${encodeURIComponent(p.id)}">Bereken terugverdientijd</a>
     </p>
   </div>
 
   <h2>Specificaties</h2>
-  <div style="overflow-x:auto;background:var(--kleur-wit);border:1px solid var(--kleur-rand);border-radius:var(--radius);">
-  <table style="width:100%;border-collapse:collapse;font-size:0.95rem;">
+  <div class="tabel-blok">
+  <table class="data-tabel spec-tabel">
     ${specRij("Vermogen", `${p.vermogen_wp} <a class="term-link" href="/uitleg.html#wattpiek" title="Wat is wattpiek? Lees de uitleg">Wp</a>`)}
     ${specRij("Rendement", `${nl(p.rendement_pct)}%${wpPerM2 ? ` <small>(circa ${wpPerM2} Wp per m²)</small>` : ""}`)}
     ${specRij("Celtype", `<a class="term-link" href="/uitleg.html#${esc(p.celtype)}" title="Wat betekent dit celtype? Lees de uitleg">${esc(celtypeLabel(p))}</a>`)}
@@ -336,11 +336,11 @@ function pagina(p) {
   <p class="datum-stempel">Onbekende term (zoals Wp of bifaciaal)? Alle woorden staan uitgelegd in de <a href="/uitleg.html#woordenlijst">woordenlijst</a>. Specificaties op basis van de fabrikantendatasheet; controleer vóór aankoop de actuele versie.</p>
 
   <h2>Wat levert dit paneel op?</h2>
-  <p><span style="color:var(--kleur-accent);letter-spacing:2px;">${sterren(dakSterren(p))}</span> (opbrengst per m² dak: ${dakSterren(p)} van 5)</p>
+  <p><span class="sterren-reeks">${sterren(dakSterren(p))}</span> (opbrengst per m² dak: ${dakSterren(p)} van 5)</p>
   <p>Op een gunstig zuiddak levert dit paneel circa <b>${opbrengstZuid} kWh per jaar</b>; op een oost-westdak circa <b>${opbrengstOW} kWh</b>. Tien panelen komen dan uit op zo'n ${Math.round(opbrengstZuid * 10 / 100) * 100} respectievelijk ${Math.round(opbrengstOW * 10 / 100) * 100} kWh per jaar. <a href="/rekenmodule.html?paneel=${encodeURIComponent(p.id)}">Bereken de opbrengst en terugverdientijd voor jouw situatie</a>.</p>
 
   <h2>Degelijkheid en garanties</h2>
-  <p style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">${zekerScoreBadge(p)}
+  <p class="badge-rij">${zekerScoreBadge(p)}
     <span class="badge ${p.uitvoering === "glas-glas" ? "ja" : "nee"}">${p.uitvoering === "glas-glas" ? "" + Iconen.svg("ja") + "" : "" + Iconen.svg("nee") + ""} Glas-glas</span>
     <span class="badge ${(p.garantie_product_jaar || 0) >= 25 ? "ja" : "nee"}">${(p.garantie_product_jaar || 0) >= 25 ? "" + Iconen.svg("ja") + "" : "" + Iconen.svg("nee") + ""} 25+ jaar productgarantie</span>
   </p>
@@ -395,29 +395,29 @@ const OVERZICHTEN = [
 ];
 
 function overzichtTabel(lijst) {
-  return `<div style="overflow-x:auto;background:var(--kleur-wit);border:1px solid var(--kleur-rand);border-radius:var(--radius);margin:14px 0;">
-  <table style="width:100%;border-collapse:collapse;font-size:0.93rem;min-width:680px;">
+  return `<div class="tabel-blok los">
+  <table class="data-tabel brede-tabel overzicht-tabel kolom-vast">
     <thead><tr>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">Paneel</th>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);">Wp</th>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);">Rendement</th>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);">Prijs</th>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);">€/Wp</th>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);">Uitvoering</th>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);">Zeker-score</th>
+      <th>Paneel</th>
+      <th>Wp</th>
+      <th>Rendement</th>
+      <th>Prijs</th>
+      <th>€/Wp</th>
+      <th>Uitvoering</th>
+      <th>Zeker-score</th>
     </tr></thead>
     <tbody>${lijst.map((p) => {
       const beste = bestePrijs(p);
       const perWp = prijsPerWp(p);
       return `
       <tr>
-        <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);position:sticky;left:0;z-index:1;background:var(--kleur-wit);box-shadow:2px 0 0 var(--kleur-rand);">${merkLogoHtml(p.merk)}<a href="/paneel/${esc(p.id)}.html"><b>${esc(volledigeNaam(p))}</b></a></td>
-        <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);white-space:nowrap;">${p.vermogen_wp}</td>
-        <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);white-space:nowrap;">${nl(p.rendement_pct)}% <small>(${Math.round((p.rendement_pct || 0) * 10)} Wp/m²)</small></td>
-        <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);white-space:nowrap;">${beste ? `<b>${eur(Prijs.vergelijkPrijs(beste))}</b>` : "op aanvraag"}</td>
-        <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);white-space:nowrap;">${perWp ? eurWp(perWp) : "n.b."}</td>
-        <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);white-space:nowrap;">${esc(p.uitvoering)}${p.full_black ? "<br><small>full black</small>" : ""}</td>
-        <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);white-space:nowrap;"><b>${zekerScore(p)}/6</b></td>
+        <td>${merkLogoHtml(p.merk)}<a href="/paneel/${esc(p.id)}.html"><b>${esc(volledigeNaam(p))}</b></a></td>
+        <td class="niet-afbreken">${p.vermogen_wp}</td>
+        <td class="niet-afbreken">${nl(p.rendement_pct)}% <small>(${Math.round((p.rendement_pct || 0) * 10)} Wp/m²)</small></td>
+        <td class="niet-afbreken">${beste ? `<b>${eur(Prijs.vergelijkPrijs(beste))}</b>` : "op aanvraag"}</td>
+        <td class="niet-afbreken">${perWp ? eurWp(perWp) : "n.b."}</td>
+        <td class="niet-afbreken">${esc(p.uitvoering)}${p.full_black ? "<br><small>full black</small>" : ""}</td>
+        <td class="niet-afbreken"><b>${zekerScore(p)}/6</b></td>
       </tr>`;
     }).join("")}</tbody>
   </table>
@@ -440,8 +440,8 @@ function overzichtsPagina(cfg) {
 
   return `${kop(cfg.titel, cfg.metaDesc, `${SITE}/${cfg.bestand}`, wrapLd(itemList))}
 
-<main class="container" style="max-width:900px;">
-  <p class="datum-stempel" style="margin-top:22px;"><a href="/index.html">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
+<main class="container leespagina">
+  <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
   <h1>${esc(cfg.titel)}</h1>
   <p class="datum-stempel">Automatisch samengesteld uit onze vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
   <p>${esc(cfg.intro)}</p>
@@ -487,11 +487,10 @@ function vergelijkingsPagina(v) {
   const naam = volledigeNaam;
   const besteA = bestePrijs(A), besteB = bestePrijs(B);
 
-  const celStijl = 'style="padding:10px 14px;border-top:1px solid var(--kleur-rand);vertical-align:top;"';
   const rij = (label, wa, wb, winnaar = -1) =>
-    `<tr><th style="text-align:left;padding:10px 14px;border-top:1px solid var(--kleur-rand);background:var(--kleur-achtergrond);white-space:normal;min-width:110px;vertical-align:top;position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">${esc(label)}</th>` +
-    `<td ${celStijl}>${winnaar === 0 ? `<b>${wa}</b>` : wa}</td>` +
-    `<td ${celStijl}>${winnaar === 1 ? `<b>${wb}</b>` : wb}</td></tr>`;
+    `<tr><th>${esc(label)}</th>` +
+    `<td>${winnaar === 0 ? `<b>${wa}</b>` : wa}</td>` +
+    `<td>${winnaar === 1 ? `<b>${wb}</b>` : wb}</td></tr>`;
 
   const laagWint = (x, y) => (x == null || y == null || x === y) ? -1 : (x < y ? 0 : 1);
   const hoogWint = (x, y) => (x == null || y == null || x === y) ? -1 : (x > y ? 0 : 1);
@@ -513,18 +512,18 @@ function vergelijkingsPagina(v) {
 
   return `${kop(`${titel} (2026)`, metaDesc, `${SITE}/vergelijk/${esc(v.slug)}.html`, wrapLd(itemList))}
 
-<main class="container" style="max-width:900px;">
-  <p class="datum-stempel" style="margin-top:22px;"><a href="/index.html">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
+<main class="container leespagina">
+  <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
   <h1>${esc(naam(A))} vs ${esc(naam(B))}</h1>
   <p class="datum-stempel">Op basis van dezelfde feiten als onze vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
   <p>Twee veelvergeleken zonnepanelen naast elkaar. Onder de tabel staan de belangrijkste verschillen op een rij. Vetgedrukt betekent: op dit punt objectief in het voordeel.</p>
 
-  <div style="overflow-x:auto;background:var(--kleur-wit);border:1px solid var(--kleur-rand);border-radius:var(--radius);margin:14px 0;">
-  <table style="width:100%;border-collapse:collapse;font-size:0.93rem;min-width:560px;">
+  <div class="tabel-blok los">
+  <table class="data-tabel brede-tabel duel-tabel kolom-vast">
     <thead><tr>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);position:sticky;left:0;z-index:1;"></th>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);"><a href="/paneel/${esc(A.id)}.html">${esc(naam(A))}</a></th>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);"><a href="/paneel/${esc(B.id)}.html">${esc(naam(B))}</a></th>
+      <th></th>
+      <th><a href="/paneel/${esc(A.id)}.html">${esc(naam(A))}</a></th>
+      <th><a href="/paneel/${esc(B.id)}.html">${esc(naam(B))}</a></th>
     </tr></thead>
     <tbody>
       ${rij("Prijs", besteA ? eur(Prijs.vergelijkPrijs(besteA)) : "op aanvraag", besteB ? eur(Prijs.vergelijkPrijs(besteB)) : "op aanvraag")}

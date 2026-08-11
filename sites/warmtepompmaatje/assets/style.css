@@ -1394,6 +1394,85 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 .varianten-regel b { color: var(--kleur-tekst); font-weight: 700; }
 
 /* --------------------------------------------------------------------------
+   De pomppagina
+
+   Deze regels stonden als style-attribuut in de generator en werden dus dertig
+   keer herhaald in de gegenereerde HTML. De uitzondering staat er nog wel: de
+   stip op de geluidsstrook krijgt een berekende left-waarde per pomp, en die
+   kan geen klasse zijn.
+   -------------------------------------------------------------------------- */
+
+.pomp-titel { margin: 8px 0 4px; }
+.pomp-ondertitel { margin: 0 0 6px; color: var(--kleur-tekst-licht); }
+.koppel-meter-groot.op-pagina { padding: 0 0 14px; }
+
+/* Een kop die direct op de bovenrand van zijn kader aansluit. */
+.kop-aansluitend { margin-top: 0; }
+.aansluitend { padding-top: 0; }
+
+.info-kader.los { margin-top: 14px; }
+/* Twee maten lucht boven een blok. Het verschil is klein maar zat al in de
+   oorspronkelijke opmaak; het gelijktrekken zou de pagina's laten verspringen. */
+.onder-kop { margin: 6px 0 0; }   /* een alinea direct onder een kop */
+.onder-lijst { margin: 8px 0 0; } /* een lijst of alinea na een alinea */
+.onder-lijst-strak { margin: 0 0 12px; }
+.koppel-blok { margin: 0; }
+.hint.los { margin-top: 12px; }
+.prijs-hint { margin: 2px 0 10px; }
+
+/* De winkellijst onder de prijs: naam links, bedrag rechts, en een lange
+   winkelnaam mag afbreken in plaats van de rij uit te rekken. */
+.winkel-lijst { list-style: none; padding: 0; margin: 0 0 10px; }
+.winkel-lijst li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 6px 0;
+  border-bottom: 1px dotted var(--kleur-rand);
+  min-width: 0;
+}
+.winkel-naam { min-width: 0; overflow-wrap: anywhere; }
+.winkel-bedrag { white-space: nowrap; }
+
+/* Knoppen onder elkaar in plaats van naast elkaar. */
+.knoppen-kolom { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+
+.vergelijk-tabel.compact { min-width: 0; }
+
+
+/* Losse onderdelen van de handgeschreven pagina's. */
+.filter-groep.breed { flex: 1; min-width: 200px; }
+.zoekveld {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--kleur-rand);
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+.filter-reset.rechts { margin-left: auto; padding: 8px 14px; font-size: 0.88rem; }
+.stappen { margin: 22px 0 6px; }
+.content-pagina.zonder-zijruimte { padding-left: 0; padding-right: 0; }
+.kaart-details .prijs-gecontroleerd { display: block; margin-top: 8px; }
+
+/* De opbrengstgrafiek in de rekenmodule. */
+.grafiek-kader {
+  margin: 18px 0 26px;
+  padding: 18px 16px 12px;
+  background: var(--kleur-wit);
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius);
+}
+.volgende-stap { margin-top: 22px; }
+.grafiek { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; }
+.grafiek-bijschrift {
+  margin-top: 10px;
+  font-size: 0.88rem;
+  color: var(--kleur-tekst-licht);
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
    Aanraakvlakken op een touchscreen
 
    Overgenomen van batterijmaatje, waar dit al stond. Zonder dit blok waren de

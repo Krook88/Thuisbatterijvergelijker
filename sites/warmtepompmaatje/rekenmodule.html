@@ -119,7 +119,7 @@
 
       <details class="geavanceerd">
         <summary>Aannames aanpassen (energieprijzen, installatiekosten)</summary>
-        <p class="hint" style="margin-top:8px;">Wij rekenen standaard met: gasprijs € 1,45 per m³, stroomprijs € 0,30 per kWh, € 350 vaste gaskosten per jaar en € 700 eenmalige afsluitkosten. De installatie schatten wij op € 2.500 (hybride) of € 4.500 (all-electric, inclusief boiler). Wijkt jouw situatie of offerte af? Pas het hier aan; het resultaat rekent direct mee.</p>
+        <p class="hint los">Wij rekenen standaard met: gasprijs € 1,45 per m³, stroomprijs € 0,30 per kWh, € 350 vaste gaskosten per jaar en € 700 eenmalige afsluitkosten. De installatie schatten wij op € 2.500 (hybride) of € 4.500 (all-electric, inclusief boiler). Wijkt jouw situatie of offerte af? Pas het hier aan; het resultaat rekent direct mee.</p>
         <div class="veld-rij">
           <div class="veld">
             <label for="gasprijs">Gasprijs (€ per m³)</label>
@@ -158,12 +158,12 @@
 
   </div>
 
-  <section class="content-pagina" style="padding-top:0;">
+  <section class="content-pagina aansluitend">
     <h2>Hoe rekenen wij?</h2>
     <p>De berekening is bewust eenvoudig en controleerbaar, en gebruikt dezelfde vuistregels als onze <a href="advies.html">keuzehulp</a>. Dit zijn de stappen en aannames:</p>
 
-    <figure style="margin:18px 0 26px;padding:18px 16px 12px;background:var(--kleur-wit);border:1px solid var(--kleur-rand);border-radius:var(--radius);">
-      <svg viewBox="0 0 560 204" role="img" aria-label="Staafdiagram: van het gasverbruik gaat 75% naar verwarming en 25% naar warm water en koken. Een hybride neemt 60% van het totaal over, all-electric alles." style="display:block;width:100%;max-width:560px;height:auto;margin:0 auto;">
+    <figure class="grafiek-kader">
+      <svg viewBox="0 0 560 204" role="img" aria-label="Staafdiagram: van het gasverbruik gaat 75% naar verwarming en 25% naar warm water en koken. Een hybride neemt 60% van het totaal over, all-electric alles." class="grafiek">
         <!-- balk: jouw gasverbruik -->
         <text x="10" y="22" font-size="13" font-weight="700" fill="var(--kleur-tekst)">Jouw gasverbruik nu</text>
         <rect x="10" y="30" width="405" height="26" rx="6" fill="var(--kleur-primair)"/>
@@ -181,7 +181,7 @@
         <rect x="10" y="170" width="540" height="26" rx="6" fill="var(--kleur-blauw, #2563eb)"/>
         <text x="280" y="188" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">pomp neemt alles over (100%, gas kan eraf)</text>
       </svg>
-      <figcaption style="margin-top:10px;font-size:0.88rem;color:var(--kleur-tekst-licht);text-align:center;">Blauw = wordt elektrisch (de pomp), terracotta = gas. Hybride neemt circa 60% over, all-electric alles.</figcaption>
+      <figcaption class="grafiek-bijschrift">Blauw = wordt elektrisch (de pomp), terracotta = gas. Hybride neemt circa 60% over, all-electric alles.</figcaption>
     </figure>
     <ul>
       <li><b>Verdeling van je gasverbruik.</b> Circa 75% van het gas gaat naar verwarming en circa 25% naar warm water en koken (bron: Milieu Centraal). Die verdeling gebruiken wij bij all-electric om het warme water apart door te rekenen.</li>

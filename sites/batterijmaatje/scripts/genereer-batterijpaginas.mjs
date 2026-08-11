@@ -313,8 +313,8 @@ ${breadcrumbLd(b)}
 <main class="content-pagina">
 
   <p class="datum-stempel"><a href="/index.html">Vergelijker</a> › ${esc(volledigeNaam(b))}</p>
-  <div class="batterij-kop">
-    <div class="batterij-kop-tekst">
+  <div class="product-kop">
+    <div class="product-kop-tekst">
       <h1>${merkLogoHtml(b.merk)}${esc(volledigeNaam(b))}</h1>
       <p class="intro">${esc(typeLabel)} thuisbatterij van ${nl(b.capaciteit_kwh)} kWh${b.uitbreidbaar_tot_kwh ? `, uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh` : ""}. Prijzen dagelijks gecontroleerd, laatst op ${esc(datumNL(b.prijs_datum || data.laatst_bijgewerkt))}.</p>
     </div>
