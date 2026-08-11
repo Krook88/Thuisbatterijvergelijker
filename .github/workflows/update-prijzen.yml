@@ -88,3 +88,34 @@ jobs:
             git pull --rebase --autostash
             git push
           fi
+
+  # De matrix hierboven kan groen zijn terwijl een site toch stilstaat: als een
+  # site uit de matrix valt, als de workflow op de hoofdtak achterloopt, of als
+  # een push mislukt. Dat is precies wat er met warmtepompmaatje gebeurde -
+  # twaalf dagen oude prijzen achter een dagelijks geslaagde workflow, met
+  # "Bijgewerkt: 30 juli" op de site. Deze controle kijkt naar de uitkomst in
+  # plaats van naar de stappen, en draait dus over alle drie de sites tegelijk.
+  verse-data:
+    runs-on: ubuntu-latest
+    needs: prijzen
+    if: always()
+    steps:
+      - name: Code ophalen
+        uses: actions/checkout@v4
+        with:
+          # De matrix heeft zojuist geduwd; zonder dit staat hier de versie van
+          # voor de update en meldt de controle een dag te veel.
+          ref: ${{ github.ref_name }}
+
+      - name: Node.js instellen
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Ouderdom van de gegevens per site
+        run: |
+          fout=0
+          for site in sites/*/; do
+            ( cd "$site" && node scripts/verse-data.mjs --streng ) || fout=1
+          done
+          exit $fout
