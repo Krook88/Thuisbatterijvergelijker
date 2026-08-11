@@ -24,8 +24,16 @@
  *                                              wat er te halen valt
  *   node scripts/isde-condities.mjs --schrijf  neem de gevonden waarden over
  *
- * RVO is niet bereikbaar vanuit de ontwikkelomgeving (de egress-proxy staat de
- * host niet toe); dit script draait in de workflow.
+ * Stand van zaken: rvo.nl komt nergens door. Niet vanuit de ontwikkelomgeving
+ * (daar staat de egress-proxy de host niet toe) en ook niet vanuit de
+ * workflow - daar gaf hij "fetch failed" binnen een halve seconde terwijl 94
+ * andere adressen in dezelfde run wel antwoordden. Dat is een verbindingsfout
+ * en geen tijdslimiet: RVO weert dit verkeer.
+ *
+ * Daarom probeert --verken nu meerdere ingangen en meldt per ingang wat er
+ * gebeurt, zodat een run uitwijst of er een weg is in plaats van dat iemand
+ * dat gokt. Komt er geen enkele door, dan is dit handwerk of moet de lijst met
+ * de hand in de repository - en dan is dat een bevinding en geen mislukking.
  */
 
 import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
@@ -38,7 +46,18 @@ const DATA_PAD = resolve(__dirname, "../data/warmtepompen.json");
 const VERKEN = process.argv.includes("--verken");
 const SCHRIJF = process.argv.includes("--schrijf");
 
-const LIJST_PAGINA = "https://www.rvo.nl/subsidies-financiering/isde/meldcodelijsten/warmtepompen";
+// De eerste poging ging uit van rvo.nl, en die bleek ook vanuit de workflow
+// onbereikbaar: "fetch failed" binnen een halve seconde, terwijl 94 andere
+// adressen in dezelfde run wel antwoordden. Dat is een verbindingsfout en geen
+// tijdslimiet, dus RVO weert het verkeer. Daarom nu een lijstje ingangen, zodat
+// een run zelf uitwijst welke er wel doorkomt in plaats van dat ik dat gok.
+const INGANGEN = [
+  ["rvo.nl (de bron zelf)", "https://www.rvo.nl/subsidies-financiering/isde/meldcodelijsten/warmtepompen"],
+  ["rvo.nl zonder www", "https://rvo.nl/subsidies-financiering/isde/meldcodelijsten/warmtepompen"],
+  ["data.overheid.nl (zoek-API)", "https://data.overheid.nl/data/api/3/action/package_search?q=ISDE%20meldcode"],
+  ["open.overheid.nl (zoeken)", "https://open.overheid.nl/zoeken?trefwoord=ISDE%20meldcodelijst%20warmtepompen"],
+];
+const LIJST_PAGINA = INGANGEN[0][1];
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36 Warmtepompmaatje-isde/1.0";
 
@@ -68,15 +87,25 @@ function formaatVan(buf) {
 }
 
 async function verken() {
-  log(`ISDE-verkenning: ${LIJST_PAGINA}\n`);
-  let html;
-  try {
-    html = await haal(LIJST_PAGINA);
-  } catch (err) {
-    log(`  x pagina niet op te halen: ${err.message}`);
+  log("Welke ingang komt er door?\n");
+  let html = null;
+  let gebruikt = null;
+  for (const [naam, url] of INGANGEN) {
+    const start = Date.now();
+    try {
+      const tekst = await haal(url);
+      log(`  = ${naam}: gelukt, ${tekst.length} tekens in ${Date.now() - start} ms`);
+      if (!html) { html = tekst; gebruikt = url; }
+    } catch (err) {
+      log(`  x ${naam}: ${err.message} (na ${Date.now() - start} ms)`);
+    }
+  }
+  if (!html) {
+    log("\n  ! geen enkele ingang komt door. De meldcodelijst is langs deze weg niet te halen;");
+    log("    dan is dit handwerk of moet de lijst met de hand in de repository gezet worden.");
     return;
   }
-  log(`  = pagina opgehaald, ${html.length} tekens`);
+  log(`\n  -> verder met ${gebruikt}`);
 
   // Elke link die op een bestand lijkt. Bewust breed: we weten nog niet hoe
   // RVO het aanbiedt, en dat uitvinden is precies het doel van deze stand.
@@ -85,7 +114,7 @@ async function verken() {
     const href = m[1];
     if (!/\.(xlsx|xls|ods|csv|pdf)(\?|$)/i.test(href) && !/download|bestand|meldcode/i.test(href)) continue;
     try {
-      links.set(new URL(href, LIJST_PAGINA).href, true);
+      links.set(new URL(href, gebruikt).href, true);
     } catch { /* geen bruikbare url */ }
   }
   log(`  = ${links.size} mogelijke bestandslinks gevonden`);
