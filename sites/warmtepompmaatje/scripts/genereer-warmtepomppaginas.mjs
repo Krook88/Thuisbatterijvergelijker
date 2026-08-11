@@ -17,6 +17,9 @@ const Iconen = vereis("../assets/iconen.js");
 // En dezelfde prijslogica, zodat een pomppagina nooit een ander bedrag
 // noemt dan de kaart in de vergelijker.
 const Prijs = vereis("../assets/prijs.js");
+// En dezelfde kaartopmaak, zodat de voorgerenderde kaarten in index.html niet
+// kunnen afwijken van wat de browser tekent.
+const Kaart = vereis("../assets/kaart.js");
 
 // Het merkicoon staat in de kop en de voet van elke pagina.
 const ICOON_LOGO = Iconen.svg("warmte", { klasse: "icoon-groot" });
@@ -277,6 +280,69 @@ for (const w of pompen) {
 console.log(`${pompen.length} productpagina's gegenereerd in /pomp/`);
 
 // Sitemap herbouwen
+
+/* ------------------------------------------------------------------
+   De vergelijker voorrenderen in index.html
+
+   De kaarten werden pas in de browser getekend. In de HTML die een bezoeker of
+   een zoekmachine binnenkrijgt stond alleen "Warmtepompen laden...": geen
+   merknamen, geen prijzen, en geen enkele link naar de dertig pomppagina's.
+   Zoekmachines voeren JavaScript wel uit, maar later en minder betrouwbaar, en
+   interne links bepalen mede hoe goed die pagina's gevonden worden.
+
+   De opmaak komt uit assets/kaart.js, dezelfde module die de browser gebruikt,
+   dus er kan geen verschil ontstaan.
+   ------------------------------------------------------------------ */
+
+const BEGIN = "<!-- kaarten:begin -->";
+const EIND = "<!-- kaarten:eind -->";
+
+const gesorteerdePompen = Kaart.standaardVolgorde(data.warmtepompen);
+
+const kaarten = gesorteerdePompen
+  .map((w) => Kaart.kaartHtml(w, { pompen: data.warmtepompen }))
+  .join("\n");
+
+const itemLijst = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Warmtepompen vergeleken",
+  description: "Alle vergeleken warmtepompen, gerangschikt op Koppel-score.",
+  numberOfItems: gesorteerdePompen.length,
+  itemListElement: gesorteerdePompen.map((w, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    url: `${SITE}/pomp/${w.id}.html`,
+    name: `${w.merk} ${w.model}`,
+  })),
+};
+
+let index = readFileSync(join(ROOT, "index.html"), "utf8");
+const beginPositie = index.indexOf(BEGIN);
+const eindPositie = index.indexOf(EIND);
+if (beginPositie === -1 || eindPositie === -1) {
+  throw new Error(`index.html mist de markeringen ${BEGIN} en ${EIND}; de kaarten kunnen er niet in gezet worden.`);
+}
+
+index =
+  index.slice(0, beginPositie + BEGIN.length) +
+  "\n" + kaarten + "\n    " +
+  index.slice(eindPositie);
+
+const LD_BEGIN = '<script type="application/ld+json" data-lijst>';
+const LD_EIND = "</script>";
+const ldBlok = `${LD_BEGIN}\n${JSON.stringify(itemLijst, null, 2)}\n  ${LD_EIND}`;
+if (index.includes(LD_BEGIN)) {
+  const a = index.indexOf(LD_BEGIN);
+  const b = index.indexOf(LD_EIND, a) + LD_EIND.length;
+  index = index.slice(0, a) + ldBlok + index.slice(b);
+} else {
+  index = index.replace("</head>", `  ${ldBlok}\n</head>`);
+}
+
+writeFileSync(join(ROOT, "index.html"), index, "utf8");
+console.log(`index.html: ${gesorteerdePompen.length} kaarten voorgerenderd en ItemList bijgewerkt`);
+
 const vast = [
   { loc: `${SITE}/`, prio: "1.0" },
   { loc: `${SITE}/advies.html`, prio: "0.9" },

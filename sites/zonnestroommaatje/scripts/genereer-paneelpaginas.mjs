@@ -20,6 +20,9 @@ const Iconen = vereis("../assets/iconen.js");
 // En dezelfde prijslogica als de browser, zodat een bedrag op een
 // gegenereerde pagina niet anders kan uitpakken dan in de vergelijker.
 const Prijs = vereis("../assets/prijs.js");
+// En dezelfde kaartopmaak, zodat de voorgerenderde kaarten in index.html niet
+// kunnen afwijken van wat de browser tekent.
+const Kaart = vereis("../assets/kaart.js");
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -586,6 +589,73 @@ console.log(`${VERGELIJKINGEN.length} vergelijkingspagina's gegenereerd in /verg
 /* ------------------------------------------------------------------
    Sitemap herbouwen (vaste pagina's + paneelpagina's)
    ------------------------------------------------------------------ */
+
+
+/* ------------------------------------------------------------------
+   De vergelijker voorrenderen in index.html
+
+   De kaarten werden pas in de browser getekend. In de HTML die een bezoeker of
+   een zoekmachine binnenkrijgt stond daardoor geen enkele paneelnaam, geen
+   prijs, en geen enkele link naar de veertien paneelpagina's. Zoekmachines
+   voeren JavaScript wel uit, maar later en minder betrouwbaar, en interne
+   links bepalen mede hoe goed die pagina's gevonden worden.
+
+   De opmaak komt uit assets/kaart.js, dezelfde module die de browser gebruikt,
+   dus er kan geen verschil ontstaan. Zodra de bezoeker gaat filteren of
+   sorteren neemt app.js het over.
+   ------------------------------------------------------------------ */
+
+const BEGIN = "<!-- kaarten:begin -->";
+const EIND = "<!-- kaarten:eind -->";
+
+const gesorteerdePanelen = Kaart.standaardVolgorde(data.panelen);
+
+const kaarten = gesorteerdePanelen
+  .map((p) => Kaart.kaartHtml(p, { merkLogos: data.merk_logos }))
+  .join("\n");
+
+// ItemList vertelt de zoekmachine dat dit een gerangschikte lijst producten is
+// en welke pagina bij elk item hoort.
+const itemLijst = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Zonnepanelen vergeleken",
+  description: "Alle vergeleken zonnepanelen, gerangschikt op prijs per wattpiek.",
+  numberOfItems: gesorteerdePanelen.length,
+  itemListElement: gesorteerdePanelen.map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    url: `${SITE}/paneel/${p.id}.html`,
+    name: Kaart.naamVan(p),
+  })),
+};
+
+let index = readFileSync(resolve(ROOT, "index.html"), "utf8");
+const beginPositie = index.indexOf(BEGIN);
+const eindPositie = index.indexOf(EIND);
+if (beginPositie === -1 || eindPositie === -1) {
+  throw new Error(`index.html mist de markeringen ${BEGIN} en ${EIND}; de kaarten kunnen er niet in gezet worden.`);
+}
+
+index =
+  index.slice(0, beginPositie + BEGIN.length) +
+  "\n" + kaarten + "\n    " +
+  index.slice(eindPositie);
+
+// De lijst-markup vervangen of toevoegen, zodat er nooit twee in de pagina staan
+const LD_BEGIN = '<script type="application/ld+json" data-lijst>';
+const LD_EIND = "</script>";
+const ldBlok = `${LD_BEGIN}\n${JSON.stringify(itemLijst, null, 2)}\n  ${LD_EIND}`;
+if (index.includes(LD_BEGIN)) {
+  const a = index.indexOf(LD_BEGIN);
+  const b = index.indexOf(LD_EIND, a) + LD_EIND.length;
+  index = index.slice(0, a) + ldBlok + index.slice(b);
+} else {
+  index = index.replace("</head>", `  ${ldBlok}\n</head>`);
+}
+
+writeFileSync(resolve(ROOT, "index.html"), index, "utf8");
+console.log(`index.html: ${gesorteerdePanelen.length} kaarten voorgerenderd en ItemList bijgewerkt`);
 
 const vast = [
   { loc: `${SITE}/`, freq: "daily", prio: "1.0" },
