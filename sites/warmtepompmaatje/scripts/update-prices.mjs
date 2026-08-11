@@ -138,10 +138,21 @@ async function haalPagina(url) {
     const res = await fetch(url, {
       signal: controller.signal,
       redirect: "follow",
+      // Een verzoek met alleen een User-Agent valt op: echte browsers sturen
+      // altijd een hele set headers mee. Verschillende winkels antwoorden
+      // daarom met 403 terwijl de pagina gewoon openbaar is. Dit kost niets en
+      // scheelt naar verwachting een deel van die weigeringen; wat er dan nog
+      // overblijft is een winkel die het echt niet wil, en dat is te
+      // respecteren.
       headers: {
         "User-Agent": USER_AGENT,
-        "Accept": "text/html,application/xhtml+xml",
-        "Accept-Language": "nl-NL,nl;q=0.9,en;q=0.6",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        "Accept-Language": "nl-NL,nl;q=0.9,en-US;q=0.8,en;q=0.7",
+        "Upgrade-Insecure-Requests": "1",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-User": "?1",
       },
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
