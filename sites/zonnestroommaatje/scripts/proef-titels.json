@@ -1,17 +1,74 @@
 {
   "toelichting": "Echte winkeltitels met wat scripts/nieuwe-modellen.mjs ervan hoort te maken. 'bekend' = dit staat al in data/, 'nieuw' = dit hoort gemeld te worden, 'genegeerd' = dit is geen product voor deze site. Draai met: npm run modellen:proef. Deze site is de lastigste: wij noteren series ('IQ8-serie', 'SUN2000 L1') en winkels noteren exacte types ('IQ8HC', 'SUN2000-5KTL-L1'), dus juist hier moet de proef bewaken dat de herkenning niet te streng en niet te ruim staat.",
   "titels": [
-    { "titel": "Jinko Solar 440Wp Tiger Neo N-type all black zonnepaneel", "verwacht": "bekend" },
-    { "titel": "AIKO 455Wp Neostar 2S Gen2 glas-glas all black", "verwacht": "bekend" },
-    { "titel": "Trina Solar Vertex S+ dual glass all black 450Wp", "verwacht": "bekend" },
-    { "titel": "Q-CELLS Q.TRON BLK M-G2+ 435 zonnepaneel", "verwacht": "bekend" },
-    { "titel": "Huawei SUN2000-5KTL-L1 omvormer", "verwacht": "bekend" },
-    { "titel": "Huawei SUN2000-6KTL-L1 omvormer", "verwacht": "bekend" },
-    { "titel": "Enphase micro-omvormer IQ8HC", "verwacht": "bekend" },
-    { "titel": "APsystems DS3 micro-omvormer", "verwacht": "bekend" },
-
-    { "titel": "Jinko Solar 480Wp Tiger Neo 3.0 all black zonnepaneel", "verwacht": "nieuw" },
-    { "titel": "Enphase IQ9 micro-omvormer", "verwacht": "nieuw" },
-    { "titel": "Huawei SUN2000-8K-MAP0 3-fase omvormer", "verwacht": "nieuw" }
+    {
+      "titel": "Jinko Solar 440Wp Tiger Neo N-type all black zonnepaneel",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "AIKO 455Wp Neostar 2S Gen2 glas-glas all black",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "Trina Solar Vertex S+ dual glass all black 450Wp",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "Q-CELLS Q.TRON BLK M-G2+ 435 zonnepaneel",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "Huawei SUN2000-5KTL-L1 omvormer",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "Huawei SUN2000-6KTL-L1 omvormer",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "Enphase micro-omvormer IQ8HC",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "APsystems DS3 micro-omvormer",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "Jinko Solar 480Wp Tiger Neo 3.0 all black zonnepaneel",
+      "verwacht": "nieuw"
+    },
+    {
+      "titel": "Enphase IQ9 micro-omvormer",
+      "verwacht": "nieuw"
+    },
+    {
+      "titel": "Huawei SUN2000-8K-MAP0 3-fase omvormer",
+      "verwacht": "nieuw"
+    },
+    {
+      "titel": "ja solar 710w half cut silver frame bifacial double glass jam66d46 710lb 2384 x 1303 x 33mm",
+      "verwacht": "genegeerd",
+      "bron": "Solar-NU (panelen)"
+    },
+    {
+      "titel": "ja solar jam72s30 545mr 545w 2279x1134x35mm 0510w",
+      "verwacht": "genegeerd",
+      "bron": "Solar-NU (panelen)"
+    },
+    {
+      "titel": "trina solar vertex s 510w half cut black frame dual glass tsm 510 neg18r28",
+      "verwacht": "genegeerd",
+      "bron": "Solar-NU (panelen)"
+    },
+    {
+      "titel": "jinko solar tiger neo r 435w half cut full black 25 years jkm435n 54hl4r b 1762x1134x30mm",
+      "verwacht": "nieuw",
+      "bron": "Solar-NU (panelen)"
+    },
+    {
+      "titel": "dmegc zonnepaneel 470wp mono full black n type glassglass 20mm mono facial hc 30mm met mc4",
+      "verwacht": "nieuw",
+      "bron": "Solar-NU (panelen)"
+    }
   ]
 }

@@ -258,7 +258,33 @@ function gaatOverOnsOnderwerp(titel, regels) {
   if (lijst(regels, "uitsluit_woorden").some((w) => t.includes(w))) return false;
   const onderwerp = lijst(regels, "onderwerp_woorden");
   if (!onderwerp.length) return true;
-  return onderwerp.some((w) => t.includes(w));
+  if (onderwerp.some((w) => t.includes(w))) return true;
+  // Een product van een merk dat we al volgen gaat per definitie over ons
+  // onderwerp, ook als de winkel het woord "thuisbatterij" niet gebruikt. De
+  // proef betrapte dit: "Zendure SolarFlow Hyper 2000 met 1 x AB3000 batterij"
+  // is een thuisbatterij die we zelfs al hebben, maar geen van onze
+  // onderwerpwoorden staat erin. Zonder deze uitzondering zou een opvolger van
+  // zo'n model nooit gemeld worden. De uitsluitlijst gaat hier bewust vóór:
+  // een powerbank van een merk dat ook batterijen maakt blijft eruit.
+  return !!herkenMerk(titel);
+}
+
+// Een getal met een eenheid uit de titel, binnen de grenzen die de site
+// vergelijkt. Solar-NU verkoopt ook panelen van 710 Wp voor op een loods; die
+// zijn niet nieuw voor ons, ze horen hier gewoon niet. Zonder deze grens is de
+// helft van de meldingen product dat we bewust niet voeren, en dan leest
+// niemand de lijst meer.
+function binnenBereik(titel, regels) {
+  const b = regels && regels.bereik;
+  if (!b) return true;
+  // "wp" ook laten matchen op "440w": winkels schrijven het allebei.
+  const eenheid = b.eenheid === "wp" ? "wp?" : b.eenheid;
+  const re = new RegExp(`(\\d+(?:[.,]\\d+)?)\\s?${eenheid}\\b`, "gi");
+  for (const m of String(titel).toLowerCase().matchAll(re)) {
+    const n = Number(m[1].replace(",", "."));
+    if (n >= b.min && n <= b.max) return true;
+  }
+  return false;
 }
 
 function minimumPrijs(regels) {
@@ -448,11 +474,25 @@ if (process.argv.includes("--proef")) {
     console.log(`${site}: geen scripts/proef-titels.json, niets te toetsen.`);
     process.exit(0);
   }
-  const regels = { alleen_bekende_merken: false, minimum_modelwoorden: 1 };
+  // Welke regels gelden hangt af van de bron: bij zonnestroommaatje staan de
+  // woordenlijsten en het Wp-bereik per bron, dus een proef die de sitebrede
+  // lijsten pakt toetst daar iets anders dan wat er in het echt gebeurt.
+  // Noemt een regel een winkel, dan gelden de regels van die bron en toetsen we
+  // dus ook of het bereik en de woordenlijsten van die bron kloppen. Zonder
+  // winkel toetsen we alleen de herkenning zelf, tegen de sitebrede lijsten.
+  const perWinkel = new Map((config.bronnen || []).map((b) => [b.winkel || b.soort, b]));
   let fout = 0;
   for (const geval of JSON.parse(readFileSync(pad, "utf8")).titels) {
+    const regels = geval.bron
+      ? perWinkel.get(geval.bron)
+      : { alleen_bekende_merken: false, minimum_modelwoorden: 1 };
+    if (!regels) {
+      console.error(`  x onbekende bron "${geval.bron}" in de proef`);
+      fout++;
+      continue;
+    }
     let uitkomst;
-    if (!gaatOverOnsOnderwerp(geval.titel, regels)) uitkomst = "genegeerd";
+    if (!gaatOverOnsOnderwerp(geval.titel, regels) || !binnenBereik(geval.titel, regels)) uitkomst = "genegeerd";
     else if (herkenBekend(geval.titel, null)) uitkomst = "bekend";
     else uitkomst = "nieuw";
     const goed = uitkomst === geval.verwacht;
@@ -482,12 +522,13 @@ for (const bron of config.bronnen || []) {
 }
 
 const kandidaten = new Map();
-const weggelaten = { merk: 0, geenmodel: 0, onderwerp: 0, prijs: 0 };
+const weggelaten = { merk: 0, geenmodel: 0, onderwerp: 0, prijs: 0, bereik: 0 };
 let bekendGevonden = 0;
 for (const r of rauw) {
   const sleutel = r.titel.toLowerCase().replace(/\s+/g, " ").trim();
   if (AFGEWEZEN.has(sleutel)) continue;
   if (!gaatOverOnsOnderwerp(r.titel, r.regels)) { weggelaten.onderwerp++; continue; }
+  if (!binnenBereik(r.titel, r.regels)) { weggelaten.bereik++; continue; }
   const drempel = minimumPrijs(r.regels);
   if (drempel && typeof r.prijs === "number" && r.prijs < drempel) { weggelaten.prijs++; continue; }
 
@@ -538,7 +579,8 @@ console.log(`\n${site}: ${rauw.length} producten bekeken, ${bekendGevonden} herk
 for (const d of diagnose) console.log(`  ~ ${d}`);
 console.log(
   `  ~ weggelaten: ${weggelaten.onderwerp} ander onderwerp, ${weggelaten.merk} onbekend merk, ` +
-  `${weggelaten.geenmodel} zonder modelaanduiding, ${weggelaten.prijs} te goedkoop`,
+  `${weggelaten.geenmodel} zonder modelaanduiding, ${weggelaten.bereik} buiten ons bereik, ` +
+  `${weggelaten.prijs} te goedkoop`,
 );
 if (!alleKandidaten.length) {
   console.log("  = geen onbekende modellen gevonden.");

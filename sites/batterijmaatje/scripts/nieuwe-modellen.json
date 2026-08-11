@@ -20,16 +20,25 @@
     }
   ],
 
+  "toelichting_filters": "De eerste echte run gaf ruim vijftig kandidaten, waarvan het merendeel camping-powerstations, wegwerpbatterijen en zelfs een parasollamp op batterijen. Dat kwam doordat 'batterij', 'accu', 'kwh' en 'powerstation' als onderwerp golden - allemaal woorden die net zo goed op een kampeeraccu staan. Nu moet een titel zeggen dat het om opslag in huis gaat. Dat mist een enkel product dat zichzelf anders noemt; dat is te overzien, een onleesbare lijst niet.",
+
   "onderwerp_woorden": [
-    "thuisbatterij", "thuisaccu", "balkonbatterij", "energieopslag", "batterij",
-    "accu", "kwh", "solarbank", "powerstation", "energy storage", "opslagsysteem"
+    "thuisbatterij", "thuisaccu", "balkonbatterij", "batterijopslag",
+    "energieopslag", "opslagsysteem", "home battery", "battery", "energy storage"
   ],
 
   "uitsluit_woorden": [
     "kabel", "snoer", "adapter", "stekker", "beugel", "wandbeugel", "montage",
     "hoes", "cover", "sticker", "handleiding", "boek", "poster", "speelgoed",
+    "opbergtas", "lamp", "verlichting", "laadcontroller", "windturbine",
+
     "powerbank", "oplader", "laadpaal", "batterijen aa", "batterijen aaa",
-    "knoopcel", "alkaline", "wielen", "trolley", "zonnepaneel flexibel"
+    "knoopcel", "alkaline", "wegwerpbatterij", "zinkchloride", "lithium ijzer fosfaat accu",
+
+    "draagbaar", "draagbare", "portable", "mobiele", "camping", "kamperen",
+    "camper", "caravan", "outdoor", "generator", "krachtcentrale", "noodstroomvoorziening",
+
+    "laten aansluiten", "installatie door", "monteur"
   ],
 
   "minimum_prijs_eur": 250,

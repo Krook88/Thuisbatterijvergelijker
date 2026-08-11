@@ -1,13 +1,45 @@
 {
   "toelichting": "Echte winkeltitels met wat scripts/nieuwe-modellen.mjs ervan hoort te maken. 'bekend' = dit staat al in data/, 'nieuw' = dit hoort gemeld te worden, 'genegeerd' = dit is geen product voor deze site. Draai met: npm run modellen:proef.",
   "titels": [
-    { "titel": "Daikin Altherma 3 R W lucht-water warmtepomp split unit 6 kW", "verwacht": "bekend" },
-    { "titel": "Vaillant aroTHERM plus VWL 55/6 A 230V 5,4 kW", "verwacht": "bekend" },
-
-    { "titel": "Daikin Altherma 4 H MT lucht-water warmtepomp 8 kW", "verwacht": "nieuw" },
-    { "titel": "Nefit Bosch Compress 7800i AW 7 monoblock warmtepomp", "verwacht": "nieuw" },
-
-    { "titel": "Buffervat 100 liter voor warmtepomp", "verwacht": "genegeerd" },
-    { "titel": "Leidingset voor monoblock warmtepomp 10 meter", "verwacht": "genegeerd" }
+    {
+      "titel": "Daikin Altherma 3 R W lucht-water warmtepomp split unit 6 kW",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "Vaillant aroTHERM plus VWL 55/6 A 230V 5,4 kW",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "Daikin Altherma 4 H MT lucht-water warmtepomp 8 kW",
+      "verwacht": "nieuw"
+    },
+    {
+      "titel": "Nefit Bosch Compress 7800i AW 7 monoblock warmtepomp",
+      "verwacht": "nieuw"
+    },
+    {
+      "titel": "Buffervat 100 liter voor warmtepomp",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "Leidingset voor monoblock warmtepomp 10 meter",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "Stiebel Eltron lucht water warmtepomp WPL 07 ACS classic compact plus Set 1.1 204261",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "Stiebel Eltron WPL 25 AC warmtepomp set compact duo Set 2.1 204255",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "Stiebel Eltron lucht water warmtepomp WPL 07 ACS classic 235920",
+      "verwacht": "nieuw"
+    },
+    {
+      "titel": "Stiebel Eltron lucht water warmtepomp WPL-A 10 HK 400 Premium 205851",
+      "verwacht": "nieuw"
+    }
   ]
 }

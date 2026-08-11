@@ -49,8 +49,11 @@
   "uitsluit_woorden": [
     "boiler", "buffervat", "expansievat", "vulset", "aansluitset", "kabel",
     "beugel", "onderhoud", "servicebeurt", "filter", "afdekkap", "voetsteun",
-    "trillingsdemper", "leidingset", "onderdeel", "airco", "airconditioner"
+    "trillingsdemper", "leidingset", "onderdeel", "airco", "airconditioner",
+    "set 1.", "set 2.", "warmtepompset", "warmtepomp set"
   ],
+
+  "toelichting_filters": "Boilermarkt zet elke pomp ook als pakket in de schappen ('classic compact plus Set 1.1'). Dat is geen ander apparaat maar een andere levering, en acht van de dertien meldingen in de eerste echte run waren zo'n pakket. Vandaar 'set 1.', 'set 2.' en 'warmtepompset' in de uitsluitlijst.",
 
   "afgewezen": []
 }
