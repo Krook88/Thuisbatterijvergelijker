@@ -1,0 +1,9 @@
+# Alleen nodig voor de serverloze functie achter het contactformulier en voor
+# de meetscripts; Vercel installeert wat het nodig heeft zelf aan de hand van
+# package.json en package-lock.json.
+node_modules/
+
+# Werkmateriaal van scripts/schermafdrukken.mjs: twee volledige afdrukken van
+# elke site zijn tientallen megabytes en horen bij één wijziging, niet bij de
+# geschiedenis.
+.schermafdrukken/

@@ -1,6 +1,6 @@
 {
   "breedte": 390,
-  "gemetenOp": "2026-07-30",
+  "gemetenOp": "2026-08-11",
   "paginas": {
     "vergelijker": {
       "navHoogte": 65,
@@ -32,7 +32,7 @@
         "a": 1
       },
       "horizontaalSchuiven": false,
-      "kB": 125,
+      "kB": 53,
       "verzoeken": 9
     },
     "rekenmodule": {
@@ -49,7 +49,7 @@
         "logo": 1
       },
       "horizontaalSchuiven": false,
-      "kB": 58,
+      "kB": 154,
       "verzoeken": 9
     },
     "uitleg": {
@@ -63,7 +63,7 @@
         "logo": 1
       },
       "horizontaalSchuiven": false,
-      "kB": 54,
+      "kB": 21,
       "verzoeken": 5
     },
     "contact": {
@@ -78,8 +78,51 @@
         "adres": 1
       },
       "horizontaalSchuiven": false,
-      "kB": 11,
+      "kB": 22,
       "verzoeken": 6
+    },
+    "batterijpagina": {
+      "navHoogte": 65,
+      "eersteKnopOp": 863,
+      "raakbaar": 7,
+      "teKlein": 6,
+      "mediaanTeKlein": 19,
+      "teKleinPerSoort": {
+        "term-link": 3,
+        "a": 2,
+        "logo": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 24,
+      "verzoeken": 6
+    },
+    "overzicht": {
+      "navHoogte": 65,
+      "eersteKnopOp": null,
+      "raakbaar": 37,
+      "teKlein": 4,
+      "mediaanTeKlein": 42,
+      "teKleinPerSoort": {
+        "a": 3,
+        "logo": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 36,
+      "verzoeken": 5
+    },
+    "duel": {
+      "navHoogte": 65,
+      "eersteKnopOp": null,
+      "raakbaar": 4,
+      "teKlein": 3,
+      "mediaanTeKlein": 42,
+      "teKleinPerSoort": {
+        "a": 2,
+        "logo": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 14,
+      "verzoeken": 5
     }
   }
 }

@@ -1,0 +1,122 @@
+{
+  "breedte": 390,
+  "gemetenOp": "2026-08-11",
+  "paginas": {
+    "vergelijker": {
+      "navHoogte": 175,
+      "eersteKnopOp": 670,
+      "raakbaar": 196,
+      "teKlein": 133,
+      "mediaanTeKlein": 32,
+      "teKleinPerSoort": {
+        "badge": 30,
+        "vergelijk-check": 30,
+        "details-toggle": 30,
+        "kaart-naar-reken": 30,
+        "a": 8
+      },
+      "horizontaalSchuiven": false,
+      "kB": 52,
+      "verzoeken": 9
+    },
+    "keuzehulp": {
+      "navHoogte": 175,
+      "eersteKnopOp": 2473,
+      "raakbaar": 27,
+      "teKlein": 23,
+      "mediaanTeKlein": 39,
+      "teKleinPerSoort": {
+        "a": 8,
+        "label": 6,
+        "select": 5,
+        "logo": 1,
+        "actief": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 51,
+      "verzoeken": 9
+    },
+    "rekenmodule": {
+      "navHoogte": 175,
+      "eersteKnopOp": null,
+      "raakbaar": 25,
+      "teKlein": 24,
+      "mediaanTeKlein": 37,
+      "teKleinPerSoort": {
+        "a": 7,
+        "label": 7,
+        "input": 6,
+        "logo": 1,
+        "actief": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 50,
+      "verzoeken": 9
+    },
+    "uitleg": {
+      "navHoogte": 175,
+      "eersteKnopOp": null,
+      "raakbaar": 10,
+      "teKlein": 10,
+      "mediaanTeKlein": 40,
+      "teKleinPerSoort": {
+        "a": 7,
+        "logo": 1,
+        "actief": 1,
+        "summary": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 62,
+      "verzoeken": 6
+    },
+    "contact": {
+      "navHoogte": 175,
+      "eersteKnopOp": 1851,
+      "raakbaar": 20,
+      "teKlein": 15,
+      "mediaanTeKlein": 40,
+      "teKleinPerSoort": {
+        "a": 7,
+        "label": 4,
+        "logo": 1,
+        "summary": 1,
+        "actief": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 62,
+      "verzoeken": 7
+    },
+    "pomppagina": {
+      "navHoogte": 175,
+      "eersteKnopOp": 2504,
+      "raakbaar": 11,
+      "teKlein": 11,
+      "mediaanTeKlein": 40,
+      "teKleinPerSoort": {
+        "a": 8,
+        "logo": 1,
+        "actief": 1,
+        "summary": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 36,
+      "verzoeken": 6
+    },
+    "subsidie": {
+      "navHoogte": 175,
+      "eersteKnopOp": null,
+      "raakbaar": 10,
+      "teKlein": 10,
+      "mediaanTeKlein": 40,
+      "teKleinPerSoort": {
+        "a": 7,
+        "logo": 1,
+        "actief": 1,
+        "summary": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 62,
+      "verzoeken": 6
+    }
+  }
+}
