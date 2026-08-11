@@ -43,6 +43,14 @@ const USER_AGENT =
    Auth: https://api.bol.com/marketing/docs/catalog-api/authentication.html
    ------------------------------------------------------------------ */
 
+// Aanbiedingen waarvan de winkel zelf zegt dat hij ze niet meer voert, en
+// aanbiedingen die weer terug zijn. Hier gedeclareerd en niet verderop bij de
+// andere rapportlijsten: bolApiPrijs() hieronder gebruikt ze, en een const die
+// pas later in het bestand staat werkt alleen zolang niemand die functie
+// eerder aanroept.
+const nietMeerLeverbaar = [];
+const weerLeverbaar = [];
+
 const BOL_CLIENT_ID = process.env.BOL_CLIENT_ID || "";
 const BOL_CLIENT_SECRET = process.env.BOL_CLIENT_SECRET || "";
 let bolToken = null;
@@ -162,10 +170,17 @@ async function bolApiPrijs(aanbieding) {
     headers: bolHeaders(token),
   });
   if (res.status === 404) {
-    // Geen storing: bol heeft dit artikel op dit moment gewoon niet in de
-    // verkoop. De oude prijs blijft staan en komt vanzelf in het overzicht
-    // van niet-bevestigde prijzen terecht.
-    console.log(`  ~ bol-API ${ean}: bol verkoopt dit artikel nu niet`);
+    // Geen storing: bol heeft dit artikel op dit moment niet in de verkoop.
+    // Dit is bol die het zelf zegt, geen gok van ons, en dus mag het de
+    // gegevens aanpassen: de aanbieding telt niet meer mee voor de kopprijs.
+    // Zonder deze stap blijft er een bedrag bovenaan staan dat je nergens kunt
+    // afrekenen - precies wat er bij de Wolf CHA-07 bij Benem misging, en wat
+    // daar met de hand rechtgezet moest worden.
+    if (!aanbieding.niet_leverbaar) {
+      console.log(`  ! bol-API ${ean}: bol verkoopt dit artikel niet meer, telt niet meer mee voor de kopprijs`);
+      nietMeerLeverbaar.push({ winkel: aanbieding.winkel, url: aanbieding.url });
+    }
+    aanbieding.niet_leverbaar = true;
     return null;
   }
   if (!res.ok) {
@@ -173,6 +188,13 @@ async function bolApiPrijs(aanbieding) {
     return null;
   }
   const prijs = zoekPrijsInRespons(await res.json());
+  // Weer te koop: de markering valt vanzelf af, zonder dat iemand ernaar
+  // hoeft te kijken.
+  if (prijs && aanbieding.niet_leverbaar) {
+    console.log(`  ! bol-API ${ean}: weer leverbaar, markering vervalt`);
+    delete aanbieding.niet_leverbaar;
+    weerLeverbaar.push({ winkel: aanbieding.winkel, url: aanbieding.url });
+  }
   return prijs ? Math.round(prijs) : null;
 }
 
@@ -450,6 +472,26 @@ async function main() {
         ...verouderd.map((v) => `| ${v.id} | ${v.winkel} | € ${v.prijs} | ${v.dagen === null ? "nooit" : v.dagen + " dagen geleden"} |`),
         "",
       ].join("\n") + "\n");
+    }
+  }
+
+  if (nietMeerLeverbaar.length || weerLeverbaar.length) {
+    for (const a of nietMeerLeverbaar) console.log(`  telt niet meer mee: ${a.winkel} (${a.url})`);
+    for (const a of weerLeverbaar) console.log(`  weer leverbaar: ${a.winkel} (${a.url})`);
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      const regels = [`### Leverbaarheid gewijzigd bij ${nietMeerLeverbaar.length + weerLeverbaar.length} aanbieding(en)`, ""];
+      if (nietMeerLeverbaar.length) {
+        regels.push(
+          "Bol meldt zelf dat deze artikelen niet meer verkocht worden. Ze tellen vanaf nu niet meer mee voor de prijs die de site toont, maar blijven wel in de winkellijst staan. Komt het artikel terug, dan valt die markering vanzelf af.",
+          "", "| Winkel | Adres |", "| --- | --- |",
+          ...nietMeerLeverbaar.map((a) => `| ${a.winkel} | ${a.url} |`), "",
+        );
+      }
+      if (weerLeverbaar.length) {
+        regels.push("Deze zijn juist weer wel te koop en tellen weer mee:", "",
+          ...weerLeverbaar.map((a) => `- ${a.winkel} (${a.url})`), "");
+      }
+      appendFileSync(process.env.GITHUB_STEP_SUMMARY, regels.join("\n") + "\n");
     }
   }
 
