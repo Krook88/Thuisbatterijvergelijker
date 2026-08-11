@@ -1057,8 +1057,8 @@ table.vergelijk-tabel {
    -------------------------------------------------------------------------- */
 
 /* Titel en foto naast elkaar, onder elkaar zodra de foto niet meer past. */
-.batterij-kop { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
-.batterij-kop-tekst { flex: 1; min-width: 250px; }
+.product-kop { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+.product-kop-tekst { flex: 1; min-width: 250px; }
 
 /* Het prijskader: het bedrag groot, de herkomst en de dekking eronder. */
 .info-prijs { font-size: 1.6rem; font-weight: 800; }

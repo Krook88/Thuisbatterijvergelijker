@@ -157,7 +157,7 @@
       <div class="kaart-kop">
         <div>
           <div class="merk">${merkHtml(p, o.merkLogos)}</div>
-          <h3><a href="paneel/${encodeURIComponent(p.id)}.html" style="color:inherit;text-decoration:none;" title="Alle details van de ${escapeHtml(naamVan(p))}">${escapeHtml(p.model)}</a></h3>
+          <h3><a class="kop-link" href="paneel/${encodeURIComponent(p.id)}.html" title="Alle details van de ${escapeHtml(naamVan(p))}">${escapeHtml(p.model)}</a></h3>
           <a class="term-link" href="uitleg.html#${escapeHtml(p.celtype)}" title="Wat betekent dit celtype? Lees de uitleg in de woordenlijst"><span class="type-badge type-${escapeHtml(p.celtype)}">${escapeHtml(celtypeLabel(p))}</span></a>
         </div>
         ${korting ? '<span class="aanbieding-vlag">Aanbieding</span>' : ""}
@@ -169,7 +169,7 @@
         <div class="spec"><span class="spec-label">Productgarantie</span><span class="spec-waarde">${p.garantie_product_jaar ? p.garantie_product_jaar + " jaar" : "Onbekend"}</span></div>
       </div>
       <div class="koppelgemak" title="Hoeveel vermogen past er per vierkante meter dak? 5 sterren = zeer hoog rendement, dus maximale opbrengst op een klein dak.">
-        <span class="spec-label" style="font-size:0.75rem;color:var(--kleur-tekst-licht);font-weight:600;text-transform:uppercase;">Opbrengst per m² dak</span><br>
+        <span class="spec-label klein-kapitaal">Opbrengst per m² dak</span><br>
         <span class="sterren">${sterren(dakSterren(p))}</span>
         <div class="uitleg">${wpPerM2 ? `Circa ${wpPerM2} Wp per m² paneeloppervlak.` : ""} ${escapeHtml(p.opmerkingen ? "" : "")}</div>
       </div>
@@ -188,7 +188,7 @@
         ${p.opmerkingen ? `<dt>Goed om te weten</dt><dd>${escapeHtml(p.opmerkingen)}</dd>` : ""}
         ${(p.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${p.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${eurFmt.format(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""} &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul></dd>` : ""}
         ${p.product_url ? `<dt>Fabrikant</dt><dd><a href="${escapeHtml(p.product_url)}" target="_blank" rel="noopener">officiële website van ${escapeHtml(p.merk)}</a></dd>` : ""}
-        ${p.prijs_datum ? `<dd class="datum-stempel" style="margin-top:8px;">Richtprijs gecontroleerd: ${escapeHtml(datumNL(p.prijs_datum))}</dd>` : ""}
+        ${p.prijs_datum ? `<dd class="datum-stempel prijs-gecontroleerd">Richtprijs gecontroleerd: ${escapeHtml(datumNL(p.prijs_datum))}</dd>` : ""}
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
@@ -204,7 +204,7 @@
         <a class="knop knop-secundair" href="systeem.html?paneel=${encodeURIComponent(p.id)}" title="Combineer dit paneel met een omvormer en zie de systeemprijs" aria-label="Stel een systeem samen met de ${escapeHtml(naamVan(p))}">In systeem ${Iconen.svg("pijl-rechts")}</a>
         <a class="knop knop-secundair" href="rekenmodule.html?paneel=${encodeURIComponent(p.id)}" title="Bereken de terugverdientijd van dit paneel voor jouw dak" aria-label="Bereken de terugverdientijd van de ${escapeHtml(naamVan(p))}">Terugverdientijd</a>
       </div>
-      ${beste && beste.affiliate_url ? `<div class="datum-stempel" style="padding:0 20px 12px;">Dit is een commissielink: kost jou niets, beïnvloedt de vergelijking niet. <a href="over-ons.html">Uitleg</a></div>` : ""}
+      ${beste && beste.affiliate_url ? `<div class="datum-stempel commissie-melding">Dit is een commissielink: kost jou niets, beïnvloedt de vergelijking niet. <a href="over-ons.html">Uitleg</a></div>` : ""}
     </article>`;
   }
 

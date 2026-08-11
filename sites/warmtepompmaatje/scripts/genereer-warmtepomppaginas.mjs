@@ -64,7 +64,7 @@ function variantenBlok(w) {
   <h2>Ook in andere maten</h2>
   <p>Deze reeks staat in ${v.length} uitvoeringen op de meldcodelijst van RVO. Het vermogen hieronder is het opgegeven vermogen volgens EU 811/2013, zoals RVO dat hanteert; dat ligt vaak een stap lager dan de maat in de modelnaam.</p>
   <div class="tabel-wrap">
-    <table class="vergelijk-tabel" style="min-width:0;">
+    <table class="vergelijk-tabel compact">
       <thead><tr><th>Vermogen (ISDE-lijst)</th><th>ISDE-subsidie</th><th>Meldcode</th></tr></thead>
       <tbody>${v.map((x) => `<tr><td>${x.vermogen_kw} kW</td><td class="tabel-prijs">${x.isde_eur ? eur(x.isde_eur) : "?"}</td><td>${esc(x.meldcode)}</td></tr>`).join("")}</tbody>
     </table>
@@ -197,9 +197,9 @@ ${kop("index", true)}
 
 <main class="container">
   <p class="breadcrumb"><a href="../index.html">Warmtepompen</a> › ${esc(naam)}</p>
-  <h1 style="margin:8px 0 4px;">${esc(naam)}</h1>
-  <p style="margin:0 0 6px;color:var(--kleur-tekst-licht);">${w.type === "hybride" ? "Hybride warmtepomp (werkt samen met je cv-ketel)" : "All-electric warmtepomp (vervangt de cv-ketel volledig)"}${w.voorbeeld_variant ? ` · prijzen voor: ${esc(w.voorbeeld_variant)}` : ""}</p>
-  <div class="koppel-meter koppel-meter-groot" style="padding:0 0 14px;">
+  <h1 class="pomp-titel">${esc(naam)}</h1>
+  <p class="pomp-ondertitel">${w.type === "hybride" ? "Hybride warmtepomp (werkt samen met je cv-ketel)" : "All-electric warmtepomp (vervangt de cv-ketel volledig)"}${w.voorbeeld_variant ? ` · prijzen voor: ${esc(w.voorbeeld_variant)}` : ""}</p>
+  <div class="koppel-meter koppel-meter-groot op-pagina">
     <div class="koppel-meter-kop">
       <span class="koppel-meter-label">${Iconen.svg("koppeling")} Koppel-score</span>
       <span class="koppel-meter-cijfer"><b>${score}</b><span class="van">/6</span></span>
@@ -211,7 +211,7 @@ ${kop("index", true)}
 
   <div class="product-indeling">
     <div class="product-paneel">
-      <h2 style="margin-top:0;">Specificaties</h2>
+      <h2 class="kop-aansluitend">Specificaties</h2>
       <table class="spec-tabel">
         ${specRij("Type", w.type === "hybride" ? "Hybride (naast de cv-ketel)" : "All-electric (van het gas af)")}
         ${specRij("Vermogen", w.vermogen_kw ? `${String(w.vermogen_kw).replace(".", ",")} kW` : null)}
@@ -223,34 +223,34 @@ ${kop("index", true)}
         ${specRij("ISDE-subsidie", w.isde_indicatie_eur ? `${eur(w.isde_indicatie_eur)} <small>${w.isde_meldcode ? `bij meldcode ${esc(w.isde_meldcode)} op de <a href="https://www.rvo.nl/subsidies-financiering/isde/meldcodelijsten/warmtepompen" target="_blank" rel="noopener">meldcodelijst van RVO</a>` : `(check de meldcode bij <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/warmtepomp" target="_blank" rel="noopener">RVO</a>)`}</small>` : null)}
       </table>
 
-      <div class="info-kader" style="margin-top:14px;">
+      <div class="info-kader los">
         <b>Wat je nodig hebt voor je ISDE-aanvraag</b>
-        <p style="margin:6px 0 0;">De ISDE-subsidie loopt per goedgekeurd apparaat, elk met een eigen meldcode. Wij vermelden die meldcode bewust niet: RVO werkt de lijst regelmatig bij en één model heeft vaak meerdere codes per vermogensvariant. Zoek de juiste meldcode op met deze gegevens van deze warmtepomp:</p>
-        <ul style="margin:8px 0 0;">
+        <p class="onder-kop">De ISDE-subsidie loopt per goedgekeurd apparaat, elk met een eigen meldcode. Wij vermelden die meldcode bewust niet: RVO werkt de lijst regelmatig bij en één model heeft vaak meerdere codes per vermogensvariant. Zoek de juiste meldcode op met deze gegevens van deze warmtepomp:</p>
+        <ul class="onder-lijst">
           <li><b>Merk:</b> ${esc(w.merk)}</li>
           <li><b>Model:</b> ${esc(w.model)}</li>
           <li><b>Uitvoering:</b> ${w.type === "hybride" ? "hybride" : "all-electric"}</li>
           ${w.vermogen_kw ? `<li><b>Vermogen:</b> ${String(w.vermogen_kw).replace(".", ",")} kW${w.voorbeeld_variant ? ` <small>(variant: ${esc(w.voorbeeld_variant)})</small>` : ""}</li>` : ""}
         </ul>
-        <p style="margin:8px 0 0;">Zoek dit apparaat op de <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/warmtepomp" target="_blank" rel="noopener">apparatenlijst bij RVO</a>. De meldcode en het exacte subsidiebedrag daar zijn leidend.</p>
+        <p class="onder-lijst">Zoek dit apparaat op de <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/warmtepomp" target="_blank" rel="noopener">apparatenlijst bij RVO</a>. De meldcode en het exacte subsidiebedrag daar zijn leidend.</p>
       </div>
 
       <h2>Slim koppelen (Koppel-score ${score}/6)</h2>
-      <dl class="koppel-blok" style="margin:0;">
+      <dl class="koppel-blok">
         <dt>${Iconen.svg(driewaardig(w.sturing).status === "ja" ? "ja" : driewaardig(w.sturing).status === "deels" ? "deels" : "nee")} Slimme aansturing</dt><dd>${esc(driewaardig(w.sturing).tekst)}</dd>
         <dt>${Iconen.svg(driewaardig(w.home_assistant).status === "ja" ? "ja" : driewaardig(w.home_assistant).status === "deels" ? "deels" : "nee")} Home Assistant</dt><dd>${esc(driewaardig(w.home_assistant).tekst)}</dd>
         <dt>${Iconen.svg(driewaardig(w.homey).status === "ja" ? "ja" : driewaardig(w.homey).status === "deels" ? "deels" : "nee")} Homey</dt><dd>${esc(driewaardig(w.homey).tekst)}</dd>
       </dl>
-      <p class="hint" style="margin-top:12px;">Integraties veranderen per firmware- en appversie; controleer de actuele status vóór aankoop. <a href="../index.html#koppel-score">Zo werkt de Koppel-score ${Iconen.svg("pijl-rechts")}</a></p>
+      <p class="hint los">Integraties veranderen per firmware- en appversie; controleer de actuele status vóór aankoop. <a href="../index.html#koppel-score">Zo werkt de Koppel-score ${Iconen.svg("pijl-rechts")}</a></p>
     </div>
 
     <div class="product-paneel">
-      <h2 style="margin-top:0;">Prijs</h2>
+      <h2 class="kop-aansluitend">Prijs</h2>
       <div class="prijs-groot">${beste ? eur(vergelijkPrijs(beste)) : "Prijs op aanvraag"}</div>
-      <p class="hint" style="margin:2px 0 10px;">${uitWinkel ? `laagste prijs, bij ${esc(beste.winkel)}` : "richtprijs (indicatie), exclusief installatie"}${w.prijs_toelichting ? `<br>${esc(w.prijs_toelichting)}` : ""}${Prijs.prijsToelichting(beste) ? `<br>${esc(Prijs.prijsToelichting(beste))}` : ""}</p>
-      ${aanbiedingen.length ? `<ul class="winkel-lijst" style="list-style:none;padding:0;margin:0 0 10px;">${aanbiedingen.map((a) => `<li style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:6px 0;border-bottom:1px dotted var(--kleur-rand);min-width:0;"><span style="min-width:0;overflow-wrap:anywhere;">${esc(a.winkel)}${Prijs.prijsToelichting(a) ? `<br><small class="hint">${esc(Prijs.prijsToelichting(a))}</small>` : ""}</span><span style="white-space:nowrap;"><b>${eur(vergelijkPrijs(a))}</b> <a href="${esc(a.affiliate_url || a.url)}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul>` : ""}
-      ${w.prijs_datum ? `<p class="datum-stempel" style="margin:0 0 12px;">Prijzen gecontroleerd: ${esc(datumNL(w.prijs_datum))}. Zonder controledatum is de prijs een indicatie.</p>` : ""}
-      <p style="margin:0;display:flex;flex-direction:column;gap:8px;">
+      <p class="hint prijs-hint">${uitWinkel ? `laagste prijs, bij ${esc(beste.winkel)}` : "richtprijs (indicatie), exclusief installatie"}${w.prijs_toelichting ? `<br>${esc(w.prijs_toelichting)}` : ""}${Prijs.prijsToelichting(beste) ? `<br>${esc(Prijs.prijsToelichting(beste))}` : ""}</p>
+      ${aanbiedingen.length ? `<ul class="winkel-lijst">${aanbiedingen.map((a) => `<li><span class="winkel-naam">${esc(a.winkel)}${Prijs.prijsToelichting(a) ? `<br><small class="hint">${esc(Prijs.prijsToelichting(a))}</small>` : ""}</span><span class="winkel-bedrag"><b>${eur(vergelijkPrijs(a))}</b> <a href="${esc(a.affiliate_url || a.url)}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul>` : ""}
+      ${w.prijs_datum ? `<p class="datum-stempel onder-lijst-strak">Prijzen gecontroleerd: ${esc(datumNL(w.prijs_datum))}. Zonder controledatum is de prijs een indicatie.</p>` : ""}
+      <p class="knoppen-kolom">
         ${beste && (beste.url || beste.affiliate_url) ? `<a class="knop" href="${esc(beste.affiliate_url || beste.url)}" target="_blank" rel="noopener">${uitWinkel ? `Bekijk aanbieding ${Iconen.svg("pijl-rechts")}` : `Naar fabrikant ${Iconen.svg("pijl-rechts")}`}</a>` : ""}
         <a class="knop knop-secundair" href="../rekenmodule.html?pomp=${encodeURIComponent(w.id)}">Bereken je terugverdientijd ${Iconen.svg("pijl-rechts")}</a>
         <a class="knop knop-secundair" href="../advies.html">Past deze pomp bij mijn huis? ${Iconen.svg("pijl-rechts")}</a>
@@ -258,7 +258,7 @@ ${kop("index", true)}
     </div>
   </div>
 
-  <section class="content-pagina" style="padding-top:0;">
+  <section class="content-pagina aansluitend">
     ${variantenBlok(w)}
     <h2>Over de ${esc(naam)}</h2>
     <p>${esc(w.omschrijving || `${naam} is een ${w.type === "hybride" ? "hybride warmtepomp die samenwerkt met je cv-ketel: de pomp doet het gros van de verwarming, de ketel vangt piekkou en warm water op" : "all-electric warmtepomp die de cv-ketel volledig vervangt, inclusief warm tapwater via een boilervat"}.`)}</p>
