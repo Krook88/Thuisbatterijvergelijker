@@ -210,11 +210,23 @@ function lijktOp(titel) {
   const gezien = new Set(lijstGezien);
   const aaneen = lijstGezien.join("");
   let beste = null;
+  let minst = Infinity;
   for (const b of BEKEND) {
     if (b.woorden.length < 3) continue;
+    // Alleen binnen hetzelfde merk. Zonder die eis ging het meteen mis: "AEG
+    // Solarcube 4.8 kWh Plug-In Battery" kreeg als naaste buur de HomeWizard
+    // Plug-In Battery, puur omdat daar drie woorden van overeenkwamen. Een
+    // buur van een ander merk zegt niets en zet de lezer op het verkeerde been.
+    if (!b.merk.length || !b.merk.every((t) => komtVoor(gezien, lijstGezien, t, aaneen))) continue;
     const missend = b.woorden.filter((t) => !komtVoor(gezien, lijstGezien, t, aaneen));
-    if (missend.length !== 1) continue;
-    if (!beste || b.woorden.length > beste.woorden.length) beste = b;
+    // Tot twee woorden verschil: bij ons staat vaak een artikelnummer in de
+    // modelnaam ("SolarCube AS-BBL09") dat de winkel weglaat, en dat zijn er
+    // dan twee tegelijk.
+    if (!missend.length || missend.length > 2) continue;
+    if (missend.length < minst || (missend.length === minst && b.woorden.length > beste.woorden.length)) {
+      beste = b;
+      minst = missend.length;
+    }
   }
   return beste;
 }
@@ -497,7 +509,19 @@ if (process.argv.includes("--proef")) {
     else uitkomst = "nieuw";
     const goed = uitkomst === geval.verwacht;
     if (!goed) fout++;
-    console.log(`  ${goed ? "=" : "x"} ${uitkomst.padEnd(9)} ${goed ? "" : `(verwacht: ${geval.verwacht}) `}${geval.titel}`);
+    // De buur-annotatie hoort hier ook te staan. Een verkeerde buur is geen
+    // fout in bekend/nieuw en zou dus onzichtbaar blijven, terwijl hij de
+    // lezer van het rapport wel het verkeerde model aanwijst - zo stond er bij
+    // "AEG Solarcube" een HomeWizard als naaste model.
+    const buur = uitkomst === "nieuw" ? lijktOp(geval.titel) : null;
+    console.log(
+      `  ${goed ? "=" : "x"} ${uitkomst.padEnd(9)} ${goed ? "" : `(verwacht: ${geval.verwacht}) `}${geval.titel}` +
+      (buur ? `  (scheelt weinig met ${buur.id})` : ""),
+    );
+    if (geval.buur && (!buur || buur.id !== geval.buur)) {
+      console.error(`      x verwachte buur ${geval.buur}, kreeg ${buur ? buur.id : "geen"}`);
+      fout++;
+    }
   }
   if (fout) {
     console.error(`\n${site}: ${fout} titel(s) anders beoordeeld dan verwacht.`);

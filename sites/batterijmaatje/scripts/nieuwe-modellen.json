@@ -38,7 +38,9 @@
     "draagbaar", "draagbare", "portable", "mobiele", "camping", "kamperen",
     "camper", "caravan", "outdoor", "generator", "krachtcentrale", "noodstroomvoorziening",
 
-    "laten aansluiten", "installatie door", "monteur"
+    "laten aansluiten", "installatie door", "monteur",
+
+    "uitbreidingsunit", "uitbreidingsmodule", "energiebeheerunit", "batterijlader"
   ],
 
   "minimum_prijs_eur": 250,
