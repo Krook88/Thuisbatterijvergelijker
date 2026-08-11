@@ -1,4 +1,59 @@
 {
   "toelichting": "Modellen die in een winkel staan maar niet in onze gegevens. Automatisch gevonden, nooit automatisch toegevoegd: nakijken en dan zelf opnemen, of de titel in scripts/nieuwe-modellen.json onder \"afgewezen\" zetten.",
-  "kandidaten": []
+  "kandidaten": [
+    {
+      "titel": "Stiebel Eltron lucht water warmtepomp WPL 07 ACS classic 235920",
+      "bron": "Boilermarkt",
+      "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-lucht-water-warmtepomp-WPL-07-ACS-classic-235920/",
+      "ean": null,
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Stiebel Eltron lucht water warmtepomp WPL-A 10 HK 400 Premium 205851",
+      "bron": "Boilermarkt",
+      "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-lucht-water-warmtepomp-WPL-A-10-HK-400-Premium/",
+      "ean": null,
+      "prijs_eur": null,
+      "lijkt_op": "stiebel-wpl-a07",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Stiebel Eltron lucht water warmtepomp WPL-A 13 HK 400 Premium 205852",
+      "bron": "Boilermarkt",
+      "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-lucht-water-warmtepomp-WPL-A-13-HK-400-Premium/",
+      "ean": null,
+      "prijs_eur": null,
+      "lijkt_op": "stiebel-wpl-a07",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Stiebel Eltron WPL 17 ICS compact plus warmte pompset 206273",
+      "bron": "Boilermarkt",
+      "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-WPL-17-ICS-compact-plus-warmte-pompset-206273/",
+      "ean": null,
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Stiebel Eltron WPL-A 05 HK 230 Premium lucht/water warmtepomp 4,97 kW 202669",
+      "bron": "Boilermarkt",
+      "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-WPL-A-05-HK-230-Premium-lucht-water-warmtepomp-4-97-kW-202669/",
+      "ean": null,
+      "prijs_eur": null,
+      "lijkt_op": "stiebel-wpl-a07",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "TOSHIBA bi-bloc R290",
+      "bron": "Intercool",
+      "url": "https://www.intercool.nl/assortiment/warmtepompen/bi-bloc-r290/toshiba-bi-bloc-r290/",
+      "ean": null,
+      "prijs_eur": null,
+      "lijkt_op": "toshiba-estia-r290",
+      "eerst_gezien": "2026-08-11"
+    }
+  ]
 }
