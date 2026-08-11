@@ -129,12 +129,19 @@ function bekendeModellen() {
       if (!Array.isArray(waarde)) continue;
       for (const item of waarde) {
         if (!item || typeof item !== "object" || typeof item.merk !== "string") continue;
-        uit.push({
-          id: item.id || `${item.merk} ${item.model || ""}`.trim(),
-          merk: kenmerkendeWoorden(item.merk),
-          woorden: kenmerkendeWoorden(item.merk, item.model),
-          eans: (item.aanbiedingen || []).map((a) => a && a.ean).filter(Boolean),
-        });
+        const id = item.id || `${item.merk} ${item.model || ""}`.trim();
+        const eans = (item.aanbiedingen || []).map((a) => a && a.ean).filter(Boolean);
+        const merk = kenmerkendeWoorden(item.merk);
+        uit.push({ id, merk, woorden: kenmerkendeWoorden(item.merk, item.model), eans });
+        // Winkels noemen een model soms anders dan wij: wij noteren "SolarCube
+        // AS-BBL09" met het artikelnummer erin, bol schrijft "Solarcube 4.8
+        // kWh". Zonder dit veld wordt zo'n model elke dag opnieuw als nieuw
+        // gemeld terwijl het er allang staat. Het modelveld aanpassen is geen
+        // oplossing: dat artikelnummer is echte informatie voor wie bij een
+        // installateur bestelt. Zie REDACTIE.md.
+        for (const naam of item.zoeknamen || []) {
+          uit.push({ id, merk, woorden: kenmerkendeWoorden(item.merk, naam), eans });
+        }
       }
     }
   }
@@ -157,7 +164,11 @@ for (const b of BEKEND) {
   if (!perVingerafdruk.has(sleutel)) perVingerafdruk.set(sleutel, []);
   perVingerafdruk.get(sleutel).push(b.id);
 }
-const botsingen = [...perVingerafdruk.values()].filter((ids) => ids.length > 1);
+// Ontdubbelen op id: een model met een zoeknaam staat hier twee keer, en dat
+// is geen botsing maar precies de bedoeling.
+const botsingen = [...perVingerafdruk.values()]
+  .map((ids) => [...new Set(ids)])
+  .filter((ids) => ids.length > 1);
 for (const ids of botsingen) {
   console.log(`  ! niet uit elkaar te houden na normalisatie: ${ids.join(", ")} - haal een woord uit "extra_generiek"`);
 }

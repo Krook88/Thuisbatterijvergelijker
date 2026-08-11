@@ -1462,7 +1462,10 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "fabrieksopgave; eisen voor buitenplaatsing niet geverifieerd",
       "afbeelding": "assets/producten/aeg-solarcube-48.webp",
-      "afbeelding_bron": "foto: AEG"
+      "afbeelding_bron": "foto: AEG",
+      "zoeknamen": [
+        "SolarCube 4.8 kWh"
+      ]
     },
     {
       "id": "sunpura-s4800",

@@ -1,5 +1,5 @@
 {
-  "toelichting": "Echte winkeltitels met wat scripts/nieuwe-modellen.mjs ervan hoort te maken. 'bekend' = dit staat al in data/, 'nieuw' = dit hoort gemeld te worden, 'genegeerd' = dit is geen product voor deze site. Draai met: npm run modellen:proef.",
+  "toelichting": "Echte winkeltitels met wat scripts/nieuwe-modellen.mjs ervan hoort te maken. 'bekend' = dit staat al in data/, 'nieuw' = dit hoort gemeld te worden, 'genegeerd' = dit is geen product voor deze site. Draai met: npm run modellen:proef. Bundels horen 'nieuw' te geven: die nemen we op (REDACTIE.md), met het veld 'omvat' erbij.",
   "titels": [
     {
       "titel": "Daikin Altherma 3 R W lucht-water warmtepomp split unit 6 kW",
@@ -27,11 +27,11 @@
     },
     {
       "titel": "Stiebel Eltron lucht water warmtepomp WPL 07 ACS classic compact plus Set 1.1 204261",
-      "verwacht": "genegeerd"
+      "verwacht": "nieuw"
     },
     {
       "titel": "Stiebel Eltron WPL 25 AC warmtepomp set compact duo Set 2.1 204255",
-      "verwacht": "genegeerd"
+      "verwacht": "nieuw"
     },
     {
       "titel": "Stiebel Eltron lucht water warmtepomp WPL 07 ACS classic 235920",

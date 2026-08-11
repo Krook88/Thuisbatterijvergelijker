@@ -1,11 +1,20 @@
 {
   "toelichting": "Waar zoeken we naar modellen die we nog niet kennen. Zie scripts/nieuwe-modellen.mjs. Bol verkoopt geen lucht-waterwarmtepompen, dus hier zijn categoriepagina's van installatiewinkels de enige bron. Elke url hieronder is het bovenliggende pad van een productlink die al in data/warmtepompen.json staat - afgeleid, niet gegokt.",
-
   "extra_generiek": [
-    "lucht", "water", "monoblock", "monobloc", "split", "buitenunit", "binnenunit",
-    "propaan", "r290", "r32", "fase", "unit", "kit"
+    "lucht",
+    "water",
+    "monoblock",
+    "monobloc",
+    "split",
+    "buitenunit",
+    "binnenunit",
+    "propaan",
+    "r290",
+    "r32",
+    "fase",
+    "unit",
+    "kit"
   ],
-
   "bronnen": [
     {
       "soort": "overzicht",
@@ -40,20 +49,39 @@
       "minimum_modelwoorden": 2
     }
   ],
-
   "onderwerp_woorden": [
-    "warmtepomp", "monoblock", "monobloc", "lucht-water", "lucht water",
-    "hybride", "altherma", "aquarea", "ecodan", "therma v", "arotherm", "vitocal"
+    "warmtepomp",
+    "monoblock",
+    "monobloc",
+    "lucht-water",
+    "lucht water",
+    "hybride",
+    "altherma",
+    "aquarea",
+    "ecodan",
+    "therma v",
+    "arotherm",
+    "vitocal"
   ],
-
   "uitsluit_woorden": [
-    "boiler", "buffervat", "expansievat", "vulset", "aansluitset", "kabel",
-    "beugel", "onderhoud", "servicebeurt", "filter", "afdekkap", "voetsteun",
-    "trillingsdemper", "leidingset", "onderdeel", "airco", "airconditioner",
-    "set 1.", "set 2.", "warmtepompset", "warmtepomp set"
+    "boiler",
+    "buffervat",
+    "expansievat",
+    "vulset",
+    "aansluitset",
+    "kabel",
+    "beugel",
+    "onderhoud",
+    "servicebeurt",
+    "filter",
+    "afdekkap",
+    "voetsteun",
+    "trillingsdemper",
+    "leidingset",
+    "onderdeel",
+    "airco",
+    "airconditioner"
   ],
-
-  "toelichting_filters": "Boilermarkt zet elke pomp ook als pakket in de schappen ('classic compact plus Set 1.1'). Dat is geen ander apparaat maar een andere levering, en acht van de dertien meldingen in de eerste echte run waren zo'n pakket. Vandaar 'set 1.', 'set 2.' en 'warmtepompset' in de uitsluitlijst.",
-
+  "toelichting_filters": "Bundels worden wel opgenomen (zie REDACTIE.md), dus de pakketten van Boilermarkt ('classic compact plus Set 1.1') blijven gemeld. Voorwaarde bij het opnemen is dat het veld 'omvat' gevuld wordt met wat er in de set zit; zonder dat vergelijkt de site een pakket met een losse pomp.",
   "afgewezen": []
 }
