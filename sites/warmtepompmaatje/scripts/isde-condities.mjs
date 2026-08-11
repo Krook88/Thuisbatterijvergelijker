@@ -91,26 +91,45 @@ function formaatVan(buf) {
   return "onbekend";
 }
 
-async function verken() {
-  log("Welke ingang komt er door?\n");
-  let html = null;
-  let gebruikt = null;
-  for (const [naam, url] of INGANGEN) {
+// Een wisselvallige bron verdient herkansingen, geen uitwijkbron.
+async function haalMetHerkansing(url, pogingen = 5) {
+  for (let n = 1; n <= pogingen; n++) {
     const start = Date.now();
     try {
       const tekst = await haal(url);
-      log(`  = ${naam}: gelukt, ${tekst.length} tekens in ${Date.now() - start} ms`);
-      if (!html) { html = tekst; gebruikt = url; }
+      log(`  = poging ${n}: gelukt, ${tekst.length} tekens in ${Date.now() - start} ms`);
+      return tekst;
+    } catch (err) {
+      log(`  x poging ${n}: ${err.message} (na ${Date.now() - start} ms)`);
+      if (n < pogingen) await new Promise((k) => setTimeout(k, 2000 * n));
+    }
+  }
+  return null;
+}
+
+async function verken() {
+  log(`De bron: ${LIJST_PAGINA}\n`);
+  const html = await haalMetHerkansing(LIJST_PAGINA);
+  const gebruikt = LIJST_PAGINA;
+
+  log("\nPeiling van andere overheidshosts. Dit is geen vervanging van de bron -");
+  log("het zijn andere dingen - maar het zegt of het aan rvo.nl ligt of aan de");
+  log("verbinding. Die twee door elkaar halen kostte eerder een hele run.");
+  for (const [naam, url] of PEILINGEN) {
+    const start = Date.now();
+    try {
+      const t = await haal(url);
+      log(`  = ${naam}: gelukt, ${t.length} tekens in ${Date.now() - start} ms`);
     } catch (err) {
       log(`  x ${naam}: ${err.message} (na ${Date.now() - start} ms)`);
     }
   }
+
   if (!html) {
-    log("\n  ! geen enkele ingang komt door. De meldcodelijst is langs deze weg niet te halen;");
-    log("    dan is dit handwerk of moet de lijst met de hand in de repository gezet worden.");
+    log("\n  ! de bron kwam ook na vijf pogingen niet door.");
     return;
   }
-  log(`\n  -> verder met ${gebruikt}`);
+  log("");
 
   // Elke link die op een bestand lijkt. Bewust breed: we weten nog niet hoe
   // RVO het aanbiedt, en dat uitvinden is precies het doel van deze stand.
