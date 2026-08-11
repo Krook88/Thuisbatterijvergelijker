@@ -54,7 +54,8 @@
         "eenheid": "wp",
         "min": 400,
         "max": 500
-      }
+      },
+      "maat_eenheid": "wp"
     },
     {
       "soort": "overzicht",
@@ -90,7 +91,8 @@
         "eenheid": "wp",
         "min": 400,
         "max": 500
-      }
+      },
+      "maat_eenheid": "wp"
     },
     {
       "soort": "overzicht",
@@ -116,7 +118,8 @@
         "dongle",
         "meter",
         "gereedschap"
-      ]
+      ],
+      "maat_eenheid": "kw"
     }
   ],
   "afgewezen": []

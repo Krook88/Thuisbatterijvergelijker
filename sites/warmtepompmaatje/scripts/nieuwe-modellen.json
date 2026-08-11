@@ -83,5 +83,6 @@
     "airconditioner"
   ],
   "toelichting_filters": "Bundels worden wel opgenomen (zie REDACTIE.md), dus de pakketten van Boilermarkt ('classic compact plus Set 1.1') blijven gemeld. Voorwaarde bij het opnemen is dat het veld 'omvat' gevuld wordt met wat er in de set zit; zonder dat vergelijkt de site een pakket met een losse pomp.",
-  "afgewezen": []
+  "afgewezen": [],
+  "maat_eenheid": "kw"
 }

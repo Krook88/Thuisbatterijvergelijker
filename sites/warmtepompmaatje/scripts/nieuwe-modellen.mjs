@@ -310,6 +310,41 @@ function binnenBereik(titel, regels) {
   return false;
 }
 
+// De maat die deze site vergelijkt, gelezen uit de winkeltitel: kWh bij
+// batterijen, Wp bij panelen, kW bij warmtepompen. Dat scheelt bij het
+// beoordelen een bezoek aan elke productpagina.
+//
+// Dit is een gok uit marketingtekst en niets meer. Een titel als "3600W -
+// 3600Wh" bevat twee getallen die iets anders betekenen, en een winkel die
+// "15,3Kw" schrijft terwijl hij kWh bedoelt is geen uitzondering. Daarom komt
+// dit getal in het rapport te staan als hulp bij het schiften, en nooit in
+// data/: wat op de site komt hoort van de productpagina te komen.
+function maatUitTitel(titel, eenheid) {
+  if (!eenheid) return null;
+  const t = String(titel)
+    .toLowerCase()
+    // "2.520 Wh" is tweeduizend vijfhonderd, geen tweeënhalf: in het Nederlands
+    // is dat een duizendtalpunt. Precies drie cijfers erachter verraadt het -
+    // "5,04 kWh" en "13.5 kW" hebben er één of twee. Zonder deze regel werd de
+    // Jackery van 2.520 Wh gelezen als 0,00252 kWh.
+    .replace(/(\d)[.](\d{3})\b/g, "$1$2")
+    .replace(/(\d),(\d)/g, "$1.$2");
+  const gevonden = [];
+  for (const m of t.matchAll(/(\d+(?:\.\d+)?)\s?(kwh|wh|kwp|wp|kw|w)\b/g)) {
+    const n = Number(m[1]);
+    const e = m[2];
+    if (eenheid === "kwh" && e === "kwh") gevonden.push(n);
+    else if (eenheid === "kwh" && e === "wh") gevonden.push(n / 1000);
+    else if (eenheid === "wp" && (e === "wp" || e === "w")) gevonden.push(n);
+    else if (eenheid === "kwp" && e === "kwp") gevonden.push(n);
+    else if (eenheid === "kw" && e === "kw") gevonden.push(n);
+  }
+  if (!gevonden.length) return null;
+  // De grootste: een titel noemt vaak eerst het vermogen en dan de inhoud, en
+  // bij een set staat het totaal er als hoogste getal in.
+  return Math.max(...gevonden);
+}
+
 function minimumPrijs(regels) {
   if (regels && typeof regels.minimum_prijs_eur === "number") return regels.minimum_prijs_eur;
   return typeof config.minimum_prijs_eur === "number" ? config.minimum_prijs_eur : 0;
@@ -582,7 +617,10 @@ for (const r of rauw) {
     continue;
   }
   const buur = lijktOp(r.titel);
-  if (!kandidaten.has(sleutel)) kandidaten.set(sleutel, { ...r, lijkt_op: buur ? buur.id : null });
+  const eenheid = (r.regels && r.regels.maat_eenheid) || config.maat_eenheid || null;
+  if (!kandidaten.has(sleutel)) {
+    kandidaten.set(sleutel, { ...r, lijkt_op: buur ? buur.id : null, maat: maatUitTitel(r.titel, eenheid), eenheid });
+  }
 }
 
 // De vorige uitkomst erbij, zodat "eerst_gezien" blijft staan en dit bestand
@@ -601,6 +639,9 @@ for (const [sleutel, r] of kandidaten) {
     ean: r.ean || (bestaand && bestaand.ean) || null,
     prijs_eur: typeof r.prijs === "number" ? Math.round(r.prijs) : (bestaand && bestaand.prijs_eur) || null,
     lijkt_op: r.lijkt_op || (bestaand && bestaand.lijkt_op) || null,
+    // "uit de titel" staat er met opzet bij: dit is uit marketingtekst
+    // gelezen en niet van een productpagina bevestigd.
+    maat_uit_titel: r.maat != null ? `${r.maat} ${r.eenheid}` : (bestaand && bestaand.maat_uit_titel) || null,
     eerst_gezien: (bestaand && bestaand.eerst_gezien) || VANDAAG,
   });
 }
@@ -623,7 +664,7 @@ if (!alleKandidaten.length) {
   console.log(`\n  ${nieuwVandaag.length} nieuw vandaag, ${alleKandidaten.length} openstaand:`);
   for (const k of alleKandidaten) {
     console.log(
-      `  ${k.eerst_gezien === VANDAAG ? "+" : " "} ${k.titel}  [${k.bron}${k.prijs_eur ? `, ca. ${k.prijs_eur} euro` : ""}]` +
+      `  ${k.eerst_gezien === VANDAAG ? "+" : " "} ${k.titel}  [${k.bron}${k.maat_uit_titel ? `, ${k.maat_uit_titel}` : ""}${k.prijs_eur ? `, ca. ${k.prijs_eur} euro` : ""}]` +
       // Bewust zonder oordeel: "Powerwall 4" scheelt ook één woord met
       // "Powerwall 3" en is toch een ander apparaat. Het script meldt de
       // afstand, de conclusie is aan de lezer.
@@ -638,10 +679,11 @@ if (nieuwVandaag.length && process.env.GITHUB_STEP_SUMMARY) {
     "",
     "Niets is toegevoegd - dit zijn kandidaten die iemand moet nakijken.",
     "",
-    "| model | winkel | prijs | scheelt 1 woord met | link |",
-    "| --- | --- | --- | --- | --- |",
+    "| model | winkel | maat (uit de titel) | prijs | scheelt 1 woord met | link |",
+    "| --- | --- | --- | --- | --- | --- |",
     ...nieuwVandaag.map((k) =>
-      `| ${k.titel.replace(/\|/g, "/")} | ${k.bron} | ${k.prijs_eur ? k.prijs_eur + " euro" : "?"} | ` +
+      `| ${k.titel.replace(/\|/g, "/")} | ${k.bron} | ${k.maat_uit_titel || "?"} | ` +
+      `${k.prijs_eur ? k.prijs_eur + " euro" : "?"} | ` +
       `${k.lijkt_op || "-"} | ${k.url ? `[bekijk](${k.url})` : "-"} |`),
     "",
   ].join("\n") + "\n");
