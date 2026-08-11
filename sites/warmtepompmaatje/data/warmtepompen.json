@@ -1298,7 +1298,10 @@
           "meldcode": "KA30465"
         }
       ],
-      "prijs_datum": "2026-08-11"
+      "prijs_datum": "2026-08-11",
+      "zoeknamen": [
+        "Bi-Bloc R290"
+      ]
     },
     {
       "id": "hitachi-yutaki-m",
