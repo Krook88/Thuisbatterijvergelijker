@@ -204,12 +204,12 @@
           const perKwh = prijsPerKwh(b);
           return `<tr>
             <td><b>${merkHtml(b)}</b><br><a href="batterij/${encodeURIComponent(b.id)}.html">${escapeHtml(b.model)}</a></td>
-            <td>${b.capaciteit_kwh ? String(b.capaciteit_kwh).replace(".", ",") : "?"}</td>
+            <td${Prijs.capaciteitToelichting(b) ? ` title="${escapeHtml(Prijs.capaciteitToelichting(b))}"` : ""}>${b.capaciteit_kwh ? String(b.capaciteit_kwh).replace(".", ",") : "?"}</td>
             <td>${b.vermogen_kw ? String(b.vermogen_kw).replace(".", ",") : "?"}</td>
             <td>${escapeHtml(b.type)}</td>
             <td class="tabel-prijs" title="${escapeHtml([b.prijs_omvat, Prijs.prijsToelichting(beste)].filter(Boolean).join(" | "))}">${Prijs.vergelijkPrijs(beste) !== null ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "n.b."}${heeftKorting(b) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
             <td title="${escapeHtml(b.totaalprijs_toelichting || "")}">${totaalprijsTekst(b) || "op aanvraag"}</td>
-            <td>${perKwh ? eurFmt.format(perKwh) : "n.b."}</td>
+            <td${Prijs.capaciteitToelichting(b) ? ` title="Per kWh: ${escapeHtml(Prijs.capaciteitToelichting(b))}"` : ""}>${perKwh ? eurFmt.format(perKwh) : "n.b."}</td>
             <td title="${escapeHtml(b.zonnepanelen_koppeling || "")}"><span class="sterren" style="color:var(--kleur-accent)">${sterren(b.koppeling_gemak)}</span></td>
             <td title="Punten voor Homey, Home Assistant en dynamisch contract"><b>${koppelScore(b)}/6</b></td>
             <td>${checkCel(b.homey)}</td>
@@ -235,7 +235,7 @@
       <table style="width:100%;border-collapse:collapse;font-size:0.93rem;min-width:${220 * items.length + 160}px;">
         ${rij("Model", (b) => `<b>${escapeHtml(naamVan(b))}</b>`)}
         ${rij("Type", (b) => escapeHtml(b.type))}
-        ${rij("Capaciteit", (b) => (b.capaciteit_kwh ? String(b.capaciteit_kwh).replace(".", ",") + " kWh" : "?") + (b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${String(b.uitbreidbaar_tot_kwh).replace(".", ",")} kWh)` : ""))}
+        ${rij("Capaciteit", (b) => (b.capaciteit_kwh ? String(b.capaciteit_kwh).replace(".", ",") + " kWh" : "?") + Prijs.capaciteitLabelHtml(b) + (b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${String(b.uitbreidbaar_tot_kwh).replace(".", ",")} kWh)` : ""))}
         ${rij("Vermogen", (b) => (b.vermogen_kw ? String(b.vermogen_kw).replace(".", ",") + " kW" : "?"))}
         ${rij("Beste prijs incl. btw", (b) => {
           const p = bestePrijs(b);
@@ -244,7 +244,7 @@
           return `<b>${eurFmt.format(Prijs.vergelijkPrijs(p))}</b> bij ${escapeHtml(p.winkel || "")}${toelichting ? `<br><small>${escapeHtml(toelichting)}</small>` : ""}`;
         })}
         ${rij("Compleet gebruiksklaar (indicatie)", (b) => `${totaalprijsTekst(b) || "op aanvraag"}<br><small>${escapeHtml(b.totaalprijs_toelichting || "")}</small>`)}
-        ${rij("Prijs per kWh", (b) => { const p = prijsPerKwh(b); return p ? eurFmt.format(p) : "n.b."; })}
+        ${rij("Prijs per kWh", (b) => { const p = prijsPerKwh(b); const t = Prijs.capaciteitToelichting(b); return (p ? eurFmt.format(p) : "n.b.") + (t ? `<br><small>${escapeHtml(t)}</small>` : ""); })}
         ${rij("Prijs dekt", (b) => `<small>${escapeHtml(b.prijs_omvat || "")}</small>`)}
         ${rij("Installatie", (b) => (b.installatie === "zelf" ? "Zelf (stopcontact)" : "Installateur vereist"))}
         ${rij("Koppeling zonnepanelen", (b) => `<span class="sterren" style="color:var(--kleur-accent)">${sterren(b.koppeling_gemak)}</span><br><small>${escapeHtml(b.zonnepanelen_koppeling || "")}</small>`)}

@@ -157,6 +157,28 @@
     return "niet vastgesteld of dit de bruto- of de bruikbare capaciteit is";
   }
 
+  // Een klein label achter de capaciteit. Bewust alleen bij wat vastgesteld is:
+  // van de meeste modellen weten we het nog niet, en 39 waarschuwingen op 41
+  // kaarten leest niemand meer - dan wordt het behang in plaats van een signaal.
+  // Wat de standaard is als er geen label staat, zegt de legenda één keer.
+  function capaciteitLabel(b) {
+    if (!b || typeof b.capaciteit_kwh !== "number") return null;
+    if (b.capaciteit_soort === "bruikbaar") {
+      return { tekst: "bruikbaar", klasse: "maat-bevestigd", titel: "Dit is wat je er werkelijk uit haalt, niet de bruto pakketmaat" };
+    }
+    if (b.capaciteit_soort === "nominaal") {
+      return { tekst: "bruto", klasse: "maat-bruto", titel: "Fabrieksopgave van het hele pakket; wat je er bruikbaar uit haalt ligt lager" };
+    }
+    return null;
+  }
+
+  // Klaar om in HTML te zetten; hier zit geen invoer van buiten in, alle drie
+  // de teksten staan hierboven.
+  function capaciteitLabelHtml(b) {
+    const l = capaciteitLabel(b);
+    return l ? ` <small class="${l.klasse}" title="${l.titel}">${l.tekst}</small>` : "";
+  }
+
   function prijsPerKwh(b) {
     const aanbieding = beste(b);
     const prijs = vergelijkPrijs(aanbieding);
@@ -187,6 +209,8 @@
     vanPrijs,
     capaciteitBevestigd,
     capaciteitToelichting,
+    capaciteitLabel,
+    capaciteitLabelHtml,
     prijsPerKwh,
     prijsToelichting,
   };

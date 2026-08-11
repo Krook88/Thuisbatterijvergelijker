@@ -243,9 +243,9 @@
             </div>
           </div>
           <div class="kaart-specs">
-            <div class="spec"><span class="spec-label">Capaciteit</span><span class="spec-waarde">${String(b.capaciteit_kwh).replace(".", ",")} kWh${b.uitbreidbaar_tot_kwh ? ` <small>(tot ${String(b.uitbreidbaar_tot_kwh).replace(".", ",")})</small>` : ""}</span></div>
+            <div class="spec"><span class="spec-label">Capaciteit</span><span class="spec-waarde">${String(b.capaciteit_kwh).replace(".", ",")} kWh${Prijs.capaciteitLabelHtml(b)}${b.uitbreidbaar_tot_kwh ? ` <small>(tot ${String(b.uitbreidbaar_tot_kwh).replace(".", ",")})</small>` : ""}</span></div>
             <div class="spec"><span class="spec-label">Prijs incl. btw</span><span class="spec-waarde" title="${escapeHtml(Prijs.prijsToelichting(prijs))}">${prijs ? eurFmt.format(Prijs.vergelijkPrijs(prijs)) : "op aanvraag"}</span></div>
-            <div class="spec"><span class="spec-label">Per kWh</span><span class="spec-waarde">${prijs ? eurFmt.format(perKwh) : "n.b."}</span></div>
+            <div class="spec"><span class="spec-label">Per kWh</span><span class="spec-waarde"${Prijs.capaciteitToelichting(b) ? ` title="Per kWh: ${escapeHtml(Prijs.capaciteitToelichting(b))}"` : ""}>${prijs ? eurFmt.format(perKwh) : "n.b."}</span></div>
             <div class="spec"><span class="spec-label">Installatie</span><span class="spec-waarde">${b.installatie === "zelf" ? "Zelf" : "Installateur"}</span></div>
           </div>
           <div class="koppelgemak"><span class="uitleg"><b>Waarom deze past:</b> ${escapeHtml(waaromTekst(b, maat))}.</span></div>

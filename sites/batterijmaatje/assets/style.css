@@ -771,6 +771,22 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 
 /* Uitleg wanneer het getoonde bedrag afwijkt van wat de winkel toont: een
    prijs excl. btw of een aanbieding die minder dekt dan de richtprijs. */
+/* Waar het capaciteitsgetal vandaan komt. Alleen zichtbaar bij modellen waarvan
+   dat is vastgesteld: van de meeste weten we het nog niet, en een waarschuwing
+   op bijna elke kaart wordt behang in plaats van een signaal. De legenda zegt
+   één keer wat er geldt als er geen label staat. */
+.maat-bevestigd,
+.maat-bruto {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 999px;
+  white-space: nowrap;
+  vertical-align: 1px;
+}
+.maat-bevestigd { background: var(--kleur-accent-licht); color: var(--kleur-accent); }
+.maat-bruto { background: var(--kleur-rand); color: var(--kleur-tekst-zacht); }
+
 .prijs-let-op {
   margin-top: 8px;
   padding: 8px 10px;

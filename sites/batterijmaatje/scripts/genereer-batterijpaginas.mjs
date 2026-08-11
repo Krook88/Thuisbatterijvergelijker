@@ -339,7 +339,7 @@ ${breadcrumbLd(b)}
   <h2>Specificaties</h2>
   <div class="tabel-blok">
   <table class="data-tabel spec-tabel">
-    ${specRij("Capaciteit", `${nl(b.capaciteit_kwh)} kWh${b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh)` : ""}`)}
+    ${specRij("Capaciteit", `${nl(b.capaciteit_kwh)} kWh${Prijs.capaciteitLabelHtml(b)}${b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh)` : ""}`)}
     ${specRij("Vermogen", b.vermogen_kw ? `${nl(b.vermogen_kw)} kW` : null)}
     ${specRij("Type", `<a class="term-link" href="/uitleg.html#${esc(b.type)}" title="Wat betekent dit? Lees de uitleg in de woordenlijst">${esc(typeLabel)}</a>`)}
     ${specRij("Aansluiting", esc(b.fase || ""))}
@@ -454,7 +454,7 @@ function overzichtTabel(lijst, veld) {
       return `
       <tr>
         <td>${merkLogoHtml(b.merk)}<a href="/batterij/${esc(b.id)}.html"><b>${esc(volledigeNaam(b))}</b></a></td>
-        <td class="niet-afbreken">${nl(b.capaciteit_kwh)} kWh</td>
+        <td class="niet-afbreken"${Prijs.capaciteitToelichting(b) ? ` title="${esc(Prijs.capaciteitToelichting(b))}"` : ""}>${nl(b.capaciteit_kwh)} kWh</td>
         <td class="niet-afbreken">${beste ? `<b>${eur(Prijs.vergelijkPrijs(beste))}</b><br><small>bij ${esc(beste.winkel)}</small>` : "op aanvraag"}</td>
         <td class="niet-afbreken">${perKwh ? eur(perKwh) : "n.b."}</td>
         <td class="niet-afbreken"><b>${koppelScore(b)}/6</b></td>
@@ -732,7 +732,7 @@ ${itemList}
       ${rij("Beste prijs incl. btw", besteA ? `${eur(Prijs.vergelijkPrijs(besteA))}<br><small>bij ${esc(besteA.winkel)}</small>` : "op aanvraag", besteB ? `${eur(Prijs.vergelijkPrijs(besteB))}<br><small>bij ${esc(besteB.winkel)}</small>` : "op aanvraag")}
       ${rij("Compleet gebruiksklaar (indicatie)", totaalprijsTekst(A) || "op aanvraag", totaalprijsTekst(B) || "op aanvraag")}
       ${rij("Prijs per kWh opslag", perA ? eur(perA) : "n.b.", perB ? eur(perB) : "n.b.", laagWint(perA, perB))}
-      ${rij("Capaciteit", `${nl(A.capaciteit_kwh)} kWh${A.uitbreidbaar_tot_kwh ? ` <small>(tot ${nl(A.uitbreidbaar_tot_kwh)})</small>` : ""}`, `${nl(B.capaciteit_kwh)} kWh${B.uitbreidbaar_tot_kwh ? ` <small>(tot ${nl(B.uitbreidbaar_tot_kwh)})</small>` : ""}`)}
+      ${rij("Capaciteit", `${nl(A.capaciteit_kwh)} kWh${Prijs.capaciteitLabelHtml(A)}${A.uitbreidbaar_tot_kwh ? ` <small>(tot ${nl(A.uitbreidbaar_tot_kwh)})</small>` : ""}`, `${nl(B.capaciteit_kwh)} kWh${Prijs.capaciteitLabelHtml(B)}${B.uitbreidbaar_tot_kwh ? ` <small>(tot ${nl(B.uitbreidbaar_tot_kwh)})</small>` : ""}`)}
       ${rij("Vermogen", A.vermogen_kw ? `${nl(A.vermogen_kw)} kW` : "n.b.", B.vermogen_kw ? `${nl(B.vermogen_kw)} kW` : "n.b.", hoogWint(A.vermogen_kw, B.vermogen_kw))}
       ${rij("Type en installatie", `${esc(typeLabelVan(A))}<br><small>${A.installatie === "zelf" ? "zelf aan te sluiten" : "door installateur"}</small>`, `${esc(typeLabelVan(B))}<br><small>${B.installatie === "zelf" ? "zelf aan te sluiten" : "door installateur"}</small>`)}
       ${rij("Koppel-score", `${koppelScore(A)}/6`, `${koppelScore(B)}/6`, hoogWint(koppelScore(A), koppelScore(B)))}
