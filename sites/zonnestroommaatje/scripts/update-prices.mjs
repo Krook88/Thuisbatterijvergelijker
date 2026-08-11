@@ -18,7 +18,7 @@
  *     en de rest gaat door.
  */
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -28,9 +28,17 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // zijn (panelen zijn per stuk goedkoop; omvormers lopen op tot enkele duizenden
 // euro's en worden soms exclusief btw getoond).
 const BESTANDEN = [
-  { pad: resolve(__dirname, "../data/panelen.json"), lijst: "panelen", min: 20, max: 2000 },
-  { pad: resolve(__dirname, "../data/omvormers.json"), lijst: "omvormers", min: 50, max: 3000 },
+  // Panelen kennen geen btw-vraag: bij levering voor een woning geldt het
+  // nultarief, dus incl. en excl. btw zijn hetzelfde bedrag. Bij een los
+  // verkochte omvormer geldt dat niet, en daar tonen sommige winkels hun
+  // prijzen zonder btw. Daarom wordt alleen daar op btw gelet.
+  { pad: resolve(__dirname, "../data/panelen.json"), lijst: "panelen", min: 20, max: 2000, btwControle: false },
+  { pad: resolve(__dirname, "../data/omvormers.json"), lijst: "omvormers", min: 50, max: 3000, btwControle: true },
 ];
+
+// Alleen de btw-controle draaien, zonder prijzen aan te raken. Handig om het
+// signaal op te halen zonder er een prijswijziging doorheen te mengen.
+const ALLEEN_BTW = process.argv.includes("--alleen-btw");
 
 const VANDAAG = new Date().toISOString().slice(0, 10);
 const TIMEOUT_MS = 20000;
@@ -183,6 +191,47 @@ function prijsUitTekst(html, grenzen) {
   return max >= 2 ? beste : null; // alleen bij herhaald voorkomen
 }
 
+/* ------------------------------------------------------------------
+   Btw-signaal.
+
+   Wat een winkelpagina over btw zegt is een signaal, geen bewijs: de zin kan
+   ook over verzendkosten of een ander artikel gaan. Daarom spreekt deze
+   functie zich alleen uit als de pagina eenduidig is, en wordt de uitkomst
+   gemeld in plaats van stilzwijgend in de data gezet. Een prijs die 21 procent
+   te laag staat zet de hele rangschikking op zijn kop; dat hoort een mens te
+   bevestigen.
+   ------------------------------------------------------------------ */
+
+const btwTwijfel = [];
+
+function btwVolgensPagina(html) {
+  const tekst = html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .toLowerCase();
+  const exclusief = /\b(excl\.?|exclusief|ex\.)\s*(btw|b\.t\.w)/.test(tekst);
+  const inclusief = /\b(incl\.?|inclusief|in\.)\s*(btw|b\.t\.w)/.test(tekst);
+  if (exclusief && !inclusief) return false;
+  if (inclusief && !exclusief) return true;
+  return null;
+}
+
+function meldBtw(product, aanbieding, html) {
+  const volgensPagina = btwVolgensPagina(html);
+  // Zonder veld gaan wij uit van incl. btw.
+  const bijOns = aanbieding.btw_inbegrepen !== false;
+  if (volgensPagina === null || volgensPagina === bijOns) return;
+  btwTwijfel.push({
+    id: product.id,
+    winkel: aanbieding.winkel,
+    bijOns: bijOns ? "incl. btw" : "excl. btw",
+    volgensPagina: volgensPagina ? "incl. btw" : "excl. btw",
+    url: aanbieding.url,
+  });
+}
+
 function plausibel(nieuw, oud, grenzen) {
   if (!oud) return nieuw >= grenzen.min && nieuw <= grenzen.max;
   return nieuw >= oud * 0.4 && nieuw <= oud * 2.5;
@@ -195,9 +244,12 @@ async function updateAanbieding(paneel, aanbieding, grenzen) {
   try {
     let nieuw;
     if (/www\.bol\.com/.test(aanbieding.url) && BOL_CLIENT_ID && BOL_CLIENT_SECRET) {
+      if (ALLEEN_BTW) return false;
       nieuw = await bolApiPrijs(aanbieding);
     } else {
       const html = await haalPagina(aanbieding.url);
+      if (grenzen.btwControle) meldBtw(paneel, aanbieding, html);
+      if (ALLEEN_BTW) return false;
       nieuw = prijsUitJsonLd(html) ?? prijsUitMeta(html) ?? prijsUitTekst(html, grenzen);
     }
     if (!nieuw) {
@@ -236,13 +288,40 @@ async function main() {
       if (datums.length) product.prijs_datum = datums[datums.length - 1];
     }
 
-    data.laatst_bijgewerkt = VANDAAG;
-    writeFileSync(bestand.pad, JSON.stringify(data, null, 2) + "\n", "utf8");
+    if (!ALLEEN_BTW) {
+      data.laatst_bijgewerkt = VANDAAG;
+      writeFileSync(bestand.pad, JSON.stringify(data, null, 2) + "\n", "utf8");
+    }
   }
   // De paneelpagina's en sitemap worden hierna herbouwd door
   // scripts/genereer-paneelpaginas.mjs (zie de workflow).
 
-  console.log(`\nKlaar. ${wijzigingen} prijswijziging(en). laatst_bijgewerkt = ${VANDAAG}`);
+  if (btwTwijfel.length) {
+    console.log(`\n${btwTwijfel.length} aanbieding(en) waarbij de winkelpagina iets anders over btw zegt:`);
+    for (const b of btwTwijfel) {
+      console.log(`  ${b.id} @ ${b.winkel}: bij ons ${b.bijOns}, pagina zegt ${b.volgensPagina}  ${b.url}`);
+    }
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
+        `### ${btwTwijfel.length} omvormer-aanbieding(en) met twijfel over btw`,
+        "",
+        "Een prijs excl. btw die als incl. btw wordt getoond scheelt 21 procent en zet de rangschikking op zijn kop. Deze pagina's spreken zich eenduidig uit over btw, maar anders dan wat er bij ons staat. Klopt de pagina, zet dan `\"btw_inbegrepen\": false` bij die aanbieding (of haal het weg).",
+        "",
+        "Let op: dit is een signaal, geen bewijs. De pagina kan het ook over verzendkosten of een ander artikel hebben.",
+        "",
+        "Panelen staan hier nooit tussen: bij levering voor een woning geldt het btw-nultarief, dus incl. en excl. btw zijn daar hetzelfde bedrag.",
+        "",
+        "| Omvormer | Winkel | Bij ons | Volgens de pagina |",
+        "| --- | --- | --- | --- |",
+        ...btwTwijfel.map((b) => `| ${b.id} | ${b.winkel} | ${b.bijOns} | ${b.volgensPagina} |`),
+        "",
+      ].join("\n") + "\n");
+    }
+  }
+
+  console.log(ALLEEN_BTW
+    ? "\nAlleen de btw-controle gedraaid; geen prijzen of bestanden aangeraakt."
+    : `\nKlaar. ${wijzigingen} prijswijziging(en). laatst_bijgewerkt = ${VANDAAG}`);
 }
 
 main().catch((err) => {
