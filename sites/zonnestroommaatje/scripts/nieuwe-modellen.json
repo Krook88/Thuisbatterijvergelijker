@@ -1,0 +1,63 @@
+{
+  "toelichting": "Waar zoeken we naar modellen die we nog niet kennen. Zie scripts/nieuwe-modellen.mjs. Deze site vergelijkt twee dingen, en wat bij de panelen ruis is ('omvormer') is bij de omvormers juist het onderwerp. Daarom staan de woordenlijsten per bron en niet één keer voor de hele site. Elke url is het bovenliggende pad van een productlink die al in data/ staat.",
+
+  "extra_generiek": [
+    "full", "black", "all", "blk", "glas", "mono", "bifacial", "type", "n",
+    "dual", "glass", "serie", "series", "hybride", "hybrid", "fase", "micro"
+  ],
+
+  "bronnen": [
+    {
+      "soort": "overzicht",
+      "winkel": "GroothandelSolar (panelen)",
+      "url": "https://www.groothandelsolar.com/zonnepanelen-kopen/",
+      "link": "/zonnepanelen-kopen/",
+      "alleen_bekende_merken": true,
+      "minimum_modelwoorden": 2,
+      "onderwerp_woorden": ["zonnepaneel", "paneel", "wp", "solar"],
+      "uitsluit_woorden": ["omvormer", "inverter", "optimizer", "montage", "beugel", "dakhaak", "eindklem", "middenklem", "rail", "profiel", "kabel", "connector", "stekker", "gereedschap", "batterij"]
+    },
+    {
+      "soort": "overzicht",
+      "winkel": "Solar-NU (panelen)",
+      "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/",
+      "link": "/webshop/zonnepanelen-pv/",
+      "alleen_bekende_merken": true,
+      "minimum_modelwoorden": 2,
+      "onderwerp_woorden": ["zonnepaneel", "paneel", "wp", "solar"],
+      "uitsluit_woorden": ["omvormer", "inverter", "optimizer", "montage", "beugel", "dakhaak", "eindklem", "middenklem", "rail", "profiel", "kabel", "connector", "stekker", "gereedschap", "batterij"]
+    },
+    {
+      "soort": "overzicht",
+      "winkel": "GroothandelSolar (omvormers)",
+      "url": "https://www.groothandelsolar.com/omvormers/string-omvormers/",
+      "link": "/omvormers/",
+      "alleen_bekende_merken": true,
+      "minimum_modelwoorden": 2,
+      "onderwerp_woorden": ["omvormer", "inverter", "micro-omvormer", "hybride"],
+      "uitsluit_woorden": ["zonnepaneel", "montage", "beugel", "kabel", "connector", "stekker", "wifi-module", "dongle", "meter", "gereedschap"]
+    },
+    {
+      "soort": "overzicht",
+      "winkel": "Memodo (omvormers)",
+      "url": "https://www.memodo.nl/omvormers/",
+      "link": "/omvormers/",
+      "alleen_bekende_merken": true,
+      "minimum_modelwoorden": 2,
+      "onderwerp_woorden": ["omvormer", "inverter", "micro-omvormer", "hybride"],
+      "uitsluit_woorden": ["zonnepaneel", "montage", "beugel", "kabel", "connector", "stekker", "wifi-module", "dongle", "meter", "gereedschap"]
+    },
+    {
+      "soort": "overzicht",
+      "winkel": "SolarNRG (omvormers)",
+      "url": "https://solarnrg.shop/omvormers/",
+      "link": "/omvormers/",
+      "alleen_bekende_merken": true,
+      "minimum_modelwoorden": 2,
+      "onderwerp_woorden": ["omvormer", "inverter", "micro-omvormer", "hybride"],
+      "uitsluit_woorden": ["zonnepaneel", "montage", "beugel", "kabel", "connector", "stekker", "wifi-module", "dongle", "meter", "gereedschap"]
+    }
+  ],
+
+  "afgewezen": []
+}

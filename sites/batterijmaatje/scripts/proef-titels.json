@@ -1,0 +1,21 @@
+{
+  "toelichting": "Echte winkeltitels met wat scripts/nieuwe-modellen.mjs ervan hoort te maken. 'bekend' = dit staat al in data/, 'nieuw' = dit hoort gemeld te worden, 'genegeerd' = dit is geen product voor deze site. Draai met: npm run modellen:proef. Voeg hier een regel toe zodra een melding onterecht blijkt - dan kan diezelfde fout niet terugkomen.",
+  "titels": [
+    { "titel": "Marstek Venus E 3.0 Thuisbatterij 5,12 kWh incl. P1-meter", "verwacht": "bekend" },
+    { "titel": "Marstek Venus D 2,56 kWh modulaire thuisbatterij", "verwacht": "bekend" },
+    { "titel": "Tesla Powerwall 3 thuisbatterij 13,5 kWh", "verwacht": "bekend" },
+    { "titel": "Zendure SolarFlow Hyper 2000 met 1 x AB3000 batterij", "verwacht": "bekend" },
+    { "titel": "Sessy thuisbatterij 5 kWh", "verwacht": "bekend" },
+    { "titel": "HomeWizard Plug-In Battery 2,7 kWh", "verwacht": "bekend" },
+    { "titel": "EcoFlow Stream AC Pro thuisbatterij 1920Wh", "verwacht": "bekend" },
+
+    { "titel": "Marstek Venus E 5.0 Thuisbatterij 5,12 kWh", "verwacht": "nieuw" },
+    { "titel": "Tesla Powerwall 4 thuisbatterij", "verwacht": "nieuw" },
+    { "titel": "Anker SOLIX Solarbank 4 Pro thuisbatterij", "verwacht": "nieuw" },
+    { "titel": "EcoFlow PowerOcean DC Fit 10 kWh thuisbatterij", "verwacht": "nieuw" },
+
+    { "titel": "USB-kabel voor thuisbatterij 2 meter", "verwacht": "genegeerd" },
+    { "titel": "Wandbeugel voor Marstek Venus", "verwacht": "genegeerd" },
+    { "titel": "Duracell AA batterijen alkaline 8 stuks", "verwacht": "genegeerd" }
+  ]
+}

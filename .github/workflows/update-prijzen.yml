@@ -59,6 +59,20 @@ jobs:
           BOL_CLIENT_SECRET: ${{ secrets.BOL_CLIENT_SECRET }}
         run: npm run prijzen
 
+      # Prijzen werken zichzelf bij, maar een nieuw model verschijnt nergens
+      # vanzelf. Deze stap zoekt ernaar en meldt alleen: toevoegen blijft
+      # mensenwerk, want een verkeerd toegevoegd model krijgt een pagina en een
+      # plek in de vergelijking zonder dat iemand de specificaties heeft gezien.
+      # Faalt nooit de run: dit is een signaal, geen bewaking.
+      - name: Nieuwe modellen zoeken
+        if: steps.keuze.outputs.doen == 'true'
+        continue-on-error: true
+        working-directory: sites/${{ matrix.site }}
+        env:
+          BOL_CLIENT_ID: ${{ secrets.BOL_CLIENT_ID }}
+          BOL_CLIENT_SECRET: ${{ secrets.BOL_CLIENT_SECRET }}
+        run: npm run modellen
+
       - name: Pagina's en sitemap herbouwen
         if: steps.keuze.outputs.doen == 'true'
         working-directory: sites/${{ matrix.site }}

@@ -1,0 +1,38 @@
+{
+  "toelichting": "Waar zoeken we naar modellen die we nog niet kennen. Zie scripts/nieuwe-modellen.mjs.",
+
+  "bronnen": [
+    {
+      "soort": "bol",
+      "zoektermen": [
+        "thuisbatterij",
+        "balkonbatterij",
+        "plug-in thuisbatterij",
+        "thuisaccu lifepo4",
+        "energieopslag thuis",
+        "batterij dynamisch contract",
+        "solarbank",
+        "powerstation lifepo4"
+      ],
+      "paginas": 1,
+      "alleen_bekende_merken": false,
+      "minimum_modelwoorden": 1
+    }
+  ],
+
+  "onderwerp_woorden": [
+    "thuisbatterij", "thuisaccu", "balkonbatterij", "energieopslag", "batterij",
+    "accu", "kwh", "solarbank", "powerstation", "energy storage", "opslagsysteem"
+  ],
+
+  "uitsluit_woorden": [
+    "kabel", "snoer", "adapter", "stekker", "beugel", "wandbeugel", "montage",
+    "hoes", "cover", "sticker", "handleiding", "boek", "poster", "speelgoed",
+    "powerbank", "oplader", "laadpaal", "batterijen aa", "batterijen aaa",
+    "knoopcel", "alkaline", "wielen", "trolley", "zonnepaneel flexibel"
+  ],
+
+  "minimum_prijs_eur": 250,
+
+  "afgewezen": []
+}
