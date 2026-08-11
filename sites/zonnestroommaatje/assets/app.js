@@ -47,114 +47,41 @@
   const datumFmt = new Intl.DateTimeFormat("nl-NL", { dateStyle: "long" });
 
   /* ------------------------------------------------------------------
+     De kaartopmaak en de helpers eromheen staan in assets/kaart.js, zodat de
+     generator exact dezelfde HTML kan wegschrijven als wat de browser tekent.
+     Hier alleen de namen, zodat de rest van dit bestand ongewijzigd blijft.
+     ------------------------------------------------------------------ */
+
+  const {
+    escapeHtml, naamVan, nl, datumNL, celtypeLabel, koopUrl, merkHtml: merkHtmlVan,
+    zekerScore, zekerScoreBadge, dakSterren, sterren, jaNeeBadge,
+  } = Kaart;
+
+  const merkHtml = (p) => merkHtmlVan(p, state.meta.merk_logos);
+  const kaartHtml = (p) => Kaart.kaartHtml(p, {
+    merkLogos: state.meta.merk_logos,
+    geselecteerd: state.vergelijkSelectie.includes(p.id),
+  });
+
+
+  /* ------------------------------------------------------------------
      Data helpers
      ------------------------------------------------------------------ */
 
-  // Kooplink: de commissielink (affiliate) als die er is, anders de gewone
-  // productlink. De prijscontrole gebruikt altijd de gewone url.
-  function koopUrl(a) {
-    return (a && (a.affiliate_url || a.url)) || "";
-  }
 
-  function bestePrijs(p) {
-    const aanbiedingen = (p.aanbiedingen || []).filter((a) => a && a.prijs_eur);
-    if (aanbiedingen.length) {
-      // Bij gelijke prijs wint de aanbieding met controledatum (geverifieerd)
-      return aanbiedingen.reduce((min, a) => (a.prijs_eur < min.prijs_eur || (a.prijs_eur === min.prijs_eur && a.datum && !min.datum) ? a : min));
-    }
-    if (p.richtprijs_eur) {
-      return { winkel: p.prijs_bron || "richtprijs (indicatie)", prijs_eur: p.richtprijs_eur, url: p.product_url };
-    }
-    return null;
-  }
+  // Prijslogica staat in assets/prijs.js: één bron voor de hele site, zodat
+  // een prijs excl. btw niet van een eerlijke prijs incl. btw kan winnen.
+  const bestePrijs = (p) => Prijs.beste(p);
 
-  function heeftKorting(p) {
-    const beste = bestePrijs(p);
-    return !!(beste && p.richtprijs_eur && beste.prijs_eur < p.richtprijs_eur * 0.97);
-  }
+  const heeftKorting = (p) => Prijs.heeftKorting(p);
 
-  function prijsPerWp(p) {
-    const beste = bestePrijs(p);
-    if (!beste || !p.vermogen_wp) return null;
-    return beste.prijs_eur / p.vermogen_wp;
-  }
+  const prijsPerWp = (p) => Prijs.prijsPerWp(p);
 
-  const CELTYPE_LABEL = {
-    "topcon": "TOPCon (N-type)",
-    "hjt": "HJT (heterojunctie)",
-    "back-contact": "Back-contact",
-    "perc": "PERC",
-  };
-
-  function celtypeLabel(p) {
-    return CELTYPE_LABEL[p.celtype] || p.celtype;
-  }
-
-  function escapeHtml(str) {
-    return String(str == null ? "" : str)
-      .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;").replaceAll("'", "&#39;");
-  }
-
-  // "Denim" + model "Denim 440 Wp" zou anders "Denim Denim 440 Wp" opleveren
-  const naamVan = (p) => p.model.toLowerCase().startsWith(p.merk.toLowerCase()) ? p.model : `${p.merk} ${p.model}`;
-
-  const nl = (n) => String(n).replace(".", ",");
-
-  // ISO-datum (2026-07-21) leesbaar maken als "21 juli 2026"
-  function datumNL(iso) {
-    const d = new Date(`${iso}T12:00:00`);
-    return Number.isNaN(d.getTime()) ? iso : datumFmt.format(d);
-  }
 
   /* ------------------------------------------------------------------
      Zeker-score en sterren
      ------------------------------------------------------------------ */
 
-  // Zeker-score: unieke Zonnestroommaatje-score voor degelijkheid (0 tot 6).
-  // Drie zaken tellen mee, elk 0-2 punten:
-  //  - productgarantie: 25+ jaar = 2, 20-24 jaar = 1, korter = 0
-  //  - vermogensbehoud na 25 jaar: 90%+ = 2, 88,5%+ = 1, minder = 0
-  //  - uitvoering: glas-glas = 2, glas-folie = 0
-  // De formule staat uitgelegd op uitleg.html#zeker-score en over-ons.html.
-  function zekerScore(p) {
-    let score = 0;
-    const g = p.garantie_product_jaar || 0;
-    score += g >= 25 ? 2 : g >= 20 ? 1 : 0;
-    const b = p.vermogen_behoud_25j_pct || 0;
-    score += b >= 90 ? 2 : b >= 88.5 ? 1 : 0;
-    score += p.uitvoering === "glas-glas" ? 2 : 0;
-    return score;
-  }
-
-  function zekerScoreBadge(p) {
-    const score = zekerScore(p);
-    const klasse = score >= 5 ? "zeker-hoog" : score >= 3 ? "zeker-midden" : "zeker-laag";
-    return `<span class="badge zeker-score ${klasse}" title="Zeker-score ${score} van 6: punten voor productgarantie, vermogensbehoud na 25 jaar en glas-glas uitvoering (2 punten per onderdeel). Tik voor de details.">${Iconen.svg("veiligheid")} Zeker-score ${score}/6</span>`;
-  }
-
-  // Sterren voor opbrengst per vierkante meter dak (vermogensdichtheid).
-  // Het rendement bepaalt direct hoeveel Wp er op een m² dak past:
-  // 22% rendement = 220 Wp per m² paneel.
-  function dakSterren(p) {
-    const r = p.rendement_pct || 0;
-    return r >= 22.8 ? 5 : r >= 22.4 ? 4 : r >= 22.0 ? 3 : r >= 21.5 ? 2 : 1;
-  }
-
-  function sterren(score) {
-    const s = Math.max(0, Math.min(5, Math.round(score || 0)));
-    // Gevulde en lege ster komen uit dezelfde icoonset, zodat ze precies
-    // dezelfde vorm hebben in plaats van twee losse tekens.
-    const ster = (gevuld) => Iconen.svg("ster", { gevuld });
-    return `<span class="sterren-rij" role="img" aria-label="${s} van 5 sterren">${ster(true).repeat(s)}${ster(false).repeat(5 - s)}</span>`;
-  }
-
-  function jaNeeBadge(label, waarde, titelJa, titelNee) {
-    const status = waarde ? "ja" : "nee";
-    const icoon = Iconen.svg(waarde ? "ja" : "nee");
-    const titel = waarde ? (titelJa || "Ja") : (titelNee || "Nee");
-    return `<span class="badge ${status}" data-uitleg="${escapeHtml(label)}" title="${escapeHtml(titel)}">${icoon} ${escapeHtml(label)}</span>`;
-  }
 
   /* ------------------------------------------------------------------
      Filteren en sorteren
@@ -225,7 +152,7 @@
 
   function gesorteerd(lijst) {
     const kopie = [...lijst];
-    const prijsVan = (p) => { const b = bestePrijs(p); return b ? b.prijs_eur : Infinity; };
+    const prijsVan = (p) => { const b = bestePrijs(p); return b ? Prijs.vergelijkPrijs(b) : Infinity; };
     switch (state.sortering) {
       case "prijs-oplopend": kopie.sort((a, b) => prijsVan(a) - prijsVan(b)); break;
       case "prijs-aflopend": kopie.sort((a, b) => prijsVan(b) - prijsVan(a)); break;
@@ -242,82 +169,6 @@
      Rendering: kaarten
      ------------------------------------------------------------------ */
 
-  // Merklogo: toont het officiële logo naast de merknaam zodra het bestand in
-  // assets/logos/ staat en is geregistreerd in data/panelen.json (merk_logos).
-  function merkHtml(p) {
-    const logo = (state.meta.merk_logos || {})[p.merk];
-    return logo
-      ? `<img class="merk-logo" src="${escapeHtml(logo)}" alt="" loading="lazy"> ${escapeHtml(p.merk)}`
-      : escapeHtml(p.merk);
-  }
-
-  function kaartHtml(p) {
-    const beste = bestePrijs(p);
-    const korting = heeftKorting(p);
-    const perWp = prijsPerWp(p);
-    const geselecteerd = state.vergelijkSelectie.includes(p.id);
-    const wpPerM2 = p.rendement_pct ? Math.round(p.rendement_pct * 10) : null;
-
-    return `
-    <article class="paneel-kaart" data-id="${escapeHtml(p.id)}">
-      <div class="vergelijk-checkbox-wrap">
-        <label class="badge" title="Selecteer om te vergelijken (max. 3)">
-          <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(p.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
-        </label>
-      </div>
-      <div class="kaart-kop">
-        <div>
-          <div class="merk">${merkHtml(p)}</div>
-          <h3><a href="paneel/${encodeURIComponent(p.id)}.html" style="color:inherit;text-decoration:none;" title="Alle details van de ${escapeHtml(naamVan(p))}">${escapeHtml(p.model)}</a></h3>
-          <a class="term-link" href="uitleg.html#${escapeHtml(p.celtype)}" title="Wat betekent dit celtype? Lees de uitleg in de woordenlijst"><span class="type-badge type-${escapeHtml(p.celtype)}">${escapeHtml(celtypeLabel(p))}</span></a>
-        </div>
-        ${korting ? '<span class="aanbieding-vlag">Aanbieding</span>' : ""}
-      </div>
-      <div class="kaart-specs">
-        <div class="spec"><span class="spec-label"><a class="term-link" href="uitleg.html#wattpiek" title="Wat is wattpiek (Wp)? Lees de uitleg">Vermogen</a></span><span class="spec-waarde">${p.vermogen_wp ? p.vermogen_wp + " Wp" : "Onbekend"}</span></div>
-        <div class="spec"><span class="spec-label"><a class="term-link" href="uitleg.html#rendement" title="Wat is rendement? Lees de uitleg">Rendement</a></span><span class="spec-waarde">${p.rendement_pct ? nl(p.rendement_pct) + "%" : "Onbekend"}</span></div>
-        <div class="spec"><span class="spec-label"><a class="term-link" href="uitleg.html#glas-glas" title="Glas-glas of glas-folie? Lees de uitleg">Uitvoering</a></span><span class="spec-waarde">${escapeHtml(p.uitvoering || "Onbekend")}</span></div>
-        <div class="spec"><span class="spec-label">Productgarantie</span><span class="spec-waarde">${p.garantie_product_jaar ? p.garantie_product_jaar + " jaar" : "Onbekend"}</span></div>
-      </div>
-      <div class="koppelgemak" title="Hoeveel vermogen past er per vierkante meter dak? 5 sterren = zeer hoog rendement, dus maximale opbrengst op een klein dak.">
-        <span class="spec-label" style="font-size:0.75rem;color:var(--kleur-tekst-licht);font-weight:600;text-transform:uppercase;">Opbrengst per m² dak</span><br>
-        <span class="sterren">${sterren(dakSterren(p))}</span>
-        <div class="uitleg">${wpPerM2 ? `Circa ${wpPerM2} Wp per m² paneeloppervlak.` : ""} ${escapeHtml(p.opmerkingen ? "" : "")}</div>
-      </div>
-      <div class="kaart-badges">
-        ${zekerScoreBadge(p)}
-        ${jaNeeBadge("Glas-glas", p.uitvoering === "glas-glas", "Glas aan beide zijden: beter bestand tegen vocht en microscheurtjes", "Glas-folie: lichter en goedkoper, maar kwetsbaarder op lange termijn")}
-        ${jaNeeBadge("Full black", p.full_black, "Volledig zwart paneel: cellen, folie en frame", "Niet volledig zwart uitgevoerd")}
-        ${jaNeeBadge("Bifaciaal", p.bifaciaal, "Vangt ook licht via de achterkant, interessant bij plat dak", "Alleen de voorzijde vangt licht")}
-      </div>
-      <button class="details-toggle" data-id="${escapeHtml(p.id)}" aria-label="Meer details over de ${escapeHtml(naamVan(p))}">Meer details</button>
-      <div class="kaart-details" data-details="${escapeHtml(p.id)}" hidden>
-        <dt>Vermogensgarantie</dt><dd>${p.garantie_vermogen_jaar ? `${p.garantie_vermogen_jaar} jaar; minimaal ${nl(p.vermogen_behoud_eind_pct || "?")}% van het oorspronkelijke vermogen aan het einde` : "Onbekend"}</dd>
-        <dt>Vermogensbehoud na 25 jaar</dt><dd>${p.vermogen_behoud_25j_pct ? `circa ${nl(p.vermogen_behoud_25j_pct)}% (volgens fabrieksgarantie)` : "Onbekend"}</dd>
-        <dt>Temperatuurcoëfficiënt</dt><dd>${p.temp_coefficient ? `${nl(p.temp_coefficient)}% per °C (dichter bij nul is beter bij warmte)` : "Onbekend"}</dd>
-        <dt>Afmetingen en gewicht</dt><dd>${escapeHtml(p.afmetingen_mm || "?")} mm${p.gewicht_kg ? `, circa ${nl(p.gewicht_kg)} kg` : ""}</dd>
-        ${p.opmerkingen ? `<dt>Goed om te weten</dt><dd>${escapeHtml(p.opmerkingen)}</dd>` : ""}
-        ${(p.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${p.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${eurFmt.format(a.prijs_eur)}</b> &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul></dd>` : ""}
-        ${p.product_url ? `<dt>Fabrikant</dt><dd><a href="${escapeHtml(p.product_url)}" target="_blank" rel="noopener">officiële website van ${escapeHtml(p.merk)}</a></dd>` : ""}
-        ${p.prijs_datum ? `<dd class="datum-stempel" style="margin-top:8px;">Richtprijs gecontroleerd: ${escapeHtml(datumNL(p.prijs_datum))}</dd>` : ""}
-      </div>
-      <div class="kaart-prijs">
-        <div class="prijs-blok">
-          ${korting ? `<div class="van-prijs">${eurFmt.format(p.richtprijs_eur)}</div>` : ""}
-          <div class="prijs">${beste ? eurFmt.format(beste.prijs_eur) : "Prijs op aanvraag"}</div>
-          ${perWp ? `<div class="prijs-per-kwh">${eurWpFmt.format(perWp)} per Wp</div>` : ""}
-          ${beste && beste.winkel ? `<div class="prijs-winkel">${beste.winkel.startsWith("richtprijs") ? beste.winkel : "bij " + escapeHtml(beste.winkel)}</div>` : ""}
-          ${p.prijs_omvat ? `<div class="prijs-winkel">${escapeHtml(p.prijs_omvat)}</div>` : ""}
-        </div>
-      </div>
-      <div class="kaart-acties">
-        ${beste && beste.url ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de ${escapeHtml(naamVan(p))} bij ${escapeHtml(beste.winkel || "de aanbieder")}">${beste.winkel && !beste.winkel.startsWith("richtprijs") ? "Bekijk aanbieding " + Iconen.svg("pijl-rechts") + "" : "Naar fabrikant " + Iconen.svg("pijl-rechts") + ""}</a>` : ""}
-        <a class="knop knop-secundair" href="systeem.html?paneel=${encodeURIComponent(p.id)}" title="Combineer dit paneel met een omvormer en zie de systeemprijs" aria-label="Stel een systeem samen met de ${escapeHtml(naamVan(p))}">In systeem ${Iconen.svg("pijl-rechts")}</a>
-        <a class="knop knop-secundair" href="rekenmodule.html?paneel=${encodeURIComponent(p.id)}" title="Bereken de terugverdientijd van dit paneel voor jouw dak" aria-label="Bereken de terugverdientijd van de ${escapeHtml(naamVan(p))}">Terugverdientijd</a>
-      </div>
-      ${beste && beste.affiliate_url ? `<div class="datum-stempel" style="padding:0 20px 12px;">Dit is een commissielink: kost jou niets, beïnvloedt de vergelijking niet. <a href="over-ons.html">Uitleg</a></div>` : ""}
-    </article>`;
-  }
 
   /* ------------------------------------------------------------------
      Rendering: tabel
@@ -328,7 +179,7 @@
     { key: "wp", label: "Wp", get: (p) => p.vermogen_wp || 0 },
     { key: "rendement", label: "Rendement", get: (p) => p.rendement_pct || 0 },
     { key: "celtype", label: "Celtype", get: (p) => p.celtype },
-    { key: "prijs", label: "Prijs", get: (p) => { const b = bestePrijs(p); return b ? b.prijs_eur : Infinity; } },
+    { key: "prijs", label: "Prijs", get: (p) => { const b = bestePrijs(p); return b ? Prijs.vergelijkPrijs(b) : Infinity; } },
     { key: "perwp", label: "€/Wp", get: (p) => prijsPerWp(p) || Infinity },
     { key: "uitvoering", label: "Glas-glas", get: (p) => (p.uitvoering === "glas-glas" ? 1 : 0) },
     { key: "garantie", label: "Garantie", get: (p) => p.garantie_product_jaar || 0 },
@@ -358,7 +209,7 @@
             <td>${p.vermogen_wp || "?"}</td>
             <td>${p.rendement_pct ? nl(p.rendement_pct) + "%" : "?"}</td>
             <td>${escapeHtml(celtypeLabel(p))}</td>
-            <td class="tabel-prijs" title="${escapeHtml(p.prijs_omvat || "")}">${beste ? eurFmt.format(beste.prijs_eur) : "n.b."}${heeftKorting(p) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
+            <td class="tabel-prijs" title="${escapeHtml(p.prijs_omvat || "")}">${beste ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "n.b."}${heeftKorting(p) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
             <td>${perWp ? eurWpFmt.format(perWp) : "n.b."}</td>
             <td>${p.uitvoering === "glas-glas" ? '<span class="check-ja">' + Iconen.svg("ja") + '</span>' : '<span class="check-nee">' + Iconen.svg("nee") + '</span>'}</td>
             <td>${p.garantie_product_jaar ? p.garantie_product_jaar + " jr" : "?"}</td>
@@ -386,7 +237,7 @@
         ${rij("Celtype", (p) => escapeHtml(celtypeLabel(p)))}
         ${rij("Vermogen", (p) => (p.vermogen_wp ? p.vermogen_wp + " Wp" : "?"))}
         ${rij("Rendement", (p) => (p.rendement_pct ? nl(p.rendement_pct) + "%" : "?"))}
-        ${rij("Prijs", (p) => { const b = bestePrijs(p); return b ? `<b>${eurFmt.format(b.prijs_eur)}</b>` : "n.b."; })}
+        ${rij("Prijs", (p) => { const b = bestePrijs(p); return b ? `<b>${eurFmt.format(Prijs.vergelijkPrijs(b))}</b>` : "n.b."; })}
         ${rij("Prijs per Wp", (p) => { const w = prijsPerWp(p); return w ? eurWpFmt.format(w) : "n.b."; })}
         ${rij("Uitvoering", (p) => escapeHtml(p.uitvoering || "?"))}
         ${rij("Full black", (p) => jaNee(p.full_black))}

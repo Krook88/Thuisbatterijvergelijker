@@ -6,9 +6,12 @@
  * Gemeten wordt per pagina, standaard op een telefoonscherm:
  *   - hoe hoog de navigatie is voordat de inhoud begint;
  *   - waar de eerste knop staat (hoe ver moet je scrollen voor je iets kunt);
- *   - hoeveel aanklikbare dingen kleiner zijn dan 44 pixels, de maat waarop
- *     een duim betrouwbaar raakt. Tekstlinks binnen een alinea tellen niet
- *     mee: die horen met de regelhoogte mee te lopen;
+ *   - hoeveel aanklikbare dingen te klein zijn, tegen twee grenzen: 24 pixels
+ *     (WCAG 2.5.8, niveau AA - hieronder is het een gebrek) en 44 pixels
+ *     (niveau AAA en de Apple-richtlijn - de maat waarop een duim betrouwbaar
+ *     raakt). Tekstlinks binnen een alinea tellen niet mee: die horen met de
+ *     regelhoogte mee te lopen. Elementen die alleen voor een schermlezer
+ *     bestaan ook niet;
  *   - het gewicht van de pagina en het aantal verzoeken.
  *
  * Gebruik:
@@ -76,30 +79,59 @@ async function meet(page, url) {
     const knop = document.querySelector("a.knop, button.knop, .hero a, .knop");
     // Alleen zelfstandige aanraakvlakken. Een link midden in een zin hoort de
     // regelhoogte te volgen en is geen knop.
-    const inTekst = (e) => e.closest("p, li, .disclaimer, .hint, dd, .legenda");
+    const inTekst = (e) => {
+      if (e.closest("p, li, .disclaimer, .hint, dd, .legenda")) return true;
+      // Niet elke lap tekst zit in een <p>. Een gewone link met veel tekst
+      // omheen is een tekstlink, ook als de opmaak dat niet zegt; WCAG 2.5.8
+      // maakt daar met zoveel woorden een uitzondering voor ("in a sentence
+      // or block of text"). Een knop valt daar niet onder: die is een
+      // zelfstandig bedieningselement, ook midden in een alinea. Vandaar de
+      // beperking tot <a> zonder knop-opmaak.
+      if (e.tagName !== "A" || e.classList.contains("knop")) return false;
+      const ouder = e.parentElement;
+      if (!ouder) return false;
+      return ouder.textContent.length - e.textContent.length >= 40;
+    };
+    // Een element dat alleen voor een schermlezer bestaat is geen aanraakvlak.
+    // Het heeft wel een rechthoek van een pixel, en telde daardoor mee als de
+    // allerkleinste van de pagina.
+    const alleenVoorLezer = (e) => e.closest(".visueel-verborgen");
     const raakbaar = [...document.querySelectorAll("a,button,input,select,summary,label")]
-      .filter((e) => e.getClientRects().length && !inTekst(e));
+      .filter((e) => e.getClientRects().length && !inTekst(e) && !alleenVoorLezer(e));
     // Een vinkje in een label is niet zelf het aanraakvlak: het label eromheen
-    // vangt de tik. Zit dat label al ruim genoeg, dan is er niets aan de hand.
+    // vangt de tik. Het label wordt hieronder los gemeten, dus het vinkje
+    // meetellen zou hetzelfde raakvlak twee keer tellen - en de tweede keer
+    // met een hoogte (13 pixels) die niemand ooit aanraakt.
     const gedektDoorLabel = (e) => {
       const l = e.closest("label");
-      return l && l !== e && l.getBoundingClientRect().height >= 44;
+      return !!l && l !== e;
     };
-    const klein = raakbaar.filter((e) => e.getBoundingClientRect().height < 44 && !gedektDoorLabel(e));
-    // Alleen tellen hoeveel er onder de 44 zitten verbergt vooruitgang: een
+    const hoogteVan = (e) => e.getBoundingClientRect().height;
+    // Twee grenzen, want ze betekenen niet hetzelfde.
+    //
+    //   24px  WCAG 2.5.8, niveau AA. Hieronder is het een gebrek.
+    //   44px  WCAG 2.5.5 (AAA) en de Apple-richtlijn: de maat waarop een duim
+    //         betrouwbaar raakt. Ertussenin is het te verdedigen.
+    //
+    // Op één hoop gooien stuurt de verkeerde kant op: een link van 16 pixels
+    // en een van 38 tellen dan even zwaar, terwijl alleen de eerste stuk is en
+    // de tweede oprekken de buurman kan gaan overlappen.
+    const bruikbaar = raakbaar.filter((e) => !gedektDoorLabel(e));
+    const klein = bruikbaar.filter((e) => hoogteVan(e) < 44);
+    const teKlein = bruikbaar.filter((e) => hoogteVan(e) < 24);
+    // Alleen tellen hoeveel er onder de grens zitten verbergt vooruitgang: een
     // raakvlak dat van 17 naar 35 pixels groeit telt nog steeds mee. De
     // mediaan laat zien of het de goede kant op gaat.
-    const hoogtes = klein.map((e) => Math.round(e.getBoundingClientRect().height)).sort((a, b) => a - b);
+    const hoogtes = klein.map((e) => Math.round(hoogteVan(e))).sort((a, b) => a - b);
     const mediaan = hoogtes.length ? hoogtes[Math.floor(hoogtes.length / 2)] : null;
+    const soort = (e) => (e.className || "").toString().trim().split(/\s+/)[0] || e.tagName.toLowerCase();
     const perSoort = {};
-    for (const e of klein) {
-      const k = (e.className || "").toString().trim().split(/\s+/)[0] || e.tagName.toLowerCase();
-      perSoort[k] = (perSoort[k] || 0) + 1;
-    }
+    for (const e of teKlein) perSoort[soort(e)] = (perSoort[soort(e)] || 0) + 1;
     return {
       navHoogte: kop ? Math.round(kop.getBoundingClientRect().height) : null,
       eersteKnopOp: knop ? Math.round(knop.getBoundingClientRect().top + window.scrollY) : null,
       raakbaar: raakbaar.length,
+      onderAA: teKlein.length,
       teKlein: klein.length,
       mediaanTeKlein: mediaan,
       teKleinPerSoort: Object.fromEntries(Object.entries(perSoort).sort((a, b) => b[1] - a[1]).slice(0, 5)),
@@ -140,14 +172,14 @@ const pijl = (nieuw, vorig, lagerIsBeter = true) => {
 };
 
 console.log(`Gemeten op ${BREEDTE}px breed\n`);
-console.log(`${"pagina".padEnd(14)} ${"nav".padStart(6)} ${"1e knop".padStart(9)} ${"te klein".padStart(12)} ${"mediaan".padStart(9)} ${"kB".padStart(6)}`);
+console.log(`${"pagina".padEnd(14)} ${"nav".padStart(6)} ${"1e knop".padStart(9)} ${"< 24px".padStart(8)} ${"< 44px".padStart(12)} ${"mediaan".padStart(9)} ${"kB".padStart(6)}`);
 const px = (n) => (n == null ? "     —" : String(n).padStart(4) + "px");
 for (const [naam, m] of Object.entries(nu.paginas)) {
   const v = oud?.paginas?.[naam];
   console.log(
     `${naam.padEnd(14)} ${px(m.navHoogte)} ${px(m.eersteKnopOp).padStart(9)} ` +
-    `${(m.teKlein + "/" + m.raakbaar).padStart(12)} ${(m.mediaanTeKlein == null ? "—" : m.mediaanTeKlein + "px").padStart(9)} ${String(m.kB).padStart(6)}` +
-    (v ? `\n${"".padEnd(14)} ${pijl(m.navHoogte, v.navHoogte).trim()} ${pijl(m.eersteKnopOp, v.eersteKnopOp).trim()} ${pijl(m.teKlein, v.teKlein).trim()} ${pijl(m.mediaanTeKlein, v.mediaanTeKlein, false).trim()}` : ""),
+    `${String(m.onderAA ?? "?").padStart(8)} ${(m.teKlein + "/" + m.raakbaar).padStart(12)} ${(m.mediaanTeKlein == null ? "—" : m.mediaanTeKlein + "px").padStart(9)} ${String(m.kB).padStart(6)}` +
+    (v ? `\n${"".padEnd(14)} ${pijl(m.navHoogte, v.navHoogte).trim()} ${pijl(m.eersteKnopOp, v.eersteKnopOp).trim()} ${pijl(m.onderAA, v.onderAA).trim()} ${pijl(m.teKlein, v.teKlein).trim()} ${pijl(m.mediaanTeKlein, v.mediaanTeKlein, false).trim()}` : ""),
   );
 }
 
@@ -158,7 +190,7 @@ const soorten = {};
 for (const m of Object.values(nu.paginas)) {
   for (const [k, n] of Object.entries(m.teKleinPerSoort)) soorten[k] = (soorten[k] || 0) + n;
 }
-console.log("\nte kleine aanraakvlakken, meest voorkomend:");
+console.log("\naanraakvlakken onder de 24 pixels (WCAG AA), meest voorkomend:");
 for (const [k, n] of Object.entries(soorten).sort((a, b) => b[1] - a[1]).slice(0, 6)) {
   console.log(`  ${String(n).padStart(4)}  ${k}`);
 }

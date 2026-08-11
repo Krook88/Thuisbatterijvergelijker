@@ -1549,6 +1549,29 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
     padding: 9px 6px;
     margin: -9px -6px;
   }
+
+  /* Formuliervelden in de rekenmodule en de keuzehulp. Het veld zelf was 37 tot
+     39 pixels en het label erboven 22; allebei te klein om blind te raken, en
+     het label zit net onder de 24 die WCAG 2.5.8 op niveau AA vraagt. Alleen
+     directe kinderen: de aankruisvakjes in .checkbox-groep hebben hun eigen
+     label als aanraakvlak en moeten hun eigen maat houden. */
+  .veld > input,
+  .veld > select,
+  .veld > textarea {
+    min-height: 44px;
+  }
+  .veld > label {
+    display: inline-block;
+    padding: 3px 0;
+  }
+
+  /* Een losse link in een tabelcel (de bronvermelding onder de
+     leverancierstabel) is een knop om aan te tikken, geen tekstlink. */
+  .vergelijk-tabel td > a:not(.knop) {
+    display: inline-block;
+    padding: 4px 2px;
+  }
+
 }
 
 /* --------------------------------------------------------------------------

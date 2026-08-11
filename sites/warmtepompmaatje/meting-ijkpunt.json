@@ -5,106 +5,85 @@
     "vergelijker": {
       "navHoogte": 65,
       "eersteKnopOp": 560,
-      "raakbaar": 188,
-      "teKlein": 124,
-      "mediaanTeKlein": 32,
-      "teKleinPerSoort": {
-        "badge": 30,
-        "vergelijk-check": 30,
-        "details-toggle": 30,
-        "kaart-naar-reken": 30,
-        "logo": 1
-      },
+      "raakbaar": 152,
+      "onderAA": 0,
+      "teKlein": 0,
+      "mediaanTeKlein": null,
+      "teKleinPerSoort": {},
       "horizontaalSchuiven": false,
-      "kB": 142,
+      "kB": 67,
       "verzoeken": 9
     },
     "keuzehulp": {
       "navHoogte": 65,
-      "eersteKnopOp": 2362,
-      "raakbaar": 19,
-      "teKlein": 14,
-      "mediaanTeKlein": 29,
-      "teKleinPerSoort": {
-        "label": 6,
-        "select": 5,
-        "logo": 1,
-        "input": 1,
-        "a": 1
-      },
+      "eersteKnopOp": 2430,
+      "raakbaar": 17,
+      "onderAA": 0,
+      "teKlein": 6,
+      "mediaanTeKlein": 28,
+      "teKleinPerSoort": {},
       "horizontaalSchuiven": false,
-      "kB": 83,
+      "kB": 98,
       "verzoeken": 9
     },
     "rekenmodule": {
       "navHoogte": 65,
       "eersteKnopOp": null,
-      "raakbaar": 17,
-      "teKlein": 15,
-      "mediaanTeKlein": 29,
-      "teKleinPerSoort": {
-        "label": 7,
-        "input": 6,
-        "logo": 1,
-        "select": 1
-      },
+      "raakbaar": 16,
+      "onderAA": 0,
+      "teKlein": 7,
+      "mediaanTeKlein": 28,
+      "teKleinPerSoort": {},
       "horizontaalSchuiven": false,
-      "kB": 112,
+      "kB": 133,
       "verzoeken": 9
     },
     "uitleg": {
       "navHoogte": 65,
       "eersteKnopOp": null,
-      "raakbaar": 2,
-      "teKlein": 1,
-      "mediaanTeKlein": 29,
-      "teKleinPerSoort": {
-        "logo": 1
-      },
+      "raakbaar": 1,
+      "onderAA": 0,
+      "teKlein": 0,
+      "mediaanTeKlein": null,
+      "teKleinPerSoort": {},
       "horizontaalSchuiven": false,
-      "kB": 48,
+      "kB": 56,
       "verzoeken": 6
     },
     "contact": {
       "navHoogte": 65,
-      "eersteKnopOp": 1740,
-      "raakbaar": 12,
-      "teKlein": 6,
-      "mediaanTeKlein": 27,
-      "teKleinPerSoort": {
-        "label": 4,
-        "logo": 1,
-        "knop": 1
-      },
+      "eersteKnopOp": 1764,
+      "raakbaar": 11,
+      "onderAA": 0,
+      "teKlein": 4,
+      "mediaanTeKlein": 33,
+      "teKleinPerSoort": {},
       "horizontaalSchuiven": false,
-      "kB": 39,
+      "kB": 69,
       "verzoeken": 7
     },
     "pomppagina": {
       "navHoogte": 65,
       "eersteKnopOp": 2393,
-      "raakbaar": 3,
-      "teKlein": 2,
+      "raakbaar": 2,
+      "onderAA": 0,
+      "teKlein": 1,
       "mediaanTeKlein": 39,
-      "teKleinPerSoort": {
-        "logo": 1,
-        "a": 1
-      },
+      "teKleinPerSoort": {},
       "horizontaalSchuiven": false,
-      "kB": 38,
+      "kB": 23,
       "verzoeken": 6
     },
     "subsidie": {
       "navHoogte": 65,
       "eersteKnopOp": null,
-      "raakbaar": 2,
-      "teKlein": 1,
-      "mediaanTeKlein": 29,
-      "teKleinPerSoort": {
-        "logo": 1
-      },
+      "raakbaar": 1,
+      "onderAA": 0,
+      "teKlein": 0,
+      "mediaanTeKlein": null,
+      "teKleinPerSoort": {},
       "horizontaalSchuiven": false,
-      "kB": 74,
+      "kB": 31,
       "verzoeken": 6
     }
   }
