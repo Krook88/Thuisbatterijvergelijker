@@ -1,0 +1,161 @@
+{
+  "breedte": 390,
+  "gemetenOp": "2026-08-11",
+  "paginas": {
+    "vergelijker": {
+      "navHoogte": 65,
+      "eersteKnopOp": 585,
+      "raakbaar": 177,
+      "teKlein": 106,
+      "mediaanTeKlein": 15,
+      "teKleinPerSoort": {
+        "term-link": 56,
+        "badge": 14,
+        "vergelijk-check": 14,
+        "details-toggle": 14,
+        "a": 5
+      },
+      "horizontaalSchuiven": false,
+      "kB": 111,
+      "verzoeken": 9
+    },
+    "keuzehulp": {
+      "navHoogte": 65,
+      "eersteKnopOp": 2304,
+      "raakbaar": 27,
+      "teKlein": 17,
+      "mediaanTeKlein": 22,
+      "teKleinPerSoort": {
+        "label": 7,
+        "select": 5,
+        "input": 2,
+        "a": 2,
+        "logo": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 55,
+      "verzoeken": 9
+    },
+    "rekenmodule": {
+      "navHoogte": 65,
+      "eersteKnopOp": null,
+      "raakbaar": 23,
+      "teKlein": 21,
+      "mediaanTeKlein": 37,
+      "teKleinPerSoort": {
+        "label": 10,
+        "input": 7,
+        "select": 3,
+        "logo": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 56,
+      "verzoeken": 8
+    },
+    "uitleg": {
+      "navHoogte": 65,
+      "eersteKnopOp": null,
+      "raakbaar": 8,
+      "teKlein": 6,
+      "mediaanTeKlein": 19,
+      "teKleinPerSoort": {
+        "a": 3,
+        "term-link": 2,
+        "logo": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 54,
+      "verzoeken": 6
+    },
+    "contact": {
+      "navHoogte": 65,
+      "eersteKnopOp": 1656,
+      "raakbaar": 12,
+      "teKlein": 6,
+      "mediaanTeKlein": 26,
+      "teKleinPerSoort": {
+        "label": 4,
+        "logo": 1,
+        "knop": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 34,
+      "verzoeken": 7
+    },
+    "paneelpagina": {
+      "navHoogte": 65,
+      "eersteKnopOp": 704,
+      "raakbaar": 8,
+      "teKlein": 7,
+      "mediaanTeKlein": 18,
+      "teKleinPerSoort": {
+        "term-link": 4,
+        "a": 2,
+        "logo": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 41,
+      "verzoeken": 5
+    },
+    "overzicht": {
+      "navHoogte": 65,
+      "eersteKnopOp": null,
+      "raakbaar": 10,
+      "teKlein": 3,
+      "mediaanTeKlein": 29,
+      "teKleinPerSoort": {
+        "a": 2,
+        "logo": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 39,
+      "verzoeken": 5
+    },
+    "duel": {
+      "navHoogte": 65,
+      "eersteKnopOp": null,
+      "raakbaar": 4,
+      "teKlein": 1,
+      "mediaanTeKlein": 29,
+      "teKleinPerSoort": {
+        "logo": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 55,
+      "verzoeken": 5
+    },
+    "omvormers": {
+      "navHoogte": 65,
+      "eersteKnopOp": 1399,
+      "raakbaar": 77,
+      "teKlein": 39,
+      "mediaanTeKlein": 32,
+      "teKleinPerSoort": {
+        "badge": 12,
+        "vergelijk-check": 12,
+        "details-toggle": 12,
+        "logo": 1,
+        "actief": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 46,
+      "verzoeken": 9
+    },
+    "energieplan": {
+      "navHoogte": 65,
+      "eersteKnopOp": 302,
+      "raakbaar": 25,
+      "teKlein": 24,
+      "mediaanTeKlein": 29,
+      "teKleinPerSoort": {
+        "label": 12,
+        "select": 6,
+        "input": 5,
+        "logo": 1
+      },
+      "horizontaalSchuiven": false,
+      "kB": 54,
+      "verzoeken": 8
+    }
+  }
+}

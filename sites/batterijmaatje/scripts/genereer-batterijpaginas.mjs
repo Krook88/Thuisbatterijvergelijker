@@ -247,7 +247,7 @@ function pagina(b) {
   ]);
 
   const specRij = (label, waarde) => waarde == null || waarde === "" ? "" :
-    `<tr><th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);white-space:nowrap;width:40%;">${esc(label)}</th><td style="padding:10px 14px;">${waarde}</td></tr>`;
+    `<tr><th>${esc(label)}</th><td>${waarde}</td></tr>`;
 
   const badgeIcoon = { ja: Iconen.svg("ja"), deels: Iconen.svg("deels"), nee: Iconen.svg("nee"), onbekend: Iconen.svg("onbekend") };
   const badge = (label, d) =>
@@ -313,8 +313,8 @@ ${breadcrumbLd(b)}
 <main class="content-pagina">
 
   <p class="datum-stempel"><a href="/index.html">Vergelijker</a> › ${esc(volledigeNaam(b))}</p>
-  <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
-    <div style="flex:1;min-width:250px;">
+  <div class="batterij-kop">
+    <div class="batterij-kop-tekst">
       <h1>${merkLogoHtml(b.merk)}${esc(volledigeNaam(b))}</h1>
       <p class="intro">${esc(typeLabel)} thuisbatterij van ${nl(b.capaciteit_kwh)} kWh${b.uitbreidbaar_tot_kwh ? `, uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh` : ""}. Prijzen dagelijks gecontroleerd, laatst op ${esc(datumNL(b.prijs_datum || data.laatst_bijgewerkt))}.</p>
     </div>
@@ -327,18 +327,18 @@ ${breadcrumbLd(b)}
   </div>
 
   <div class="info-kader">
-    ${beste ? `<div style="font-size:1.6rem;font-weight:800;">${eur(Prijs.vergelijkPrijs(beste))} <span style="font-size:0.95rem;font-weight:400;color:var(--kleur-tekst-licht);">incl. btw ${beste.is_richtprijs ? "(richtprijs; op dit moment geen winkel met deze batterij)" : `bij ${esc(beste.winkel)}`}${perKwh ? ` · ${eur(perKwh)} per kWh opslag` : ""}</span></div>${Prijs.prijsToelichting(beste) ? `<div class="prijs-let-op">${esc(Prijs.prijsToelichting(beste))}</div>` : ""}` : "<div><b>Prijs op aanvraag</b></div>"}
-    ${b.prijs_omvat ? `<div style="font-size:0.9rem;color:var(--kleur-tekst-licht);">Deze prijs dekt: ${esc(b.prijs_omvat)}</div>` : ""}
-    <div style="font-size:0.95rem;margin-top:6px;" title="${esc(b.totaalprijs_toelichting || "")}">Compleet gebruiksklaar (indicatie): <b>${totaal || "op aanvraag"}</b></div>
-    <p style="margin:14px 0 0;">
+    ${beste ? `<div class="info-prijs">${eur(Prijs.vergelijkPrijs(beste))} <span class="info-prijs-bron">incl. btw ${beste.is_richtprijs ? "(richtprijs; op dit moment geen winkel met deze batterij)" : `bij ${esc(beste.winkel)}`}${perKwh ? ` · ${eur(perKwh)} per kWh opslag` : ""}</span></div>${Prijs.prijsToelichting(beste) ? `<div class="prijs-let-op">${esc(Prijs.prijsToelichting(beste))}</div>` : ""}` : "<div><b>Prijs op aanvraag</b></div>"}
+    ${b.prijs_omvat ? `<div class="info-dekking">Deze prijs dekt: ${esc(b.prijs_omvat)}</div>` : ""}
+    <div class="info-totaal" title="${esc(b.totaalprijs_toelichting || "")}">Compleet gebruiksklaar (indicatie): <b>${totaal || "op aanvraag"}</b></div>
+    <p class="info-acties">
       ${beste && beste.url ? `<a class="knop" href="${esc(beste.affiliate_url || beste.url)}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>&nbsp;` : ""}
       <a class="knop knop-secundair" href="/rekenmodule.html?batterij=${encodeURIComponent(b.id)}">Bereken terugverdientijd</a>
     </p>
   </div>
 
   <h2>Specificaties</h2>
-  <div style="overflow-x:auto;background:var(--kleur-wit);border:1px solid var(--kleur-rand);border-radius:var(--radius);">
-  <table style="width:100%;border-collapse:collapse;font-size:0.95rem;">
+  <div class="tabel-blok">
+  <table class="data-tabel spec-tabel">
     ${specRij("Capaciteit", `${nl(b.capaciteit_kwh)} kWh${b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh)` : ""}`)}
     ${specRij("Vermogen", b.vermogen_kw ? `${nl(b.vermogen_kw)} kW` : null)}
     ${specRij("Type", `<a class="term-link" href="/uitleg.html#${esc(b.type)}" title="Wat betekent dit? Lees de uitleg in de woordenlijst">${esc(typeLabel)}</a>`)}
@@ -353,11 +353,11 @@ ${breadcrumbLd(b)}
   <p class="datum-stempel">Onbekende term (zoals kWh of hybride)? Alle woorden staan uitgelegd in de <a href="/uitleg.html#woordenlijst">woordenlijst</a>.</p>
 
   <h2>Koppeling met zonnepanelen</h2>
-  <p><span style="color:var(--kleur-accent);letter-spacing:2px;">${sterren(b.koppeling_gemak)}</span> (koppelgemak: ${b.koppeling_gemak || "?"} van 5)</p>
+  <p><span class="sterren-reeks">${sterren(b.koppeling_gemak)}</span> (koppelgemak: ${b.koppeling_gemak || "?"} van 5)</p>
   <p>${esc(b.zonnepanelen_koppeling || "")}</p>
 
   <h2>Smart home en slim aansturen</h2>
-  <p style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">${koppelScoreBadge(b)} ${badge("Homey", homey)} ${badge("Home Assistant", ha)} ${badge("Dynamisch contract", dyn)}</p>
+  <p class="badge-rij">${koppelScoreBadge(b)} ${badge("Homey", homey)} ${badge("Home Assistant", ha)} ${badge("Dynamisch contract", dyn)}</p>
   <p class="datum-stempel">De <a href="/uitleg.html#koppel-score">Koppel-score</a> telt de ondersteuning voor Homey, Home Assistant en een dynamisch contract op: 2 punten per volledige, 1 per gedeeltelijke ondersteuning.</p>
   <ul>
     <li><b>Homey:</b> ${esc(homey.tekst)}</li>
@@ -439,26 +439,26 @@ function overzichtRij(b) {
 
 function overzichtTabel(lijst, veld) {
   const rijen = lijst.map(overzichtRij).sort((a, x) => (a.perKwh || Infinity) - (x.perKwh || Infinity));
-  return `<div style="overflow-x:auto;background:var(--kleur-wit);border:1px solid var(--kleur-rand);border-radius:var(--radius);margin:14px 0;">
-  <table style="width:100%;border-collapse:collapse;font-size:0.93rem;min-width:640px;">
+  return `<div class="tabel-blok los">
+  <table class="data-tabel brede-tabel overzicht-tabel kolom-vast">
     <thead><tr>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">Batterij</th>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);">Capaciteit</th>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);">Beste prijs</th>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);">Per kWh</th>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);">Koppel-score</th>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);">Hoe werkt de koppeling?</th>
+      <th>Batterij</th>
+      <th>Capaciteit</th>
+      <th>Beste prijs</th>
+      <th>Per kWh</th>
+      <th>Koppel-score</th>
+      <th>Hoe werkt de koppeling?</th>
     </tr></thead>
     <tbody>${rijen.map(({ b, beste, perKwh }) => {
       const d = driewaardig(b[veld]);
       return `
       <tr>
-        <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);position:sticky;left:0;z-index:1;background:var(--kleur-wit);box-shadow:2px 0 0 var(--kleur-rand);">${merkLogoHtml(b.merk)}<a href="/batterij/${esc(b.id)}.html"><b>${esc(volledigeNaam(b))}</b></a></td>
-        <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);white-space:nowrap;">${nl(b.capaciteit_kwh)} kWh</td>
-        <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);white-space:nowrap;">${beste ? `<b>${eur(Prijs.vergelijkPrijs(beste))}</b><br><small>bij ${esc(beste.winkel)}</small>` : "op aanvraag"}</td>
-        <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);white-space:nowrap;">${perKwh ? eur(perKwh) : "n.b."}</td>
-        <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);white-space:nowrap;"><b>${koppelScore(b)}/6</b></td>
-        <td style="padding:10px 14px;border-top:1px solid var(--kleur-rand);">${d.tekst && d.tekst !== "Ja" ? esc(d.tekst) : "Officiële ondersteuning"}</td>
+        <td>${merkLogoHtml(b.merk)}<a href="/batterij/${esc(b.id)}.html"><b>${esc(volledigeNaam(b))}</b></a></td>
+        <td class="niet-afbreken">${nl(b.capaciteit_kwh)} kWh</td>
+        <td class="niet-afbreken">${beste ? `<b>${eur(Prijs.vergelijkPrijs(beste))}</b><br><small>bij ${esc(beste.winkel)}</small>` : "op aanvraag"}</td>
+        <td class="niet-afbreken">${perKwh ? eur(perKwh) : "n.b."}</td>
+        <td class="niet-afbreken"><b>${koppelScore(b)}/6</b></td>
+        <td>${d.tekst && d.tekst !== "Ja" ? esc(d.tekst) : "Officiële ondersteuning"}</td>
       </tr>`;
     }).join("")}</tbody>
   </table>
@@ -540,8 +540,8 @@ ${itemList}
   </div>
 </header>
 
-<main class="container" style="max-width:900px;">
-  <p class="datum-stempel" style="margin-top:22px;"><a href="/index.html">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
+<main class="container leespagina">
+  <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
   <h1>Beste thuisbatterij voor ${esc(cfg.naam)} (2026)</h1>
   <p class="datum-stempel">Dagelijks automatisch bijgewerkt · laatst gecontroleerd op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
   <p>${esc(cfg.intro)}</p>
@@ -636,11 +636,10 @@ function vergelijkingsPagina(v) {
   const badgeIcoon = { ja: Iconen.svg("ja"), deels: Iconen.svg("deels"), nee: Iconen.svg("nee"), onbekend: Iconen.svg("onbekend") };
   const d3kort = (w) => { const d = driewaardig(w); return `${badgeIcoon[d.status]} ${d.status === "ja" ? "Ja" : d.status === "nee" ? "Nee" : esc(d.tekst)}`; };
 
-  const celStijl = 'style="padding:10px 14px;border-top:1px solid var(--kleur-rand);vertical-align:top;"';
   const rij = (label, wa, wb, winnaar = -1) =>
-    `<tr><th style="text-align:left;padding:10px 14px;border-top:1px solid var(--kleur-rand);background:var(--kleur-achtergrond);white-space:normal;min-width:110px;vertical-align:top;position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">${esc(label)}</th>` +
-    `<td ${celStijl}>${winnaar === 0 ? `<b>${wa}</b>` : wa}</td>` +
-    `<td ${celStijl}>${winnaar === 1 ? `<b>${wb}</b>` : wb}</td></tr>`;
+    `<tr><th>${esc(label)}</th>` +
+    `<td>${winnaar === 0 ? `<b>${wa}</b>` : wa}</td>` +
+    `<td>${winnaar === 1 ? `<b>${wb}</b>` : wb}</td></tr>`;
 
   const laagWint = (x, y) => (x == null || y == null || x === y) ? -1 : (x < y ? 0 : 1);
   const hoogWint = (x, y) => (x == null || y == null || x === y) ? -1 : (x > y ? 0 : 1);
@@ -716,18 +715,18 @@ ${itemList}
   </div>
 </header>
 
-<main class="container" style="max-width:900px;">
-  <p class="datum-stempel" style="margin-top:22px;"><a href="/index.html">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
+<main class="container leespagina">
+  <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
   <h1>${esc(naam(A))} vs ${esc(naam(B))}</h1>
   <p class="datum-stempel">Prijzen dagelijks automatisch gecontroleerd · laatst op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
   <p>Twee veelvergeleken thuisbatterijen naast elkaar, op basis van dezelfde feiten als in onze <a href="/index.html">vergelijker</a>. Onder de tabel staan de belangrijkste verschillen op een rij. Vetgedrukt betekent: op dit punt objectief in het voordeel.</p>
 
-  <div style="overflow-x:auto;background:var(--kleur-wit);border:1px solid var(--kleur-rand);border-radius:var(--radius);margin:14px 0;">
-  <table style="width:100%;border-collapse:collapse;font-size:0.93rem;min-width:560px;">
+  <div class="tabel-blok los">
+  <table class="data-tabel brede-tabel duel-tabel kolom-vast">
     <thead><tr>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);position:sticky;left:0;z-index:1;"></th>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);"><a href="/batterij/${esc(A.id)}.html">${esc(naam(A))}</a></th>
-      <th style="text-align:left;padding:10px 14px;background:var(--kleur-achtergrond);"><a href="/batterij/${esc(B.id)}.html">${esc(naam(B))}</a></th>
+      <th></th>
+      <th><a href="/batterij/${esc(A.id)}.html">${esc(naam(A))}</a></th>
+      <th><a href="/batterij/${esc(B.id)}.html">${esc(naam(B))}</a></th>
     </tr></thead>
     <tbody>
       ${rij("Beste prijs incl. btw", besteA ? `${eur(Prijs.vergelijkPrijs(besteA))}<br><small>bij ${esc(besteA.winkel)}</small>` : "op aanvraag", besteB ? `${eur(Prijs.vergelijkPrijs(besteB))}<br><small>bij ${esc(besteB.winkel)}</small>` : "op aanvraag")}

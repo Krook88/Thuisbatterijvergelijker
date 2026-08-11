@@ -191,6 +191,65 @@ a { color: var(--kleur-primair); }
   flex-wrap: wrap;
 }
 
+/* --------------------------------------------------------------------------
+   Menuknop op smalle schermen
+
+   Op een telefoon wikkelde de navigatie over meerdere regels; de inhoud
+   begon daardoor pas op 175 pixels, een vijfde van het scherm. Achter een
+   knop scheelt dat ruim 100 pixels, precies boven de vouw waar het het
+   meeste waard is.
+
+   De klasse "menu-inklapbaar" wordt door nav.js gezet. Zonder JavaScript
+   blijft het menu dus gewoon uitgeklapt staan, in plaats van onbereikbaar
+   achter een knop die niets doet.
+   -------------------------------------------------------------------------- */
+
+.menu-knop {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--kleur-rand);
+  border-radius: 10px;
+  background: var(--kleur-wit);
+  color: var(--kleur-tekst);
+  cursor: pointer;
+}
+
+.menu-knop:hover { background: var(--kleur-achtergrond); }
+.menu-knop .icoon { width: 22px; height: 22px; }
+
+@media (max-width: 767px) {
+  .site-header.menu-inklapbaar .menu-knop { display: inline-flex; }
+
+  .site-header.menu-inklapbaar .hoofdnav {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 0 12px;
+  }
+
+  .site-header.menu-inklapbaar.menu-open .hoofdnav { display: flex; }
+
+  /* Uitgeklapt hoort elk item een volle regel te zijn, niet een pilletje. */
+  .site-header.menu-inklapbaar .hoofdnav a,
+  .site-header.menu-inklapbaar .hoofdnav details.nav-meer summary {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .site-header.menu-inklapbaar .hoofdnav details.nav-meer .nav-meer-paneel {
+    position: static;
+    box-shadow: none;
+    border: 0;
+    padding: 0 0 0 12px;
+    min-width: 0;
+  }
+}
+
 .hoofdnav a {
   text-decoration: none;
   color: var(--kleur-tekst-licht);

@@ -161,8 +161,8 @@
         </select>
       </div>
       <div class="veld">
-        <span style="font-size:0.85rem;font-weight:700;color:var(--kleur-tekst-licht);">Moet werken met</span>
-        <div class="checkbox-groep" style="margin-top:4px;">
+        <span class="veld-label">Moet werken met</span>
+        <div class="checkbox-groep">
           <label><input type="checkbox" id="advHomey"> Homey</label>
           <label><input type="checkbox" id="advHA"> Home Assistant</label>
           <label><input type="checkbox" id="advNoodstroom"> Noodstroom bij stroomuitval</label>
@@ -170,8 +170,8 @@
         <span class="hint">Noodstroom = de batterij blijft (een deel van) je huis voeden bij een storing; de meeste plug-in batterijen vallen dan juist uit</span>
       </div>
       <div class="veld">
-        <span style="font-size:0.85rem;font-weight:700;color:var(--kleur-tekst-licht);">Wat gebruik je 's avonds vaak tegelijk? (optioneel)</span>
-        <div class="checkbox-groep" style="margin-top:4px;">
+        <span class="veld-label">Wat gebruik je 's avonds vaak tegelijk? (optioneel)</span>
+        <div class="checkbox-groep">
           <label><input type="checkbox" class="avond-apparaat" data-kw="2.5"> Elektrisch koken (inductie)</label>
           <label><input type="checkbox" class="avond-apparaat" data-kw="2"> Oven of airfryer</label>
           <label><input type="checkbox" class="avond-apparaat" data-kw="1.5"> Wasmachine of droger</label>
@@ -188,7 +188,7 @@
         <span class="hint">Leeg laten = geen limiet. Let op: sommige prijzen zijn excl. installatie</span>
       </div>
 
-      <button type="button" class="knop" id="advStart" style="width:100%;margin-top:22px;font-size:1.05rem;"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" /></svg> Geef mij advies</button>
+      <button type="button" class="knop breed" id="advStart"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" /></svg> Geef mij advies</button>
 
     </form>
 
@@ -199,7 +199,7 @@
 
   </div>
 
-  <section style="max-width:820px;margin:0 auto 50px;">
+  <section class="tekstsectie">
     <h2>Hoe komt dit advies tot stand?</h2>
     <p>De geadviseerde accugrootte is een vuistregel, geen exacte wetenschap:</p>
     <ul>
