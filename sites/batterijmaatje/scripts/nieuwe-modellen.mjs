@@ -414,7 +414,14 @@ async function viaOverzicht(bron, diagnose) {
     const slug = (href.split("?")[0].split("/").filter(Boolean).pop() || "").replace(/\.html?$/, "");
     const titel = tekst.length >= 6 ? tekst : decodeURIComponent(slug).replace(/[-_]+/g, " ");
     if (!titel || titel.length < 6) continue;
-    const volledig = href.startsWith("http") ? href : new URL(href, bron.url).href;
+    let volledig;
+    try {
+      // Een categoriepagina bevat ook "mailto:", "tel:" en losse ankers. Die
+      // sneuvelen hier stil; ze mogen de hele dagelijkse run niet omgooien.
+      volledig = href.startsWith("http") ? href : new URL(href, bron.url).href;
+    } catch {
+      continue;
+    }
     if (!gezien.has(volledig)) gezien.set(volledig, titel);
   }
   diagnose.push(`${bron.winkel}: ${gezien.size} productlinks`);
