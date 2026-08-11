@@ -24,16 +24,18 @@
  *                                              wat er te halen valt
  *   node scripts/isde-condities.mjs --schrijf  neem de gevonden waarden over
  *
- * Stand van zaken: rvo.nl komt nergens door. Niet vanuit de ontwikkelomgeving
- * (daar staat de egress-proxy de host niet toe) en ook niet vanuit de
- * workflow - daar gaf hij "fetch failed" binnen een halve seconde terwijl 94
- * andere adressen in dezelfde run wel antwoordden. Dat is een verbindingsfout
- * en geen tijdslimiet: RVO weert dit verkeer.
+ * Stand van zaken: rvo.nl is vanuit de workflow gewoon bereikbaar. Een eerdere
+ * run gaf "fetch failed" en ik concludeerde daaruit dat RVO het verkeer weerde;
+ * dat was te snel. Een tweede run haalde de pagina in 670 ms binnen, en alle
+ * vier de beproefde ingangen deden het. Het was een eenmalige storing. Vanuit
+ * de ontwikkelomgeving blijft hij onbereikbaar - daar staat de egress-proxy de
+ * host niet toe - dus toetsen kan alleen in de workflow.
  *
- * Daarom probeert --verken nu meerdere ingangen en meldt per ingang wat er
- * gebeurt, zodat een run uitwijst of er een weg is in plaats van dat iemand
- * dat gokt. Komt er geen enkele door, dan is dit handwerk of moet de lijst met
- * de hand in de repository - en dan is dat een bevinding en geen mislukking.
+ * Wat wel klopt: de pagina bevat geen herkenbare bestandslink. Van alle links
+ * bleven er twee over en dat waren de pagina zelf en zijn bovenliggende. De
+ * lijst zit dus achter iets anders - een viewer, een script of een pad zonder
+ * bestandsextensie. Daarom dumpt --verken nu wat de pagina werkelijk bevat in
+ * plaats van alleen te melden dat er niets herkend is.
  */
 
 import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
@@ -46,11 +48,10 @@ const DATA_PAD = resolve(__dirname, "../data/warmtepompen.json");
 const VERKEN = process.argv.includes("--verken");
 const SCHRIJF = process.argv.includes("--schrijf");
 
-// De eerste poging ging uit van rvo.nl, en die bleek ook vanuit de workflow
-// onbereikbaar: "fetch failed" binnen een halve seconde, terwijl 94 andere
-// adressen in dezelfde run wel antwoordden. Dat is een verbindingsfout en geen
-// tijdslimiet, dus RVO weert het verkeer. Daarom nu een lijstje ingangen, zodat
-// een run zelf uitwijst welke er wel doorkomt in plaats van dat ik dat gok.
+// Meerdere ingangen, zodat een run zelf uitwijst welke doorkomt. Ze deden het
+// bij de tweede poging alle vier; de eerste keer viel rvo.nl uit en dat bleek
+// een storing, geen blokkade. Ze blijven staan: valt de bron nog eens uit, dan
+// zegt de log meteen of het aan die ene host ligt of aan de verbinding.
 const INGANGEN = [
   ["rvo.nl (de bron zelf)", "https://www.rvo.nl/subsidies-financiering/isde/meldcodelijsten/warmtepompen"],
   ["rvo.nl zonder www", "https://rvo.nl/subsidies-financiering/isde/meldcodelijsten/warmtepompen"],
@@ -119,6 +120,21 @@ async function verken() {
   }
   log(`  = ${links.size} mogelijke bestandslinks gevonden`);
   for (const url of [...links.keys()].slice(0, 15)) log(`      ${url}`);
+
+  // Wat staat er dan wel op die pagina? Zonder dit blijft "niets herkend" een
+  // dood spoor: je weet niet of de link een andere vorm heeft, of dat de lijst
+  // pas door een script wordt ingeladen.
+  const alleHrefs = [...html.matchAll(/href="([^"]+)"/gi)].map((m) => m[1]);
+  log(`\n  = ${alleHrefs.length} links op de pagina in totaal`);
+  const interessant = alleHrefs.filter((h) => /meldcode|document|publicatie|bijlage|download|bestand/i.test(h));
+  log(`  = ${interessant.length} daarvan lijken op een document:`);
+  for (const h of interessant.slice(0, 20)) log(`      ${h}`);
+  for (const woord of ["xlsx", "xls", "csv", "ods", ".pdf"]) {
+    const i = html.toLowerCase().indexOf(woord);
+    if (i === -1) { log(`  = "${woord}" komt niet voor in de pagina`); continue; }
+    log(`  = "${woord}" gevonden op positie ${i}, in context:`);
+    log(`      ...${html.slice(Math.max(0, i - 160), i + 160).replace(/\s+/g, " ")}...`);
+  }
 
   // De eerste die op een echt bestand lijkt ophalen en kijken wat het is.
   const kandidaat = [...links.keys()].find((u) => /\.(xlsx|xls|ods|csv)(\?|$)/i.test(u))
