@@ -1,4 +1,608 @@
 {
   "toelichting": "Modellen die in een winkel staan maar niet in onze gegevens. Automatisch gevonden, nooit automatisch toegevoegd: nakijken en dan zelf opnemen, of de titel in scripts/nieuwe-modellen.json onder \"afgewezen\" zetten.",
-  "kandidaten": []
+  "kandidaten": [
+    {
+      "titel": "12V 150Ah LiFePO4-lithiumaccu – BCI Groep 31 – Ingebouwde 110A BMS – Deep Cycle-accu voor zonne-energie, campers, maritiem gebruik en off-grid toepassingen – 15.000+ levenscycli – Veilig en lichtgewicht – 150Ah Basismodel",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000334066117/",
+      "ean": "4255891703240",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "800W Wind Turbine Generator Regulator met IP67 Waterdicht Ontwerp voor Efficiënte Energieopslag en Betrouwbare Laadregeling",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000286467529/",
+      "ean": "2364101666151",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "800W Wind Turbine Generator Regulator met IP67 Waterdichte Oplossing voor Efficiënte Energieopslag en Betrouwbare Laadcontrole",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000286707651/",
+      "ean": "2462853902357",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "AEG Solarcube – 4.8 kWh Plug-In Battery",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000258215840/",
+      "ean": "0884620072223",
+      "prijs_eur": null,
+      "lijkt_op": "homewizard-plug-in-battery",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "AEG Solarcube Expand – 4.8 kWh Uitbreidingsunit",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000258404355/",
+      "ean": "0884620072230",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "AFERIY AF-P310 - Draagbare Powerstation met DC060 DC Batterijlader - 3600W AC-uitgang met UPS - 3840Wh LiFePO4 batterij - 45 minuten snelladen",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000261645068/",
+      "ean": "0679065031542",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "AFERIY Nomad 1800 Pro Powerstation 1800W 1024Wh - Uitbreidbaar tot 5120Wh - Lichtgewicht - App-bediening - LiFePO4",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000285592856/",
+      "ean": "0679065031603",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "AFERIY Nomad1800 - Draagbaar Powerstation 1024Wh - 1800W AC Output - 36 min Snelladen - 7 Jaar Garantie - LiFePO4 - UPS <10ms - App-bediening",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000258214093/",
+      "ean": "0679065031450",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Alles over de Batterij",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000279784775/",
+      "ean": "9789465484822",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "ALLPOWERS R600 Draagbare powerstation, LiFePO4-accu van 299 Wh, zonnegenerator met wisselstroomuitgang en 2 accu's van 600 W, snel opladen van 0-100% in 1 uur, voor camping, camper, noodgevallen",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000259806647/",
+      "ean": "8712111310122",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Anker SOLIX C1000 Gen 2 Draagbare Powerstation - 2.000W (Piek 3.000W) Zonne-Generator - Volledig Opgeladen in 49 Min - 1.024Wh LiFePO4 - Accu voor Noodstroom - Stroomuitval & Kamperen",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000276619468/",
+      "ean": "0194644332266",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Anker SOLIX C1000 Gen 2 Draagbare Powerstation met 100W Bifaciaal Zonnepaneel, 2.000W (Piek 3.000W) Zonne-Generator, Volledig Opgeladen in 49 Min, 1.024Wh LiFePO4-Accu voor Noodstroom, Stroomuitval &",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000325813542/",
+      "ean": "0194644350673",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Anker SOLIX C2000 Gen 2 draagbare powerstation - 2.400W (piek 4.000W) - Volledig opgeladen in 58 min - 2.048 Wh LiFePO4-batterij voor camping - Stroomuitval en thuisback-up (optioneel zonnepaneel)",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000276358748/",
+      "ean": "0194644332112",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Anker SOLIX C300 DC Power Bank Station - Voor buiten - 288 Wh (90.000 mAh) - Draagbare energiecentrale - LiFePO4-accu - 300W zonnegenerator - Voor kamperen/reizen/noodgevallen (geen wandlader inbegrepen)",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000273861474/",
+      "ean": "0194644331108",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Anker SOLIX C300 Draagbare Powerstation + Schutztas – 288Wh LiFePO4-accu | 300W (Max. 600W) Zonne-Generator, 140W Dubbelzijdig Laden, Voor Camping, Reizen & Noodsituaties (Zonnepaneel Optioneel)",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000328921028/",
+      "ean": "0194644352011",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Ansmann AAA Batterijen",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9000000012448778/",
+      "ean": "4013674005512",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Ansmann oplaadbare batterijen/accu's 7.4V, 730mAh, black",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9200000028809835/",
+      "ean": "4013674034215",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Automatische Waterdichte Windturbine Laadregelaar voor Zonne-energie, Windgenerator en Energieopslag",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000286498308/",
+      "ean": "2418855588310",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "BLUETTI Elite 100 V2 - 1024Wh - 1800W - Duurzame energie - Draagbare Powerstation LiFePO4 - 3600W piekvermogen - voor Camping - Outdoor - RV - Backup stroomuitval",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000237626264/",
+      "ean": "6970991299032",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "BLUETTI Elite 100 V2 1800W - 1024Wh - Duurzame energie - met 100W Zonnepanelen PV100 - Draagbare Powerstation LiFePO4 - 3600W piekvermogen - voor Camping - Thuis Noodstroom- outdoor",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000240290196/",
+      "ean": "6978341870122",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "BLUETTI Elite 200 V2 - 2600 W - 2073,6Wh - Duurzame energie - met 200W Zonnepaneel PV200 - LiFePO4 Draagbare Accu - Voor Camping - Thuis - outdoor",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000273634655/",
+      "ean": "6978341875677",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Camelion 17880020 batterij Oplaadbare batterij D Nikkel-Metaalhydride (NiMH)",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9200000104498518/",
+      "ean": "4260216456015",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Draagbaar Powerstation 3600W - 3600Wh LiFePO4 Thuisbatterij - Generator met Zonnepaneel Aansluiting & App - Noodstroom & Outdoor",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000320152396/",
+      "ean": "6978962174968",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Draagbare powerstation – mobiele generator – merk: ALLPOWERS - noodstroomvoorziening – camping accu – zonnegenerator voor onderweg – 600W output – LiFePO4 batterij – zonne-opladen tot 220W",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000338870433/",
+      "ean": "8721617460248",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Draagbare Powerstation – Noodstroomgenerator – Zonne-energiecentrale – Mobiele Energieopslag – Outdoor Accu – 2016 Wh LiFePO4 Batterij – Snel Opladen in 1 Uur",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000357310054/",
+      "ean": "9113766483152",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Duracell Specialties - Electronics batteries 2025 2PK Wegwerpbatterij CR2025 Lithium",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000127456943/",
+      "ean": "5000394045514",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Dyness® - Thuisbatterij 16.1 Kwh- - Thuisbatterij voor zonnepanelen - Thuisaccu - Thuisbatterij - Tijdelijke voorjaarsactie",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000249114382/",
+      "ean": "8720892858504",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "EnerGenie BAT-12V9AH - Batterij 12V, 9AH",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9200000024221349/",
+      "ean": "8716309071840",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "EveBase® Move 1800 Powerstation - Vermogen 1800W (3600W Piek) - LiFePO4 Accucapaciteit 1,5 kWh (Maximaal tot 4,6 kWh) - Privacy Waarborg / Verzamelt Géén Locatiegegevens - Ontwikkeld in Nederland - Gebruik voor Noodgevallen, Kamperen en Klussen",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000262063259/",
+      "ean": "8721161561637",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Explosieveilige Lithium-Batterij Opbergtas – Brand- en Hittewerend tot 1000°C – Voor Elektrische Fiets, E-scooter & Oplaadbare Batterijen – Met Alu-Barrierelaag",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000245067919/",
+      "ean": "9401949374268",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "FlashFish E103 Draagbare Powerstation 179,2Wh 300W - LiFePO4 Solar Generator met 230V AC en Snelladen",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000331093954/",
+      "ean": "0879450947926",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "FOSSiBOT F3600 Pro Draagbare Powerstation 3840Wh 3600W LiFePO4, incl. SP420 zonnepaneel | Uitbreidbaar ECO-modus UPS <10ms Noodstroom Camper Camping",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000342062673/",
+      "ean": "6942580505749",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Growatt SPH5000 5KW hybride omvormer met 15,3Kw thuisbatterij - Growatt SPH5000 - 15Kw Thuisbatterij - Thuisaccu - Thuisbatterij met omvormer",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000256101204/",
+      "ean": "8720892858511",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Huawei Luna2000 7.0 kWh Thuisbatterij – Energieopslag voor Zonnepanelen, 51.2V",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000225766004/",
+      "ean": "9502169372772",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Huawei LUNA2000-15-S0 Batterijopslagsysteem 15 kWh – Modulaire Thuisbatterij Set",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000162056994/",
+      "ean": "8720929510375",
+      "prijs_eur": null,
+      "lijkt_op": "huawei-luna2000-10",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Huawei LUNA2000-7-E1 Thuisbatterij 7 kWh – Batterijmodule voor Zonne-energie Opslag",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000229178500/",
+      "ean": "5904905317575",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Huawei LUNA2000-7-S1 Batterijopslag 7 kWh met BMS – Modulaire Energieopslag voor PV Systemen",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000266719689/",
+      "ean": "4262431423957",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Hybride Zonne-energie Omvormer – Zonnepaneel Omvormer – Energieopslag – Batterijlader – 6,2 kW Vermogen – MPPT Zonladers",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000269906573/",
+      "ean": "8721391846955",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Jackery - Explorer 1000 V2 - Portable powerstation - Draagbaar Powerstation - 1070Wh/1500W - LifePO4-accu - uitgang met 6 USB-C/A AC/DC-aansluitingen - snel opladen 1H - zonne-generator voor buiten, camping, noodgevallen",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000222663672/",
+      "ean": "6958657300742",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Jackery - Explorer 2000 v2 - Portable powerstation - Draagbare Stroomgenerator - 2042Wh LiFePO4-accu- 2200W Hoog Vermogen (Max. 4400W) Zonnegenerator - 0-80% Snel Opladen in 52 Minuten - voor Kamperen, Camper, Noodgevallen",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000257827109/",
+      "ean": "6958657301091",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Jackery - Explorer 240 V2 - draagbaar energiestation - 256 Wh LiFePO4-accu - 300W AC/100W USB-C-uitgang - 1 uur snel volledig opladen via APP - zonnegenerator voor buiten kamperen en noodgevallen",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000230879028/",
+      "ean": "6958657300629",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Jackery SolarVault 3 - Pro Max - Powerstation - 2.520 Wh - Uitbreidbaar",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000266388502/",
+      "ean": "6958657304054",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Jackery SolarVault 3 Pro Max - Incl. 2x BP2500 - Thuisbatterij - 7,5 kWh",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000279313211/",
+      "ean": "6153917866895",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Jackery SolarVault 3 Pro Max & Bp2500 bundle- Thuisbatterij - 5,04 kWh",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000279207060/",
+      "ean": "6153917790725",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Jackery SolarVault 3 Pro Max AC - Incl. BP2500- Thuisbatterij - 5,04 kWh",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000278350981/",
+      "ean": "6153917593531",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Jackery SolarVault 3 Pro Max AC -Incl. 3x BP2500 -Thuisbatterij - LiFePO4 - IP65",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000288535982/",
+      "ean": "6153922619660",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Marstek Venus A 2,12 kWh Thuisbatterij – Energieopslagsysteem / Slimme Batterij voor Zonne-energie (1 battery module)",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000281977106/",
+      "ean": "6951525704970",
+      "prijs_eur": null,
+      "lijkt_op": "marstek-venus-d",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "MPPT Windturbine Laadcontroller voor het Boosteren van Voltage - Regulator voor 12V 24V 40A 300W-1000W Windturbines met Efficiënte Energieopslag",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000279243878/",
+      "ean": "2083918093058",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "NEWSMY S1210 - powerstation 2000 watt - power station generator - LiFePO4 - 1102,5Wh - Draagbare Powerstation - 1H snelladen - 3000W piek - Reine Sinusgolf - Voor kamperen en thuis - Draagbaar",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000347543222/",
+      "ean": "0086879624752",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Newsmy S2400 - Draagbaar Powerstation - 2048Wh - 2400W - LiFePO4 Accu - Solar Generator - Noodstroomvoorziening voor Camping en Thuis - 4x AC Stopcontacten",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000292327552/",
+      "ean": "0717623054456",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Oscal PowerMax2400Pro Draagbare PowerStation- 2016Wh 2400W -LiFePO4 Energieopslag – UPS Back-up – Smart APP – Camping & Noodstroom – Zwart",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000299610059/",
+      "ean": "0795629097196",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "OUKITEL Draagbare Powerstation - 5120Wh - Energieopslag - Solar Generator - Noodstroomvoorziening – LiFePO4 batterij – 2200W uitgangsvermogen – Snelladen – Camping en thuisgebruik – 550 x 299 x 487mm – 1 stuk – Zwart",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000334041453/",
+      "ean": "0086879071488",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "OUKITEL P5000Epro Draagbare Powerstation - 5120Wh- Energieopslag - Zonnepaneel Generator - Noodstroomvoorziening – LiFePO4 batterij – 4000W uitgangsvermogen – Snelladen – Camping en thuisgebruik – 550 x 299 x 487mm – 1 stuk – Zwart",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000333979579/",
+      "ean": "0086879071471",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "PEGO Smart Energy Compacte Stapelbare Thuisbatterij Plug & Play Energieopslag Thuisbatterij en Omvormer in 1 uitbreidbaar tot 15kwh met offgrid functie ook als UPS te gebruiken en Ai functie voor automatisch stroom inkoop en verkoop",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000247197561/",
+      "ean": "7421122186404",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "PEGO Smart Energy Compacte Stapelbare Thuisbatterij Plug & Play Energieopslag Thuisbatterij en Omvormer in 1 uitbreidbaar tot 15kwh met offgrid functie ook als UPS te gebruiken en Ai functie voor automatisch stroom inkoop en verkoop :extra batterij",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000247406236/",
+      "ean": "7421122186381",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "PEGO Smart Energy Thuisbatterij Plug & Play Energieopslag Thuisbatterij en Omvormer in 1 uitbreidbaar tot 15kwh met offgrid functie en overal te gebruiken ook als UPS te gebruiken en Ai functie voor automatisch stroom inkoop en verkoop 6 kwh",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000247522367/",
+      "ean": "7421122186350",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Platte Batterij - 3R12 Batterij - Apparaten Voeden - Zinkchloride Technologie - 45 Volt - Zwart",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000341734601/",
+      "ean": "9101420803682",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Plug-in thuisbatterij laten aansluiten door Zoofy",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000306391547/",
+      "ean": "9506939361621",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Powerstation – Draagbare Accu – Stroomgenerator – Noodstroom – Energieopslag – 1024Wh LiFePO4 Batterij – 2400W Piekvermogen",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000244726958/",
+      "ean": "8721391116140",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Powerstation – Draagbare Generator – Noodstroomvoorziening – Camping Accu – Mobiele Energieopslag – 1102,5 Wh Capaciteit – Snelle Oplaadtijd 1,2 Uur",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000339396993/",
+      "ean": "8721571085747",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Solar Edge Energy Bank 9.7 kWh Battery SE-BATTERY02-10KWH",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000146694126/",
+      "ean": "8720769902200",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Thuisbatterij 15.3 Kwh- Thuisbatterij met omvormer - Thuisbatterij voor zonnepanelen - Thuisaccu - Thuisbatterij - drie fase omvormer - Solis omvormer - Thuisbatterij 15Kwh",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000256731452/",
+      "ean": "8720892858528",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Thuisbatterij 16Kwh LIFePO4 voor zonne-energie opslag zonnepanelen ( Prijs doorbraak - introductieprijs )",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000171018735/",
+      "ean": "8720892355218",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "TOVBMUP Parasollamp - 28 LED-lampjes - Warm wit - 3 verlichtingsstanden - Werkt op batterijen - Balkonzonneschermlamp - Perfect geschikt voor tuin, balkon, terras, strand, feest - Balkonverlichting - Tuinverlichting - Campingdecoratie",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000241618182/",
+      "ean": "8721401320451",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Velmio Portable Power Station - Zonnepaneel Power Bank - Zonnepaneel 60W - 230V Mini Draagbare Krachtcentrale - Solar Generator - Thuisbatterij - Ecoflow - Bluetti -120W Output - Oranje",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000311932078/",
+      "ean": "8721586301733",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Wattcycle 12V 100Ah Lithium IJzer Fosfaat accu, draagbare energieopslag, zonnelaadstations, 100A BMS, tot 15.000 cycli, 1280Wh Li-Ion accu, ideaal voor caravans, zonnesystemen, caravans, boten, kamperen en systemen buiten het elektriciteitsnet",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000235417289/",
+      "ean": "4255891700072",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Zendure SolarFlow 2400 AC+ accu voor balkoncentrale, 2,4 kWh energieopslag",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000279185477/",
+      "ean": "8711474504018",
+      "prijs_eur": null,
+      "lijkt_op": "zendure-solarflow-2400-pro",
+      "eerst_gezien": "2026-08-11"
+    }
+  ]
 }
