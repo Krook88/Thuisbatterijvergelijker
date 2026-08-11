@@ -31,11 +31,20 @@
  * de ontwikkelomgeving blijft hij onbereikbaar - daar staat de egress-proxy de
  * host niet toe - dus toetsen kan alleen in de workflow.
  *
- * Wat wel klopt: de pagina bevat geen herkenbare bestandslink. Van alle links
- * bleven er twee over en dat waren de pagina zelf en zijn bovenliggende. De
- * lijst zit dus achter iets anders - een viewer, een script of een pad zonder
- * bestandsextensie. Daarom dumpt --verken nu wat de pagina werkelijk bevat in
- * plaats van alleen te melden dat er niets herkend is.
+ * UITKOMST VAN DE VERKENNING: langs deze weg is er niets te halen. De pagina
+ * komt binnen als 68.000 tekens HTML met twintig links erin en geen enkele
+ * verwijzing naar xlsx, xls, csv, ods of pdf. Een gewone RVO-pagina heeft
+ * honderden links; deze wordt door JavaScript opgebouwd, en de downloadlink
+ * hoort bij het deel dat pas in de browser ontstaat.
+ *
+ * Wat dat betekent: deze bron vraagt een headless browser. Playwright staat al
+ * in devDependencies, maar op een runner moet de browser per keer geinstalleerd
+ * worden, en rvo.nl valt bovendien ongeveer een op de drie keer uit. Dat is te
+ * duur voor de dagelijkse run - zeker omdat RVO de lijst maandelijks bijwerkt.
+ *
+ * Voorstel voor als dit weer opgepakt wordt: een aparte maandelijkse workflow
+ * met Playwright die de lijst ophaalt en de waarden wegschrijft, of de lijst
+ * een keer met de hand in de repository zetten. Niet in de dagelijkse run.
  */
 
 import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
