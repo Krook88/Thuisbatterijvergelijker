@@ -10,6 +10,7 @@
     "genereer": "node scripts/genereer-warmtepomppaginas.mjs",
     "prijzen": "node scripts/update-prices.mjs",
     "condities": "node scripts/condities-status.mjs",
+    "isde": "node scripts/isde-condities.mjs",
     "modellen": "node scripts/nieuwe-modellen.mjs",
     "modellen:proef": "node scripts/nieuwe-modellen.mjs --proef",
     "links": "node scripts/controleer-links.mjs",
