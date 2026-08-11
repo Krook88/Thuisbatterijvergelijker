@@ -1,0 +1,31 @@
+name: Kern en sites lopen gelijk
+
+# Het sluitstuk onder de gedeelde kern. Zonder deze controle faalt de opzet
+# stilletjes: iemand past een gedeeld bestand aan binnen één site, het werkt
+# daar, en maanden later lopen de sites weer uiteen. Precies zo ging het de
+# vorige keer mis.
+
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - "kern/**"
+      - "sites/**"
+      - "scripts/kern-verdelen.mjs"
+  pull_request:
+    paths:
+      - "kern/**"
+      - "sites/**"
+      - "scripts/kern-verdelen.mjs"
+  workflow_dispatch: {}
+
+jobs:
+  controleren:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Kern vergelijken met de sites
+        run: node scripts/kern-verdelen.mjs --controleer

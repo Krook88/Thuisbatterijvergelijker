@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Systeem samenstellen: combineer zonnepanelen en omvormer met prijscheck | Zonnestroommaatje.nl</title>
+  <meta name="description" content="Stel je eigen zonnestroomsysteem samen: kies een paneel, het aantal en een omvormer en zie direct of de combinatie technisch klopt, wat het systeem kost en waar de onderdelen het goedkoopst zijn.">
+  <link rel="canonical" href="https://zonnestroommaatje.nl/systeem.html">
+  <meta property="og:title" content="Stel je zonnestroomsysteem samen: panelen + omvormer met prijscheck">
+  <meta property="og:description" content="Combineer panelen en omvormer, check de technische match en zie direct de goedkoopste winkels.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zonnestroommaatje.nl/systeem.html">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:image" content="https://zonnestroommaatje.nl/assets/og-image.png">
+  <meta property="og:site_name" content="Zonnestroommaatje.nl">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="assets/style.css?v=20260728a">
+  <script src="assets/iconen.js?v=20260728a" defer></script>
+  <script src="assets/systeem.js?v=20260728a" defer></script>
+  <script src="assets/nav.js?v=20260728a" defer></script>
+  <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=1">
+  <style>
+    .advies-indeling { display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: start; margin: 26px 0 40px; }
+    @media (max-width: 900px) { .advies-indeling { grid-template-columns: 1fr; } }
+    .advies-paneel { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); box-shadow: var(--schaduw); padding: 22px; }
+    .advies-paneel h2 { margin: 0 0 4px; font-size: 1.1rem; color: var(--kleur-primair-donker); }
+    .veld { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+    .veld label { font-size: 0.85rem; font-weight: 700; color: var(--kleur-tekst-licht); }
+    .veld input:not([type="checkbox"]), .veld select { padding: 9px 12px; border: 1px solid var(--kleur-rand); border-radius: 8px; font-size: 0.95rem; width: 100%; min-width: 0; }
+    .veld .hint { font-size: 0.8rem; color: var(--kleur-tekst-licht); }
+    .advies-indeling > *, .veld { min-width: 0; }
+    .check-lijst { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .check-lijst li { display: flex; gap: 9px; align-items: flex-start; font-size: 0.93rem; border: 1px solid var(--kleur-rand); border-radius: 10px; padding: 9px 12px; background: var(--kleur-wit); }
+    .check-lijst .icoon { flex: 0 0 auto; font-weight: 800; }
+    .check-lijst li.ok { border-color: #86efac; background: #f0fdf4; }
+    .check-lijst li.let-op { border-color: #fde68a; background: #fffbeb; }
+    .check-lijst li.fout { border-color: #fca5a5; background: #fef2f2; }
+    .systeem-tabel { width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-top: 8px; }
+    .systeem-tabel td { padding: 7px 8px 7px 0; border-top: 1px dotted var(--kleur-rand); vertical-align: top; }
+    .systeem-tabel tr:first-child td { border-top: none; }
+    .systeem-tabel td:last-child { text-align: right; white-space: nowrap; }
+    .systeem-tabel small { color: var(--kleur-tekst-licht); }
+    .totaal-rij td { border-top: 2px solid var(--kleur-rand); font-weight: 800; padding-top: 10px; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="index.html">
+      <span class="logo-icoon"><svg class="icoon icoon-groot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></svg></span>
+      <span>Zonnestroom<b>maatje</b></span>
+    </a>
+    <nav class="hoofdnav">
+      <a href="index.html">Zonnepanelen</a>
+      <a href="omvormers.html">Omvormers</a>
+      <a href="systeem.html" class="actief">Samenstellen</a>
+      <a href="advies.html">Keuzehulp</a>
+      <a href="rekenmodule.html">Terugverdientijd</a>
+      <details class="nav-meer">
+        <summary>Meer <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary>
+        <div class="nav-meer-paneel">
+          <a href="energieplan.html">Jouw energieplan</a>
+          <a href="uitleg.html">Uitleg</a>
+          <a href="waar-zonnepanelen-kopen.html">Waar koop je panelen?</a>
+          <a href="regelgeving.html">Regels &amp; subsidies</a>
+          <a href="beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a>
+          <a href="beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a>
+          <a href="over-ons.html">Over ons</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </details>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Stel je systeem samen: panelen + omvormer</h1>
+    <p>Kies een zonnepaneel, het aantal en een omvormer. Wij checken direct of de combinatie technisch klopt (paneelvermogen, DC/AC-verhouding, 1- of 3-fase, schaduw, batterij en smart home) en rekenen uit wat het complete systeem kost, met per onderdeel de goedkoopste winkel. Weet je nog niet wat je wilt? Begin dan met de <a href="advies.html" style="color:#fde68a;">keuzehulp</a>; die vult hier zijn beste combinatie voor je in.</p>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="advies-indeling">
+
+    <form id="samenstelFormulier" class="advies-paneel" onsubmit="return false;">
+      <h2>Jouw combinatie</h2>
+
+      <div class="veld">
+        <label for="kiesPaneel"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></svg> Zonnepaneel</label>
+        <select id="kiesPaneel"></select>
+        <span class="hint" id="paneelHint"></span>
+      </div>
+
+      <div class="veld">
+        <label for="kiesAantal">Aantal panelen</label>
+        <input type="number" id="kiesAantal" min="2" max="60" step="1" value="8">
+        <span class="hint">Vuistregel: een paneel is circa 1,8 bij 1,1 meter (2 m²)</span>
+      </div>
+
+      <div class="veld">
+        <label for="kiesOmvormer"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v10" /> <path d="M18.4 6.6a9 9 0 1 1-12.77.04" /></svg> Omvormersysteem</label>
+        <select id="kiesOmvormer"></select>
+        <span class="hint" id="omvormerHint"></span>
+      </div>
+
+      <div class="veld">
+        <label for="kiesSchaduw">Schaduw op het dak</label>
+        <select id="kiesSchaduw">
+          <option value="geen" selected>Geen of nauwelijks schaduw</option>
+          <option value="beetje">Een beetje (schoorsteen, boom in de ochtend)</option>
+          <option value="veel">Veel (gebouwen of bomen, deel van de dag)</option>
+        </select>
+      </div>
+
+      <div class="veld">
+        <label for="kiesBatterij"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 7-3 5h4l-3 5" /> <path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935" /> <path d="M22 14v-4" /> <path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936" /></svg> Thuisbatterij</label>
+        <select id="kiesBatterij">
+          <option value="nee" selected>Niet van plan</option>
+          <option value="later">Misschien later</option>
+          <option value="ja">Ja, (bijna) meteen</option>
+        </select>
+      </div>
+
+      <div class="veld">
+        <label for="kiesSmart"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /> <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Smart home</label>
+        <select id="kiesSmart">
+          <option value="geen" selected>Niet belangrijk</option>
+          <option value="home_assistant">Home Assistant</option>
+          <option value="homey">Homey</option>
+        </select>
+      </div>
+
+      <p class="hint" style="margin:14px 0 0;"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg> De link in je adresbalk verandert mee: kopieer hem om deze combinatie te delen of te bewaren.</p>
+    </form>
+
+    <div id="resultaat" class="advies-paneel" aria-live="polite">
+      <h2>Jouw systeem</h2>
+      <div id="systeemInhoud"><p class="hint">Laden…</p></div>
+    </div>
+
+  </div>
+
+  <section class="content-pagina" style="padding-top:0;">
+    <h2 id="hoe-checken-wij">Hoe checken wij of een combinatie klopt?</h2>
+    <ul>
+      <li><b>Paneelvermogen per micro-omvormer of optimizer.</b> Elektronica per paneel heeft een maximum paneelvermogen: de Enphase IQ8HC is gespecificeerd tot 560 Wp per paneel, de APsystems DS3 tot circa 550 Wp per ingang en de SolarEdge S500-optimizer tot 500 Wp per paneel (bron: datasheets van <a href="https://enphase.com/en-gb/download/iq8mc-iq8ac-and-iq8hc-microinverters-data-sheet" target="_blank" rel="noopener">Enphase</a>, <a href="https://global.apsystems.com/document/apsystems-ds3-series-datasheet/" target="_blank" rel="noopener">APsystems</a> en <a href="https://www.solaredge.com/sites/default/files/se-power-optimizer-s-series-module-add-on-datasheet-eu.pdf" target="_blank" rel="noopener">SolarEdge</a>).</li>
+      <li><b>DC/AC-verhouding (overdimensionering).</b> Het paneelvermogen mag ruim boven het omvormervermogen liggen: 110 tot 130% is in de Benelux de gangbare vuistregel, omdat panelen hun piekvermogen zelden halen. Fabrikanten staan vaak meer toe (SolarEdge tot 135-155%, SMA nog ruimer), maar boven circa 135% waarschuwen wij voor afgetopte opbrengst op zonnige dagen (bronnen: <a href="https://www.sma-benelux.com/kenniscentrum/tech-tips-voor-de-installatie/dimensioneren-van-een-zonnestroominstallatie" target="_blank" rel="noopener">SMA Benelux</a>, <a href="https://knowledge-center.solaredge.com/sites/kc/files/se_inverter_dc_oversizing_nl_0.pdf" target="_blank" rel="noopener">SolarEdge technical note</a>, <a href="https://www.solarconcept.nl/artikel/onder-en-overdimensioneren-omvormer" target="_blank" rel="noopener">Solar Concept</a>).</li>
+      <li><b>1-fase of 3-fase.</b> Tot circa 5 kW omvormervermogen is 1-fase in Nederland gangbaar en accepteren netbeheerders de scheefbelasting; daarboven wordt verdeling over drie fasen de norm (bron: <a href="https://www.zonnefabriek.nl/kenniscentrum/een-een-fase-omvormer-in-een-drie-fasen-net-kan-dat/" target="_blank" rel="noopener">Zonnefabriek</a>, beleid faseverdeling Netbeheer Nederland).</li>
+      <li><b>Schaduw, batterij en smart home.</b> Bij veel schaduw adviseren wij elektronica per paneel (micro of optimizer). Voor de batterij- en smart home-check gebruiken wij dezelfde gegevens als de <a href="omvormers.html">omvormer-vergelijker</a> (Koppel-score).</li>
+      <li><b>Prijzen.</b> Per onderdeel tonen wij de goedkoopst gevonden winkelprijs (dagelijks gecontroleerd, controledatum bij de aanbieding) of anders de richtprijs. De montage-indicatie is dezelfde rekensom als in de <a href="advies.html">keuzehulp</a> en <a href="rekenmodule.html">rekenmodule</a>.</li>
+    </ul>
+    <div class="waarschuwing-kader">Deze check is een startpunt, geen installatieontwerp. De definitieve omvormerkeuze (variant, aantal strings, bekabeling) hoort bij een installateur, die ook je meterkast en de maximale stringspanning beoordeelt.</div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <b><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></svg> Zonnestroommaatje</b>
+    <p>Onafhankelijke vergelijking van zonnepanelen voor Nederlandse huishoudens. Zustersite van <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen) en <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a> (warmtepompen).</p>
+    <p><a href="index.html">Zonnepanelen</a> · <a href="omvormers.html">Omvormers</a> · <a href="systeem.html">Samenstellen</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="uitleg.html">Uitleg</a> · <a href="waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="regelgeving.html">Regels &amp; subsidies</a> · <a href="beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a> · <a href="beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a> · <a href="index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="over-ons.html">Over ons</a> · <a href="contact.html">Contact</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
+    <p class="disclaimer">Disclaimer: deze samenstelling is een indicatie; er kunnen geen rechten aan worden ontleend. Controleer voor aankoop de actuele specificaties en laat de installatie beoordelen door een installateur.</p>
+  </div>
+</footer>
+
+</body>
+</html>

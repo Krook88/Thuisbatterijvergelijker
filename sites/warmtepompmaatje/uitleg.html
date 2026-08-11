@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zo werkt een warmtepomp: hybride, all-electric, geluid en slim koppelen | Warmtepompmaatje.nl</title>
+  <meta name="description" content="Alles wat je wilt weten vóór je een warmtepomp koopt, in gewone taal: hoe hij werkt, hybride of all-electric, SCOP, geluid en de 40 dB-eis, koudemiddelen en slim koppelen met zonnepanelen, Home Assistant en Homey.">
+  <link rel="canonical" href="https://warmtepompmaatje.nl/uitleg.html">
+  <meta property="og:title" content="Zo werkt een warmtepomp">
+  <meta property="og:description" content="Hybride of all-electric, SCOP, geluid en slim koppelen: uitleg in gewone taal.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://warmtepompmaatje.nl/uitleg.html">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:site_name" content="Warmtepompmaatje.nl">
+  <meta property="og:image" content="https://warmtepompmaatje.nl/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="assets/style.css?v=20260729c">
+  <script src="assets/iconen.js?v=20260729c" defer></script>
+  <script src="assets/nav.js?v=20260729c" defer></script>
+  <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
+  <style>
+    .uitleg-figuur { margin: 18px 0 26px; padding: 18px 16px 12px; background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); }
+    .uitleg-figuur svg { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; }
+    .uitleg-figuur figcaption { margin-top: 10px; font-size: 0.88rem; color: var(--kleur-tekst-licht); text-align: center; }
+    .figuur-duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    @media (max-width: 640px) { .figuur-duo { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="index.html">
+      <span class="logo-icoon"><svg class="icoon icoon-groot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" /></svg></span>
+      <span>Warmtepomp<b>maatje</b></span>
+    </a>
+    <nav class="hoofdnav">
+      <a href="index.html">Warmtepompen</a>
+      <a href="advies.html">Keuzehulp</a>
+      <a href="rekenmodule.html">Terugverdientijd</a>
+      <a href="uitleg.html" class="actief">Uitleg</a>
+      <a href="subsidie.html">Subsidie</a>
+      <details class="nav-meer">
+        <summary>Meer <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary>
+        <div class="nav-meer-paneel">
+          <a href="over-ons.html">Over ons</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy.html">Privacy &amp; disclaimer</a>
+        </div>
+      </details>
+    </nav>
+  </div>
+</header>
+
+<main class="content-pagina">
+
+  <h1>Zo werkt een warmtepomp</h1>
+  <p class="intro">Alles wat je wilt weten vóór je een warmtepomp koopt, in gewone taal: hoe hij werkt, het verschil tussen hybride en all-electric, wat SCOP en geluid betekenen, en hoe je hem slim koppelt aan zonnepanelen en je smart home.</p>
+
+  <h2 id="hoe-werkt-het">Hoe werkt het?</h2>
+  <p>Een warmtepomp haalt warmte uit de buitenlucht (ook als het vriest) en pompt die met een compressor naar een hogere temperatuur, zoals een omgekeerde koelkast. Voor elke kWh stroom die de compressor gebruikt, levert hij 3 tot 5 kWh warmte. Die verhouding heet het rendement; over een heel jaar gemeten heet het de <b>SCOP</b>. Hoe lager de temperatuur van je verwarmingswater (vloerverwarming!), hoe hoger het rendement.</p>
+
+  <figure class="uitleg-figuur">
+    <svg viewBox="0 0 560 200" role="img" aria-label="Schema: 3 kWh warmte uit de buitenlucht plus 1 kWh stroom wordt door de warmtepomp 4 kWh warmte in huis">
+      <!-- buitenlucht -->
+      <path d="M20 60 q14 -18 30 -6 q6 -16 24 -12 q18 4 16 20 q14 2 12 16 q-2 12 -18 12 H36 q-18 0 -16 -16 q1 -10 0 -14z" fill="var(--kleur-primair-licht)" stroke="var(--kleur-primair)" stroke-width="2"/>
+      <path d="M30 120 q12 -8 24 0 t24 0" fill="none" stroke="var(--kleur-primair)" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M38 136 q12 -8 24 0 t24 0" fill="none" stroke="var(--kleur-primair)" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+      <text x="58" y="170" text-anchor="middle" font-size="13" fill="var(--kleur-tekst)">buitenlucht</text>
+      <!-- pijl lucht -> pomp met label -->
+      <path d="M118 95 H172" stroke="var(--kleur-primair)" stroke-width="3" stroke-linecap="round"/>
+      <path d="M165 88 l10 7 -10 7" fill="none" stroke="var(--kleur-primair)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="146" y="82" text-anchor="middle" font-size="13" font-weight="700" fill="var(--kleur-primair-donker)">3 kWh</text>
+      <!-- buitenunit -->
+      <rect x="185" y="55" width="110" height="85" rx="10" fill="var(--kleur-wit)" stroke="var(--kleur-inkt, #431407)" stroke-width="2.5"/>
+      <circle cx="240" cy="97" r="26" fill="none" stroke="var(--kleur-inkt, #431407)" stroke-width="2.5"/>
+      <g stroke="var(--kleur-primair)" stroke-width="2.5" stroke-linecap="round">
+        <path d="M240 97 l0 -18"/><path d="M240 97 l16 9"/><path d="M240 97 l-16 9"/>
+      </g>
+      <circle cx="240" cy="97" r="4" fill="var(--kleur-primair-donker)"/>
+      <text x="240" y="170" text-anchor="middle" font-size="13" fill="var(--kleur-tekst)">warmtepomp</text>
+      <!-- stroom van onderen -->
+      <path d="M240 30 v14" stroke="var(--kleur-accent, #f59e0b)" stroke-width="3" stroke-linecap="round"/>
+      <path d="M233 38 l7 8 7 -8" fill="none" stroke="var(--kleur-accent, #f59e0b)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M246 8 l-9 12 h7 l-6 10" fill="none" stroke="var(--kleur-accent, #f59e0b)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="262" y="18" text-anchor="start" font-size="13" font-weight="700" fill="var(--kleur-tekst)">1 kWh stroom</text>
+      <!-- pijl pomp -> huis -->
+      <path d="M305 95 H364" stroke="var(--kleur-primair-donker)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M356 87 l11 8 -11 8" fill="none" stroke="var(--kleur-primair-donker)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="334" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="var(--kleur-primair-donker)">4 kWh</text>
+      <!-- huis -->
+      <path d="M380 95 l60 -45 60 45 v65 h-120z" fill="var(--kleur-primair-licht)" stroke="var(--kleur-inkt, #431407)" stroke-width="2.5" stroke-linejoin="round"/>
+      <!-- radiator -->
+      <g stroke="var(--kleur-primair-donker)" stroke-width="2.5" stroke-linecap="round">
+        <path d="M415 115 v30"/><path d="M427 115 v30"/><path d="M439 115 v30"/><path d="M451 115 v30"/><path d="M463 115 v30"/>
+        <path d="M410 115 h58"/><path d="M410 145 h58"/>
+      </g>
+      <text x="440" y="178" text-anchor="middle" font-size="13" fill="var(--kleur-tekst)">warmte in huis</text>
+    </svg>
+    <figcaption>3 kWh gratis warmte uit de buitenlucht + 1 kWh stroom = 4 kWh warmte in huis (SCOP 4).</figcaption>
+  </figure>
+
+  <h2 id="hybride-of-all-electric">Hybride of all-electric?</h2>
+  <ul>
+    <li><b>Hybride</b>: de warmtepomp hangt naast je cv-ketel en neemt het grootste deel van de verwarming over; de ketel springt bij op koude dagen en blijft het warme tapwater doen. Bespaart 50 tot 70% gas, past in vrijwel elk huis en kost het minst. De meest verkochte oplossing van Nederland.</li>
+    <li><b>All-electric</b>: de warmtepomp vervangt de cv-ketel volledig, inclusief tapwater via een boiler. Je gaat helemaal van het gas af. Dit vraagt om goede isolatie of lage-temperatuurverwarming; moderne pompen met een aanvoertemperatuur tot 70 of 75 °C kunnen ook met bestaande radiatoren overweg, maar laat het warmteverlies altijd doorrekenen.</li>
+  </ul>
+
+  <figure class="uitleg-figuur">
+    <div class="figuur-duo">
+      <svg viewBox="0 0 260 210" role="img" aria-label="Hybride: warmtepomp buiten werkt samen met de cv-ketel binnen; het gas blijft aangesloten">
+        <text x="130" y="18" text-anchor="middle" font-size="15" font-weight="800" fill="var(--kleur-primair-donker)">Hybride</text>
+        <path d="M60 95 l70 -50 70 50 v85 h-140z" fill="var(--kleur-primair-licht)" stroke="var(--kleur-inkt, #431407)" stroke-width="2.5" stroke-linejoin="round"/>
+        <!-- cv-ketel binnen -->
+        <rect x="95" y="105" width="42" height="56" rx="6" fill="var(--kleur-wit)" stroke="var(--kleur-inkt, #431407)" stroke-width="2.5"/>
+        <path d="M116 148 q-9 -7 -3 -16 q2 -4 1 -8 q8 5 8 13 q0 7 -6 11z" fill="var(--kleur-primair)"/>
+        <text x="116" y="176" text-anchor="middle" font-size="12" fill="var(--kleur-tekst)">cv-ketel</text>
+        <!-- buitenunit -->
+        <rect x="8" y="128" width="46" height="38" rx="6" fill="var(--kleur-wit)" stroke="var(--kleur-inkt, #431407)" stroke-width="2.5"/>
+        <circle cx="31" cy="147" r="12" fill="none" stroke="var(--kleur-primair)" stroke-width="2.5"/>
+        <text x="31" y="180" text-anchor="middle" font-size="12" fill="var(--kleur-tekst)">pomp</text>
+        <path d="M54 147 h38" stroke="var(--kleur-primair)" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 7"/>
+        <!-- gasleiding -->
+        <path d="M160 190 v-35 h-23" fill="none" stroke="var(--kleur-tekst-licht)" stroke-width="3" stroke-linecap="round"/>
+        <text x="196" y="196" text-anchor="middle" font-size="12" fill="var(--kleur-tekst-licht)">gas blijft</text>
+        <text x="130" y="88" text-anchor="middle" font-size="12" fill="var(--kleur-tekst)">samen warm</text>
+      </svg>
+      <svg viewBox="0 0 260 210" role="img" aria-label="All-electric: alleen de warmtepomp met een boilervat; de gasaansluiting is doorgestreept">
+        <text x="130" y="18" text-anchor="middle" font-size="15" font-weight="800" fill="var(--kleur-primair-donker)">All-electric</text>
+        <path d="M60 95 l70 -50 70 50 v85 h-140z" fill="var(--kleur-primair-licht)" stroke="var(--kleur-inkt, #431407)" stroke-width="2.5" stroke-linejoin="round"/>
+        <!-- boilervat binnen -->
+        <rect x="98" y="105" width="36" height="56" rx="16" fill="var(--kleur-wit)" stroke="var(--kleur-inkt, #431407)" stroke-width="2.5"/>
+        <path d="M108 122 q8 -6 16 0" fill="none" stroke="var(--kleur-primair)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M108 132 q8 -6 16 0" fill="none" stroke="var(--kleur-primair)" stroke-width="2.5" stroke-linecap="round"/>
+        <text x="116" y="176" text-anchor="middle" font-size="12" fill="var(--kleur-tekst)">boilervat</text>
+        <!-- buitenunit -->
+        <rect x="8" y="128" width="46" height="38" rx="6" fill="var(--kleur-wit)" stroke="var(--kleur-inkt, #431407)" stroke-width="2.5"/>
+        <circle cx="31" cy="147" r="12" fill="none" stroke="var(--kleur-primair)" stroke-width="2.5"/>
+        <text x="31" y="180" text-anchor="middle" font-size="12" fill="var(--kleur-tekst)">pomp</text>
+        <path d="M54 147 h40" stroke="var(--kleur-primair)" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 7"/>
+        <!-- gas doorgestreept -->
+        <path d="M160 190 v-25" fill="none" stroke="var(--kleur-tekst-licht)" stroke-width="3" stroke-linecap="round" stroke-dasharray="5 5"/>
+        <path d="M148 178 l24 -14 M148 164 l24 14" stroke="var(--kleur-primair-donker)" stroke-width="3" stroke-linecap="round"/>
+        <text x="196" y="196" text-anchor="middle" font-size="12" fill="var(--kleur-tekst-licht)">gas eraf</text>
+        <text x="130" y="88" text-anchor="middle" font-size="12" fill="var(--kleur-tekst)">alles elektrisch</text>
+      </svg>
+    </div>
+    <figcaption>Links: hybride, de warmtepomp en cv-ketel verwarmen samen. Rechts: all-electric, de pomp doet alles en de gasaansluiting kan weg.</figcaption>
+  </figure>
+
+  <h2 id="geluid">Geluid: de 40 dB-eis</h2>
+  <p>De buitenunit maakt geluid. Sinds 2021 geldt in het Bouwbesluit een eis: op de erfgrens (bij de buren) mag de buitenunit in de nacht maximaal <b>40 dB</b> maken en overdag 45 dB. Fabrikanten geven het <b>geluidsvermogen</b> op (vaak 50 tot 60 dB(A)); op afstand neemt dat flink af, en een nachtstand of geluidskap scheelt nog eens 5 tot 10 dB. Woon je in een rijtjeshuis, kies dan een stille pomp (filter in de <a href="index.html">vergelijker</a>) en bespreek de plek met je installateur. Bron: <a href="https://www.consumentenbond.nl/warmtepomp/geluid-warmtepomp" target="_blank" rel="noopener">Consumentenbond</a> en het Besluit bouwwerken leefomgeving.</p>
+
+  <figure class="uitleg-figuur">
+    <svg viewBox="0 0 560 180" role="img" aria-label="Schema: het geluid van de buitenunit neemt af met de afstand; op de erfgrens bij de buren geldt in de nacht maximaal 40 dB">
+      <!-- jouw huis -->
+      <path d="M20 80 l55 -40 55 40 v70 h-110z" fill="var(--kleur-primair-licht)" stroke="var(--kleur-inkt, #431407)" stroke-width="2.5" stroke-linejoin="round"/>
+      <text x="75" y="120" text-anchor="middle" font-size="13" fill="var(--kleur-tekst)">jouw huis</text>
+      <!-- buitenunit -->
+      <rect x="145" y="115" width="48" height="36" rx="6" fill="var(--kleur-wit)" stroke="var(--kleur-inkt, #431407)" stroke-width="2.5"/>
+      <circle cx="169" cy="133" r="11" fill="none" stroke="var(--kleur-primair)" stroke-width="2.5"/>
+      <text x="169" y="170" text-anchor="middle" font-size="12" fill="var(--kleur-tekst)">buitenunit</text>
+      <!-- geluidsgolven, afnemend -->
+      <g fill="none" stroke="var(--kleur-primair)" stroke-linecap="round">
+        <path d="M205 118 q10 15 0 30" stroke-width="3"/>
+        <path d="M225 110 q14 23 0 46" stroke-width="2.5" opacity="0.7"/>
+        <path d="M248 102 q18 31 0 62" stroke-width="2" opacity="0.45"/>
+        <path d="M272 94 q22 39 0 78" stroke-width="2" opacity="0.25"/>
+      </g>
+      <!-- erfgrens -->
+      <path d="M330 40 v130" stroke="var(--kleur-primair-donker)" stroke-width="2.5" stroke-dasharray="7 6"/>
+      <rect x="272" y="20" width="116" height="26" rx="13" fill="var(--kleur-primair-donker)"/>
+      <text x="330" y="38" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">max 40 dB</text>
+      <text x="330" y="62" text-anchor="middle" font-size="12" fill="var(--kleur-tekst-licht)">erfgrens, in de nacht</text>
+      <!-- buurhuis -->
+      <path d="M400 80 l55 -40 55 40 v70 h-110z" fill="var(--kleur-wit)" stroke="var(--kleur-inkt, #431407)" stroke-width="2.5" stroke-linejoin="round"/>
+      <text x="455" y="120" text-anchor="middle" font-size="13" fill="var(--kleur-tekst)">de buren</text>
+    </svg>
+    <figcaption>Het geluid neemt met de afstand snel af; op de erfgrens mag de unit in de nacht maximaal 40 dB maken.</figcaption>
+  </figure>
+
+  <h2 id="koudemiddel">Koudemiddel: R290 of R32?</h2>
+  <p>Het koudemiddel is de stof die de warmte transporteert. <b>R290 (propaan)</b> is een natuurlijk koudemiddel met een verwaarloosbaar broeikaseffect én een technisch voordeel: het haalt hogere aanvoertemperaturen, handig bij bestaande radiatoren. <b>R32</b> is een synthetisch koudemiddel met een hoger broeikaseffect bij lekkage. Nieuwe topmodellen kiezen vrijwel allemaal voor R290; vanaf 2026 vervalt bovendien de ISDE-subsidie voor bepaalde split-toestellen met synthetische koudemiddelen met hoge broeikaswaarde (bron: RVO).</p>
+
+  <h2 id="slim-koppelen">Slim koppelen: zonnepanelen, batterij en smart home</h2>
+  <p>Een warmtepomp is de grootste stroomverbruiker in huis, en juist daarom de interessantste om slim aan te sturen:</p>
+  <ul>
+    <li><b>Met zonnepanelen.</b> Een <b>SG-ready</b> pomp kan een seintje krijgen om extra te draaien wanneer je panelen stroom over hebben; de warmte sla je op in het boilervat of de vloer. Dat is per kWh goedkoper dan opslag in een thuisbatterij. Panelen vergelijken doe je op onze zustersite <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a>.</li>
+    <li><b>Met een thuisbatterij.</b> Combineer je pomp met een batterij, dan verwarm je ook na zonsondergang op eigen stroom. Vergelijk batterijen op <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a>.</li>
+    <li><b>Met een dynamisch contract.</b> Bij een contract met uurprijzen kan een slim aangestuurde pomp het boilervat opwarmen op de goedkoopste uren en dimmen tijdens de dure avondpiek; een hybride kan zelfs per uur kiezen tussen gas en stroom (Quatt doet dat automatisch). Zie het als een bonus boven op de gewone besparing, niet als voorwaarde zoals bij een thuisbatterij: op koude winterdagen zijn dynamische prijzen vaak juist hoog en de warmtevraag laat zich maar enkele uren verschuiven. Zie de <a href="https://batterijmaatje.nl/uitleg.html#vast-of-dynamisch" target="_blank" rel="noopener">uitleg met grafiek en rekenvoorbeeld op Batterijmaatje</a>; bron: <a href="https://www.milieucentraal.nl/energie-besparen/inzicht-in-je-energierekening/dynamisch-energiecontract/" target="_blank" rel="noopener">Milieu Centraal</a>.</li>
+    <li><b>Met Home Assistant of Homey.</b> Sommige merken hebben een officiële integratie (NIBE, Viessmann, Mitsubishi, Weheat), andere werken via community-projecten zoals HeishaMon (Panasonic), ebusd (Vaillant) of EMS-ESP (Bosch/Nefit). Wij vatten dit samen in de <a href="index.html#koppel-score">Koppel-score</a>.</li>
+  </ul>
+
+  <figure class="uitleg-figuur">
+    <svg viewBox="0 0 560 200" role="img" aria-label="Schema: zonnepanelen, thuisbatterij en warmtepomp zijn verbonden via een smart home-systeem dat de pomp laat draaien op eigen stroom">
+      <!-- zon -->
+      <circle cx="60" cy="40" r="16" fill="var(--kleur-accent, #f59e0b)"/>
+      <g stroke="var(--kleur-accent, #f59e0b)" stroke-width="2.5" stroke-linecap="round">
+        <path d="M60 14 v-6"/><path d="M60 72 v-6"/><path d="M34 40 h-6"/><path d="M92 40 h-6"/>
+        <path d="M42 22 l-5 -5"/><path d="M83 63 l-5 -5"/><path d="M42 58 l-5 5"/><path d="M83 17 l-5 5"/>
+      </g>
+      <!-- zonnepaneel -->
+      <g transform="translate(110,52)">
+        <rect x="0" y="0" width="76" height="44" rx="4" fill="var(--kleur-primair-licht)" stroke="var(--kleur-inkt, #431407)" stroke-width="2.5"/>
+        <path d="M25 0 v44 M51 0 v44 M0 22 h76" stroke="var(--kleur-inkt, #431407)" stroke-width="1.5"/>
+      </g>
+      <text x="148" y="118" text-anchor="middle" font-size="13" fill="var(--kleur-tekst)">zonnepanelen</text>
+      <!-- batterij -->
+      <rect x="120" y="140" width="56" height="34" rx="6" fill="var(--kleur-wit)" stroke="var(--kleur-inkt, #431407)" stroke-width="2.5"/>
+      <rect x="176" y="150" width="7" height="14" rx="2" fill="var(--kleur-inkt, #431407)"/>
+      <rect x="127" y="147" width="26" height="20" rx="3" fill="var(--kleur-primair)"/>
+      <text x="148" y="192" text-anchor="middle" font-size="13" fill="var(--kleur-tekst)">thuisbatterij</text>
+      <!-- smart home hub -->
+      <path d="M250 92 l32 -24 32 24 v34 h-64z" fill="var(--kleur-wit)" stroke="var(--kleur-primair-donker)" stroke-width="2.5" stroke-linejoin="round"/>
+      <circle cx="282" cy="104" r="9" fill="none" stroke="var(--kleur-primair)" stroke-width="2.5"/>
+      <circle cx="282" cy="104" r="2.5" fill="var(--kleur-primair)"/>
+      <text x="282" y="150" text-anchor="middle" font-size="13" fill="var(--kleur-tekst)">smart home</text>
+      <text x="282" y="166" text-anchor="middle" font-size="12" fill="var(--kleur-tekst-licht)">(Home Assistant / Homey)</text>
+      <!-- warmtepomp -->
+      <rect x="400" y="76" width="70" height="52" rx="8" fill="var(--kleur-wit)" stroke="var(--kleur-inkt, #431407)" stroke-width="2.5"/>
+      <circle cx="435" cy="102" r="16" fill="none" stroke="var(--kleur-primair)" stroke-width="2.5"/>
+      <g stroke="var(--kleur-primair)" stroke-width="2.5" stroke-linecap="round">
+        <path d="M435 102 l0 -11"/><path d="M435 102 l10 6"/><path d="M435 102 l-10 6"/>
+      </g>
+      <text x="435" y="150" text-anchor="middle" font-size="13" fill="var(--kleur-tekst)">warmtepomp</text>
+      <text x="435" y="166" text-anchor="middle" font-size="12" fill="var(--kleur-tekst-licht)">draait op eigen stroom</text>
+      <!-- verbindingen -->
+      <g stroke="var(--kleur-primair)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 7" fill="none">
+        <path d="M190 74 q30 6 58 22"/>
+        <path d="M186 157 q36 -6 62 -34"/>
+        <path d="M348 102 h48"/>
+      </g>
+      <path d="M388 95 l10 7 -10 7" fill="none" stroke="var(--kleur-primair)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <figcaption>Het smart home-systeem laat de warmtepomp extra draaien als de panelen stroom over hebben of de batterij vol zit.</figcaption>
+  </figure>
+
+  <h2 id="woordenlijst">Woordenlijst</h2>
+  <dl>
+    <dt id="scop"><b>SCOP</b></dt><dd>Seizoensrendement: hoeveel kWh warmte de pomp gemiddeld over een jaar levert per kWh stroom. Een SCOP van 4,5 betekent 4,5 kWh warmte per kWh stroom (bij 35 °C aanvoer, volgens de norm).</dd>
+    <dt id="monoblock"><b>Monoblock en split</b></dt><dd>Bij een monoblock zit alle koeltechniek in de buitenunit en loopt er water naar binnen; bij een split zit een deel binnen en loopt er koudemiddel tussen beide delen (vereist een F-gassen-gecertificeerde installateur).</dd>
+    <dt id="sg-ready"><b>SG-ready</b></dt><dd>Standaardcontact waarmee een energiemanagementsysteem de pomp in een van vier standen zet, van tijdelijk blokkeren tot extra draaien bij zonneoverschot. Basaal maar breed ondersteund; Modbus of EEBUS biedt rijkere aansturing.</dd>
+    <dt id="aanvoertemperatuur"><b>Aanvoertemperatuur</b></dt><dd>De temperatuur van het water dat naar je radiatoren of vloer gaat. Vloerverwarming: 30 tot 40 °C; oudere radiatoren vragen soms 60+ °C. Hoe hoger een pomp kan komen, hoe geschikter voor bestaande bouw, maar hoe lager het rendement op die momenten.</dd>
+    <dt id="cop"><b>COP</b></dt><dd>Momentrendement onder één testconditie; de SCOP over een heel seizoen zegt meer.</dd>
+    <dt id="geluidsvermogen"><b>Geluidsvermogen versus geluidsdruk</b></dt><dd>Het geluidsvermogen (op het energielabel) is wat de unit totaal uitstraalt; de geluidsdruk is wat je op een bepaalde afstand hoort en is altijd lager. Vergelijk pompen dus op dezelfde maat; wij tonen het geluidsvermogen.</dd>
+    <dt id="isde"><b>ISDE</b></dt><dd>De landelijke subsidie voor warmtepompen; zie onze <a href="subsidie.html">subsidiepagina</a>.</dd>
+  </dl>
+
+  <p style="margin-top:22px;"><b>Klaar voor de volgende stap?</b> Doe de <a href="advies.html">keuzehulp</a> voor een advies op maat, <a href="index.html">vergelijk alle warmtepompen</a> op prijs, subsidie, geluid en Koppel-score, of <a href="rekenmodule.html">bereken je besparing en terugverdientijd</a>.</p>
+  <p class="datum-stempel">Bronnen: <a href="https://www.milieucentraal.nl/energie-besparen/duurzaam-verwarmen-en-koelen/warmtepomp/" target="_blank" rel="noopener">Milieu Centraal</a> · <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/warmtepomp" target="_blank" rel="noopener">RVO (ISDE)</a> · <a href="https://www.consumentenbond.nl/warmtepomp/geluid-warmtepomp" target="_blank" rel="noopener">Consumentenbond (geluid)</a> · datasheets van de genoemde fabrikanten. Laatst bijgewerkt: 22 juli 2026.</p>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <b><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" /></svg> Warmtepompmaatje</b>
+    <p>Onafhankelijke vergelijking van warmtepompen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen).</p>
+    <p><a href="index.html">Warmtepompen</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="uitleg.html">Uitleg</a> · <a href="subsidie.html">Subsidie</a> · <a href="over-ons.html">Over ons</a> · <a href="contact.html">Contact</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
+    <p class="disclaimer">Disclaimer: wij doen ons best om informatie actueel en juist weer te geven, maar er kunnen geen rechten aan worden ontleend.</p>
+  </div>
+</footer>
+
+</body>
+</html>

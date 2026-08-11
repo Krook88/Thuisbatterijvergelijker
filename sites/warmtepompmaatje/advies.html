@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keuzehulp warmtepomp: hybride of all-electric, en welke past bij jouw huis? | Warmtepompmaatje.nl</title>
+  <meta name="description" content="Gratis keuzehulp voor warmtepompen: beantwoord een paar vragen over je huis en gasverbruik en zie of hybride of all-electric past, wat het bespaart, wat de ISDE-subsidie oplevert en welke pompen koppelen met Home Assistant of Homey.">
+  <link rel="canonical" href="https://warmtepompmaatje.nl/advies.html">
+  <meta property="og:title" content="Keuzehulp warmtepomp: hybride of all-electric?">
+  <meta property="og:description" content="Beantwoord een paar vragen en zie welke warmtepomp bij jouw huis past, wat hij bespaart en wat de subsidie oplevert.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://warmtepompmaatje.nl/advies.html">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:site_name" content="Warmtepompmaatje.nl">
+  <meta property="og:image" content="https://warmtepompmaatje.nl/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="assets/style.css?v=20260729c">
+  <script src="assets/iconen.js?v=20260729c" defer></script>
+  <script src="assets/prijs.js?v=20260729c" defer></script>
+  <script src="assets/advies.js?v=20260729c" defer></script>
+  <script src="assets/nav.js?v=20260729c" defer></script>
+  <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
+  <style>
+    .advies-indeling { display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: start; margin: 26px 0 40px; }
+    @media (max-width: 900px) { .advies-indeling { grid-template-columns: 1fr; } }
+    .advies-paneel { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); box-shadow: var(--schaduw); padding: 22px; }
+    .advies-paneel h2 { margin: 0 0 4px; font-size: 1.1rem; color: var(--kleur-primair-donker); }
+    .veld { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+    .veld label { font-size: 0.85rem; font-weight: 700; color: var(--kleur-tekst-licht); }
+    .veld input:not([type="checkbox"]), .veld select { padding: 9px 12px; border: 1px solid var(--kleur-rand); border-radius: 8px; font-size: 0.95rem; width: 100%; min-width: 0; }
+    .veld .hint { font-size: 0.8rem; color: var(--kleur-tekst-licht); }
+    .veld .checkbox-groep { display: flex; flex-direction: column; gap: 8px; }
+    .veld .checkbox-groep label { width: 100%; justify-content: flex-start; padding: 10px 14px; font-size: 0.95rem; font-weight: 400; color: var(--kleur-tekst); text-align: left; }
+    .advies-indeling > *, .veld { min-width: 0; }
+    .advies-kaart { border: 1px solid var(--kleur-rand); border-radius: var(--radius); padding: 16px 18px; margin-top: 14px; background: var(--kleur-wit); }
+    .advies-kaart .plek { font-size: 0.8rem; font-weight: 700; color: var(--kleur-primair); text-transform: uppercase; letter-spacing: 0.05em; }
+    .advies-kaart h3 { margin: 4px 0 6px; font-size: 1.1rem; }
+    .advies-kaart .reden { font-size: 0.92rem; color: var(--kleur-tekst-licht); }
+    .advies-samenvatting { background: var(--kleur-primair-licht); border-radius: var(--radius); padding: 16px 18px; }
+    .advies-samenvatting .groot { font-size: 1.5rem; font-weight: 800; color: var(--kleur-primair-donker); }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="index.html">
+      <span class="logo-icoon"><svg class="icoon icoon-groot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" /></svg></span>
+      <span>Warmtepomp<b>maatje</b></span>
+    </a>
+    <nav class="hoofdnav">
+      <a href="index.html">Warmtepompen</a>
+      <a href="advies.html" class="actief">Keuzehulp</a>
+      <a href="rekenmodule.html">Terugverdientijd</a>
+      <a href="uitleg.html">Uitleg</a>
+      <a href="subsidie.html">Subsidie</a>
+      <details class="nav-meer">
+        <summary>Meer <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary>
+        <div class="nav-meer-paneel">
+          <a href="over-ons.html">Over ons</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy.html">Privacy &amp; disclaimer</a>
+        </div>
+      </details>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Keuzehulp: welke warmtepomp past bij jouw huis?</h1>
+    <p>Beantwoord een paar vragen over je huis en gasverbruik. Je ziet direct of hybride of all-electric bij je past, wat het per jaar bespaart, wat de ISDE-subsidie oplevert en welke pompen slim koppelen met Home Assistant of Homey. Geen e-mailadres nodig, geen verkopers aan de telefoon.</p>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="advies-indeling">
+
+    <form id="adviesformulier" class="advies-paneel" onsubmit="return false;">
+      <h2>Jouw situatie</h2>
+
+      <div class="veld">
+        <label for="gasverbruik">Gasverbruik per jaar (m³)</label>
+        <input type="number" id="gasverbruik" min="300" max="6000" step="50" value="1200">
+        <span class="hint">Staat op je jaarafrekening; gemiddeld huishouden: circa 1.200 m³</span>
+      </div>
+
+      <div class="veld">
+        <label for="cvKetel">Hangt er nu een cv-ketel?</label>
+        <select id="cvKetel">
+          <option value="recent" selected>Ja, minder dan 10 jaar oud</option>
+          <option value="oud">Ja, maar ouder dan 10 jaar (aan vervanging toe)</option>
+          <option value="geen">Nee (stadsverwarming, elektrisch of nieuwbouw)</option>
+        </select>
+        <span class="hint">Een hybride warmtepomp werkt alleen naast een cv-ketel</span>
+      </div>
+
+      <div class="veld">
+        <label for="isolatie">Hoe goed is je huis geïsoleerd?</label>
+        <select id="isolatie">
+          <option value="goed">Goed (bouwjaar na 2000, of volledig nageïsoleerd)</option>
+          <option value="redelijk" selected>Redelijk (dubbel glas, deels geïsoleerd)</option>
+          <option value="matig">Matig (ouder huis, enkel glas of weinig isolatie)</option>
+        </select>
+        <span class="hint">Bepaalt of all-electric haalbaar is of hybride verstandiger</span>
+      </div>
+
+      <div class="veld">
+        <label for="afgifte">Hoe verwarm je de kamers?</label>
+        <select id="afgifte">
+          <option value="vloer">Vooral vloerverwarming</option>
+          <option value="mix" selected>Mix van vloerverwarming en radiatoren</option>
+          <option value="radiatoren">Alleen radiatoren</option>
+        </select>
+        <span class="hint">Vloerverwarming werkt op lage temperatuur, ideaal voor een warmtepomp</span>
+      </div>
+
+      <div class="veld">
+        <label for="buren">Hoe dichtbij wonen je buren?</label>
+        <select id="buren">
+          <option value="dichtbij" selected>Dichtbij (rijtjeshuis of twee-onder-een-kap)</option>
+          <option value="vrij">Vrijstaand of veel ruimte rondom</option>
+        </select>
+        <span class="hint">Op de erfgrens geldt in de nacht een geluidseis van 40 dB</span>
+      </div>
+
+      <div class="veld">
+        <label for="smartHome"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /> <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Gebruik je een smart home-systeem?</label>
+        <select id="smartHome">
+          <option value="geen" selected>Nee / niet belangrijk</option>
+          <option value="home_assistant">Ja, Home Assistant</option>
+          <option value="homey">Ja, Homey</option>
+        </select>
+        <span class="hint">Dan wegen wij de koppelbaarheid (Koppel-score) zwaarder mee</span>
+      </div>
+
+      <div class="veld">
+        <div class="checkbox-groep">
+          <label><input type="checkbox" id="checkZon"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></svg> Ik heb zonnepanelen (of concrete plannen)</label>
+          <label><input type="checkbox" id="checkBatterij"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 7-3 5h4l-3 5" /> <path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935" /> <path d="M22 14v-4" /> <path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936" /></svg> Ik heb een thuisbatterij (of concrete plannen)</label>
+        </div>
+        <span class="hint">Een slim aangestuurde pomp draait dan extra op je eigen zonnestroom of op goedkope uren uit de batterij</span>
+      </div>
+    </form>
+
+    <div id="advies" class="advies-paneel" aria-live="polite">
+      <h2>Ons advies</h2>
+      <div id="adviesInhoud"><p class="hint">Laden…</p></div>
+    </div>
+
+  </div>
+
+  <section class="content-pagina" style="padding-top:0;">
+    <h2>Hoe komt dit advies tot stand?</h2>
+    <ul>
+      <li><b>Hybride of all-electric.</b> All-electric adviseren wij alleen als de isolatie het toelaat (of met vloerverwarming en een doorrekening); anders is hybride de veilige route met 50 tot 70% gasbesparing. Dit volgt de gangbare praktijk van Nederlandse installateurs en Milieu Centraal.</li>
+      <li><b>Cv-ketel.</b> Een hybride warmtepomp werkt altijd naast een cv-ketel. Hangt er geen ketel (stadsverwarming, elektrisch of nieuwbouw), dan adviseren wij automatisch all-electric. Is je ketel ouder dan 10 jaar, dan wijzen wij op het natuurlijke vervangingsmoment.</li>
+      <li><b>Zonnepanelen en thuisbatterij.</b> Heb je zonnepanelen of een thuisbatterij (of plannen daarvoor), dan wegen wij slimme aansturing zwaarder mee: een pomp met een open protocol kan dan verwarmen op momenten dat je eigen stroom hebt of stroom goedkoop is.</li>
+      <li><b>Besparing.</b> Vuistregels: 1 m³ gas levert circa 8,8 kWh nuttige warmte via een moderne cv-ketel; een hybride neemt circa 60% van de warmtevraag over met een seizoensrendement (SCOP) rond 4,5. All-electric vervangt alles: verwarming met een SCOP rond 4, warm water via het boilervat met een rendement van 2,5. Wij rekenen met € 1,45 per m³ gas en € 0,30 per kWh stroom, dezelfde aannames als in de <a href="rekenmodule.html">terugverdientijd-berekening</a>.</li>
+      <li><b>Top 3.</b> Binnen het geadviseerde type scoren wij op nettoprijs (richtprijs minus ISDE-indicatie), geluid (zwaarder bij buren dichtbij), rendement en de koppeling met jouw smart home-platform (Koppel-score).</li>
+      <li><b>Onafhankelijk.</b> Fabrikanten hebben geen invloed op dit advies; het is een rekensom op openbare specificaties.</li>
+    </ul>
+    <div class="waarschuwing-kader">Dit advies is een startpunt, geen warmteverliesberekening of offerte. Laat een installateur altijd het benodigde vermogen bepalen en controleer het exacte ISDE-bedrag per meldcode bij <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/warmtepomp" target="_blank" rel="noopener">RVO</a>.</div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <b><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" /></svg> Warmtepompmaatje</b>
+    <p>Onafhankelijke vergelijking van warmtepompen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen).</p>
+    <p><a href="index.html">Warmtepompen</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="uitleg.html">Uitleg</a> · <a href="subsidie.html">Subsidie</a> · <a href="over-ons.html">Over ons</a> · <a href="contact.html">Contact</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
+    <p class="disclaimer">Disclaimer: dit advies is een indicatie; er kunnen geen rechten aan worden ontleend. Controleer voor aankoop de actuele specificaties, de RVO-apparatenlijst en de geschiktheid voor jouw woning.</p>
+  </div>
+</footer>
+
+</body>
+</html>
