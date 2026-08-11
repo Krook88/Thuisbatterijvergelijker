@@ -41,6 +41,48 @@ te doen alsof; `Prijs.capaciteitToelichting()` levert die tekst.
 
 `npm run capaciteit` laat zien hoe ver we zijn en waar je het eerst moet kijken.
 
+## Warmtepompen: onder welke omstandigheden geldt een getal?
+
+Bij een warmtepomp betekent hetzelfde getal verschillende dingen, afhankelijk
+van waar het gemeten is. Dat is dezelfde valkuil als btw bij prijzen en bruto
+bij capaciteit, maar hier zit hij op de twee cijfers waar een koper zijn keuze
+op baseert.
+
+**Vermogen.** "7 kW" is meestal gemeten bij 7 graden buiten - een milde dag,
+precies wanneer je de pomp het minst nodig hebt. De Stiebel WPL 07 ACS heet 7 kW
+en levert er 2,08 bij A2/W35. Wie op het typenummer afgaat koopt een pomp die
+zijn huis op de koudste dag niet warm krijgt.
+
+**SCOP.** Het seizoensrendement hangt af van de aanvoertemperatuur. Bij 35
+graden (vloerverwarming) haalt een pomp ruim een punt meer dan bij 55 graden
+(radiatoren in een bestaande woning). De hele lijst ligt tussen 4,5 en 5,0, dus
+dat verschil is groter dan de spreiding die de site laat zien.
+
+**Norm:**
+
+```json
+"vermogen_kw": 5, "vermogen_conditie": "Prated",
+"scop": 4.7,      "scop_conditie": "35"
+```
+
+- `vermogen_kw` is Prated volgens EU 811/2013: het vermogen bij de
+  ontwerpbuitentemperatuur (-10 graden bij gemiddeld klimaat).
+- `scop` is de labelwaarde bij 35 graden aanvoer, gemiddeld klimaat.
+
+Waarom Prated en niet letterlijk A-7/W35, wat inhoudelijk de vraag is: dat
+laatste staat in datasheets en lang niet elke fabrikant publiceert het. Prated
+staat voor elke pomp in de ISDE-meldcodelijst van RVO, is in Europese
+regelgeving gedefinieerd, en is het getal waarop de Nederlandse subsidie is
+gebaseerd. Het meet hetzelfde wat we willen weten - haalt deze pomp het op een
+koude dag - maar uit een bron die volledig en controleerbaar is.
+
+Dat is meteen de route om dit in te vullen: **alle dertig pompen hebben al een
+`isde_meldcode`.** De meldcodelijst van RVO koppelt die code aan het thermisch
+vermogen volgens EU 811/2013. Dat maakt dit geen dertig keer handwerk maar een
+script, net zoals de bol-API dat voor de batterijprijzen is.
+
+`npm run condities` laat zien hoever we zijn.
+
 ## Capaciteitsvarianten van hetzelfde systeem: één regel
 
 De Huawei LUNA2000 staat in 7, 10 en 15 kWh in de schappen. Die krijgen samen

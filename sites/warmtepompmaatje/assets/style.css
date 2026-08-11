@@ -1571,3 +1571,18 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   }
 
 }
+
+/* Onder welke omstandigheden een getal geldt. Alleen zichtbaar waar dat is
+   vastgesteld of waar de opgave aantoonbaar vleit; de legenda zegt een keer
+   wat er geldt als er niets staat. Zie assets/condities.js. */
+.maat-bevestigd,
+.maat-bruto {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 999px;
+  white-space: nowrap;
+  vertical-align: 1px;
+}
+.maat-bevestigd { background: var(--kleur-accent-licht); color: var(--kleur-accent); }
+.maat-bruto { background: var(--kleur-rand); color: var(--kleur-tekst-licht); }

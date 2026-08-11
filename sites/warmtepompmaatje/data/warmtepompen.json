@@ -267,7 +267,8 @@
           "isde_eur": 3925,
           "meldcode": "KA32101"
         }
-      ]
+      ],
+      "scop_conditie": "35"
     },
     {
       "id": "viessmann-vitocal-250a",
@@ -334,7 +335,8 @@
           "isde_eur": 2575,
           "meldcode": "KA28388"
         }
-      ]
+      ],
+      "scop_conditie": "35"
     },
     {
       "id": "nibe-s2125",
@@ -882,7 +884,8 @@
           "isde_eur": 3950,
           "meldcode": "KA29827"
         }
-      ]
+      ],
+      "scop_conditie": "35"
     },
     {
       "id": "wolf-cha-07",
@@ -942,7 +945,8 @@
           "isde_eur": 3025,
           "meldcode": "KA15252"
         }
-      ]
+      ],
+      "scop_conditie": "35"
     },
     {
       "id": "itho-amber-95",
@@ -1013,7 +1017,8 @@
           "isde_eur": 3025,
           "meldcode": "KA24522"
         }
-      ]
+      ],
+      "scop_conditie": "35"
     },
     {
       "id": "inventum-ecolution-combi",
@@ -1129,7 +1134,8 @@
           "isde_eur": 3925,
           "meldcode": "KA22407"
         }
-      ]
+      ],
+      "scop_conditie": "35"
     },
     {
       "id": "atag-energion-m-hybrid",
@@ -1403,7 +1409,8 @@
           "meldcode": "KA20245"
         }
       ],
-      "prijs_datum": "2026-08-11"
+      "prijs_datum": "2026-08-11",
+      "scop_conditie": "35"
     },
     {
       "id": "dewarmte-pomp-ao",

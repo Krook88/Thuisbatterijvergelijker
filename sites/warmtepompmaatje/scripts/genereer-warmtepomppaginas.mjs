@@ -17,6 +17,9 @@ const Iconen = vereis("../assets/iconen.js");
 // En dezelfde prijslogica, zodat een pomppagina nooit een ander bedrag
 // noemt dan de kaart in de vergelijker.
 const Prijs = vereis("../assets/prijs.js");
+// En dezelfde regels over onder welke omstandigheden een getal geldt, zodat
+// het label op een pomppagina niet iets anders zegt dan op de kaart.
+const Condities = vereis("../assets/condities.js");
 // En dezelfde kaartopmaak, zodat de voorgerenderde kaarten in index.html niet
 // kunnen afwijken van wat de browser tekent.
 const Kaart = vereis("../assets/kaart.js");
@@ -214,8 +217,8 @@ ${kop("index", true)}
       <h2 class="kop-aansluitend">Specificaties</h2>
       <table class="spec-tabel">
         ${specRij("Type", w.type === "hybride" ? "Hybride (naast de cv-ketel)" : "All-electric (van het gas af)")}
-        ${specRij("Vermogen", w.vermogen_kw ? `${String(w.vermogen_kw).replace(".", ",")} kW` : null)}
-        ${specRij("Rendement (SCOP)", w.scop ? `${String(w.scop).replace(".", ",")}${w.scop_toelichting ? ` <small>(${esc(w.scop_toelichting)})</small>` : ""}` : (w.scop_toelichting ? esc(w.scop_toelichting) : null))}
+        ${specRij("Vermogen", w.vermogen_kw ? `${String(w.vermogen_kw).replace(".", ",")} kW${Condities.labelHtml("vermogen", w)}` : null)}
+        ${specRij("Rendement (SCOP)", w.scop ? `${String(w.scop).replace(".", ",")}${Condities.labelHtml("scop", w)}${w.scop_toelichting ? ` <small>(${esc(w.scop_toelichting)})</small>` : ""}` : (w.scop_toelichting ? esc(w.scop_toelichting) : null))}
         ${specRij("Geluid buitenunit", w.geluid_db ? `${w.geluid_db} dB(A)${w.geluid_toelichting ? ` <small>(${esc(w.geluid_toelichting)})</small>` : ""}` : null)}
         ${specRij("Koudemiddel", w.koudemiddel ? esc(w.koudemiddel) : null)}
         ${specRij("Warm tapwater", typeof w.tapwater === "string" ? esc(w.tapwater) : d3html(w.tapwater))}
