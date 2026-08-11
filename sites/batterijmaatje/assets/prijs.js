@@ -36,7 +36,9 @@
      batterij.capaciteit_soort   Waar het getal in capaciteit_kwh vandaan komt:
                                  "bruikbaar"  = wat je er echt uit haalt (de norm)
                                  "nominaal"   = de bruto pakketmaat
-                                 weggelaten   = niet vastgesteld
+                                 "onbekend"   = nagezocht, maar de fabrikant
+                                                publiceert het niet
+                                 weggelaten   = nog niet nagekeken
                                  Zie hieronder waarom dit een apart veld is.
      batterij.capaciteit_nominaal_kwh
                                  De bruto opgave, als die bekend is naast de
@@ -153,6 +155,9 @@
     if (b.capaciteit_soort === "bruikbaar") return null;
     if (b.capaciteit_soort === "nominaal") {
       return "fabrieksopgave bruto; bruikbaar ligt lager";
+    }
+    if (b.capaciteit_soort === "onbekend") {
+      return "de fabrikant publiceert niet hoeveel hiervan bruikbaar is";
     }
     return "niet vastgesteld of dit de bruto- of de bruikbare capaciteit is";
   }

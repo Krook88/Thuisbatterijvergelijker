@@ -35,10 +35,11 @@ const STRENG = process.argv.includes("--streng");
 const data = JSON.parse(readFileSync(DATA_PAD, "utf8"));
 const modellen = (data.batterijen || []).filter((b) => typeof b.capaciteit_kwh === "number");
 
-const perSoort = { bruikbaar: [], nominaal: [], onvastgesteld: [] };
+const perSoort = { bruikbaar: [], nominaal: [], onbekend: [], onvastgesteld: [] };
 for (const b of modellen) {
   const soort = b.capaciteit_soort === "bruikbaar" ? "bruikbaar"
     : b.capaciteit_soort === "nominaal" ? "nominaal"
+    : b.capaciteit_soort === "onbekend" ? "onbekend"
     : "onvastgesteld";
   perSoort[soort].push(b);
 }
@@ -49,8 +50,9 @@ const verdacht = perSoort.onvastgesteld.filter(lijktNominaal);
 
 console.log(`capaciteit van ${modellen.length} modellen:`);
 console.log(`  ${String(perSoort.bruikbaar.length).padStart(3)}  bruikbaar, vastgesteld`);
-console.log(`  ${String(perSoort.nominaal.length).padStart(3)}  nominaal, bruikbaar nog onbekend`);
-console.log(`  ${String(perSoort.onvastgesteld.length).padStart(3)}  niet vastgesteld`);
+console.log(`  ${String(perSoort.nominaal.length).padStart(3)}  nominaal, bruikbaar niet gepubliceerd`);
+console.log(`  ${String(perSoort.onbekend.length).padStart(3)}  nagezocht, fabrikant publiceert het niet`);
+console.log(`  ${String(perSoort.onvastgesteld.length).padStart(3)}  nog niet nagekeken`);
 
 if (verdacht.length) {
   console.log(`\nhier eerst kijken - de maat valt op een veelvoud van 1,28 kWh, wat op een`);
