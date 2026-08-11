@@ -1,27 +1,13 @@
 {
-  "name": "batterijmaatje",
+  "name": "maatje-sites",
   "version": "1.0.0",
   "private": true,
-  "description": "Statische vergelijkingssite voor thuisbatterijen. Dit bestand bestaat alleen voor de serverloze functie achter het contactformulier; de site zelf heeft geen build-stap.",
+  "description": "Drie vergelijkingssites (batterijmaatje.nl, zonnestroommaatje.nl, warmtepompmaatje.nl) in één repository, met de gedeelde code in kern/. De sites zelf hebben geen build-stap.",
   "engines": {
     "node": ">=20"
   },
   "scripts": {
-    "genereer": "node scripts/genereer-batterijpaginas.mjs",
-    "prijzen": "node scripts/update-prices.mjs",
-    "links": "node scripts/controleer-links.mjs",
-    "links:intern": "node scripts/controleer-links.mjs --intern",
-    "meet": "node scripts/meet-site.mjs",
-    "meet:vergelijk": "node scripts/meet-site.mjs --vergelijk",
-    "beeld:voor": "node scripts/schermafdrukken.mjs --voor",
-    "beeld:na": "node scripts/schermafdrukken.mjs --na",
-    "beeld:verschil": "node scripts/schermafdrukken.mjs --verschil"
-  },
-  "dependencies": {
-    "nodemailer": "^9.0.3"
-  },
-  "devDependencies": {
-    "playwright": "^1.49.0",
-    "sharp": "^0.33.5"
+    "kern:verdeel": "node scripts/kern-verdelen.mjs",
+    "kern:controleer": "node scripts/kern-verdelen.mjs --controleer"
   }
 }

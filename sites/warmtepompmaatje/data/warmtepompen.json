@@ -1,0 +1,1714 @@
+{
+  "laatst_bijgewerkt": "2026-07-30",
+  "toelichting": "Winkelprijzen betreffen het losse toestel (soms alleen de buitenunit) van de genoemde winkel en worden dagelijks automatisch gecontroleerd; de controledatum staat erbij, zonder datum is de prijs een indicatie. Richtprijzen zijn indicatief voor het losse toestel (incl. btw, excl. installatie) van de genoemde variant; complete installaties kosten fors meer. ISDE-bedragen zijn indicaties op basis van de subsidieregels 2026 (basisbedrag plus bedrag per kW plus eventuele labelbonus); het exacte bedrag staat per meldcode op de apparatenlijst van RVO en is altijd leidend. Geluidswaarden zijn het geluidsvermogen van de buitenunit volgens het energielabel of de datasheet; op de erfgrens geldt 's nachts een eis van 40 dB. Koppelingsinformatie (Home Assistant, Homey, aansturing) kan per firmware- en appversie veranderen; controleer vóór aankoop de actuele status.",
+  "warmtepompen": [
+    {
+      "id": "remeha-elga-ace",
+      "merk": "Remeha",
+      "model": "Elga Ace",
+      "type": "hybride",
+      "voorbeeld_variant": "Elga Ace 4,0 kW (monoblock)",
+      "vermogen_kw": 4,
+      "scop_toelichting": "hoge COP bij lage aanvoertemperatuur; werkt samen met de cv-ketel",
+      "geluid_db": 58,
+      "geluid_toelichting": "geluidsvermogen buitenunit volgens label; met stille modus voor de nacht",
+      "koudemiddel": "R32",
+      "tapwater": "via de cv-ketel",
+      "max_aanvoer_c": 55,
+      "richtprijs_eur": 3299,
+      "prijs_toelichting": "buitenunit + binnenmodule, excl. installatie en cv-ketel",
+      "isde_indicatie_eur": 1700,
+      "sturing": {
+        "status": "deels",
+        "tekst": "OpenTherm-aansturing samen met de cv-ketel; geen open lokale API of Modbus voor derden."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Geen officiële integratie; uit te lezen en te sturen via een OpenTherm Gateway of de slimme thermostaat die de installatie aanstuurt."
+      },
+      "homey": {
+        "status": "deels",
+        "tekst": "Geen eigen app; aansturing loopt via de (OpenTherm-)thermostaat, en het verbruik is zichtbaar via de Homey Energy Dongle (P1)."
+      },
+      "app": "eTwist / Remeha Home",
+      "garantie_jaar": 5,
+      "opmerkingen": "De meest verkochte hybride van Nederland, en dat merk je vooral aan het gemak: vrijwel elke installateur kent hem en heeft er onderdelen voor liggen. Hij praat via OpenTherm met je bestaande cv-ketel, dus je hoeft die niet te vervangen. Met 58 dB(A) hoort hij wel bij de luidruchtiger toestellen hier.",
+      "product_url": "https://www.remeha.nl/product/elga-ace",
+      "aanbiedingen": [
+        {
+          "winkel": "123Klimaatshop",
+          "prijs_eur": 3299,
+          "url": "https://www.123klimaatshop.nl/product/remeha-elga-ace-hybride-warmtepomp-40-kw/",
+          "datum": "2026-07-30"
+        }
+      ],
+      "prijs_datum": "2026-07-30",
+      "isde_meldcode": "KA17438",
+      "varianten": [
+        {
+          "vermogen_kw": 3,
+          "isde_eur": 1700,
+          "meldcode": "KA17438"
+        },
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2150,
+          "meldcode": "KA17439"
+        }
+      ]
+    },
+    {
+      "id": "daikin-altherma-hybrid",
+      "merk": "Daikin",
+      "model": "Altherma H Hybride",
+      "type": "hybride",
+      "voorbeeld_variant": "Altherma H Hybride 4 kW (monoblock, EJHA04AV3)",
+      "vermogen_kw": 4,
+      "scop_toelichting": "sterk in grotere woningen; koppelt met een Daikin-gasketel of bestaande ketel",
+      "geluid_db": 59,
+      "geluid_toelichting": "geluidsvermogen buitenunit volgens label; stille nachtstand instelbaar",
+      "koudemiddel": "R32",
+      "tapwater": "via de cv-ketel",
+      "max_aanvoer_c": 55,
+      "richtprijs_eur": 3800,
+      "prijs_toelichting": "los toestel, excl. installatie en cv-ketel",
+      "isde_indicatie_eur": 1700,
+      "sturing": {
+        "status": "deels",
+        "tekst": "Aansturing via de Daikin-regelaar en Onecta-cloud; Madoka-thermostaat, geen open Modbus voor derden."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Veelgebruikte community-integratie (Daikin Onecta via HACS, cloud); lokaal kan het via het P1/P2-busproject voor gevorderden."
+      },
+      "homey": {
+        "status": "deels",
+        "tekst": "Community-app voor Daikin (Onecta-cloud) in de Homey App Store."
+      },
+      "app": "Daikin Onecta",
+      "garantie_jaar": 5,
+      "opmerkingen": "Een monoblock die naast je cv-ketel komt te hangen: al het koudemiddel zit in de buitenunit, binnen loopt alleen water. Van alle pompen hier is dit met 59 dB(A) de luidste, dus met de buren dichtbij is dit niet je eerste keus. Let op de naam: Daikin heeft ook een R Hybride, en dat is een split met een aparte binnenunit.",
+      "product_url": "https://www.daikin.nl/nl_nl/producten/altherma.html",
+      "aanbiedingen": [
+        {
+          "winkel": "Coen+",
+          "prijs_eur": 3343,
+          "url": "https://www.coen-plus.nl/daikin-altherma-hybride-warmtepomp-4kw-monoblock.html",
+          "datum": "2026-07-30"
+        }
+      ],
+      "prijs_datum": "2026-07-30",
+      "isde_meldcode": "KA14853"
+    },
+    {
+      "id": "quatt-hybrid",
+      "merk": "Quatt",
+      "model": "Quatt hybride (Duo mogelijk)",
+      "type": "hybride",
+      "voorbeeld_variant": "Quatt Single (Duo voor grotere woningen)",
+      "vermogen_kw": 4.5,
+      "scop_toelichting": "hoge praktijkrendementen door slimme cloud-aansturing (Quatt CIC)",
+      "geluid_db": 56,
+      "geluid_toelichting": "geluidsvermogen buitenunit volgens datasheet; nachtmodus via de app",
+      "koudemiddel": "R32",
+      "tapwater": "via de cv-ketel",
+      "max_aanvoer_c": 55,
+      "richtprijs_eur": 3500,
+      "prijs_toelichting": "indicatie toestel; Quatt verkoopt vooral compleet geïnstalleerd (circa € 4.500 tot € 6.500 incl. montage, vóór subsidie)",
+      "isde_indicatie_eur": 2125,
+      "sturing": {
+        "status": "deels",
+        "tekst": "Slimme aansturing via de eigen Quatt CIC (internet vereist); geen open lokale API, wel een lokaal uitleesbare statuspagina."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Populaire community-integratie (HACS) die de Quatt CIC lokaal uitleest; geen officiële integratie."
+      },
+      "homey": {
+        "status": "ja",
+        "tekst": "Quatt-app in de Homey App Store: zie wanneer de warmtepomp draait en gebruik dat in flows."
+      },
+      "app": "Quatt-app",
+      "garantie_jaar": 7,
+      "opmerkingen": "De Nederlandse uitdager die het anders aanpakt: je koopt geen toestel maar een pakket, met vaste prijs, installatie, monitoring en app. Dat maakt vergelijken lastig - de prijs hiernaast dekt meer dan bij de anderen. Als enige hybride hier heeft hij een eigen Homey-app. Voor grotere woningen bestaat een Duo met twee buitenunits.",
+      "product_url": "https://www.quatt.io/",
+      "isde_meldcode": "KA21789",
+      "aanbiedingen": [
+        {
+          "winkel": "Quatt",
+          "url": "https://www.quatt.io/hybride-warmtepomp",
+          "prijs_eur": 4249,
+          "datum": "2026-07-30",
+          "omvat": "Quatt verkoopt rechtstreeks en altijd inclusief basisinstallatie; de richtprijs hiernaast geldt voor het losse toestel."
+        }
+      ],
+      "prijs_datum": "2026-07-30"
+    },
+    {
+      "id": "intergas-xtend",
+      "merk": "Intergas",
+      "model": "Xtend",
+      "type": "hybride",
+      "voorbeeld_variant": "Xtend 4,5 kW (monoblock)",
+      "vermogen_kw": 4.5,
+      "scop_toelichting": "ontworpen als één systeem met de Intergas-ketel; slimme pendelregeling",
+      "geluid_db": 57,
+      "geluid_toelichting": "geluidsvermogen buitenunit volgens label",
+      "koudemiddel": "R32",
+      "tapwater": "via de cv-ketel",
+      "max_aanvoer_c": 55,
+      "richtprijs_eur": 3100,
+      "prijs_toelichting": "los toestel, excl. installatie; het voordeligst in combinatie met een Intergas-ketel",
+      "isde_indicatie_eur": 1925,
+      "sturing": {
+        "status": "deels",
+        "tekst": "OpenTherm-regeling met de (Intergas-)ketel; geen open lokale API voor derden."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Geen officiële integratie; via een OpenTherm Gateway of de aansturende slimme thermostaat."
+      },
+      "homey": {
+        "status": "deels",
+        "tekst": "Geen eigen app; via de thermostaat of de Homey Energy Dongle (P1) voor het verbruik."
+      },
+      "app": "Comfort Touch / thermostaat-app",
+      "garantie_jaar": 5,
+      "opmerkingen": "Scherp geprijsd, en het meest logisch als er al een Intergas-ketel hangt: dan werken pomp en ketel uit dezelfde koker samen. Nederlandse makelij, ruim verkrijgbaar. Aanvoertemperatuur tot 55 graden, dus je cv-ketel blijft het zware werk doen op de koudste dagen.",
+      "product_url": "https://www.intergas-verwarming.nl/consument/producten/xtend/",
+      "aanbiedingen": [
+        {
+          "winkel": "123Klimaatshop",
+          "url": "https://www.123klimaatshop.nl/product/intergas-hybride-xtend-lucht-water-warmtepomp-50-kw/",
+          "prijs_eur": 2749,
+          "datum": "2026-07-30"
+        }
+      ],
+      "isde_meldcode": "KA22154",
+      "prijs_datum": "2026-07-30"
+    },
+    {
+      "id": "vaillant-arotherm-plus",
+      "merk": "Vaillant",
+      "model": "aroTHERM plus",
+      "type": "all-electric",
+      "voorbeeld_variant": "aroTHERM plus 5 kW (monoblock)",
+      "vermogen_kw": 5,
+      "scop": 4.7,
+      "scop_toelichting": "SCOP circa 4,65 tot 4,9 bij 35 °C aanvoer; A+++",
+      "geluid_db": 54,
+      "geluid_toelichting": "een van de stillere all-electrics: circa 44 dB(A) geluidsdruk op 3 m, geluidsvermogen circa 54 dB(A)",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "aparte boiler (uniSTOR) nodig",
+      "max_aanvoer_c": 75,
+      "richtprijs_eur": 7300,
+      "prijs_toelichting": "toestel met binnenmodule, excl. boiler en installatie",
+      "isde_indicatie_eur": 2125,
+      "sturing": {
+        "status": "ja",
+        "tekst": "SG-ready en via de eBUS volledig lokaal aan te sturen (ebusd); uitgebreide regelaar (sensoCOMFORT)."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Sterke community-routes: myVAILLANT-integratie (cloud, HACS) of volledig lokaal via ebusd; geen officiële integratie."
+      },
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen bekende Homey-app; verbruik zichtbaar via de Homey Energy Dongle (P1)."
+      },
+      "app": "myVAILLANT",
+      "garantie_jaar": 10,
+      "opmerkingen": "Kan tot 75 graden aanvoeren, en dat is precies waarom hij zo populair is bij renovatie: je bestaande radiatoren kunnen vaak gewoon blijven hangen. Draait op propaan en is met 54 dB(A) aan de stille kant. De koppeling is minder open dan het merk doet vermoeden - Home Assistant lukt alleen via een omweg en een Homey-app is er niet.",
+      "product_url": "https://www.vaillant.nl/consument/producten/arotherm-plus/",
+      "aanbiedingen": [
+        {
+          "winkel": "Woon op Stroom",
+          "url": "https://woonopstroom.nl/products/vaillant-arotherm-plus-vwl-55-6-a-230v-5-4-kw",
+          "prijs_eur": 4513,
+          "datum": "2026-07-30",
+          "omvat": "Dit is de losse buitenunit; de richtprijs hiernaast geldt voor een compleet systeem met binnenunit."
+        }
+      ],
+      "isde_meldcode": "KA16912",
+      "prijs_datum": "2026-07-30",
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA17542"
+        },
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA32102"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA32104"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA32105"
+        },
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3250,
+          "meldcode": "KA17541"
+        },
+        {
+          "vermogen_kw": 11,
+          "isde_eur": 3700,
+          "meldcode": "KA32099"
+        },
+        {
+          "vermogen_kw": 12,
+          "isde_eur": 3925,
+          "meldcode": "KA32101"
+        }
+      ]
+    },
+    {
+      "id": "viessmann-vitocal-250a",
+      "merk": "Viessmann",
+      "model": "Vitocal 250-A",
+      "type": "all-electric",
+      "voorbeeld_variant": "Vitocal 250-A 6 kW (monoblock)",
+      "vermogen_kw": 6,
+      "scop": 5,
+      "scop_toelichting": "SCOP-waarden rond of boven 5,0 bij 35 °C aanvoer; A+++",
+      "geluid_db": 54,
+      "geluid_toelichting": "stille buitenunit met nachtmodus; geluidsvermogen circa 54 dB(A)",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "aparte boiler of hydro-toren",
+      "max_aanvoer_c": 70,
+      "richtprijs_eur": 8500,
+      "prijs_toelichting": "toestel met binnenunit, excl. boiler en installatie",
+      "isde_indicatie_eur": 2575,
+      "sturing": {
+        "status": "ja",
+        "tekst": "SG-ready; uitgebreide regeling via de Vitocal-regelaar en ViCare-platform."
+      },
+      "home_assistant": {
+        "status": "ja",
+        "tekst": "Officiële ViCare-integratie in Home Assistant (cloud-API): temperaturen, bedrijfsmodus en tapwater."
+      },
+      "homey": {
+        "status": "deels",
+        "tekst": "Community-app voor ViCare in de Homey App Store (cloud)."
+      },
+      "app": "ViCare",
+      "garantie_jaar": 5,
+      "opmerkingen": "Hoog rendement, propaan als koudemiddel en 70 graden aanvoer: geschikt voor bestaande bouw zonder dat de radiatoren eruit moeten. Sterk punt is de koppeling: officiële Home Assistant-integratie én open aansturing, iets wat lang niet elk merk biedt. Garantie is via de installateur uit te breiden.",
+      "product_url": "https://www.viessmann.nl/nl/producten/warmtepomp/vitocal-250-a.html",
+      "aanbiedingen": [
+        {
+          "winkel": "Gewoon Gasvrij",
+          "prijs_eur": 11325,
+          "url": "https://www.gewoongasvrij.nl/product/viessmann-vitocal-warmtepomp-250a-251-a06-230v-4-8-kw/",
+          "datum": "2026-07-30"
+        },
+        {
+          "winkel": "CV Dump",
+          "prijs_eur": 8431,
+          "url": "https://cvdump.nl/product/viessmann-vitocal-250-a-warmtepomp/",
+          "datum": "2026-07-30"
+        }
+      ],
+      "prijs_datum": "2026-07-30",
+      "isde_meldcode": "KA28388",
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA28431"
+        },
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA28432"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA28388"
+        }
+      ]
+    },
+    {
+      "id": "nibe-s2125",
+      "merk": "NIBE",
+      "model": "S2125",
+      "type": "all-electric",
+      "voorbeeld_variant": "S2125-8 (monoblock) met SVM-binnenunit",
+      "vermogen_kw": 8,
+      "scop": 4.8,
+      "scop_toelichting": "hoog seizoensrendement; A+++",
+      "geluid_db": 53,
+      "geluid_toelichting": "geldt als een van de stilste buitenunits (circa 43 dB(A) geluidsdruk op afstand volgens tests)",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "via de binnenunit met geïntegreerde boiler",
+      "max_aanvoer_c": 75,
+      "richtprijs_eur": 9500,
+      "prijs_toelichting": "buitenunit + binnenunit, excl. installatie",
+      "isde_indicatie_eur": 2350,
+      "sturing": {
+        "status": "ja",
+        "tekst": "SG-ready en Modbus; uitgebreide eigen regelaar met weersafhankelijke regeling."
+      },
+      "home_assistant": {
+        "status": "ja",
+        "tekst": "Officiële myUplink-integratie in Home Assistant (cloud-API); lokaal kan via Modbus."
+      },
+      "homey": {
+        "status": "ja",
+        "tekst": "Meerdere NIBE/myUplink-apps in de Homey App Store voor uitlezen en flows."
+      },
+      "app": "myUplink",
+      "garantie_jaar": 5,
+      "opmerkingen": "Gebouwd voor Zweedse winters, en dat zie je terug: 75 graden aanvoer en 53 dB(A) maken hem stil én geschikt voor bestaande radiatoren. Op koppelbaarheid scoort hij het maximum - officiële integratie met zowel Home Assistant als Homey, plus open aansturing. Je betaalt er wel voor.",
+      "product_url": "https://www.nibenl.eu/nl-nl/producten/warmtepompen/lucht-water-warmtepompen/nibe-s2125",
+      "aanbiedingen": [
+        {
+          "winkel": "123Klimaatshop",
+          "prijs_eur": 9199,
+          "url": "https://www.123klimaatshop.nl/product/nibe-s2125-8-lucht-water-monoblock-warmtepomp-67-kw-exclusief-binnen-unit-1x230v/",
+          "datum": "2026-07-30"
+        }
+      ],
+      "isde_meldcode": "KA20867",
+      "varianten": [
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA20867"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA20866"
+        },
+        {
+          "vermogen_kw": 10,
+          "isde_eur": 3475,
+          "meldcode": "KA30934"
+        },
+        {
+          "vermogen_kw": 11,
+          "isde_eur": 3700,
+          "meldcode": "KA30935"
+        }
+      ],
+      "prijs_datum": "2026-07-30"
+    },
+    {
+      "id": "mitsubishi-ecodan",
+      "merk": "Mitsubishi Electric",
+      "model": "Ecodan (R290)",
+      "type": "all-electric",
+      "voorbeeld_variant": "Ecodan 6 kW (monoblock) met hydrobox",
+      "vermogen_kw": 6,
+      "scop": 4.8,
+      "scop_toelichting": "hoog rendement; Ultra Quiet-uitvoeringen beschikbaar",
+      "geluid_db": 55,
+      "geluid_toelichting": "Ultra Quiet-modellen behoren tot de stilste in hun klasse",
+      "koudemiddel": "R290 (natuurlijk, nieuwste generatie)",
+      "tapwater": "via hydrobox met boiler",
+      "max_aanvoer_c": 70,
+      "richtprijs_eur": 8000,
+      "prijs_toelichting": "buitenunit + hydrobox, excl. installatie",
+      "isde_indicatie_eur": 2350,
+      "sturing": {
+        "status": "ja",
+        "tekst": "SG-ready en Modbus via interface; MELCloud-regeling standaard."
+      },
+      "home_assistant": {
+        "status": "ja",
+        "tekst": "MELCloud-integratie in Home Assistant (cloud); ook lokale routes via de CN105-aansluiting bekend uit de community."
+      },
+      "homey": {
+        "status": "ja",
+        "tekst": "MELCloud-app in de Homey App Store, plus een MELCloud Optimizer die op dynamische stroomprijzen stuurt."
+      },
+      "app": "MELCloud",
+      "garantie_jaar": 5,
+      "opmerkingen": "Ook 6 van de 6 op koppelbaarheid: officieel ondersteund in Home Assistant én Homey, met open aansturing erbij. Draait op propaan, kan 70 graden aanvoeren en heeft een van de breedste installateursnetwerken van Nederland - handig als er over tien jaar iets stukgaat.",
+      "product_url": "https://www.mitsubishi-electric.nl/warmtepompen/producten/ecodan",
+      "aanbiedingen": [
+        {
+          "winkel": "GroupSumi",
+          "url": "https://groupsumi.nl/airconditioning/aerotherm/monoblock-lucht-water-warmtepomp/monobloc-lucht-water-warmtepomp-mitsubishi-ecodan-puz-wz-r290-6-kw-puz-wz60vaa-bs",
+          "prijs_eur": 4042,
+          "datum": "2026-07-30",
+          "btw_inbegrepen": false,
+          "omvat": "Dit is de kale monoblock zonder hydrobox; de richtprijs hiernaast geldt voor het complete systeem."
+        }
+      ],
+      "isde_meldcode": "KA27330",
+      "prijs_datum": "2026-07-30",
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA27326"
+        },
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA27330"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA27334"
+        }
+      ]
+    },
+    {
+      "id": "daikin-altherma-3",
+      "merk": "Daikin",
+      "model": "Altherma 3 R",
+      "type": "all-electric",
+      "voorbeeld_variant": "Altherma 3 R 6 kW met hydrobox",
+      "vermogen_kw": 6,
+      "scop": 4.6,
+      "scop_toelichting": "bewezen platform, breed leverbaar in vermogens 4 tot 8 kW",
+      "geluid_db": 58,
+      "geluid_toelichting": "geluidsvermogen buitenunit volgens label; nachtstand instelbaar",
+      "koudemiddel": "R32",
+      "tapwater": "via hydrobox of aparte boiler",
+      "max_aanvoer_c": 65,
+      "richtprijs_eur": 7000,
+      "prijs_toelichting": "buitenunit + binnenunit, excl. boiler en installatie",
+      "isde_indicatie_eur": 2575,
+      "sturing": {
+        "status": "deels",
+        "tekst": "SG-ready contact; verdere regeling via de Daikin-regelaar en Onecta-cloud."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Community-integratie Daikin Onecta (HACS, cloud); lokaal via het P1/P2-busproject voor gevorderden."
+      },
+      "homey": {
+        "status": "deels",
+        "tekst": "Community-app voor Daikin (Onecta-cloud) in de Homey App Store."
+      },
+      "app": "Daikin Onecta",
+      "garantie_jaar": 5,
+      "opmerkingen": "Het meest geïnstalleerde all-electric platform van Nederland, dus overal monteurs en onderdelen. Daar staat tegenover dat hij op R32 draait en tot 65 graden komt, waar nieuwere concurrenten propaan gebruiken en verder komen. De opvolger op R290 is inmiddels onderweg.",
+      "product_url": "https://www.daikin.nl/nl_nl/producten/altherma.html",
+      "isde_meldcode": "KA22094",
+      "aanbiedingen": [
+        {
+          "winkel": "KliMate",
+          "url": "https://www.klimate.nl/daikin-altherma-3-r-w-lucht-water-warmtepomp-split-unit-6-kw.html",
+          "prijs_eur": 5414,
+          "datum": "2026-07-30"
+        }
+      ],
+      "prijs_datum": "2026-07-30",
+      "varianten": [
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA22093"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA22094"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA22095"
+        }
+      ]
+    },
+    {
+      "id": "bosch-compress-5800i",
+      "merk": "Bosch",
+      "model": "Compress 5800i AW",
+      "type": "all-electric",
+      "voorbeeld_variant": "Compress 5800i AW 5 kW (monoblock)",
+      "vermogen_kw": 5,
+      "scop": 4.8,
+      "scop_toelichting": "A+++; geldt als een van de stilste warmtepompen van dit moment",
+      "geluid_db": 51,
+      "geluid_toelichting": "zeer stil ontwerp; geluidsvermogen tot circa 51 dB(A) volgens datasheet",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "aparte boiler of tower-binnenunit",
+      "max_aanvoer_c": 75,
+      "richtprijs_eur": 7800,
+      "prijs_toelichting": "compleet toestel, excl. boiler en installatie",
+      "isde_indicatie_eur": 2375,
+      "sturing": {
+        "status": "ja",
+        "tekst": "SG-ready en EEBUS; energiemanagers van derden kunnen hem aansturen."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Via de community: EMS-ESP leest de Bosch/Nefit EMS-bus volledig lokaal uit; officiële integratie ontbreekt (wel HomeCom-cloud)."
+      },
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen bekende Homey-app; verbruik zichtbaar via de Homey Energy Dongle (P1)."
+      },
+      "app": "Bosch HomeCom Easy",
+      "garantie_jaar": 5,
+      "opmerkingen": "Met 51 dB(A) de stilste pomp in deze vergelijking op de Inventum na, en die laatste is een heel ander type. Als je buren dichtbij wonen of de unit onder een slaapkamerraam komt, is dat het argument. Propaan, 75 graden aanvoer, en in Nederland ook via de Nefit-kanalen te krijgen.",
+      "product_url": "https://www.nefit-bosch.nl/producten/warmtepompen/compress-5800i-aw/",
+      "aanbiedingen": [
+        {
+          "winkel": "Aircozonderstek",
+          "url": "https://www.aircozonderstek.nl/product/nefit-bosch-compress-5800i-aw-5-or-s-buitenunit/",
+          "prijs_eur": 5695,
+          "datum": "2026-07-30",
+          "omvat": "Dit is de losse buitenunit van de 5 kW-uitvoering; de richtprijs hiernaast geldt voor het complete toestel."
+        },
+        {
+          "winkel": "Woonwijzerwinkel",
+          "prijs_eur": 7500,
+          "url": "https://www.woonwijzerwinkel.nl/product/nefit-bosch-monoblock-compress-5800i-aw/",
+          "datum": null
+        }
+      ],
+      "prijs_datum": "2026-07-30",
+      "isde_meldcode": "KA28185",
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA28184"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2375,
+          "meldcode": "KA28185"
+        },
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3050,
+          "meldcode": "KA30141"
+        }
+      ]
+    },
+    {
+      "id": "panasonic-aquarea-l",
+      "merk": "Panasonic",
+      "model": "Aquarea L-generatie",
+      "type": "all-electric",
+      "voorbeeld_variant": "Aquarea L 5 kW (monoblock)",
+      "vermogen_kw": 5,
+      "scop": 4.7,
+      "scop_toelichting": "A+++; hoge aanvoertemperatuur voor bestaande bouw",
+      "geluid_db": 56,
+      "geluid_toelichting": "geluidsvermogen buitenunit volgens label; stille modus instelbaar",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "aparte boiler of all-in-one binnenunit",
+      "max_aanvoer_c": 75,
+      "richtprijs_eur": 7200,
+      "prijs_toelichting": "buitenunit + binnenunit, excl. boiler en installatie",
+      "isde_indicatie_eur": 2350,
+      "sturing": {
+        "status": "ja",
+        "tekst": "SG-ready; via de CZ-TAW1-module op de Aquarea-cloud, of volledig lokaal via HeishaMon."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Grote community: HeishaMon (volledig lokaal, zeer uitgebreid) of de Aquarea Smart Cloud-integratie; geen officiële integratie."
+      },
+      "homey": {
+        "status": "deels",
+        "tekst": "Community-app voor Aquarea Smart Cloud in de Homey App Store."
+      },
+      "app": "Aquarea Smart Cloud",
+      "garantie_jaar": 5,
+      "opmerkingen": "De favoriet van zelfbouwers, en dat komt door HeishaMon: een gratis, open source module waarmee je de pomp volledig lokaal uitleest en aanstuurt, zonder cloud. Officieel is de Home Assistant-koppeling er niet, via die route wel. Propaan en 75 graden aanvoer.",
+      "product_url": "https://www.aircon.panasonic.eu/NL_nl/ranges/aquarea/",
+      "isde_meldcode": "KA26158",
+      "aanbiedingen": [
+        {
+          "winkel": "123Klimaatshop",
+          "url": "https://www.123klimaatshop.nl/product/panasonic-aquarea-kit-adc05l3e5-lucht-water-monoblock-warmtepomp-50-kw/",
+          "prijs_eur": 8899,
+          "datum": "2026-07-30"
+        }
+      ],
+      "varianten": [
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA26158"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA26159"
+        },
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA26160"
+        }
+      ],
+      "prijs_datum": "2026-07-30"
+    },
+    {
+      "id": "lg-therma-v",
+      "merk": "LG",
+      "model": "Therma V (R290)",
+      "type": "all-electric",
+      "voorbeeld_variant": "Therma V R290 Monobloc 7 kW (1-fase)",
+      "vermogen_kw": 7,
+      "scop": 4.7,
+      "scop_toelichting": "A+++; scherp geprijsd voor de specificaties",
+      "geluid_db": 56,
+      "geluid_toelichting": "geluidsvermogen buitenunit volgens label; stille nachtmodus",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "aparte boiler of IWT-binnenunit",
+      "max_aanvoer_c": 75,
+      "richtprijs_eur": 6500,
+      "prijs_toelichting": "buitenunit + binnenunit, excl. boiler en installatie",
+      "isde_indicatie_eur": 2800,
+      "sturing": {
+        "status": "deels",
+        "tekst": "SG-ready contact; verdere regeling via de LG-regelaar en ThinQ-cloud, Modbus via interface."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Via de officiële LG ThinQ-integratie (beperkte warmtepompfuncties) of lokaal via Modbus; community-ervaring wisselend per model."
+      },
+      "homey": {
+        "status": "deels",
+        "tekst": "LG ThinQ-app in de Homey App Store (functies per apparaat verschillend)."
+      },
+      "app": "LG ThinQ",
+      "garantie_jaar": 5,
+      "opmerkingen": "Veel techniek voor je geld: propaan, 75 graden aanvoer en A+++ voor een prijs waar de premiummerken niet bij in de buurt komen. De keerzijde zit in de service - het installateursnetwerk is kleiner dan bij Daikin of Remeha, en de koppeling loopt overal via een omweg.",
+      "product_url": "https://www.lg.com/nl/business/therma-v/",
+      "aanbiedingen": [
+        {
+          "winkel": "Aircoshop Nederland",
+          "prijs_eur": 6549,
+          "url": "https://aircoshopnl.nl/warmtepomp/monoblock-warmtepomp/lg-therma-v-monobloc-warmtepomp-r290-1-fase-70-kw/",
+          "datum": "2026-07-30"
+        }
+      ],
+      "prijs_datum": "2026-07-30",
+      "isde_meldcode": "KA29289"
+    },
+    {
+      "id": "samsung-ehs-mono-ht",
+      "merk": "Samsung",
+      "model": "EHS Mono HT Quiet",
+      "type": "all-electric",
+      "voorbeeld_variant": "EHS Mono HT Quiet 8 kW",
+      "vermogen_kw": 8,
+      "scop": 4.6,
+      "scop_toelichting": "A+++; ontworpen op stille werking (Quiet-modus)",
+      "geluid_db": 54,
+      "geluid_toelichting": "Quiet-modus verlaagt het geluid fors; geluidsvermogen circa 54 dB(A)",
+      "koudemiddel": "R32",
+      "tapwater": "aparte boiler of ClimateHub-binnenunit",
+      "max_aanvoer_c": 70,
+      "richtprijs_eur": 6800,
+      "prijs_toelichting": "buitenunit + regelset, excl. boiler en installatie",
+      "isde_indicatie_eur": 3025,
+      "sturing": {
+        "status": "ja",
+        "tekst": "SG-ready en Modbus (MIM-modules); daardoor goed in energiemanagementsystemen op te nemen."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Geen officiële integratie; sterke community-routes via Modbus en het EHS-Sentinel-project (lokaal)."
+      },
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen bekende Homey-app voor de EHS-lijn; verbruik zichtbaar via de Homey Energy Dongle (P1)."
+      },
+      "app": "SmartThings",
+      "garantie_jaar": 5,
+      "opmerkingen": "Levert tapwater tot 70 graden, dus bestaande radiatoren kunnen meestal blijven zitten. De Quiet-uitvoering mikt op rijtjeshuizen: 54 dB(A) is netjes voor dit vermogen. Slim aansturen kan, maar Home Assistant vraagt een omweg en een Homey-app is er niet.",
+      "product_url": "https://www.samsung.com/nl/climate/",
+      "isde_meldcode": "KA23536",
+      "aanbiedingen": [
+        {
+          "winkel": "CV Totaal",
+          "url": "https://www.cvtotaal.nl/samsung-ehs-mono-hoog-temperatuur-warmtepomp-8kw.html",
+          "prijs_eur": 8299,
+          "datum": "2026-07-30"
+        }
+      ],
+      "prijs_datum": "2026-07-30",
+      "varianten": [
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA23536"
+        },
+        {
+          "vermogen_kw": 11,
+          "isde_eur": 3700,
+          "meldcode": "KA23546"
+        },
+        {
+          "vermogen_kw": 12,
+          "isde_eur": 3925,
+          "meldcode": "KA23553"
+        }
+      ]
+    },
+    {
+      "id": "weheat-blackbird",
+      "merk": "Weheat",
+      "model": "Blackbird",
+      "type": "all-electric",
+      "voorbeeld_variant": "Blackbird 5 kW (monoblock)",
+      "vermogen_kw": 5,
+      "scop": 5,
+      "scop_toelichting": "Nederlandse nieuwkomer met zeer hoog opgegeven rendement",
+      "geluid_db": 54,
+      "geluid_toelichting": "stil ontwerp met grote, langzaam draaiende ventilator",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "aparte boiler",
+      "max_aanvoer_c": 70,
+      "richtprijs_eur": 7000,
+      "prijs_toelichting": "toestel, excl. boiler en installatie",
+      "isde_indicatie_eur": 2575,
+      "sturing": {
+        "status": "ja",
+        "tekst": "Open instelling: SG-ready en een gedocumenteerde koppeling voor energiemanagement."
+      },
+      "home_assistant": {
+        "status": "ja",
+        "tekst": "Officiële Weheat-integratie in Home Assistant (sinds eind 2024): temperaturen, vermogen en COP direct zichtbaar."
+      },
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen eigen Homey-app; community vraagt erom, verbruik zichtbaar via de Homey Energy Dongle (P1)."
+      },
+      "app": "Weheat-app",
+      "garantie_jaar": 7,
+      "opmerkingen": "Uit Delft, en gebouwd met een plat dak in gedachten: het liggende model valt nauwelijks op boven een dakkapel of carport. Officiële Home Assistant-ondersteuning is zeldzaam in deze markt en Weheat heeft het wel. Homey ontbreekt vooralsnog.",
+      "product_url": "https://www.weheat.nl/",
+      "isde_meldcode": "KA28196",
+      "aanbiedingen": [
+        {
+          "winkel": "Weheat",
+          "url": "https://www.weheat.nl/producten/blackbird",
+          "omvat": "Weheat verkoopt rechtstreeks aan de klant; er is geen tussenhandel."
+        }
+      ],
+      "varianten": [
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA28196"
+        },
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA25415"
+        }
+      ]
+    },
+    {
+      "id": "stiebel-wpl-a07",
+      "merk": "Stiebel Eltron",
+      "model": "WPL-A 07 HK Premium",
+      "type": "all-electric",
+      "voorbeeld_variant": "WPL-A 07.2 Plus HK 230 (monoblock, 7 kW)",
+      "vermogen_kw": 7,
+      "scop": 4.6,
+      "scop_toelichting": "labelwaarde bij 35 °C aanvoer",
+      "geluid_db": 54,
+      "geluid_toelichting": "geluidsvermogen buitenunit; met stille nachtmodus",
+      "koudemiddel": "R290 (propaan)",
+      "tapwater": "via geïntegreerde hydromodule met aparte boiler",
+      "max_aanvoer_c": 75,
+      "richtprijs_eur": 8500,
+      "prijs_toelichting": "monoblock met hydraulische module, excl. installatie en boiler",
+      "isde_indicatie_eur": 2800,
+      "product_url": "https://www.stiebel-eltron.nl/",
+      "sturing": {
+        "status": "ja",
+        "tekst": "Modbus via de ISG-gateway; SG-ready."
+      },
+      "home_assistant": {
+        "status": "ja",
+        "tekst": "Officiële Home Assistant-integratie (stiebel_eltron) via de ISG-gateway met Modbus."
+      },
+      "homey": {
+        "status": "deels",
+        "tekst": "Geen officiële app; community-oplossingen via de ISG-gateway en Modbus."
+      },
+      "aanbiedingen": [
+        {
+          "winkel": "Boilermarkt",
+          "prijs_eur": 7950,
+          "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-WPL-A-07-HK-230-Premium-lucht-water-warmtepomp-6-87-kW/",
+          "datum": "2026-07-30"
+        },
+        {
+          "winkel": "Wasco",
+          "prijs_eur": 7500,
+          "url": "https://www.wasco.nl/artikel/stiebel-warmtepomp-wpl-a-07-hk-230-premium/1111594",
+          "datum": null
+        }
+      ],
+      "prijs_datum": "2026-07-30",
+      "isde_meldcode": "KA19406",
+      "opmerkingen": "Propaan, 75 graden aanvoer en officiële Home Assistant-integratie: een combinatie die je niet vaak samen ziet. Met 54 dB(A) hoort hij bij de stillere helft. Een degelijke keus als je van het gas af wilt zonder je afgiftesysteem te verbouwen.",
+      "varianten": [
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA19405"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA19406"
+        },
+        {
+          "vermogen_kw": 10,
+          "isde_eur": 3275,
+          "meldcode": "KA31157"
+        },
+        {
+          "vermogen_kw": 13,
+          "isde_eur": 3950,
+          "meldcode": "KA29827"
+        }
+      ]
+    },
+    {
+      "id": "wolf-cha-07",
+      "merk": "Wolf",
+      "model": "CHA-07 Monoblock",
+      "type": "all-electric",
+      "voorbeeld_variant": "CHA-Monoblock 07 (7 kW)",
+      "vermogen_kw": 7,
+      "scop": 4.7,
+      "scop_toelichting": "labelwaarde bij 35 °C aanvoer",
+      "geluid_db": 55,
+      "geluid_toelichting": "geluidsvermogen buitenunit; fluisterstand beschikbaar",
+      "koudemiddel": "R290 (propaan)",
+      "tapwater": "aparte boiler of CHC-module nodig",
+      "max_aanvoer_c": 70,
+      "richtprijs_eur": 6900,
+      "prijs_toelichting": "losse buitenunit met regelmodule, excl. installatie en boiler",
+      "isde_indicatie_eur": 2575,
+      "product_url": "https://www.wolf.eu/monobloc-cha",
+      "sturing": {
+        "status": "deels",
+        "tekst": "eBUS; Modbus via de optionele ISM8i-interfacemodule."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Community-route via ebusd (eBUS) of de ISM8i-module; geen officiële integratie."
+      },
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen app bekend."
+      },
+      "aanbiedingen": [
+        {
+          "winkel": "Gewoon Gasvrij",
+          "prijs_eur": 8795,
+          "url": "https://www.gewoongasvrij.nl/product/wolf-cha-monoblock-07-lucht-water-propaan-warmtepomp-7-kw/",
+          "datum": "2026-07-30"
+        },
+        {
+          "winkel": "Aircozonderstek",
+          "prijs_eur": 8795,
+          "url": "https://www.aircozonderstek.nl/product/wolf-cha-monoblock-07-lucht-water-propaan-warmtepomp-7kw/",
+          "datum": "2026-07-30"
+        },
+        {
+          "winkel": "Benem",
+          "prijs_eur": 6900,
+          "url": "https://benem.nl/wolf-cha-monoblock-7.html",
+          "datum": null
+        }
+      ],
+      "prijs_datum": "2026-07-30",
+      "isde_meldcode": "KA15251",
+      "opmerkingen": "Propaan en 70 graden aanvoer voor een nette prijs. De koppeling is het zwakke punt: geen officiële integratie met Home Assistant of Homey, en aansturen loopt via de thermostaat. Prima pomp als slimme sturing voor jou geen eis is.",
+      "varianten": [
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA15251"
+        },
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA15252"
+        }
+      ]
+    },
+    {
+      "id": "itho-amber-95",
+      "merk": "Itho Daalderop",
+      "model": "Amber 95",
+      "type": "all-electric",
+      "voorbeeld_variant": "Amber 95 monoblock (9,5 kW)",
+      "vermogen_kw": 9.5,
+      "scop": 4.5,
+      "scop_toelichting": "labelwaarde bij 35 °C aanvoer",
+      "geluid_db": 52,
+      "geluid_toelichting": "geluidsvermogen buitenunit; ontworpen op stille werking",
+      "koudemiddel": "R32",
+      "tapwater": "aparte boiler nodig",
+      "max_aanvoer_c": 65,
+      "richtprijs_eur": 5450,
+      "prijs_toelichting": "losse buitenunit, excl. installatie en boiler",
+      "isde_indicatie_eur": 2575,
+      "product_url": "https://www.ithodaalderop.nl/amber",
+      "sturing": {
+        "status": "deels",
+        "tekst": "Aansturing via de Itho Spider-thermostaat; geen open lokale API."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Community-integratie via de Spider-thermostaat; geen officiële integratie."
+      },
+      "homey": {
+        "status": "deels",
+        "tekst": "Community-app voor de Spider-thermostaat; geen officiële app."
+      },
+      "aanbiedingen": [
+        {
+          "winkel": "Aircozonderstek",
+          "prijs_eur": 4895,
+          "url": "https://www.aircozonderstek.nl/product/itho-daalderop-amber-lucht-water-propaan-r290-warmtepomp-9-5-kw/",
+          "datum": "2026-07-30"
+        },
+        {
+          "winkel": "Hybridegigant",
+          "prijs_eur": 4935,
+          "url": "https://www.hybridegigant.nl/itho-daalderop-amber-95-monoblock-9-5kw-lucht-water-warmtepomp",
+          "datum": "2026-07-30"
+        },
+        {
+          "winkel": "Installmat",
+          "prijs_eur": 4630,
+          "url": "https://installmat.nl/product/itho-daalderop-amber-95-monoblock-warmtepomp/",
+          "datum": "2026-07-29"
+        }
+      ],
+      "prijs_datum": "2026-07-30",
+      "isde_meldcode": "KA24521",
+      "opmerkingen": "Met 9,5 kW een van de krachtigste hier, bedoeld voor grotere of slechter geïsoleerde woningen. Op 52 dB(A) blijft hij ondanks dat vermogen opvallend stil - alleen de Bosch en de Inventum doen het beter. Nederlands merk met een breed servicenetwerk; koppelen kan, maar overal via een omweg.",
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA24520"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA24521"
+        },
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA24522"
+        }
+      ]
+    },
+    {
+      "id": "inventum-ecolution-combi",
+      "merk": "Inventum",
+      "model": "Ecolution Combi 50",
+      "type": "hybride",
+      "voorbeeld_variant": "Ecolution Combi 50 (ventilatielucht, met 50 liter boilervat)",
+      "vermogen_kw": 1.6,
+      "scop_toelichting": "ventilatielucht-warmtepomp: gebruikt de warmte uit je afzuiglucht; rendement afhankelijk van het ventilatiedebiet",
+      "geluid_db": 48,
+      "geluid_toelichting": "binnenopstelling; geen buitenunit, dus geen erfgrens-eis",
+      "koudemiddel": "R134a",
+      "tapwater": "ja, via het ingebouwde 50 liter-voorraadvat",
+      "max_aanvoer_c": 55,
+      "richtprijs_eur": 2900,
+      "prijs_toelichting": "toestel met boilervat, excl. installatie; werkt samen met de cv-ketel",
+      "isde_indicatie_eur": 1675,
+      "product_url": "https://www.inventum.com/ecolution-combi-50/62010050",
+      "sturing": {
+        "status": "deels",
+        "tekst": "OpenTherm-samenwerking met de cv-ketel; geen open lokale API."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Community-route via Modbus (RS485); geen officiële integratie."
+      },
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen app bekend."
+      },
+      "aanbiedingen": [
+        {
+          "winkel": "JCB Ventilatie",
+          "prijs_eur": 4843,
+          "url": "https://www.jcbventilatiestore.nl/products/inventum-ecolution-combi-50-ventilatiewarmtepomp-50-liter",
+          "datum": "2026-07-30"
+        }
+      ],
+      "prijs_datum": "2026-07-30",
+      "isde_meldcode": "KA01709",
+      "opmerkingen": "Een buitenbeentje: dit is een ventilatiewarmtepomp die warmte uit je afgezogen binnenlucht haalt in plaats van uit de buitenlucht. Daarom geen buitenunit, geen geluid in de tuin, en met 48 dB(A) de stilste hier. Het vermogen van 1,6 kW is klein - hij ondersteunt je cv-ketel, hij vervangt hem niet."
+    },
+    {
+      "id": "gree-versati-iv-10",
+      "merk": "Gree",
+      "model": "Versati IV 10 kW",
+      "type": "all-electric",
+      "voorbeeld_variant": "Versati IV monoblock 10 kW (ook als Tosot verkocht)",
+      "vermogen_kw": 10,
+      "scop": 4.5,
+      "scop_toelichting": "labelwaarde bij 35 °C aanvoer",
+      "geluid_db": 56,
+      "geluid_toelichting": "geluidsvermogen buitenunit",
+      "koudemiddel": "R32",
+      "tapwater": "aparte boiler nodig (All-in-One-variant heeft ingebouwd vat)",
+      "max_aanvoer_c": 60,
+      "richtprijs_eur": 3500,
+      "prijs_toelichting": "losse monoblock; het budgetsegment onder de A-merken",
+      "isde_indicatie_eur": 3050,
+      "product_url": "https://www.gree.nl/gree-versati-warmtepompen",
+      "sturing": {
+        "status": "deels",
+        "tekst": "Wifi-app en Modbus-aansluiting; geen gedocumenteerde open API."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Community-integratie via Modbus (gree-versati); geen officiële integratie."
+      },
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen app bekend."
+      },
+      "aanbiedingen": [
+        {
+          "winkel": "Aircoshop",
+          "prijs_eur": 4139,
+          "url": "https://aircoshopnl.nl/warmtepomp/tosot-by-gree-versati-iv-10-kw-400v-r32-monoblock-lucht-water-warmtepomp-meldcode-ka22519/",
+          "datum": "2026-07-30"
+        },
+        {
+          "winkel": "MaxiCool",
+          "prijs_eur": 4850,
+          "url": "https://www.maxicool.nl/nl_NL/p/tosot-by-gree-versati-iv-monobloc-warmtepomp-400v-r32-10-kw/28816/",
+          "datum": "2026-07-30"
+        }
+      ],
+      "prijs_datum": "2026-07-30",
+      "isde_meldcode": "KA22405",
+      "opmerkingen": "Tien kilowatt voor een prijs waar de meeste merken de helft voor leveren. Daar hoort een kanttekening bij: de aanvoertemperatuur blijft op 60 graden steken, wat hem minder geschikt maakt voor oude radiatoren, en slim aansturen kan alleen via een omweg.",
+      "varianten": [
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA26333"
+        },
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3050,
+          "meldcode": "KA22405"
+        },
+        {
+          "vermogen_kw": 10,
+          "isde_eur": 3275,
+          "meldcode": "KA26336"
+        },
+        {
+          "vermogen_kw": 11,
+          "isde_eur": 3700,
+          "meldcode": "KA22406"
+        },
+        {
+          "vermogen_kw": 12,
+          "isde_eur": 3925,
+          "meldcode": "KA22407"
+        }
+      ]
+    },
+    {
+      "id": "atag-energion-m-hybrid",
+      "merk": "ATAG",
+      "model": "ENERGION M Hybrid",
+      "type": "hybride",
+      "voorbeeld_variant": "ENERGION M Hybrid Zone 50 (5 kW)",
+      "vermogen_kw": 5,
+      "scop_toelichting": "hangt naast de bestaande cv-ketel; ATAG stuurt beide aan via de ATAG One-thermostaat",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; ATAG afficheert de M-serie als stil, maar publiceert vooral geluidsdruk op 3 meter en dat is niet vergelijkbaar met de labelwaarde die hier staat",
+      "koudemiddel": "R32",
+      "tapwater": "via de cv-ketel",
+      "prijs_toelichting": "los toestel, excl. installatie; werkt samen met de cv-ketel",
+      "isde_indicatie_eur": 2350,
+      "isde_meldcode": "KA21380",
+      "sturing": {
+        "status": "deels",
+        "tekst": "Aansturing via OpenTherm samen met de cv-ketel en de ATAG One-thermostaat; geen open lokale API of Modbus voor derden."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Geen integratie voor de warmtepomp zelf; de ATAG One-thermostaat heeft wel een officiele integratie, en voor de ENERGION bestaat een community-integratie via het Ariston-platform."
+      },
+      "homey": {
+        "status": "deels",
+        "tekst": "Geen eigen app voor de warmtepomp; de ATAG One 2.0-app in de Homey Community Store stuurt de thermostaat aan."
+      },
+      "app": "ATAG One",
+      "opmerkingen": "Een echte hybride die apart op de ISDE-lijst staat, bedoeld om naast je bestaande cv-ketel te hangen. De Zone- en All-uitvoeringen verschillen in hoe ze verwarmingszones aansturen; voor de subsidie maakt dat niets uit, het bedrag is gelijk. Aansturen loopt via de ATAG One-thermostaat.",
+      "aanbiedingen": [
+        {
+          "winkel": "CV Totaal",
+          "url": "https://www.cvtotaal.nl/atag-energion-m-hybrid-zone-50-hybride-warmtepomp-5kw.html",
+          "prijs_eur": 4191,
+          "datum": "2026-07-30"
+        }
+      ],
+      "prijs_datum": "2026-07-30",
+      "varianten": [
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA21379"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA21381"
+        },
+        {
+          "vermogen_kw": 10,
+          "isde_eur": 3475,
+          "meldcode": "KA21382"
+        },
+        {
+          "vermogen_kw": 11,
+          "isde_eur": 3700,
+          "meldcode": "KA21383"
+        }
+      ]
+    },
+    {
+      "id": "itho-vincent-v45-hybride",
+      "merk": "Itho Daalderop",
+      "model": "Vincent V45-Hybride",
+      "type": "hybride",
+      "voorbeeld_variant": "Vincent V45-Hybride 4,5 kW (binnenopstelling)",
+      "vermogen_kw": 4.5,
+      "scop_toelichting": "binnenopgestelde warmtepomp op propaan; werkt samen met de bestaande cv-ketel",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; de unit staat binnen, waardoor de labelwaarde anders uitpakt dan bij een buitenunit",
+      "koudemiddel": "R290",
+      "tapwater": "via de cv-ketel",
+      "prijs_toelichting": "los toestel voor binnenopstelling, excl. installatie; werkt samen met de cv-ketel",
+      "isde_indicatie_eur": 1925,
+      "isde_meldcode": "KA20994",
+      "sturing": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld welke open aansturing deze unit biedt."
+      },
+      "home_assistant": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "homey": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een app voor deze warmtepomp."
+      },
+      "opmerkingen": "Het bijzondere aan deze: de warmtepomp staat binnen, niet in de tuin. Geen buitenunit dus - schelen kan dat als je weinig ruimte hebt, in een monument woont of de buren dicht op je zitten. Draait op propaan. Over de koppelbaarheid hebben we nog geen betrouwbare informatie gevonden.",
+      "product_url": "https://www.ithodaalderop.nl/nl-NL/consument/product/03-00660",
+      "aanbiedingen": [
+        {
+          "winkel": "Aircozonderstek",
+          "url": "https://www.aircozonderstek.nl/product/itho-daalderop-vincent-v45-hybride-lucht-water-propaan-r290-warmtepomp-4-5-kw/",
+          "prijs_eur": 3995,
+          "datum": "2026-07-30"
+        }
+      ],
+      "prijs_datum": "2026-07-30"
+    },
+    {
+      "id": "toshiba-estia-r290",
+      "merk": "Toshiba",
+      "model": "Estia Bi-Bloc R290",
+      "type": "all-electric",
+      "voorbeeld_variant": "Estia Bi-Bloc R290 6 kW (HWP-601HW-E)",
+      "vermogen_kw": 6,
+      "scop": 4.8,
+      "scop_toelichting": "SCOP tot 4,8 bij lage aanvoertemperatuur, energielabel A+++; leverbaar van 4 tot 16 kW",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; Toshiba publiceert 30 dB(A) in stille modus op 5 meter, en dat is geluidsdruk op afstand - niet vergelijkbaar met de labelwaarde in deze kolom",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "via de binnenunit met boiler",
+      "isde_indicatie_eur": 2350,
+      "isde_meldcode": "KA30469",
+      "sturing": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld welke open aansturing deze unit biedt."
+      },
+      "home_assistant": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "homey": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "opmerkingen": "Bi-bloc op propaan: het koudemiddel blijft buiten, binnen loopt alleen water. Dat scheelt in de installatie-eisen. Toshiba noemt deze reeks een van de stilste van de markt, maar die claim gaat over geluidsdruk op een paar meter afstand en niet over de labelwaarde waarop wij vergelijken - vandaar dat het geluidsveld hier leeg staat.",
+      "product_url": "https://www.toshiba-aircondition.com/en/heat-pumps/estia/bi-bloc-r290",
+      "aanbiedingen": [
+        {
+          "winkel": "Intercool",
+          "url": "https://www.intercool.nl/assortiment/warmtepompen/bi-bloc-r290/toshiba-bi-bloc-r290/",
+          "prijs_eur": 8107,
+          "datum": "2026-07-30",
+          "omvat": "Intercool is de Nederlandse distributeur; prijzen lopen doorgaans via de installateur."
+        }
+      ],
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA30467"
+        },
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA30469"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA30471"
+        },
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3250,
+          "meldcode": "KA30457"
+        },
+        {
+          "vermogen_kw": 11,
+          "isde_eur": 3700,
+          "meldcode": "KA30461"
+        },
+        {
+          "vermogen_kw": 12,
+          "isde_eur": 3925,
+          "meldcode": "KA30465"
+        }
+      ],
+      "prijs_datum": "2026-07-30"
+    },
+    {
+      "id": "hitachi-yutaki-m",
+      "merk": "Hitachi",
+      "model": "Yutaki M",
+      "type": "all-electric",
+      "voorbeeld_variant": "Yutaki M RASM2VRE (monoblock)",
+      "vermogen_kw": 4,
+      "scop_toelichting": "SCOP 3,9 tot 4,6 bij 35 graden aanvoer (vloerverwarming) en 3,2 tot 3,4 bij 55 graden (radiatoren)",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld",
+      "koudemiddel": "R32",
+      "tapwater": "via een aparte boiler",
+      "isde_indicatie_eur": 2125,
+      "isde_meldcode": "KA15892",
+      "garantie_jaar": 5,
+      "sturing": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld welke open aansturing deze unit biedt."
+      },
+      "home_assistant": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "homey": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "opmerkingen": "Deze kom je tegen in een offerte, niet in een winkelmandje: in de Benelux levert de importeur alleen aan installateurs. Handig dus vooral om een offerte mee te controleren. De vijf jaar garantie geldt alleen als je het jaarlijks onderhoud kunt aantonen.",
+      "product_url": "https://hitachi-warmtepompen.nl/",
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA15892"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA15893"
+        }
+      ]
+    },
+    {
+      "id": "atlantic-alfea-extensa",
+      "merk": "Atlantic",
+      "model": "Alfea Extensa",
+      "type": "all-electric",
+      "voorbeeld_variant": "Alfea Extensa A.I./S 6 R32",
+      "vermogen_kw": 6,
+      "scop": 4.65,
+      "scop_toelichting": "SCOP 4,65 bij 35 graden aanvoer en 4,46 bij hogere temperatuur, energielabel A+++",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; Atlantic noemt 33 dB(A), maar dat is geluidsdruk op afstand",
+      "koudemiddel": "R32",
+      "tapwater": "via de DUO-uitvoering met ingebouwde boiler",
+      "isde_indicatie_eur": 2350,
+      "isde_meldcode": "KA18006",
+      "sturing": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld welke open aansturing deze unit biedt."
+      },
+      "home_assistant": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "homey": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "opmerkingen": "Franse fabrikant die in Nederland ruim verkrijgbaar is. Let op de uitvoering die je koopt: de DUO heeft de boiler ingebouwd, de gewone versie vraagt er een aparte bij - dat scheelt zowel in prijs als in de ruimte die je nodig hebt.",
+      "product_url": "https://atlanticclimate.nl/product/alfea-warmtepompen-r32/",
+      "aanbiedingen": [
+        {
+          "winkel": "Stookcentrale",
+          "url": "https://stookcentrale.nl/atlantic-alfea-extensa-8kw/",
+          "prijs_eur": 5300,
+          "datum": "2026-07-29",
+          "omvat": "Deze winkel voert de 8 kW-uitvoering; de gegevens hiernaast gaan over de 6 kW."
+        }
+      ],
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA17817"
+        },
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA18006"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA17840"
+        },
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA20245"
+        }
+      ],
+      "prijs_datum": "2026-07-29"
+    },
+    {
+      "id": "dewarmte-pomp-ao",
+      "merk": "DeWarmte",
+      "model": "Pomp AO",
+      "type": "all-electric",
+      "voorbeeld_variant": "Pomp AO (2 tot 8 kW)",
+      "vermogen_kw": 6,
+      "scop": 4.9,
+      "scop_toelichting": "SCOP 4,9; ontworpen voor het bestaande cv-net van Nederlandse woningen",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; DeWarmte noemt 45 dB zonder de grootheid erbij, en hun grotere Pomp MP staat op 53 dB geluidsvermogen - die 45 is dus niet zonder meer vergelijkbaar",
+      "koudemiddel": "R32",
+      "tapwater": "via de cv-ketel of een aparte boiler",
+      "isde_indicatie_eur": 2375,
+      "isde_meldcode": "KA22291",
+      "sturing": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld welke open aansturing deze unit biedt."
+      },
+      "home_assistant": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "homey": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "opmerkingen": "Nederlands merk uit Delft dat snel groeit. Het toestel is gemaakt om aan te sluiten op je bestaande cv-net, dus je hoeft je radiatoren niet eerst te vervangen, en je kunt hem flexibel rond de woning plaatsen.",
+      "product_url": "https://www.dewarmte.nl/",
+      "aanbiedingen": [
+        {
+          "winkel": "Woonwijzerwinkel",
+          "url": "https://www.woonwijzerwinkel.nl/product/pomp-ao-van-dewarmte/"
+        }
+      ]
+    },
+    {
+      "id": "viessmann-vitocal-150a",
+      "merk": "Viessmann",
+      "model": "Vitocal 150-A",
+      "type": "all-electric",
+      "voorbeeld_variant": "Vitocal 150-A 11 kW (AWO-E-AC, 400 V)",
+      "vermogen_kw": 11,
+      "scop_toelichting": "de toegankelijkere lijn naast de Vitocal 250-A, gericht op grotere woningen",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "via een aparte boiler",
+      "isde_indicatie_eur": 3700,
+      "isde_meldcode": "KA28423",
+      "sturing": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld; de 250-A van hetzelfde merk biedt open aansturing, maar dit is een andere lijn."
+      },
+      "home_assistant": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld voor deze lijn."
+      },
+      "homey": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld voor deze lijn."
+      },
+      "opmerkingen": "Voor wie een groter of slechter geïsoleerd huis heeft en de 250-A te duur vindt: dezelfde fabrikant, een toegankelijker lijn, op propaan. Met 11 kW zit hij in de klasse waar de meeste vrijstaande woningen uitkomen.",
+      "product_url": "https://www.viessmann.nl/nl/warmtepompen.html",
+      "varianten": [
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3250,
+          "meldcode": "KA28399"
+        },
+        {
+          "vermogen_kw": 11,
+          "isde_eur": 3700,
+          "meldcode": "KA28423"
+        },
+        {
+          "vermogen_kw": 12,
+          "isde_eur": 3925,
+          "meldcode": "KA28310"
+        }
+      ]
+    },
+    {
+      "id": "panasonic-aquarea-wxg",
+      "merk": "Panasonic",
+      "model": "Aquarea Bi-bloc WXG",
+      "type": "all-electric",
+      "voorbeeld_variant": "WH-WXG12ME8 (12 kW, bi-bloc)",
+      "vermogen_kw": 12,
+      "scop_toelichting": "de zwaardere bi-bloc naast de L-generatie, voor woningen met een hogere warmtevraag",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "via een aparte boiler of hydromodule",
+      "isde_indicatie_eur": 3925,
+      "isde_meldcode": "KA28403",
+      "sturing": {
+        "status": "ja",
+        "tekst": "SG-ready; via de CZ-TAW1-module op de Aquarea-cloud, of volledig lokaal via HeishaMon."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Grote community: HeishaMon (volledig lokaal, zeer uitgebreid) of de Aquarea Smart Cloud-integratie; geen officiële integratie."
+      },
+      "homey": {
+        "status": "deels",
+        "tekst": "Community-app voor Aquarea Smart Cloud in de Homey App Store."
+      },
+      "opmerkingen": "De grote broer van de Aquarea L. Dezelfde open route via HeishaMon werkt hier ook, dus je houdt volledige lokale controle zonder cloud. Met 12 kW bedoeld voor woningen waar de kleinere modellen tekortschieten.",
+      "product_url": "https://www.panasonic.com/nl/consumer/verwarming-koeling/aquarea-warmtepompen.html",
+      "varianten": [
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3250,
+          "meldcode": "KA28402"
+        },
+        {
+          "vermogen_kw": 12,
+          "isde_eur": 3925,
+          "meldcode": "KA28403"
+        },
+        {
+          "vermogen_kw": 16,
+          "isde_eur": 4825,
+          "meldcode": "KA28404"
+        },
+        {
+          "vermogen_kw": 22,
+          "isde_eur": 5975,
+          "meldcode": "KA29283"
+        },
+        {
+          "vermogen_kw": 27,
+          "isde_eur": 7100,
+          "meldcode": "KA29284"
+        },
+        {
+          "vermogen_kw": 30,
+          "isde_eur": 7775,
+          "meldcode": "KA29285"
+        }
+      ],
+      "aanbiedingen": [
+        {
+          "winkel": "Multi-Import",
+          "url": "https://www.multi-import.nl/wh-wxg12me8",
+          "prijs_eur": 6899,
+          "datum": "2026-07-30",
+          "omvat": "Dit is de losse buitenunit; voor een compleet systeem hoort er een hydromodule of boiler bij."
+        }
+      ],
+      "prijs_datum": "2026-07-30"
+    },
+    {
+      "id": "stiebel-wpl-a13",
+      "merk": "Stiebel Eltron",
+      "model": "WPL-A 13.2 Trend",
+      "type": "all-electric",
+      "voorbeeld_variant": "WPL-A 13.2 Trend HK 400 (13 kW, driefase)",
+      "vermogen_kw": 13,
+      "scop_toelichting": "grootste propaanmodel in deze vergelijking; driefase-aansluiting nodig",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld",
+      "koudemiddel": "R290 (propaan)",
+      "tapwater": "via een aparte boiler",
+      "max_aanvoer_c": 75,
+      "isde_indicatie_eur": 4150,
+      "isde_meldcode": "KA30312",
+      "sturing": {
+        "status": "ja",
+        "tekst": "Modbus via de ISG-gateway; SG-ready."
+      },
+      "home_assistant": {
+        "status": "ja",
+        "tekst": "Officiële Home Assistant-integratie (stiebel_eltron) via de ISG-gateway met Modbus."
+      },
+      "homey": {
+        "status": "deels",
+        "tekst": "Geen officiële app; community-oplossingen via de ISG-gateway en Modbus."
+      },
+      "opmerkingen": "Het zwaarste toestel op propaan dat we voeren, met 75 graden aanvoer: bedoeld voor grote of slecht geïsoleerde woningen waar de radiatoren moeten blijven hangen. Let op de driefase-aansluiting - die heeft niet elke meterkast.",
+      "product_url": "https://www.stiebel-eltron.nl/nl/home/producten-oplossingen/hernieuwbare_energie/warmtepomp.html",
+      "varianten": [
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA31830"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA31831"
+        },
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3250,
+          "meldcode": "KA30310"
+        },
+        {
+          "vermogen_kw": 13,
+          "isde_eur": 4150,
+          "meldcode": "KA30312"
+        },
+        {
+          "vermogen_kw": 18,
+          "isde_eur": 5275,
+          "meldcode": "KA31832"
+        }
+      ]
+    },
+    {
+      "id": "bosch-compress-5800i-12",
+      "merk": "Bosch",
+      "model": "Compress 5800i AW 12",
+      "type": "all-electric",
+      "voorbeeld_variant": "Compress 5800i AW 12 OR-T (12 kW, driefase)",
+      "vermogen_kw": 12,
+      "scop_toelichting": "driefase-uitvoering van de 5800i-reeks voor grotere woningen",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld voor deze maat; de 5 kW-uitvoering staat op 51 dB(A)",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "via een aparte boiler",
+      "max_aanvoer_c": 75,
+      "isde_indicatie_eur": 3925,
+      "isde_meldcode": "KA28183",
+      "sturing": {
+        "status": "ja",
+        "tekst": "SG-ready en EEBUS; energiemanagers van derden kunnen hem aansturen."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Via de community: EMS-ESP leest de Bosch/Nefit EMS-bus volledig lokaal uit; officiële integratie ontbreekt (wel HomeCom-cloud)."
+      },
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen bekende Homey-app; verbruik zichtbaar via de Homey Energy Dongle (P1)."
+      },
+      "opmerkingen": "De zware uitvoering van de reeks die in de kleinere maat als een van de stilste geldt. Propaan en 75 graden aanvoer, dus geschikt voor bestaande radiatoren in een groot huis. Vraagt een driefase-aansluiting.",
+      "product_url": "https://www.nefit-bosch.nl/producten/warmtepompen/de-compress-5800-awr-warmtepompen/",
+      "varianten": [
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3250,
+          "meldcode": "KA28182"
+        },
+        {
+          "vermogen_kw": 12,
+          "isde_eur": 3925,
+          "meldcode": "KA28183"
+        }
+      ],
+      "aanbiedingen": [
+        {
+          "winkel": "Aircozonderstek",
+          "url": "https://www.aircozonderstek.nl/product/nefit-bosch-compress-5800i-aw-12-or-t-11-5-kw/",
+          "prijs_eur": 9695,
+          "datum": "2026-07-30"
+        }
+      ],
+      "prijs_datum": "2026-07-30"
+    },
+    {
+      "id": "mitsubishi-ecodan-120",
+      "merk": "Mitsubishi Electric",
+      "model": "Ecodan PMHR-Z120",
+      "type": "all-electric",
+      "voorbeeld_variant": "PMHR-Z120Y-E set (10 kW, met binnenunit)",
+      "vermogen_kw": 10,
+      "scop_toelichting": "complete set met binnenunit, voor woningen met een hogere warmtevraag",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld voor deze maat; de 6 kW-uitvoering staat op 55 dB(A)",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "via de binnenunit",
+      "max_aanvoer_c": 70,
+      "isde_indicatie_eur": 3475,
+      "isde_meldcode": "KA32008",
+      "sturing": {
+        "status": "ja",
+        "tekst": "SG-ready en Modbus via interface; MELCloud-regeling standaard."
+      },
+      "home_assistant": {
+        "status": "ja",
+        "tekst": "MELCloud-integratie in Home Assistant (cloud); ook lokale routes via de CN105-aansluiting bekend uit de community."
+      },
+      "homey": {
+        "status": "ja",
+        "tekst": "MELCloud-app in de Homey App Store, plus een MELCloud Optimizer die op dynamische stroomprijzen stuurt."
+      },
+      "opmerkingen": "Wordt als complete set geleverd, buitenunit plus binnenunit, wat installeren eenvoudiger maakt. Erft de sterke koppelbaarheid van de kleinere Ecodan: officiële ondersteuning in zowel Home Assistant als Homey.",
+      "product_url": "https://alklima.nl/ecodan-monoblock-warmtepompen-met-propaan-r290",
+      "varianten": [
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA32009"
+        },
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA32007"
+        },
+        {
+          "vermogen_kw": 10,
+          "isde_eur": 3475,
+          "meldcode": "KA32008"
+        }
+      ]
+    }
+  ]
+}

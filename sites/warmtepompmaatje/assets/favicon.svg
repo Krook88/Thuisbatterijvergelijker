@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fb923c"/>
+      <stop offset="1" stop-color="#c2410c"/>
+    </linearGradient>
+  </defs>
+  <!-- Achtergrond -->
+  <rect x="2" y="2" width="96" height="96" rx="22" fill="url(#bg)"/>
+  <!-- Warmtegolfjes -->
+  <g stroke="#fde68a" stroke-width="5.5" stroke-linecap="round" fill="none">
+    <path d="M22 22 q6 -7 12 0 q6 7 12 0"/>
+    <path d="M56 22 q6 -7 12 0 q6 7 12 0"/>
+  </g>
+  <!-- Gezichtje: het warmtepompmaatje -->
+  <circle cx="50" cy="44" r="17" fill="#fbbf24"/>
+  <circle cx="44" cy="41" r="3.2" fill="#7c2d12"/>
+  <circle cx="56" cy="41" r="3.2" fill="#7c2d12"/>
+  <path d="M43 48.5 Q50 55 57 48.5" fill="none" stroke="#7c2d12" stroke-width="3.2" stroke-linecap="round"/>
+  <!-- Buitenunit met ventilator -->
+  <g>
+    <rect x="18" y="66" width="64" height="26" rx="6" fill="#431407"/>
+    <circle cx="40" cy="79" r="9" fill="none" stroke="#fdba74" stroke-width="2.6"/>
+    <path d="M40 72 v14 M33 79 h14" stroke="#fdba74" stroke-width="2.6" stroke-linecap="round"/>
+    <rect x="58" y="72" width="18" height="3.5" rx="1.75" fill="#fdba74"/>
+    <rect x="58" y="79" width="18" height="3.5" rx="1.75" fill="#fdba74"/>
+    <rect x="58" y="86" width="12" height="3.5" rx="1.75" fill="#fdba74"/>
+  </g>
+</svg>

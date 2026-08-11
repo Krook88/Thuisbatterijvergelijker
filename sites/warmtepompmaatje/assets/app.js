@@ -1,0 +1,593 @@
+/* ==========================================================================
+   Warmtepompmaatje - vergelijkingslogica
+   Laadt data/warmtepompen.json en rendert kaarten, tabel en vergelijk-modal,
+   met dezelfde opzet als de zustersites (Batterijmaatje, Zonnestroommaatje).
+   ========================================================================== */
+
+(function () {
+  "use strict";
+
+  const state = {
+    pompen: [],
+    weergave: "kaarten", // of "tabel"
+    sortering: "koppel-score",
+    tabelSortKolom: null,
+    tabelSortRichting: 1,
+    vergelijkSelectie: [],
+    filters: { zoek: "", type: "alle", merk: "alle", r290: false, stil: false, officieelHa: false },
+  };
+
+  const el = (id) => document.getElementById(id);
+
+  const eurFmt = new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
+  const datumFmt = new Intl.DateTimeFormat("nl-NL", { dateStyle: "long" });
+
+  // ISO-datum (2026-07-22) leesbaar maken als "22 juli 2026"
+  function datumNL(iso) {
+    const d = new Date(`${iso}T12:00:00`);
+    return Number.isNaN(d.getTime()) ? iso : datumFmt.format(d);
+  }
+
+  const TYPE_LABEL = { "hybride": "Hybride (naast de cv-ketel)", "all-electric": "All-electric (van het gas af)" };
+  const TYPE_KORT = { "hybride": "Hybride", "all-electric": "All-electric" };
+
+  function escapeHtml(str) {
+    return String(str == null ? "" : str)
+      .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;").replaceAll("'", "&#39;");
+  }
+
+  function driewaardig(v) {
+    if (v && typeof v === "object") return { status: v.status || "deels", tekst: v.tekst || "" };
+    if (v === true) return { status: "ja", tekst: "Ja" };
+    if (typeof v === "string" && v.trim()) return { status: "deels", tekst: v };
+    return { status: "nee", tekst: "Nee" };
+  }
+
+  function koopUrl(a) {
+    return (a && (a.affiliate_url || a.url)) || "";
+  }
+
+  /**
+   * De prijslogica staat in assets/prijs.js, gedeeld met de keuzehulp, de
+   * rekenmodule en de generator van de pomppagina's. Hieronder alleen de
+   * korte namen waarmee de rest van dit bestand die logica aanroept.
+   *
+   *   bestePrijs(w)  de aanbieding die de kaart als kopprijs toont
+   *   toon(a)        het bedrag dat je mag laten zien: altijd incl. btw, ook
+   *                  als de winkel zelf een bedrag zonder btw toont
+   */
+  const bestePrijs = (w) => Prijs.beste(w);
+  const vergelijkPrijs = (a) => Prijs.vergelijkPrijs(a);
+
+  /**
+   * Toelichting onder de prijs: waarom wijkt dit bedrag af van wat de winkel
+   * toont (btw eruit gerekend) en dekt deze aanbieding wel het hele toestel?
+   */
+  function prijsLetOp(a) {
+    const tekst = Prijs.prijsToelichting(a);
+    return tekst ? `<div class="prijs-let-op">${escapeHtml(tekst)}</div>` : "";
+  }
+
+  /**
+   * Een winkel-URL kan alvast in het databestand staan voordat de dagelijkse
+   * prijscontrole er een bedrag bij heeft gevonden. Zonder deze functie zou
+   * daar "€ NaN" komen te staan.
+   */
+  function bedragOfWacht(aanbieding) {
+    const bedrag = vergelijkPrijs(aanbieding);
+    return typeof bedrag === "number" ? eurFmt.format(bedrag) : "prijs volgt";
+  }
+
+  // Koppel-score: dezelfde transparante 0-6 rekensom als op de zustersites.
+  // Drie zaken tellen mee, elk 0-2 punten:
+  //  - slimme aansturing: Modbus/EEBUS/eBUS of rijke open koppeling = 2,
+  //    alleen SG-ready of via de thermostaat = 1
+  //  - Home Assistant: officiële integratie = 2, community-integratie = 1
+  //  - Homey: eigen app = 2, community-app of omweg = 1
+  function koppelScore(w) {
+    const punt = (v) => { const s = driewaardig(v).status; return s === "ja" ? 2 : s === "deels" ? 1 : 0; };
+    return punt(w.sturing) + punt(w.home_assistant) + punt(w.homey);
+  }
+
+  /**
+   * De Koppel-score is het enige cijfer dat alleen wij geven, dus die verdient
+   * beeld in plaats van een badge tussen de badges. Zes segmenten, want de
+   * score is opgebouwd uit drie onderdelen van elk twee punten; dat maakt de
+   * vorm zelf al informatief.
+   *
+   * Eén kleurtoon, gevuld donker en leeg licht uit dezelfde reeks: dit is een
+   * hoeveelheid, geen status. De vorige versie kleurde hoog blauw en laag
+   * grijs, wat een oordeel suggereert dat de score niet velt - en blauw hoort
+   * bovendien niet bij deze site.
+   *
+   * Het getal staat er altijd naast: kleur mag nooit de enige drager zijn.
+   */
+  function koppelMeter(w, opties) {
+    const score = koppelScore(w);
+    const groot = opties && opties.groot;
+    const segmenten = Array.from({ length: 6 }, (_, i) =>
+      `<span class="meter-vak${i < score ? " vol" : ""}"></span>`).join("");
+    return `<div class="koppel-meter${groot ? " koppel-meter-groot" : ""}" data-uitleg="Koppel-score">
+      <div class="koppel-meter-kop">
+        <span class="koppel-meter-label">${Iconen.svg("koppeling")} Koppel-score</span>
+        <span class="koppel-meter-cijfer"><b>${score}</b><span class="van">/6</span></span>
+      </div>
+      <div class="meter-spoor" role="img" aria-label="Koppel-score ${score} van 6"
+           title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details.">${segmenten}</div>
+    </div>`;
+  }
+
+  /**
+   * Geluid als los getal zegt een bezoeker niets: is 55 dB(A) stil of luid?
+   * Dat blijkt pas uit vergelijking, en vergelijken is nu net waar deze site
+   * voor is. Deze strook zet de pomp op zijn plaats binnen het bereik van alle
+   * pompen hier, met het aantal stillere modellen erbij - dat laatste is de
+   * uitspraak waar iemand echt iets aan heeft, en die staat er in woorden,
+   * zodat kleur en positie nooit de enige drager zijn.
+   */
+  function geluidStrook(w) {
+    const alle = state.pompen.map((p) => p.geluid_db).filter((n) => typeof n === "number");
+    if (!w.geluid_db || alle.length < 3) {
+      return `<div class="geluid-strook leeg"><span class="spec-label">Geluid buitenunit</span><span class="geluid-onbekend">nog niet vastgesteld</span></div>`;
+    }
+    const laag = Math.min(...alle), hoog = Math.max(...alle);
+    const deel = hoog === laag ? 0 : (w.geluid_db - laag) / (hoog - laag);
+    const stiller = alle.filter((n) => n < w.geluid_db).length;
+    const zin = stiller === 0
+      ? "de stilste van deze vergelijking"
+      : `stiller dan ${alle.length - stiller - 1} van de ${alle.length - 1} andere`;
+    return `<div class="geluid-strook">
+      <div class="geluid-kop">
+        <span class="spec-label">Geluid buitenunit</span>
+        <span class="geluid-waarde">${w.geluid_db} dB(A)</span>
+      </div>
+      <div class="geluid-spoor" role="img" aria-label="${w.geluid_db} decibel, ${zin}"
+           title="Geluidsvermogen volgens het energielabel. De strook loopt van ${laag} dB(A) (stilst hier) tot ${hoog} dB(A) (luidst hier).">
+        <span class="geluid-punt" style="left:${(deel * 100).toFixed(1)}%"></span>
+      </div>
+      <span class="geluid-duiding">${zin}</span>
+    </div>`;
+  }
+
+  /**
+   * De reeks waarin dit model leverbaar is, met het subsidiebedrag per maat.
+   *
+   * Het vermogen komt hier van de ISDE-lijst en die rekent met het opgegeven
+   * vermogen volgens EU 811/2013 - dat ligt vaak een stap lager dan de
+   * marketingnaam op de kaart hierboven. Daarom staat er expliciet bij waar
+   * het getal vandaan komt, en is het subsidiebedrag de hoofdzaak: dat is de
+   * vraag waar een bezoeker mee zit als hij een andere maat nodig heeft.
+   */
+  function variantenRegel(w) {
+    const v = w.varianten || [];
+    if (v.length < 2) return "";
+    const bedragen = v.map((x) => x.isde_eur).filter((n) => typeof n === "number");
+    const reeks = v.map((x) => x.vermogen_kw).join(", ");
+    const isde = bedragen.length
+      ? ` De ISDE loopt daarbij van ${eurFmt.format(Math.min(...bedragen))} tot ${eurFmt.format(Math.max(...bedragen))}.`
+      : "";
+    return `<div class="varianten-regel" title="Vermogens zoals ze op de ISDE-meldcodelijst van RVO staan (opgegeven vermogen volgens EU 811/2013). Dat getal ligt vaak een stap lager dan de maat in de modelnaam.">
+      <b>Ook in andere maten:</b> deze reeks staat op de ISDE-lijst in ${reeks} kW.${isde}</div>`;
+  }
+
+  function badgeHtml(label, waarde) {
+    const d = driewaardig(waarde);
+    const icoon = Iconen.svg({ ja: "ja", deels: "deels", onbekend: "onbekend" }[d.status] || "nee");
+    return `<span class="badge ${d.status}" data-uitleg="${escapeHtml(label)}" title="${escapeHtml(d.tekst)}">${icoon} ${escapeHtml(label)}</span>`;
+  }
+
+  /**
+   * Van een deel van de pompen hebben wij het geluidsvermogen niet vastgesteld.
+   * "Niet vastgesteld" is iets anders dan "luid", en dat verschil is hier
+   * weggevallen: met (w.geluid_db || 99) gold een onbekende waarde als 99 dB(A),
+   * ruim boven de luidste pomp die we wél hebben gemeten. Sorteren op "stilste
+   * eerst" zette die pompen daardoor onderaan alsof was vastgesteld dat ze de
+   * luidste van de site zijn.
+   *
+   * De keuzehulp ging al wel van het gemiddelde uit. Dat twee pagina's van
+   * dezelfde site een tegengesteld oordeel gaven over dezelfde ontbrekende
+   * waarde was de eigenlijke fout; vandaar deze ene functie.
+   */
+  const geluidBekend = (w) => typeof w.geluid_db === "number";
+  const isStil = (w) => geluidBekend(w) && w.geluid_db <= 55;
+  const isR290 = (w) => /R290/i.test(w.koudemiddel || "");
+
+  /* ------------------------------------------------------------------
+     Filteren, sorteren en URL-status (deelbare links)
+     ------------------------------------------------------------------ */
+
+  const FILTER_KEYS = ["type", "merk"];
+  const CHECK_KEYS = [["r290", "r290"], ["stil", "stil"], ["officieelHa", "ha"]];
+
+  function syncUrl() {
+    const f = state.filters;
+    const p = new URLSearchParams();
+    FILTER_KEYS.forEach((k) => { if (f[k] !== "alle") p.set(k, f[k]); });
+    if (f.zoek) p.set("zoek", f.zoek);
+    CHECK_KEYS.forEach(([k, kort]) => { if (f[k]) p.set(kort, "1"); });
+    if (state.sortering !== "koppel-score") p.set("sorteer", state.sortering);
+    const qs = p.toString();
+    history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
+  }
+
+  function leesUrl() {
+    const p = new URLSearchParams(location.search);
+    FILTER_KEYS.forEach((k) => { if (p.get(k)) state.filters[k] = p.get(k); });
+    if (p.get("zoek")) { state.filters.zoek = p.get("zoek"); const zv = el("zoekVeld"); if (zv) zv.value = state.filters.zoek; }
+    CHECK_KEYS.forEach(([k, kort]) => { if (p.get(kort) === "1") state.filters[k] = true; });
+    if (p.get("sorteer")) state.sortering = p.get("sorteer");
+    const zet = (id, w) => { const n = el(id); if (n) n.value = w; };
+    zet("filterType", state.filters.type); zet("filterMerk", state.filters.merk); zet("sorteer", state.sortering);
+    const vink = (id, w) => { const n = el(id); if (n) n.checked = w; };
+    vink("checkR290", state.filters.r290); vink("checkStil", state.filters.stil); vink("checkHa", state.filters.officieelHa);
+  }
+
+  function gefilterd(opties) {
+    const f = state.filters;
+    const negeerStil = !!(opties && opties.negeerStil);
+    return state.pompen.filter((w) => {
+      if (f.zoek && !`${w.merk} ${w.model}`.toLowerCase().includes(f.zoek.trim().toLowerCase())) return false;
+      if (f.type !== "alle" && w.type !== f.type) return false;
+      if (f.merk !== "alle" && w.merk !== f.merk) return false;
+      if (f.r290 && !isR290(w)) return false;
+      if (f.stil && !negeerStil && !isStil(w)) return false;
+      if (f.officieelHa && driewaardig(w.home_assistant).status !== "ja") return false;
+      return true;
+    });
+  }
+
+  /**
+   * Hoeveel pompen het "stil"-filter buiten beeld houdt puur omdat wij hun
+   * geluid niet hebben vastgesteld. Het filter mag ze niet meerekenen - stil
+   * beloven kunnen we niet - maar ze zonder een woord weglaten wekt de indruk
+   * dat de lijst compleet is. Bij dit filter verdwijnt een derde van de site.
+   */
+  function verborgenDoorOnbekendGeluid() {
+    if (!state.filters.stil) return 0;
+    return gefilterd({ negeerStil: true }).filter((w) => !geluidBekend(w)).length;
+  }
+
+  function gesorteerd(lijst) {
+    const kopie = [...lijst];
+    const prijsVan = (w) => { const b = vergelijkPrijs(bestePrijs(w)); return b == null ? Infinity : b; };
+    switch (state.sortering) {
+      case "prijs-oplopend": kopie.sort((a, b) => prijsVan(a) - prijsVan(b)); break;
+      case "subsidie": kopie.sort((a, b) => (b.isde_indicatie_eur || 0) - (a.isde_indicatie_eur || 0)); break;
+      // Onbekend onderaan, maar als onbekend en niet als "luid".
+      case "geluid": kopie.sort((a, b) => (geluidBekend(a) && geluidBekend(b) ? a.geluid_db - b.geluid_db : geluidBekend(a) ? -1 : geluidBekend(b) ? 1 : 0)); break;
+      case "rendement": kopie.sort((a, b) => (b.scop || 0) - (a.scop || 0)); break;
+      case "koppel-score": kopie.sort((a, b) => koppelScore(b) - koppelScore(a) || prijsVan(a) - prijsVan(b)); break;
+    }
+    return kopie;
+  }
+
+  /* ------------------------------------------------------------------
+     Rendering: kaarten
+     ------------------------------------------------------------------ */
+
+  function kaartHtml(w) {
+    const sturing = driewaardig(w.sturing);
+    const ha = driewaardig(w.home_assistant);
+    const homey = driewaardig(w.homey);
+    const geselecteerd = state.vergelijkSelectie.includes(w.id);
+    const beste = bestePrijs(w);
+    const uitWinkel = !!(beste && beste.winkel && !beste.is_richtprijs);
+    return `
+    <article class="paneel-kaart" data-id="${escapeHtml(w.id)}">
+      <div class="vergelijk-checkbox-wrap">
+        <label class="badge" title="Selecteer om te vergelijken (max. 3)">
+          <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(w.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
+        </label>
+      </div>
+      <div class="kaart-kop">
+        <div>
+          <div class="merk">${escapeHtml(w.merk)}</div>
+          <h3>${escapeHtml(w.model)}</h3>
+          <span class="type-badge type-${escapeHtml(w.type)}">${escapeHtml(TYPE_KORT[w.type] || w.type)}</span>
+        </div>
+      </div>
+      ${koppelMeter(w)}
+      <div class="kaart-specs">
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">${String(w.vermogen_kw).replace(".", ",")} kW</span></div>
+        <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">${escapeHtml(w.koudemiddel || "?")}</span></div>
+        <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa ${w.isde_indicatie_eur ? eurFmt.format(w.isde_indicatie_eur) : "?"}</span></div>
+        <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">${w.max_aanvoer_c ? w.max_aanvoer_c + " &deg;C" : "?"}</span></div>
+      </div>
+      ${geluidStrook(w)}
+      ${variantenRegel(w)}
+      <div class="kaart-badges">
+        ${badgeHtml("Slimme aansturing", w.sturing)}
+        ${badgeHtml("Home Assistant", w.home_assistant)}
+        ${badgeHtml("Homey", w.homey)}
+      </div>
+      <button class="details-toggle" data-id="${escapeHtml(w.id)}">Meer details</button>
+      <div class="kaart-details" data-details="${escapeHtml(w.id)}" hidden>
+        <dt>Slimme aansturing</dt><dd>${escapeHtml(sturing.tekst)}</dd>
+        <dt>Home Assistant</dt><dd>${escapeHtml(ha.tekst)}</dd>
+        <dt>Homey</dt><dd>${escapeHtml(homey.tekst)}</dd>
+        <dt>Rendement</dt><dd>${w.scop ? `SCOP circa ${String(w.scop).replace(".", ",")} · ` : ""}${escapeHtml(w.scop_toelichting || "")}</dd>
+        <dt>Geluid</dt><dd>${escapeHtml(w.geluid_toelichting || "")}</dd>
+        <dt>Warm tapwater</dt><dd>${escapeHtml(w.tapwater || "?")}</dd>
+        <dt>Maximale aanvoertemperatuur</dt><dd>${w.max_aanvoer_c ? w.max_aanvoer_c + " °C" : "?"} (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
+        ${w.opmerkingen ? `<dt>Goed om te weten</dt><dd>${escapeHtml(w.opmerkingen)}</dd>` : ""}
+        ${(w.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${w.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}${Prijs.prijsToelichting(a) ? `<br><small>${escapeHtml(Prijs.prijsToelichting(a))}</small>` : ""}</span><span><b>${bedragOfWacht(a)}</b> &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul>${w.prijs_datum ? `<span class="datum-stempel" style="display:block;margin-top:8px;">Prijzen gecontroleerd: ${escapeHtml(datumNL(w.prijs_datum))}. Zonder controledatum is de prijs een indicatie.</span>` : ""}</dd>` : ""}
+        ${w.product_url ? `<dt>Fabrikant</dt><dd><a href="${escapeHtml(w.product_url)}" target="_blank" rel="noopener">officiële website van ${escapeHtml(w.merk)}</a></dd>` : ""}
+      </div>
+      <div class="kaart-prijs">
+        <div class="prijs-blok">
+          <div class="prijs">${beste ? eurFmt.format(vergelijkPrijs(beste)) : "Prijs op aanvraag"}</div>
+          ${beste ? `<div class="prijs-winkel">${uitWinkel ? "bij " + escapeHtml(beste.winkel) : beste.winkel}</div>` : ""}
+          ${w.voorbeeld_variant ? `<div class="prijs-per-kwh">prijs voor: ${escapeHtml(w.voorbeeld_variant)}</div>` : ""}
+          ${w.prijs_toelichting ? `<div class="prijs-winkel">${escapeHtml(w.prijs_toelichting)}</div>` : ""}
+          ${beste ? prijsLetOp(beste) : ""}
+        </div>
+      </div>
+      <div class="kaart-acties">
+        ${beste && beste.url ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener" aria-label="Bekijk de ${escapeHtml(w.merk)} ${escapeHtml(w.model)}">${uitWinkel ? `Bekijk aanbieding ${Iconen.svg("pijl-rechts")}` : `Naar fabrikant ${Iconen.svg("pijl-rechts")}`}</a>` : ""}
+        <a class="knop knop-secundair" href="pomp/${encodeURIComponent(w.id)}.html" title="Alle specificaties, prijzen en koppelingsdetails van de ${escapeHtml(w.merk)} ${escapeHtml(w.model)}">Alle details</a>
+      </div>
+      <a class="kaart-naar-reken" href="rekenmodule.html?pomp=${encodeURIComponent(w.id)}" title="Bereken de besparing en terugverdientijd van de ${escapeHtml(w.merk)} ${escapeHtml(w.model)}">Bereken de terugverdientijd van deze pomp ${Iconen.svg("pijl-rechts")}</a>
+    </article>`;
+  }
+
+  /* ------------------------------------------------------------------
+     Rendering: tabel
+     ------------------------------------------------------------------ */
+
+  const tabelKolommen = [
+    { key: "model", label: "Model", get: (w) => `${w.merk} ${w.model}` },
+    { key: "type", label: "Type", get: (w) => w.type },
+    { key: "vermogen", label: "kW", get: (w) => w.vermogen_kw || 0 },
+    // null en niet een groot getal: een ontbrekende waarde hoort onderaan omdat
+    // hij ontbreekt, niet omdat hij hoog zou zijn. Zie de sorteervergelijking.
+    { key: "prijs", label: "Prijs", get: (w) => vergelijkPrijs(bestePrijs(w)) },
+    { key: "subsidie", label: "ISDE", get: (w) => w.isde_indicatie_eur || 0 },
+    { key: "geluid", label: "Geluid", get: (w) => (geluidBekend(w) ? w.geluid_db : null) },
+    { key: "koppel", label: "Koppel-score", get: (w) => koppelScore(w) },
+    { key: "ha", label: "Home Assistant", get: (w) => driewaardig(w.home_assistant).status },
+    { key: "homey", label: "Homey", get: (w) => driewaardig(w.homey).status },
+    { key: "actie", label: "", get: () => "" },
+  ];
+
+  function tabelHtml(lijst) {
+    let rijen = [...lijst];
+    if (state.tabelSortKolom) {
+      const kol = tabelKolommen.find((k) => k.key === state.tabelSortKolom);
+      rijen.sort((a, b) => {
+        const va = kol.get(a), vb = kol.get(b);
+        // Wat wij niet weten, staat onderaan - ook als je de kolom omklapt.
+        // Anders komt "prijs onbekend" bij aflopend sorteren bovenaan te staan
+        // als duurste, en "geluid onbekend" als luidste.
+        if (va == null || vb == null) return va == null ? (vb == null ? 0 : 1) : -1;
+        if (typeof va === "number" && typeof vb === "number") return (va - vb) * state.tabelSortRichting;
+        return String(va).localeCompare(String(vb), "nl") * state.tabelSortRichting;
+      });
+    }
+    const checkCel = (v) => {
+      const d = driewaardig(v);
+      if (d.status === "ja") return `<span class="check-ja">${Iconen.svg("ja")}</span>`;
+      if (d.status === "deels") return `<span class="check-deels" title="${escapeHtml(d.tekst)}">${Iconen.svg("deels")}</span>`;
+      if (d.status === "onbekend") return `<span class="check-onbekend" title="${escapeHtml(d.tekst)}">${Iconen.svg("onbekend")}</span>`;
+      return `<span class="check-nee">${Iconen.svg("nee")}</span>`;
+    };
+    return `
+    <table class="vergelijk-tabel">
+      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}">${k.label}${k.key !== "actie" ? ` <span class="sorteer-pijl">${Iconen.svg("sorteren")}</span>` : ""}</th>`).join("")}</tr></thead>
+      <tbody>
+        ${rijen.map((w) => {
+          const beste = bestePrijs(w);
+          return `<tr>
+            <td><b>${escapeHtml(w.merk)}</b><br>${escapeHtml(w.model)}</td>
+            <td>${escapeHtml(TYPE_KORT[w.type] || w.type)}</td>
+            <td>${String(w.vermogen_kw).replace(".", ",")}</td>
+            <td class="tabel-prijs" title="${escapeHtml([w.prijs_toelichting, Prijs.prijsToelichting(beste)].filter(Boolean).join(" · "))}">${beste ? eurFmt.format(vergelijkPrijs(beste)) : "n.b."}</td>
+            <td title="Indicatie ISDE-subsidie; het bedrag per meldcode bij RVO is leidend">${w.isde_indicatie_eur ? "± " + eurFmt.format(w.isde_indicatie_eur) : "?"}</td>
+            <td>${w.geluid_db ? w.geluid_db + " dB" : "?"}</td>
+            <td title="Punten voor slimme aansturing, Home Assistant en Homey"><b>${koppelScore(w)}/6</b></td>
+            <td>${checkCel(w.home_assistant)}</td>
+            <td>${checkCel(w.homey)}</td>
+            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:0.85rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
+          </tr>`;
+        }).join("")}
+      </tbody>
+    </table>`;
+  }
+
+  /* ------------------------------------------------------------------
+     Rendering: vergelijk-modal (max. 3 zij aan zij)
+     ------------------------------------------------------------------ */
+
+  function vergelijkModalHtml(items) {
+    const rij = (label, fn) => `<tr><th style="text-align:left;padding:8px 10px;background:var(--kleur-achtergrond);white-space:nowrap;position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">${label}</th>${items.map((w) => `<td style="padding:8px 10px;border-bottom:1px solid var(--kleur-rand);">${fn(w)}</td>`).join("")}</tr>`;
+    const d3 = (v) => { const d = driewaardig(v); return d.status === "nee" ? `${Iconen.svg("nee")} ${escapeHtml(d.tekst)}` : d.status === "deels" ? `${Iconen.svg("deels")} ${escapeHtml(d.tekst)}` : `${Iconen.svg("ja")} ${escapeHtml(d.tekst)}`; };
+    return `
+      <h2>Vergelijking</h2>
+      <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.93rem;min-width:${220 * items.length + 160}px;">
+        ${rij("Model", (w) => `<b>${escapeHtml(w.merk)} ${escapeHtml(w.model)}</b>`)}
+        ${rij("Type", (w) => escapeHtml(TYPE_LABEL[w.type] || w.type))}
+        ${rij("Vermogen", (w) => `${String(w.vermogen_kw).replace(".", ",")} kW`)}
+        ${rij("Prijs", (w) => { const b = bestePrijs(w); return `${b ? `<b>${eurFmt.format(vergelijkPrijs(b))}</b>` : "n.b."}<br><small>${escapeHtml([w.prijs_toelichting, Prijs.prijsToelichting(b)].filter(Boolean).join(" · "))}</small>`; })}
+        ${rij("Subsidie (ISDE, indicatie)", (w) => (w.isde_indicatie_eur ? `circa ${eurFmt.format(w.isde_indicatie_eur)}` : "?"))}
+        ${rij("Geluid buitenunit", (w) => (w.geluid_db ? `${w.geluid_db} dB(A)` : "?"))}
+        ${rij("Koudemiddel", (w) => escapeHtml(w.koudemiddel || "?"))}
+        ${rij("Max. aanvoertemperatuur", (w) => (w.max_aanvoer_c ? `${w.max_aanvoer_c} °C` : "?"))}
+        ${rij("Warm tapwater", (w) => escapeHtml(w.tapwater || "?"))}
+        ${rij("Koppel-score", (w) => `<b>${koppelScore(w)}/6</b>`)}
+        ${rij("Slimme aansturing", (w) => d3(w.sturing))}
+        ${rij("Home Assistant", (w) => d3(w.home_assistant))}
+        ${rij("Homey", (w) => d3(w.homey))}
+        ${rij("App", (w) => escapeHtml(w.app || "?"))}
+        ${rij("Garantie", (w) => (w.garantie_jaar ? w.garantie_jaar + " jaar" : "?"))}
+        ${rij("", (w) => { const b = bestePrijs(w); return b && b.url ? `<a class="knop" href="${escapeHtml(koopUrl(b))}" target="_blank" rel="noopener">Naar fabrikant ${Iconen.svg("pijl-rechts")}</a>` : ""; })}
+      </table>
+      </div>`;
+  }
+
+  /* ------------------------------------------------------------------
+     Hoofd-render en events
+     ------------------------------------------------------------------ */
+
+  function render() {
+    syncUrl();
+    const lijst = gesorteerd(gefilterd());
+    const verborgen = verborgenDoorOnbekendGeluid();
+    el("resultatenTelling").innerHTML = `${lijst.length} van ${state.pompen.length} warmtepompen`
+      + (verborgen ? `<small class="telling-noot">${verborgen} niet getoond: geluid nog niet vastgesteld</small>` : "");
+
+    const doel = el("resultaten");
+    if (!lijst.length) {
+      doel.innerHTML = '<div class="leeg-melding">Geen warmtepompen gevonden met deze filters. Probeer een filter uit te zetten.</div>';
+    } else if (state.weergave === "kaarten") {
+      doel.innerHTML = `<div class="kaarten-grid">${lijst.map(kaartHtml).join("")}</div>`;
+    } else {
+      doel.innerHTML = `<div class="tabel-wrap">${tabelHtml(lijst)}</div>`;
+    }
+
+    const balk = el("vergelijkBalk");
+    if (balk) {
+      if (state.vergelijkSelectie.length >= 2) {
+        balk.classList.add("zichtbaar");
+        document.body.classList.add("vergelijkbalk-actief");
+        el("vergelijkBalkTekst").textContent = `${state.vergelijkSelectie.length} warmtepompen geselecteerd`;
+      } else {
+        balk.classList.remove("zichtbaar");
+        document.body.classList.remove("vergelijkbalk-actief");
+      }
+    }
+  }
+
+  function koppelEvents() {
+    [["filterType", "type"], ["filterMerk", "merk"]].forEach(([id, key]) => {
+      el(id).addEventListener("change", (e) => { state.filters[key] = e.target.value; render(); });
+    });
+    [["checkR290", "r290"], ["checkStil", "stil"], ["checkHa", "officieelHa"]].forEach(([id, key]) => {
+      el(id).addEventListener("change", (e) => { state.filters[key] = e.target.checked; render(); });
+    });
+    el("sorteer").addEventListener("change", (e) => { state.sortering = e.target.value; render(); });
+
+    const zoekVeld = el("zoekVeld");
+    if (zoekVeld) zoekVeld.addEventListener("input", (e) => { state.filters.zoek = e.target.value; render(); });
+
+    const reset = el("resetFilters");
+    if (reset) reset.addEventListener("click", () => {
+      state.filters = { zoek: "", type: "alle", merk: "alle", r290: false, stil: false, officieelHa: false };
+      ["filterType", "filterMerk"].forEach((id) => { el(id).value = "alle"; });
+      ["checkR290", "checkStil", "checkHa"].forEach((id) => { el(id).checked = false; });
+      if (zoekVeld) zoekVeld.value = "";
+      render();
+    });
+
+    el("knopKaarten").addEventListener("click", () => { state.weergave = "kaarten"; el("knopKaarten").classList.add("actief"); el("knopTabel").classList.remove("actief"); render(); });
+    el("knopTabel").addEventListener("click", () => { state.weergave = "tabel"; el("knopTabel").classList.add("actief"); el("knopKaarten").classList.remove("actief"); render(); });
+
+    el("resultaten").addEventListener("click", (e) => {
+      const badge = e.target.closest(".kaart-badges .badge");
+      if (badge) {
+        const kaart = badge.closest(".paneel-kaart");
+        const details = kaart && kaart.querySelector(".kaart-details");
+        const knop = kaart && kaart.querySelector(".details-toggle");
+        if (!details) return;
+        if (details.hidden) { details.hidden = false; if (knop) knop.textContent = "Verberg details"; }
+        const label = badge.dataset.uitleg || "";
+        let doel = null;
+        details.querySelectorAll("dt").forEach((dt) => {
+          if (!doel && label && dt.textContent.trim().startsWith(label)) doel = dt;
+        });
+        details.querySelectorAll(".uitgelicht").forEach((n) => n.classList.remove("uitgelicht"));
+        const uitgelicht = doel ? [doel, doel.nextElementSibling] : [details];
+        uitgelicht.forEach((n) => { if (n) { void n.offsetWidth; n.classList.add("uitgelicht"); } });
+        (doel || details).scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
+      const toggle = e.target.closest(".details-toggle");
+      if (toggle) {
+        const details = document.querySelector(`[data-details="${toggle.dataset.id}"]`);
+        if (details) {
+          details.hidden = !details.hidden;
+          toggle.textContent = details.hidden ? "Meer details" : "Verberg details";
+        }
+        return;
+      }
+      const th = e.target.closest("th[data-kolom]");
+      if (th && th.dataset.kolom !== "actie") {
+        if (state.tabelSortKolom === th.dataset.kolom) state.tabelSortRichting *= -1;
+        else { state.tabelSortKolom = th.dataset.kolom; state.tabelSortRichting = 1; }
+        render();
+      }
+    });
+
+    el("resultaten").addEventListener("change", (e) => {
+      const check = e.target.closest(".vergelijk-check");
+      if (!check) return;
+      const id = check.dataset.id;
+      if (check.checked) {
+        if (state.vergelijkSelectie.length >= 3) {
+          check.checked = false;
+          const tekst = el("vergelijkBalkTekst");
+          const oud = tekst.textContent;
+          tekst.textContent = "Maximaal 3 warmtepompen tegelijk; haal er eerst één weg.";
+          setTimeout(() => { tekst.textContent = oud; }, 2500);
+          return;
+        }
+        state.vergelijkSelectie.push(id);
+      } else {
+        state.vergelijkSelectie = state.vergelijkSelectie.filter((x) => x !== id);
+      }
+      render();
+    });
+
+    el("openVergelijk").addEventListener("click", () => {
+      const items = state.pompen.filter((w) => state.vergelijkSelectie.includes(w.id));
+      el("vergelijkModalInhoud").innerHTML = vergelijkModalHtml(items);
+      el("vergelijkModal").classList.add("open");
+    });
+    el("wisVergelijk").addEventListener("click", () => { state.vergelijkSelectie = []; render(); });
+    el("sluitModal").addEventListener("click", () => el("vergelijkModal").classList.remove("open"));
+    el("vergelijkModal").addEventListener("click", (e) => { if (e.target === el("vergelijkModal")) el("vergelijkModal").classList.remove("open"); });
+
+    const filterToggle = el("filterToggle");
+    if (filterToggle) {
+      filterToggle.addEventListener("click", () => {
+        const balk = el("filterbalk");
+        const ingeklapt = balk.classList.toggle("ingeklapt");
+        filterToggle.innerHTML = `${Iconen.svg("zoeken")} Filteren en sorteren ${Iconen.svg("chevron", { klasse: ingeklapt ? "" : "gedraaid" })}`;
+      });
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     Init
+     ------------------------------------------------------------------ */
+
+  async function init() {
+    try {
+      const res = await fetch("data/warmtepompen.json", { cache: "no-cache" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      state.pompen = data.warmtepompen || [];
+
+      const teller = el("tellerPompen");
+      if (teller) teller.textContent = state.pompen.length;
+
+      if (data.laatst_bijgewerkt) {
+        const d = new Date(data.laatst_bijgewerkt + "T12:00:00");
+        const doel = el("updateDatum");
+        if (doel) doel.textContent = datumFmt.format(d);
+      }
+
+      const merken = [...new Set(state.pompen.map((w) => w.merk))].sort((a, b) => a.localeCompare(b, "nl"));
+      el("filterMerk").innerHTML = '<option value="alle">Alle merken</option>' + merken.map((m) => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join("");
+
+      koppelEvents();
+      leesUrl();
+      render();
+    } catch (err) {
+      el("resultaten").innerHTML = '<div class="leeg-melding">De warmtepompgegevens konden niet worden geladen. Vernieuw de pagina of probeer het later opnieuw.</div>';
+      console.error("Fout bij laden warmtepompen.json:", err);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+})();

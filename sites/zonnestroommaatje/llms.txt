@@ -1,0 +1,28 @@
+# Zonnestroommaatje.nl
+
+> Onafhankelijke vergelijkingssite voor zonnepanelen en omvormers voor Nederlandse huishoudens. We vergelijken op prijs per wattpiek, rendement, glas-glas uitvoering en garanties (Zeker-score), en op slimme koppeling met omvormer, thuisbatterij en warmtepomp (Koppel-score). Alle prijzen worden dagelijks bijgewerkt en zijn inclusief bronvermelding. Er is geen betaalde plaatsing: de volgorde is puur op de eigenschappen gebaseerd.
+
+## Vergelijken en kiezen
+- [Zonnepanelen vergelijken](https://zonnestroommaatje.nl/index.html): alle panelen op prijs per wattpiek, rendement en garantie.
+- [Omvormers vergelijken](https://zonnestroommaatje.nl/omvormers.html): omvormers met de Koppel-score voor slim energiebeheer.
+- [Compleet systeem samenstellen](https://zonnestroommaatje.nl/systeem.html): panelen, omvormer en opslag als één systeem.
+- [Keuzehulp](https://zonnestroommaatje.nl/advies.html): persoonlijk advies op basis van dak, verbruik en wensen.
+
+## Rekenen
+- [Rekenmodule opbrengst en terugverdientijd](https://zonnestroommaatje.nl/rekenmodule.html): bereken opbrengst in kWh en terugverdientijd.
+- [Jouw energieplan](https://zonnestroommaatje.nl/energieplan.html): volgorde en kosten van isolatie, warmtepomp, zonnepanelen en thuisbatterij voor het hele huis.
+
+## Uitleg en achtergrond
+- [Uitleg over zonnepanelen](https://zonnestroommaatje.nl/uitleg.html): begrippen zoals wattpiek, rendement, glas-glas en salderen in gewone taal.
+- [Regelgeving en subsidie](https://zonnestroommaatje.nl/regelgeving.html): saldering, btw en de regels voor 2026 en verder.
+- [Waar koop je zonnepanelen?](https://zonnestroommaatje.nl/waar-zonnepanelen-kopen.html): manieren van kopen en installeren, met voor- en nadelen.
+- [Beste glas-glas zonnepanelen](https://zonnestroommaatje.nl/beste-glas-glas-zonnepanelen.html)
+- [Beste zonnepanelen voor een klein dak](https://zonnestroommaatje.nl/beste-zonnepanelen-klein-dak.html)
+
+## Over de site
+- [Over Zonnestroommaatje](https://zonnestroommaatje.nl/over-ons.html): hoe we onafhankelijk blijven en hoe de Zeker-score werkt.
+- [Contact](https://zonnestroommaatje.nl/contact.html)
+
+## Zustersites
+- [Batterijmaatje.nl](https://batterijmaatje.nl/): thuisbatterijen vergelijken.
+- [Warmtepompmaatje.nl](https://warmtepompmaatje.nl/): warmtepompen vergelijken.

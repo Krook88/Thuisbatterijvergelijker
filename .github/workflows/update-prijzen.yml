@@ -1,63 +1,90 @@
 name: Dagelijkse prijsupdate
 
+# Eén workflow voor de drie sites. Elke site heeft dezelfde npm-commando's met
+# een eigen generator erachter, dus alleen de map verschilt.
+
 on:
   schedule:
-    # Elke dag om 05:30 UTC (07:30 Nederlandse zomertijd)
     - cron: "30 5 * * *"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      site:
+        description: "Eén site draaien in plaats van alle drie"
+        required: false
+        type: choice
+        options: ["alle", "batterijmaatje", "zonnestroommaatje", "warmtepompmaatje"]
+        default: "alle"
 
 permissions:
   contents: write
-  # Nodig om na een prijswijziging de publicatie-workflow te mogen starten
-  actions: write
 
 jobs:
-  update-prijzen:
+  prijzen:
     runs-on: ubuntu-latest
+    strategy:
+      # Niet parallel: de sites duwen naar dezelfde tak, en tegelijk pushen
+      # levert een afgewezen push op in plaats van een tweede commit.
+      max-parallel: 1
+      fail-fast: false
+      matrix:
+        site: [batterijmaatje, zonnestroommaatje, warmtepompmaatje]
     steps:
+      - name: Bepalen of deze site meedoet
+        id: keuze
+        run: |
+          gekozen="${{ github.event.inputs.site }}"
+          if [ -n "$gekozen" ] && [ "$gekozen" != "alle" ] && [ "$gekozen" != "${{ matrix.site }}" ]; then
+            echo "doen=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "doen=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Code ophalen
+        if: steps.keuze.outputs.doen == 'true'
         uses: actions/checkout@v4
 
       - name: Node.js instellen
+        if: steps.keuze.outputs.doen == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: "22"
 
       - name: Prijzen bijwerken
+        if: steps.keuze.outputs.doen == 'true'
+        working-directory: sites/${{ matrix.site }}
         env:
-          # Bol.com Marketing API (partner): repository secrets; zonder deze
-          # secrets worden bol-prijzen overgeslagen en blijft de oude staan
+          # Zonder deze secrets worden bol-prijzen overgeslagen en blijft de
+          # oude prijs staan; het script faalt daar niet op.
           BOL_CLIENT_ID: ${{ secrets.BOL_CLIENT_ID }}
           BOL_CLIENT_SECRET: ${{ secrets.BOL_CLIENT_SECRET }}
-        run: node scripts/update-prices.mjs
+        run: npm run prijzen
 
-      - name: Batterijpagina's en sitemap herbouwen
-        run: node scripts/genereer-batterijpaginas.mjs
+      - name: Pagina's en sitemap herbouwen
+        if: steps.keuze.outputs.doen == 'true'
+        working-directory: sites/${{ matrix.site }}
+        run: npm run genereer
 
-      # Interne links kosten geen seconde en geen internet, maar vangen af dat de
-      # generator een pagina wegschrijft die naar een bestand verwijst dat niet
-      # bestaat. De externe links gaan mee in dezelfde run, minus de winkels:
-      # die heeft het prijsscript hierboven zojuist al bezocht, en het meldt zelf
-      # welke verdwenen zijn. Twee keer dezelfde webshop ophalen levert niets op.
+      # Interne links kosten geen seconde en geen internet, maar vangen af dat
+      # de generator een pagina wegschrijft die naar een bestand verwijst dat
+      # niet bestaat. De externe links gaan mee, minus de winkels: die heeft het
+      # prijsscript hierboven zojuist al bezocht en het meldt zelf welke
+      # verdwenen zijn.
       - name: Links controleren
+        if: steps.keuze.outputs.doen == 'true'
+        working-directory: sites/${{ matrix.site }}
         run: node scripts/controleer-links.mjs --zonder-winkels
 
       - name: Wijzigingen committen en pushen
-        id: commit
+        if: steps.keuze.outputs.doen == 'true'
         run: |
           git config user.name "prijsupdate-bot"
           git config user.email "actions@github.com"
-          git add data/batterijen.json sitemap.xml index.html batterij/ vergelijk/ beste-thuisbatterij-home-assistant.html beste-thuisbatterij-homey.html
+          git add "sites/${{ matrix.site }}"
           if git diff --cached --quiet; then
-            echo "Geen prijswijzigingen vandaag."
-            echo "gewijzigd=false" >> "$GITHUB_OUTPUT"
+            echo "Geen prijswijzigingen voor ${{ matrix.site }}."
           else
-            git commit -m "Dagelijkse prijsupdate $(date -u +%F)"
+            git commit -m "Dagelijkse prijsupdate ${{ matrix.site }} $(date -u +%F)"
+            # Een eerdere site in dezelfde run kan net geduwd hebben.
+            git pull --rebase --autostash
             git push
-            echo "gewijzigd=true" >> "$GITHUB_OUTPUT"
           fi
-
-      # Publiceren gebeurt door Vercel: de Git-integratie luistert naar de push
-      # hierboven en bouwt de site opnieuw. De beperking dat een push met het
-      # standaard GITHUB_TOKEN geen andere workflows start, geldt alleen binnen
-      # GitHub Actions en dus niet voor Vercel. Er is hier geen extra stap nodig.

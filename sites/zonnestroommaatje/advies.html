@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keuzehulp: compleet advies voor zonnepanelen, omvormer en thuisbatterij | Zonnestroommaatje.nl</title>
+  <meta name="description" content="Gratis keuzehulp voor je complete zonnestroomsysteem: hoeveel panelen je nodig hebt, welke panelen en omvormer het best passen, of een thuisbatterij zinvol is en of alles koppelt met Home Assistant of Homey.">
+  <link rel="canonical" href="https://zonnestroommaatje.nl/advies.html">
+  <meta property="og:title" content="Keuzehulp zonnepanelen: hoeveel en welke panelen passen bij jou?">
+  <meta property="og:description" content="Beantwoord een paar vragen en zie direct hoeveel wattpiek je nodig hebt en welke panelen het best passen.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zonnestroommaatje.nl/advies.html">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:image" content="https://zonnestroommaatje.nl/assets/og-image.png">
+  <meta property="og:site_name" content="Zonnestroommaatje.nl">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="assets/style.css?v=20260728a">
+  <script src="assets/iconen.js?v=20260728a" defer></script>
+  <script src="assets/advies.js?v=20260728a" defer></script>
+  <script src="assets/nav.js?v=20260728a" defer></script>
+  <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=1">
+  <style>
+    .advies-indeling { display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: start; margin: 26px 0 40px; }
+    @media (max-width: 900px) { .advies-indeling { grid-template-columns: 1fr; } }
+    .advies-paneel { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); box-shadow: var(--schaduw); padding: 22px; }
+    .advies-paneel h2 { margin: 0 0 4px; font-size: 1.1rem; color: var(--kleur-primair-donker); }
+    .advies-paneel h2:not(:first-child) { margin-top: 22px; }
+    .veld { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+    .veld label { font-size: 0.85rem; font-weight: 700; color: var(--kleur-tekst-licht); }
+    .veld input:not([type="checkbox"]):not([type="radio"]), .veld select { padding: 9px 12px; border: 1px solid var(--kleur-rand); border-radius: 8px; font-size: 0.95rem; width: 100%; min-width: 0; }
+    /* Checkbox- en radio-opties als strakke rijen: allemaal even breed, onder elkaar */
+    .veld .checkbox-groep { display: flex; flex-direction: column; gap: 8px; }
+    .veld .checkbox-groep label {
+      width: 100%; justify-content: flex-start; padding: 10px 14px;
+      font-size: 0.95rem; font-weight: 400; color: var(--kleur-tekst); text-align: left;
+    }
+    /* Voorkom dat lange select-opties de layout breder maken dan het scherm */
+    .advies-indeling > *, .veld-rij > *, .veld { min-width: 0; }
+    .veld .hint { font-size: 0.8rem; color: var(--kleur-tekst-licht); }
+    .veld-rij { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 480px) { .veld-rij { grid-template-columns: 1fr; } }
+    .advies-kaart { border: 1px solid var(--kleur-rand); border-radius: var(--radius); padding: 16px 18px; margin-top: 14px; background: var(--kleur-wit); }
+    .advies-kaart .plek { font-size: 0.8rem; font-weight: 700; color: var(--kleur-primair); text-transform: uppercase; letter-spacing: 0.05em; }
+    .advies-kaart h3 { margin: 4px 0 6px; font-size: 1.1rem; }
+    .advies-kaart .reden { font-size: 0.92rem; color: var(--kleur-tekst-licht); }
+    .advies-samenvatting { background: var(--kleur-primair-licht); border-radius: var(--radius); padding: 16px 18px; }
+    .advies-samenvatting .groot { font-size: 1.5rem; font-weight: 800; color: var(--kleur-primair-donker); }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="index.html">
+      <span class="logo-icoon"><svg class="icoon icoon-groot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></svg></span>
+      <span>Zonnestroom<b>maatje</b></span>
+    </a>
+    <nav class="hoofdnav">
+      <a href="index.html">Zonnepanelen</a>
+      <a href="omvormers.html">Omvormers</a>
+      <a href="systeem.html">Samenstellen</a>
+      <a href="advies.html" class="actief">Keuzehulp</a>
+      <a href="rekenmodule.html">Terugverdientijd</a>
+      <details class="nav-meer">
+        <summary>Meer <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary>
+        <div class="nav-meer-paneel">
+          <a href="energieplan.html">Jouw energieplan</a>
+          <a href="uitleg.html">Uitleg</a>
+          <a href="waar-zonnepanelen-kopen.html">Waar koop je panelen?</a>
+          <a href="regelgeving.html">Regels &amp; subsidies</a>
+          <a href="beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a>
+          <a href="beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a>
+          <a href="over-ons.html">Over ons</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </details>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Keuzehulp: jouw complete zonnestroomsysteem</h1>
+    <p>Niemand koopt losse zonnepanelen: je kiest een systeem van panelen, een omvormer en misschien een thuisbatterij, dat het liefst ook nog met je smart home praat. Beantwoord een paar vragen en je krijgt één samenhangend advies: hoeveel panelen, welke panelen, welke omvormer, of een batterij zinvol is en of alles koppelt met Home Assistant of Homey. Geen e-mailadres nodig, geen verkopers aan de telefoon.</p>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="advies-indeling">
+
+    <form id="adviesformulier" class="advies-paneel" onsubmit="return false;">
+      <h2>Jouw situatie</h2>
+
+      <div class="veld">
+        <label for="verbruik">Stroomverbruik per jaar (kWh)</label>
+        <input type="number" id="verbruik" min="500" max="20000" step="100" value="2900">
+        <span class="hint">Staat op je jaarafrekening; gemiddeld huishouden: 2.900 kWh</span>
+      </div>
+
+      <div class="veld">
+        <label for="dakligging">Ligging van het dak</label>
+        <select id="dakligging">
+          <option value="0.95">Zuid, schuin dak</option>
+          <option value="0.90" selected>Zuidoost of zuidwest, schuin dak</option>
+          <option value="0.88-plat">Plat dak</option>
+          <option value="0.80">Oost-west, schuin dak</option>
+          <option value="0.65">Noord, schuin dak</option>
+        </select>
+      </div>
+
+      <div class="veld">
+        <label for="schaduw">Schaduw op het dak</label>
+        <select id="schaduw">
+          <option value="geen" selected>Geen of nauwelijks schaduw</option>
+          <option value="beetje">Een beetje (schoorsteen, boom in de ochtend)</option>
+          <option value="veel">Veel (gebouwen of bomen, deel van de dag)</option>
+        </select>
+        <span class="hint">Bepaalt mede welk type omvormer wij adviseren</span>
+      </div>
+
+      <div class="veld">
+        <label for="maxPanelen">Hoeveel panelen passen er maximaal op je dak?</label>
+        <input type="number" id="maxPanelen" min="2" max="60" step="1" value="12">
+        <span class="hint">Vuistregel: een paneel is circa 1,8 bij 1,1 meter (2 m²). Weet je het niet? Laat de schatting staan.</span>
+      </div>
+
+      <div class="veld">
+        <span class="filter-label" style="font-size:0.85rem;font-weight:700;color:var(--kleur-tekst-licht);">Verwacht je de komende jaren extra stroomverbruik?</span>
+        <div class="checkbox-groep">
+          <label><input type="checkbox" id="checkAuto"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" /> <circle cx="7" cy="17" r="2" /> <path d="M9 17h6" /> <circle cx="17" cy="17" r="2" /></svg> Elektrische auto (± 2.000 kWh per jaar)</label>
+          <label><input type="checkbox" id="checkWarmtepomp"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z" /></svg> (Hybride) warmtepomp (± 2.000 kWh per jaar)</label>
+        </div>
+      </div>
+
+      <div class="veld">
+        <label for="batterijPlan"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 7-3 5h4l-3 5" /> <path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935" /> <path d="M22 14v-4" /> <path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936" /></svg> Wil je een thuisbatterij?</label>
+        <select id="batterijPlan">
+          <option value="nee" selected>Nee (of nog niet over nagedacht)</option>
+          <option value="later">Misschien later, ik wil de optie openhouden</option>
+          <option value="ja">Ja, ik wil er (bijna) meteen een</option>
+        </select>
+        <span class="hint">Vanaf 2027 (einde saldering) wordt zelf opslaan interessanter; wij adviseren ook de grootte</span>
+      </div>
+
+      <div class="veld">
+        <label for="smartHome"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /> <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Gebruik je een smart home-systeem?</label>
+        <select id="smartHome">
+          <option value="geen" selected>Nee / niet belangrijk</option>
+          <option value="home_assistant">Ja, Home Assistant</option>
+          <option value="homey">Ja, Homey</option>
+          <option value="anders">Nog niet, maar ik wil wel slim kunnen aansturen</option>
+        </select>
+        <span class="hint">Dan adviseren wij een omvormer die daarop aan te sluiten is</span>
+      </div>
+
+      <div class="veld">
+        <label for="voorkeur">Wat vind je het belangrijkst?</label>
+        <select id="voorkeur">
+          <option value="prijs" selected>Laagste prijs per wattpiek</option>
+          <option value="rendement">Maximale opbrengst per m² (klein dak)</option>
+          <option value="zekerheid">Maximale zekerheid en garantie</option>
+        </select>
+      </div>
+
+      <div class="veld">
+        <div class="checkbox-groep">
+          <label title="Volledig zwarte panelen: cellen, folie en frame"><input type="checkbox" id="checkFullBlack"> Alleen full black panelen (strak zwart dak)</label>
+        </div>
+      </div>
+    </form>
+
+    <div id="advies" class="advies-paneel" aria-live="polite">
+      <h2>Ons advies</h2>
+      <div id="adviesInhoud"><p class="hint">Laden…</p></div>
+    </div>
+
+  </div>
+
+  <section class="content-pagina" style="padding-top:0;">
+    <h2>Hoe komt dit advies tot stand?</h2>
+    <ul>
+      <li><b>Aantal panelen.</b> Wij rekenen uit hoeveel wattpiek nodig is om jouw (verwachte) jaarverbruik op te wekken, op basis van de opbrengstfactor van je dakligging. Vanaf 2027 (einde saldering) loont fors overdimensioneren niet meer; daarom adviseren wij rond de 100% van je verbruik, en iets ruimer als je een thuisbatterij, elektrische auto of warmtepomp (verwacht) hebt.</li>
+      <li><b>Top 3 panelen.</b> Alle panelen uit de <a href="index.html">vergelijker</a> krijgen een score op prijs per Wp, rendement en de <a href="uitleg.html#zeker-score">Zeker-score</a>. Jouw voorkeur bepaalt de weging. Past je benodigde vermogen niet op je dak, dan weegt rendement automatisch zwaarder. Bij een plat dak krijgen bifaciale panelen een kleine bonus.</li>
+      <li><b>Passende omvormer.</b> Op basis van schaduw, je batterijplannen en je smart home-systeem (Home Assistant of Homey) adviseren wij een omvormertype en de twee best passende systemen uit de <a href="omvormers.html">omvormer-vergelijker</a>, gewogen met de <a href="omvormers.html#koppel-score">Koppel-score</a>.</li>
+      <li><b>Thuisbatterij.</b> Wil je (later) een batterij, dan adviseren wij de route (direct op een hybride omvormer of AC-gekoppeld via de slimme meter) en een richtgrootte in kWh op basis van je opwek en avondverbruik. Batterijen zelf vergelijk je op onze zustersite <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a>.</li>
+      <li><b>Prijzen.</b> Het systeemoverzicht rekent per onderdeel met de goedkoopst gevonden winkelprijs (dagelijks automatisch gecontroleerd); is er geen winkelprijs, dan gebruiken wij de richtprijs. De montage-indicatie is dezelfde rekensom als in de <a href="rekenmodule.html">rekenmodule</a>.</li>
+      <li><b>Onafhankelijk.</b> Fabrikanten en winkels hebben geen invloed op dit advies; het is een rekensom op openbare specificaties.</li>
+    </ul>
+    <div class="waarschuwing-kader">Dit advies is een startpunt, geen offerte. Laat een installateur altijd je dak, meterkast en omvormerkeuze beoordelen; de legplanning bepaalt uiteindelijk hoeveel panelen er echt passen.</div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <b><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></svg> Zonnestroommaatje</b>
+    <p>Onafhankelijke vergelijking van zonnepanelen voor Nederlandse huishoudens. Zustersite van <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen) en <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a> (warmtepompen).</p>
+    <p><a href="index.html">Zonnepanelen</a> · <a href="omvormers.html">Omvormers</a> · <a href="systeem.html">Samenstellen</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="uitleg.html">Uitleg</a> · <a href="waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="regelgeving.html">Regels &amp; subsidies</a> · <a href="beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a> · <a href="beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a> · <a href="index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="over-ons.html">Over ons</a> · <a href="contact.html">Contact</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
+    <p class="disclaimer">Disclaimer: dit advies is een indicatie; er kunnen geen rechten aan worden ontleend. Controleer voor aankoop zelf de actuele specificaties en de geschiktheid voor jouw dak.</p>
+  </div>
+</footer>
+
+</body>
+</html>

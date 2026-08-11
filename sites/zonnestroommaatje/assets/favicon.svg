@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#0369a1"/>
+    </linearGradient>
+  </defs>
+  <!-- Achtergrond -->
+  <rect x="2" y="2" width="96" height="96" rx="22" fill="url(#bg)"/>
+  <!-- Zonnestralen -->
+  <g stroke="#fde68a" stroke-width="5.5" stroke-linecap="round">
+    <line x1="50" y1="9" x2="50" y2="17"/>
+    <line x1="24" y1="20" x2="29.5" y2="25.5"/>
+    <line x1="76" y1="20" x2="70.5" y2="25.5"/>
+    <line x1="15" y1="42" x2="23" y2="42"/>
+    <line x1="85" y1="42" x2="77" y2="42"/>
+  </g>
+  <!-- Gezichtje: het zonnemaatje -->
+  <circle cx="50" cy="42" r="19" fill="#fbbf24"/>
+  <circle cx="43.5" cy="38.5" r="3.4" fill="#92400e"/>
+  <circle cx="56.5" cy="38.5" r="3.4" fill="#92400e"/>
+  <path d="M42 46.5 Q50 54 58 46.5" fill="none" stroke="#92400e" stroke-width="3.4" stroke-linecap="round"/>
+  <!-- Zonnepaneel -->
+  <g>
+    <rect x="14" y="68" width="72" height="24" rx="5" fill="#0b3a5c"/>
+    <line x1="32" y1="70" x2="32" y2="90" stroke="#7dd3fc" stroke-width="2.4"/>
+    <line x1="50" y1="70" x2="50" y2="90" stroke="#7dd3fc" stroke-width="2.4"/>
+    <line x1="68" y1="70" x2="68" y2="90" stroke="#7dd3fc" stroke-width="2.4"/>
+    <line x1="16" y1="80" x2="84" y2="80" stroke="#7dd3fc" stroke-width="2.4"/>
+  </g>
+</svg>

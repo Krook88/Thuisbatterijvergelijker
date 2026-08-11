@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jouw energieplan: warmtepomp, zonnepanelen en thuisbatterij in één plan (2026) | Zonnestroommaatje.nl</title>
+  <meta name="description" content="Maak gratis een energieplan voor je hele huis: in welke volgorde pak je isolatie, warmtepomp, zonnepanelen en thuisbatterij aan, wat kost elke stap na subsidie en wat bespaart het per jaar?">
+  <link rel="canonical" href="https://zonnestroommaatje.nl/energieplan.html">
+  <meta property="og:title" content="Jouw energieplan: het hele huis in één plan">
+  <meta property="og:description" content="Isolatie, warmtepomp, zonnepanelen en thuisbatterij: de juiste volgorde, de kosten na subsidie en de besparing per jaar.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zonnestroommaatje.nl/energieplan.html">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:image" content="https://zonnestroommaatje.nl/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Zonnestroommaatje.nl">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="assets/style.css?v=20260728a">
+  <script src="assets/iconen.js?v=20260728a" defer></script>
+  <script src="assets/energieplan.js?v=20260728a" defer></script>
+  <script src="assets/nav.js?v=20260728a" defer></script>
+  <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
+  <style>
+    .reken-indeling { display: grid; grid-template-columns: 380px 1fr; gap: 24px; align-items: start; margin: 26px 0 40px; }
+    @media (max-width: 900px) { .reken-indeling { grid-template-columns: 1fr; } }
+    .reken-paneel { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); box-shadow: var(--schaduw); padding: 22px; }
+    .reken-paneel h2 { margin: 0 0 4px; font-size: 1.15rem; color: var(--kleur-primair-donker); }
+    .veld { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+    .veld label { font-size: 0.85rem; font-weight: 700; color: var(--kleur-tekst-licht); }
+    .veld input:not([type="checkbox"]), .veld select { padding: 9px 12px; border: 1px solid var(--kleur-rand); border-radius: 8px; font-size: 0.95rem; width: 100%; min-width: 0; box-sizing: border-box; }
+    .veld .hint { font-size: 0.8rem; color: var(--kleur-tekst-licht); }
+    .veld .checkbox-groep { display: flex; flex-direction: column; gap: 8px; }
+    .reken-indeling > *, .veld { min-width: 0; }
+    .veld-rij { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    @media (max-width: 480px) { .veld-rij { grid-template-columns: 1fr; } }
+    .stappen-intro { margin: 0 0 6px; font-size: 0.95rem; color: var(--kleur-tekst-licht); background: var(--kleur-primair-licht); border-radius: 8px; padding: 10px 14px; }
+    .resultaat-groot { font-size: 2rem; font-weight: 800; color: var(--kleur-primair-donker); letter-spacing: -0.02em; }
+    .plan-samenvatting { background: var(--kleur-primair-licht); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 14px; }
+    .plan-totalen { display: flex; flex-direction: column; gap: 4px; font-size: 0.95rem; }
+    .plan-stap { border: 1px solid var(--kleur-rand); border-radius: var(--radius); padding: 14px 16px; margin-top: 12px; background: var(--kleur-wit); }
+    .plan-stap-kop { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .plan-stap-kop h3 { margin: 0; font-size: 1.05rem; min-width: 0; }
+    .plan-nummer { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--kleur-primair); color: #fff; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+    .plan-icoon { font-size: 1.2rem; }
+    .plan-advies { margin: 8px 0 0; font-size: 0.92rem; color: var(--kleur-tekst-licht); }
+    .plan-bedragen { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; font-size: 0.95rem; }
+    .plan-knoppen { margin: 10px 0 0; }
+    .plan-knoppen .knop { padding: 8px 14px; font-size: 0.88rem; }
+    .vgl-tabel { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px 8px; align-items: center; }
+    .vgl-rij { display: contents; }
+    .vgl-label { font-size: 0.85rem; }
+    .vgl-balk { display: flex; height: 20px; border-radius: 6px; overflow: hidden; background: rgba(255,255,255,0.7); min-width: 0; }
+    .vgl-balk span { display: block; height: 100%; min-width: 2px; }
+    .vgl-bedrag { font-size: 0.9rem; overflow-wrap: anywhere; min-width: 0; }
+    .volgorde-figuur { margin: 18px 0 6px; padding: 16px 16px 10px; background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); }
+    .volgorde-figuur svg { display: block; width: 100%; max-width: 640px; height: auto; margin: 0 auto; }
+    .volgorde-figuur figcaption { margin-top: 8px; font-size: 0.88rem; color: var(--kleur-tekst-licht); text-align: center; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="index.html">
+      <span class="logo-icoon"><svg class="icoon icoon-groot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></svg></span>
+      <span>Zonnestroom<b>maatje</b></span>
+    </a>
+    <nav class="hoofdnav">
+      <a href="index.html">Zonnepanelen</a>
+      <a href="omvormers.html">Omvormers</a>
+      <a href="systeem.html">Samenstellen</a>
+      <a href="advies.html">Keuzehulp</a>
+      <a href="rekenmodule.html">Terugverdientijd</a>
+      <details class="nav-meer">
+        <summary>Meer <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary>
+        <div class="nav-meer-paneel">
+          <a href="energieplan.html">Jouw energieplan</a>
+          <a href="uitleg.html">Uitleg</a>
+          <a href="waar-zonnepanelen-kopen.html">Waar koop je panelen?</a>
+          <a href="regelgeving.html">Regels &amp; subsidies</a>
+          <a href="beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a>
+          <a href="beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a>
+          <a href="over-ons.html">Over ons</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </details>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Jouw energieplan: het hele huis in één plan</h1>
+    <p>Warmtepomp, zonnepanelen én thuisbatterij overwegen? Vul één keer je situatie in en zie de juiste volgorde, wat elke stap kost na subsidie, wat het per jaar bespaart en waar je per stap verder rekent en vergelijkt. Samen met onze zustersites <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener" style="color:inherit;">Warmtepompmaatje</a> en <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener" style="color:inherit;">Batterijmaatje.nl</a>.</p>
+  </div>
+</section>
+
+<main class="container">
+
+  <figure class="volgorde-figuur">
+    <svg viewBox="0 0 640 120" role="img" aria-label="De bewezen volgorde: eerst isoleren, dan warmtepomp, dan zonnepanelen, dan thuisbatterij en slimme sturing">
+      <path d="M20 60 H620" stroke="var(--kleur-rand)" stroke-width="3" stroke-linecap="round"/>
+      <g text-anchor="middle" font-size="13">
+        <circle cx="90" cy="60" r="26" fill="var(--kleur-primair-licht)" stroke="var(--kleur-primair)" stroke-width="2.5"/>
+        <text x="90" y="67" font-size="20"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /> <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg></text>
+        <text x="90" y="110" fill="var(--kleur-tekst)">1. Isoleren</text>
+        <circle cx="240" cy="60" r="26" fill="var(--kleur-primair-licht)" stroke="var(--kleur-primair)" stroke-width="2.5"/>
+        <text x="240" y="67" font-size="20"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" /></svg></text>
+        <text x="240" y="110" fill="var(--kleur-tekst)">2. Warmtepomp</text>
+        <circle cx="395" cy="60" r="26" fill="var(--kleur-primair-licht)" stroke="var(--kleur-primair)" stroke-width="2.5"/>
+        <text x="395" y="67" font-size="20"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></svg></text>
+        <text x="395" y="110" fill="var(--kleur-tekst)">3. Zonnepanelen</text>
+        <circle cx="550" cy="60" r="26" fill="var(--kleur-primair-licht)" stroke="var(--kleur-primair)" stroke-width="2.5"/>
+        <text x="550" y="67" font-size="20"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 7-3 5h4l-3 5" /> <path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935" /> <path d="M22 14v-4" /> <path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936" /></svg></text>
+        <text x="550" y="110" fill="var(--kleur-tekst)">4. Batterij</text>
+        <text x="90" y="22" fill="var(--kleur-tekst-licht)" font-size="12">minder nodig</text>
+        <text x="240" y="22" fill="var(--kleur-tekst-licht)" font-size="12">minder gas</text>
+        <text x="395" y="22" fill="var(--kleur-tekst-licht)" font-size="12">eigen stroom</text>
+        <text x="550" y="22" fill="var(--kleur-tekst-licht)" font-size="12">stroom bewaren</text>
+      </g>
+    </svg>
+    <figcaption>De bewezen volgorde (Milieu Centraal, RVO): elke stap maakt de volgende kleiner en goedkoper.</figcaption>
+  </figure>
+
+  <div class="reken-indeling">
+
+    <form id="planFormulier" class="reken-paneel" onsubmit="return false;">
+      <h2>Jouw situatie</h2>
+      <p class="stappen-intro">Negen korte vragen en je plan rekent direct mee: op een groot scherm hiernaast, op een telefoon onder het formulier.</p>
+
+      <div class="veld-rij">
+        <div class="veld">
+          <label for="gasverbruik">Gasverbruik (m³ per jaar)</label>
+          <input type="number" id="gasverbruik" min="0" max="6000" step="50" value="1200">
+        </div>
+        <div class="veld">
+          <label for="stroomverbruik">Stroomverbruik (kWh per jaar)</label>
+          <input type="number" id="stroomverbruik" min="500" max="20000" step="100" value="2900">
+        </div>
+      </div>
+      <p class="hint" style="margin:4px 0 0;">Beide staan op je jaarafrekening; gemiddeld: 1.200 m³ en 2.900 kWh</p>
+
+      <div class="veld">
+        <label for="isolatie">Hoe goed is je huis geïsoleerd?</label>
+        <select id="isolatie">
+          <option value="goed">Goed (bouwjaar na 2000, of volledig nageïsoleerd)</option>
+          <option value="redelijk" selected>Redelijk (dubbel glas, deels geïsoleerd)</option>
+          <option value="matig">Matig (ouder huis, enkel glas of weinig isolatie)</option>
+        </select>
+      </div>
+
+      <div class="veld">
+        <label for="cvKetel">Hangt er nu een cv-ketel?</label>
+        <select id="cvKetel">
+          <option value="recent" selected>Ja, minder dan 10 jaar oud</option>
+          <option value="oud">Ja, maar ouder dan 10 jaar</option>
+          <option value="geen">Nee (stadsverwarming, elektrisch of nieuwbouw)</option>
+        </select>
+      </div>
+
+      <div class="veld">
+        <label for="afgifte">Hoe verwarm je de kamers?</label>
+        <select id="afgifte">
+          <option value="vloer">Vooral vloerverwarming</option>
+          <option value="mix" selected>Mix van vloerverwarming en radiatoren</option>
+          <option value="radiatoren">Alleen radiatoren</option>
+        </select>
+        <span class="hint">Vloerverwarming werkt op lage temperatuur, ideaal voor een warmtepomp</span>
+      </div>
+
+      <div class="veld">
+        <label for="woning">Wat voor huis is het?</label>
+        <select id="woning">
+          <option value="tussen" selected>Rijtjeshuis (tussenwoning)</option>
+          <option value="hoek">Hoekhuis of twee-onder-een-kap</option>
+          <option value="vrijstaand">Vrijstaand</option>
+        </select>
+        <span class="hint">Bepaalt hoe zwaar het geluid van de buitenunit telt (erfgrens-eis)</span>
+      </div>
+
+      <div class="veld">
+        <label for="contract">Wat voor energiecontract heb je?</label>
+        <select id="contract">
+          <option value="vast" selected>Vast (prijs staat vast)</option>
+          <option value="variabel">Variabel (prijs wijzigt per maand of kwartaal)</option>
+          <option value="dynamisch">Dynamisch (uurprijzen)</option>
+        </select>
+      </div>
+
+      <div class="veld">
+        <label for="dak">Hoeveel ruimte heeft je dak?</label>
+        <select id="dak">
+          <option value="klein">Klein (tot circa 8 panelen)</option>
+          <option value="gemiddeld" selected>Gemiddeld (tot circa 12 panelen)</option>
+          <option value="groot">Groot (tot circa 20 panelen)</option>
+        </select>
+      </div>
+
+      <div class="veld">
+        <label>Wat heb je al?</label>
+        <div class="checkbox-groep">
+          <label><input type="checkbox" id="checkHeeftPomp"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" /></svg> Warmtepomp</label>
+          <label><input type="checkbox" id="checkHeeftPanelen"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></svg> Zonnepanelen</label>
+          <label><input type="checkbox" id="checkHeeftBatterij"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 7-3 5h4l-3 5" /> <path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935" /> <path d="M22 14v-4" /> <path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936" /></svg> Thuisbatterij</label>
+        </div>
+        <span class="hint">Wat je al hebt, slaan wij over in het plan</span>
+      </div>
+    </form>
+
+    <div id="plan" class="reken-paneel" aria-live="polite">
+      <h2>Jouw plan</h2>
+      <div id="planInhoud"><p class="hint">Laden…</p></div>
+    </div>
+
+  </div>
+
+  <section class="content-pagina" style="padding-top:0;">
+    <h2>Hoe rekenen wij?</h2>
+    <p>Het plan gebruikt dezelfde vuistregels als de keuzehulpen en rekenmodules van de drie maatje-sites, zodat de bedragen overal kloppen. De kern:</p>
+    <ul>
+      <li><b>Volgorde.</b> Eerst isoleren, dan duurzaam verwarmen, dan opwekken, dan opslaan: de gangbare volgorde van Milieu Centraal en RVO, omdat elke stap de volgende kleiner maakt. Isolatie vergelijken wij zelf niet; daarvoor verwijzen we naar de <a href="https://www.verbeterjehuis.nl/verbetercheck" target="_blank" rel="noopener">Verbetercheck van Milieu Centraal</a>.</li>
+      <li><b>Warmtepomp.</b> Goede isolatie, geen cv-ketel, of redelijke isolatie mét (deels) vloerverwarming: all-electric (indicatie € 7.300 toestel + € 4.500 installatie − € 3.000 ISDE, vaste gaskosten vervallen). Anders hybride (€ 3.300 + € 2.500 − € 2.100 ISDE, circa 60% gasbesparing). Zelfde regels als de <a href="https://warmtepompmaatje.nl/advies.html" target="_blank" rel="noopener">keuzehulp</a> en <a href="https://warmtepompmaatje.nl/rekenmodule.html" target="_blank" rel="noopener">terugverdientijd-berekening van Warmtepompmaatje</a>. Woon je niet vrijstaand, dan wijzen we op de geluidseis van 40 dB op de erfgrens.</li>
+      <li><b>Zonnepanelen.</b> Gedimensioneerd op je stroomverbruik ná de warmtepomp (dus inclusief de extra kWh), begrensd door je dak. Wij rekenen met 440 Wp-panelen, 0,9 kWh per Wp, gemiddelde paneelprijs uit onze vergelijker plus montage, en de regels zonder saldering: 35% direct eigen verbruik (45% met slim aangestuurde warmtepomp), teruglevering € 0,05 minus € 0,02 kosten.</li>
+      <li><b>Thuisbatterij.</b> Vuistregel circa 10 kWh bij een warmtepomp, anders 7 kWh, tegen circa € 350 per kWh (bron: <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a>). De batterij verhoogt het eigen verbruik van je opwek met circa 25 procentpunt; winst uit dynamische handel rekenen wij bewust niet mee.</li>
+      <li><b>Dynamisch contract.</b> Heb je straks een warmtepomp of batterij, dan adviseren wij een dynamisch contract te overwegen: met slimme sturing verschuift je verbruik naar goedkope uren. Die winst rekenen wij bewust niet mee in de bedragen (het is een bonus, en zonder slimme sturing kan dynamisch ook tegenvallen). Bron: <a href="https://www.milieucentraal.nl/energie-besparen/inzicht-in-je-energierekening/dynamisch-energiecontract/" target="_blank" rel="noopener">Milieu Centraal</a>.</li>
+      <li><b>Prijzen.</b> Gas € 1,45 per m³, stroom € 0,30 per kWh, vaste gaskosten € 350 per jaar, prijzen constant gehouden.</li>
+      <li><b>Per stap exact.</b> Dit plan is een kompas, geen offerte. Elke stap linkt naar de keuzehulp of rekenmodule die het exact doorrekent met actuele, dagelijks gecontroleerde winkelprijzen.</li>
+    </ul>
+    <div class="waarschuwing-kader">Dit plan is een indicatie op basis van gemiddelden en vuistregels; er kunnen geen rechten aan worden ontleend. Laat voor de warmtepomp altijd een warmteverliesberekening maken en vraag meerdere offertes aan.</div>
+    <p class="bron-lijst">Bronnen: <a href="https://www.milieucentraal.nl/energie-besparen/" target="_blank" rel="noopener">Milieu Centraal over de volgorde van verduurzamen</a> · <a href="https://www.verbeterjehuis.nl/" target="_blank" rel="noopener">Verbeterjehuis (isolatie)</a> · <a href="https://www.rvo.nl/subsidies-financiering/isde" target="_blank" rel="noopener">RVO over de ISDE-subsidie</a> · <a href="https://publications.tno.nl/publication/34642049/qcHByI/TNO-2023-M12703.pdf" target="_blank" rel="noopener">TNO over totaalverduurzaming (2023)</a>.</p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <b><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></svg> Zonnestroommaatje</b>
+    <p>Onafhankelijke vergelijking van zonnepanelen voor Nederlandse huishoudens. Zustersite van <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen) en <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a> (warmtepompen).</p>
+    <p><a href="index.html">Zonnepanelen</a> · <a href="omvormers.html">Omvormers</a> · <a href="systeem.html">Samenstellen</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="energieplan.html">Jouw energieplan</a> · <a href="uitleg.html">Uitleg</a> · <a href="waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="regelgeving.html">Regels &amp; subsidies</a> · <a href="over-ons.html">Over ons</a> · <a href="contact.html">Contact</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
+    <p class="disclaimer">Disclaimer: dit plan is een indicatie; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
+  </div>
+</footer>
+
+</body>
+</html>
