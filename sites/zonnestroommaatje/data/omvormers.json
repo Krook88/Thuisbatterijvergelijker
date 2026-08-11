@@ -1,6 +1,6 @@
 {
   "laatst_bijgewerkt": "2026-08-11",
-  "toelichting": "Richtprijzen zijn indicatief, gelden voor de genoemde gangbare variant (excl. installatie) en verschillen sterk per vermogen en uitvoering. Winkelprijzen betreffen de losse omvormer van de genoemde variant; sommige winkels tonen prijzen exclusief btw en accessoires (gateway, meter, optimizers) komen er soms nog bij. Specificaties en integraties komen uit fabrikantendocumentatie en openbare bronnen; controleer voor aankoop de actuele datasheet en garantievoorwaarden. Koppelingsinformatie (batterij, Home Assistant) kan per firmwareversie veranderen. Homey-informatie is gebaseerd op de Homey App Store; controleer vóór aankoop of de app jouw model ondersteunt.",
+  "toelichting": "Richtprijzen zijn indicatief, gelden voor de genoemde gangbare variant (excl. installatie) en verschillen sterk per vermogen en uitvoering. Winkelprijzen betreffen de losse omvormer van de genoemde variant. Sommige winkels tonen prijzen exclusief btw; die rekenen wij om naar inclusief btw zodat alle bedragen vergelijkbaar zijn, met de winkelprijs erbij vermeld. Accessoires (gateway, meter, optimizers) komen er soms nog bij. Specificaties en integraties komen uit fabrikantendocumentatie en openbare bronnen; controleer voor aankoop de actuele datasheet en garantievoorwaarden. Koppelingsinformatie (batterij, Home Assistant) kan per firmwareversie veranderen. Homey-informatie is gebaseerd op de Homey App Store; controleer vóór aankoop of de app jouw model ondersteunt.",
   "omvormers": [
     {
       "id": "enphase-iq8",
@@ -43,13 +43,15 @@
           "winkel": "Winkelman Zonnepanelen",
           "prijs_eur": 109,
           "url": "https://www.winkelman-zonnepanelen.nl/enphase-iq8-hc-micro-omvormer.html",
-          "datum": "2026-08-11"
+          "datum": "2026-08-11",
+          "btw_inbegrepen": false
         },
         {
           "winkel": "Solar Bouwmarkt",
           "prijs_eur": 119,
           "url": "https://www.solar-bouwmarkt.nl/iq8hc-micro-omvormer.html",
-          "datum": "2026-08-11"
+          "datum": "2026-08-11",
+          "btw_inbegrepen": false
         }
       ],
       "prijs_datum": "2026-08-11",
@@ -104,7 +106,8 @@
           "winkel": "J en M Zonnepanelen",
           "prijs_eur": 145,
           "url": "https://www.jenm-zonnepanelen.nl/nl/apsystems-ds3-micro-omvormer.html",
-          "datum": "2026-08-11"
+          "datum": "2026-08-11",
+          "btw_inbegrepen": false
         }
       ],
       "prijs_datum": "2026-08-11",
@@ -270,7 +273,8 @@
           "winkel": "Zonnepanelen-voordelig",
           "prijs_eur": 1415,
           "url": "https://www.zonnepanelen-voordelig.nl/contents/nl/p58724_Fronius-Primo-GEN24-Plus-5.0-omvormer.html",
-          "datum": "2026-08-11"
+          "datum": "2026-08-11",
+          "btw_inbegrepen": false
         }
       ],
       "prijs_datum": "2026-08-11",
@@ -384,13 +388,15 @@
           "winkel": "Groothandel Solar",
           "prijs_eur": 1000,
           "url": "https://www.groothandelsolar.com/omvormers/string-omvormers/huawei/huawai-sun2000-5ktl-l1",
-          "datum": "2026-08-11"
+          "datum": "2026-08-11",
+          "btw_inbegrepen": false
         },
         {
           "winkel": "SolarNRG",
           "prijs_eur": 460,
           "url": "https://solarnrg.shop/omvormers/huawei-sun2000-5ktl-l1/",
-          "datum": "2026-08-11"
+          "datum": "2026-08-11",
+          "btw_inbegrepen": false
         }
       ],
       "prijs_datum": "2026-08-11",
@@ -456,7 +462,8 @@
           "winkel": "WarmteBeheer",
           "prijs_eur": 620,
           "url": "https://www.warmtebeheer.nl/growatt-min-5000tl-xh-hybrid-ready-omvormer-5000w-2mppt-gratis-wifi-module.html",
-          "datum": "2026-08-11"
+          "datum": "2026-08-11",
+          "btw_inbegrepen": false
         }
       ],
       "prijs_datum": "2026-08-11",
@@ -577,7 +584,8 @@
           "winkel": "Pavento Solar",
           "prijs_eur": 1050,
           "url": "https://paventosolar.nl/product/sungrow-sh5-0rt/",
-          "datum": null
+          "datum": null,
+          "btw_inbegrepen": false
         }
       ],
       "prijs_datum": "2026-08-11",
@@ -632,7 +640,8 @@
           "winkel": "Eigen Stroom Opslaan",
           "prijs_eur": 1295,
           "url": "https://eigenstroomopslaan.nl/product/deye-inverter-sun-5k-sg03-lp1eu/",
-          "datum": "2026-08-11"
+          "datum": "2026-08-11",
+          "btw_inbegrepen": false
         }
       ],
       "prijs_datum": "2026-08-11",

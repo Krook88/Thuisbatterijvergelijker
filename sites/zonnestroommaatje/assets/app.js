@@ -56,28 +56,13 @@
     return (a && (a.affiliate_url || a.url)) || "";
   }
 
-  function bestePrijs(p) {
-    const aanbiedingen = (p.aanbiedingen || []).filter((a) => a && a.prijs_eur);
-    if (aanbiedingen.length) {
-      // Bij gelijke prijs wint de aanbieding met controledatum (geverifieerd)
-      return aanbiedingen.reduce((min, a) => (a.prijs_eur < min.prijs_eur || (a.prijs_eur === min.prijs_eur && a.datum && !min.datum) ? a : min));
-    }
-    if (p.richtprijs_eur) {
-      return { winkel: p.prijs_bron || "richtprijs (indicatie)", prijs_eur: p.richtprijs_eur, url: p.product_url };
-    }
-    return null;
-  }
+  // Prijslogica staat in assets/prijs.js: één bron voor de hele site, zodat
+  // een prijs excl. btw niet van een eerlijke prijs incl. btw kan winnen.
+  const bestePrijs = (p) => Prijs.beste(p);
 
-  function heeftKorting(p) {
-    const beste = bestePrijs(p);
-    return !!(beste && p.richtprijs_eur && beste.prijs_eur < p.richtprijs_eur * 0.97);
-  }
+  const heeftKorting = (p) => Prijs.heeftKorting(p);
 
-  function prijsPerWp(p) {
-    const beste = bestePrijs(p);
-    if (!beste || !p.vermogen_wp) return null;
-    return beste.prijs_eur / p.vermogen_wp;
-  }
+  const prijsPerWp = (p) => Prijs.prijsPerWp(p);
 
   const CELTYPE_LABEL = {
     "topcon": "TOPCon (N-type)",
@@ -225,7 +210,7 @@
 
   function gesorteerd(lijst) {
     const kopie = [...lijst];
-    const prijsVan = (p) => { const b = bestePrijs(p); return b ? b.prijs_eur : Infinity; };
+    const prijsVan = (p) => { const b = bestePrijs(p); return b ? Prijs.vergelijkPrijs(b) : Infinity; };
     switch (state.sortering) {
       case "prijs-oplopend": kopie.sort((a, b) => prijsVan(a) - prijsVan(b)); break;
       case "prijs-aflopend": kopie.sort((a, b) => prijsVan(b) - prijsVan(a)); break;
@@ -297,14 +282,14 @@
         <dt>Temperatuurcoëfficiënt</dt><dd>${p.temp_coefficient ? `${nl(p.temp_coefficient)}% per °C (dichter bij nul is beter bij warmte)` : "Onbekend"}</dd>
         <dt>Afmetingen en gewicht</dt><dd>${escapeHtml(p.afmetingen_mm || "?")} mm${p.gewicht_kg ? `, circa ${nl(p.gewicht_kg)} kg` : ""}</dd>
         ${p.opmerkingen ? `<dt>Goed om te weten</dt><dd>${escapeHtml(p.opmerkingen)}</dd>` : ""}
-        ${(p.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${p.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${eurFmt.format(a.prijs_eur)}</b> &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul></dd>` : ""}
+        ${(p.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${p.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${eurFmt.format(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""} &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul></dd>` : ""}
         ${p.product_url ? `<dt>Fabrikant</dt><dd><a href="${escapeHtml(p.product_url)}" target="_blank" rel="noopener">officiële website van ${escapeHtml(p.merk)}</a></dd>` : ""}
         ${p.prijs_datum ? `<dd class="datum-stempel" style="margin-top:8px;">Richtprijs gecontroleerd: ${escapeHtml(datumNL(p.prijs_datum))}</dd>` : ""}
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
           ${korting ? `<div class="van-prijs">${eurFmt.format(p.richtprijs_eur)}</div>` : ""}
-          <div class="prijs">${beste ? eurFmt.format(beste.prijs_eur) : "Prijs op aanvraag"}</div>
+          <div class="prijs">${beste ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "Prijs op aanvraag"}</div>
           ${perWp ? `<div class="prijs-per-kwh">${eurWpFmt.format(perWp)} per Wp</div>` : ""}
           ${beste && beste.winkel ? `<div class="prijs-winkel">${beste.winkel.startsWith("richtprijs") ? beste.winkel : "bij " + escapeHtml(beste.winkel)}</div>` : ""}
           ${p.prijs_omvat ? `<div class="prijs-winkel">${escapeHtml(p.prijs_omvat)}</div>` : ""}
@@ -328,7 +313,7 @@
     { key: "wp", label: "Wp", get: (p) => p.vermogen_wp || 0 },
     { key: "rendement", label: "Rendement", get: (p) => p.rendement_pct || 0 },
     { key: "celtype", label: "Celtype", get: (p) => p.celtype },
-    { key: "prijs", label: "Prijs", get: (p) => { const b = bestePrijs(p); return b ? b.prijs_eur : Infinity; } },
+    { key: "prijs", label: "Prijs", get: (p) => { const b = bestePrijs(p); return b ? Prijs.vergelijkPrijs(b) : Infinity; } },
     { key: "perwp", label: "€/Wp", get: (p) => prijsPerWp(p) || Infinity },
     { key: "uitvoering", label: "Glas-glas", get: (p) => (p.uitvoering === "glas-glas" ? 1 : 0) },
     { key: "garantie", label: "Garantie", get: (p) => p.garantie_product_jaar || 0 },
@@ -358,7 +343,7 @@
             <td>${p.vermogen_wp || "?"}</td>
             <td>${p.rendement_pct ? nl(p.rendement_pct) + "%" : "?"}</td>
             <td>${escapeHtml(celtypeLabel(p))}</td>
-            <td class="tabel-prijs" title="${escapeHtml(p.prijs_omvat || "")}">${beste ? eurFmt.format(beste.prijs_eur) : "n.b."}${heeftKorting(p) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
+            <td class="tabel-prijs" title="${escapeHtml(p.prijs_omvat || "")}">${beste ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "n.b."}${heeftKorting(p) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
             <td>${perWp ? eurWpFmt.format(perWp) : "n.b."}</td>
             <td>${p.uitvoering === "glas-glas" ? '<span class="check-ja">' + Iconen.svg("ja") + '</span>' : '<span class="check-nee">' + Iconen.svg("nee") + '</span>'}</td>
             <td>${p.garantie_product_jaar ? p.garantie_product_jaar + " jr" : "?"}</td>
@@ -386,7 +371,7 @@
         ${rij("Celtype", (p) => escapeHtml(celtypeLabel(p)))}
         ${rij("Vermogen", (p) => (p.vermogen_wp ? p.vermogen_wp + " Wp" : "?"))}
         ${rij("Rendement", (p) => (p.rendement_pct ? nl(p.rendement_pct) + "%" : "?"))}
-        ${rij("Prijs", (p) => { const b = bestePrijs(p); return b ? `<b>${eurFmt.format(b.prijs_eur)}</b>` : "n.b."; })}
+        ${rij("Prijs", (p) => { const b = bestePrijs(p); return b ? `<b>${eurFmt.format(Prijs.vergelijkPrijs(b))}</b>` : "n.b."; })}
         ${rij("Prijs per Wp", (p) => { const w = prijsPerWp(p); return w ? eurWpFmt.format(w) : "n.b."; })}
         ${rij("Uitvoering", (p) => escapeHtml(p.uitvoering || "?"))}
         ${rij("Full black", (p) => jaNee(p.full_black))}

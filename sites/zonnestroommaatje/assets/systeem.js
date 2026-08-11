@@ -32,15 +32,7 @@
     return (a && (a.affiliate_url || a.url)) || "";
   }
 
-  function bestePrijs(x) {
-    const aanbiedingen = (x.aanbiedingen || []).filter((a) => a && a.prijs_eur);
-    if (aanbiedingen.length) {
-      // Bij gelijke prijs wint de aanbieding met controledatum (geverifieerd)
-      return aanbiedingen.reduce((min, a) => (a.prijs_eur < min.prijs_eur || (a.prijs_eur === min.prijs_eur && a.datum && !min.datum) ? a : min));
-    }
-    if (x.richtprijs_eur) return { winkel: null, prijs_eur: x.richtprijs_eur, url: x.product_url };
-    return null;
-  }
+  const bestePrijs = (x) => Prijs.beste(x);
 
   function winkelFragment(beste, suffix) {
     if (!beste) return "";
@@ -182,7 +174,7 @@
     const rijen = [];
     const pBest = bestePrijs(p);
     const oBest = bestePrijs(o);
-    const paneelStuk = pBest ? pBest.prijs_eur : 0;
+    const paneelStuk = pBest ? Prijs.vergelijkPrijs(pBest) : 0;
     const paneelTotaal = paneelStuk * s.aantal;
     rijen.push({
       label: `${Iconen.svg("zon")} <b>${s.aantal} ×</b> ${escapeHtml(naamVan(p))}`,
@@ -191,7 +183,7 @@
     });
 
     let omvormerTotaal = 0;
-    const oStuk = oBest ? oBest.prijs_eur : 0;
+    const oStuk = oBest ? Prijs.vergelijkPrijs(oBest) : 0;
     if (cfg.soort === "per_paneel" || cfg.soort === "per_2_panelen") {
       const units = cfg.soort === "per_2_panelen" ? Math.ceil(s.aantal / 2) : s.aantal;
       const unitsTotaal = units * oStuk;
@@ -310,7 +302,7 @@
       }).join("");
 
       // Standaard: goedkoopste paneel per Wp en een veelgekozen hybride
-      const perWp = (p) => { const b = bestePrijs(p); return b && p.vermogen_wp ? b.prijs_eur / p.vermogen_wp : Infinity; };
+      const perWp = (p) => Prijs.prijsPerWp(p) ?? Infinity;
       const goedkoopste = [...panelen].sort((a, b) => perWp(a) - perWp(b))[0];
       state.paneel = goedkoopste ? goedkoopste.id : null;
       const standaardOmvormer = omvormers.find((o) => o.id === "goodwe-et") || omvormers[0];

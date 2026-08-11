@@ -54,17 +54,10 @@
     return (a && (a.affiliate_url || a.url)) || "";
   }
 
-  function bestePrijs(o) {
-    const aanbiedingen = (o.aanbiedingen || []).filter((a) => a && a.prijs_eur);
-    if (aanbiedingen.length) {
-      // Bij gelijke prijs wint de aanbieding met controledatum (geverifieerd)
-      return aanbiedingen.reduce((min, a) => (a.prijs_eur < min.prijs_eur || (a.prijs_eur === min.prijs_eur && a.datum && !min.datum) ? a : min));
-    }
-    if (o.richtprijs_eur) {
-      return { winkel: "richtprijs (indicatie)", prijs_eur: o.richtprijs_eur, url: o.product_url };
-    }
-    return null;
-  }
+  // Zie assets/prijs.js. Juist hier telt het: bij een los verkochte omvormer
+  // geldt het btw-nultarief voor zonnepanelen niet, en verkopen meerdere
+  // winkels aan installateurs met prijzen excl. btw.
+  const bestePrijs = (o) => Prijs.beste(o);
 
   // Koppel-score: unieke Zonnestroommaatje-score (0 tot 6) voor hoe goed een
   // omvormer te koppelen is. Drie zaken tellen mee, elk 0-2 punten:
@@ -140,7 +133,7 @@
 
   function gesorteerd(lijst) {
     const kopie = [...lijst];
-    const prijsVan = (o) => { const b = bestePrijs(o); return b ? b.prijs_eur : Infinity; };
+    const prijsVan = (o) => { const b = bestePrijs(o); return b ? Prijs.vergelijkPrijs(b) : Infinity; };
     switch (state.sortering) {
       case "prijs-oplopend": kopie.sort((a, b) => prijsVan(a) - prijsVan(b)); break;
       case "prijs-aflopend": kopie.sort((a, b) => (prijsVan(b) === Infinity ? 0 : prijsVan(b)) - (prijsVan(a) === Infinity ? 0 : prijsVan(a))); break;
@@ -196,13 +189,14 @@
         <dt>Homey</dt><dd>${escapeHtml(homey.tekst)}</dd>
         <dt>Schaduwaanpak</dt><dd>${escapeHtml(schaduw.tekst)}</dd>
         ${o.opmerkingen ? `<dt>Goed om te weten</dt><dd>${escapeHtml(o.opmerkingen)}</dd>` : ""}
-        ${(o.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${o.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${eurFmt.format(a.prijs_eur)}</b> &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul>${o.prijs_datum ? `<span class="datum-stempel" style="display:block;margin-top:8px;">Prijzen gecontroleerd: ${escapeHtml(datumNL(o.prijs_datum))}. Zonder controledatum is de prijs een indicatie.</span>` : ""}</dd>` : ""}
+        ${(o.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${o.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${eurFmt.format(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""} &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul>${o.prijs_datum ? `<span class="datum-stempel" style="display:block;margin-top:8px;">Prijzen gecontroleerd: ${escapeHtml(datumNL(o.prijs_datum))}. Zonder controledatum is de prijs een indicatie.</span>` : ""}</dd>` : ""}
         ${o.product_url ? `<dt>Fabrikant</dt><dd><a href="${escapeHtml(o.product_url)}" target="_blank" rel="noopener">officiële website van ${escapeHtml(o.merk)}</a></dd>` : ""}
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
-          <div class="prijs">${beste ? eurFmt.format(beste.prijs_eur) : "Prijs op aanvraag"}</div>
+          <div class="prijs">${beste ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "Prijs op aanvraag"}</div>
           ${beste ? `<div class="prijs-winkel">${uitWinkel ? "bij " + escapeHtml(beste.winkel) : beste.winkel}</div>` : ""}
+          ${Prijs.isOmgerekend(beste) ? `<div class="prijs-let-op">De winkel toont ${eurFmt.format(beste.prijs_eur)} <b>excl. btw</b>. Hierboven staat het bedrag incl. btw, zodat het te vergelijken is met de andere omvormers.</div>` : ""}
           ${o.voorbeeld_variant ? `<div class="prijs-per-kwh">prijs voor: ${escapeHtml(o.voorbeeld_variant)}</div>` : ""}
           ${o.prijs_toelichting ? `<div class="prijs-winkel">${escapeHtml(o.prijs_toelichting)}</div>` : ""}
         </div>
@@ -223,7 +217,7 @@
     { key: "model", label: "Model", get: (o) => `${o.merk} ${o.model}` },
     { key: "type", label: "Type", get: (o) => o.type },
     { key: "vermogen", label: "Vermogen", get: (o) => o.vermogen_bereik || "" },
-    { key: "prijs", label: "Prijs", get: (o) => { const b = bestePrijs(o); return b ? b.prijs_eur : Infinity; } },
+    { key: "prijs", label: "Prijs", get: (o) => { const b = bestePrijs(o); return b ? Prijs.vergelijkPrijs(b) : Infinity; } },
     { key: "garantie", label: "Garantie", get: (o) => o.garantie_jaar || 0 },
     { key: "koppel", label: "Koppel-score", get: (o) => koppelScore(o) },
     { key: "batterij", label: "Batterij", get: (o) => driewaardig(o.batterij).status },
@@ -258,7 +252,7 @@
             <td><b>${escapeHtml(o.merk)}</b><br>${escapeHtml(o.model)}</td>
             <td>${escapeHtml(TYPE_LABEL[o.type] || o.type)}</td>
             <td>${escapeHtml(o.vermogen_bereik || "?")}</td>
-            <td class="tabel-prijs" title="${escapeHtml(o.prijs_toelichting || "")}">${beste ? eurFmt.format(beste.prijs_eur) : "n.b."}</td>
+            <td class="tabel-prijs" title="${escapeHtml([o.prijs_toelichting, Prijs.prijsToelichting(beste)].filter(Boolean).join(" · "))}">${beste ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "n.b."}</td>
             <td>${o.garantie_jaar ? o.garantie_jaar + " jr" : "?"}</td>
             <td title="Punten voor batterij-klaar, slim uitlezen en schaduwaanpak"><b>${koppelScore(o)}/6</b></td>
             <td>${checkCel(o.batterij)}</td>
@@ -286,7 +280,7 @@
         ${rij("Type", (o) => escapeHtml(TYPE_LABEL[o.type] || o.type))}
         ${rij("Vermogen", (o) => escapeHtml(o.vermogen_bereik || "?"))}
         ${rij("Aansluiting", (o) => escapeHtml(o.fase || "?"))}
-        ${rij("Prijs", (o) => { const b = bestePrijs(o); const w = b && b.winkel && !b.winkel.startsWith("richtprijs"); return `${b ? `<b>${eurFmt.format(b.prijs_eur)}</b>${w ? `<br><small>bij ${escapeHtml(b.winkel)}</small>` : "<br><small>richtprijs (indicatie)</small>"}` : "n.b."}<br><small>${escapeHtml(o.prijs_toelichting || "")}</small>`; })}
+        ${rij("Prijs", (o) => { const b = bestePrijs(o); const w = b && b.winkel && !b.winkel.startsWith("richtprijs"); return `${b ? `<b>${eurFmt.format(Prijs.vergelijkPrijs(b))}</b>${w ? `<br><small>bij ${escapeHtml(b.winkel)}</small>` : "<br><small>richtprijs (indicatie)</small>"}` : "n.b."}<br><small>${escapeHtml([o.prijs_toelichting, Prijs.prijsToelichting(b)].filter(Boolean).join(" · "))}</small>`; })}
         ${rij("Koppel-score", (o) => `<b>${koppelScore(o)}/6</b>`)}
         ${rij("Thuisbatterij", (o) => d3(o.batterij))}
         ${rij("Home Assistant", (o) => d3(o.home_assistant))}

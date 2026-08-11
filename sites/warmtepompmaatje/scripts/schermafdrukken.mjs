@@ -61,12 +61,18 @@ function server() {
 async function vastleggen(fase) {
   const doel = resolve(MAP, fase);
   mkdirSync(doel, { recursive: true });
-  const { chromium } = await import("playwright");
+  const { chromium, devices } = await import("playwright");
   const { s, poort } = await server();
   const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
   let n = 0;
   for (const breedte of BREEDTES) {
-    const page = await browser.newPage({ viewport: { width: breedte, height: breedte === 390 ? 844 : 900 } });
+    // De smalle afdruk krijgt een aanraakscherm mee. Zonder dat blijven de
+    // regels achter @media (pointer: coarse) uit, en laat de afdruk dus iets
+    // anders zien dan wat er op een telefoon staat - precies de plek waar de
+    // aanraakvlakken zitten.
+    const page = breedte === 390
+      ? await (await browser.newContext({ ...devices["Pixel 7"], viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 })).newPage()
+      : await browser.newPage({ viewport: { width: breedte, height: 900 } });
     for (const [naam, pad] of PAGINAS) {
       if (!existsSync(join(ROOT, pad))) continue;
       await page.goto(`http://127.0.0.1:${poort}${pad}`, { waitUntil: "networkidle" });

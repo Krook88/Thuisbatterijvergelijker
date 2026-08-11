@@ -751,6 +751,19 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 .prijs-blok .prijs-per-kwh { font-size: 0.82rem; color: var(--kleur-tekst-licht); }
 .prijs-blok .prijs-winkel { font-size: 0.82rem; color: var(--kleur-tekst-licht); }
 
+/* Staat de winkelprijs excl. btw, dan mag de site dat niet stilzwijgend
+   omrekenen: de bezoeker ziet straks een ander bedrag op de winkelpagina. */
+.prijs-let-op {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-left: 3px solid var(--kleur-accent);
+  background: var(--kleur-accent-licht);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--kleur-tekst);
+}
+
 .knop {
   display: inline-flex;
   align-items: center;
@@ -1159,4 +1172,104 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   .kaart-details { display: block !important; }
   .kaart-details[hidden] { display: none !important; }
   a { color: #000; text-decoration: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Aanraakvlakken op een touchscreen
+
+   Overgenomen van batterijmaatje, waar dit al stond. Zonder dit blok waren de
+   woordenlijstlinks boven een specificatie hier 15 pixels hoog: ruim onder de
+   24 die WCAG 2.5.8 op niveau AA vraagt.
+   -------------------------------------------------------------------------- */
+
+@media (pointer: coarse) {
+  .knop,
+  .filter-toggle,
+  .details-toggle,
+  .filter-reset,
+  .weergave-knoppen button,
+  .filterbalk select,
+  .hoofdnav a,
+  .hoofdnav details.nav-meer summary {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* De modelnaam is de belangrijkste link op een kaart; die mag niet zo'n
+     dunne strook zijn als de regelhoogte van de tekst. */
+  .kaart-kop h3 a {
+    display: inline-block;
+    padding: 9px 0;
+  }
+
+  /* Uitklappers ("Lees verder", de legenda) zijn ook knoppen om aan te tikken */
+  .lees-meer summary,
+  .legenda summary,
+  .faq-item summary {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Het vinkje om te vergelijken is klein; het label eromheen wordt de knop. */
+  .vergelijk-checkbox-wrap label {
+    min-height: 44px;
+    padding-left: 12px;
+    padding-right: 14px;
+  }
+  .vergelijk-checkbox-wrap input {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Voetlinks staan in een lopende regel; op een telefoon krijgen ze lucht
+     zodat je niet de verkeerde raakt. */
+  .site-footer a {
+    display: inline-block;
+    padding: 11px 2px;
+  }
+
+  /* Het typelabel op een kaart ("Plug-in", "Hybride omvormer") is een link naar
+     de woordenlijst en dus iets om aan te tikken. */
+  .kaart-kop .term-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  /* De woordenlijstlinks boven een specificatie ("Capaciteit", "Vermogen")
+     krijgen een ruimer raakvlak dan hun regelhoogte, maar houden hun plek: de
+     negatieve marge haalt precies de toegevoegde ruimte er weer af. Ze op 44
+     pixels brengen zou elke kaart twee rijen hoger maken en de prijs verder uit
+     beeld duwen; dat kost meer dan het oplevert. */
+  .spec-label a.term-link {
+    display: inline-block;
+    padding: 9px 6px;
+    margin: -9px -6px;
+  }
+
+  /* Formuliervelden in de rekenmodule en de keuzehulp. Het veld zelf was 37 tot
+     39 pixels en het label erboven 22; allebei te klein om blind te raken, en
+     het label zit net onder de 24 die WCAG 2.5.8 op niveau AA vraagt. Alleen
+     directe kinderen: de aankruisvakjes in .checkbox-groep hebben hun eigen
+     label als aanraakvlak en moeten hun eigen maat houden. */
+  .veld > input,
+  .veld > select,
+  .veld > textarea {
+    min-height: 44px;
+  }
+  .veld > label {
+    display: inline-block;
+    padding: 3px 0;
+  }
+
+  /* Een losse link in een tabelcel (de bronvermelding onder de
+     leverancierstabel) is een knop om aan te tikken, geen tekstlink. */
+  .vergelijk-tabel td > a:not(.knop) {
+    display: inline-block;
+    padding: 4px 2px;
+  }
+
 }
