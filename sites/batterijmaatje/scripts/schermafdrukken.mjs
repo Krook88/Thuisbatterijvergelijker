@@ -36,6 +36,10 @@ const PAGINAS = [
   ["rekenmodule", "/rekenmodule.html"],
   ["uitleg", "/uitleg.html"],
   ["contact", "/contact.html"],
+  // De drie gegenereerde soorten pagina's, elk met een eigen tabelvorm.
+  ["batterijpagina", "/batterij/aeg-solarcube-48.html"],
+  ["overzicht", "/beste-thuisbatterij-home-assistant.html"],
+  ["duel", "/vergelijk/huawei-luna2000-10-vs-byd-battery-box-hvm-11.html"],
 ];
 const BREEDTES = [390, 1280];
 

@@ -232,14 +232,14 @@
     if (!top.length) {
       kaarten = '<div class="leeg-melding">Geen batterijen gevonden die aan al je eisen voldoen. Verruim je budget of laat een smart home-eis los; of bekijk <a href="index.html">de volledige vergelijker</a>.</div>';
     } else {
-      kaarten = `<div class="kaarten-grid" style="margin-top:18px;">` + top.map(({ b, prijs, perKwh }, i) => `
+      kaarten = `<div class="kaarten-grid advies-grid">` + top.map(({ b, prijs, perKwh }, i) => `
         <article class="batterij-kaart">
           <div class="kaart-kop">
             <div>
               <div class="merk">${i === 0 ? `${Iconen.svg("aanbieding")} Beste match · ` : ""}${merkLogos[b.merk] ? `<img class="merk-logo" src="${escapeHtml(merkLogos[b.merk])}" alt="" loading="lazy"> ` : ""}${escapeHtml(b.merk)}</div>
-              <h3><a href="batterij/${encodeURIComponent(b.id)}.html" style="color:inherit;text-decoration:none;" title="Alle details van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">${escapeHtml(b.model)}</a></h3>
+              <h3><a class="kop-link" href="batterij/${encodeURIComponent(b.id)}.html" title="Alle details van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">${escapeHtml(b.model)}</a></h3>
               <span class="type-badge type-${escapeHtml(b.type)}">${escapeHtml({ "plug-in": "Plug-in (stopcontact)", "ac-gekoppeld": "AC-gekoppeld", "hybride": "Hybride omvormer" }[b.type] || b.type)}</span>
-              <div style="margin-top:6px;">${koppelScoreBadge(b)}</div>
+              <div class="advies-score">${koppelScoreBadge(b)}</div>
             </div>
           </div>
           <div class="kaart-specs">
@@ -251,7 +251,7 @@
           <div class="koppelgemak"><span class="uitleg"><b>Waarom deze past:</b> ${escapeHtml(waaromTekst(b, maat))}.</span></div>
           <div class="koppelgemak"><span class="uitleg">Compleet gebruiksklaar (indicatie): <b>${b.totaalprijs_van_eur ? eurFmt.format(b.totaalprijs_van_eur) + (b.totaalprijs_tot_eur ? " tot " + eurFmt.format(b.totaalprijs_tot_eur) : "") : "op aanvraag"}</b></span></div>
           ${b.prijs_omvat ? `<div class="koppelgemak"><span class="uitleg">Winkelprijs dekt: ${escapeHtml(b.prijs_omvat)}</span></div>` : ""}
-          <div class="kaart-acties" style="margin-top:auto;">
+          <div class="kaart-acties advies-acties">
             ${prijs && prijs.url ? `<a class="knop" href="${escapeHtml(prijs.affiliate_url || prijs.url)}" target="_blank" rel="noopener${prijs.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>` : ""}
             <a class="knop knop-secundair" href="rekenmodule.html?batterij=${encodeURIComponent(b.id)}" aria-label="Bereken de terugverdientijd van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">Terugverdientijd</a>
           </div>
@@ -259,20 +259,20 @@
     }
 
     doel.innerHTML = `
-      <div class="info-kader" style="text-align:center;">
-        <span style="font-size:0.85rem;font-weight:700;text-transform:uppercase;color:var(--kleur-tekst-licht);">Geadviseerde accugrootte</span>
-        <div style="font-size:2rem;font-weight:800;color:var(--kleur-primair-donker);">${kwhFmt.format(maat.laag)} tot ${kwhFmt.format(maat.hoog)} kWh</div>
-        <div style="font-size:0.9rem;color:var(--kleur-tekst-licht);">${maatUitleg}</div>
+      <div class="info-kader advies-uitkomst">
+        <span class="uitkomst-label">Geadviseerde accugrootte</span>
+        <div class="uitkomst-getal">${kwhFmt.format(maat.laag)} tot ${kwhFmt.format(maat.hoog)} kWh</div>
+        <div class="uitkomst-uitleg">${maatUitleg}</div>
       </div>
-      ${maat.piekKw > 0.4 ? `<div class="info-kader" style="text-align:center;margin-top:10px;">
-        <span style="font-size:0.85rem;font-weight:700;text-transform:uppercase;color:var(--kleur-tekst-licht);">Handig ontlaadvermogen voor jouw avondgebruik</span>
-        <div style="font-size:1.5rem;font-weight:800;color:var(--kleur-primair-donker);">ca. ${String(maat.piekKw).replace(".", ",")} kW of meer</div>
-        <div style="font-size:0.9rem;color:var(--kleur-tekst-licht);">Schatting op basis van de apparaten die je aanvinkte, plus ca. 0,4 kW basislast voor sluimerverbruik (koelkast, vriezer, modem, verlichting, tv). Levert een batterij minder, dan is dat geen probleem: het stroomnet vult automatisch aan, maar over dat deel bespaar je op dat moment niet. Wil je <b>noodstroom</b>, dan is voldoende vermogen wél belangrijk: bij een storing is er geen net om bij te springen.</div>
+      ${maat.piekKw > 0.4 ? `<div class="info-kader advies-uitkomst tweede">
+        <span class="uitkomst-label">Handig ontlaadvermogen voor jouw avondgebruik</span>
+        <div class="uitkomst-getal kleiner">ca. ${String(maat.piekKw).replace(".", ",")} kW of meer</div>
+        <div class="uitkomst-uitleg">Schatting op basis van de apparaten die je aanvinkte, plus ca. 0,4 kW basislast voor sluimerverbruik (koelkast, vriezer, modem, verlichting, tv). Levert een batterij minder, dan is dat geen probleem: het stroomnet vult automatisch aan, maar over dat deel bespaar je op dat moment niet. Wil je <b>noodstroom</b>, dan is voldoende vermogen wél belangrijk: bij een storing is er geen net om bij te springen.</div>
       </div>` : ""}
       ${heeftPv ? '<div class="waarschuwing-kader">Let op: tot en met 31 december 2026 geldt de salderingsregeling nog, waardoor opslaan van eigen zonnestroom financieel weinig oplevert. Dit advies kijkt naar de situatie vanaf 2027.</div>' : ""}
-      <h2 style="margin-top:26px;">Beste matches (${top.length} van ${totaal} passende batterijen)</h2>
+      <h2 class="advies-kop">Beste matches (${top.length} van ${totaal} passende batterijen)</h2>
       ${kaarten}
-      <p style="margin-top:14px;"><a href="index.html">Bekijk alle batterijen in de vergelijker</a></p>
+      <p class="advies-naar-vergelijker"><a href="index.html">Bekijk alle batterijen in de vergelijker</a></p>
     `;
   }
 

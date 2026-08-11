@@ -127,7 +127,7 @@
 
       <details class="geavanceerd">
         <summary>Alle getallen bekijken of aanpassen (optioneel)</summary>
-        <p class="hint" style="margin-top:8px;">Wij rekenen standaard met: stroomprijs € 0,30 per kWh, terugleververgoeding € 0,05, terugleverkosten € 0,02, en bij een dynamisch contract laden voor € 0,15 en ontladen ter waarde van € 0,32. Wijkt jouw situatie af? Pas het hier aan; het resultaat rekent direct mee.</p>
+        <p class="hint">Wij rekenen standaard met: stroomprijs € 0,30 per kWh, terugleververgoeding € 0,05, terugleverkosten € 0,02, en bij een dynamisch contract laden voor € 0,15 en ontladen ter waarde van € 0,32. Wijkt jouw situatie af? Pas het hier aan; het resultaat rekent direct mee.</p>
 
         <div class="veld-rij">
           <div class="veld">
@@ -244,7 +244,7 @@
 
   </div>
 
-  <section style="max-width:820px;margin:0 auto 50px;">
+  <section class="tekstsectie">
     <h2>Hoe rekent deze module?</h2>
     <p>Het model telt twee opbrengsten bij elkaar op, afhankelijk van je situatie, en trekt daar het eigen (standby-)verbruik van de batterij vanaf:</p>
     <ol>
@@ -265,24 +265,24 @@
 
     <h2>Rekenvoorbeeld: gezin met zonnepanelen en een plug-in batterij</h2>
     <p>Stel: een gezin verbruikt 2.900 kWh stroom per jaar, heeft 10 zonnepanelen (opwek 3.500 kWh per jaar, waarvan 30% direct zelf gebruikt), een dynamisch energiecontract, en koopt een Marstek Venus E van 5,12 kWh voor € 1.299. Die batterij past bij dit verbruik (het gezin maakt de inhoud elke avond en nacht op); bij een veel grotere batterij zou het model de opbrengst begrenzen en waarschuwen. Met de standaardprijzen van deze module ziet de rekensom er zo uit:</p>
-    <div style="overflow-x:auto;">
-    <table class="vergelijk-tabel" style="min-width:0;">
-      <thead><tr><th>Onderdeel</th><th style="text-align:right;">Per jaar</th></tr></thead>
+    <div class="schuifbaar">
+    <table class="vergelijk-tabel compact">
+      <thead><tr><th>Onderdeel</th><th class="bedrag">Per jaar</th></tr></thead>
       <tbody>
-        <tr><td>Eigen zonnestroom opslaan in plaats van terugleveren (ca. 860 kWh, het verschil tussen stroomprijs en terugleververgoeding)</td><td style="text-align:right;font-weight:700;">≈ € 207</td></tr>
-        <tr><td>Slim laden en ontladen op uurprijzen in de maanden zonder zonneoverschot (ca. 145 dagen)</td><td style="text-align:right;font-weight:700;">≈ € 92</td></tr>
-        <tr><td>Eigen stroomverbruik van de batterij (standby, ca. 10 W ≈ 88 kWh per jaar)</td><td style="text-align:right;font-weight:700;">≈ − € 26</td></tr>
-        <tr><td style="font-weight:800;">Totale besparing</td><td style="text-align:right;font-weight:800;">≈ € 273</td></tr>
+        <tr><td>Eigen zonnestroom opslaan in plaats van terugleveren (ca. 860 kWh, het verschil tussen stroomprijs en terugleververgoeding)</td><td class="bedrag uitkomst">≈ € 207</td></tr>
+        <tr><td>Slim laden en ontladen op uurprijzen in de maanden zonder zonneoverschot (ca. 145 dagen)</td><td class="bedrag uitkomst">≈ € 92</td></tr>
+        <tr><td>Eigen stroomverbruik van de batterij (standby, ca. 10 W ≈ 88 kWh per jaar)</td><td class="bedrag uitkomst">≈ − € 26</td></tr>
+        <tr class="totaal-rij"><td>Totale besparing</td><td class="bedrag">≈ € 273</td></tr>
       </tbody>
     </table>
     </div>
-    <div style="overflow-x:auto;margin-top:10px;">
-    <table class="vergelijk-tabel" style="min-width:0;">
-      <thead><tr><th>Verloop</th><th style="text-align:right;">Bespaard</th><th style="text-align:right;">Saldo (bespaard minus € 1.299)</th></tr></thead>
+    <div class="schuifbaar los">
+    <table class="vergelijk-tabel compact">
+      <thead><tr><th>Verloop</th><th class="bedrag">Bespaard</th><th class="bedrag">Saldo (bespaard minus € 1.299)</th></tr></thead>
       <tbody>
-        <tr><td>Na 4,8 jaar</td><td style="text-align:right;">≈ € 1.299</td><td style="text-align:right;font-weight:700;">€ 0, <b>terugverdiend</b></td></tr>
-        <tr><td>Na 10 jaar</td><td style="text-align:right;">≈ € 2.730</td><td style="text-align:right;font-weight:700;color:var(--kleur-groen);">≈ + € 1.431</td></tr>
-        <tr><td>Na 15 jaar</td><td style="text-align:right;">≈ € 4.095</td><td style="text-align:right;font-weight:700;color:var(--kleur-groen);">≈ + € 2.796</td></tr>
+        <tr><td>Na 4,8 jaar</td><td class="bedrag">≈ € 1.299</td><td class="bedrag uitkomst">€ 0, <b>terugverdiend</b></td></tr>
+        <tr><td>Na 10 jaar</td><td class="bedrag">≈ € 2.730</td><td class="bedrag uitkomst winst">≈ + € 1.431</td></tr>
+        <tr><td>Na 15 jaar</td><td class="bedrag">≈ € 4.095</td><td class="bedrag uitkomst winst">≈ + € 2.796</td></tr>
       </tbody>
     </table>
     </div>
@@ -291,7 +291,7 @@
     <h2 id="leveranciers">Terugleverkosten en vergoedingen per leverancier</h2>
     <p>Zodat je het niet zelf hoeft op te zoeken: dit rekenen de grootste leveranciers op dit moment voor teruggeleverde zonnestroom. Kies je leverancier hierboven in het formulier, dan vullen wij het passende bedrag automatisch in.</p>
     <div id="leveranciersTabel"><p class="datum-stempel">Tabel wordt geladen…</p></div>
-    <div class="waarschuwing-kader" style="margin-top:12px;">
+    <div class="waarschuwing-kader bij-tabel">
       Deze bedragen zijn met bronvermelding verzameld uit openbare tariefinformatie en worden maandelijks opnieuw gecontroleerd, maar leveranciers wijzigen ze regelmatig en per contractvorm. Bij staffelmodellen (vast bedrag per maand of jaar) tonen wij een omgerekende indicatie per kWh. Je eigen contract en de website van de leverancier zijn altijd leidend. Vanaf 2027 (einde salderingsregeling) hebben meerdere leveranciers al andere tarieven aangekondigd; die staan in de laatste kolom.
     </div>
 
