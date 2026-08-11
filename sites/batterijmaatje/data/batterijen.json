@@ -6,8 +6,8 @@
     {
       "id": "marstek-venus-e-3",
       "merk": "Marstek",
-      "model": "Venus E 3.0 (5,12 kWh)",
-      "capaciteit_kwh": 5.12,
+      "model": "Venus E 3.0 (4,6 kWh bruikbaar)",
+      "capaciteit_kwh": 4.6,
       "uitbreidbaar_tot_kwh": 15.36,
       "vermogen_kw": 2.5,
       "type": "plug-in",
@@ -56,7 +56,9 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "geschikt voor binnen en buiten, -20 tot 55 °C",
       "afbeelding": "assets/producten/marstek-venus-e-3.webp",
-      "afbeelding_bron": "foto: Marstek"
+      "afbeelding_bron": "foto: Marstek",
+      "capaciteit_nominaal_kwh": 5.12,
+      "capaciteit_soort": "bruikbaar"
     },
     {
       "id": "marstek-venus-c-768",
@@ -97,7 +99,9 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "geschikt voor binnen en buiten",
       "afbeelding": "assets/producten/marstek-venus-c-768.webp",
-      "afbeelding_bron": "foto: Marstek"
+      "afbeelding_bron": "foto: Marstek",
+      "capaciteit_soort": "nominaal",
+      "capaciteit_nominaal_kwh": 7.68
     },
     {
       "id": "sessy-5kwh",
@@ -188,7 +192,9 @@
       "ip_klasse": "onbekend",
       "buiten_toelichting": "fabrikant: alleen binnen gebruiken, vorstvrij en droog",
       "afbeelding": "assets/producten/homewizard-plug-in-battery.webp",
-      "afbeelding_bron": "foto: HomeWizard"
+      "afbeelding_bron": "foto: HomeWizard",
+      "capaciteit_soort": "nominaal",
+      "capaciteit_nominaal_kwh": 2.7
     },
     {
       "id": "ecoflow-stream-ac-pro",
@@ -275,7 +281,9 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "geschikt voor buiten; interne verwarming tot -20 °C",
       "afbeelding": "assets/producten/anker-solix-solarbank-3-pro.webp",
-      "afbeelding_bron": "foto: Anker SOLIX"
+      "afbeelding_bron": "foto: Anker SOLIX",
+      "capaciteit_soort": "nominaal",
+      "capaciteit_nominaal_kwh": 2.69
     },
     {
       "id": "zendure-solarflow-hyper-2000",
@@ -401,7 +409,8 @@
       "ip_klasse": "IP55",
       "buiten_toelichting": "binnen en buiten installeerbaar volgens fabrikant",
       "afbeelding": "assets/producten/enphase-iq-battery-5p.webp",
-      "afbeelding_bron": "foto: Enphase"
+      "afbeelding_bron": "foto: Enphase",
+      "capaciteit_soort": "bruikbaar"
     },
     {
       "id": "victron-pylontech-3fase",
@@ -527,7 +536,8 @@
       "noodstroom": "Alleen met de Tesla Backup Gateway 2 of Backup Switch: hele woning, tot ca. 11 kW per Powerwall. Er is Nederlandstalige installatiedocumentatie, maar hoe gangbaar dit in NL is, is beperkt gedocumenteerd.",
       "noodstroom_uitleg": "Alleen met de Tesla Backup Gateway 2 of Backup Switch: hele woning, tot ca. 11 kW per Powerwall. Er is Nederlandstalige installatiedocumentatie, maar hoe gangbaar dit in NL is, is beperkt gedocumenteerd.",
       "ip_klasse": "IP67",
-      "buiten_toelichting": "binnen en buiten; bedradingscompartiment IP55"
+      "buiten_toelichting": "binnen en buiten; bedradingscompartiment IP55",
+      "capaciteit_soort": "bruikbaar"
     },
     {
       "id": "alphaess-smile-g3-t10",
@@ -1002,8 +1012,8 @@
     {
       "id": "dyness-powerbox-g2",
       "merk": "Dyness",
-      "model": "Powerbox G2 (10,24 kWh)",
-      "capaciteit_kwh": 10.24,
+      "model": "Powerbox G2 (9,73 kWh bruikbaar)",
+      "capaciteit_kwh": 9.73,
       "uitbreidbaar_tot_kwh": null,
       "vermogen_kw": 5.12,
       "type": "hybride",
@@ -1047,7 +1057,9 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "beschut buiten mogelijk; interne verwarming tot -20 °C",
       "afbeelding": "assets/producten/dyness-powerbox-g2.webp",
-      "afbeelding_bron": "foto: Dyness"
+      "afbeelding_bron": "foto: Dyness",
+      "capaciteit_nominaal_kwh": 10.24,
+      "capaciteit_soort": "bruikbaar"
     },
     {
       "id": "saj-h2-5k-s2-10kwh",
@@ -1100,8 +1112,8 @@
     {
       "id": "duracell-dura5",
       "merk": "Duracell Energy",
-      "model": "Dura5 (5,12 kWh)",
-      "capaciteit_kwh": 5.12,
+      "model": "Dura5 (4,6 kWh bruikbaar)",
+      "capaciteit_kwh": 4.6,
       "uitbreidbaar_tot_kwh": 25,
       "vermogen_kw": 5,
       "type": "hybride",
@@ -1136,7 +1148,9 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "wordt als buitenbatterij verkocht; werkt tot -10 °C",
       "afbeelding": "assets/producten/duracell-dura5.webp",
-      "afbeelding_bron": "foto: Duracell Energy"
+      "afbeelding_bron": "foto: Duracell Energy",
+      "capaciteit_nominaal_kwh": 5.12,
+      "capaciteit_soort": "bruikbaar"
     },
     {
       "id": "bluetti-balco-500",
@@ -1423,7 +1437,9 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "buitenplaatsing mogelijk volgens fabrikant",
       "afbeelding": "assets/producten/marstek-venus-d.webp",
-      "afbeelding_bron": "foto: Marstek"
+      "afbeelding_bron": "foto: Marstek",
+      "capaciteit_soort": "nominaal",
+      "capaciteit_nominaal_kwh": 2.56
     },
     {
       "id": "aeg-solarcube-48",
@@ -1503,8 +1519,8 @@
     {
       "id": "marstek-venus-e-4",
       "merk": "Marstek",
-      "model": "Venus E 4.0 (5,12 kWh)",
-      "capaciteit_kwh": 5.12,
+      "model": "Venus E 4.0 (4,6 kWh bruikbaar)",
+      "capaciteit_kwh": 4.6,
       "uitbreidbaar_tot_kwh": null,
       "vermogen_kw": 3,
       "type": "plug-in",
@@ -1539,7 +1555,9 @@
       "noodstroom": null,
       "noodstroom_uitleg": "Nog niet vastgesteld voor dit model; de Venus E 3.0 heeft een noodstroom-stopcontact.",
       "afbeelding": "assets/producten/marstek-venus-e-4.webp",
-      "afbeelding_bron": "foto: Marstek"
+      "afbeelding_bron": "foto: Marstek",
+      "capaciteit_nominaal_kwh": 5.12,
+      "capaciteit_soort": "bruikbaar"
     },
     {
       "id": "ecoflow-stream-ac-5000",
@@ -1646,7 +1664,9 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "fabrieksopgave; eisen voor buitenplaatsing niet geverifieerd",
       "afbeelding": "assets/producten/voltdeer-sr5000.webp",
-      "afbeelding_bron": "foto: Voltdeer"
+      "afbeelding_bron": "foto: Voltdeer",
+      "capaciteit_soort": "nominaal",
+      "capaciteit_nominaal_kwh": 5.12
     },
     {
       "id": "zendure-solarflow-2400-pro",
