@@ -48,17 +48,21 @@ const DATA_PAD = resolve(__dirname, "../data/warmtepompen.json");
 const VERKEN = process.argv.includes("--verken");
 const SCHRIJF = process.argv.includes("--schrijf");
 
-// Meerdere ingangen, zodat een run zelf uitwijst welke doorkomt. Ze deden het
-// bij de tweede poging alle vier; de eerste keer viel rvo.nl uit en dat bleek
-// een storing, geen blokkade. Ze blijven staan: valt de bron nog eens uit, dan
-// zegt de log meteen of het aan die ene host ligt of aan de verbinding.
-const INGANGEN = [
-  ["rvo.nl (de bron zelf)", "https://www.rvo.nl/subsidies-financiering/isde/meldcodelijsten/warmtepompen"],
-  ["rvo.nl zonder www", "https://rvo.nl/subsidies-financiering/isde/meldcodelijsten/warmtepompen"],
+// De bron. rvo.nl is wisselvallig vanuit de runner: van de drie runs tot nu toe
+// lukte er een en faalden er twee, telkens binnen een halve seconde. Dat is
+// geen blokkade maar een storing, en daar hoort een herkansing bij en geen
+// uitwijkbron.
+const LIJST_PAGINA = "https://www.rvo.nl/subsidies-financiering/isde/meldcodelijsten/warmtepompen";
+
+// Deze twee zijn géén vervanging van de pagina hierboven: het zijn andere
+// dingen. Dat was precies de fout in de vorige stand - toen rvo.nl uitviel ging
+// het script vrolijk de JSON van data.overheid.nl afzoeken op bestandslinks, en
+// meldde het dat er niets te vinden was. Ze staan hier nu als losse peiling:
+// ze vertellen of het aan die ene host ligt of aan de verbinding.
+const PEILINGEN = [
   ["data.overheid.nl (zoek-API)", "https://data.overheid.nl/data/api/3/action/package_search?q=ISDE%20meldcode"],
   ["open.overheid.nl (zoeken)", "https://open.overheid.nl/zoeken?trefwoord=ISDE%20meldcodelijst%20warmtepompen"],
 ];
-const LIJST_PAGINA = INGANGEN[0][1];
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36 Warmtepompmaatje-isde/1.0";
 
