@@ -220,7 +220,8 @@
           "url": "https://www.bol.com/nl/nl/p/ecoflow-stream-ac-pro-thuisbatterij/9300000232241116/",
           "datum": "2026-08-05",
           "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fecoflow-stream-ac-pro-thuisbatterij%2F9300000232241116%2F&name=ecoflow-stream-ac-pro&subid=batterijmaatje",
-          "ean": "4895251643849"
+          "ean": "4895251643849",
+          "niet_leverbaar": true
         }
       ],
       "totaalprijs_van_eur": 729,
@@ -307,7 +308,8 @@
           "url": "https://www.bol.com/nl/nl/p/zendure-solarflow-ab2000x-thuisbatterij-hyper-2000-omvormer/9300000243337538/",
           "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fzendure-solarflow-ab2000x-thuisbatterij-hyper-2000-omvormer%2F9300000243337538%2F&name=zendure-solarflow-hyper-2000&subid=batterijmaatje",
           "datum": null,
-          "ean": "7440847461436"
+          "ean": "7440847461436",
+          "niet_leverbaar": true
         }
       ],
       "totaalprijs_van_eur": 850,
@@ -895,7 +897,8 @@
           "url": "https://www.bol.com/nl/nl/p/jackery-homepower-2000-ultra-thuisbatterij-2-kwh-plug-in-lifepo4-1500w-noodstroom-uitbreidbaar-tot-8-kwh-ip65/9300000258671106/",
           "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fjackery-homepower-2000-ultra-thuisbatterij-2-kwh-plug-in-lifepo4-1500w-noodstroom-uitbreidbaar-tot-8-kwh-ip65%2F9300000258671106%2F&name=jackery-homepower-2000-ultra&subid=batterijmaatje",
           "datum": null,
-          "ean": "6958657302128"
+          "ean": "6958657302128",
+          "niet_leverbaar": true
         }
       ],
       "totaalprijs_van_eur": 669,
@@ -1080,7 +1083,8 @@
           "url": "https://www.bol.com/nl/nl/p/saj-h2-5k-s2-10kwh-alles-in-een-oplossing/9300000150679949/",
           "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fsaj-h2-5k-s2-10kwh-alles-in-een-oplossing%2F9300000150679949%2F&name=saj-h2-5k-s2-10kwh&subid=batterijmaatje",
           "datum": null,
-          "ean": "6096224278213"
+          "ean": "6096224278213",
+          "niet_leverbaar": true
         }
       ],
       "totaalprijs_van_eur": null,
