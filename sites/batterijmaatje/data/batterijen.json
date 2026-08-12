@@ -605,7 +605,8 @@
       "ip_klasse": "onbekend",
       "buiten_toelichting": "omvormer IP65; de IP-klasse van de batterijmodule verschilt per uitvoering, vraag de installateur",
       "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "max",
+      "vermogen_bron": "AlphaESS noemt op de eigen pagina \"Maximaal laadvermogen 4 / 6 / 8 / 10 kW\": ons getal is de bovenste variant en bovendien een laadvermogen, niet het ontlaadvermogen"
     },
     {
       "id": "fox-ess-ep11",
@@ -1570,7 +1571,8 @@
       ],
       "capaciteit_nominaal_kwh": 4.8,
       "capaciteit_soort": "bruikbaar",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "max",
+      "vermogen_bron": "AEG schrijft op de eigen productpagina \"Vermogen Tot 2,4 kW\": dat woordje tot maakt het een bovengrens, geen aanhoudende waarde"
     },
     {
       "id": "sunpura-s4800",

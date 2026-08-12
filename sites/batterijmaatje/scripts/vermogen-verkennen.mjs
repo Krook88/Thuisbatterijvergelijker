@@ -118,6 +118,7 @@ if (ALLEEN) modellen = data.batterijen.filter((b) => b.id === ALLEEN);
 console.log(`${modellen.length} model(len) nakijken.\n`);
 
 let metTreffer = 0;
+let zonderAanduiding = 0;
 let jsPaginas = 0;
 
 for (const b of modellen) {
@@ -149,7 +150,8 @@ for (const b of modellen) {
   const gesorteerd = alle.sort((x, z) =>
     (z.continu - x.continu) || (x.laden - z.laden) || (x.nood - z.nood) || (x.piek - z.piek));
   const beste = gesorteerd.slice(0, 6);
-  metTreffer++;
+  if (alle.some((v) => v.continu || v.piek || v.laden || v.nood)) metTreffer++;
+  else zonderAanduiding++;
   for (const v of beste) {
     const merk = [v.continu && "continu", v.piek && "piek", v.laden && "laden", v.nood && "noodstroom"]
       .filter(Boolean).join("/") || "geen aanduiding";
@@ -160,7 +162,8 @@ for (const b of modellen) {
   console.log("");
 }
 
-console.log(`${metTreffer} van ${modellen.length} pagina's noemden een vermogen; ${jsPaginas} hadden een browser nodig.`);
+console.log(`${metTreffer} van ${modellen.length} pagina's noemden een vermogen met een aanduiding erbij.`);
+console.log(`${zonderAanduiding} noemden wel getallen maar zonder aanduiding - vaak bestandsnamen of andere producten - en ${jsPaginas} hadden een browser nodig.`);
 console.log("Dit is een rapport. Overnemen doet een mens, in data/batterijen.json:");
 console.log("  vermogen_conditie: \"continu\" | \"max\" | \"stopcontact\" | \"onbekend\"");
 console.log("  vermogen_bron:     waar het vandaan komt, in een zin");
