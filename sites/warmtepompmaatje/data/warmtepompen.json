@@ -16,7 +16,7 @@
       "tapwater": "via de cv-ketel",
       "max_aanvoer_c": 55,
       "richtprijs_eur": 3299,
-      "prijs_toelichting": "buitenunit + binnenmodule, excl. installatie en cv-ketel",
+      "prijs_toelichting": "buitenunit + binnenmodule, excl. installatie en cv-ketel. De 4,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 3 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 1700,
       "sturing": {
         "status": "deels",
@@ -72,7 +72,7 @@
       "tapwater": "via de cv-ketel",
       "max_aanvoer_c": 55,
       "richtprijs_eur": 3800,
-      "prijs_toelichting": "los toestel, excl. installatie en cv-ketel",
+      "prijs_toelichting": "los toestel, excl. installatie en cv-ketel. De 4,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 3 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 1700,
       "sturing": {
         "status": "deels",
@@ -152,7 +152,7 @@
       "merk": "Intergas",
       "model": "Xtend",
       "type": "hybride",
-      "voorbeeld_variant": "Xtend 4,5 kW (monoblock)",
+      "voorbeeld_variant": "Xtend 5 (monoblock)",
       "vermogen_kw": 4,
       "scop_toelichting": "ontworpen als één systeem met de Intergas-ketel; slimme pendelregeling",
       "geluid_db": 57,
@@ -161,7 +161,7 @@
       "tapwater": "via de cv-ketel",
       "max_aanvoer_c": 55,
       "richtprijs_eur": 3100,
-      "prijs_toelichting": "los toestel, excl. installatie; het voordeligst in combinatie met een Intergas-ketel",
+      "prijs_toelichting": "los toestel, excl. installatie; het voordeligst in combinatie met een Intergas-ketel. Onze varianttekst noemde eerder 4,5 kW, maar de meldcode KA22154 hoort bij de Xtend 5. Naam en meldcode wijzen nu naar hetzelfde toestel; RVO geeft er 4 kW voor bij de ontwerpbuitentemperatuur.",
       "isde_indicatie_eur": 1925,
       "sturing": {
         "status": "deels",
@@ -206,7 +206,7 @@
       "tapwater": "aparte boiler (uniSTOR) nodig",
       "max_aanvoer_c": 75,
       "richtprijs_eur": 7300,
-      "prijs_toelichting": "toestel met binnenmodule, excl. boiler en installatie",
+      "prijs_toelichting": "toestel met binnenmodule, excl. boiler en installatie. De 5,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 4 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 2125,
       "sturing": {
         "status": "ja",
@@ -427,7 +427,7 @@
       "tapwater": "via hydrobox met boiler",
       "max_aanvoer_c": 70,
       "richtprijs_eur": 8000,
-      "prijs_toelichting": "buitenunit + hydrobox, excl. installatie",
+      "prijs_toelichting": "buitenunit + hydrobox, excl. installatie. De 6,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 5 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 2350,
       "sturing": {
         "status": "ja",
@@ -555,7 +555,7 @@
       "tapwater": "aparte boiler of tower-binnenunit",
       "max_aanvoer_c": 75,
       "richtprijs_eur": 7800,
-      "prijs_toelichting": "compleet toestel, excl. boiler en installatie",
+      "prijs_toelichting": "compleet toestel, excl. boiler en installatie. De 5,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 6 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 2375,
       "sturing": {
         "status": "ja",
@@ -787,7 +787,7 @@
       "merk": "Weheat",
       "model": "Blackbird",
       "type": "all-electric",
-      "voorbeeld_variant": "Blackbird 5 kW (monoblock)",
+      "voorbeeld_variant": "Blackbird P60 (monoblock)",
       "vermogen_kw": 6,
       "scop": 5,
       "scop_toelichting": "Nederlandse nieuwkomer met zeer hoog opgegeven rendement",
@@ -797,7 +797,7 @@
       "tapwater": "aparte boiler",
       "max_aanvoer_c": 70,
       "richtprijs_eur": 7000,
-      "prijs_toelichting": "toestel, excl. boiler en installatie",
+      "prijs_toelichting": "toestel, excl. boiler en installatie. Onze varianttekst noemde eerder 5 kW, maar de meldcode KA28196 hoort bij de Blackbird P60. Naam en meldcode wijzen nu naar hetzelfde toestel; RVO geeft er 6 kW voor bij de ontwerpbuitentemperatuur.",
       "isde_indicatie_eur": 2575,
       "sturing": {
         "status": "ja",
@@ -925,7 +925,7 @@
       "tapwater": "aparte boiler of CHC-module nodig",
       "max_aanvoer_c": 70,
       "richtprijs_eur": 6900,
-      "prijs_toelichting": "losse buitenunit met regelmodule, excl. installatie en boiler",
+      "prijs_toelichting": "losse buitenunit met regelmodule, excl. installatie en boiler. De 7,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 6 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 2575,
       "product_url": "https://www.wolf.eu/monobloc-cha",
       "sturing": {
@@ -987,7 +987,7 @@
       "tapwater": "aparte boiler nodig",
       "max_aanvoer_c": 65,
       "richtprijs_eur": 5450,
-      "prijs_toelichting": "losse buitenunit, excl. installatie en boiler",
+      "prijs_toelichting": "losse buitenunit, excl. installatie en boiler. De 9,5 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 6 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 2575,
       "product_url": "https://www.ithodaalderop.nl/amber",
       "sturing": {
@@ -1102,7 +1102,7 @@
       "tapwater": "aparte boiler nodig (All-in-One-variant heeft ingebouwd vat)",
       "max_aanvoer_c": 60,
       "richtprijs_eur": 3500,
-      "prijs_toelichting": "losse monoblock; het budgetsegment onder de A-merken",
+      "prijs_toelichting": "losse monoblock; het budgetsegment onder de A-merken. De 10,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 9 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 3050,
       "product_url": "https://www.gree.nl/gree-versati-warmtepompen",
       "sturing": {
@@ -1236,7 +1236,7 @@
       "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; de unit staat binnen, waardoor de labelwaarde anders uitpakt dan bij een buitenunit",
       "koudemiddel": "R290",
       "tapwater": "via de cv-ketel",
-      "prijs_toelichting": "los toestel voor binnenopstelling, excl. installatie; werkt samen met de cv-ketel",
+      "prijs_toelichting": "los toestel voor binnenopstelling, excl. installatie; werkt samen met de cv-ketel. De 4,5 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 4 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 1925,
       "isde_meldcode": "KA20994",
       "sturing": {
@@ -1338,7 +1338,8 @@
         "Bi-Bloc R290"
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "35"
+      "scop_conditie": "35",
+      "prijs_toelichting": "De 6,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 5 kW volgens de ISDE-meldcodelijst."
     },
     {
       "id": "hitachi-yutaki-m",

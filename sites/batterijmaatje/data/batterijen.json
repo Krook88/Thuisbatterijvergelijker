@@ -628,14 +628,16 @@
       "aanbiedingen": [],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "geen betrouwbare totaalprijs bekend; vraag een offerte op",
+      "totaalprijs_toelichting": "Van dit systeem hebben wij geen prijs inclusief installatie uit een bron. Dit is het toestel (3385 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
       "noodstroom": true,
       "noodstroom_uitleg": "De Fox ESS H1/H3-omvormers hebben standaard een EPS-poort die een aparte noodstroomgroep voedt bij netuitval; voor een groter deel van de installatie is de optionele EPS Box nodig. De noodstroomgroep moet door de installateur worden aangesloten.",
       "ip_klasse": "IP65",
       "buiten_toelichting": "binnen en buiten",
       "afbeelding": "assets/producten/fox-ess-ep11.webp",
       "afbeelding_bron": "foto: Fox ESS",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "totaalprijs_geschat_van_eur": 3885,
+      "totaalprijs_geschat_tot_eur": 5385
     },
     {
       "id": "growatt-apx-10",
@@ -785,7 +787,7 @@
       ],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "geen betrouwbare totaalprijs bekend; vraag een offerte op",
+      "totaalprijs_toelichting": "Van dit systeem hebben wij geen prijs inclusief installatie uit een bron. Dit is het toestel (6200 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
       "noodstroom": false,
       "noodstroom_uitleg": "De SolarEdge 48V-lijn levert in Nederland geen noodstroom; SolarEdge biedt back-up alleen via de 400V-lijn met de Home Backup Interface.",
       "ip_klasse": "IP65",
@@ -793,7 +795,9 @@
       "capaciteit_soort": "bruikbaar",
       "capaciteit_nominaal_kwh": 9.7,
       "vermogen_conditie": "continu",
-      "vermogen_bron": "onze notitie: vanaf 2 modules continu 5 kW"
+      "vermogen_bron": "onze notitie: vanaf 2 modules continu 5 kW",
+      "totaalprijs_geschat_van_eur": 6700,
+      "totaalprijs_geschat_tot_eur": 8200
     },
     {
       "id": "huawei-luna2000-10",
@@ -868,13 +872,15 @@
       "aanbiedingen": [],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "geen betrouwbare totaalprijs bekend; vraag een offerte op",
+      "totaalprijs_toelichting": "Van dit systeem hebben wij geen prijs inclusief installatie uit een bron. Dit is het toestel (5770 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
       "noodstroom": true,
       "noodstroom_uitleg": "Ingebouwde backup/load-poort met UPS-functie: aangesloten groepen blijven bij netuitval doorwerken; de omvormer kan ook volledig off-grid draaien.",
       "ip_klasse": "IP65",
       "buiten_toelichting": "binnen en buiten (RW-M6.1-B-uitvoering)",
       "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "onbekend",
+      "totaalprijs_geschat_van_eur": 6270,
+      "totaalprijs_geschat_tot_eur": 7770
     },
     {
       "id": "lg-enblock-flex-129",
@@ -903,12 +909,14 @@
       "aanbiedingen": [],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "geen betrouwbare totaalprijs bekend; vraag een offerte op",
+      "totaalprijs_toelichting": "Van dit systeem hebben wij geen prijs inclusief installatie uit een bron. Dit is het toestel (5113 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
       "noodstroom": null,
       "noodstroom_uitleg": "Afhankelijk van de gekozen omvormer (GoodWe, SMA, Fronius, Kostal) en bijbehorende backup-voorziening; voor de Nederlandse markt is hierover weinig eenduidige informatie. Vraag je installateur.",
       "ip_klasse": "IP55",
       "buiten_toelichting": "buiten plaatsen toegestaan volgens fabrikant",
-      "capaciteit_soort": "bruikbaar"
+      "capaciteit_soort": "bruikbaar",
+      "totaalprijs_geschat_van_eur": 5613,
+      "totaalprijs_geschat_tot_eur": 7113
     },
     {
       "id": "jackery-homepower-2000-ultra",
@@ -998,7 +1006,7 @@
       ],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "sterk afhankelijk van omvormerkeuze en installatie; vraag een offerte",
+      "totaalprijs_toelichting": "Van dit systeem hebben wij geen prijs inclusief installatie uit een bron. Dit is het toestel (2383 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
       "noodstroom": "Via de hybride omvormer (bijvoorbeeld GoodWe ES G2 met UPS-omschakeling); laat de installateur dit inregelen",
       "noodstroom_uitleg": "De batterij zelf regelt geen noodstroom; in combinatie met een GoodWe hybride omvormer met back-upfunctie (zoals de ES G2, omschakeling binnen 10 ms) kan een deel van het huis doorwerken bij een storing.",
       "ip_klasse": "IP65",
@@ -1006,7 +1014,9 @@
       "afbeelding": "assets/producten/goodwe-lynx-home-u-54.webp",
       "afbeelding_bron": "foto: GoodWe",
       "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "onbekend",
+      "totaalprijs_geschat_van_eur": 2883,
+      "totaalprijs_geschat_tot_eur": 4383
     },
     {
       "id": "solax-triple-power-t58",
@@ -1147,13 +1157,15 @@
       ],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "reken op circa 1.200 tot 2.000 euro installatiekosten bovenop de pakketprijs (indicatie)",
+      "totaalprijs_toelichting": "Van dit systeem hebben wij geen prijs inclusief installatie uit een bron. Dit is het toestel (4566 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
       "noodstroom": "Ingebouwde back-upaansluiting met UPS-omschakeling binnen 10 ms; de installateur sluit de gewenste groepen aan",
       "noodstroom_uitleg": "Het systeem heeft een aparte back-upuitgang die binnen 10 milliseconden omschakelt bij een stroomstoring; welke delen van het huis doorwerken hangt af van wat de installateur op die uitgang aansluit.",
       "ip_klasse": "IP65",
       "buiten_toelichting": "omvormer en batterijmodule beide IP65, wand- of grondmontage buiten mogelijk",
       "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "onbekend",
+      "totaalprijs_geschat_van_eur": 5066,
+      "totaalprijs_geschat_tot_eur": 6566
     },
     {
       "id": "duracell-dura5",

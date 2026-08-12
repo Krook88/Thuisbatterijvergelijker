@@ -71,8 +71,17 @@
   }
 
   function totaalprijsTekst(b) {
-    if (!b.totaalprijs_van_eur) return null;
-    return eurFmt.format(b.totaalprijs_van_eur) + (b.totaalprijs_tot_eur ? " tot " + eurFmt.format(b.totaalprijs_tot_eur) : "");
+    if (b.totaalprijs_van_eur) {
+      return eurFmt.format(b.totaalprijs_van_eur) + (b.totaalprijs_tot_eur ? " tot " + eurFmt.format(b.totaalprijs_tot_eur) : "");
+    }
+    // Geen bedrag uit een bron, wel een schatting: het toestel plus een
+    // marktbreed installatiebedrag. Die staat er met "geschat" bij, want de
+    // vergelijking op prijs per kWh doet er niet mee - anders zou een geschat
+    // getal meetellen alsof het vaststaat.
+    if (b.totaalprijs_geschat_van_eur) {
+      return `${eurFmt.format(b.totaalprijs_geschat_van_eur)} tot ${eurFmt.format(b.totaalprijs_geschat_tot_eur)} <small>geschat</small>`;
+    }
+    return null;
   }
 
   // Merklogo: toont het officiële logo naast de merknaam zodra het bestand in

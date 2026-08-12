@@ -73,6 +73,11 @@ const ALGEMEEN = {
   richtprijs_eur:        { conditie: null,                   waarom: "altijd incl. btw; Prijs.vergelijkPrijs rekent om waar nodig" },
   totaalprijs_van_eur:   { conditie: null,                   waarom: "per definitie compleet gebruiksklaar" },
   totaalprijs_tot_eur:   { conditie: null,                   waarom: "idem" },
+  // Bewust een apart paar naast totaalprijs_van_eur: dat veld betekent "uit een
+  // bron" en wordt gebruikt om op te rangschikken. Een schatting daarin zou een
+  // geschat getal laten meetellen alsof het vaststaat.
+  totaalprijs_geschat_van_eur: { conditie: null,             waarom: "toestel plus 500-2.000 euro installatie; schatting, telt niet mee in de rangschikking" },
+  totaalprijs_geschat_tot_eur: { conditie: null,             waarom: "idem" },
   isde_indicatie_eur:    { conditie: null,                   waarom: "bedrag per meldcode volgens RVO" },
   vermogen_wp:           { conditie: null,                   waarom: "STC, wereldwijd dezelfde meetconditie voor panelen" },
   rendement_pct:         { conditie: null,                   waarom: "idem, volgt uit vermogen en oppervlak" },
