@@ -201,7 +201,8 @@
       "afbeelding_bron": "foto: HomeWizard",
       "capaciteit_soort": "nominaal",
       "capaciteit_nominaal_kwh": 2.7,
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "stopcontact",
+      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
     },
     {
       "id": "ecoflow-stream-ac-pro",
@@ -247,7 +248,8 @@
       "afbeelding": "assets/producten/ecoflow-stream-ac-pro.webp",
       "afbeelding_bron": "foto: EcoFlow",
       "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "stopcontact",
+      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
     },
     {
       "id": "anker-solix-solarbank-3-pro",
@@ -293,7 +295,8 @@
       "afbeelding_bron": "foto: Anker SOLIX",
       "capaciteit_soort": "nominaal",
       "capaciteit_nominaal_kwh": 2.69,
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "stopcontact",
+      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
     },
     {
       "id": "zendure-solarflow-hyper-2000",
@@ -340,7 +343,8 @@
       "afbeelding": "assets/producten/zendure-solarflow-hyper-2000.webp",
       "afbeelding_bron": "foto: Zendure",
       "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "stopcontact",
+      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
     },
     {
       "id": "zonneplan-nexus",
@@ -968,7 +972,8 @@
       "afbeelding": "assets/producten/jackery-homepower-2000-ultra.webp",
       "afbeelding_bron": "foto: Jackery",
       "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "stopcontact",
+      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
     },
     {
       "id": "goodwe-lynx-home-u-54",
@@ -1252,7 +1257,8 @@
       "afbeelding": "assets/producten/bluetti-balco-500.webp",
       "afbeelding_bron": "foto: Bluetti",
       "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "stopcontact",
+      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
     },
     {
       "id": "anker-solix-solarbank-max-ac",
@@ -1592,7 +1598,8 @@
       "noodstroom_uitleg": "Off-grid/noodstroomuitgang tot 2.400 W continu (piek 3.600 W, fabrieksopgave).",
       "capaciteit_nominaal_kwh": 4.8,
       "capaciteit_soort": "bruikbaar",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "stopcontact",
+      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
     },
     {
       "id": "marstek-venus-e-4",

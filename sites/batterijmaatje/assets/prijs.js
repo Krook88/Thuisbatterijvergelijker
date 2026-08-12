@@ -191,6 +191,13 @@
     if (b.vermogen_conditie === "max") {
       return { tekst: "maximum", klasse: "maat-bruto", titel: "Een piek- of off-grid maximum; in dagelijks gebruik ligt het lager. " + (b.vermogen_bron || "") };
     }
+    // 800 W is de veiligheidsafspraak voor een gedeelde groep, geen eigenschap
+    // van de batterij. Zonder dit label lijkt zo'n toestel drie keer zwakker
+    // dan een buurmodel waarvan de fabrikant het volle vermogen opgeeft,
+    // terwijl het om dezelfde soort apparaten gaat.
+    if (b.vermogen_conditie === "stopcontact") {
+      return { tekst: "stopcontactgrens", klasse: "maat-bruto", titel: "Dit is de 800 W die op een gedeelde groep is toegestaan, niet wat het toestel kan. " + (b.vermogen_bron || "") };
+    }
     return null;
   }
 
