@@ -24,6 +24,42 @@ const Condities = vereis("../assets/condities.js");
 // kunnen afwijken van wat de browser tekent.
 const Kaart = vereis("../assets/kaart.js");
 
+/* ------------------------------------------------------------------
+   Titels en omschrijvingen binnen de ruimte die Google toont
+
+   Google kapt een titel af rond de 60 tekens en een omschrijving rond de 155.
+   Wat daarna komt ziet niemand, en juist het achtervoegsel met de sitenaam
+   duwde hier de inhoud eruit: " | Warmtepompmaatje" kost al 19 tekens.
+
+   Dezelfde aanpak als op batterijmaatje: de naam staat vooraan want daar zoekt
+   de bezoeker op, en het achtervoegsel wijkt als het niet past. besteTitel
+   krijgt varianten van lang naar kort en pakt de eerste die past.
+   ------------------------------------------------------------------ */
+
+const TITEL_MAX = 60;
+const OMSCHRIJVING_MAX = 155;
+const MERK_ACHTERVOEGSEL = " | Warmtepompmaatje";
+
+function titelMetMerk(kern) {
+  return kern.length + MERK_ACHTERVOEGSEL.length <= TITEL_MAX ? kern + MERK_ACHTERVOEGSEL : kern;
+}
+
+function besteTitel(varianten) {
+  for (const variant of varianten) {
+    const metMerk = titelMetMerk(variant);
+    if (metMerk.length <= TITEL_MAX) return metMerk;
+  }
+  return varianten[varianten.length - 1];
+}
+
+function kortOmschrijving(tekst, maximum = OMSCHRIJVING_MAX) {
+  if (tekst.length <= maximum) return tekst;
+  const geknipt = tekst.slice(0, maximum - 1);
+  const spatie = geknipt.lastIndexOf(" ");
+  return (spatie > maximum * 0.6 ? geknipt.slice(0, spatie) : geknipt).replace(/[,.;:]$/, "") + "\u2026";
+}
+
+
 // Het merkicoon staat in de kop en de voet van elke pagina.
 const ICOON_LOGO = Iconen.svg("warmte", { klasse: "icoon-groot" });
 
@@ -163,8 +199,8 @@ function pompPagina(w) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${esc(naam)}: prijs, subsidie, geluid en slimme koppeling | Warmtepompmaatje.nl</title>
-  <meta name="description" content="Alles over de ${esc(naam)} (${esc(w.type)}): actuele prijs, ISDE-subsidie, geluid van de buitenunit, rendement en of hij koppelt met Home Assistant en Homey (Koppel-score ${score}/6).">
+  <title>${esc(besteTitel([`${naam}: prijs, subsidie, geluid en koppeling`, `${naam}: prijs, subsidie en geluid`, `${naam}: prijs en subsidie`, naam]))}</title>
+  <meta name="description" content="${esc(kortOmschrijving(`${naam} (${w.type}): actuele prijs, ISDE-subsidie, geluid van de buitenunit, rendement en koppeling met Home Assistant en Homey (Koppel-score ${score}/6).`))}">
   <link rel="canonical" href="${SITE}/pomp/${esc(w.id)}.html">
   <meta property="og:title" content="${esc(naam)}: prijs, subsidie en slimme koppeling">
   <meta property="og:description" content="${esc(w.type === "hybride" ? "Hybride warmtepomp" : "All-electric warmtepomp")}, Koppel-score ${score}/6, ISDE-indicatie ${w.isde_indicatie_eur ? eur(w.isde_indicatie_eur) : "onbekend"}.">

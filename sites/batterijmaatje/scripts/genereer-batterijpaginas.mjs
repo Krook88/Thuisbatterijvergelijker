@@ -668,7 +668,13 @@ function vergelijkingsPagina(v) {
 
   const plusA = pluspunten(A, B), plusB = pluspunten(B, A);
   const titel = `${naam(A)} vs ${naam(B)}: welke thuisbatterij?`;
-  const paginaTitel = besteTitel([`${naamZonderHaakjes(A)} vs ${naamZonderHaakjes(B)}`]);
+  // Bij een lange modelnaam ("SigenStor 8 kWh + 8 kW omvormer") past zelfs de
+  // kale vergelijking niet meer; dan volstaat merk plus capaciteit.
+  const kortAf = (b) => `${b.merk} ${nl(b.capaciteit_kwh)} kWh`;
+  const paginaTitel = besteTitel([
+    `${naamZonderHaakjes(A)} vs ${naamZonderHaakjes(B)}`,
+    `${kortAf(A)} vs ${kortAf(B)}`,
+  ]);
   const metaDesc = kortOmschrijving(`${naamZonderHaakjes(A)} of ${naamZonderHaakjes(B)}? Vergelijk prijs per kWh, capaciteit, noodstroom en slimme aansturing. Prijzen dagelijks gecontroleerd.`);
 
   const itemList = JSON.stringify({
