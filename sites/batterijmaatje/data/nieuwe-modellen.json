@@ -25,7 +25,8 @@
       "url": "https://www.bol.com/nl/nl/p/-/9300000249114382/",
       "ean": "8720892858504",
       "prijs_eur": null,
-      "lijkt_op": null,
+      "lijkt_op": "dyness-powerbox-g2",
+      "maat_uit_titel": "16.1 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -35,6 +36,7 @@
       "ean": "8720892858511",
       "prijs_eur": null,
       "lijkt_op": null,
+      "maat_uit_titel": null,
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -43,7 +45,8 @@
       "url": "https://www.bol.com/nl/nl/p/-/9300000225766004/",
       "ean": "9502169372772",
       "prijs_eur": null,
-      "lijkt_op": null,
+      "lijkt_op": "huawei-luna2000-10",
+      "maat_uit_titel": "7 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -53,6 +56,7 @@
       "ean": "8720929510375",
       "prijs_eur": null,
       "lijkt_op": "huawei-luna2000-10",
+      "maat_uit_titel": "15 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -61,7 +65,8 @@
       "url": "https://www.bol.com/nl/nl/p/-/9300000229178500/",
       "ean": "5904905317575",
       "prijs_eur": null,
-      "lijkt_op": null,
+      "lijkt_op": "huawei-luna2000-10",
+      "maat_uit_titel": "7 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -70,7 +75,8 @@
       "url": "https://www.bol.com/nl/nl/p/-/9300000266719689/",
       "ean": "4262431423957",
       "prijs_eur": null,
-      "lijkt_op": null,
+      "lijkt_op": "huawei-luna2000-10",
+      "maat_uit_titel": "7 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -98,6 +104,7 @@
       "ean": "6958657303286",
       "prijs_eur": null,
       "lijkt_op": null,
+      "maat_uit_titel": "2.52 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -107,6 +114,7 @@
       "ean": "6958657304054",
       "prijs_eur": null,
       "lijkt_op": null,
+      "maat_uit_titel": "2.52 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -116,6 +124,7 @@
       "ean": "6153917866895",
       "prijs_eur": null,
       "lijkt_op": null,
+      "maat_uit_titel": "7.5 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -125,6 +134,7 @@
       "ean": "6153917790725",
       "prijs_eur": null,
       "lijkt_op": null,
+      "maat_uit_titel": "5.04 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -134,6 +144,7 @@
       "ean": "6153917593531",
       "prijs_eur": null,
       "lijkt_op": null,
+      "maat_uit_titel": "5.04 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -143,6 +154,7 @@
       "ean": "6153922619660",
       "prijs_eur": null,
       "lijkt_op": null,
+      "maat_uit_titel": null,
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -152,6 +164,7 @@
       "ean": "6951525704970",
       "prijs_eur": null,
       "lijkt_op": "marstek-venus-d",
+      "maat_uit_titel": "2.12 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -161,6 +174,7 @@
       "ean": "7421122186404",
       "prijs_eur": null,
       "lijkt_op": null,
+      "maat_uit_titel": "15 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -170,6 +184,7 @@
       "ean": "7421122186381",
       "prijs_eur": null,
       "lijkt_op": null,
+      "maat_uit_titel": "15 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -179,6 +194,7 @@
       "ean": "7421122186350",
       "prijs_eur": null,
       "lijkt_op": null,
+      "maat_uit_titel": "15 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -187,7 +203,8 @@
       "url": "https://www.bol.com/nl/nl/p/-/9300000146694126/",
       "ean": "8720769902200",
       "prijs_eur": null,
-      "lijkt_op": null,
+      "lijkt_op": "solaredge-home-battery-48v",
+      "maat_uit_titel": "10 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -197,6 +214,7 @@
       "ean": "8720892858528",
       "prijs_eur": null,
       "lijkt_op": null,
+      "maat_uit_titel": "15.3 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -206,6 +224,7 @@
       "ean": "8720892355218",
       "prijs_eur": null,
       "lijkt_op": null,
+      "maat_uit_titel": "16 kwh",
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -215,7 +234,18 @@
       "ean": "8711474504018",
       "prijs_eur": null,
       "lijkt_op": "zendure-solarflow-2400-pro",
+      "maat_uit_titel": "2.4 kwh",
       "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Thuisbatterij 10Kwh LIFePO4 voor zonne-energie opslag zonnepanelen ( Prijs doorbraak - week aanbieding )",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000164433288/",
+      "ean": "8719327730867",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "10 kwh",
+      "eerst_gezien": "2026-08-12"
     }
   ]
 }
