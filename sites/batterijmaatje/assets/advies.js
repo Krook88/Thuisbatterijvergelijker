@@ -77,6 +77,25 @@
   }
 
   /* ------------------------------------------------------------------
+     Hoe streng de keuzehulp selecteert
+     ------------------------------------------------------------------
+
+     De bandbreedte rond het maatadvies stond op 0,6 tot 1,8 keer de al ruime
+     marge, en dat komt neer op 0,45 tot 2,25 keer het advies zelf: een factor
+     vijf tussen de kleinste en de grootste batterij die nog "past". Daardoor
+     selecteerde de band nauwelijks nog, en won steeds dezelfde batterij die er
+     toevallig middenin viel. Uit 12.960 doorgerekende antwoordcombinaties
+     kwamen maar 42 verschillende top-3en.
+
+     Strakker geeft een eerlijker advies maar vaker een lege lijst. Deze twee
+     getallen zijn de knop waaraan je draait; scripts/keuzehulp-spreiding.mjs
+     rekent elke stand door.
+     ------------------------------------------------------------------ */
+
+  const BAND_ONDER = 0.8;   // maal de ondergrens van het maatadvies
+  const BAND_BOVEN = 1.4;   // maal de bovengrens
+
+  /* ------------------------------------------------------------------
      Maatadvies
      ------------------------------------------------------------------ */
 
@@ -145,12 +164,23 @@
       // Dynamisch contract als dat het (enige) verdienmodel is
       if (maat.basis === "dynamisch" && driewaardig(b.dynamisch_contract) === "nee") return false;
 
-      // Budget (alleen als ingevuld)
-      if (budget > 0 && prijs && Prijs.vergelijkPrijs(prijs) > budget) return false;
+      // Budget op wat de bezoeker werkelijk kwijt is, niet op de kale
+      // apparaatprijs. Dat scheelt: de SolaX T-BAT kost 1.625 euro als toestel
+      // en 5.700 gebruiksklaar. Op apparaatprijs filteren beloofde dus een
+      // batterij die vier keer zo duur uitpakt.
+      //
+      // Kennen we de complete prijs niet, dan laten we hem door in plaats van
+      // hem weg te gooien: negen van de eenenveertig hebben dat bedrag nog
+      // niet, en die stilzwijgend laten afvallen is erger dan ze tonen met de
+      // melding dat het bedrag onbekend is (dat doet waaromTekst).
+      if (budget > 0) {
+        const compleet = typeof b.totaalprijs_van_eur === "number" ? b.totaalprijs_van_eur : null;
+        if (compleet !== null && compleet > budget) return false;
+      }
 
       // Capaciteit: past binnen ruime marge rond het advies,
       // of is modulair uitbreidbaar tot binnen de bandbreedte
-      const past = b.capaciteit_kwh >= maat.laag * 0.6 && b.capaciteit_kwh <= maat.hoog * 1.8;
+      const past = b.capaciteit_kwh >= maat.laag * BAND_ONDER && b.capaciteit_kwh <= maat.hoog * BAND_BOVEN;
       const uitbreidbaar = b.uitbreidbaar_tot_kwh && b.capaciteit_kwh <= maat.hoog && b.uitbreidbaar_tot_kwh >= maat.laag;
       if (!past && !uitbreidbaar) return false;
 
