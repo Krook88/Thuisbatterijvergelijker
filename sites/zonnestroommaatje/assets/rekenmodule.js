@@ -22,8 +22,17 @@
   const VASTE_INSTALLATIEKOSTEN = 1200; // omvormer, bekabeling, voorrijden
   const BEKABELING_EN_VOORRIJDEN = 450; // wat er overblijft als de omvormer apart geteld wordt
   const KOSTEN_PER_PANEEL = 130;        // montagemateriaal en arbeid per paneel
-  const SALDERING_EINDJAAR = 2026;      // laatste jaar mét saldering
-  const START_JAAR = 2026;              // aanschafjaar; telt voor een half jaar mee
+  const SALDERING_EINDJAAR = 2026;      // laatste jaar mét saldering (Wet beëindiging salderingsregeling)
+
+  // Het aanschafjaar volgt de kalender en staat niet vast.
+  //
+  // Hier stond 2026. Dat werkte tot en met dit jaar en zou op 1 januari 2027
+  // stilletjes fout gaan: de berekening telt het eerste jaar voor de helft mee
+  // en gebruikt saldering zolang het jaartal onder SALDERING_EINDJAAR ligt.
+  // Iemand die in 2027 koopt kreeg zo een half jaar salderingsvoordeel
+  // toegerekend dat hij nooit krijgt, en dus een te mooie terugverdientijd -
+  // precies op het moment dat mensen gaan rekenen omdat de regeling verandert.
+  const START_JAAR = new Date().getFullYear();
   const CO2_PER_KWH = 0.27;             // kg CO2 per kWh Nederlandse stroommix (indicatie, co2emissiefactoren.nl)
 
   let panelen = [];

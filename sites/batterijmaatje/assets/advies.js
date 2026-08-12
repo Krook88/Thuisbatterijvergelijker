@@ -368,7 +368,9 @@
         <div class="uitkomst-getal kleiner">ca. ${String(maat.piekKw).replace(".", ",")} kW of meer</div>
         <div class="uitkomst-uitleg">Schatting op basis van de apparaten die je aanvinkte, plus ca. 0,4 kW basislast voor sluimerverbruik (koelkast, vriezer, modem, verlichting, tv). Levert een batterij minder, dan is dat geen probleem: het stroomnet vult automatisch aan, maar over dat deel bespaar je op dat moment niet. Wil je <b>noodstroom</b>, dan is voldoende vermogen wél belangrijk: bij een storing is er geen net om bij te springen.</div>
       </div>` : ""}
-      ${heeftPv ? '<div class="waarschuwing-kader">Let op: tot en met 31 december 2026 geldt de salderingsregeling nog, waardoor opslaan van eigen zonnestroom financieel weinig oplevert. Dit advies kijkt naar de situatie vanaf 2027.</div>' : ""}
+      ${heeftPv ? `<div class="waarschuwing-kader">${new Date() < new Date("2027-01-01")
+        ? "Let op: tot en met 31 december 2026 geldt de salderingsregeling nog, waardoor opslaan van eigen zonnestroom financieel weinig oplevert. Dit advies kijkt naar de situatie daarna."
+        : "De salderingsregeling is per 1 januari 2027 vervallen: eigen zonnestroom opslaan levert nu wél op, want teruggeleverde stroom brengt nog maar een paar cent per kWh op."}</div>` : ""}
       <h2 class="advies-kop">Drie kanten van de keuze</h2>
       <p class="advies-kop-uitleg">Van de ${totaal} batterijen die bij jouw antwoorden passen, tonen we niet de beste drie maar de beste op drie verschillende vragen. Dat scheelt: een ranglijst levert vrijwel altijd drie vergelijkbare buren op, terwijl deze drie elk iets anders goed doen.</p>
       ${kaarten}

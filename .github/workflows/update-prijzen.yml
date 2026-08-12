@@ -148,6 +148,14 @@ jobs:
       # meldt het zodra een getal de gegevens in komt zonder dat vastligt wat
       # het is. Faalt de run niet: er staan er nu nog 46 open, en een controle
       # die altijd rood staat leest niemand meer.
+      # Teksten die aan de kalender hangen verlopen zonder dat iemand iets doet:
+      # niemand verandert iets, de datum verschuift en de site heeft ongelijk.
+      # In de rekenmodule stond het aanschafjaar hard op 2026, wat op 1 januari
+      # een half jaar salderingsvoordeel zou toerekenen dat er niet meer is.
+      - name: Teksten die aan een datum hangen
+        continue-on-error: true
+        run: node scripts/datumteksten.mjs
+
       - name: Vergelijkbaarheid van de getallen
         continue-on-error: true
         run: node scripts/vergelijkbaar.mjs
