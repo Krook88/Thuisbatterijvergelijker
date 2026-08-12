@@ -150,6 +150,30 @@
   // De maatstaf waarop panelen onderling te vergelijken zijn. Niet afronden:
   // het gaat om centen per wattpiek, en een paneel van € 0,19 per Wp is echt
   // goedkoper dan een van € 0,24.
+  // Wat kost deze omvormer voor een dak van n panelen?
+  //
+  // Waarom dit nodig is: micro-omvormers worden per stuk verkocht en je hebt er
+  // een per paneel (Enphase) of per twee panelen (APsystems). Een string-
+  // omvormer is een apparaat voor de hele installatie. Die bedragen naast
+  // elkaar zetten vergelijkt een onderdeel met een compleet systeem: Enphase
+  // stond op 109 euro naast een SolarEdge van 1.050, terwijl je er voor twaalf
+  // panelen twaalf van nodig hebt plus een gateway.
+  //
+  // De keuzehulp koos daardoor in elk scenario dezelfde twee omvormers, ook
+  // voor iemand zonder schaduw die met een gewone string-omvormer goedkoper uit
+  // was geweest. Dezelfde fout als een prijs excl. btw naast een prijs incl.
+  // btw, of een bruto capaciteit naast een bruikbare.
+  //
+  // panelen_per_eenheid = null betekent: een eenheid voor de hele installatie.
+  function systeemPrijs(omvormer, aantalPanelen) {
+    const basis = vergelijkPrijs(beste(omvormer));
+    if (basis === null) return null;
+    const per = omvormer && omvormer.panelen_per_eenheid;
+    if (!per) return basis;
+    const n = Math.max(1, Math.ceil((aantalPanelen || 1) / per));
+    return basis * n + (omvormer.systeem_toeslag_eur || 0);
+  }
+
   function prijsPerWp(p) {
     const prijs = vergelijkPrijs(beste(p));
     if (!prijs || !p || !p.vermogen_wp) return null;
@@ -178,6 +202,7 @@
     heeftKorting,
     vanPrijs,
     prijsPerWp,
+    systeemPrijs,
     prijsToelichting,
   };
 });

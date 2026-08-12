@@ -194,7 +194,8 @@
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
-          <div class="prijs">${beste ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "Prijs op aanvraag"}</div>
+          <div class="prijs">${beste ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "Prijs op aanvraag"}${o.panelen_per_eenheid ? ` <small class="per-eenheid">per ${o.panelen_per_eenheid === 1 ? "paneel" : o.panelen_per_eenheid + " panelen"}</small>` : ""}</div>
+          ${o.panelen_per_eenheid && beste ? `<div class="prijs-let-op">Dit is een stuksprijs: je hebt er een per ${o.panelen_per_eenheid === 1 ? "paneel" : o.panelen_per_eenheid + " panelen"} nodig. Voor een dak van 12 panelen kom je op circa <b>${eurFmt.format(Prijs.systeemPrijs(o, 12))}</b>${o.systeem_toeslag_eur ? ", inclusief de gateway" : ""} - de andere omvormers hiernaast zijn een apparaat voor de hele installatie.</div>` : ""}
           ${beste ? `<div class="prijs-winkel">${uitWinkel ? "bij " + escapeHtml(beste.winkel) : beste.winkel}</div>` : ""}
           ${Prijs.isOmgerekend(beste) ? `<div class="prijs-let-op">De winkel toont ${eurFmt.format(beste.prijs_eur)} <b>excl. btw</b>. Hierboven staat het bedrag incl. btw, zodat het te vergelijken is met de andere omvormers.</div>` : ""}
           ${o.voorbeeld_variant ? `<div class="prijs-per-kwh">prijs voor: ${escapeHtml(o.voorbeeld_variant)}</div>` : ""}
@@ -252,7 +253,7 @@
             <td><b>${escapeHtml(o.merk)}</b><br>${escapeHtml(o.model)}</td>
             <td>${escapeHtml(TYPE_LABEL[o.type] || o.type)}</td>
             <td>${escapeHtml(o.vermogen_bereik || "?")}</td>
-            <td class="tabel-prijs" title="${escapeHtml([o.prijs_toelichting, Prijs.prijsToelichting(beste)].filter(Boolean).join(" · "))}">${beste ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "n.b."}</td>
+            <td class="tabel-prijs" title="${escapeHtml([o.panelen_per_eenheid ? `stuksprijs: een per ${o.panelen_per_eenheid === 1 ? "paneel" : o.panelen_per_eenheid + " panelen"}; voor 12 panelen circa ${eurFmt.format(Prijs.systeemPrijs(o, 12))}` : null, o.prijs_toelichting, Prijs.prijsToelichting(beste)].filter(Boolean).join(" · "))}">${beste ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "n.b."}${o.panelen_per_eenheid ? ' <small class="per-eenheid">p.p.</small>' : ""}</td>
             <td>${o.garantie_jaar ? o.garantie_jaar + " jr" : "?"}</td>
             <td title="Punten voor batterij-klaar, slim uitlezen en schaduwaanpak"><b>${koppelScore(o)}/6</b></td>
             <td>${checkCel(o.batterij)}</td>

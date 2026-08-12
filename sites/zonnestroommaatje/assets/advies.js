@@ -150,17 +150,24 @@
   }
 
   // Kies de twee best passende omvormers bij deze situatie
-  function omvormerAdvies(s) {
+  function omvormerAdvies(s, aantalPanelen) {
     if (!omvormers.length) return null;
     const punt = (v) => { const st = driewaardig(v).status; return st === "ja" ? 2 : st === "deels" ? 1 : 0; };
-    const prijsVan = (o) => { const b = bestePrijs(o); return b ? Prijs.vergelijkPrijs(b) : null; };
+    // De prijs voor dit dak, niet de prijs van een los onderdeel. Micro-
+    // omvormers worden per paneel verkocht; met de kale stuksprijs stond
+    // Enphase op 109 euro naast een SolarEdge van 1.050 en won hij elk
+    // scenario. Zie Prijs.systeemPrijs.
+    const prijsVan = (o) => Prijs.systeemPrijs(o, aantalPanelen);
     const prijzen = omvormers.map(prijsVan).filter(Boolean);
     const minP = Math.min(...prijzen), maxP = Math.max(...prijzen);
 
     const gescoord = omvormers.map((o) => {
       let score = 0;
       // Schaduw: bij veel schaduw is elektronica per paneel vrijwel een vereiste
-      score += punt(o.schaduw) * (s.schaduw === "veel" ? 3 : s.schaduw === "beetje" ? 1.5 : 0.5);
+      // Zonder schaduw geen bonus: elektronica per paneel lost dan niets op en
+      // kost wel meer. Stond op 0,5, waardoor micro-omvormers ook wonnen bij
+      // een dak zonder een tak in de buurt.
+      score += punt(o.schaduw) * (s.schaduw === "veel" ? 3 : s.schaduw === "beetje" ? 1.5 : 0);
       // Batterijplannen: direct koppelbaar weegt zwaarder naarmate het plan concreter is
       score += punt(o.batterij) * (s.batterijPlan === "ja" ? 3 : s.batterijPlan === "later" ? 2 : 0.75);
       // Smart home: weeg de koppeling met het gekozen platform
@@ -230,7 +237,7 @@
     const top3 = scorePanelen(s, dakTeKlein);
     const medaille = Iconen.svg("medaille");
     const plekken = [`${medaille} Beste match`, `${medaille} Tweede keus`, `${medaille} Derde keus`];
-    const topOmvormers = omvormerAdvies(s);
+    const topOmvormers = omvormerAdvies(s, aantalGeadviseerd);
     // Vuistregel omvormergrootte: circa 90% van het paneelvermogen, afgerond op halve kW
     const omvormerKw = String(Math.max(1.5, Math.round((wpGeadviseerd * 0.9) / 500) / 2)).replace(".", ",");
 
@@ -319,7 +326,9 @@
           <span class="plek">${["" + Iconen.svg("stroom") + " Beste match", "" + Iconen.svg("stroom") + " Ook geschikt"][i]}</span>
           <h3>${escapeHtml(o.merk)} ${escapeHtml(o.model)}</h3>
           <div class="reden">${omvormerReden(o, s)}</div>
-          <p style="margin:8px 0 0;font-size:0.95rem;">${uitWinkel ? `laagste prijs <b>${eurFmt.format(Prijs.vergelijkPrijs(beste))}</b>, ${winkelLink(beste)}${Prijs.isOmgerekend(beste) ? " <small>(winkelprijs excl. btw, hier omgerekend)</small>" : ""}` : `richtprijs <b>${eurFmt.format(o.richtprijs_eur || 0)}</b>`} (${escapeHtml(o.prijs_toelichting || "indicatie")})</p>
+          <p style="margin:8px 0 0;font-size:0.95rem;">${o.panelen_per_eenheid
+            ? `voor ${aantalGeadviseerd} panelen circa <b>${eurFmt.format(Prijs.systeemPrijs(o, aantalGeadviseerd))}</b> <small>(${Math.ceil(aantalGeadviseerd / o.panelen_per_eenheid)} stuks à ${eurFmt.format(Prijs.vergelijkPrijs(beste))}${o.systeem_toeslag_eur ? ` plus ${eurFmt.format(o.systeem_toeslag_eur)} voor de gateway` : ""})</small>`
+            : uitWinkel ? `laagste prijs <b>${eurFmt.format(Prijs.vergelijkPrijs(beste))}</b>, ${winkelLink(beste)}${Prijs.isOmgerekend(beste) ? " <small>(winkelprijs excl. btw, hier omgerekend)</small>" : ""}` : `richtprijs <b>${eurFmt.format(o.richtprijs_eur || 0)}</b>`} (${escapeHtml(o.prijs_toelichting || "indicatie")})</p>
           ${uitWinkel && koopUrl(beste) ? `<p style="margin:8px 0 0;"><a class="knop" style="padding:8px 14px;font-size:0.88rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a></p>` : ""}
         </div>`;
       }).join("")}

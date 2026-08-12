@@ -1544,3 +1544,13 @@ a.icoon-kaart { text-decoration: none; color: inherit; }
   }
 
 }
+
+/* Een stuksprijs staat naast systeemprijzen van andere merken; zonder deze
+   markering leest 109 euro als goedkoper dan 1.050 terwijl je er twaalf nodig
+   hebt. Zie Prijs.systeemPrijs in assets/prijs.js. */
+.per-eenheid {
+  font-size: 0.62em;
+  font-weight: 600;
+  color: var(--kleur-tekst-licht, inherit);
+  white-space: nowrap;
+}
