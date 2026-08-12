@@ -310,11 +310,22 @@
     el("inpCapaciteit").value = b.capaciteit_kwh;
     el("inpInvestering").value = inv ? inv.bedrag : "";
     const hint = el("batterijHint");
+    const delen = [];
     if (inv && inv.soort === "totaal") {
-      hint.textContent = `Als investering is de indicatie compleet gebruiksklaar ingevuld (${eurFmt.format(inv.bedrag)}${b.totaalprijs_tot_eur ? ` tot ${eurFmt.format(b.totaalprijs_tot_eur)}` : ""}, incl. installatie). Heb je een offerte? Vul dan dat bedrag in bij "alle getallen".`;
-    } else {
-      hint.textContent = b.prijs_omvat ? `Let op wat de prijs dekt: ${b.prijs_omvat}. Tel installatiekosten zelf op bij de investering als die er niet in zitten.` : "";
+      delen.push(`Als investering is de indicatie compleet gebruiksklaar ingevuld (${eurFmt.format(inv.bedrag)}${b.totaalprijs_tot_eur ? ` tot ${eurFmt.format(b.totaalprijs_tot_eur)}` : ""}, incl. installatie). Heb je een offerte? Vul dan dat bedrag in bij "alle getallen".`);
+    } else if (b.prijs_omvat) {
+      delen.push(`Let op wat de prijs dekt: ${b.prijs_omvat}. Tel installatiekosten zelf op bij de investering als die er niet in zitten.`);
     }
+    // De besparing wordt gerekend over de capaciteit hierboven, en die betekent
+    // niet bij elke batterij hetzelfde: bij een bruto opgave haal je er minder
+    // uit dan er staat, en valt de besparing dus lager uit dan hier berekend.
+    // De vergelijker en de keuzehulp tonen dat al met een label; zonder deze
+    // regel zou juist de pagina die er een bedrag aan hangt erover zwijgen.
+    const capToelichting = Prijs.capaciteitToelichting(b);
+    if (capToelichting) {
+      delen.push(`Over de capaciteit van ${String(b.capaciteit_kwh).replace(".", ",")} kWh: ${capToelichting}. Haal je er minder uit, dan valt de besparing lager uit dan hieronder staat.`);
+    }
+    hint.textContent = delen.join(" ");
     bereken();
     // Op smalle schermen staat het resultaat onder het formulier en zou een
     // batterijkeuze anders onzichtbaar blijven: scroll er dan even naartoe.

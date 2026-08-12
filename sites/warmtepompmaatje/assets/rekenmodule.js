@@ -19,6 +19,13 @@
   const HYBRIDE_DEKKING = 0.6;       // aandeel van de totale warmtevraag dat een hybride overneemt (gelijk aan de keuzehulp)
   const HYBRIDE_SCOP = 4.5;          // hybride draait vooral op gunstige momenten
   const ALLEL_SCOP = 4.0;            // all-electric praktijkrendement voor verwarming
+
+  // De labelwaarde is optimistisch: gemeten op een testbank bij 35 graden
+  // aanvoer en gemiddeld klimaat. In een echte woning ligt het lager door
+  // stilstandsverliezen, tapwater tussendoor en een installatie die zelden
+  // perfect is ingeregeld. De vaste getallen hierboven zijn praktijkwaarden;
+  // deze factor brengt een labelwaarde op diezelfde noemer.
+  const PRAKTIJKFACTOR = 0.87;
   const TAPWATER_COP = 2.5;          // warm water en koken via boilervat en inductie
   const INSTALLATIE_HYBRIDE = 2500;  // schatting montage en inregelen
   const INSTALLATIE_ALLEL = 4500;    // schatting montage, boiler en aanpassingen
@@ -77,16 +84,37 @@
     const verwarmingGas = s.gas * AANDEEL_VERWARMING;
     const restGas = s.gas - verwarmingGas;
 
+    // Het rendement van deze pomp, niet van een gemiddelde pomp.
+    //
+    // Hier stond een vast getal voor elke pomp. Daardoor gaf de rekenmodule
+    // voor elke all-electric pomp exact dezelfde besparing, terwijl de
+    // keuzehulp er een as "Zuinigst" op baseert - twee modules die elkaar op
+    // dezelfde site tegenspreken.
+    //
+    // Alleen gebruiken als vaststaat bij welke aanvoertemperatuur de SCOP
+    // geldt. Bij 55 graden ligt hij ruim een punt lager dan bij 35, en zonder
+    // die vermelding zou een pomp met een gunstig ogend getal een te mooie
+    // terugverdientijd krijgen. Staat het niet vast, dan rekent hij met de
+    // praktijkwaarde en zegt de pagina dat erbij.
+    const eigenScop = s.w && typeof s.w.scop === "number" && String(s.w.scop_conditie) === "35"
+      ? s.w.scop * PRAKTIJKFACTOR
+      : null;
+    const gebruikteScop = {
+      hybride: eigenScop || HYBRIDE_SCOP,
+      allel: eigenScop || ALLEL_SCOP,
+      eigen: eigenScop !== null,
+    };
+
     let gasBespaard, stroomKwh;
     if (s.type === "hybride") {
       // De hybride neemt circa 60% van de totale warmtevraag over (circa 80% van de
       // verwarming; warm water en piekkou blijven bij de ketel), gelijk aan de keuzehulp
       gasBespaard = s.gas * HYBRIDE_DEKKING;
-      stroomKwh = (gasBespaard * KWH_PER_M3) / HYBRIDE_SCOP;
+      stroomKwh = (gasBespaard * KWH_PER_M3) / gebruikteScop.hybride;
     } else {
       // All-electric vervangt alles: verwarming via de pomp, warm water via het boilervat
       gasBespaard = s.gas;
-      stroomKwh = (verwarmingGas * KWH_PER_M3) / ALLEL_SCOP + (restGas * KWH_PER_M3) / TAPWATER_COP;
+      stroomKwh = (verwarmingGas * KWH_PER_M3) / gebruikteScop.allel + (restGas * KWH_PER_M3) / TAPWATER_COP;
     }
 
     const vastrechtBesparing = s.gasAf ? s.vastrecht : 0;
@@ -151,6 +179,9 @@
       <div class="resultaat-rij"><span>Netto investering</span><b>${prijsOnbekend ? "onbekend" : eurFmt.format(netto)}</b></div>
       <div class="resultaat-rij"><span>Gasbesparing per jaar</span><b>${numFmt.format(gasBespaard)} m³${s.type === "hybride" ? ` <small style="font-weight:400;color:var(--kleur-tekst-licht);">(${numFmt.format(gasOver)} m³ blijft voor piekkou en warm water)</small>` : ""}</b></div>
       <div class="resultaat-rij"><span>Extra stroomverbruik per jaar</span><b>${numFmt.format(stroomKwh)} kWh</b></div>
+      <p class="hint" style="margin:0 0 6px;">${gebruikteScop.eigen
+        ? `Gerekend met het rendement van deze pomp: SCOP ${String(s.w.scop).replace(".", ",")} volgens het label bij 35 graden aanvoer, hier op ${String(Math.round((s.type === "hybride" ? gebruikteScop.hybride : gebruikteScop.allel) * 10) / 10).replace(".", ",")} gezet omdat een woning geen testbank is.`
+        : `Gerekend met een praktijkrendement van ${String(s.type === "hybride" ? HYBRIDE_SCOP : ALLEL_SCOP).replace(".", ",")} voor een gemiddelde pomp. Van deze pomp is niet vastgesteld bij welke aanvoertemperatuur zijn SCOP geldt, en bij 55 graden ligt die ruim een punt lager dan bij 35 - dan zou dit een te mooi getal worden.`}</p>
       ${vastrechtBesparing ? `<div class="resultaat-rij"><span>Vaste gaskosten vervallen</span><b>${eurFmt.format(vastrechtBesparing)} per jaar</b></div>` : ""}
       <div class="resultaat-rij"><span>Besparing per jaar</span><b>${eurFmt.format(besparingJaar)} <small style="font-weight:400;color:var(--kleur-tekst-licht);">(≈ ${eurFmt.format(besparingJaar / 12)} per maand)</small></b></div>
       <div class="resultaat-rij"><span>Besparing over ${LEVENSDUUR_JAAR} jaar <small>(gemiddelde levensduur)</small></span><b>${eurFmt.format(besparingLevensduur)}</b></div>

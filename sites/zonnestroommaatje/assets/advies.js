@@ -365,7 +365,7 @@
           <h3><a href="paneel/${encodeURIComponent(p.id)}.html">${escapeHtml(naamVan(p))}</a></h3>
           <div class="reden">${redenVoor(p, s, dakTeKlein)}</div>
           <p style="margin:8px 0 0;font-size:0.95rem;">${p.vermogen_wp} Wp · <b>${eurFmt.format(stuk)}</b> per paneel${beste && beste.winkel ? ` (${winkelLink(beste)})` : " (richtprijs)"} · ${aantalGeadviseerd} stuks: circa <b>${eurFmt.format(stuk * aantalGeadviseerd)}</b> (excl. montage en omvormer)</p>
-          <p style="margin:8px 0 0;">${beste && beste.winkel && koopUrl(beste) ? `<a class="knop" style="padding:8px 14px;font-size:0.88rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a> ` : ""}<a class="knop knop-secundair" style="padding:8px 14px;font-size:0.88rem;" href="rekenmodule.html?paneel=${encodeURIComponent(p.id)}">Bereken terugverdientijd ${Iconen.svg("pijl-rechts")}</a></p>
+          <p style="margin:8px 0 0;">${beste && beste.winkel && koopUrl(beste) ? `<a class="knop" style="padding:8px 14px;font-size:0.88rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a> ` : ""}<a class="knop knop-secundair" style="padding:8px 14px;font-size:0.88rem;" href="rekenmodule.html?paneel=${encodeURIComponent(p.id)}&aantal=${aantalGeadviseerd}${topOmvormer ? `&omvormer=${encodeURIComponent(topOmvormer.id)}` : ""}">Bereken terugverdientijd ${Iconen.svg("pijl-rechts")}</a></p>
         </div>`;
       }).join("")}
       ${!top3.length ? '<p class="hint">Geen panelen gevonden met deze wensen; zet bijvoorbeeld het full black-filter uit.</p>' : ""}
