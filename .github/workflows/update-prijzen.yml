@@ -73,6 +73,21 @@ jobs:
           BOL_CLIENT_SECRET: ${{ secrets.BOL_CLIENT_SECRET }}
         run: npm run modellen
 
+      # Van zestien batterijen ligt niet vast of het getal in vermogen_kw het
+      # continue vermogen is, een piek, of de 800 W die op een gedeelde groep is
+      # toegestaan. Die staan door elkaar in een kolom waarop de site
+      # vergelijkt. De datasheets staan op de sites van de fabrikanten, en daar
+      # kan de ontwikkelomgeving niet bij (de egress-proxy laat alleen npm en
+      # pypi door) maar de runner wel.
+      #
+      # Rapporteert alleen; overnemen is mensenwerk. Een regex die "5 kW" naast
+      # het woord "continu" ziet is een aanwijzing, geen specificatie.
+      - name: Vermogens op fabrikantpagina's zoeken
+        if: steps.keuze.outputs.doen == 'true' && matrix.site == 'batterijmaatje'
+        continue-on-error: true
+        working-directory: sites/batterijmaatje
+        run: npm run vermogens
+
       - name: Pagina's en sitemap herbouwen
         if: steps.keuze.outputs.doen == 'true'
         working-directory: sites/${{ matrix.site }}
