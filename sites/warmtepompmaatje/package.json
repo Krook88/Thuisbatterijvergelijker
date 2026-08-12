@@ -8,6 +8,7 @@
   },
   "scripts": {
     "genereer": "node scripts/genereer-warmtepomppaginas.mjs",
+    "keuzehulp": "node scripts/keuzehulp-spreiding.mjs",
     "prijzen": "node scripts/update-prices.mjs",
     "condities": "node scripts/condities-status.mjs",
     "isde": "node scripts/isde-condities.mjs",
