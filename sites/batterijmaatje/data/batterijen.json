@@ -58,7 +58,9 @@
       "afbeelding": "assets/producten/marstek-venus-e-3.webp",
       "afbeelding_bron": "foto: Marstek",
       "capaciteit_nominaal_kwh": 5.12,
-      "capaciteit_soort": "bruikbaar"
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "max",
+      "vermogen_bron": "Marstek geeft 800 W on-grid en 2500 W off-grid; dit getal is de off-grid maximumwaarde"
     },
     {
       "id": "marstek-venus-c-768",
@@ -101,7 +103,9 @@
       "afbeelding": "assets/producten/marstek-venus-c-768.webp",
       "afbeelding_bron": "foto: Marstek",
       "capaciteit_soort": "nominaal",
-      "capaciteit_nominaal_kwh": 7.68
+      "capaciteit_nominaal_kwh": 7.68,
+      "vermogen_conditie": "max",
+      "vermogen_bron": "Marstek geeft 800 W on-grid en 2500 W off-grid; dit getal is de off-grid maximumwaarde"
     },
     {
       "id": "sessy-5kwh",
@@ -142,7 +146,8 @@
       "noodstroom_uitleg": "Alleen met de optionele Sessy-noodstroommodule plus een externe Victron-omvormer: handmatig apparaten voeden, geen automatische omschakeling en geen voeding van de huisinstallatie.",
       "ip_klasse": "IP20",
       "buiten_toelichting": "alleen voor droge binnenruimtes, 0-40 °C",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "homewizard-plug-in-battery",
@@ -195,7 +200,8 @@
       "afbeelding": "assets/producten/homewizard-plug-in-battery.webp",
       "afbeelding_bron": "foto: HomeWizard",
       "capaciteit_soort": "nominaal",
-      "capaciteit_nominaal_kwh": 2.7
+      "capaciteit_nominaal_kwh": 2.7,
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "ecoflow-stream-ac-pro",
@@ -240,7 +246,8 @@
       "buiten_toelichting": "geschikt voor buiten, -20 tot 55 °C",
       "afbeelding": "assets/producten/ecoflow-stream-ac-pro.webp",
       "afbeelding_bron": "foto: EcoFlow",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "anker-solix-solarbank-3-pro",
@@ -285,7 +292,8 @@
       "afbeelding": "assets/producten/anker-solix-solarbank-3-pro.webp",
       "afbeelding_bron": "foto: Anker SOLIX",
       "capaciteit_soort": "nominaal",
-      "capaciteit_nominaal_kwh": 2.69
+      "capaciteit_nominaal_kwh": 2.69,
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "zendure-solarflow-hyper-2000",
@@ -331,7 +339,8 @@
       "buiten_toelichting": "geldt voor de Hyper-unit; geschikt voor buiten",
       "afbeelding": "assets/producten/zendure-solarflow-hyper-2000.webp",
       "afbeelding_bron": "foto: Zendure",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "zonneplan-nexus",
@@ -372,7 +381,8 @@
       "noodstroom_uitleg": "Optioneel noodstroom-stopcontact bij installatie (ca. 200 euro meerprijs): levert bij een storing tot 3.600 W; de rest van de woning blijft spanningsloos.",
       "ip_klasse": "IP55",
       "buiten_toelichting": "fabrikant: niet buiten plaatsen; vorstvrij en droog opstellen",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "enphase-iq-battery-5p",
@@ -414,7 +424,8 @@
       "buiten_toelichting": "binnen en buiten installeerbaar volgens fabrikant",
       "afbeelding": "assets/producten/enphase-iq-battery-5p.webp",
       "afbeelding_bron": "foto: Enphase",
-      "capaciteit_soort": "bruikbaar"
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "victron-pylontech-3fase",
@@ -453,7 +464,8 @@
       "noodstroom_uitleg": "Ingebouwde UPS-functie in de MultiPlus-II: neemt bij netuitval binnen ca. 20 ms de belasting over. Hele huis of kritische groepen mogelijk, ca. 12 kW bij de 3-fase opstelling.",
       "ip_klasse": "IP20",
       "buiten_toelichting": "alleen binnen, in een droge technische ruimte",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "sigenergy-sigenstor-8kwh",
@@ -496,7 +508,8 @@
       "buiten_toelichting": "binnen en buiten, zonder extra overkapping",
       "afbeelding": "assets/producten/sigenergy-sigenstor-8kwh.webp",
       "afbeelding_bron": "foto: Sigenergy",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "tesla-powerwall-3",
@@ -542,7 +555,9 @@
       "noodstroom_uitleg": "Alleen met de Tesla Backup Gateway 2 of Backup Switch: hele woning, tot ca. 11 kW per Powerwall. Er is Nederlandstalige installatiedocumentatie, maar hoe gangbaar dit in NL is, is beperkt gedocumenteerd.",
       "ip_klasse": "IP67",
       "buiten_toelichting": "binnen en buiten; bedradingscompartiment IP55",
-      "capaciteit_soort": "bruikbaar"
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "onze notitie: continu circa 5 kW, piek 7 kW"
     },
     {
       "id": "alphaess-smile-g3-t10",
@@ -583,7 +598,8 @@
       "noodstroom_uitleg": "Alleen met de optionele AlphaESS Backup Box (kritische groepen of noodstopcontact) of Backup Box Plus (hele woning); omschakeling binnen ca. 10 ms.",
       "ip_klasse": "onbekend",
       "buiten_toelichting": "omvormer IP65; de IP-klasse van de batterijmodule verschilt per uitvoering, vraag de installateur",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "fox-ess-ep11",
@@ -697,7 +713,8 @@
       "buiten_toelichting": "binnen en buiten volgens fabrikant",
       "afbeelding": "assets/producten/sungrow-sbr096.webp",
       "afbeelding_bron": "foto: Sungrow",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "byd-battery-box-hvm-11",
@@ -731,7 +748,8 @@
       "ip_klasse": "IP55",
       "buiten_toelichting": "buiten toegestaan volgens fabrikant, -10 tot 50 °C",
       "capaciteit_nominaal_kwh": 11.04,
-      "capaciteit_soort": "bruikbaar"
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "solaredge-home-battery-48v",
@@ -773,7 +791,9 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "EU-uitvoering; binnen en buiten",
       "capaciteit_soort": "bruikbaar",
-      "capaciteit_nominaal_kwh": 9.7
+      "capaciteit_nominaal_kwh": 9.7,
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "onze notitie: vanaf 2 modules continu 5 kW"
     },
     {
       "id": "huawei-luna2000-10",
@@ -817,7 +837,9 @@
       "buiten_toelichting": "binnen en buiten, -20 tot 55 °C",
       "afbeelding": "assets/producten/huawei-luna2000-10.webp",
       "afbeelding_bron": "foto: Huawei",
-      "capaciteit_soort": "bruikbaar"
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "onze notitie: piek 7 kW gedurende 10 seconden, dus 5 kW is de continue waarde"
     },
     {
       "id": "deye-rw-m61-set",
@@ -851,7 +873,8 @@
       "noodstroom_uitleg": "Ingebouwde backup/load-poort met UPS-functie: aangesloten groepen blijven bij netuitval doorwerken; de omvormer kan ook volledig off-grid draaien.",
       "ip_klasse": "IP65",
       "buiten_toelichting": "binnen en buiten (RW-M6.1-B-uitvoering)",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "lg-enblock-flex-129",
@@ -936,7 +959,8 @@
       "buiten_toelichting": "ook voor balkon of terras; interne verwarming tot -20 °C",
       "afbeelding": "assets/producten/jackery-homepower-2000-ultra.webp",
       "afbeelding_bron": "foto: Jackery",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "goodwe-lynx-home-u-54",
@@ -981,7 +1005,8 @@
       "buiten_toelichting": "binnen en buiten; laden kan pas vanaf 0 °C",
       "afbeelding": "assets/producten/goodwe-lynx-home-u-54.webp",
       "afbeelding_bron": "foto: GoodWe",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "solax-triple-power-t58",
@@ -1077,7 +1102,8 @@
       "afbeelding": "assets/producten/dyness-powerbox-g2.webp",
       "afbeelding_bron": "foto: Dyness",
       "capaciteit_nominaal_kwh": 10.24,
-      "capaciteit_soort": "bruikbaar"
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "saj-h2-5k-s2-10kwh",
@@ -1126,7 +1152,8 @@
       "noodstroom_uitleg": "Het systeem heeft een aparte back-upuitgang die binnen 10 milliseconden omschakelt bij een stroomstoring; welke delen van het huis doorwerken hangt af van wat de installateur op die uitgang aansluit.",
       "ip_klasse": "IP65",
       "buiten_toelichting": "omvormer en batterijmodule beide IP65, wand- of grondmontage buiten mogelijk",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "duracell-dura5",
@@ -1169,7 +1196,8 @@
       "afbeelding": "assets/producten/duracell-dura5.webp",
       "afbeelding_bron": "foto: Duracell Energy",
       "capaciteit_nominaal_kwh": 5.12,
-      "capaciteit_soort": "bruikbaar"
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "bluetti-balco-500",
@@ -1211,7 +1239,8 @@
       "buiten_toelichting": "ontworpen voor balkon of buiten, -20 tot 55 °C",
       "afbeelding": "assets/producten/bluetti-balco-500.webp",
       "afbeelding_bron": "foto: Bluetti",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "anker-solix-solarbank-max-ac",
@@ -1249,7 +1278,8 @@
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren",
       "noodstroom": true,
       "noodstroom_uitleg": "Noodstroomuitgang met omschakeling binnen ca. 10 ms (fabrieksopgave).",
-      "capaciteit_soort": "bruikbaar"
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "zendure-solarflow-3000-mix-ac",
@@ -1291,7 +1321,8 @@
       "buiten_toelichting": "fabrieksopgave (metalen behuizing); eisen voor buitenplaatsing niet geverifieerd",
       "afbeelding": "assets/producten/zendure-solarflow-3000-mix-ac.webp",
       "afbeelding_bron": "foto: Zendure",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "zendure-solarflow-4000-mix-pro",
@@ -1333,7 +1364,8 @@
       "buiten_toelichting": "fabrieksopgave (metalen behuizing); eisen voor buitenplaatsing niet geverifieerd",
       "afbeelding": "assets/producten/zendure-solarflow-4000-mix-pro.webp",
       "afbeelding_bron": "foto: Zendure",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "mova-lumegret-a4000",
@@ -1379,7 +1411,8 @@
       "noodstroom_uitleg": "Fabrikant vermeldt noodstroom; vermogen en omschakeltijd niet gespecificeerd gevonden.",
       "afbeelding": "assets/producten/mova-lumegret-a4000.webp",
       "afbeelding_bron": "foto: MOVA",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "indevolt-solidflex-3000",
@@ -1421,7 +1454,8 @@
       "buiten_toelichting": "fabrieksopgave; eisen voor buitenplaatsing niet geverifieerd",
       "afbeelding": "assets/producten/indevolt-solidflex-3000.webp",
       "afbeelding_bron": "foto: Indevolt",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "marstek-venus-d",
@@ -1464,7 +1498,8 @@
       "afbeelding": "assets/producten/marstek-venus-d.webp",
       "afbeelding_bron": "foto: Marstek",
       "capaciteit_soort": "nominaal",
-      "capaciteit_nominaal_kwh": 2.56
+      "capaciteit_nominaal_kwh": 2.56,
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "aeg-solarcube-48",
@@ -1510,7 +1545,8 @@
         "SolarCube 4.8 kWh"
       ],
       "capaciteit_nominaal_kwh": 4.8,
-      "capaciteit_soort": "bruikbaar"
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "sunpura-s4800",
@@ -1543,7 +1579,8 @@
       "noodstroom": true,
       "noodstroom_uitleg": "Off-grid/noodstroomuitgang tot 2.400 W continu (piek 3.600 W, fabrieksopgave).",
       "capaciteit_nominaal_kwh": 4.8,
-      "capaciteit_soort": "bruikbaar"
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "marstek-venus-e-4",
@@ -1586,7 +1623,9 @@
       "afbeelding": "assets/producten/marstek-venus-e-4.webp",
       "afbeelding_bron": "foto: Marstek",
       "capaciteit_nominaal_kwh": 5.12,
-      "capaciteit_soort": "bruikbaar"
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "max",
+      "vermogen_bron": "Marstek geeft 800 W on-grid en 2500 W off-grid; dit getal is de off-grid maximumwaarde"
     },
     {
       "id": "ecoflow-stream-ac-5000",
@@ -1626,7 +1665,8 @@
       "noodstroom_uitleg": "Niet vastgesteld; controleer bij de fabrikant.",
       "afbeelding": "assets/producten/ecoflow-stream-ac-5000.webp",
       "afbeelding_bron": "foto: EcoFlow",
-      "capaciteit_soort": "onbekend"
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "samduo-nex-e6000",
@@ -1661,7 +1701,8 @@
       "afbeelding": "assets/producten/samduo-nex-e6000.webp",
       "afbeelding_bron": "foto: SAMDUO",
       "capaciteit_nominaal_kwh": 6.0,
-      "capaciteit_soort": "bruikbaar"
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "voltdeer-sr5000",
@@ -1731,7 +1772,8 @@
       "noodstroom": null,
       "noodstroom_uitleg": "Niet vastgesteld; controleer bij de fabrikant.",
       "capaciteit_soort": "bruikbaar",
-      "capaciteit_nominaal_kwh": 2.88
+      "capaciteit_nominaal_kwh": 2.88,
+      "vermogen_conditie": "onbekend"
     }
   ]
 }

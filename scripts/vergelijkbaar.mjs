@@ -102,7 +102,12 @@ const REGISTERS = {
     // dezelfde valkuil als bij de warmtepompen, en de site vergelijkt erop.
     // Zolang er geen vermogen_conditie staat, meldt dit script het - dat is
     // beter dan het veld stilzwijgend goedkeuren.
-    vermogen_kw: { conditie: "vermogen_conditie", waarom: "continu ontlaadvermogen of piek; nog niet vastgelegd" },
+    // "continu" = wat hij aan je huis blijft leveren, "max" = een piek of het
+    // off-grid maximum dat je in dagelijks gebruik niet haalt, "onbekend" =
+    // nagezocht en niet vastgesteld. Marstek geeft bijvoorbeeld 800 W on-grid
+    // en 2500 W off-grid op; ons veld stond op dat tweede getal.
+    vermogen_kw: { conditie: "vermogen_conditie", waarom: "continu ontlaadvermogen, een piek, of het off-grid maximum" },
+    vermogen_bron: { conditie: null, waarom: "waar de conditie op gebaseerd is" },
     terugleverkosten_per_kwh_indicatie: { conditie: null, waarom: "tarief per kWh, zelfde eenheid voor elke leverancier" },
   },
   warmtepompmaatje: {

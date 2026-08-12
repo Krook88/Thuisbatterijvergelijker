@@ -340,7 +340,7 @@ ${breadcrumbLd(b)}
   <div class="tabel-blok">
   <table class="data-tabel spec-tabel">
     ${specRij("Capaciteit", `${nl(b.capaciteit_kwh)} kWh${Prijs.capaciteitLabelHtml(b)}${b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh)` : ""}`)}
-    ${specRij("Vermogen", b.vermogen_kw ? `${nl(b.vermogen_kw)} kW` : null)}
+    ${specRij("Vermogen", b.vermogen_kw ? `${nl(b.vermogen_kw)} kW${Prijs.vermogenLabelHtml(b)}` : null)}
     ${specRij("Type", `<a class="term-link" href="/uitleg.html#${esc(b.type)}" title="Wat betekent dit? Lees de uitleg in de woordenlijst">${esc(typeLabel)}</a>`)}
     ${specRij("Aansluiting", esc(b.fase || ""))}
     ${specRij("Installatie", b.installatie === "zelf" ? "Zelf aan te sluiten (stopcontact)" : "Door installateur")}

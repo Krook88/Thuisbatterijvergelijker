@@ -280,7 +280,13 @@
       redenen.push("de capaciteit valt binnen je bandbreedte");
     }
     if (maat.piekKw > 0.4 && b.vermogen_kw) {
-      if (b.vermogen_kw >= maat.piekKw) {
+      // Alleen beloven dat het vermogen iets dekt als vaststaat dat het de
+      // continue waarde is. Marstek geeft 800 W on-grid en 2500 W off-grid op,
+      // en met dat tweede getal zou de keuzehulp beweren dat hij een avondpiek
+      // van 2,2 kW aankan terwijl hij er in huis 0,8 levert.
+      if (b.vermogen_kw >= maat.piekKw && !Prijs.vermogenDektIets(b)) {
+        redenen.push(`het opgegeven vermogen (${String(b.vermogen_kw).replace(".", ",")} kW) ligt boven jouw avondgebruik (ca. ${String(maat.piekKw).replace(".", ",")} kW), maar van deze batterij is niet vastgesteld of dat het vermogen is dat hij aanhoudend levert`);
+      } else if (b.vermogen_kw >= maat.piekKw) {
         redenen.push(`het vermogen (${String(b.vermogen_kw).replace(".", ",")} kW) dekt jouw avondgebruik (ca. ${String(maat.piekKw).replace(".", ",")} kW)`);
       } else {
         redenen.push(`let op: het vermogen (${String(b.vermogen_kw).replace(".", ",")} kW) ligt onder jouw geschatte avondpiek (ca. ${String(maat.piekKw).replace(".", ",")} kW); het net vult automatisch aan, maar dat deel bespaart dan niet`);

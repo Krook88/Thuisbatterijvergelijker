@@ -179,6 +179,32 @@
 
   // Klaar om in HTML te zetten; hier zit geen invoer van buiten in, alle drie
   // de teksten staan hierboven.
+  // Hetzelfde voor het vermogen. "max" is het getal dat je in dagelijks gebruik
+  // niet haalt - Marstek geeft 800 W on-grid en 2500 W off-grid, en het tweede
+  // stond bij ons in het veld. Dat hoort de bezoeker te zien, want de kaart
+  // suggereert anders dat zo'n batterij zijn avondpiek dekt.
+  function vermogenLabel(b) {
+    if (!b || typeof b.vermogen_kw !== "number") return null;
+    if (b.vermogen_conditie === "continu") {
+      return { tekst: "continu", klasse: "maat-bevestigd", titel: "Dit levert hij aanhoudend aan je huis" };
+    }
+    if (b.vermogen_conditie === "max") {
+      return { tekst: "maximum", klasse: "maat-bruto", titel: "Een piek- of off-grid maximum; in dagelijks gebruik ligt het lager. " + (b.vermogen_bron || "") };
+    }
+    return null;
+  }
+
+  function vermogenLabelHtml(b) {
+    const l = vermogenLabel(b);
+    return l ? ` <small class="${l.klasse}" title="${l.titel}">${l.tekst}</small>` : "";
+  }
+
+  // Mag de site zeggen dat dit vermogen iets dekt? Alleen als vaststaat dat het
+  // de continue waarde is; anders belooft ze iets op basis van een piek.
+  function vermogenDektIets(b) {
+    return !!b && b.vermogen_conditie === "continu";
+  }
+
   function capaciteitLabelHtml(b) {
     const l = capaciteitLabel(b);
     return l ? ` <small class="${l.klasse}" title="${l.titel}">${l.tekst}</small>` : "";
@@ -216,6 +242,9 @@
     capaciteitToelichting,
     capaciteitLabel,
     capaciteitLabelHtml,
+    vermogenLabel,
+    vermogenLabelHtml,
+    vermogenDektIets,
     prijsPerKwh,
     prijsToelichting,
   };
