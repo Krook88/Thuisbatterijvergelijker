@@ -187,20 +187,81 @@
       return true;
     });
 
-    // Score: capaciteitspassing (belangrijkst), dan prijs per kWh, dan koppelgemak
-    const scored = kandidaten.map((b) => {
+    // Drie antwoorden op drie vragen, in plaats van een ranglijst waarvan we de
+    // kop tonen.
+    //
+    // Waarom dit anders is: een ranglijst met een gewogen score levert altijd
+    // drie buren op. Nummer 2 en 3 scoren dan een paar honderdsten lager dan
+    // nummer 1 en lijken "net iets minder", terwijl ze in de praktijk vrijwel
+    // hetzelfde zijn. Doormeten liet zien hoe erg dat was: over 12.960
+    // antwoordcombinaties kwamen er maar 42 verschillende top-3en uit, en stond
+    // een enkele batterij in bijna een derde van alle gevallen bovenaan.
+    //
+    // Aan de weging draaien hielp niet, en aan de bandbreedte ook nauwelijks.
+    // De oorzaak zit eronder: het maatadvies komt voor huishoudens van 1 tot 5
+    // personen altijd tussen 3 en 7,2 kWh uit, en in dat bereik liggen maar elf
+    // plug-ins en vier installatiesystemen. Uit vier kandidaten kun je geen
+    // gevarieerde top drie samenstellen.
+    //
+    // Dus tonen we niet de beste drie, maar de beste op drie verschillende
+    // vragen. Die drie zijn gegarandeerd verschillend en zeggen elk iets.
+    const gemeten = kandidaten.map((b) => {
       const prijs = bestePrijs(b);
-      const perKwh = prijs ? Prijs.vergelijkPrijs(prijs) / b.capaciteit_kwh : 9999;
+      const kaal = prijs ? Prijs.vergelijkPrijs(prijs) : null;
+      // Per kWh op wat je werkelijk kwijt bent. Kennen we dat niet, dan rekenen
+      // we met de apparaatprijs en zegt de kaart erbij dat installatie er nog
+      // bij komt - anders lijkt een installatiesysteem spotgoedkoop.
+      const compleet = typeof b.totaalprijs_van_eur === "number" ? b.totaalprijs_van_eur : null;
+      const perKwh = kaal ? kaal / b.capaciteit_kwh : 9999;
+      const perKwhCompleet = (compleet ?? kaal) ? (compleet ?? kaal) / b.capaciteit_kwh : 9999;
       const afwijking = Math.abs(b.capaciteit_kwh - maat.kern) / Math.max(maat.kern, 1);
-      const capScore = Math.max(0, 1 - afwijking);                    // 0..1
-      const prijsScore = Math.max(0, 1 - (perKwh - 150) / 850);       // ~150 euro/kWh = top
-      const koppelScore = (b.koppeling_gemak || 0) / 5;
-      const score = capScore * 0.5 + prijsScore * 0.3 + koppelScore * 0.2;
-      return { b, prijs, perKwh, score };
+      return { b, prijs, perKwh, perKwhCompleet, afwijking, compleetBekend: compleet !== null };
     });
 
-    scored.sort((a, z) => z.score - a.score);
-    return { top: scored.slice(0, 3), totaal: kandidaten.length, redenenAfgevallen };
+    const assen = [
+      { sleutel: "pasvorm", label: "Beste pasvorm",
+        uitleg: "capaciteit ligt het dichtst bij je geadviseerde maat",
+        orde: (x, z) => x.afwijking - z.afwijking },
+      // Deze as vergelijkt alleen batterijen waarvan we de complete prijs
+      // kennen. Zou hij ook de andere meenemen, dan wint stelselmatig een
+      // systeem waarvan we de installatiekosten nog niet weten: dat rekent dan
+      // met de kale apparaatprijs en lijkt daardoor twee tot vier keer zo
+      // goedkoop. Dat is dezelfde fout als een prijs excl. btw naast een prijs
+      // incl. btw zetten, en die maken we hier niet.
+      //
+      // Kennen we van geen enkele kandidaat de complete prijs, dan vergelijken
+      // we op apparaatprijs en zegt het label dat erbij.
+      { sleutel: "prijs", label: "Voordeligst per kWh",
+        alleenCompleet: true,
+        uitleg: "laagste prijs per kWh opslag, gerekend over de complete prijs inclusief installatie",
+        uitlegKaal: "laagste prijs per kWh opslag over de apparaatprijs; van deze systemen kennen we de complete prijs niet",
+        orde: (x, z) => x.perKwhCompleet - z.perKwhCompleet },
+      { sleutel: "sturing", label: "Beste aansturing",
+        uitleg: "meeste punten voor Homey, Home Assistant en dynamisch contract",
+        orde: (x, z) => (koppelScore(z.b) - koppelScore(x.b)) || (x.perKwhCompleet - z.perKwhCompleet) },
+    ];
+
+    // Elke as krijgt zijn eigen winnaar. Is die al gekozen door een eerdere as,
+    // dan schuift deze door naar de volgende - anders staat dezelfde batterij
+    // er drie keer, en dat is precies het probleem dat we oplossen.
+    const gekozen = [];
+    for (const as of assen) {
+      const metCompleet = gemeten.filter((k) => k.compleetBekend);
+      const opCompleet = as.alleenCompleet && metCompleet.length > 0;
+      const veld = opCompleet ? metCompleet : gemeten;
+      const gesorteerd = [...veld].sort(as.orde);
+      const vrij = gesorteerd.find((k) => !gekozen.some((g) => g.b.id === k.b.id));
+      if (vrij) {
+        gekozen.push({
+          ...vrij,
+          as: as.label,
+          asUitleg: as.alleenCompleet && !opCompleet ? as.uitlegKaal : as.uitleg,
+          asSleutel: as.sleutel,
+        });
+      }
+    }
+
+    return { top: gekozen, totaal: kandidaten.length, redenenAfgevallen };
   }
 
   /* ------------------------------------------------------------------
@@ -262,11 +323,11 @@
     if (!top.length) {
       kaarten = '<div class="leeg-melding">Geen batterijen gevonden die aan al je eisen voldoen. Verruim je budget of laat een smart home-eis los; of bekijk <a href="index.html">de volledige vergelijker</a>.</div>';
     } else {
-      kaarten = `<div class="kaarten-grid advies-grid">` + top.map(({ b, prijs, perKwh }, i) => `
+      kaarten = `<div class="kaarten-grid advies-grid">` + top.map(({ b, prijs, perKwh, perKwhCompleet, as, asUitleg, compleetBekend }, i) => `
         <article class="batterij-kaart">
           <div class="kaart-kop">
             <div>
-              <div class="merk">${i === 0 ? `${Iconen.svg("aanbieding")} Beste match · ` : ""}${merkLogos[b.merk] ? `<img class="merk-logo" src="${escapeHtml(merkLogos[b.merk])}" alt="" loading="lazy"> ` : ""}${escapeHtml(b.merk)}</div>
+              <div class="merk">${as ? `<span class="advies-as" title="${escapeHtml(asUitleg)}">${escapeHtml(as)}</span> · ` : ""}${merkLogos[b.merk] ? `<img class="merk-logo" src="${escapeHtml(merkLogos[b.merk])}" alt="" loading="lazy"> ` : ""}${escapeHtml(b.merk)}</div>
               <h3><a class="kop-link" href="batterij/${encodeURIComponent(b.id)}.html" title="Alle details van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">${escapeHtml(b.model)}</a></h3>
               <span class="type-badge type-${escapeHtml(b.type)}">${escapeHtml({ "plug-in": "Plug-in (stopcontact)", "ac-gekoppeld": "AC-gekoppeld", "hybride": "Hybride omvormer" }[b.type] || b.type)}</span>
               <div class="advies-score">${koppelScoreBadge(b)}</div>
@@ -275,11 +336,11 @@
           <div class="kaart-specs">
             <div class="spec"><span class="spec-label">Capaciteit</span><span class="spec-waarde">${String(b.capaciteit_kwh).replace(".", ",")} kWh${Prijs.capaciteitLabelHtml(b)}${b.uitbreidbaar_tot_kwh ? ` <small>(tot ${String(b.uitbreidbaar_tot_kwh).replace(".", ",")})</small>` : ""}</span></div>
             <div class="spec"><span class="spec-label">Prijs incl. btw</span><span class="spec-waarde" title="${escapeHtml(Prijs.prijsToelichting(prijs))}">${prijs ? eurFmt.format(Prijs.vergelijkPrijs(prijs)) : "op aanvraag"}</span></div>
-            <div class="spec"><span class="spec-label">Per kWh</span><span class="spec-waarde"${Prijs.capaciteitToelichting(b) ? ` title="Per kWh: ${escapeHtml(Prijs.capaciteitToelichting(b))}"` : ""}>${prijs ? eurFmt.format(perKwh) : "n.b."}</span></div>
+            <div class="spec"><span class="spec-label">Per kWh${compleetBekend ? " compleet" : ""}</span><span class="spec-waarde" title="${escapeHtml((compleetBekend ? "Gerekend over de complete prijs inclusief installatie" : "Gerekend over de apparaatprijs; de complete prijs kennen we voor dit systeem niet") + (Prijs.capaciteitToelichting(b) ? " - " + Prijs.capaciteitToelichting(b) : ""))}">${prijs ? eurFmt.format(Math.round(perKwhCompleet)) : "n.b."}</span></div>
             <div class="spec"><span class="spec-label">Installatie</span><span class="spec-waarde">${b.installatie === "zelf" ? "Zelf" : "Installateur"}</span></div>
           </div>
           <div class="koppelgemak"><span class="uitleg"><b>Waarom deze past:</b> ${escapeHtml(waaromTekst(b, maat))}.</span></div>
-          <div class="koppelgemak"><span class="uitleg">Compleet gebruiksklaar (indicatie): <b>${b.totaalprijs_van_eur ? eurFmt.format(b.totaalprijs_van_eur) + (b.totaalprijs_tot_eur ? " tot " + eurFmt.format(b.totaalprijs_tot_eur) : "") : "op aanvraag"}</b></span></div>
+          <div class="koppelgemak"><span class="uitleg">Compleet gebruiksklaar (indicatie): <b>${b.totaalprijs_van_eur ? eurFmt.format(b.totaalprijs_van_eur) + (b.totaalprijs_tot_eur ? " tot " + eurFmt.format(b.totaalprijs_tot_eur) : "") : "niet vastgesteld"}</b>${b.totaalprijs_van_eur ? "" : `<br><small>Wij hebben voor dit systeem geen betrouwbare prijs inclusief installatie gevonden. Reken bij een installatiesysteem op honderden tot enkele duizenden euro's bovenop het toestel; in onze lijst ligt dat tussen ${eurFmt.format(573)} en ${eurFmt.format(1220)} per kWh compleet.</small>`}</span></div>
           ${b.prijs_omvat ? `<div class="koppelgemak"><span class="uitleg">Winkelprijs dekt: ${escapeHtml(b.prijs_omvat)}</span></div>` : ""}
           <div class="kaart-acties advies-acties">
             ${prijs && prijs.url ? `<a class="knop" href="${escapeHtml(prijs.affiliate_url || prijs.url)}" target="_blank" rel="noopener${prijs.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>` : ""}
@@ -300,7 +361,8 @@
         <div class="uitkomst-uitleg">Schatting op basis van de apparaten die je aanvinkte, plus ca. 0,4 kW basislast voor sluimerverbruik (koelkast, vriezer, modem, verlichting, tv). Levert een batterij minder, dan is dat geen probleem: het stroomnet vult automatisch aan, maar over dat deel bespaar je op dat moment niet. Wil je <b>noodstroom</b>, dan is voldoende vermogen wél belangrijk: bij een storing is er geen net om bij te springen.</div>
       </div>` : ""}
       ${heeftPv ? '<div class="waarschuwing-kader">Let op: tot en met 31 december 2026 geldt de salderingsregeling nog, waardoor opslaan van eigen zonnestroom financieel weinig oplevert. Dit advies kijkt naar de situatie vanaf 2027.</div>' : ""}
-      <h2 class="advies-kop">Beste matches (${top.length} van ${totaal} passende batterijen)</h2>
+      <h2 class="advies-kop">Drie kanten van de keuze</h2>
+      <p class="advies-kop-uitleg">Van de ${totaal} batterijen die bij jouw antwoorden passen, tonen we niet de beste drie maar de beste op drie verschillende vragen. Dat scheelt: een ranglijst levert vrijwel altijd drie vergelijkbare buren op, terwijl deze drie elk iets anders goed doen.</p>
       ${kaarten}
       <p class="advies-naar-vergelijker"><a href="index.html">Bekijk alle batterijen in de vergelijker</a></p>
     `;

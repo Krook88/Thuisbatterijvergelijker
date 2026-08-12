@@ -80,10 +80,14 @@ async function meet(browser, label) {
   await pagina.close();
 
   const gevuld = rijen.filter((t) => t.length);
-  const eersten = {}, drietallen = {};
-  for (const t of gevuld) { eersten[t[0]] = (eersten[t[0]] || 0) + 1; drietallen[t.join("|")] = 1; }
+  const eersten = {}, drietallen = {}, ooitGetoond = new Set();
+  for (const t of gevuld) {
+    eersten[t[0]] = (eersten[t[0]] || 0) + 1;
+    drietallen[t.join("|")] = 1;
+    for (const naam of t) ooitGetoond.add(naam);
+  }
   const top = Object.entries(eersten).sort((a, b) => b[1] - a[1]);
-  return { label, n: rijen.length, leeg: rijen.length - gevuld.length,
+  return { label, n: rijen.length, leeg: rijen.length - gevuld.length, ooitGetoond: ooitGetoond.size,
            eersten: Object.keys(eersten).length, drietallen: Object.keys(drietallen).length,
            winnaar: top[0], aandeel: Math.round(top[0][1] / gevuld.length * 100), lijst: top };
 }
@@ -111,10 +115,11 @@ if (BANDEN) {
   }
 } else {
   const r = await meet(browser, "huidig");
-  console.log(`verschillende batterijen op nummer 1 : ${r.eersten}`);
-  console.log(`verschillende top-3en                : ${r.drietallen}`);
+  console.log(`verschillende batterijen ooit getoond : ${r.ooitGetoond}`);
+  console.log(`verschillende eerste kaarten          : ${r.eersten}`);
+  console.log(`verschillende drietallen              : ${r.drietallen}`);
   console.log(`zonder resultaat                     : ${Math.round(r.leeg / r.n * 100)}%`);
-  console.log(`\nnummer 1, naar aandeel:`);
+  console.log(`\neerste kaart (beste pasvorm), naar aandeel:`);
   for (const [naam, aantal] of r.lijst) {
     console.log(`  ${String(Math.round(aantal / (r.n - r.leeg) * 100)).padStart(3)}%  ${naam}`);
   }
