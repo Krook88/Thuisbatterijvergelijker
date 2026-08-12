@@ -19,6 +19,21 @@ const Prijs = vereis("../assets/prijs.js");
 const Iconen = vereis("../assets/iconen.js");
 const Kaart = vereis("../assets/kaart.js");
 
+// Hoe de capaciteit in lopende tekst verschijnt.
+//
+// Sinds de bruikbare capaciteit de norm is, verdween de bruto maat van de
+// pagina - en dat is precies het getal waarop mensen zoeken. Een Marstek Venus
+// E heet in elke webshop "5,12 kWh"; wie daarop googelt vond ons daarna niet
+// meer, want op onze pagina stond alleen nog 4,6. De bruikbare maat blijft
+// leidend, de bruto maat staat erachter zodat beide vindbaar zijn.
+function capaciteitInTekst(b) {
+  const bruikbaar = `${nl(b.capaciteit_kwh)} kWh`;
+  const nominaal = b.capaciteit_nominaal_kwh;
+  if (!nominaal || Math.abs(nominaal - b.capaciteit_kwh) < 0.005) return bruikbaar;
+  return `${bruikbaar} bruikbaar (${nl(nominaal)} kWh bruto)`;
+}
+
+
 // Het merkicoon staat in de kop en de voet van elke pagina.
 const ICOON_LOGO = Iconen.svg("batterij", { klasse: "icoon-groot" });
 
@@ -191,7 +206,7 @@ function productLd(b) {
     "@type": "Product",
     "name": `${volledigeNaam(b)}`,
     "brand": { "@type": "Brand", "name": b.merk },
-    "description": `${volledigeNaam(b)}: thuisbatterij van ${nl(b.capaciteit_kwh)} kWh. ${b.zonnepanelen_koppeling || ""}`.slice(0, 300),
+    "description": `${volledigeNaam(b)}: thuisbatterij van ${capaciteitInTekst(b)}. ${b.zonnepanelen_koppeling || ""}`.slice(0, 300),
     "url": `${SITE}/batterij/${b.id}.html`,
   };
   if (b.afbeelding) {
@@ -233,11 +248,15 @@ function pagina(b) {
   const nood = vierwaardig(b.noodstroom);
   const typeLabel = { "plug-in": "Plug-in (stopcontact)", "ac-gekoppeld": "AC-gekoppeld", "hybride": "Hybride omvormer" }[b.type] || b.type;
 
-  const metaDesc = kortOmschrijving(
-    `${naamZonderHaakjes(b)}: ${nl(b.capaciteit_kwh)} kWh thuisbatterij` +
-    (beste ? `, vanaf ${eur(Prijs.vergelijkPrijs(beste)).replace(" ", " ")} incl. btw` : "") +
-    ". Specificaties, koppeling met Homey en Home Assistant, en je terugverdientijd."
-  );
+  // Twee staarten: de lange noemt Homey en Home Assistant met naam, en daar
+  // wordt op gezocht. Past die niet binnen wat Google toont, dan de korte -
+  // beter een hele zin dan een afgekapte met "en je…" erachter.
+  const kop = `${naamZonderHaakjes(b)}: thuisbatterij van ${capaciteitInTekst(b)}` +
+    (beste ? `, vanaf ${eur(Prijs.vergelijkPrijs(beste)).replace(" ", " ")} incl. btw` : "");
+  const lang = kop + ". Specificaties, koppeling met Homey en Home Assistant, en je terugverdientijd.";
+  const metaDesc = lang.length <= OMSCHRIJVING_MAX
+    ? lang
+    : kortOmschrijving(kop + ". Specificaties, koppelingen en terugverdientijd.");
   const kortenaam = naamZonderHaakjes(b);
   const paginaTitel = besteTitel([
     `${kortenaam}: prijs en specificaties`,
@@ -316,7 +335,7 @@ ${breadcrumbLd(b)}
   <div class="product-kop">
     <div class="product-kop-tekst">
       <h1>${merkLogoHtml(b.merk)}${esc(volledigeNaam(b))}</h1>
-      <p class="intro">${esc(typeLabel)} thuisbatterij van ${nl(b.capaciteit_kwh)} kWh${b.uitbreidbaar_tot_kwh ? `, uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh` : ""}. Prijzen dagelijks gecontroleerd, laatst op ${esc(datumNL(b.prijs_datum || data.laatst_bijgewerkt))}.</p>
+      <p class="intro">${esc(typeLabel)} thuisbatterij van ${capaciteitInTekst(b)}${b.uitbreidbaar_tot_kwh ? `, uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh` : ""}. Prijzen dagelijks gecontroleerd, laatst op ${esc(datumNL(b.prijs_datum || data.laatst_bijgewerkt))}.</p>
     </div>
     ${b.afbeelding
       ? `<div class="kaart-foto batterij-foto-groot">
@@ -339,7 +358,7 @@ ${breadcrumbLd(b)}
   <h2>Specificaties</h2>
   <div class="tabel-blok">
   <table class="data-tabel spec-tabel">
-    ${specRij("Capaciteit", `${nl(b.capaciteit_kwh)} kWh${Prijs.capaciteitLabelHtml(b)}${b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh)` : ""}`)}
+    ${specRij("Capaciteit", `${nl(b.capaciteit_kwh)} kWh${Prijs.capaciteitLabelHtml(b)}${b.capaciteit_nominaal_kwh && Math.abs(b.capaciteit_nominaal_kwh - b.capaciteit_kwh) >= 0.005 ? ` <small>(${nl(b.capaciteit_nominaal_kwh)} kWh bruto)</small>` : ""}${b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh)` : ""}`)}
     ${specRij("Vermogen", b.vermogen_kw ? `${nl(b.vermogen_kw)} kW${Prijs.vermogenLabelHtml(b)}` : null)}
     ${specRij("Type", `<a class="term-link" href="/uitleg.html#${esc(b.type)}" title="Wat betekent dit? Lees de uitleg in de woordenlijst">${esc(typeLabel)}</a>`)}
     ${specRij("Aansluiting", esc(b.fase || ""))}
