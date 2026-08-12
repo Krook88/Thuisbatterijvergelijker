@@ -110,6 +110,17 @@ function variantenBlok(w) {
   </div>`;
 }
 
+// Google laat een prijs weg zodra priceValidUntil verstreken is. Dertig dagen
+// na de laatste prijscontrole: de workflow draait dagelijks, dus die datum
+// schuift mee; valt de update uit, dan verloopt de vermelding vanzelf in plaats
+// van een oude prijs te blijven beloven.
+function houdbaarTot(datum) {
+  const vanaf = datum ? new Date(datum) : new Date();
+  if (Number.isNaN(vanaf.getTime())) return null;
+  vanaf.setDate(vanaf.getDate() + 30);
+  return vanaf.toISOString().slice(0, 10);
+}
+
 function productLd(w) {
   const naam = `${w.merk} ${w.model}`;
   const beste = bestePrijs(w);
@@ -128,12 +139,12 @@ function productLd(w) {
     "url": `${SITE}/pomp/${w.id}.html`,
   };
   if (aanbiedingen.length === 1) {
-    ld.offers = { "@type": "Offer", "price": vergelijkPrijs(aanbiedingen[0]), "priceCurrency": "EUR", "url": aanbiedingen[0].affiliate_url || aanbiedingen[0].url, "availability": "https://schema.org/InStock" };
+    ld.offers = { "@type": "Offer", "price": vergelijkPrijs(aanbiedingen[0]), "priceCurrency": "EUR", "url": aanbiedingen[0].affiliate_url || aanbiedingen[0].url, "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", ...(houdbaarTot(w.prijs_datum) ? { "priceValidUntil": houdbaarTot(w.prijs_datum) } : {}) };
   } else if (aanbiedingen.length > 1) {
     const prijzen = aanbiedingen.map(vergelijkPrijs);
-    ld.offers = { "@type": "AggregateOffer", "lowPrice": Math.min(...prijzen), "highPrice": Math.max(...prijzen), "priceCurrency": "EUR", "offerCount": aanbiedingen.length };
+    ld.offers = { "@type": "AggregateOffer", "lowPrice": Math.min(...prijzen), "highPrice": Math.max(...prijzen), "priceCurrency": "EUR", "offerCount": aanbiedingen.length, "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", ...(houdbaarTot(w.prijs_datum) ? { "priceValidUntil": houdbaarTot(w.prijs_datum) } : {}) };
   } else if (beste && Prijs.zelfdeSamenstelling(beste)) {
-    ld.offers = { "@type": "Offer", "price": vergelijkPrijs(beste), "priceCurrency": "EUR", "url": beste.url, "availability": "https://schema.org/InStock" };
+    ld.offers = { "@type": "Offer", "price": vergelijkPrijs(beste), "priceCurrency": "EUR", "url": beste.url, "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", ...(houdbaarTot(w.prijs_datum) ? { "priceValidUntil": houdbaarTot(w.prijs_datum) } : {}) };
   }
   const kruimel = {
     "@context": "https://schema.org",

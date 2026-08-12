@@ -199,8 +199,27 @@ function typeIllustratie(type) {
 
 /* ------------------------------------------------------------------ */
 
+// Google laat een prijs weg zodra priceValidUntil verstreken is, en toont geen
+// beschikbaarheid als availability ontbreekt. Beide stonden er niet, terwijl de
+// prijs in het zoekresultaat juist is waar deze site het van moet hebben.
+//
+// De houdbaarheidsdatum is dertig dagen na de laatste prijscontrole. De
+// workflow draait dagelijks, dus in de praktijk schuift die elke dag mee; valt
+// de update een tijd uit, dan verloopt de vermelding vanzelf in plaats van een
+// oude prijs te blijven beloven.
+function houdbaarTot(datum) {
+  const vanaf = datum ? new Date(datum) : new Date();
+  if (Number.isNaN(vanaf.getTime())) return null;
+  vanaf.setDate(vanaf.getDate() + 30);
+  return vanaf.toISOString().slice(0, 10);
+}
+
 function productLd(b) {
-  const offers = (b.aanbiedingen || []).filter((a) => a && a.prijs_eur);
+  // Prijs.geldigeAanbiedingen en niet een eigen filter: dat sluit ook de
+  // aanbiedingen uit die de winkel niet meer voert. Die stonden hier wel in,
+  // waardoor de structured data een prijs beloofde die de vergelijker zelf al
+  // niet meer meetelde.
+  const offers = Prijs.geldigeAanbiedingen(b);
   const ld = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -213,7 +232,15 @@ function productLd(b) {
     ld.image = /^https?:/i.test(b.afbeelding) ? b.afbeelding : `${SITE}/${b.afbeelding.replace(/^\//, "")}`;
   }
   if (offers.length === 1) {
-    ld.offers = { "@type": "Offer", "price": Prijs.vergelijkPrijs(offers[0]), "priceCurrency": "EUR", "url": offers[0].url };
+    ld.offers = {
+      "@type": "Offer",
+      "price": Prijs.vergelijkPrijs(offers[0]),
+      "priceCurrency": "EUR",
+      "url": offers[0].url,
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition",
+      ...(houdbaarTot(offers[0].datum || b.prijs_datum) ? { "priceValidUntil": houdbaarTot(offers[0].datum || b.prijs_datum) } : {}),
+    };
   } else if (offers.length > 1) {
     const prijzen = offers.map((o) => Prijs.vergelijkPrijs(o));
     ld.offers = {
@@ -222,6 +249,9 @@ function productLd(b) {
       "highPrice": Math.max(...prijzen),
       "priceCurrency": "EUR",
       "offerCount": offers.length,
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition",
+      ...(houdbaarTot(b.prijs_datum) ? { "priceValidUntil": houdbaarTot(b.prijs_datum) } : {}),
     };
   }
   return JSON.stringify(ld, null, 2);

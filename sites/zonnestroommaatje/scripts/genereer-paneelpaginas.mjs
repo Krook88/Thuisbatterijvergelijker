@@ -189,8 +189,20 @@ const paneelById = Object.fromEntries(data.panelen.map((p) => [p.id, p]));
 // "Denim" + model "Denim 440 Wp" wordt anders "Denim Denim 440 Wp"
 const volledigeNaam = (p) => p.model.toLowerCase().startsWith(p.merk.toLowerCase()) ? p.model : `${p.merk} ${p.model}`;
 
+// Google laat een prijs weg zodra priceValidUntil verstreken is, en toont geen
+// beschikbaarheid als availability ontbreekt. Dertig dagen na de laatste
+// prijscontrole; de workflow draait dagelijks, dus die datum schuift mee.
+function houdbaarTot(datum) {
+  const vanaf = datum ? new Date(datum) : new Date();
+  if (Number.isNaN(vanaf.getTime())) return null;
+  vanaf.setDate(vanaf.getDate() + 30);
+  return vanaf.toISOString().slice(0, 10);
+}
+
 function productLd(p) {
-  const offers = (p.aanbiedingen || []).filter((a) => a && a.prijs_eur);
+  // Prijs.geldigeAanbiedingen en niet een eigen filter: dat sluit ook de
+  // aanbiedingen uit die de winkel niet meer voert.
+  const offers = Prijs.geldigeAanbiedingen(p);
   const ld = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -200,7 +212,15 @@ function productLd(p) {
     "url": `${SITE}/paneel/${p.id}.html`,
   };
   if (offers.length === 1) {
-    ld.offers = { "@type": "Offer", "price": Prijs.vergelijkPrijs(offers[0]), "priceCurrency": "EUR", "url": offers[0].url };
+    ld.offers = {
+      "@type": "Offer",
+      "price": Prijs.vergelijkPrijs(offers[0]),
+      "priceCurrency": "EUR",
+      "url": offers[0].url,
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition",
+      ...(houdbaarTot(offers[0].datum || p.prijs_datum) ? { "priceValidUntil": houdbaarTot(offers[0].datum || p.prijs_datum) } : {}),
+    };
   } else if (offers.length > 1) {
     const prijzen = offers.map((o) => Prijs.vergelijkPrijs(o));
     ld.offers = {
@@ -209,6 +229,9 @@ function productLd(p) {
       "highPrice": Math.max(...prijzen),
       "priceCurrency": "EUR",
       "offerCount": offers.length,
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition",
+      ...(houdbaarTot(p.prijs_datum) ? { "priceValidUntil": houdbaarTot(p.prijs_datum) } : {}),
     };
   }
   return JSON.stringify(ld, null, 2);
