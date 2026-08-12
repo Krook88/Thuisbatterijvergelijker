@@ -352,7 +352,7 @@
       "voorbeeld_variant": "S2125-8 (monoblock) met SVM-binnenunit",
       "vermogen_kw": 5,
       "scop": 4.8,
-      "scop_toelichting": "hoog seizoensrendement; A+++",
+      "scop_toelichting": "hoog seizoensrendement; A+++. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.",
       "geluid_db": 53,
       "geluid_toelichting": "geldt als een van de stilste buitenunits (circa 43 dB(A) geluidsdruk op afstand volgens tests)",
       "koudemiddel": "R290 (natuurlijk)",
@@ -409,7 +409,8 @@
         }
       ],
       "prijs_datum": "2026-08-11",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "35"
     },
     {
       "id": "mitsubishi-ecodan",
@@ -473,7 +474,8 @@
           "meldcode": "KA27334"
         }
       ],
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "onbekend"
     },
     {
       "id": "daikin-altherma-3",
@@ -535,7 +537,8 @@
           "meldcode": "KA22095"
         }
       ],
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "onbekend"
     },
     {
       "id": "bosch-compress-5800i",
@@ -545,7 +548,7 @@
       "voorbeeld_variant": "Compress 5800i AW 5 kW (monoblock)",
       "vermogen_kw": 6,
       "scop": 4.8,
-      "scop_toelichting": "A+++; geldt als een van de stilste warmtepompen van dit moment",
+      "scop_toelichting": "A+++; geldt als een van de stilste warmtepompen van dit moment. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.",
       "geluid_db": 51,
       "geluid_toelichting": "zeer stil ontwerp; geluidsvermogen tot circa 51 dB(A) volgens datasheet",
       "koudemiddel": "R290 (natuurlijk)",
@@ -604,7 +607,8 @@
           "meldcode": "KA30141"
         }
       ],
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "35"
     },
     {
       "id": "panasonic-aquarea-l",
@@ -614,7 +618,7 @@
       "voorbeeld_variant": "Aquarea L 5 kW (monoblock)",
       "vermogen_kw": 5,
       "scop": 4.7,
-      "scop_toelichting": "A+++; hoge aanvoertemperatuur voor bestaande bouw",
+      "scop_toelichting": "A+++; hoge aanvoertemperatuur voor bestaande bouw. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.",
       "geluid_db": 56,
       "geluid_toelichting": "geluidsvermogen buitenunit volgens label; stille modus instelbaar",
       "koudemiddel": "R290 (natuurlijk)",
@@ -666,7 +670,8 @@
         }
       ],
       "prijs_datum": "2026-08-11",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "35"
     },
     {
       "id": "lg-therma-v",
@@ -676,7 +681,7 @@
       "voorbeeld_variant": "Therma V R290 Monobloc 7 kW (1-fase)",
       "vermogen_kw": 7,
       "scop": 4.7,
-      "scop_toelichting": "A+++; scherp geprijsd voor de specificaties",
+      "scop_toelichting": "A+++; scherp geprijsd voor de specificaties. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.",
       "geluid_db": 56,
       "geluid_toelichting": "geluidsvermogen buitenunit volgens label; stille nachtmodus",
       "koudemiddel": "R290 (natuurlijk)",
@@ -711,7 +716,8 @@
       ],
       "prijs_datum": "2026-08-11",
       "isde_meldcode": "KA29289",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "35"
     },
     {
       "id": "samsung-ehs-mono-ht",
@@ -721,7 +727,7 @@
       "voorbeeld_variant": "EHS Mono HT Quiet 8 kW",
       "vermogen_kw": 8,
       "scop": 4.6,
-      "scop_toelichting": "A+++; ontworpen op stille werking (Quiet-modus)",
+      "scop_toelichting": "A+++; ontworpen op stille werking (Quiet-modus). Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.",
       "geluid_db": 54,
       "geluid_toelichting": "Quiet-modus verlaagt het geluid fors; geluidsvermogen circa 54 dB(A)",
       "koudemiddel": "R32",
@@ -773,7 +779,8 @@
           "meldcode": "KA23553"
         }
       ],
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "35"
     },
     {
       "id": "weheat-blackbird",
@@ -828,7 +835,8 @@
           "meldcode": "KA25415"
         }
       ],
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "onbekend"
     },
     {
       "id": "stiebel-wpl-a07",
@@ -1264,7 +1272,7 @@
       "voorbeeld_variant": "Estia Bi-Bloc R290 6 kW (HWP-601HW-E)",
       "vermogen_kw": 5,
       "scop": 4.8,
-      "scop_toelichting": "SCOP tot 4,8 bij lage aanvoertemperatuur, energielabel A+++; leverbaar van 4 tot 16 kW",
+      "scop_toelichting": "SCOP tot 4,8 bij lage aanvoertemperatuur, energielabel A+++; leverbaar van 4 tot 16 kW. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.",
       "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; Toshiba publiceert 30 dB(A) in stille modus op 5 meter, en dat is geluidsdruk op afstand - niet vergelijkbaar met de labelwaarde in deze kolom",
       "koudemiddel": "R290 (natuurlijk)",
       "tapwater": "via de binnenunit met boiler",
@@ -1329,7 +1337,8 @@
       "zoeknamen": [
         "Bi-Bloc R290"
       ],
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "35"
     },
     {
       "id": "hitachi-yutaki-m",
@@ -1470,7 +1479,8 @@
           "url": "https://www.woonwijzerwinkel.nl/product/pomp-ao-van-dewarmte/"
         }
       ],
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "onbekend"
     },
     {
       "id": "viessmann-vitocal-150a",

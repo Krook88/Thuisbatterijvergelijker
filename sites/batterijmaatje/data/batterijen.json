@@ -488,9 +488,8 @@
           "datum": "2026-08-11"
         }
       ],
-      "totaalprijs_van_eur": 6500,
-      "totaalprijs_tot_eur": 8000,
-      "totaalprijs_toelichting": "praktijkindicatie compleet geinstalleerd incl. btw (8 kWh)",
+      "totaalprijs_van_eur": 7864,
+      "totaalprijs_toelichting": "het aanbod van Frank Energie is compleet geinstalleerd: 6.499 euro excl. btw, oftewel 7.864 incl. btw. Hier stond eerder 6.500 tot 8.000 - dat eerste getal was het bedrag excl. btw van datzelfde aanbod, waardoor de complete prijs lager leek dan het toestel alleen. Een bovengrens hebben wij niet uit een bron; die is daarom weggelaten in plaats van geschat.",
       "noodstroom": "Alleen met de optionele Sigen Energy Gateway (ca. 2.000 euro): schakelt de hele woning vrijwel naadloos om naar de batterij, tot ca. 10 kW.",
       "noodstroom_uitleg": "Alleen met de optionele Sigen Energy Gateway (ca. 2.000 euro): schakelt de hele woning vrijwel naadloos om naar de batterij, tot ca. 10 kW.",
       "ip_klasse": "IP66",
