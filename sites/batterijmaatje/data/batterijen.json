@@ -129,7 +129,7 @@
       "app": "Sessy app",
       "garantie_jaar": 10,
       "cycli": 6000,
-      "opmerkingen": "Nederlands fabrikaat, gebouwd door Charged B.V. in Enschede. Hij handelt zelf op EPEX-uurprijzen en doet mee op de onbalansmarkt, en laat zich ook aansturen via Frank Energie Slim Handelen. De garantie is opgesplitst: 10 jaar op de batterij, 5 jaar op de omvormer. Inmiddels is er de Sessy 2.0, die stiller is en beter koelt, en een 10 kWh-uitvoering (adviesprijs 5.500 euro incl. btw, zonder installatie). Heb je noodstroom nodig, dan is het wachten op de aangekondigde Sessy Plus (15 kWh), met eerste leveringen vanaf oktober 2026.",
+      "opmerkingen": "Nederlands fabrikaat, gebouwd door Charged B.V. in Enschede. Hij handelt zelf op EPEX-uurprijzen en doet mee op de onbalansmarkt, en laat zich ook aansturen via Frank Energie Slim Handelen. De garantie is opgesplitst: 10 jaar op de batterij, 5 jaar op de omvormer. Inmiddels is er de Sessy 2.0, die stiller is en beter koelt, en een 10 kWh-uitvoering (adviesprijs 5.500 euro incl. btw, zonder installatie). Heb je noodstroom nodig, dan is het wachten op de aangekondigde Sessy Plus (15 kWh), met eerste leveringen vanaf oktober 2026. Sessy geeft 5 kWh op als bruikbare opslagcapaciteit.",
       "product_url": "https://www.sessy.nl/sessy-5-kwh/",
       "aanbiedingen": [
         {
@@ -146,8 +146,9 @@
       "noodstroom_uitleg": "Alleen met de optionele Sessy-noodstroommodule plus een externe Victron-omvormer: handmatig apparaten voeden, geen automatische omschakeling en geen voeding van de huisinstallatie.",
       "ip_klasse": "IP20",
       "buiten_toelichting": "alleen voor droge binnenruimtes, 0-40 °C",
-      "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "Sessy geeft 2,2 kW laden en 1,7 kW ontladen voor de ingebouwde omvormer; ons getal is die ontlaadwaarde"
     },
     {
       "id": "homewizard-plug-in-battery",
@@ -429,7 +430,8 @@
       "afbeelding": "assets/producten/enphase-iq-battery-5p.webp",
       "afbeelding_bron": "foto: Enphase",
       "capaciteit_soort": "bruikbaar",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "Enphase-datasheet: 3,84 kVA rated (continuous) output, piek 7,68 kW gedurende 3 seconden"
     },
     {
       "id": "victron-pylontech-3fase",
@@ -1118,7 +1120,8 @@
       "afbeelding_bron": "foto: Dyness",
       "capaciteit_nominaal_kwh": 10.24,
       "capaciteit_soort": "bruikbaar",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "Dyness-datasheet: 5,12 kW nominaal laad-/ontlaadvermogen, 10,24 kW maximaal ontlaadvermogen"
     },
     {
       "id": "saj-h2-5k-s2-10kwh",
@@ -1297,7 +1300,8 @@
       "noodstroom": true,
       "noodstroom_uitleg": "Noodstroomuitgang met omschakeling binnen ca. 10 ms (fabrieksopgave).",
       "capaciteit_soort": "bruikbaar",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "Anker geeft 3.500 W laad- en ontlaadvermogen als rated waarde"
     },
     {
       "id": "zendure-solarflow-3000-mix-ac",
@@ -1340,7 +1344,8 @@
       "afbeelding": "assets/producten/zendure-solarflow-3000-mix-ac.webp",
       "afbeelding_bron": "foto: Zendure",
       "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "Zendure geeft 3 kW continu on-grid en 3,68 kW off-grid; ons getal is de continue on-grid waarde"
     },
     {
       "id": "zendure-solarflow-4000-mix-pro",
@@ -1383,7 +1388,8 @@
       "afbeelding": "assets/producten/zendure-solarflow-4000-mix-pro.webp",
       "afbeelding_bron": "foto: Zendure",
       "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "Zendure geeft 4 kW bidirectioneel uitgangsvermogen (5 kW alleen in PV-passthrough)"
     },
     {
       "id": "mova-lumegret-a4000",
@@ -1792,7 +1798,8 @@
       "noodstroom_uitleg": "Niet vastgesteld; controleer bij de fabrikant.",
       "capaciteit_soort": "bruikbaar",
       "capaciteit_nominaal_kwh": 2.88,
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "Zendure geeft 2400 W AC in beide richtingen als vermogen van de serie"
     }
   ]
 }
