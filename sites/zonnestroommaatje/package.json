@@ -8,6 +8,7 @@
   },
   "scripts": {
     "genereer": "node scripts/genereer-paneelpaginas.mjs",
+    "keuzehulp": "node scripts/keuzehulp-spreiding.mjs",
     "prijzen": "node scripts/update-prices.mjs",
     "modellen": "node scripts/nieuwe-modellen.mjs",
     "modellen:proef": "node scripts/nieuwe-modellen.mjs --proef",
