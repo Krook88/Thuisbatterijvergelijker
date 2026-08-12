@@ -7,6 +7,13 @@
  * wijkt er in de praktijk van af. Een bezoeker die op onze indicatie rekent en
  * bij zijn aanvraag een lager bedrag krijgt, is terecht boos.
  *
+ * Sinds kort neemt dit script ook het thermisch vermogen over. Dezelfde lijst
+ * geeft dat per meldcode volgens EU 811/2013 - het vermogen bij de
+ * ontwerpbuitentemperatuur - en dat is precies de norm die de site aanhoudt
+ * (zie assets/condities.js). Fabrikanten noemen meestal het vermogen op een
+ * milde dag, en dat scheelt: de NIBE S2125-8 heet acht kilowatt en staat bij
+ * RVO op vijf, de Itho Amber 95 op zes in plaats van 9,5.
+ *
  * De bron is data/bronnen/isde-meldcodes.csv: de lucht/water-regels uit de
  * meldcodelijst van RVO, die maandelijks wordt bijgewerkt. Verversen gaat zo:
  * download het Excel-bestand van
@@ -40,6 +47,26 @@ const SCHRIJVEN = process.argv.includes("--schrijf");
    ------------------------------------------------------------------ */
 
 const VERWACHTE_KOP = "meldcode,merk,model,vermogen_kw,subsidie_eur,subsidie_2e_eur,koudemiddel,gwp";
+
+// Het vermogen uit de meldcodelijst is Prated volgens EU 811/2013: het
+// vermogen bij de ontwerpbuitentemperatuur. Dat is de norm van de site. De
+// opgave die er stond kwam meestal van de fabrikant en gold bij zeven graden
+// buiten - een milde dag, precies wanneer je de pomp het minst nodig hebt.
+//
+// Alleen bij een zekere treffer, want dit verandert een getal waarop bezoekers
+// hun pomp kiezen. Bij twijfel blijft het staan en komt het in het rapport.
+function neemVermogenOver(pomp, regel) {
+  if (!regel || typeof regel.vermogen_kw !== "number" || !regel.vermogen_kw) return 0;
+  const zelfde = Math.abs(regel.vermogen_kw - pomp.vermogen_kw) < 0.05;
+  const alGoed = pomp.vermogen_conditie === "Prated" && zelfde;
+  if (!zelfde) {
+    console.log(`    vermogen: ${pomp.vermogen_kw} kW op de site  ->  ${regel.vermogen_kw} kW volgens RVO   << WIJKT AF`);
+  }
+  if (!SCHRIJVEN || alGoed) return 0;
+  pomp.vermogen_kw = regel.vermogen_kw;
+  pomp.vermogen_conditie = "Prated";
+  return zelfde ? 0 : 1;
+}
 
 function splitsCsvRegel(regel) {
   const velden = [];
@@ -159,7 +186,7 @@ function main() {
   const padData = resolve(ROOT, "data/warmtepompen.json");
   const data = JSON.parse(readFileSync(padData, "utf8"));
 
-  let zeker = 0, twijfel = 0, geen = 0, gewijzigd = 0;
+  let zeker = 0, twijfel = 0, geen = 0, bedragen = 0, vermogens = 0;
 
   for (const pomp of data.warmtepompen) {
     // Handmatig vastgelegde meldcode gaat voor. Merken als Panasonic, LG,
@@ -179,7 +206,8 @@ function main() {
       const afwijkt = pomp.isde_indicatie_eur !== regel.subsidie_eur;
       console.log(`\n[ ${afwijkt ? "!" : "="} vastgelegd ] ${pomp.id}  ->  ${regel.meldcode}  ${regel.model} (${regel.vermogen_kw} kW)`);
       console.log(`    ISDE: ${eur(pomp.isde_indicatie_eur)} op de site  ->  ${eur(regel.subsidie_eur)} volgens RVO${afwijkt ? "   << WIJKT AF" : ""}`);
-      if (SCHRIJVEN && afwijkt) { pomp.isde_indicatie_eur = regel.subsidie_eur; gewijzigd++; }
+      if (SCHRIJVEN && afwijkt) { pomp.isde_indicatie_eur = regel.subsidie_eur; bedragen++; }
+      vermogens += neemVermogenOver(pomp, regel);
       continue;
     }
 
@@ -202,7 +230,8 @@ function main() {
       console.log(`\n[ ${teken} zeker ] ${pomp.id}  ->  ${beste.meldcode}  ${beste.model} (${beste.vermogen_kw} kW, ${beste.koudemiddel})`);
       console.log(`    ISDE: ${eur(pomp.isde_indicatie_eur)} op de site  ->  ${eur(beste.subsidie_eur)} volgens RVO${afwijking ? "   << WIJKT AF" : ""}`);
       if (SCHRIJVEN) {
-        if (afwijking) gewijzigd++;
+        vermogens += neemVermogenOver(pomp, beste);
+        if (afwijking) bedragen++;
         pomp.isde_indicatie_eur = beste.subsidie_eur;
         pomp.isde_meldcode = beste.meldcode;
       }
@@ -220,7 +249,7 @@ function main() {
 
   if (SCHRIJVEN) {
     writeFileSync(padData, JSON.stringify(data, null, 2) + "\n", "utf8");
-    console.log(`Geschreven: ${zeker} meldcode(s), waarvan ${gewijzigd} met een gecorrigeerd bedrag.`);
+    console.log(`Geschreven: ${zeker} meldcode(s) - ${bedragen} gecorrigeerd bedrag, ${vermogens} gecorrigeerd vermogen.`);
   } else {
     console.log("Rapport, er is niets gewijzigd. Draai met --schrijf om de zekere treffers over te nemen.");
   }

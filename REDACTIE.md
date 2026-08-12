@@ -76,10 +76,24 @@ regelgeving gedefinieerd, en is het getal waarop de Nederlandse subsidie is
 gebaseerd. Het meet hetzelfde wat we willen weten - haalt deze pomp het op een
 koude dag - maar uit een bron die volledig en controleerbaar is.
 
-Dat is meteen de route om dit in te vullen: **alle dertig pompen hebben al een
-`isde_meldcode`.** De meldcodelijst van RVO koppelt die code aan het thermisch
-vermogen volgens EU 811/2013. Dat maakt dit geen dertig keer handwerk maar een
-script, net zoals de bol-API dat voor de batterijprijzen is.
+Dat is ook hoe het is ingevuld. Alle dertig pompen hebben een `isde_meldcode`,
+en `data/bronnen/isde-meldcodes.csv` - de meldcodelijst van RVO, met de hand
+ververst - koppelt die code aan het thermisch vermogen volgens EU 811/2013.
+`npm run isde -- --schrijf` neemt dat over, net zoals het de subsidiebedragen
+al deed. Verversen: download het Excel-bestand bij RVO en draai
+`npm run isde:ververs <pad-naar-xlsx>`.
+
+Let op bij de uitkomst: het vermogen wijkt vaak af van het typenummer. Een
+Ecodan 6 kW staat bij RVO op 5 kW, een Itho Amber 95 op 6 in plaats van 9,5.
+Dat is geen fout maar het verschil tussen hoe fabrikanten hun modellen noemen
+en wat ze bij de ontwerpbuitentemperatuur leveren. De typeaanduiding houden we
+aan zoals hij heet - daarmee bestel je bij een installateur.
+
+Wat daar nog wel uit volgt: bij dertien pompen noemt de prijstoelichting een
+andere maat dan de meldcode ("prijs voor: Ecodan 6 kW" naast een meldcode voor
+5 kW). Bij een deel daarvan is dat alleen de typeaanduiding, maar bij een deel
+beschrijven de prijs en de meldcode mogelijk verschillende varianten. Dat is
+nog niet nagelopen.
 
 `npm run condities` laat zien hoever we zijn.
 
