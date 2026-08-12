@@ -10,6 +10,38 @@ Dit bestand legt de keuzes vast die anders elke week opnieuw ter discussie
 staan. Wie een kandidaat uit `data/nieuwe-modellen.json` beoordeelt, kijkt
 eerst hier.
 
+## Twee getallen die op hetzelfde lijken
+
+Dit is de fout die op deze sites het vaakst is gemaakt - vijf keer inmiddels, elke
+keer in een andere gedaante:
+
+| | wat er misging | wat het scheelde |
+|---|---|---|
+| btw | winkelprijs excl. btw naast incl. btw | 21% |
+| capaciteit | bruto pakketmaat naast bruikbare | Zendure 2400: 420 -> 504 euro/kWh |
+| prijsomvang | apparaat naast compleet gebruiksklaar | SolaX: 1.625 tegenover 5.700 euro |
+| vermogen | milde dag naast ontwerptemperatuur | NIBE S2125-8 levert er 5 |
+| stuksprijs | micro-omvormer naast string-omvormer | Enphase: 109 tegenover 1.558 euro |
+
+Telkens hetzelfde patroon: een getal dat vergelijkbaar lijkt maar het niet is,
+omdat het onder andere omstandigheden is gemeten of iets anders omvat. En
+telkens viel het pas op toen iemand het toevallig opmerkte.
+
+**Regel: een getal waarop de site vergelijkt, heeft een veld dat vastlegt wát
+het is.** `capaciteit_soort`, `vermogen_conditie`, `scop_conditie`,
+`panelen_per_eenheid`, `btw_inbegrepen`. Staat dat veld leeg, dan betekent dat
+"niemand heeft het nagekeken" - en dat is iets anders dan "het klopt".
+
+`node scripts/vergelijkbaar.mjs` bewaakt dat. Hij controleert twee dingen: of
+elk geregistreerd vergelijkveld zijn conditie ingevuld heeft, en of er nieuwe
+getalsvelden opduiken die nergens geregistreerd staan. Dat tweede is de echte
+bewaking - de volgende keer dat iemand een veld toevoegt waarop gesorteerd gaat
+worden, staat het in het rapport voordat het stilletjes de vergelijking in
+glijdt. Het register staat boven in dat script; aanvullen is mensenwerk.
+
+Hij draait mee in de dagelijkse workflow, maar laat de run niet falen: er staan
+er nu nog 46 open en een controle die altijd rood staat leest niemand meer.
+
 ## Capaciteit: we vergelijken op wat je er echt uit haalt
 
 Fabrikanten geven twee getallen op. De bruto pakketmaat ("nominaal") en wat je

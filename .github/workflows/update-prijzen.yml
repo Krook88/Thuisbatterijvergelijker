@@ -126,6 +126,17 @@ jobs:
         with:
           node-version: "22"
 
+      # Vijf keer is op deze sites een getal vergeleken met een getal dat iets
+      # anders betekende: btw, bruto capaciteit, apparaat tegenover compleet,
+      # milde dag tegenover koude dag, stuksprijs tegenover systeemprijs. Elke
+      # keer viel het pas op toen iemand het toevallig opmerkte. Deze controle
+      # meldt het zodra een getal de gegevens in komt zonder dat vastligt wat
+      # het is. Faalt de run niet: er staan er nu nog 46 open, en een controle
+      # die altijd rood staat leest niemand meer.
+      - name: Vergelijkbaarheid van de getallen
+        continue-on-error: true
+        run: node scripts/vergelijkbaar.mjs
+
       - name: Ouderdom van de gegevens per site
         run: |
           fout=0
