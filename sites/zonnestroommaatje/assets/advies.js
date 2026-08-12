@@ -1,7 +1,7 @@
 /* ==========================================================================
    Zonnestroommaatje - keuzehulp
    Adviseert op basis van verbruik, dak en wensen het aantal wattpiek en de
-   drie best passende panelen uit data/panelen.json.
+   panelen uit data/panelen.json, op drie assen in plaats van als ranglijst.
    ========================================================================== */
 
 (function () {
@@ -95,29 +95,84 @@
      Advies: top 3 panelen
      ------------------------------------------------------------------ */
 
-  function scorePanelen(s, dakTeKlein) {
-    // Normaliseren per criterium over de hele dataset (0 = slechtst, 1 = best)
-    const prijzen = panelen.map(prijsPerWp).filter(Boolean);
-    const minPrijs = Math.min(...prijzen), maxPrijs = Math.max(...prijzen);
-    const rendementen = panelen.map((p) => p.rendement_pct || 0);
-    const minRend = Math.min(...rendementen), maxRend = Math.max(...rendementen);
-
-    // Weging op basis van voorkeur; bij een te klein dak telt rendement zwaarder
-    let w = { prijs: 0.45, rendement: 0.2, zeker: 0.35 };
-    if (s.voorkeur === "rendement") w = { prijs: 0.2, rendement: 0.55, zeker: 0.25 };
-    if (s.voorkeur === "zekerheid") w = { prijs: 0.2, rendement: 0.15, zeker: 0.65 };
-    if (dakTeKlein && s.voorkeur !== "rendement") { w.rendement += 0.2; w.prijs = Math.max(0.1, w.prijs - 0.2); }
-
+  /**
+   * Drie antwoorden op drie vragen, in plaats van een ranglijst waarvan we de
+   * kop tonen.
+   *
+   * Waarom: doormeten liet zien dat er uit alle antwoordcombinaties maar drie
+   * verschillende drietallen kwamen, en dat 4 van de 14 panelen ooit in beeld
+   * verschenen. Een gewogen score levert altijd drie buren op, en de vragen die
+   * de bezoeker beantwoordt sturen dan hooguit de volgorde binnen dat groepje.
+   *
+   * De drie assen gebruiken bovendien gegevens die er al waren maar nergens
+   * meewogen. Vooral het vermogen per paneel: wie maar twaalf panelen kwijt
+   * kan, heeft meer aan 455 Wp per stuk dan aan een half procent rendement.
+   *
+   * De voorkeursvraag bepaalt welke as vooraan staat. Zo doet die vraag nog
+   * steeds iets, maar zie je de andere twee kanten er altijd naast.
+   */
+  function scorePanelen(s, dakTeKlein, benodigdWp) {
     const kandidaten = panelen.filter((p) => !s.fullBlack || p.full_black);
-    return kandidaten.map((p) => {
-      const per = prijsPerWp(p);
-      const prijsScore = per ? (maxPrijs - per) / (maxPrijs - minPrijs || 1) : 0;
-      const rendScore = ((p.rendement_pct || minRend) - minRend) / (maxRend - minRend || 1);
-      const zekerNorm = zekerScore(p) / 6;
-      let score = w.prijs * prijsScore + w.rendement * rendScore + w.zeker * zekerNorm;
-      if (s.platDak && p.bifaciaal) score += 0.05; // bifaciaal vangt bij een plat dak ook licht via de achterkant
-      return { p, score, per };
-    }).sort((a, b) => b.score - a.score).slice(0, 3);
+
+    // Rekenen op systeemniveau, niet op paneelniveau. Dat was de fout in mijn
+    // eerste poging hiermee: assen als "goedkoopste per wattpiek" of "hoogste
+    // vermogen per paneel" leveren altijd hetzelfde paneel op, wat de bezoeker
+    // ook invult. Alleen de volgorde veranderde nog.
+    //
+    // Wat wel meebeweegt: hoeveel panelen je van dit type nodig hebt om je doel
+    // te halen, en wat dat samen kost. Een paneel van 455 Wp heeft er minder
+    // nodig dan een van 420, en of dat gunstig uitpakt hangt af van de prijs
+    // per stuk en van hoeveel er op je dak passen. Daarmee doen het verbruik,
+    // de dakligging, de auto, de warmtepomp en het batterijplan er eindelijk
+    // toe: die bepalen samen het doel.
+    const gemeten = kandidaten.map((p) => {
+      const stuk = Prijs.vergelijkPrijs(bestePrijs(p));
+      const nodig = Math.max(1, Math.ceil(benodigdWp / (p.vermogen_wp || 1)));
+      const passend = Math.min(nodig, s.maxPanelen);
+      return {
+        p,
+        per: prijsPerWp(p),
+        nodig,
+        passend,
+        systeemPrijs: stuk == null ? null : stuk * passend,
+        opbrengstWp: (p.vermogen_wp || 0) * passend,
+        dekking: benodigdWp > 0 ? (p.vermogen_wp || 0) * passend / benodigdWp : 1,
+        zeker: zekerScore(p),
+      };
+    });
+
+    const assen = {
+      prijs: {
+        label: "Voordeligste systeem",
+        uitleg: `laagste prijs voor de panelen samen, gerekend op wat je nodig hebt`,
+        orde: (a, b) => (a.systeemPrijs ?? Infinity) - (b.systeemPrijs ?? Infinity),
+      },
+      rendement: {
+        label: dakTeKlein ? "Meeste opbrengst op jouw dak" : "Haalt je doel met de minste panelen",
+        uitleg: dakTeKlein
+          ? "hoogste opbrengst als je dak vol ligt; bij een te klein dak telt het vermogen per paneel"
+          : "haalt het geadviseerde vermogen met het kleinste aantal panelen",
+        orde: (a, b) => (b.opbrengstWp - a.opbrengstWp) || (a.nodig - b.nodig) || (a.systeemPrijs ?? Infinity) - (b.systeemPrijs ?? Infinity),
+      },
+      zekerheid: {
+        label: "Meeste zekerheid",
+        uitleg: "langste garantie, hoogste vermogensbehoud en glas-glas",
+        orde: (a, b) => b.zeker - a.zeker || (a.systeemPrijs ?? Infinity) - (b.systeemPrijs ?? Infinity),
+      },
+    };
+
+    // De voorkeursvraag bepaalt welke as vooraan staat; de andere twee kanten
+    // zie je er altijd naast.
+    const volgorde = [s.voorkeur, "prijs", "rendement", "zekerheid"]
+      .filter((k, i, arr) => assen[k] && arr.indexOf(k) === i);
+
+    const gekozen = [];
+    for (const sleutel of volgorde) {
+      const as = assen[sleutel];
+      const vrij = [...gemeten].sort(as.orde).find((k) => !gekozen.some((g) => g.p.id === k.p.id));
+      if (vrij) gekozen.push({ ...vrij, as: as.label, asUitleg: as.uitleg });
+    }
+    return gekozen;
   }
 
   function redenVoor(p, s, dakTeKlein) {
@@ -234,9 +289,8 @@
     const opbrengst = Math.round(wpGeadviseerd * s.factor);
     const dekking = Math.round((opbrengst / doelVerbruik) * 100);
 
-    const top3 = scorePanelen(s, dakTeKlein);
+    const top3 = scorePanelen(s, dakTeKlein, benodigdWp);
     const medaille = Iconen.svg("medaille");
-    const plekken = [`${medaille} Beste match`, `${medaille} Tweede keus`, `${medaille} Derde keus`];
     const topOmvormers = omvormerAdvies(s, aantalGeadviseerd);
     // Vuistregel omvormergrootte: circa 90% van het paneelvermogen, afgerond op halve kW
     const omvormerKw = String(Math.max(1.5, Math.round((wpGeadviseerd * 0.9) / 500) / 2)).replace(".", ",");
@@ -300,17 +354,18 @@
         <p class="hint" style="margin:8px 0 0;">Paneel- en omvormerprijzen zijn de goedkoopst gevonden winkelprijzen; klik op de winkel voor de actuele aanbieding. Alle bedragen zijn indicaties (0% btw waar van toepassing, losse onderdelen soms exclusief btw); vraag altijd meerdere offertes aan. <a href="javascript:window.print()">${Iconen.svg("printen")} Advies afdrukken of bewaren als pdf</a></p>
       </div>` : ""}
 
-      <h2 style="margin-top:20px;">De drie best passende panelen</h2>
-      ${top3.map(({ p, per }, i) => {
+      <h2 style="margin-top:20px;">Drie kanten van de keuze</h2>
+      <p class="hint" style="margin:0 0 12px;">Niet de beste drie, maar de beste op drie verschillende vragen: een ranglijst levert vrijwel altijd drie vergelijkbare buren op. De bedragen hieronder gelden voor de panelen samen, niet per stuk - een duurder paneel met meer vermogen kan een goedkoper systeem opleveren.</p>
+      ${top3.map(({ p, per, as, asUitleg }, i) => {
         const beste = bestePrijs(p);
         const stuk = beste ? Prijs.vergelijkPrijs(beste) : (p.richtprijs_eur || 0);
         return `
         <div class="advies-kaart">
-          <span class="plek">${plekken[i]}</span>
+          <span class="plek" title="${escapeHtml(asUitleg || "")}">${escapeHtml(as || "")}</span>
           <h3><a href="paneel/${encodeURIComponent(p.id)}.html">${escapeHtml(naamVan(p))}</a></h3>
           <div class="reden">${redenVoor(p, s, dakTeKlein)}</div>
           <p style="margin:8px 0 0;font-size:0.95rem;">${p.vermogen_wp} Wp · <b>${eurFmt.format(stuk)}</b> per paneel${beste && beste.winkel ? ` (${winkelLink(beste)})` : " (richtprijs)"} · ${aantalGeadviseerd} stuks: circa <b>${eurFmt.format(stuk * aantalGeadviseerd)}</b> (excl. montage en omvormer)</p>
-          <p style="margin:8px 0 0;">${beste && beste.winkel && koopUrl(beste) ? `<a class="knop" style="padding:8px 14px;font-size:0.88rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a> ` : ""}<a class="knop knop-secundair" style="padding:8px 14px;font-size:0.88rem;" href="rekenmodule.html?paneel=${encodeURIComponent(p.id)}">Bereken terugverdientijd Iconen.svg("pijl-rechts")</a></p>
+          <p style="margin:8px 0 0;">${beste && beste.winkel && koopUrl(beste) ? `<a class="knop" style="padding:8px 14px;font-size:0.88rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a> ` : ""}<a class="knop knop-secundair" style="padding:8px 14px;font-size:0.88rem;" href="rekenmodule.html?paneel=${encodeURIComponent(p.id)}">Bereken terugverdientijd ${Iconen.svg("pijl-rechts")}</a></p>
         </div>`;
       }).join("")}
       ${!top3.length ? '<p class="hint">Geen panelen gevonden met deze wensen; zet bijvoorbeeld het full black-filter uit.</p>' : ""}
@@ -332,7 +387,7 @@
           ${uitWinkel && koopUrl(beste) ? `<p style="margin:8px 0 0;"><a class="knop" style="padding:8px 14px;font-size:0.88rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a></p>` : ""}
         </div>`;
       }).join("")}
-      <p class="hint" style="margin-top:10px;">Alle ${omvormers.length} omvormersystemen vergelijken op batterij, Home Assistant, Homey en schaduw? <a href="omvormers.html">Naar de omvormer-vergelijker Iconen.svg("pijl-rechts")</a></p>` : ""}
+      <p class="hint" style="margin-top:10px;">Alle ${omvormers.length} omvormersystemen vergelijken op batterij, Home Assistant, Homey en schaduw? <a href="omvormers.html">Naar de omvormer-vergelijker ${Iconen.svg("pijl-rechts")}</a></p>` : ""}
 
       ${batterij ? `
       <h2 style="margin-top:24px;">En de thuisbatterij?</h2>
