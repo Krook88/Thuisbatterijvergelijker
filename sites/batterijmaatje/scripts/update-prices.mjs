@@ -331,6 +331,21 @@ function btwVolgensPagina(html) {
 
 async function updateAanbieding(batterij, aanbieding) {
   if (!aanbieding.url) return false;
+
+  // Een prijs die als mensenwerk is aangemerkt komt uit een offerte of is
+  // samengesteld: er staat geen bedrag op een pagina dat erbij hoort. De
+  // pagina wordt wél opgehaald, want dan merken we nog steeds wanneer de
+  // winkel hem weghaalt - maar wat er aan getallen op staat blijft eraf.
+  //
+  // Tot nu toe vond het script daar niets bruikbaars, dus er is nooit een
+  // vanaf-prijs overschreven. Daar is alleen niets dat dat tegenhoudt: zet
+  // Zonneplan morgen een actiebedrag op die pagina dat binnen de marge van
+  // 75 tot 125 procent valt, dan komt het er zonder meer in - en dan staat er
+  // een kale actieprijs op de plek van een bedrag dat installatie dekt.
+  // Precies de fout die deze sites al vaker gemaakt hebben: twee verschillende
+  // getallen in één kolom.
+  const handmatig = batterij.prijs_controle === "handmatig" || aanbieding.prijs_controle === "handmatig";
+
   try {
     let nieuw;
     let hoe = null;
@@ -339,6 +354,10 @@ async function updateAanbieding(batterij, aanbieding) {
       hoe = "bol-API";
     } else {
       const html = await haalPagina(aanbieding.url);
+      if (handmatig) {
+        console.log(`  = ${batterij.id} @ ${aanbieding.winkel}: pagina staat er nog; prijs blijft mensenwerk (€${aanbieding.prijs_eur})`);
+        return false;
+      }
       const uit = prijsUitPagina(html, naamVan(batterij), GRENZEN);
       nieuw = uit.prijs;
       hoe = uit.hoe;
@@ -464,6 +483,14 @@ async function main() {
     // meer verkoopt hoort niet als "al 21 dagen niet bevestigd" in de lijst:
     // dat wordt het nooit meer, en het telt ook niet mee voor de prijs die de
     // bezoeker ziet.
+    //
+    // En een prijs die als mensenwerk is aangemerkt hoort er ook niet in. Die
+    // wordt niet vanzelf jonger: geen enkele run kan hem bevestigen, dus hij
+    // zou vanaf dag 21 tot in de eeuwigheid in deze lijst blijven staan. Hoe
+    // oud zulke prijzen zijn, blijft wél te zien - de ouderdomscontrole zet
+    // ze in een eigen groep, met de reden erbij.
+    if (batterij.prijs_controle === "handmatig") continue;
+
     const leverbaar = (batterij.aanbiedingen || []).filter((a) => !a.niet_leverbaar);
     const teWegen = leverbaar.length
       ? leverbaar.map((a) => ({ winkel: a.winkel, prijs: a.prijs_eur, datum: a.datum }))
