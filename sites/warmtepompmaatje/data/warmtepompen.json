@@ -307,7 +307,7 @@
       "app": "ViCare",
       "garantie_jaar": 5,
       "opmerkingen": "Hoog rendement, propaan als koudemiddel en 70 graden aanvoer: geschikt voor bestaande bouw zonder dat de radiatoren eruit moeten. Sterk punt is de koppeling: officiële Home Assistant-integratie én open aansturing, iets wat lang niet elk merk biedt. Garantie is via de installateur uit te breiden.",
-      "product_url": "https://www.viessmann.nl/nl/producten/warmtepomp/vitocal-250-a.html",
+      "product_url": "https://www.viessmann.nl/nl/producten/warmtepompen/vitocal-250-a.html",
       "aanbiedingen": [
         {
           "winkel": "Gewoon Gasvrij",
@@ -376,7 +376,7 @@
       "app": "myUplink",
       "garantie_jaar": 5,
       "opmerkingen": "Gebouwd voor Zweedse winters, en dat zie je terug: 75 graden aanvoer en 53 dB(A) maken hem stil én geschikt voor bestaande radiatoren. Op koppelbaarheid scoort hij het maximum - officiële integratie met zowel Home Assistant als Homey, plus open aansturing. Je betaalt er wel voor.",
-      "product_url": "https://www.nibenl.eu/nl-nl/producten/warmtepompen/lucht-water-warmtepompen/nibe-s2125",
+      "product_url": "https://www.nibe.eu/nl-nl/producten/warmtepompen/lucht-water-warmtepompen/s2125",
       "aanbiedingen": [
         {
           "winkel": "123Klimaatshop",
@@ -572,7 +572,7 @@
       "app": "Bosch HomeCom Easy",
       "garantie_jaar": 5,
       "opmerkingen": "Met 51 dB(A) de stilste pomp in deze vergelijking op de Inventum na, en die laatste is een heel ander type. Als je buren dichtbij wonen of de unit onder een slaapkamerraam komt, is dat het argument. Propaan, 75 graden aanvoer, en in Nederland ook via de Nefit-kanalen te krijgen.",
-      "product_url": "https://www.nefit-bosch.nl/producten/warmtepompen/compress-5800i-aw/",
+      "product_url": "https://www.nefit-bosch.nl/ocs/compress-5800i-aw-21076799-p/",
       "aanbiedingen": [
         {
           "winkel": "Aircozonderstek",
