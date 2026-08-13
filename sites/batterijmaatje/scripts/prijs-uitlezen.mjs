@@ -500,10 +500,13 @@ export function toontExclBtw(html) {
  * de dagelijkse run laat zien waar een winkel op leunt - en dus wat er stuk is
  * als hij morgen zwijgt.
  *
- * De laatste twee routes staan achteraan omdat ze zich niets van de productnaam
- * aantrekken. Ze halen bij sommige winkels als enige iets binnen, maar ze
- * kunnen ook een accessoire of een variant te pakken hebben; de marge waarmee
- * het prijsscript een nieuwe prijs accepteert is hun vangnet.
+ * De volgorde is niet vrij te kiezen. Een benoemd prijsveld gaat vóór de
+ * zichtbare tekst, ook al weet dat veld niets van de productnaam: het staat er
+ * als prijs, en een euroteken in de tekst is maar een euroteken. Toen de
+ * zichtbare tekst hier even vóór kwam, zakten vier warmtepompen bij
+ * Aircozonderstek met 42 tot 60 procent - een bedrag verderop de pagina, dat
+ * ruim binnen de marge van die site viel en er zonder de droge run gewoon in
+ * was gegaan.
  */
 export function prijsUitPagina(html, naam, opties = {}) {
   const ankers = ankerWoorden(naam);
@@ -511,8 +514,8 @@ export function prijsUitPagina(html, naam, opties = {}) {
     ["structured data", () => prijsUitJsonLd(html, ankers, opties)],
     ["json in de pagina", () => prijsUitScriptJson(html, ankers, opties)],
     ["meta-tag", () => prijsUitMeta(html)],
-    ["zichtbare tekst", () => prijsUitTekst(html, ankers, opties)],
     ["prijsveld in de pagina", () => prijsUitJsonVeld(html, opties)],
+    ["zichtbare tekst", () => prijsUitTekst(html, ankers, opties)],
   ];
   for (const [hoe, lees] of wegen) {
     const uit = lees();

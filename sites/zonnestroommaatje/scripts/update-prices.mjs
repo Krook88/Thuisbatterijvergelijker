@@ -146,6 +146,18 @@ function meldBtw(product, aanbieding, html) {
   });
 }
 
+/**
+ * Waar het uitlezen op mikt: de naam waarmee dit product op de winkelpagina
+ * staat. Bij een omvormer is het modelveld een serie ("SH-serie (hybride)") en
+ * geen product; alleen daarop mikken laat "Sungrow" en "hybride" over, en die
+ * staan op zo'n pagina overal. Bij Pavento leverde dat 2.183 euro op voor een
+ * omvormer van rond de duizend - een buurproduct. De voorbeeldvariant noemt de
+ * uitvoering zelf (SH5.0RT), en die staat maar op één plek.
+ */
+function productNaam(p) {
+  return `${p.merk || ""} ${p.voorbeeld_variant || ""} ${p.model || ""}`.trim();
+}
+
 function plausibel(nieuw, oud, grenzen) {
   if (!oud) return nieuw >= grenzen.min && nieuw <= grenzen.max;
   return nieuw >= oud * 0.4 && nieuw <= oud * 2.5;
@@ -167,7 +179,7 @@ async function updateAanbieding(paneel, aanbieding, grenzen) {
       // lowPriceTelt: bij een paneel dat tien winkels voeren is de laagste
       // prijs in een AggregateOffer wél wat je betaalt, anders dan bij een
       // productpagina met varianten.
-      nieuw = prijsUitPagina(html, `${paneel.merk || ""} ${paneel.model || ""}`, { ...grenzen, lowPriceTelt: true }).prijs;
+      nieuw = prijsUitPagina(html, productNaam(paneel), { ...grenzen, lowPriceTelt: true }).prijs;
     }
     if (!nieuw) {
       console.log(`  ~ ${paneel.id} @ ${aanbieding.winkel}: geen prijs gevonden, oude prijs blijft (€${aanbieding.prijs_eur})`);
@@ -240,7 +252,7 @@ async function main() {
 
   console.log(ALLEEN_BTW
     ? "\nAlleen de btw-controle gedraaid; geen prijzen of bestanden aangeraakt."
-    : `\nKlaar. ${wijzigingen} prijswijziging(en). laatst_bijgewerkt = ${VANDAAG}`);
+    : `\nKlaar. ${wijzigingen} prijswijziging(en).${DROOG ? " Droge run: niets weggeschreven." : ` laatst_bijgewerkt = ${VANDAAG}`}`);
 }
 
 main().catch((err) => {

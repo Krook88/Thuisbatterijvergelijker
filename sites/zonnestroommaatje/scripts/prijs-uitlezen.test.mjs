@@ -251,6 +251,15 @@ test("bij evenveel treffers wint het laagste bedrag, want dat is de kale prijs",
   assert.equal(prijsUitJsonVeld(`<script>{"price":4199,"salePrice":5299}</script>`), 4199);
 });
 
+test("een benoemd prijsveld gaat vóór een euroteken in de tekst", () => {
+  // Dit is de volgorde waarop het bijna misging: bij Aircozonderstek zakten
+  // vier warmtepompen 42 tot 60 procent toen de zichtbare tekst even voorging.
+  const html = `<script>{"price":5695}</script><h1>Bosch Compress 5800i</h1><p>vanaf € 2.375</p>`;
+  const uit = prijsUitPagina(html, "Bosch Compress 5800i");
+  assert.equal(uit.prijs, 5695);
+  assert.equal(uit.hoe, "prijsveld in de pagina");
+});
+
 /* ------------------------------------------------------------------
    Btw volgens de tekst op de pagina
    ------------------------------------------------------------------ */

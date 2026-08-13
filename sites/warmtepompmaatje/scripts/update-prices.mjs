@@ -252,7 +252,7 @@ async function main() {
     for (const r of verdacht) console.log(`   - ${r}`);
   }
 
-  console.log(`\nKlaar. ${wijzigingen} prijswijziging(en). laatst_bijgewerkt = ${VANDAAG}`);
+  console.log(`\nKlaar. ${wijzigingen} prijswijziging(en).${DROOG ? " Droge run: niets weggeschreven." : ` laatst_bijgewerkt = ${VANDAAG}`}`);
 }
 
 main().catch((err) => {
