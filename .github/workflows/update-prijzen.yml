@@ -49,6 +49,17 @@ jobs:
         with:
           node-version: "22"
 
+      # De enige stap die de run wel laat falen. De andere controles melden,
+      # want die gaan over gegevens waar een fabrikant iets aan moet doen. Deze
+      # gaat over onze eigen logica: prijs.js en condities.js bepalen wat
+      # vergelijkbaar is, en dat voedt de vergelijker, de keuzehulp, de
+      # rekenmodule en de generator tegelijk. Een stille fout daar verandert
+      # elke prijs op elke pagina.
+      - name: Tests
+        if: steps.keuze.outputs.doen == 'true'
+        working-directory: sites/${{ matrix.site }}
+        run: npm test
+
       - name: Prijzen bijwerken
         if: steps.keuze.outputs.doen == 'true'
         working-directory: sites/${{ matrix.site }}

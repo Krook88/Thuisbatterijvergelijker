@@ -19,7 +19,8 @@
     "meet:vergelijk": "node scripts/meet-site.mjs --vergelijk",
     "beeld:voor": "node scripts/schermafdrukken.mjs --voor",
     "beeld:na": "node scripts/schermafdrukken.mjs --na",
-    "beeld:verschil": "node scripts/schermafdrukken.mjs --verschil"
+    "beeld:verschil": "node scripts/schermafdrukken.mjs --verschil",
+    "test": "node --test scripts/*.test.mjs"
   },
   "dependencies": {
     "nodemailer": "^9.0.3"
