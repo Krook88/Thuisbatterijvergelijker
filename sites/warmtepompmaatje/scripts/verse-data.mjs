@@ -13,6 +13,14 @@
  * Een groene workflow zegt dus niet dat de gegevens vers zijn. Deze controle
  * zegt dat wel, want hij kijkt naar de uitkomst in plaats van naar de stappen.
  *
+ * Sinds kort kijkt hij ook per product. Het bestand kan van vandaag zijn
+ * terwijl losse prijzen al een maand stilstaan: bij batterijmaatje stond
+ * laatst_bijgewerkt op 12 augustus, en tegelijk hadden zes batterijen een
+ * prijs van 13 juli. Hun winkels - Sessy, HomeWizard, Enphase, Zonneplan,
+ * AlphaESS, SolarEdge - worden niet door het prijsscript bereikt, dus die datum
+ * blijft staan terwijl de rest van het bestand doorloopt. De bezoeker ziet dan
+ * "prijzen dagelijks gecontroleerd" boven een prijs van een maand oud.
+ *
  * Gebruik:
  *   node scripts/verse-data.mjs            meld de ouderdom, stop met 0
  *   node scripts/verse-data.mjs --streng   stop met een foutcode als iets te
@@ -44,6 +52,12 @@ if (!existsSync(DATA)) {
 const vandaag = new Date(new Date().toISOString().slice(0, 10));
 const bevindingen = [];
 
+// Een losse prijs mag verder achterlopen dan het bestand als geheel: niet elke
+// winkel is te bevragen. Een maand is de grens, want dat is ook hoe lang de
+// houdbaarheidsdatum in de structured data meegaat.
+const MAX_PRIJS_DAGEN = 30;
+const oudePrijzen = [];
+
 for (const bestand of readdirSync(DATA).filter((f) => f.endsWith(".json"))) {
   let data;
   try {
@@ -60,6 +74,18 @@ for (const bestand of readdirSync(DATA).filter((f) => f.endsWith(".json"))) {
     ? null
     : Math.round((vandaag - toen) / 86400000);
   bevindingen.push({ bestand, datum: data.laatst_bijgewerkt, ouderdom });
+
+  // Per product: een bestand van vandaag kan prijzen van een maand oud bevatten.
+  const lijst = Object.values(data).find((v) => Array.isArray(v) && v.length && typeof v[0] === "object");
+  for (const item of lijst || []) {
+    const datums = [item.prijs_datum, ...((item.aanbiedingen || []).map((a) => a && a.datum))].filter(Boolean);
+    if (!datums.length) continue;
+    const jongste = datums.sort().at(-1);
+    const dagen = Math.round((vandaag - new Date(jongste)) / 86400000);
+    if (Number.isFinite(dagen) && dagen > MAX_PRIJS_DAGEN) {
+      oudePrijzen.push({ id: item.id || "?", datum: jongste, dagen });
+    }
+  }
 }
 
 if (!bevindingen.length) {
@@ -77,6 +103,13 @@ for (const b of bevindingen) {
     : b.ouderdom === 1 ? "van gisteren"
     : `${b.ouderdom} dagen oud`;
   console.log(`  ${teOud.includes(b) ? "!" : "="} ${site}/${b.bestand}: ${b.datum || "?"} (${staat})`);
+}
+
+if (oudePrijzen.length) {
+  console.log(`\n  ! ${site}: ${oudePrijzen.length} product(en) met een prijs ouder dan ${MAX_PRIJS_DAGEN} dagen.`);
+  console.log("    Het bestand loopt door, deze prijzen niet - hun winkel wordt niet bereikt.");
+  for (const p of oudePrijzen.slice(0, 8)) console.log(`      ${p.id}: ${p.datum} (${p.dagen} dagen)`);
+  if (oudePrijzen.length > 8) console.log(`      ... en nog ${oudePrijzen.length - 8}`);
 }
 
 if (teOud.length && process.env.GITHUB_STEP_SUMMARY) {

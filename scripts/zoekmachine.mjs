@@ -86,7 +86,12 @@ for (const site of readdirSync(resolve(ROOT, "sites"))) {
         if (o["@type"] !== "Product" || !o.offers) continue;
         const aanbod = o.offers;
         if (!aanbod.availability) meld(`Product zonder availability: ${o.name || "?"}`);
-        if (!aanbod.priceValidUntil) meld(`Product zonder priceValidUntil: ${o.name || "?"}`);
+        // Ontbreekt de houdbaarheidsdatum, dan is de prijs zelf te oud: de
+        // generator laat een verstreken datum weg omdat Google de prijs anders
+        // actief negeert. De oorzaak staat in het rapport van verse-data.mjs,
+        // maar het gevolg hoort hier: zonder die datum geen prijs in het
+        // zoekresultaat.
+        if (!aanbod.priceValidUntil) meld(`geen prijs in het zoekresultaat, de prijs is te oud: ${o.name || "?"}`);
         else if (aanbod.priceValidUntil < vandaag) meld(`priceValidUntil is verlopen (${aanbod.priceValidUntil}): ${o.name || "?"}`);
       }
     }

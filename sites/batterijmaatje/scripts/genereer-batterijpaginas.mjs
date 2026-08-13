@@ -211,7 +211,13 @@ function houdbaarTot(datum) {
   const vanaf = datum ? new Date(datum) : new Date();
   if (Number.isNaN(vanaf.getTime())) return null;
   vanaf.setDate(vanaf.getDate() + 30);
-  return vanaf.toISOString().slice(0, 10);
+  const tot = vanaf.toISOString().slice(0, 10);
+  // Een datum die al verstreken is publiceren is erger dan er geen zetten:
+  // Google negeert de prijs dan actief. Dat gebeurt zodra een winkel niet meer
+  // door het prijsscript bereikt wordt en de datum blijft staan - bij
+  // batterijmaatje gold dat voor twaalf producten. Die staleness hoort in het
+  // rapport van verse-data.mjs thuis, niet in de markup.
+  return tot > new Date().toISOString().slice(0, 10) ? tot : null;
 }
 
 function productLd(b) {
