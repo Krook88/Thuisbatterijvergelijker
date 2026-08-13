@@ -1521,6 +1521,21 @@ a.icoon-kaart { text-decoration: none; color: inherit; }
     margin: -9px -6px;
   }
 
+  /* In een tabelcel gold geen van beide regels hierboven, en daar bleven de
+     laatste zes te kleine aanraakvlakken van deze site zitten: vier
+     woordenlijstlinks in de specificatietabel van een paneelpagina (18 pixels)
+     en twee winkelnamen in de keuzehulp (15 pixels). Allebei onder de 24 die
+     WCAG 2.5.8 op niveau AA vraagt.
+     Dezelfde aanpak als bij .spec-label: padding maakt het raakvlak groter, de
+     negatieve marge haalt die ruimte voor de opmaak weer weg, dus de tabel
+     zet niet uit. */
+  td a.term-link,
+  td small a {
+    display: inline-block;
+    padding: 6px 6px;
+    margin: -6px -6px;
+  }
+
   /* Formuliervelden in de rekenmodule en de keuzehulp. Het veld zelf was 37 tot
      39 pixels en het label erboven 22; allebei te klein om blind te raken, en
      het label zit net onder de 24 die WCAG 2.5.8 op niveau AA vraagt. Alleen

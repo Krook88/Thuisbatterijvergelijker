@@ -1566,6 +1566,20 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
     margin: -9px -6px;
   }
 
+  /* Dezelfde woordenlijstlinks staan ook in de specificatietabel op een
+     batterijpagina, en die viel buiten beide regels hierboven: geen .kaart-kop
+     en geen .spec-label, maar een gewone tabelcel. Daar bleven ze op 18 en 15
+     pixels steken - de twee laatste aanraakvlakken op de hele site onder de 24
+     die WCAG 2.5.8 op niveau AA vraagt.
+     Dezelfde aanpak als bij .spec-label: de padding maakt het raakvlak groter
+     en de negatieve marge haalt die ruimte er voor de opmaak weer af, zodat de
+     tabel niet uitzet. */
+  td a.term-link {
+    display: inline-block;
+    padding: 6px 6px;
+    margin: -6px -6px;
+  }
+
   /* Formuliervelden in de rekenmodule en de keuzehulp. Het veld zelf was 37 tot
      39 pixels en het label erboven 22; allebei te klein om blind te raken, en
      het label zit net onder de 24 die WCAG 2.5.8 op niveau AA vraagt. Alleen
