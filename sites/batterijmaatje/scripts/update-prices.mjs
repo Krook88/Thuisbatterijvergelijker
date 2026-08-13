@@ -2,11 +2,19 @@
 /**
  * Dagelijkse prijsupdate voor data/batterijen.json.
  *
- * Voor elke aanbieding (winkel-URL) probeert dit script de actuele prijs van de
- * productpagina te lezen, in deze volgorde:
- *   1. JSON-LD structured data (schema.org Product/Offer) - meest betrouwbaar
- *   2. Meta-tags (og:price:amount, product:price:amount, itemprop="price")
- *   3. Een voorzichtige regex op zichtbare prijzen in de HTML
+ * Voor elk product met een adres probeert dit script de actuele prijs van de
+ * winkelpagina te lezen. Hoe dat lezen gaat staat in scripts/prijs-uitlezen.mjs,
+ * gedeeld met de andere twee sites; hier staat wat er met de uitkomst gebeurt.
+ *
+ * "Elk product met een adres" is sinds kort ruimer dan "elke aanbieding". Tien
+ * van de eenenveertig batterijen hebben geen aanbieding maar een richtprijs, en
+ * die werden nooit bezocht: het script liep alleen langs aanbiedingen. Hun
+ * prijsdatum stond dus stil op de dag dat iemand ze met de hand invulde. Zeven
+ * van de twaalf prijzen die een maand achterliepen waren van dat soort.
+ *
+ * Staat er een prijs_bron_url bij zo'n richtprijs, dan gaat die nu gewoon mee
+ * in de dagelijkse ronde. Staat er niets, dan meldt het script dat als wat het
+ * is: een prijs zonder adres, die geen script ooit kan bevestigen.
  *
  * Veiligheidsregels:
  *   - Een nieuwe prijs wordt alleen overgenomen als hij dicht genoeg bij de
@@ -26,14 +34,17 @@
 import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { haalPagina, prijsUitPagina, controleerbaar } from "./prijs-uitlezen.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_PAD = resolve(__dirname, "../data/batterijen.json");
 
 const VANDAAG = new Date().toISOString().slice(0, 10);
-const TIMEOUT_MS = 20000;
-const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36 ThuisbatterijVergelijker-prijscheck/1.0";
+// Alleen kijken, niets wegschrijven. Voor als je wilt zien waarom een winkel
+// niet meewerkt zonder de gegevens aan te raken.
+const DROOG = process.argv.includes("--droog");
+const i_alleen = process.argv.indexOf("--alleen");
+const ALLEEN = i_alleen !== -1 ? process.argv[i_alleen + 1] : null;
 
 /* ------------------------------------------------------------------
    Bol.com Marketing Catalog API (officiële partnerroute).
@@ -198,109 +209,6 @@ async function bolApiPrijs(aanbieding) {
   return prijs ? Math.round(prijs) : null;
 }
 
-/* ------------------------------------------------------------------ */
-
-async function haalPagina(url) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-  try {
-    const res = await fetch(url, {
-      signal: controller.signal,
-      redirect: "follow",
-      // Een verzoek met alleen een User-Agent valt op: echte browsers sturen
-      // altijd een hele set headers mee. Verschillende winkels antwoorden
-      // daarom met 403 terwijl de pagina gewoon openbaar is. Dit kost niets en
-      // scheelt naar verwachting een deel van die weigeringen; wat er dan nog
-      // overblijft is een winkel die het echt niet wil, en dat is te
-      // respecteren.
-      headers: {
-        "User-Agent": USER_AGENT,
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-        "Accept-Language": "nl-NL,nl;q=0.9,en-US;q=0.8,en;q=0.7",
-        "Upgrade-Insecure-Requests": "1",
-        "Sec-Fetch-Dest": "document",
-        "Sec-Fetch-Mode": "navigate",
-        "Sec-Fetch-Site": "none",
-        "Sec-Fetch-User": "?1",
-      },
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.text();
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-function parsePrijsWaarde(raw) {
-  if (raw == null) return null;
-  let s = String(raw).trim().replace(/[^\d.,]/g, "");
-  if (!s) return null;
-  // "1.234,56" (NL) -> 1234.56 ; "1234.56" -> 1234.56 ; "1.299" -> 1299
-  if (s.includes(",") && s.includes(".")) s = s.replace(/\./g, "").replace(",", ".");
-  else if (s.includes(",")) s = s.replace(",", ".");
-  else if (/\.\d{3}$/.test(s)) s = s.replace(/\./g, "");
-  const n = Number.parseFloat(s);
-  return Number.isFinite(n) ? Math.round(n) : null;
-}
-
-function prijsUitJsonLd(html) {
-  const blokken = html.match(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi) || [];
-  for (const blok of blokken) {
-    const inhoud = blok.replace(/<script[^>]*>/i, "").replace(/<\/script>/i, "");
-    let data;
-    try { data = JSON.parse(inhoud); } catch { continue; }
-    const items = Array.isArray(data) ? data : [data];
-    for (const item of items) {
-      const kandidaten = [item, ...(item["@graph"] || [])];
-      for (const k of kandidaten) {
-        if (!k || typeof k !== "object") continue;
-        const offers = k.offers ? (Array.isArray(k.offers) ? k.offers : [k.offers]) : [];
-        for (const offer of offers) {
-          // lowPrice hoort bij een AggregateOffer en is de goedkoopste variant
-          // van de pagina - bij een productpagina met varianten (met of zonder
-          // P1-meter, kleiner model) is dat niet de prijs van dit product.
-          // Alleen de losse price is betrouwbaar genoeg om automatisch over te
-          // nemen; de rest laten we aan een mens over.
-          const p = parsePrijsWaarde(offer.price);
-          if (p) return p;
-        }
-      }
-    }
-  }
-  return null;
-}
-
-function prijsUitMeta(html) {
-  const patronen = [
-    /<meta[^>]+(?:property|name)=["'](?:og:price:amount|product:price:amount)["'][^>]+content=["']([^"']+)["']/i,
-    /<meta[^>]+content=["']([^"']+)["'][^>]+(?:property|name)=["'](?:og:price:amount|product:price:amount)["']/i,
-    /itemprop=["']price["'][^>]*content=["']([^"']+)["']/i,
-  ];
-  for (const p of patronen) {
-    const m = html.match(p);
-    if (m) {
-      const prijs = parsePrijsWaarde(m[1]);
-      if (prijs) return prijs;
-    }
-  }
-  return null;
-}
-
-function prijsUitTekst(html) {
-  // Voorzichtige fallback: pak de meest voorkomende "€ x.xxx"-prijs op de pagina.
-  const matches = html.match(/€\s?([\d.]{3,7}(?:,\d{2})?)/g) || [];
-  const telling = new Map();
-  for (const m of matches) {
-    const p = parsePrijsWaarde(m);
-    if (p && p >= 100 && p <= 30000) telling.set(p, (telling.get(p) || 0) + 1);
-  }
-  let beste = null, max = 0;
-  for (const [prijs, n] of telling) {
-    if (n > max) { max = n; beste = prijs; }
-  }
-  return max >= 2 ? beste : null; // alleen bij herhaald voorkomen
-}
-
 // Een echte prijswijziging is zelden groot. Een sprong van tientallen procenten
 // betekent meestal iets anders: een andere variant op dezelfde pagina, een
 // accessoire, een bundel of een prijs excl. btw. Die nemen we niet automatisch
@@ -340,6 +248,45 @@ const verouderd = [];
 // verzendkosten of een ander product hebben.
 const btwTwijfel = [];
 
+// Winkels die het verzoek weigeren (403, 429). Dat is iets anders dan een
+// verdwenen pagina: de link werkt voor een bezoeker prima, alleen wij komen er
+// niet in. Stond vroeger op één hoop met de rest, waardoor de dagelijkse lijst
+// niet liet zien wat er te doen viel.
+const geweigerd = [];
+
+// Pagina's die wel binnenkwamen maar geen leesbaar bedrag bevatten. Meestal een
+// winkel die de prijs pas in de browser invult, en soms een pagina waar het
+// product van af is.
+const geenPrijs = [];
+
+// Prijzen zonder adres. Hier valt niets te automatiseren: een offerteprijs of
+// een bedrag uit een prijsvergelijking van vorige maand heeft geen pagina om te
+// bezoeken. Zeven van de twaalf prijzen die een maand stilstonden waren dit -
+// geen scriptfout, maar een prijs waar nooit een bron-URL bij is gezet.
+const zonderAdres = [];
+
+function naamVan(batterij) {
+  return `${batterij.merk || ""} ${batterij.model || ""}`.trim();
+}
+
+// Een lijst in het logboek en, in GitHub Actions, bovenaan de run. De uitleg
+// erbij zegt wat het vervolg is: een lijst zonder vervolg leest niemand twee
+// keer.
+function meld(rijen, titel, uitleg, kolommen, naarRij) {
+  if (!rijen.length) return;
+  console.log(`\n${rijen.length} ${titel}:`);
+  for (const r of rijen) console.log(`  ${naarRij(r).join("  |  ")}`);
+  if (!process.env.GITHUB_STEP_SUMMARY) return;
+  appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
+    `### ${rijen.length} ${titel}`,
+    "", uitleg, "",
+    `| ${kolommen.join(" | ")} |`,
+    `| ${kolommen.map(() => "---").join(" | ")} |`,
+    ...rijen.map((r) => `| ${naarRij(r).join(" | ")} |`),
+    "",
+  ].join("\n") + "\n");
+}
+
 // Kijkt of de pagina onmiskenbaar over prijzen excl. of incl. btw spreekt.
 // Staan beide er, of geen van beide, dan zegt de pagina er te weinig over en
 // houden we onze mond; alleen een eenduidig signaal is het melden waard.
@@ -361,11 +308,15 @@ async function updateAanbieding(batterij, aanbieding) {
   if (!aanbieding.url) return false;
   try {
     let nieuw;
+    let hoe = null;
     if (/www\.bol\.com/.test(aanbieding.url) && BOL_CLIENT_ID && BOL_CLIENT_SECRET) {
       nieuw = await bolApiPrijs(aanbieding);
+      hoe = "bol-API";
     } else {
       const html = await haalPagina(aanbieding.url);
-      nieuw = prijsUitJsonLd(html) ?? prijsUitMeta(html) ?? prijsUitTekst(html);
+      const uit = prijsUitPagina(html, naamVan(batterij));
+      nieuw = uit.prijs;
+      hoe = uit.hoe;
 
       // Zegt de pagina eenduidig iets anders over btw dan wij, dan is dat het
       // melden waard. Zonder veld gaan wij uit van incl. btw.
@@ -384,7 +335,9 @@ async function updateAanbieding(batterij, aanbieding) {
     if (!nieuw) {
       console.log(`  ~ ${batterij.id} @ ${aanbieding.winkel}: geen prijs gevonden, oude prijs blijft (€${aanbieding.prijs_eur})`);
       // De pagina bestaat wel, maar de prijs staat er niet (meer) in leesbare
-      // vorm. Dat is geen kapotte link, dus alleen loggen.
+      // vorm - vrijwel altijd een winkel die het bedrag pas in de browser
+      // invult. Geen kapotte link, wel iets dat nooit vanzelf overgaat.
+      geenPrijs.push({ id: batterij.id, winkel: aanbieding.winkel, prijs: aanbieding.prijs_eur, url: aanbieding.url });
       return false;
     }
     if (!plausibel(nieuw, aanbieding.prijs_eur)) {
@@ -394,21 +347,61 @@ async function updateAanbieding(batterij, aanbieding) {
       return false;
     }
     const veranderd = nieuw !== aanbieding.prijs_eur;
-    aanbieding.prijs_eur = nieuw;
-    aanbieding.datum = VANDAAG;
-    console.log(`  ${veranderd ? "✓ NIEUW" : "= gelijk"} ${batterij.id} @ ${aanbieding.winkel}: €${nieuw}`);
+    if (!DROOG) {
+      aanbieding.prijs_eur = nieuw;
+      aanbieding.datum = VANDAAG;
+    }
+    console.log(`  ${veranderd ? "✓ NIEUW" : "= gelijk"} ${batterij.id} @ ${aanbieding.winkel}: €${nieuw}${hoe ? ` (via ${hoe})` : ""}`);
     return veranderd;
   } catch (err) {
     console.log(`  x ${batterij.id} @ ${aanbieding.winkel}: ${err.message} (oude prijs blijft staan)`);
     // 404 en 410 betekenen dat de pagina echt weg is; 403 en 429 betekenen
     // meestal dat de winkel geautomatiseerde verzoeken weert. Alleen het eerste
-    // is een link die een bezoeker op een foutpagina laat belanden.
+    // is een link die een bezoeker op een foutpagina laat belanden - het tweede
+    // is een winkel die ons niet binnenlaat, en dat vraagt om iets anders.
     const status = (err.message.match(/HTTP (\d+)/) || [])[1];
     if (status === "404" || status === "410" || err.name === "TypeError") {
       kapotteLinks.push({ id: batterij.id, winkel: aanbieding.winkel, url: aanbieding.url, reden: err.message });
+    } else if (status === "403" || status === "429") {
+      geweigerd.push({ id: batterij.id, winkel: aanbieding.winkel, url: aanbieding.url, reden: `HTTP ${status}` });
     }
     return false;
   }
+}
+
+/**
+ * Een richtprijs zonder winkel. Die heeft geen aanbieding en werd daarom nooit
+ * bezocht: het script liep alleen langs aanbiedingen, en de prijsdatum bleef
+ * staan op de dag dat iemand het bedrag met de hand invulde.
+ *
+ * Staat er een prijs_bron_url bij, dan gaat de richtprijs mee in de gewone
+ * ronde. Om precies dezelfde regels te laten gelden - dezelfde marge, dezelfde
+ * btw-controle, dezelfde meldingen - reist hij als aanbieding mee en gaat de
+ * uitkomst daarna terug.
+ */
+async function updateRichtprijs(batterij) {
+  const bron = {
+    winkel: batterij.prijs_bron || "richtprijs",
+    url: batterij.prijs_bron_url,
+    prijs_eur: batterij.richtprijs_eur,
+    btw_inbegrepen: batterij.btw_inbegrepen,
+    prijs_controle: batterij.prijs_controle,
+  };
+  if (!controleerbaar(bron)) {
+    // Alleen melden als er iets te bewaken valt: een product zonder prijs kan
+    // geen verouderde prijs tonen, en een prijs die als mensenwerk is
+    // aangemerkt hoort niet in een lijst met dingen die het script moet doen.
+    if (typeof batterij.richtprijs_eur === "number" && batterij.prijs_controle !== "handmatig") {
+      zonderAdres.push({ id: batterij.id, prijs: batterij.richtprijs_eur, bron: batterij.prijs_bron || "?", datum: batterij.prijs_datum || "?" });
+    }
+    return false;
+  }
+  const veranderd = await updateAanbieding(batterij, bron);
+  if (bron.datum && !DROOG) {
+    batterij.richtprijs_eur = bron.prijs_eur;
+    batterij.prijs_datum = bron.datum;
+  }
+  return veranderd;
 }
 
 async function main() {
@@ -416,30 +409,46 @@ async function main() {
   let wijzigingen = 0;
 
   for (const batterij of data.batterijen || []) {
+    if (ALLEEN && batterij.id !== ALLEEN) continue;
     for (const aanbieding of batterij.aanbiedingen || []) {
       if (await updateAanbieding(batterij, aanbieding)) wijzigingen++;
       await new Promise((r) => setTimeout(r, 1500)); // beleefde pauze tussen requests
+    }
+    // Een batterij zonder aanbiedingen heeft alleen een richtprijs. Die werd
+    // vroeger overgeslagen; nu gaat hij mee zodra er een bron-URL bij staat.
+    if (!(batterij.aanbiedingen || []).length) {
+      if (await updateRichtprijs(batterij)) wijzigingen++;
+      await new Promise((r) => setTimeout(r, 1500));
     }
     // prijs_datum van de batterij = meest recente controle-datum van zijn aanbiedingen
     const datums = (batterij.aanbiedingen || []).map((a) => a.datum).filter(Boolean).sort();
     if (datums.length) batterij.prijs_datum = datums[datums.length - 1];
 
-    for (const aanbieding of batterij.aanbiedingen || []) {
-      const dagen = aanbieding.datum
-        ? Math.round((Date.now() - new Date(`${aanbieding.datum}T12:00:00`)) / 86400000)
+    // Ook een richtprijs veroudert. Die telde hier niet mee zolang het script
+    // hem niet bezocht, en dat is precies waarom hij een maand kon stilstaan.
+    const teWegen = (batterij.aanbiedingen || []).length
+      ? (batterij.aanbiedingen || []).map((a) => ({ winkel: a.winkel, prijs: a.prijs_eur, datum: a.datum }))
+      : typeof batterij.richtprijs_eur === "number"
+        ? [{ winkel: batterij.prijs_bron || "richtprijs", prijs: batterij.richtprijs_eur, datum: batterij.prijs_datum }]
+        : [];
+    for (const p of teWegen) {
+      const dagen = p.datum
+        ? Math.round((Date.now() - new Date(`${p.datum}T12:00:00`)) / 86400000)
         : null;
       if (dagen === null || dagen >= VEROUDERD_NA_DAGEN) {
-        verouderd.push({ id: batterij.id, winkel: aanbieding.winkel, prijs: aanbieding.prijs_eur, dagen });
+        verouderd.push({ id: batterij.id, winkel: p.winkel, prijs: p.prijs, dagen });
       }
     }
   }
 
-  data.laatst_bijgewerkt = VANDAAG;
-  writeFileSync(DATA_PAD, JSON.stringify(data, null, 2) + "\n", "utf8");
-  // De batterijpagina's en sitemap worden hierna herbouwd door
-  // scripts/genereer-batterijpaginas.mjs (zie de workflow).
+  if (!DROOG) {
+    data.laatst_bijgewerkt = VANDAAG;
+    writeFileSync(DATA_PAD, JSON.stringify(data, null, 2) + "\n", "utf8");
+    // De batterijpagina's en sitemap worden hierna herbouwd door
+    // scripts/genereer-batterijpaginas.mjs (zie de workflow).
+  }
 
-  console.log(`\nKlaar. ${wijzigingen} prijswijziging(en). laatst_bijgewerkt = ${VANDAAG}`);
+  console.log(`\nKlaar. ${wijzigingen} prijswijziging(en).${DROOG ? " Droge run: niets weggeschreven." : ` laatst_bijgewerkt = ${VANDAAG}`}`);
 
   if (kapotteLinks.length) {
     console.log(`\n${kapotteLinks.length} winkelpagina('s) niet meer bereikbaar:`);
@@ -457,6 +466,22 @@ async function main() {
       ].join("\n") + "\n");
     }
   }
+
+  // De drie redenen waarom een prijs niet ververst is, elk met een eigen
+  // vervolg. Vroeger stonden ze door elkaar als "geen prijs gevonden", en dan
+  // ziet een lijst van twaalf eruit als twaalf keer hetzelfde probleem terwijl
+  // er drie verschillende dingen te doen waren.
+  meld(geweigerd, "winkel(s) lieten ons niet binnen",
+    "De pagina werkt voor een bezoeker gewoon; alleen ons verzoek wordt geweigerd (403 of 429), ook na een tweede poging. Te overwegen: een andere winkel voor dit product opnemen, of deze prijs met de hand bijhouden en als zodanig markeren.",
+    ["Batterij", "Winkel", "Reden", "Link"], (g) => [g.id, g.winkel, g.reden, g.url]);
+
+  meld(geenPrijs, "pagina('s) zonder leesbaar bedrag",
+    "Deze pagina's kwamen binnen, maar er stond geen bedrag in dat aan dit product te koppelen was. Meestal vult de winkel de prijs pas in de browser in. Dat gaat niet vanzelf over: zolang dit hier staat, veroudert die prijs elke dag verder.",
+    ["Batterij", "Winkel", "Prijs in de data", "Link"], (g) => [g.id, g.winkel, `€ ${g.prijs}`, g.url]);
+
+  meld(zonderAdres, "richtprijs(en) zonder bron-URL",
+    "Hier valt niets te automatiseren: er staat geen adres bij waar dit bedrag vandaan komt, dus geen enkel script kan het bevestigen. Zet er een `prijs_bron_url` bij die naar een pagina met dit bedrag wijst, dan loopt hij vanaf morgen mee in de dagelijkse ronde. Kan dat niet - een offerte, een schatting - zet dan `\"prijs_controle\": \"handmatig\"` erbij, zodat duidelijk is dat dit mensenwerk blijft.",
+    ["Batterij", "Richtprijs", "Bron zoals genoteerd", "Sinds"], (g) => [g.id, `€ ${g.prijs}`, g.bron, g.datum]);
 
   if (verouderd.length) {
     console.log(`\n${verouderd.length} prijs(en) al ${VEROUDERD_NA_DAGEN}+ dagen niet bevestigd:`);

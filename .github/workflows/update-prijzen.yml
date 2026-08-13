@@ -14,6 +14,16 @@ on:
         type: choice
         options: ["alle", "batterijmaatje", "zonnestroommaatje", "warmtepompmaatje"]
         default: "alle"
+      droog:
+        # De ontwikkelomgeving komt niet bij winkelpagina's (de egress-proxy
+        # laat alleen npm en pypi door), dus een wijziging aan het uitlezen van
+        # prijzen is daar niet te beoordelen. Hiermee is dat hier wel te doen:
+        # de runner bezoekt de winkels, het logboek laat zien welk bedrag elke
+        # weg oplevert, en er wordt niets weggeschreven of geduwd.
+        description: "Alleen kijken: prijzen ophalen zonder iets weg te schrijven"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -68,7 +78,7 @@ jobs:
           # oude prijs staan; het script faalt daar niet op.
           BOL_CLIENT_ID: ${{ secrets.BOL_CLIENT_ID }}
           BOL_CLIENT_SECRET: ${{ secrets.BOL_CLIENT_SECRET }}
-        run: npm run prijzen
+        run: npm run prijzen ${{ github.event.inputs.droog == 'true' && '-- --droog' || '' }}
 
       # Prijzen werken zichzelf bij, maar een nieuw model verschijnt nergens
       # vanzelf. Deze stap zoekt ernaar en meldt alleen: toevoegen blijft
@@ -100,7 +110,7 @@ jobs:
         run: npm run vermogens
 
       - name: Pagina's en sitemap herbouwen
-        if: steps.keuze.outputs.doen == 'true'
+        if: steps.keuze.outputs.doen == 'true' && github.event.inputs.droog != 'true'
         working-directory: sites/${{ matrix.site }}
         run: npm run genereer
 
@@ -115,7 +125,7 @@ jobs:
         run: node scripts/controleer-links.mjs --zonder-winkels
 
       - name: Wijzigingen committen en pushen
-        if: steps.keuze.outputs.doen == 'true'
+        if: steps.keuze.outputs.doen == 'true' && github.event.inputs.droog != 'true'
         run: |
           git config user.name "prijsupdate-bot"
           git config user.email "actions@github.com"
