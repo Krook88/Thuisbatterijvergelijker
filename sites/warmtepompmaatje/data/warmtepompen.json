@@ -89,7 +89,7 @@
       "app": "Daikin Onecta",
       "garantie_jaar": 5,
       "opmerkingen": "Een monoblock die naast je cv-ketel komt te hangen: al het koudemiddel zit in de buitenunit, binnen loopt alleen water. Van alle pompen hier is dit met 59 dB(A) de luidste, dus met de buren dichtbij is dit niet je eerste keus. Let op de naam: Daikin heeft ook een R Hybride, en dat is een split met een aparte binnenunit.",
-      "product_url": "https://www.daikin.nl/nl_nl/producten/altherma.html",
+      "product_url": "https://www.daikin.nl/nl_nl/installateurs/productgroup/verwarming-en-warmtepompen/lucht-water-warmtepompen/hybrid-heatpump.html",
       "aanbiedingen": [
         {
           "winkel": "Coen+",
@@ -444,7 +444,7 @@
       "app": "MELCloud",
       "garantie_jaar": 5,
       "opmerkingen": "Ook 6 van de 6 op koppelbaarheid: officieel ondersteund in Home Assistant én Homey, met open aansturing erbij. Draait op propaan, kan 70 graden aanvoeren en heeft een van de breedste installateursnetwerken van Nederland - handig als er over tien jaar iets stukgaat.",
-      "product_url": "https://www.mitsubishi-electric.nl/warmtepompen/producten/ecodan",
+      "product_url": "https://alklima.nl/ecodan",
       "aanbiedingen": [
         {
           "winkel": "GroupSumi",
@@ -509,7 +509,7 @@
       "app": "Daikin Onecta",
       "garantie_jaar": 5,
       "opmerkingen": "Het meest geïnstalleerde all-electric platform van Nederland, dus overal monteurs en onderdelen. Daar staat tegenover dat hij op R32 draait en tot 65 graden komt, waar nieuwere concurrenten propaan gebruiken en verder komen. De opvolger op R290 is inmiddels onderweg.",
-      "product_url": "https://www.daikin.nl/nl_nl/producten/altherma.html",
+      "product_url": "https://www.daikin.nl/nl_nl/consument/products-and-advice/product-categories/heat-pumps/air-to-water-heat-pumps/daikin-altherma-3-r-w.html",
       "isde_meldcode": "KA22094",
       "aanbiedingen": [
         {
@@ -705,7 +705,7 @@
       "app": "LG ThinQ",
       "garantie_jaar": 5,
       "opmerkingen": "Veel techniek voor je geld: propaan, 75 graden aanvoer en A+++ voor een prijs waar de premiummerken niet bij in de buurt komen. De keerzijde zit in de service - het installateursnetwerk is kleiner dan bij Daikin of Remeha, en de koppeling loopt overal via een omweg.",
-      "product_url": "https://www.lg.com/nl/business/therma-v/",
+      "product_url": "https://www.lg.com/nl/warmtepomp/therma-v-r290-monobloc/",
       "aanbiedingen": [
         {
           "winkel": "Aircoshop Nederland",
