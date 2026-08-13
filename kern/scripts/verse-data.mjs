@@ -81,12 +81,18 @@ for (const bestand of readdirSync(DATA).filter((f) => f.endsWith(".json"))) {
     // Een product zonder prijs kan geen verouderde prijs tonen. Drie batterijen
     // stonden hier maandenlang in met een prijsdatum en een richtprijs van
     // null: een datum op niets, die elke dag een regel in het rapport kostte.
+    //
+    // Aanbiedingen die de winkel niet meer voert tellen niet mee. Die staan
+    // bewust in de gegevens - zo blijft de winkel-URL bewaard en valt de
+    // markering vanzelf af als het artikel terugkomt - maar ze horen niet bij
+    // de vraag hoe vers de prijs is die de bezoeker ziet.
+    const teKoop = (item.aanbiedingen || []).filter((a) => a && !a.niet_leverbaar);
     const heeftPrijs =
       typeof item.richtprijs_eur === "number" ||
-      (item.aanbiedingen || []).some((a) => a && typeof a.prijs_eur === "number");
+      teKoop.some((a) => typeof a.prijs_eur === "number");
     if (!heeftPrijs) continue;
 
-    const datums = [item.prijs_datum, ...((item.aanbiedingen || []).map((a) => a && a.datum))].filter(Boolean);
+    const datums = [item.prijs_datum, ...teKoop.map((a) => a.datum)].filter(Boolean);
     if (!datums.length) continue;
     const jongste = datums.sort().at(-1);
     const dagen = Math.round((vandaag - new Date(jongste)) / 86400000);

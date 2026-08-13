@@ -173,7 +173,24 @@ async function bolApiPrijs(aanbieding) {
     const m = (aanbieding.url || "").match(/\/(\d{8,})\/?$/);
     if (!m) { console.log(`  ~ bol-API: geen product-id herkend in ${aanbieding.url}`); return null; }
     ean = (await bolEan(m[1], token)) || (await bolEanViaZoeken(m[1], aanbieding.url, token));
-    if (!ean) return null;
+    if (!ean) {
+      // Twee verschillende bol-endpoints kennen dit product-id niet: het
+      // omzet-endpoint gaf 404 en het zoek-endpoint hangt de EAN aan geen
+      // enkel resultaat met dit id. Dat is bol die zegt dat hij dit artikel
+      // niet meer voert, net als een 404 verderop, en het telt dus ook zo.
+      //
+      // Zonder deze stap bleef de HomeWizard-aanbieding elke dag "geen prijs
+      // gevonden" melden terwijl er 1.195 euro bij bol.com bovenaan stond die
+      // daar niet meer af te rekenen was.
+      if (!aanbieding.niet_leverbaar) {
+        console.log(`  ! bol-API ${m[1]}: bol kent dit product niet meer, telt niet meer mee voor de kopprijs`);
+        nietMeerLeverbaar.push({ winkel: aanbieding.winkel, url: aanbieding.url });
+      }
+      aanbieding.niet_leverbaar = true;
+      return null;
+    }
+    // Een eerder gemarkeerd artikel dat weer een EAN oplevert is terug; de
+    // markering valt hieronder af zodra er ook een prijs bij hoort.
     aanbieding.ean = ean;
   }
 
@@ -341,11 +358,20 @@ async function updateAanbieding(batterij, aanbieding) {
       }
     }
     if (!nieuw) {
-      console.log(`  ~ ${batterij.id} @ ${aanbieding.winkel}: geen prijs gevonden, oude prijs blijft (€${aanbieding.prijs_eur})`);
+      console.log(`  ~ ${batterij.id} @ ${aanbieding.winkel}: geen prijs gevonden${aanbieding.niet_leverbaar ? " (winkel voert dit artikel niet meer)" : `, oude prijs blijft (€${aanbieding.prijs_eur})`}`);
       // De pagina bestaat wel, maar de prijs staat er niet (meer) in leesbare
       // vorm - vrijwel altijd een winkel die het bedrag pas in de browser
       // invult. Geen kapotte link, wel iets dat nooit vanzelf overgaat.
-      geenPrijs.push({ id: batterij.id, winkel: aanbieding.winkel, prijs: aanbieding.prijs_eur, url: aanbieding.url });
+      //
+      // Behalve als de winkel zelf al gezegd heeft dat hij het artikel niet
+      // meer verkoopt. Dan is "geen prijs" geen storing maar het juiste
+      // antwoord, en hoort het niet in een lijst met dingen om op te lossen:
+      // vier bol-artikelen stonden daar elke dag in terwijl er niets aan te
+      // doen viel. De aanbieding telt al niet meer mee voor de kopprijs, en
+      // zodra bol hem weer verkoopt valt die markering vanzelf af.
+      if (!aanbieding.niet_leverbaar) {
+        geenPrijs.push({ id: batterij.id, winkel: aanbieding.winkel, prijs: aanbieding.prijs_eur, url: aanbieding.url });
+      }
       return false;
     }
     if (!plausibel(nieuw, aanbieding.prijs_eur)) {
@@ -434,8 +460,13 @@ async function main() {
 
     // Ook een richtprijs veroudert. Die telde hier niet mee zolang het script
     // hem niet bezocht, en dat is precies waarom hij een maand kon stilstaan.
-    const teWegen = (batterij.aanbiedingen || []).length
-      ? (batterij.aanbiedingen || []).map((a) => ({ winkel: a.winkel, prijs: a.prijs_eur, datum: a.datum }))
+    // Alleen aanbiedingen die de winkel nog voert. Een artikel dat bol niet
+    // meer verkoopt hoort niet als "al 21 dagen niet bevestigd" in de lijst:
+    // dat wordt het nooit meer, en het telt ook niet mee voor de prijs die de
+    // bezoeker ziet.
+    const leverbaar = (batterij.aanbiedingen || []).filter((a) => !a.niet_leverbaar);
+    const teWegen = leverbaar.length
+      ? leverbaar.map((a) => ({ winkel: a.winkel, prijs: a.prijs_eur, datum: a.datum }))
       : typeof batterij.richtprijs_eur === "number"
         ? [{ winkel: batterij.prijs_bron || "richtprijs", prijs: batterij.richtprijs_eur, datum: batterij.prijs_datum }]
         : [];
