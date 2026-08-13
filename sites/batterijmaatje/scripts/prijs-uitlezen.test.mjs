@@ -22,8 +22,11 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { createServer } from "node:http";
 import {
+  andereHostvorm,
   ankerWoorden,
+  haalPagina,
   parsePrijsWaarde,
   prijsUitJsonLd,
   prijsUitScriptJson,
@@ -33,6 +36,42 @@ import {
   toontExclBtw,
   controleerbaar,
 } from "./prijs-uitlezen.mjs";
+
+/* ------------------------------------------------------------------
+   Ophalen: één herkansing, en niet meer dan dat
+
+   Deze staan hier omdat het bijna misging: de tweede poging met de andere
+   schrijfwijze van de hostnaam probeerde daarna meteen weer de eerste, en
+   die weer de andere. Het script liep vast op de eerste winkel die geen
+   antwoord gaf - zonder foutmelding, gewoon oneindig lang bezig.
+   ------------------------------------------------------------------ */
+
+test("de andere schrijfwijze van de hostnaam is er precies één", () => {
+  assert.equal(andereHostvorm("https://winkel.nl/p/1"), "https://www.winkel.nl/p/1");
+  assert.equal(andereHostvorm("https://www.winkel.nl/p/1"), "https://winkel.nl/p/1");
+  assert.equal(andereHostvorm("geen url"), null);
+});
+
+test("een weigering krijgt één herkansing, een 404 geen", async () => {
+  let verzoeken = 0;
+  const server = createServer((req, res) => {
+    verzoeken++;
+    res.writeHead(req.url === "/weg" ? 404 : 403).end();
+  });
+  await new Promise((r) => server.listen(0, r));
+  const basis = `http://127.0.0.1:${server.address().port}`;
+  try {
+    verzoeken = 0;
+    await assert.rejects(() => haalPagina(`${basis}/weg`), /HTTP 404/);
+    assert.equal(verzoeken, 1, "een verdwenen pagina komt niet terug");
+
+    verzoeken = 0;
+    await assert.rejects(() => haalPagina(`${basis}/geweigerd`), /HTTP 403/);
+    assert.equal(verzoeken, 2, "één herkansing, en dan is het klaar");
+  } finally {
+    server.close();
+  }
+});
 
 /* ------------------------------------------------------------------
    Bedragen lezen

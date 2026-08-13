@@ -62,28 +62,61 @@ const pauze = (ms) => new Promise((r) => setTimeout(r, ms));
  * 403, 429 en 5xx zijn vaak tijdelijk of afhankelijk van toeval aan de andere
  * kant. Een 404 niet - die staat meteen vast.
  */
-export async function haalPagina(url, { pogingen = 2, accept } = {}) {
+export async function haalPagina(url, { pogingen = 2, accept, hostvormGeprobeerd = false } = {}) {
   let laatste;
   for (let poging = 1; poging <= pogingen; poging++) {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+    let verlopen = false;
+    const timer = setTimeout(() => { verlopen = true; controller.abort(); }, TIMEOUT_MS);
     try {
       const headers = browserHeaders(url);
       if (accept) headers.Accept = accept;
       const res = await fetch(url, { signal: controller.signal, redirect: "follow", headers });
       if (res.ok) return await res.text();
       laatste = new Error(`HTTP ${res.status}`);
-      const herkansbaar = res.status === 403 || res.status === 429 || res.status >= 500;
-      if (!herkansbaar || poging === pogingen) throw laatste;
+      // Definitief: een verdwenen pagina komt over drie seconden niet terug.
+      // Zonder deze markering vangt de catch hieronder de fout op, ziet dat er
+      // nog een poging over is, en vraagt het toch nog een keer.
+      laatste.definitief = !(res.status === 403 || res.status === 429 || res.status >= 500);
+      throw laatste;
     } catch (err) {
       laatste = err;
-      if (poging === pogingen) throw err;
+      if (err.definitief) throw err;
+      if (poging === pogingen) {
+        // "fetch failed" is geen antwoord van de winkel maar een naam die niet
+        // te vinden is. Meestal staat de site achter de andere schrijfwijze:
+        // energiemagazijn.nl beantwoordt niets, www.energiemagazijn.nl wel.
+        //
+        // Niet na een tijdslimiet: dan is de naam wél gevonden en neemt de
+        // winkel alleen de tijd. Nog een adres proberen kost dan twintig
+        // seconden per winkel, en met vijftig winkels loopt dat op.
+        // Eén keer, en niet heen en weer: zonder deze vlag probeert de andere
+        // schrijfwijze meteen weer de eerste, en dat houdt nooit op.
+        const anders = verlopen || hostvormGeprobeerd ? null : andereHostvorm(url);
+        if (anders && !/HTTP \d+/.test(String(err.message))) {
+          clearTimeout(timer);
+          return await haalPagina(anders, { pogingen: 1, accept, hostvormGeprobeerd: true });
+        }
+        throw err;
+      }
     } finally {
       clearTimeout(timer);
     }
     await pauze(3000 * poging);
   }
   throw laatste;
+}
+
+// Dezelfde URL met of juist zonder "www." ervoor. Geeft null als dat niets
+// nieuws oplevert.
+export function andereHostvorm(url) {
+  try {
+    const u = new URL(url);
+    u.hostname = u.hostname.startsWith("www.") ? u.hostname.slice(4) : `www.${u.hostname}`;
+    return u.toString();
+  } catch {
+    return null;
+  }
 }
 
 export function parsePrijsWaarde(raw) {

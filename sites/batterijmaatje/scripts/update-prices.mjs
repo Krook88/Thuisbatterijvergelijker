@@ -209,6 +209,14 @@ async function bolApiPrijs(aanbieding) {
   return prijs ? Math.round(prijs) : null;
 }
 
+// Wat op deze site een prijs van een thuisbatterij kan zijn. De ondergrens is
+// niet willekeurig: bij Vattenfall en MOVA pikte het script 200 euro op, een
+// kortingsbedrag naast de productnaam. Zulke vondsten sneuvelen verderop
+// alsnog op de marge, maar dan staan ze wel als "afwijking" in het rapport
+// alsof de winkel zijn prijs heeft verlaagd. De goedkoopste batterij op deze
+// site kost ruim vierhonderd euro.
+const GRENZEN = { min: 300, max: 30000 };
+
 // Een echte prijswijziging is zelden groot. Een sprong van tientallen procenten
 // betekent meestal iets anders: een andere variant op dezelfde pagina, een
 // accessoire, een bundel of een prijs excl. btw. Die nemen we niet automatisch
@@ -314,7 +322,7 @@ async function updateAanbieding(batterij, aanbieding) {
       hoe = "bol-API";
     } else {
       const html = await haalPagina(aanbieding.url);
-      const uit = prijsUitPagina(html, naamVan(batterij));
+      const uit = prijsUitPagina(html, naamVan(batterij), GRENZEN);
       nieuw = uit.prijs;
       hoe = uit.hoe;
 
