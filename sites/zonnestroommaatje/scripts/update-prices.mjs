@@ -31,8 +31,14 @@ const BESTANDEN = [
   // nultarief, dus incl. en excl. btw zijn hetzelfde bedrag. Bij een los
   // verkochte omvormer geldt dat niet, en daar tonen sommige winkels hun
   // prijzen zonder btw. Daarom wordt alleen daar op btw gelet.
-  { pad: resolve(__dirname, "../data/panelen.json"), lijst: "panelen", min: 20, max: 2000, btwControle: false },
-  { pad: resolve(__dirname, "../data/omvormers.json"), lijst: "omvormers", min: 50, max: 3000, btwControle: true },
+  // De marge zegt hoeveel een prijs sinds de vorige keer mag zijn veranderd.
+  // Bij een paneel van 95 euro is een sprong van tientallen procenten gewoon
+  // een actie; bij een omvormer is een verdubbeling geen prijswijziging maar
+  // een ander apparaat. Bij Pavento leverde de SH5.0RT 2.183 euro op terwijl
+  // dezelfde omvormer bij CV Totaal 950 kost en de richtprijs 1.450 is: dat is
+  // de buurman op de pagina (die winkel voert ook de SH8.0RT en SH10.0RT).
+  { pad: resolve(__dirname, "../data/panelen.json"), lijst: "panelen", min: 20, max: 2000, btwControle: false, onder: 0.4, boven: 2.5 },
+  { pad: resolve(__dirname, "../data/omvormers.json"), lijst: "omvormers", min: 50, max: 3000, btwControle: true, onder: 0.6, boven: 1.6 },
 ];
 
 // Alleen de btw-controle draaien, zonder prijzen aan te raken. Handig om het
@@ -160,7 +166,7 @@ function productNaam(p) {
 
 function plausibel(nieuw, oud, grenzen) {
   if (!oud) return nieuw >= grenzen.min && nieuw <= grenzen.max;
-  return nieuw >= oud * 0.4 && nieuw <= oud * 2.5;
+  return nieuw >= oud * grenzen.onder && nieuw <= oud * grenzen.boven;
 }
 
 /* ------------------------------------------------------------------ */
