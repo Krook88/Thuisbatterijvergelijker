@@ -855,7 +855,7 @@
       "richtprijs_eur": 8500,
       "prijs_toelichting": "monoblock met hydraulische module, excl. installatie en boiler",
       "isde_indicatie_eur": 2800,
-      "product_url": "https://www.stiebel-eltron.nl/",
+      "product_url": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-a-05-07-hk-premium/wpl-a-07-hk-230-premium.html",
       "sturing": {
         "status": "ja",
         "tekst": "Modbus via de ISG-gateway; SG-ready."
@@ -1627,7 +1627,7 @@
         "tekst": "Geen officiële app; community-oplossingen via de ISG-gateway en Modbus."
       },
       "opmerkingen": "Het zwaarste toestel op propaan dat we voeren, met 75 graden aanvoer: bedoeld voor grote of slecht geïsoleerde woningen waar de radiatoren moeten blijven hangen. Let op de driefase-aansluiting - die heeft niet elke meterkast.",
-      "product_url": "https://www.stiebel-eltron.nl/nl/home/producten-oplossingen/hernieuwbare_energie/warmtepomp.html",
+      "product_url": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-a-trend/wpl-a-13-2-trend-hk-400.html",
       "varianten": [
         {
           "vermogen_kw": 5,
