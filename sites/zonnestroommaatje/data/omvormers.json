@@ -37,7 +37,7 @@
           "winkel": "Zonnige Winkel",
           "prijs_eur": 109,
           "url": "https://zonnigewinkel.nl/product/enphase-micro-omvormer-iq8hc/",
-          "datum": "2026-08-11"
+          "datum": "2026-08-14"
         },
         {
           "winkel": "Winkelman Zonnepanelen",
@@ -528,7 +528,7 @@
           "winkel": "Zonnige Winkel",
           "prijs_eur": 799,
           "url": "https://zonnigewinkel.nl/product/solis-omvormer-hybride-s6-eh1p5klpl-1-fase/",
-          "datum": "2026-08-11"
+          "datum": "2026-08-14"
         },
         {
           "winkel": "VDH Power",
@@ -537,7 +537,7 @@
           "datum": null
         }
       ],
-      "prijs_datum": "2026-08-11",
+      "prijs_datum": "2026-08-14",
       "samensteller": {
         "soort": "centraal",
         "voorbeeld_ac_kw": 5,
