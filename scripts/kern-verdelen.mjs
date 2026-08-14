@@ -68,15 +68,75 @@ for (const site of sites) {
   }
 }
 
+/**
+ * Loopt de cache-versie van een site nog gelijk?
+ *
+ * De pagina's laden /assets/style.css?v=... en style.css laadt met @import de
+ * gedeelde maatlat.css en opening.css. Vercel zet daar zeven dagen cache op,
+ * dus een gewijzigde stylesheet komt pas aan als die ?v= verandert - in de
+ * pagina's en in de imports.
+ *
+ * Dit ging al een keer mis: de HTML werd vernieuwd en de CSS niet, waardoor
+ * bezoekers nieuwe opmaak-klassen kregen met de oude stylesheet erbij. Op
+ * warmtepompmaatje leverde dat een link op in donkeroranje op een oranje
+ * ondergrond - onleesbaar, en niet te zien in de code omdat beide helften op
+ * zichzelf klopten.
+ *
+ * Deze controle vangt de helft die te vangen is: staan de pagina's en de
+ * imports van een site op hetzelfde nummer? Of iemand het nummer ophoogt na
+ * een wijziging kan geen script weten; dat blijft mensenwerk.
+ */
+function versiesGelijk(site) {
+  const wortel = join(SITES, site);
+  const css = readFileSync(join(wortel, "assets", "style.css"), "utf8");
+  const gevonden = new Set();
+
+  for (const m of css.matchAll(/@import url\("[^"]*\.css\?v=([^"]+)"\)/g)) gevonden.add(m[1]);
+  if (!css.includes("@import")) return null;
+
+  const paginas = [];
+  (function loop(map) {
+    for (const naam of readdirSync(map)) {
+      if (naam === "node_modules") continue;
+      const pad = join(map, naam);
+      if (statSync(pad).isDirectory()) loop(pad);
+      else if (naam.endsWith(".html")) paginas.push(pad);
+    }
+  })(wortel);
+
+  for (const pad of paginas) {
+    const m = readFileSync(pad, "utf8").match(/style\.css\?v=([A-Za-z0-9]+)/);
+    if (m) gevonden.add(m[1]);
+  }
+
+  return gevonden.size > 1 ? [...gevonden] : null;
+}
+
 if (CONTROLEER) {
+  for (const site of sites) {
+    const scheef = versiesGelijk(site);
+    if (scheef) {
+      afwijkend.push({ site, rel: "assets/style.css", reden: `cache-versies lopen uiteen: ${scheef.join(", ")}` });
+    }
+  }
+
   if (afwijkend.length) {
     console.error(`${afwijkend.length} bestand(en) lopen uit de pas met kern/:\n`);
     for (const a of afwijkend) console.error(`  sites/${a.site}/${a.rel}  (${a.reden})`);
-    console.error(
-      "\nPas het bestand in kern/ aan en draai 'npm run kern:verdeel'." +
-      "\nHoort de wijziging bij één site, haal dat bestand dan uit kern/ en leg" +
-      "\nin de commit vast waarom het niet langer gedeeld is.",
-    );
+    if (afwijkend.some((a) => a.reden.startsWith("cache-versies"))) {
+      console.error(
+        "\nDe pagina's en de @imports van een site horen hetzelfde ?v=-nummer te" +
+        "\ndragen. Zet ze gelijk; anders krijgt een bezoeker nieuwe HTML met een" +
+        "\nstylesheet van maximaal zeven dagen oud erbij.",
+      );
+    }
+    if (afwijkend.some((a) => !a.reden.startsWith("cache-versies"))) {
+      console.error(
+        "\nPas het bestand in kern/ aan en draai 'npm run kern:verdeel'." +
+        "\nHoort de wijziging bij één site, haal dat bestand dan uit kern/ en leg" +
+        "\nin de commit vast waarom het niet langer gedeeld is.",
+      );
+    }
     process.exit(1);
   }
   console.log(`kern/ en de ${sites.length} sites lopen gelijk (${gedeeld.length} gedeelde bestand(en)).`);

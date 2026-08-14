@@ -2,8 +2,8 @@
    Thuisbatterijvergelijker.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css");
-@import url("opening.css");
+@import url("maatlat.css?v=20260814a");
+@import url("opening.css?v=20260814a");
 
 :root {
   --kleur-primair: #0f766e;
