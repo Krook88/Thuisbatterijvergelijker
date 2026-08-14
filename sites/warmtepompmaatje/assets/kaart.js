@@ -160,7 +160,7 @@
   function badgeHtml(label, waarde) {
     const d = driewaardig(waarde);
     const icoon = Iconen.svg({ ja: "ja", deels: "deels", onbekend: "onbekend" }[d.status] || "nee");
-    return `<span class="badge ${d.status}" data-uitleg="${escapeHtml(label)}" title="${escapeHtml(d.tekst)}">${icoon} ${escapeHtml(label)}</span>`;
+    return `<span class="badge ${d.status}" data-uitleg="${escapeHtml(label)}" title="${escapeHtml(d.tekst)}">${icoon} <span class="label">${escapeHtml(label)}</span></span>`;
   }
 
   const geluidBekend = (w) => typeof w.geluid_db === "number";
