@@ -1405,7 +1405,10 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 a.icoon-kaart { text-decoration: none; color: inherit; }
 .stap-uitleg { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
 
-.filter-rij.tweede { margin-top: var(--ruimte-14); align-items: center; }
+/* Bovenaan uitlijnen zodat de labels van de groepen naast elkaar op dezelfde
+   regel beginnen; alleen de wisknop hangt in het midden. */
+.filter-rij.tweede { margin-top: var(--ruimte-14); align-items: start; }
+.filter-rij.tweede .filter-reset { align-self: center; }
 .filter-rij.tweede .filter-groep { flex: 1; }
 #veelgestelde-vragen { margin: var(--ruimte-28) 0 var(--ruimte-56); }
 
