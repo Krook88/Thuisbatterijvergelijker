@@ -111,13 +111,13 @@
     const d = driewaardig(waarde);
     const icoon = Iconen.svg(d.status === "ja" ? "ja" : d.status === "deels" ? "deels" : "nee");
     const titel = d.status === "deels" ? d.tekst : d.status === "ja" ? (titelJa || "Ondersteund") : "Niet ondersteund";
-    return `<span class="badge ${d.status}" data-uitleg="${escapeHtml(label)}" title="${escapeHtml(titel)}">${icoon} ${escapeHtml(label)}</span>`;
+    return `<span class="badge ${d.status}" data-uitleg="${escapeHtml(label)}" title="${escapeHtml(titel)}">${icoon} <span class="label">${escapeHtml(label)}</span></span>`;
   }
 
   function noodstroomBadge(b) {
     const d = vierwaardig(b.noodstroom);
     const icoon = Iconen.svg({ ja: "ja", deels: "deels", nee: "nee", onbekend: "onbekend" }[d.status]);
-    return `<span class="badge ${d.status}" data-uitleg="Noodstroom" title="${escapeHtml(b.noodstroom_uitleg || d.tekst)}">${icoon} Noodstroom</span>`;
+    return `<span class="badge ${d.status}" data-uitleg="Noodstroom" title="${escapeHtml(b.noodstroom_uitleg || d.tekst)}">${icoon} <span class="label">Noodstroom</span></span>`;
   }
 
   function sterren(score) {

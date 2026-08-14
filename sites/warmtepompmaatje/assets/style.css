@@ -937,10 +937,76 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 .kaart-acties .knop { flex: 1.5; padding: 12px 14px; }
 .kaart-acties .knop-secundair { flex: 1; }
 
-/* De drie badges zijn de onderdelen waar de Koppel-score uit is opgebouwd.
-   Iets kleiner, zodat de meter erboven de samenvatting blijft en deze de
-   toelichting. */
-.kaart-badges .badge { font-size: 0.8rem; padding: 4px 9px; }
+/* De drie badges zijn de onderdelen waar de Koppel-score uit is opgebouwd, en
+   zo horen ze er ook uit te zien: de uitsplitsing van de meter bovenaan de
+   kaart. Als gevulde pil met een rand eromheen deden ze dat niet. Drie
+   gekleurde vlakken naast elkaar trokken meer aandacht dan de prijs eronder,
+   ze zagen eruit als knoppen om iets mee te kiezen, en bij drie stuks brak de
+   derde naar een eigen regel - een rafelrand midden in de kaart.
+
+   Nu draagt alleen het pictogram de kleur. Dat is genoeg om ja, deels en nee
+   uit elkaar te houden, en de vorm van het pictogram doet dat ook voor wie
+   kleur niet ziet. Twee kolommen in plaats van vrij aflopen: dan staan de
+   labels onder elkaar uitgelijnd in plaats van gecentreerd te rafelen.
+
+   Ze blijven aanklikbaar - een tik licht de bijbehorende uitleg op - maar dat
+   hoort de muisaanwijzer te verraden, niet een permanent knoprandje. */
+.kaart-badges {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px 12px;
+  align-items: start;
+}
+
+.kaart-badges .badge {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--kleur-tekst);
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  /* De binnenmarge is het raakvlak; de negatieve marge links haalt hem weer
+     uit de uitlijning, zodat de labels op één lijn met de rest staan. Minstens
+     24 pixels hoog, want daaronder is het volgens WCAG 2.5.8 (AA) een gebrek. */
+  padding: 4px 6px;
+  margin-left: -6px;
+  min-height: 24px;
+  text-decoration: none;
+  opacity: 1;
+}
+
+.kaart-badges .badge:hover,
+.kaart-badges .badge:focus-visible {
+  background: var(--kleur-achtergrond);
+}
+
+.kaart-badges .badge .icoon { width: 1.05em; height: 1.05em; flex: none; }
+.kaart-badges .badge.ja .icoon { color: #15803d; }
+.kaart-badges .badge.deels .icoon { color: #b45309; }
+.kaart-badges .badge.nee .icoon,
+.kaart-badges .badge.onbekend .icoon { color: var(--kleur-tekst-licht); }
+
+/* Niet ondersteund blijft doorgestreept, maar alleen het woord: het pictogram
+   is al een kruis en hoeft er niet nog een streep doorheen. */
+/* Deze staan hier met de status erbij en niet alleen op .badge: verderop in dit
+   bestand zetten .badge.nee en .badge.onbekend hun eigen achtergrond en
+   doorzichtigheid, en die zijn even specifiek als een regel op .kaart-badges
+   .badge. Zonder de status erbij wint dus de regel die het laatst staat, en
+   hielden juist die twee hun gevulde pil. */
+.kaart-badges .badge.ja,
+.kaart-badges .badge.deels,
+.kaart-badges .badge.nee,
+.kaart-badges .badge.onbekend {
+  background: none;
+  border: 0;
+  border-style: none;
+  opacity: 1;
+  text-decoration: none;
+}
+
+.kaart-badges .badge.nee .label { text-decoration: line-through; }
+.kaart-badges .badge.nee,
+.kaart-badges .badge.onbekend { color: var(--kleur-tekst-licht); }
 
 .details-toggle {
   background: none;

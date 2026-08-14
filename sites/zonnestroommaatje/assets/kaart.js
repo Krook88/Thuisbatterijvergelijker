@@ -127,7 +127,7 @@
     const status = waarde ? "ja" : "nee";
     const icoon = Iconen.svg(waarde ? "ja" : "nee");
     const titel = waarde ? (titelJa || "Ja") : (titelNee || "Nee");
-    return `<span class="badge ${status}" data-uitleg="${escapeHtml(label)}" title="${escapeHtml(titel)}">${icoon} ${escapeHtml(label)}</span>`;
+    return `<span class="badge ${status}" data-uitleg="${escapeHtml(label)}" title="${escapeHtml(titel)}">${icoon} <span class="label">${escapeHtml(label)}</span></span>`;
   }
 
   // Merklogo: toont het officiële logo naast de merknaam zodra het bestand in
