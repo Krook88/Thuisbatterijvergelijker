@@ -16,6 +16,9 @@
   --kleur-wit: #ffffff;
   --kleur-rand: #e7e1d3;
   --kleur-groen: #16a34a;
+  /* Donkerder groen voor tekst op een lichte ondergrond: #16a34a haalt op
+     het papierwit maar 2,97:1 en WCAG 1.4.3 (AA) vraagt 4,5:1. */
+  --kleur-groen-donker: #15803d;
   --kleur-groen-licht: #dcfce7;
   --kleur-rood: #dc2626;
   --kleur-rood-licht: #fee2e2;
@@ -826,7 +829,7 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 .badge.koppel-score { font-weight: 700; }
 .badge.koppel-hoog { background: #ccfbf1; border-color: #99f6e4; color: #0f766e; }
 .badge.koppel-midden { background: var(--kleur-accent-licht); border-color: #fde68a; color: #92400e; }
-.badge.koppel-laag { background: #f1f5f9; border-color: #e2e8f0; color: #64748b; }
+.badge.koppel-laag { background: #f1f5f9; border-color: #e2e8f0; color: #475569; }
 .badge.nee { background: var(--kleur-achtergrond); color: var(--kleur-tekst-licht); text-decoration: line-through; opacity: 0.7; }
 .badge.onbekend { background: var(--kleur-achtergrond); border-style: dashed; color: var(--kleur-tekst-licht); }
 
@@ -867,8 +870,12 @@ details.lees-meer[open] summary::after { content: " ▴"; }
   white-space: nowrap;
   vertical-align: 1px;
 }
-.maat-bevestigd { background: var(--kleur-accent-licht); color: var(--kleur-accent); }
-.maat-bruto { background: var(--kleur-rand); color: var(--kleur-tekst-zacht); }
+/* Niet --kleur-accent-donker: die haalt op dit lichte amber 4,44:1 en WCAG
+   1.4.3 (AA) vraagt 4,5:1 - net te weinig, en bij 12 pixels telt dat.
+   #92400e is dezelfde amber een stap donkerder en staat elders in dit
+   bestand al op een lichte amber ondergrond. */
+.maat-bevestigd { background: var(--kleur-accent-licht); color: #92400e; }
+.maat-bruto { background: var(--kleur-rand); color: var(--kleur-tekst); }
 
 .prijs-let-op {
   margin-top: 8px;
@@ -1213,7 +1220,7 @@ table.vergelijk-tabel {
 .vergelijk-tabel .bedrag,
 .data-tabel .bedrag { text-align: right; }
 .bedrag.uitkomst { font-weight: 700; }
-.bedrag.winst { color: var(--kleur-groen); }
+.bedrag.winst { color: var(--kleur-groen-donker); }
 .totaal-rij > * { font-weight: 800; }
 
 .geavanceerd > .hint { margin-top: 8px; }

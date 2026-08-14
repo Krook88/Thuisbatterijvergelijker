@@ -573,7 +573,7 @@ a { color: var(--kleur-primair); }
    werd getekend. Twee tinten uit de eigen reeksen: amber voor hybride (nog
    deels op gas), oranje voor all-electric. Het woord staat er altijd bij, dus
    kleur is hier ondersteunend en niet de drager. */
-.type-hybride { background: var(--kleur-accent-licht); color: var(--kleur-accent-donker); }
+.type-hybride { background: var(--kleur-accent-licht); color: #92400e; }
 .type-all-electric { background: var(--kleur-primair-licht); color: var(--kleur-primair-donker); }
 
 a.term-link { color: inherit; text-decoration: underline dotted; text-underline-offset: 3px; }
@@ -1650,5 +1650,9 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   white-space: nowrap;
   vertical-align: 1px;
 }
-.maat-bevestigd { background: var(--kleur-accent-licht); color: var(--kleur-accent); }
+/* Niet --kleur-accent-donker: die haalt op dit lichte amber 4,44:1 en WCAG
+   1.4.3 (AA) vraagt 4,5:1 - net te weinig, en bij 12 pixels telt dat.
+   #92400e is dezelfde amber een stap donkerder en staat elders in dit
+   bestand al op een lichte amber ondergrond. */
+.maat-bevestigd { background: var(--kleur-accent-licht); color: #92400e; }
 .maat-bruto { background: var(--kleur-rand); color: var(--kleur-tekst-licht); }

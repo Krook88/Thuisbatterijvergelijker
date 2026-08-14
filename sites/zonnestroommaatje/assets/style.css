@@ -808,7 +808,7 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 .badge.zeker-score { font-weight: 700; }
 .badge.zeker-hoog { background: #e0f2fe; border-color: #bae6fd; color: #0369a1; }
 .badge.zeker-midden { background: var(--kleur-accent-licht); border-color: #fde68a; color: #92400e; }
-.badge.zeker-laag { background: #f1f5f9; border-color: #e2e8f0; color: #64748b; }
+.badge.zeker-laag { background: #f1f5f9; border-color: #e2e8f0; color: #475569; }
 .badge.nee { background: var(--kleur-achtergrond); color: var(--kleur-tekst-licht); text-decoration: line-through; opacity: 0.7; }
 .badge.onbekend { background: var(--kleur-achtergrond); border-style: dashed; color: var(--kleur-tekst-licht); }
 
