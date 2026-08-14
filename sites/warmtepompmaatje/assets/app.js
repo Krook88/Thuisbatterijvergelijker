@@ -206,7 +206,7 @@
             <td title="Punten voor slimme aansturing, Home Assistant en Homey"><b>${koppelScore(w)}/6</b></td>
             <td>${checkCel(w.home_assistant)}</td>
             <td>${checkCel(w.homey)}</td>
-            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:0.85rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
+            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:var(--tekst-15);" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
           </tr>`;
         }).join("")}
       </tbody>
@@ -223,7 +223,7 @@
     return `
       <h2>Vergelijking</h2>
       <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-size:0.93rem;min-width:${220 * items.length + 160}px;">
+      <table style="width:100%;border-collapse:collapse;font-size:var(--tekst-15);min-width:${220 * items.length + 160}px;">
         ${rij("Model", (w) => `<b>${escapeHtml(w.merk)} ${escapeHtml(w.model)}</b>`)}
         ${rij("Type", (w) => escapeHtml(TYPE_LABEL[w.type] || w.type))}
         ${rij("Vermogen", (w) => `${String(w.vermogen_kw).replace(".", ",")} kW${Condities.labelHtml("vermogen", w)}`)}

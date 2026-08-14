@@ -25,19 +25,19 @@
     .advies-indeling { display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: start; margin: 26px 0 40px; }
     @media (max-width: 900px) { .advies-indeling { grid-template-columns: 1fr; } }
     .advies-paneel { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); box-shadow: var(--schaduw); padding: 22px; }
-    .advies-paneel h2 { margin: 0 0 4px; font-size: 1.1rem; color: var(--kleur-primair-donker); }
+    .advies-paneel h2 { margin: 0 0 4px; font-size: var(--tekst-17); color: var(--kleur-primair-donker); }
     .veld { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
-    .veld label { font-size: 0.85rem; font-weight: 700; color: var(--kleur-tekst-licht); }
-    .veld input:not([type="checkbox"]), .veld select { padding: 9px 12px; border: 1px solid var(--kleur-rand); border-radius: 8px; font-size: 0.95rem; width: 100%; min-width: 0; }
-    .veld .hint { font-size: 0.8rem; color: var(--kleur-tekst-licht); }
+    .veld label { font-size: var(--tekst-15); font-weight: 700; color: var(--kleur-tekst-licht); }
+    .veld input:not([type="checkbox"]), .veld select { padding: 9px 12px; border: 1px solid var(--kleur-rand); border-radius: var(--radius-klein); font-size: var(--tekst-15); width: 100%; min-width: 0; }
+    .veld .hint { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); }
     .advies-indeling > *, .veld { min-width: 0; }
     .check-lijst { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-    .check-lijst li { display: flex; gap: 9px; align-items: flex-start; font-size: 0.93rem; border: 1px solid var(--kleur-rand); border-radius: 10px; padding: 9px 12px; background: var(--kleur-wit); }
+    .check-lijst li { display: flex; gap: 9px; align-items: flex-start; font-size: var(--tekst-15); border: 1px solid var(--kleur-rand); border-radius: var(--radius-klein); padding: 9px 12px; background: var(--kleur-wit); }
     .check-lijst .icoon { flex: 0 0 auto; font-weight: 800; }
     .check-lijst li.ok { border-color: #86efac; background: #f0fdf4; }
     .check-lijst li.let-op { border-color: #fde68a; background: #fffbeb; }
     .check-lijst li.fout { border-color: #fca5a5; background: #fef2f2; }
-    .systeem-tabel { width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-top: 8px; }
+    .systeem-tabel { width: 100%; border-collapse: collapse; font-size: var(--tekst-15); margin-top: 8px; }
     .systeem-tabel td { padding: 7px 8px 7px 0; border-top: 1px dotted var(--kleur-rand); vertical-align: top; }
     .systeem-tabel tr:first-child td { border-top: none; }
     .systeem-tabel td:last-child { text-align: right; white-space: nowrap; }

@@ -130,6 +130,16 @@ function dakSterren(p) {
   return r >= 22.8 ? 5 : r >= 22.4 ? 4 : r >= 22.0 ? 3 : r >= 21.5 ? 2 : 1;
 }
 
+/* Eén vorm voor elk oordeel op een schaal, gelijk aan de kaart en de tabel.
+   Sterren stonden hier eerder; die lezen als een recensiecijfer van gebruikers
+   terwijl dit een rekensom is die op uitleg.html wordt uitgelegd. */
+function waardering(score, max) {
+  const n = Math.max(0, Math.min(max, Math.round(Number(score) || 0)));
+  const deel = n / max;
+  const niveau = deel >= 0.8 ? "hoog" : deel >= 0.5 ? "midden" : "laag";
+  return `<span class="waardering niveau-${niveau}" role="img" aria-label="${n} van ${max}"><b>${n}</b><span class="van">/${max}</span></span>`;
+}
+
 function sterren(score) {
   const s = Math.max(0, Math.min(5, Math.round(score || 0)));
   // Gevulde en lege ster komen uit dezelfde icoonset, zodat ze precies
@@ -408,7 +418,7 @@ function pagina(p) {
   <p class="datum-stempel">Onbekende term (zoals Wp of bifaciaal)? Alle woorden staan uitgelegd in de <a href="/uitleg.html#woordenlijst">woordenlijst</a>. Specificaties op basis van de fabrikantendatasheet; controleer vóór aankoop de actuele versie.</p>
 
   <h2>Wat levert dit paneel op?</h2>
-  <p><span class="sterren-reeks">${sterren(dakSterren(p))}</span> (opbrengst per m² dak: ${dakSterren(p)} van 5)</p>
+  <p>${waardering(dakSterren(p), 5)} <span class="waardering-uitleg">opbrengst per m² dak</span></p>
   <p>Op een gunstig zuiddak levert dit paneel circa <b>${opbrengstZuid} kWh per jaar</b>; op een oost-westdak circa <b>${opbrengstOW} kWh</b>. Tien panelen komen dan uit op zo'n ${Math.round(opbrengstZuid * 10 / 100) * 100} respectievelijk ${Math.round(opbrengstOW * 10 / 100) * 100} kWh per jaar. <a href="/rekenmodule.html?paneel=${encodeURIComponent(p.id)}">Bereken de opbrengst en terugverdientijd voor jouw situatie</a>.</p>
 
   <h2>Degelijkheid en garanties</h2>

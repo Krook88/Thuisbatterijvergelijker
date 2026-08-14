@@ -26,16 +26,16 @@
     .advies-indeling { display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: start; margin: 26px 0 40px; }
     @media (max-width: 900px) { .advies-indeling { grid-template-columns: 1fr; } }
     .advies-paneel { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); box-shadow: var(--schaduw); padding: 22px; }
-    .advies-paneel h2 { margin: 0 0 4px; font-size: 1.1rem; color: var(--kleur-primair-donker); }
+    .advies-paneel h2 { margin: 0 0 4px; font-size: var(--tekst-17); color: var(--kleur-primair-donker); }
     .advies-paneel h2:not(:first-child) { margin-top: 22px; }
     .veld { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
-    .veld label { font-size: 0.85rem; font-weight: 700; color: var(--kleur-tekst-licht); }
-    .veld input:not([type="checkbox"]):not([type="radio"]), .veld select { padding: 9px 12px; border: 1px solid var(--kleur-rand); border-radius: 8px; font-size: 0.95rem; width: 100%; min-width: 0; }
+    .veld label { font-size: var(--tekst-15); font-weight: 700; color: var(--kleur-tekst-licht); }
+    .veld input:not([type="checkbox"]):not([type="radio"]), .veld select { padding: 9px 12px; border: 1px solid var(--kleur-rand); border-radius: var(--radius-klein); font-size: var(--tekst-15); width: 100%; min-width: 0; }
     /* Checkbox- en radio-opties als strakke rijen: allemaal even breed, onder elkaar */
     .veld .checkbox-groep { display: flex; flex-direction: column; gap: 8px; }
     .veld .checkbox-groep label {
       width: 100%; justify-content: flex-start; padding: 10px 14px;
-      font-size: 0.95rem; font-weight: 400; color: var(--kleur-tekst); text-align: left;
+      font-size: var(--tekst-15); font-weight: 400; color: var(--kleur-tekst); text-align: left;
     }
     /* Voorkom dat lange select-opties de layout breder maken dan het scherm */
     .advies-indeling > *, .veld-rij > *, .veld { min-width: 0; }
@@ -45,12 +45,12 @@
        meebeweegt. Zie assets/advies-balk.js voor wanneer hij verschijnt. */
     .advies-balk { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 60;
       display: flex; align-items: center; justify-content: space-between; gap: 12px;
-      min-height: 52px; padding: 8px 14px; border: 1px solid var(--kleur-rand); border-radius: 999px;
+      min-height: 52px; padding: 8px 14px; border: 1px solid var(--kleur-rand); border-radius: var(--radius-pil);
       background: var(--kleur-wit); box-shadow: var(--schaduw-hover); color: var(--kleur-tekst);
-      font-family: inherit; font-size: 0.9rem; text-align: left; cursor: pointer; }
+      font-family: inherit; font-size: var(--tekst-15); text-align: left; cursor: pointer; }
     .advies-balk[hidden] { display: none; }
     .advies-balk-tekst { display: flex; flex-direction: column; min-width: 0; }
-    .advies-balk-kop { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.02em; color: var(--kleur-tekst-licht); text-transform: uppercase; }
+    .advies-balk-kop { font-size: var(--tekst-12); font-weight: 700; letter-spacing: 0.02em; color: var(--kleur-tekst-licht); text-transform: uppercase; }
     .advies-balk-naam { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .advies-balk-actie { flex: none; font-weight: 700; color: var(--kleur-primair); }
     .advies-balk:hover { background: var(--kleur-achtergrond); }
@@ -58,15 +58,15 @@
        veld eronder. */
     body.heeft-advies-balk { padding-bottom: 76px; }
     @media (min-width: 901px) { .advies-balk { display: none; } body.heeft-advies-balk { padding-bottom: 0; } }
-    .veld .hint { font-size: 0.8rem; color: var(--kleur-tekst-licht); }
+    .veld .hint { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); }
     .veld-rij { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 480px) { .veld-rij { grid-template-columns: 1fr; } }
     .advies-kaart { border: 1px solid var(--kleur-rand); border-radius: var(--radius); padding: 16px 18px; margin-top: 14px; background: var(--kleur-wit); }
-    .advies-kaart .plek { font-size: 0.8rem; font-weight: 700; color: var(--kleur-primair); text-transform: uppercase; letter-spacing: 0.05em; }
-    .advies-kaart h3 { margin: 4px 0 6px; font-size: 1.1rem; }
-    .advies-kaart .reden { font-size: 0.92rem; color: var(--kleur-tekst-licht); }
+    .advies-kaart .plek { font-size: var(--tekst-12); font-weight: 700; color: var(--kleur-primair); text-transform: uppercase; letter-spacing: 0.05em; }
+    .advies-kaart h3 { margin: 4px 0 6px; font-size: var(--tekst-17); }
+    .advies-kaart .reden { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
     .advies-samenvatting { background: var(--kleur-primair-licht); border-radius: var(--radius); padding: 16px 18px; }
-    .advies-samenvatting .groot { font-size: 1.5rem; font-weight: 800; color: var(--kleur-primair-donker); }
+    .advies-samenvatting .groot { font-size: var(--tekst-22); font-weight: 800; color: var(--kleur-primair-donker); }
   </style>
 </head>
 <body>

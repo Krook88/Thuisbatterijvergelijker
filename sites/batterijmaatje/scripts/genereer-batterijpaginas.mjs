@@ -120,6 +120,16 @@ function totaalprijsTekst(b) {
   return eur(b.totaalprijs_van_eur) + (b.totaalprijs_tot_eur ? " tot " + eur(b.totaalprijs_tot_eur) : "");
 }
 
+/* Eén vorm voor elk oordeel op een schaal, gelijk aan de kaart en de tabel.
+   Sterren stonden hier eerder; die lezen als een recensiecijfer van gebruikers
+   terwijl dit een rekensom is die op uitleg.html wordt uitgelegd. */
+function waardering(score, max) {
+  const n = Math.max(0, Math.min(max, Math.round(Number(score) || 0)));
+  const deel = n / max;
+  const niveau = deel >= 0.8 ? "hoog" : deel >= 0.5 ? "midden" : "laag";
+  return `<span class="waardering niveau-${niveau}" role="img" aria-label="${n} van ${max}"><b>${n}</b><span class="van">/${max}</span></span>`;
+}
+
 function sterren(score) {
   const s = Math.max(0, Math.min(5, Math.round(score || 0)));
   const ster = (gevuld) => Iconen.svg("ster", { gevuld });
@@ -408,7 +418,7 @@ ${breadcrumbLd(b)}
   <p class="datum-stempel">Onbekende term (zoals kWh of hybride)? Alle woorden staan uitgelegd in de <a href="/uitleg.html#woordenlijst">woordenlijst</a>.</p>
 
   <h2>Koppeling met zonnepanelen</h2>
-  <p><span class="sterren-reeks">${sterren(b.koppeling_gemak)}</span> (koppelgemak: ${b.koppeling_gemak || "?"} van 5)</p>
+  <p>${waardering(b.koppeling_gemak, 5)} <span class="waardering-uitleg">aansluitgemak op je bestaande zonnepanelen</span></p>
   <p>${esc(b.zonnepanelen_koppeling || "")}</p>
 
   <h2>Smart home en slim aansturen</h2>

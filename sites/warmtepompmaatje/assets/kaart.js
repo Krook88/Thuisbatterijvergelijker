@@ -103,6 +103,18 @@
    *
    * Het getal staat er altijd naast: kleur mag nooit de enige drager zijn.
    */
+
+  /* De score als compacte chip boven de badges die hem uitsplitsen. Stond
+     eerder als eigen meterblok bovenaan de kaart; op de zustersites was het al
+     een chip, en drie sites die hetzelfde cijfer anders tonen is geen eenheid.
+     De uitgebreide meter blijft wel op de pomppagina staan, waar de ruimte er
+     is en het cijfer het onderwerp is. */
+  function koppelScoreBadge(w) {
+    const score = koppelScore(w);
+    const niveau = score >= 5 ? "hoog" : score >= 3 ? "midden" : "laag";
+    return `<span class="badge koppel-score niveau-${niveau}" data-uitleg="Koppel-score" title="Koppel-score ${score} van 6: punten voor slimme aansturing, Home Assistant en Homey (2 punten per volledige, 1 per gedeeltelijke ondersteuning). Tik voor de details.">${Iconen.svg("koppeling")} Koppel-score ${score}/6</span>`;
+  }
+
   function koppelMeter(w, opties) {
     const score = koppelScore(w);
     const groot = opties && opties.groot;
@@ -187,7 +199,6 @@
           <span class="type-badge type-${escapeHtml(w.type)}">${escapeHtml(TYPE_KORT[w.type] || w.type)}</span>
         </div>
       </div>
-      ${koppelMeter(w)}
       <div class="kaart-specs">
         <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde"${Condities.vermogenToelichting(w) ? ` title="${escapeHtml(Condities.vermogenToelichting(w))}"` : ""}>${String(w.vermogen_kw).replace(".", ",")} kW${Condities.labelHtml("vermogen", w)}</span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">${escapeHtml(w.koudemiddel || "?")}</span></div>
@@ -197,6 +208,7 @@
       ${geluidStrook(w, o.pompen)}
       ${variantenRegel(w)}
       <div class="kaart-badges">
+        ${koppelScoreBadge(w)}
         ${badgeHtml("Slimme aansturing", w.sturing)}
         ${badgeHtml("Home Assistant", w.home_assistant)}
         ${badgeHtml("Homey", w.homey)}
@@ -249,6 +261,7 @@
     badgeHtml,
     koppelScore,
     koppelMeter,
+    koppelScoreBadge,
     geluidStrook,
     variantenRegel,
     prijsLetOp,

@@ -103,7 +103,7 @@
 
   function koppelScoreBadge(b) {
     const score = koppelScore(b);
-    const klasse = score >= 5 ? "koppel-hoog" : score >= 3 ? "koppel-midden" : "koppel-laag";
+    const klasse = score >= 5 ? "niveau-hoog" : score >= 3 ? "niveau-midden" : "niveau-laag";
     return `<span class="badge koppel-score ${klasse}" title="Koppel-score ${score} van 6: punten voor samenwerking met Homey, Home Assistant en een dynamisch energiecontract (2 punten per volledige, 1 per gedeeltelijke ondersteuning). Tik voor de details.">${Iconen.svg("koppeling")} Koppel-score ${score}/6</span>`;
   }
 
@@ -118,6 +118,17 @@
     const d = vierwaardig(b.noodstroom);
     const icoon = Iconen.svg({ ja: "ja", deels: "deels", nee: "nee", onbekend: "onbekend" }[d.status]);
     return `<span class="badge ${d.status}" data-uitleg="Noodstroom" title="${escapeHtml(b.noodstroom_uitleg || d.tekst)}">${icoon} <span class="label">Noodstroom</span></span>`;
+  }
+
+
+  /* Eén vorm voor elk oordeel op een schaal, zie .waardering in de opmaak.
+     Eerder stonden hier sterren; die lezen als een recensiecijfer van
+     gebruikers, terwijl dit een rekensom is die op uitleg.html staat. */
+  function waardering(score, max) {
+    const n = Math.max(0, Math.min(max, Math.round(Number(score) || 0)));
+    const deel = n / max;
+    const niveau = deel >= 0.8 ? "hoog" : deel >= 0.5 ? "midden" : "laag";
+    return `<span class="waardering niveau-${niveau}" role="img" aria-label="${n} van ${max}"><b>${n}</b><span class="van">/${max}</span></span>`;
   }
 
   function sterren(score) {
@@ -195,7 +206,7 @@
       </div>
       <div class="koppelgemak" title="Aansluitgemak: hoe makkelijk sluit je deze batterij aan op je bestaande zonnepanelensysteem? 5 sterren = plug &amp; play.">
         <span class="spec-label">Aansluitgemak op je zonnepanelen</span><br>
-        <span class="sterren">${sterren(b.koppeling_gemak)}</span>
+        ${waardering(b.koppeling_gemak, 5)}
         <div class="uitleg">${escapeHtml(b.zonnepanelen_koppeling || "")}</div>
       </div>
       <div class="kaart-badges">
@@ -258,6 +269,7 @@
     badgeHtml,
     noodstroomBadge,
     sterren,
+    waardering,
     standaardVolgorde,
     fotoHtml,
     kaartHtml,
