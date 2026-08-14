@@ -21,6 +21,7 @@
   <script src="assets/iconen.js?v=20260727a" defer></script>
   <script src="assets/prijs.js?v=20260727a" defer></script>
   <script src="assets/advies.js?v=20260727a" defer></script>
+  <script src="assets/advies-balk.js" defer></script>
   <script src="assets/nav.js?v=20260720b" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
@@ -41,6 +42,25 @@
     }
     /* Voorkom dat lange select-opties de layout breder maken dan het scherm */
     .advies-indeling > *, .veld-rij > *, .veld { min-width: 0; }
+
+    /* Meelopende adviesbalk, alleen op smalle schermen: daar staat het advies
+       onder het formulier in plaats van ernaast, en zie je dus niet dat het
+       meebeweegt. Zie assets/advies-balk.js voor wanneer hij verschijnt. */
+    .advies-balk { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 60;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      min-height: 52px; padding: 8px 14px; border: 1px solid var(--kleur-rand); border-radius: 999px;
+      background: var(--kleur-wit); box-shadow: var(--schaduw-hover); color: var(--kleur-tekst);
+      font-family: inherit; font-size: 0.9rem; text-align: left; cursor: pointer; }
+    .advies-balk[hidden] { display: none; }
+    .advies-balk-tekst { display: flex; flex-direction: column; min-width: 0; }
+    .advies-balk-kop { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.02em; color: var(--kleur-tekst-licht); text-transform: uppercase; }
+    .advies-balk-naam { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .advies-balk-actie { flex: none; font-weight: 700; color: var(--kleur-primair); }
+    .advies-balk:hover { background: var(--kleur-achtergrond); }
+    /* Ruimte onder de pagina zolang de balk er ligt, anders valt het laatste
+       veld eronder. */
+    body.heeft-advies-balk { padding-bottom: 76px; }
+    @media (min-width: 901px) { .advies-balk { display: none; } body.heeft-advies-balk { padding-bottom: 0; } }
     .veld .hint { font-size: 0.8rem; color: var(--kleur-tekst-licht); }
     .veld-rij { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 480px) { .veld-rij { grid-template-columns: 1fr; } }
@@ -86,6 +106,8 @@
   <div class="advies-indeling">
 
     <form id="adviesFormulier" class="advies-paneel" onsubmit="return false;">
+
+      <p class="hint">Het advies past zich aan terwijl je invult. De vooringevulde getallen zijn gemiddelden om je op weg te helpen; pas ze gerust aan naar je eigen situatie — je jaarnota is de beste bron.</p>
 
       <h2>1. Je stroomverbruik</h2>
       <div class="veld-rij">
@@ -188,11 +210,9 @@
         <span class="hint">Leeg laten = geen limiet. Let op: sommige prijzen zijn excl. installatie</span>
       </div>
 
-      <button type="button" class="knop breed" id="advStart"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" /></svg> Geef mij advies</button>
-
     </form>
 
-    <div class="advies-paneel">
+    <div id="advies" class="advies-paneel" aria-live="polite">
       <h2>Jouw advies</h2>
       <div id="adviesResultaat"><p class="datum-stempel">Laden…</p></div>
     </div>

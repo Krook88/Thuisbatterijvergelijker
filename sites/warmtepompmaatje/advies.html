@@ -19,6 +19,7 @@
   <script src="assets/condities.js?v=20260811" defer></script>
   <script src="assets/prijs.js?v=20260729c" defer></script>
   <script src="assets/advies.js?v=20260729c" defer></script>
+  <script src="assets/advies-balk.js" defer></script>
   <script src="assets/nav.js?v=20260729c" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <style>
@@ -33,6 +34,25 @@
     .veld .checkbox-groep { display: flex; flex-direction: column; gap: 8px; }
     .veld .checkbox-groep label { width: 100%; justify-content: flex-start; padding: 10px 14px; font-size: 0.95rem; font-weight: 400; color: var(--kleur-tekst); text-align: left; }
     .advies-indeling > *, .veld { min-width: 0; }
+
+    /* Meelopende adviesbalk, alleen op smalle schermen: daar staat het advies
+       onder het formulier in plaats van ernaast, en zie je dus niet dat het
+       meebeweegt. Zie assets/advies-balk.js voor wanneer hij verschijnt. */
+    .advies-balk { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 60;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      min-height: 52px; padding: 8px 14px; border: 1px solid var(--kleur-rand); border-radius: 999px;
+      background: var(--kleur-wit); box-shadow: var(--schaduw-hover); color: var(--kleur-tekst);
+      font-family: inherit; font-size: 0.9rem; text-align: left; cursor: pointer; }
+    .advies-balk[hidden] { display: none; }
+    .advies-balk-tekst { display: flex; flex-direction: column; min-width: 0; }
+    .advies-balk-kop { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.02em; color: var(--kleur-tekst-licht); text-transform: uppercase; }
+    .advies-balk-naam { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .advies-balk-actie { flex: none; font-weight: 700; color: var(--kleur-primair); }
+    .advies-balk:hover { background: var(--kleur-achtergrond); }
+    /* Ruimte onder de pagina zolang de balk er ligt, anders valt het laatste
+       veld eronder. */
+    body.heeft-advies-balk { padding-bottom: 76px; }
+    @media (min-width: 901px) { .advies-balk { display: none; } body.heeft-advies-balk { padding-bottom: 0; } }
     .advies-kaart { border: 1px solid var(--kleur-rand); border-radius: var(--radius); padding: 16px 18px; margin-top: 14px; background: var(--kleur-wit); }
     .advies-kaart .plek { font-size: 0.8rem; font-weight: 700; color: var(--kleur-primair); text-transform: uppercase; letter-spacing: 0.05em; }
     .advies-kaart h3 { margin: 4px 0 6px; font-size: 1.1rem; }

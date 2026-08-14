@@ -64,7 +64,8 @@ async function meet(browser, label) {
     const el = (i) => document.getElementById(i);
     const zet = (i, v) => { el(i).value = String(v); el(i).dispatchEvent(new Event("change", { bubbles: true })); };
     const vink = (i, a) => { el(i).checked = a; el(i).dispatchEvent(new Event("change", { bubbles: true })); };
-    el("advStart").click();
+    // Geen startknop meer: het advies past zich aan terwijl je invult, net als
+    // op de zustersites. Elke "zet" hieronder laat het opnieuw rekenen.
     const uit = [];
     for (const c of cs) {
       zet("advPersonen", c.personen); zet("advPv", c.pv); zet("advPanelen", c.panelen);
