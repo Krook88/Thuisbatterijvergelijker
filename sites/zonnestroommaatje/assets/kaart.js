@@ -150,6 +150,63 @@
       : escapeHtml(p.merk);
   }
 
+  /* De resultaatregel: hetzelfde product, maar dan om kolommen te vergelijken
+     in plaats van producten.
+
+     Waarom deze naast de kaart bestaat: een kaart is honderden pixels hoog,
+     dus op een scherm passen er drie. Wie twintig producten tegen elkaar houdt
+     scrollt zich suf en moet onthouden wat er schermen hoger stond. In een
+     regel staan de getallen onder elkaar uitgelijnd, met cijfers van gelijke
+     breedte, en zie je er vijf tegelijk.
+
+     Dezelfde volgorde als op de zustersites: plek, model, drie feiten, score,
+     prijs. Alleen de kolomnamen verschillen. */
+  function regelHtml(p, opties, plek) {
+    const o = opties || {};
+    const beste = bestePrijs(p);
+    const vergelijk = Prijs.vergelijkPrijs(beste);
+    const score = zekerScore(p);
+    const geselecteerd = (o.selectie || []).includes(p.id);
+
+    return `
+    <article class="resultaat-regel" data-id="${escapeHtml(p.id)}">
+      <span class="regel-plek cijfer">${plek}</span>
+      <div class="regel-naam">
+        <span class="regel-merk">${escapeHtml(p.merk)}</span>
+        <h3><a class="kop-link" href="paneel/${encodeURIComponent(p.id)}.html">${escapeHtml(p.model)}</a></h3>
+        <label class="badge regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+          <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(p.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
+        </label>
+      </div>
+      <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>${p.vermogen_wp ? p.vermogen_wp + " Wp" : "Onbekend"}</div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">Rendement</span>${p.rendement_pct ? String(p.rendement_pct).replace(".", ",") + " %" : "Onbekend"}</div>
+      <div class="regel-waarde cijfer" data-naam="Uitvoering"><span class="regel-label">Uitvoering</span>${escapeHtml(p.uitvoering || p.celtype || "Onbekend")}</div>
+      <div class="regel-waarde cijfer" data-naam="Zeker-score">
+        <span class="regel-label">Zeker-score</span>${score}<span class="regel-van">/6</span>
+        <span class="regel-baan"><span class="regel-vul" style="width:${Math.round((score / 6) * 100)}%"></span></span>
+      </div>
+      <div class="regel-slot">
+        <span class="regel-bedrag cijfer">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>
+        ${prijsPerWp(p) ? `<span class="regel-per cijfer">${new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", minimumFractionDigits: 2 }).format(prijsPerWp(p))} per Wp</span>` : ""}
+        ${beste && beste.url
+          ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijken</a>`
+          : `<a class="knop" href="paneel/${encodeURIComponent(p.id)}.html">Bekijken</a>`}
+      </div>
+    </article>`;
+  }
+
+  /* De kop boven de regels. Staat los van de regel zodat hij een keer in de
+     lijst staat en niet bij elk product. */
+  function lijstHtml(lijst, opties) {
+    const koppen = ["Model", "Vermogen", "Rendement", "Uitvoering", "Zeker-score", "Prijs"];
+    return `<div class="resultaat-lijst">
+      <div class="resultaat-regel regel-kop" aria-hidden="true">
+        <span></span>${koppen.map((k) => `<span>${k}</span>`).join("")}
+      </div>
+      ${lijst.map((x, i) => regelHtml(x, opties, i + 1)).join("")}
+    </div>`;
+  }
+
   function kaartHtml(p, opties) {
     const o = opties || {};
     const beste = bestePrijs(p);
@@ -247,6 +304,8 @@
     heeftKorting,
     prijsPerWp,
     kaartHtml,
+    regelHtml,
+    lijstHtml,
     standaardVolgorde,
   };
 });

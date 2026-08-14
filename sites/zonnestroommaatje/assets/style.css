@@ -2,8 +2,8 @@
    Zonnepaneelmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css");
-@import url("opening.css");
+@import url("maatlat.css?v=20260814a");
+@import url("vergelijker.css?v=20260814a");
 
 :root {
   --kleur-primair: #0369a1;
@@ -1405,7 +1405,8 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 a.icoon-kaart { text-decoration: none; color: inherit; }
 .stap-uitleg { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
 
-.filter-rij.tweede { margin-top: var(--ruimte-14); }
+.filter-rij.tweede { margin-top: var(--ruimte-14); align-items: center; }
+.filter-rij.tweede .filter-groep { flex: 1; }
 #veelgestelde-vragen { margin: var(--ruimte-28) 0 var(--ruimte-56); }
 
 /* Op de donkere vergelijkbalk moet de secundaire knop wit contrasteren. */

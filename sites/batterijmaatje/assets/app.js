@@ -9,7 +9,7 @@
   const state = {
     batterijen: [],
     meta: {},
-    weergave: "kaarten", // of "tabel"
+    weergave: "lijst", // of "kaarten" of "tabel"
     sortering: "prijs-per-kwh",
     tabelSortKolom: null,
     tabelSortRichting: 1,
@@ -271,6 +271,8 @@
     const doel = el("resultaten");
     if (!lijst.length) {
       doel.innerHTML = '<div class="leeg-melding">Geen batterijen gevonden met deze filters. Probeer een filter uit te zetten.</div>';
+    } else if (state.weergave === "lijst") {
+      doel.innerHTML = Kaart.lijstHtml(lijst, { selectie: state.vergelijkSelectie });
     } else if (state.weergave === "kaarten") {
       doel.innerHTML = `<div class="kaarten-grid">${lijst.map(kaartHtml).join("")}</div>`;
     } else {
@@ -334,8 +336,17 @@
       render();
     });
 
-    el("knopKaarten").addEventListener("click", () => { state.weergave = "kaarten"; el("knopKaarten").classList.add("actief"); el("knopTabel").classList.remove("actief"); render(); });
-    el("knopTabel").addEventListener("click", () => { state.weergave = "tabel"; el("knopTabel").classList.add("actief"); el("knopKaarten").classList.remove("actief"); render(); });
+    for (const [id, naam] of [["knopLijst", "lijst"], ["knopKaarten", "kaarten"], ["knopTabel", "tabel"]]) {
+      const knop = el(id);
+      if (!knop) continue;
+      knop.addEventListener("click", () => {
+        state.weergave = naam;
+        for (const ander of ["knopLijst", "knopKaarten", "knopTabel"]) {
+          if (el(ander)) el(ander).classList.toggle("actief", ander === id);
+        }
+        render();
+      });
+    }
 
     // Gedelegeerde events voor dynamische content
     el("resultaten").addEventListener("click", (e) => {
