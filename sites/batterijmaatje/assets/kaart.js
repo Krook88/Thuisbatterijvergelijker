@@ -145,9 +145,20 @@
   // De afmetingen staan vast in de opmaak, zodat de kaart niet verspringt zodra
   // de afbeelding binnenkomt. Alle foto's laden lui: op de vergelijker staan er
   // tientallen onder de vouw.
+  //
+  // Ook zonder foto komt het kader er. Veertien van de 41 batterijen hebben er
+  // geen, en die kaarten waren daardoor 279 px korter dan hun buren. In een rij
+  // van drie rekt elke kaart mee met de langste, dus dat verschil werd geen
+  // kortere kaart maar een gat onderin. Een leeg kader is eerlijker: je ziet
+  // dat er geen foto is in plaats van dat de rij scheef staat.
   function fotoHtml(b) {
     const foto = b.afbeelding;
-    if (!foto) return "";
+    if (!foto) {
+      return `<div class="kaart-foto leeg" aria-hidden="true">
+          ${Iconen.svg("batterij")}
+          <span>Geen foto beschikbaar</span>
+        </div>`;
+    }
     const bron = b.afbeelding_bron ? `<span class="foto-bron">${escapeHtml(b.afbeelding_bron)}</span>` : "";
     return `<div class="kaart-foto">
           <img src="${escapeHtml(foto)}" alt="${escapeHtml(naamVan(b))}" loading="lazy" decoding="async" width="600" height="450">

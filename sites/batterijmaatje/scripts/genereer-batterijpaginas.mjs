@@ -41,9 +41,27 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const SITE = "https://batterijmaatje.nl";
 const VANDAAG = new Date().toISOString().slice(0, 10);
-// Versienummer achter css/js-links: dwingt browsers om na een wijziging
-// het nieuwe bestand op te halen in plaats van een oude kopie uit de cache.
-const ASSET_VERSIE = "20260727a";
+/* Versienummer achter css/js-links: dwingt browsers om na een wijziging het
+   nieuwe bestand op te halen in plaats van een oude kopie uit de cache.
+
+   Het stond hier als losse constante, en dat ging een keer mis: de stylesheet
+   werd verbouwd, de handgeschreven pagina's kregen een nieuw nummer, en de
+   59 pagina's die dit script maakt zetten er stilletjes het oude nummer weer
+   in. Bezoekers kregen daardoor nieuwe HTML met een stylesheet van maximaal
+   zeven dagen oud - op warmtepompmaatje leverde dat een onleesbare link op.
+
+   Nu is style.css de enige plek waar het nummer staat: dit script leest het
+   daar uit de @import. Bumpen doe je dus in style.css, en dan pakt zowel de
+   pagina als de generator hetzelfde op. kern-verdelen --controleer bewaakt
+   dat ze gelijk blijven. */
+function assetVersie() {
+  const css = readFileSync(resolve(ROOT, "assets/style.css"), "utf8");
+  const m = css.match(/@import url\("[^"]*\.css\?v=([A-Za-z0-9]+)"\)/);
+  if (!m) throw new Error("Geen ?v= gevonden in de @import van assets/style.css.");
+  return m[1];
+}
+
+const ASSET_VERSIE = assetVersie();
 
 const data = JSON.parse(readFileSync(resolve(ROOT, "data/batterijen.json"), "utf8"));
 mkdirSync(resolve(ROOT, "batterij"), { recursive: true });

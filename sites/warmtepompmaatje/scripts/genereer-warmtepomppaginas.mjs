@@ -65,7 +65,28 @@ const ICOON_LOGO = Iconen.svg("warmte", { klasse: "icoon-groot" });
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://warmtepompmaatje.nl";
-const ASSET_VERSIE = "20260729c";
+
+/* Versienummer achter css/js-links: dwingt browsers om na een wijziging het
+   nieuwe bestand op te halen in plaats van een oude kopie uit de cache.
+
+   Het stond hier als losse constante, en dat ging een keer mis: de stylesheet
+   werd verbouwd, de handgeschreven pagina's kregen een nieuw nummer, en de
+   pagina's die dit script maakt zetten er stilletjes het oude nummer weer in.
+   Bezoekers kregen daardoor nieuwe HTML met een stylesheet van maximaal zeven
+   dagen oud - hier leverde dat een onleesbare link op in de opening.
+
+   Nu is style.css de enige plek waar het nummer staat: dit script leest het
+   daar uit de @import. Bumpen doe je dus in style.css, en dan pakt zowel de
+   pagina als de generator hetzelfde op. kern-verdelen --controleer bewaakt
+   dat ze gelijk blijven. */
+function assetVersie() {
+  const css = readFileSync(join(ROOT, "assets", "style.css"), "utf8");
+  const m = css.match(/@import url\("[^"]*\.css\?v=([A-Za-z0-9]+)"\)/);
+  if (!m) throw new Error("Geen ?v= gevonden in de @import van assets/style.css.");
+  return m[1];
+}
+
+const ASSET_VERSIE = assetVersie();
 const VANDAAG = new Date().toISOString().slice(0, 10);
 
 const data = JSON.parse(readFileSync(join(ROOT, "data", "warmtepompen.json"), "utf8"));
