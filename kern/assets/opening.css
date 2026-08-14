@@ -1,0 +1,212 @@
+/* ==========================================================================
+   De opening van een vergelijker - gedeeld door de drie sites.
+
+   Wat er was
+   ----------
+   Een kleurvlak van 441 px (batterijmaatje), 468 px (warmtepompmaatje) en
+   528 px (zonnestroommaatje): witte tekst op een verloop, de drie feiten als
+   donkere pillen, en twee tot vier gevulde knoppen eronder. Mooi om naar te
+   kijken, maar het duurde tot ruim 1.300 pixels voordat het eerste product in
+   beeld kwam - en daarvoor komt iedereen.
+
+   Wat het is geworden
+   -------------------
+   De pagina opent als een naslagwerk in plaats van als een folder: opschrift,
+   kop, uitleg, de cijfers waar het om gaat, en dan de lijst. De merkkleur is
+   niet verdwenen maar verplaatst - naar de rail bovenaan, het opschrift, de
+   knop en de data. Een kleur die overal ligt zegt niets meer; een kleur die
+   op drie plekken ligt wijst ergens naar.
+
+   Wat dit niet oplost
+   -------------------
+   Het scrollen. Gemeten na afloop staat het eerste product op 1.278 px in
+   plaats van 1.301 - dat is 23 pixels, geen doorbraak. De opening bleek maar
+   een derde van de aanloop te zijn; op batterijmaatje ligt de rest bij de
+   drie stappenkaarten (188 px), de salderingsbalk (78), de losse zoekbalk
+   (52) en vooral het filterblok (292). Zolang die blijven staan zoals ze
+   staan, verschuift het eerste product nauwelijks. Dat is een eigen stap, en
+   die staat hier bewust niet in: er is om een andere opening gevraagd, niet
+   om een andere pagina.
+
+   Waarom dit in kern/ staat en niet drie keer in style.css: de regels
+   hieronder zijn op de drie sites letterlijk gelijk. Ze verwijzen alleen naar
+   --kleur-primair, --kleur-inkt en --kleur-accent, en die betekenen op elke
+   site iets anders. Dat is precies de bedoeling: een opbouw, drie kleuren.
+
+   Alle maten komen uit maatlat.css.
+   ========================================================================== */
+
+/* -- De rail --------------------------------------------------------------
+   Vier pixels merk bovenaan elke pagina. Dit is wat er overblijft van het
+   kleurvlak, en het is genoeg: je weet in een oogopslag op welke van de drie
+   sites je bent, zonder dat het een halve schermhoogte kost. */
+.site-header { position: relative; }
+
+.site-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--kleur-inkt), var(--kleur-primair) 55%, var(--kleur-accent));
+}
+
+/* -- De opening ------------------------------------------------------------ */
+.hero {
+  background: var(--kleur-wit);
+  color: var(--kleur-tekst);
+  border-bottom: 1px solid var(--kleur-rand);
+  padding: var(--ruimte-28) 0 var(--ruimte-20);
+}
+
+/* Het opschrift boven de kop. Klein, in de merkkleur, met een streepje ervoor
+   - dat streepje doet het werk waar eerst een verloop van 500 pixels voor
+   nodig was. */
+.hero-opschrift {
+  display: flex;
+  align-items: center;
+  gap: var(--ruimte-10);
+  margin: 0 0 var(--ruimte-10);
+  font-size: var(--tekst-12);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--kleur-primair);
+}
+
+.hero-opschrift::before {
+  content: "";
+  width: 22px;
+  height: 2px;
+  background: var(--kleur-primair);
+}
+
+.hero h1 {
+  margin: 0 0 var(--ruimte-14);
+  font-size: clamp(var(--tekst-28), 4.6vw, var(--tekst-46));
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  max-width: 20ch;
+}
+
+.hero p {
+  margin: 0;
+  max-width: 62ch;
+  font-size: var(--tekst-19);
+  color: var(--kleur-tekst-licht);
+}
+
+.hero p b { color: var(--kleur-tekst); }
+
+.hero-meer > summary { color: var(--kleur-primair); font-size: var(--tekst-15); }
+
+/* -- De drie feiten --------------------------------------------------------
+   Stonden als donkere pillen naast elkaar, wat op wit niet werkt en op de
+   donkere ondergrond toch al meer opviel dan de kop erboven. Nu een regel met
+   haarlijnen ertussen: kleiner, rustiger, en het getal is het eerste dat je
+   ziet in plaats van het label. */
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-top: var(--ruimte-20);
+  padding-top: var(--ruimte-14);
+  border-top: 1px solid var(--kleur-rand);
+}
+
+.hero .update-info {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ruimte-6);
+  margin: 0 var(--ruimte-20) 0 0;
+  padding: 0 var(--ruimte-20) 0 0;
+  border-right: 1px solid var(--kleur-rand);
+  background: none;
+  border-radius: 0;
+  font-size: var(--tekst-15);
+  color: var(--kleur-tekst-licht);
+}
+
+.hero .update-info:last-child {
+  margin-right: 0;
+  padding-right: 0;
+  border-right: 0;
+}
+
+.hero .update-info b { color: var(--kleur-tekst); }
+.hero .update-info .icoon { color: var(--kleur-primair); }
+
+/* -- De knoppen ------------------------------------------------------------
+   Een gevulde knop in de merkkleur, een omlijnde ernaast, en al het andere
+   als link. Er stonden er twee tot vier naast elkaar; bij vier weet niemand
+   meer welke de hoofdweg is. Op warmtepompmaatje kwam daar nog bij dat de
+   oranje knop op de oranje ondergrond stond - juist daar viel de hoofdknop
+   het minst op. */
+.hero-acties {
+  margin-top: var(--ruimte-20);
+  display: flex;
+  align-items: center;
+  gap: var(--ruimte-20);
+  flex-wrap: wrap;
+}
+
+.hero-acties .knop[data-nadruk="primair"] {
+  background: var(--kleur-primair);
+  color: var(--kleur-wit);
+  border: 0;
+  box-shadow: var(--schaduw);
+}
+
+.hero-acties .knop[data-nadruk="primair"]:hover {
+  background: var(--kleur-primair-donker);
+  color: var(--kleur-wit);
+}
+
+.hero-acties .knop[data-nadruk="secundair"] {
+  background: none;
+  border: 1.5px solid var(--kleur-rand);
+  color: var(--kleur-tekst);
+}
+
+.hero-acties .knop[data-nadruk="secundair"]:hover {
+  background: var(--kleur-achtergrond);
+  color: var(--kleur-tekst);
+  border-color: var(--kleur-primair);
+}
+
+/* De derde en vierde weg zijn geen knop meer maar een link. */
+.hero .hero-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ruimte-6);
+  min-height: 24px;
+  font-size: var(--tekst-15);
+  font-weight: 700;
+  color: var(--kleur-primair);
+  text-decoration: none;
+}
+
+.hero .hero-link:hover,
+.hero .hero-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+  .hero { padding: var(--ruimte-28) 0 var(--ruimte-20); }
+  .hero p { font-size: var(--tekst-17); }
+  .hero-badges { margin-top: var(--ruimte-20); }
+
+  /* Naast elkaar passen er op een telefoon geen drie; onder elkaar met een
+     lijn ertussen leest het net zo goed. */
+  .hero .update-info {
+    width: 100%;
+    margin: 0;
+    padding: var(--ruimte-4) 0;
+    border-right: 0;
+  }
+
+  .hero-acties { gap: var(--ruimte-14); }
+  .hero-acties .knop { width: 100%; }
+}

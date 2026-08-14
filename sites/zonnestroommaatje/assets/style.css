@@ -3,6 +3,7 @@
    ========================================================================== */
 
 @import url("maatlat.css");
+@import url("opening.css");
 
 :root {
   --kleur-primair: #0369a1;
@@ -301,47 +302,9 @@ a { color: var(--kleur-primair); }
 }
 .hoofdnav details.nav-meer .nav-meer-paneel a { padding: var(--ruimte-10) var(--ruimte-10); }
 
-/* --------------------------------------------------------------------------
-   Hero
-   -------------------------------------------------------------------------- */
 
-.hero {
-  /* Diepe inkt-teal met een warme "zon" rechtsboven en zachte gloed linksonder */
-  background:
-    radial-gradient(circle 220px at 88% 8%, rgba(245, 158, 11, 0.55), rgba(245, 158, 11, 0.12) 55%, transparent 75%),
-    radial-gradient(circle 420px at -5% 110%, rgba(45, 212, 191, 0.22), transparent 70%),
-    linear-gradient(140deg, #0b3a5c 0%, #0c4f7d 55%, #0369a1 100%);
-  color: var(--kleur-wit);
-  padding: var(--ruimte-56) 0 var(--ruimte-40);
-  position: relative;
-  overflow: hidden;
-}
 
-.hero h1 {
-  margin: 0 0 var(--ruimte-14);
-  font-size: clamp(var(--tekst-28), 4.6vw, var(--tekst-46));
-  line-height: 1.18;
-  letter-spacing: -0.02em;
-  max-width: 800px;
-}
 
-.hero p {
-  margin: 0;
-  max-width: 720px;
-  font-size: var(--tekst-17);
-  opacity: 0.92;
-}
-
-.hero .update-info {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--ruimte-6);
-  margin-top: var(--ruimte-20);
-  background: rgba(255, 255, 255, 0.14);
-  padding: var(--ruimte-6) var(--ruimte-14);
-  border-radius: var(--radius-pil);
-  font-size: var(--tekst-15);
-}
 
 /* --------------------------------------------------------------------------
    Infobalk regelgeving
@@ -1403,37 +1366,8 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   text-transform: uppercase;
 }
 
-/* --------------------------------------------------------------------------
-   Hero: wat je als eerste ziet
 
-   Op een telefoon staan de knoppen voor de badges: eerst iets kunnen doen, dan
-   pas de cijfers. Overgenomen van batterijmaatje; de uitklapbare inleiding die
-   daar ook in dit blok zit, bestaat hier (nog) niet.
-   -------------------------------------------------------------------------- */
 
-.hero-badges {
-  margin-top: var(--ruimte-14);
-  display: flex;
-  gap: var(--ruimte-6);
-  flex-wrap: wrap;
-}
-
-.hero-acties {
-  margin-top: var(--ruimte-20);
-  display: flex;
-  gap: var(--ruimte-10);
-  flex-wrap: wrap;
-}
-
-.hero-acties .knop[data-nadruk="primair"] {
-  background: var(--kleur-accent);
-  color: #422006;
-}
-
-.hero-acties .knop[data-nadruk="secundair"] {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1.5px solid rgba(255, 255, 255, 0.55);
-}
 
 
 /* --------------------------------------------------------------------------
@@ -1551,7 +1485,6 @@ a.icoon-kaart { text-decoration: none; color: inherit; }
 
 /* Een link in de hero staat op donkere achtergrond en heeft daar een eigen
    kleur nodig om leesbaar te blijven. */
-.hero .hero-link { color: var(--kleur-accent-licht); }
 
 /* 404 */
 .content-pagina.foutpagina { text-align: center; padding-top: 60px; }

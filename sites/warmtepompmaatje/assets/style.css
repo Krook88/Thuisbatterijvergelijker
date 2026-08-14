@@ -3,6 +3,7 @@
    ========================================================================== */
 
 @import url("maatlat.css");
+@import url("opening.css");
 
 :root {
   --kleur-primair: #c2410c;
@@ -297,47 +298,9 @@ a { color: var(--kleur-primair); }
 }
 .hoofdnav details.nav-meer .nav-meer-paneel a { padding: var(--ruimte-10) var(--ruimte-10); }
 
-/* --------------------------------------------------------------------------
-   Hero
-   -------------------------------------------------------------------------- */
 
-.hero {
-  /* Diepe inkt-teal met een warme "zon" rechtsboven en zachte gloed linksonder */
-  background:
-    radial-gradient(circle 220px at 88% 8%, rgba(245, 158, 11, 0.55), rgba(245, 158, 11, 0.12) 55%, transparent 75%),
-    radial-gradient(circle 420px at -5% 110%, rgba(251, 191, 36, 0.20), transparent 70%),
-    linear-gradient(140deg, #431407 0%, #7c2d12 55%, #c2410c 100%);
-  color: var(--kleur-wit);
-  padding: var(--ruimte-56) 0 var(--ruimte-40);
-  position: relative;
-  overflow: hidden;
-}
 
-.hero h1 {
-  margin: 0 0 var(--ruimte-14);
-  font-size: clamp(var(--tekst-28), 4.6vw, var(--tekst-46));
-  line-height: 1.18;
-  letter-spacing: -0.02em;
-  max-width: 800px;
-}
 
-.hero p {
-  margin: 0;
-  max-width: 720px;
-  font-size: var(--tekst-17);
-  opacity: 0.92;
-}
-
-.hero .update-info {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--ruimte-6);
-  margin-top: var(--ruimte-20);
-  background: rgba(255, 255, 255, 0.14);
-  padding: var(--ruimte-6) var(--ruimte-14);
-  border-radius: var(--radius-pil);
-  font-size: var(--tekst-15);
-}
 
 /* --------------------------------------------------------------------------
    Infobalk regelgeving
@@ -938,21 +901,11 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 /* Knoppen op de donkere hero. Stonden eerder als inline stijl in index.html,
    inclusief een hardgecodeerde kleur die nergens anders voorkwam; daardoor was
    een merkkleur wijzigen op één plek nooit genoeg. */
-.knop-accent { background: var(--kleur-accent); color: var(--kleur-inkt); }
-.knop-accent:hover { background: var(--kleur-accent-donker); color: var(--kleur-wit); }
 
-.knop-op-hero {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1.5px solid rgba(255, 255, 255, 0.55);
-  color: var(--kleur-wit);
-}
-.knop-op-hero:hover { background: rgba(255, 255, 255, 0.2); }
 
-/* Hero-onderdelen. Deze rijen stonden als inline stijl in de pagina; als klasse
-   zijn ze op één plek aan te passen en blijven de drie hero's van de
-   maatje-sites gelijk. */
-.hero-meta { margin-top: var(--ruimte-14); display: flex; gap: var(--ruimte-6); flex-wrap: wrap; }
-.hero-acties { margin-top: var(--ruimte-20); display: flex; gap: var(--ruimte-10); flex-wrap: wrap; }
+
+
+
 .icoon-kaart .kaart-tekst { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
 .icoon-kaart[href] { text-decoration: none; color: inherit; }
 
