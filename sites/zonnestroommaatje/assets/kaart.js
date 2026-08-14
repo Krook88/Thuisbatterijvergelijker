@@ -103,7 +103,7 @@
 
   function zekerScoreBadge(p) {
     const score = zekerScore(p);
-    const klasse = score >= 5 ? "zeker-hoog" : score >= 3 ? "zeker-midden" : "zeker-laag";
+    const klasse = score >= 5 ? "niveau-hoog" : score >= 3 ? "niveau-midden" : "niveau-laag";
     return `<span class="badge zeker-score ${klasse}" title="Zeker-score ${score} van 6: punten voor productgarantie, vermogensbehoud na 25 jaar en glas-glas uitvoering (2 punten per onderdeel). Tik voor de details.">${Iconen.svg("veiligheid")} Zeker-score ${score}/6</span>`;
   }
 
@@ -113,6 +113,17 @@
   function dakSterren(p) {
     const r = p.rendement_pct || 0;
     return r >= 22.8 ? 5 : r >= 22.4 ? 4 : r >= 22.0 ? 3 : r >= 21.5 ? 2 : 1;
+  }
+
+
+  /* Eén vorm voor elk oordeel op een schaal, zie .waardering in de opmaak.
+     Eerder stonden hier sterren; die lezen als een recensiecijfer van
+     gebruikers, terwijl dit een rekensom is die op uitleg.html staat. */
+  function waardering(score, max) {
+    const n = Math.max(0, Math.min(max, Math.round(Number(score) || 0)));
+    const deel = n / max;
+    const niveau = deel >= 0.8 ? "hoog" : deel >= 0.5 ? "midden" : "laag";
+    return `<span class="waardering niveau-${niveau}" role="img" aria-label="${n} van ${max}"><b>${n}</b><span class="van">/${max}</span></span>`;
   }
 
   function sterren(score) {
@@ -170,7 +181,7 @@
       </div>
       <div class="koppelgemak" title="Hoeveel vermogen past er per vierkante meter dak? 5 sterren = zeer hoog rendement, dus maximale opbrengst op een klein dak.">
         <span class="spec-label klein-kapitaal">Opbrengst per m² dak</span><br>
-        <span class="sterren">${sterren(dakSterren(p))}</span>
+        ${waardering(dakSterren(p), 5)}
         <div class="uitleg">${wpPerM2 ? `Circa ${wpPerM2} Wp per m² paneeloppervlak.` : ""} ${escapeHtml(p.opmerkingen ? "" : "")}</div>
       </div>
       <div class="kaart-badges">
@@ -230,6 +241,7 @@
     zekerScoreBadge,
     dakSterren,
     sterren,
+    waardering,
     jaNeeBadge,
     bestePrijs,
     heeftKorting,

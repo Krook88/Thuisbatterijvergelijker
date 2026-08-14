@@ -210,7 +210,7 @@
             <td class="tabel-prijs" title="${escapeHtml([b.prijs_omvat, Prijs.prijsToelichting(beste)].filter(Boolean).join(" | "))}">${Prijs.vergelijkPrijs(beste) !== null ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "n.b."}${heeftKorting(b) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
             <td title="${escapeHtml(b.totaalprijs_toelichting || "")}">${totaalprijsTekst(b) || "op aanvraag"}</td>
             <td${Prijs.capaciteitToelichting(b) ? ` title="Per kWh: ${escapeHtml(Prijs.capaciteitToelichting(b))}"` : ""}>${perKwh ? eurFmt.format(perKwh) : "n.b."}</td>
-            <td title="${escapeHtml(b.zonnepanelen_koppeling || "")}"><span class="sterren" style="color:var(--kleur-accent)">${sterren(b.koppeling_gemak)}</span></td>
+            <td title="${escapeHtml(b.zonnepanelen_koppeling || "")}">${Kaart.waardering(b.koppeling_gemak, 5)}</td>
             <td title="Punten voor Homey, Home Assistant en dynamisch contract"><b>${koppelScore(b)}/6</b></td>
             <td>${checkCel(b.homey)}</td>
             <td>${checkCel(b.home_assistant)}</td>

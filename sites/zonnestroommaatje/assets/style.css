@@ -613,6 +613,31 @@ a.term-link:hover { color: var(--kleur-primair); }
 
 .kaart-badges .badge { cursor: pointer; }
 
+/* Eén vorm voor elk oordeel op een schaal: de eigen score, het aansluitgemak,
+   de opbrengst per m². Die stonden eerder in drie beeldtalen door elkaar -
+   sterren op de ene site, een segmentbalk op de andere, een chip op de derde -
+   terwijl het steeds hetzelfde soort uitspraak is: een cijfer dat wij zelf
+   berekenen, op een schaal die wij zelf uitleggen.
+   Sterren zijn daar bovendien het verkeerde beeld voor: die lezen als een
+   recensiecijfer van gebruikers, en dit is een rekensom. */
+.waardering {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.waardering .van { font-weight: 600; opacity: 0.75; }
+.waardering .icoon { width: 0.95em; height: 0.95em; }
+.niveau-hoog { background: #e0f2fe; border-color: #bae6fd; color: #0369a1; }
+.niveau-midden { background: var(--kleur-accent-licht); border-color: #fde68a; color: #92400e; }
+.niveau-laag { background: #f1f5f9; border-color: #e2e8f0; color: #475569; }
+
+
 /* De badges zijn de uitsplitsing van de Koppel-score bovenaan de kaart, en zo
    horen ze er ook uit te zien. Als gevulde pil met een rand eromheen deden ze
    dat niet: drie gekleurde vlakken naast elkaar trokken meer aandacht dan de
@@ -680,6 +705,14 @@ a.term-link:hover { color: var(--kleur-primair); }
 }
 
 .kaart-badges .badge.nee .label { text-decoration: line-through; }
+
+/* De score houdt zijn vulling, ook al zijn de badges eromheen vlak: hij is de
+   samenvatting en zij zijn de uitsplitsing. Met de status erbij, want de
+   vlakke-badge-regel hierboven is specifieker dan .niveau-* alleen. */
+.kaart-badges .badge.niveau-hoog { background: #e0f2fe; border: 1px solid #bae6fd; color: #0369a1; }
+.kaart-badges .badge.niveau-midden { background: var(--kleur-accent-licht); border: 1px solid #fde68a; color: #92400e; }
+.kaart-badges .badge.niveau-laag { background: #f1f5f9; border: 1px solid #e2e8f0; color: #475569; }
+
 
 /* De score is de samenvatting, de rest eronder zijn de onderdelen waar hij uit
    is opgebouwd. Nu de onderdelen vlak zijn geworden, is de gevulde score het
@@ -806,9 +839,6 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 
 /* Zeker-score: eigen Zonnepaneelmaatje-score voor degelijkheid (0-6 punten) */
 .badge.zeker-score { font-weight: 700; }
-.badge.zeker-hoog { background: #e0f2fe; border-color: #bae6fd; color: #0369a1; }
-.badge.zeker-midden { background: var(--kleur-accent-licht); border-color: #fde68a; color: #92400e; }
-.badge.zeker-laag { background: #f1f5f9; border-color: #e2e8f0; color: #475569; }
 .badge.nee { background: var(--kleur-achtergrond); color: var(--kleur-tekst-licht); text-decoration: line-through; opacity: 0.7; }
 .badge.onbekend { background: var(--kleur-achtergrond); border-style: dashed; color: var(--kleur-tekst-licht); }
 
