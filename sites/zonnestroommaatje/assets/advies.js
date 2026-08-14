@@ -332,30 +332,30 @@
     el("adviesInhoud").innerHTML = `
       <div class="advies-samenvatting">
         <div class="groot">${aantalGeadviseerd} panelen (circa ${numFmt.format(wpGeadviseerd)} Wp)</div>
-        <p style="margin:6px 0 0;">Verwachte opbrengst: <b>${numFmt.format(opbrengst)} kWh per jaar</b>, circa ${dekking}% van je ${extras.length ? "verwachte " : ""}verbruik van ${numFmt.format(doelVerbruik)} kWh.</p>
-        ${extras.length ? `<p class="hint" style="margin:6px 0 0;">Meegerekend: ${extras.join(", ")}.${s.warmtepomp ? ' Nog geen warmtepomp? Vergelijk ze op onze zustersite <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a>.' : ""}</p>` : ""}
-        ${s.batterijPlan !== "nee" ? '<p class="hint" style="margin:6px 0 0;">Omdat je een thuisbatterij (verwacht) hebt, adviseren wij iets ruimer: het overschot gebruik je dan zelf.</p>' : ""}
-        ${s.factor <= 0.65 ? '<p class="hint" style="margin:6px 0 0;">Let op: een noorddak levert circa een derde minder op dan een zuiddak. Vraag een installateur of het bij jouw dak uit kan; vaak is een oost-westdak of een kleiner systeem verstandiger.</p>' : ""}
-        ${dakTeKlein ? `<p style="margin:8px 0 0;background:var(--kleur-accent-licht);border-radius:var(--radius-klein);padding:8px 12px;font-size:var(--tekst-15);">${Iconen.svg("let-op")} Voor je volledige verbruik zouden circa ${aantal} panelen nodig zijn, meer dan er op je dak passen. Kies daarom een paneel met een hoog rendement; die wegen hieronder automatisch zwaarder.</p>` : ""}
+        <p style="margin: var(--ruimte-6) 0 0;">Verwachte opbrengst: <b>${numFmt.format(opbrengst)} kWh per jaar</b>, circa ${dekking}% van je ${extras.length ? "verwachte " : ""}verbruik van ${numFmt.format(doelVerbruik)} kWh.</p>
+        ${extras.length ? `<p class="hint" style="margin: var(--ruimte-6) 0 0;">Meegerekend: ${extras.join(", ")}.${s.warmtepomp ? ' Nog geen warmtepomp? Vergelijk ze op onze zustersite <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a>.' : ""}</p>` : ""}
+        ${s.batterijPlan !== "nee" ? '<p class="hint" style="margin: var(--ruimte-6) 0 0;">Omdat je een thuisbatterij (verwacht) hebt, adviseren wij iets ruimer: het overschot gebruik je dan zelf.</p>' : ""}
+        ${s.factor <= 0.65 ? '<p class="hint" style="margin: var(--ruimte-6) 0 0;">Let op: een noorddak levert circa een derde minder op dan een zuiddak. Vraag een installateur of het bij jouw dak uit kan; vaak is een oost-westdak of een kleiner systeem verstandiger.</p>' : ""}
+        ${dakTeKlein ? `<p style="margin: var(--ruimte-6) 0 0;background:var(--kleur-accent-licht);border-radius:var(--radius-klein);padding: var(--ruimte-6) var(--ruimte-10);font-size:var(--tekst-15);">${Iconen.svg("let-op")} Voor je volledige verbruik zouden circa ${aantal} panelen nodig zijn, meer dan er op je dak passen. Kies daarom een paneel met een hoog rendement; die wegen hieronder automatisch zwaarder.</p>` : ""}
       </div>
 
       ${topPaneel && topOmvormer ? `
       <div class="advies-kaart" style="border-width:2px;border-color:var(--kleur-primair);">
         <span class="plek">${Iconen.svg("lijst")} Jouw complete systeem in het kort</span>
-        <div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:var(--tekst-15);margin-top:8px;">
-          <tr><td style="padding:6px 8px 6px 0;">${Iconen.svg("zon")} <b>${aantalGeadviseerd} ×</b> ${escapeHtml(naamVan(topPaneel))}${paneelBeste && paneelBeste.winkel ? `<br><small>${winkelLink(paneelBeste)} (${eurFmt.format(Prijs.vergelijkPrijs(paneelBeste))} per paneel)</small>` : ""}</td><td style="text-align:right;white-space:nowrap;">circa <b>${eurFmt.format(panelenPrijs)}</b></td></tr>
-          <tr style="border-top:1px dotted var(--kleur-rand);"><td style="padding:6px 8px 6px 0;">${Iconen.svg("stroom")} ${escapeHtml(topOmvormer.merk)} ${escapeHtml(topOmvormer.model)}${perPaneelOmvormer ? "" : ` (kies circa ${omvormerKw} kW)`}${omvormerBeste && omvormerBeste.winkel ? `<br><small>${winkelLink(omvormerBeste)} (${eurFmt.format(Prijs.vergelijkPrijs(omvormerBeste))}${topOmvormer.type === "micro" ? " per stuk" : topOmvormer.type === "optimizer" ? " voor de losse omvormer" : ""})</small>` : ""}</td><td style="text-align:right;white-space:nowrap;">circa <b>${eurFmt.format(omvormerPrijs)}</b></td></tr>
-          <tr style="border-top:1px dotted var(--kleur-rand);"><td style="padding:6px 8px 6px 0;">${Iconen.svg("installatie")} Montage, bekabeling en meterkast (indicatie)</td><td style="text-align:right;white-space:nowrap;">circa <b>${eurFmt.format(montagePrijs)}</b></td></tr>
-          ${batterij ? `<tr style="border-top:1px dotted var(--kleur-rand);"><td style="padding:6px 8px 6px 0;">${Iconen.svg("batterij")} Thuisbatterij ${s.batterijPlan === "ja" ? `van circa ${batterij.onder} tot ${batterij.boven} kWh` : "(later bij te plaatsen)"}</td><td style="text-align:right;white-space:nowrap;">${s.batterijPlan === "ja" ? "apart budget" : "later"}</td></tr>` : ""}
-          <tr style="border-top:2px solid var(--kleur-rand);font-weight:700;"><td style="padding:8px 8px 6px 0;">Totaal zonnestroomsysteem${batterij && s.batterijPlan === "ja" ? " (excl. batterij)" : ""}</td><td style="text-align:right;white-space:nowrap;">circa ${eurFmt.format(totaal)}</td></tr>
+        <div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:var(--tekst-15);margin-top: var(--ruimte-6);">
+          <tr><td style="padding: var(--ruimte-6) var(--ruimte-6) var(--ruimte-6) 0;">${Iconen.svg("zon")} <b>${aantalGeadviseerd} ×</b> ${escapeHtml(naamVan(topPaneel))}${paneelBeste && paneelBeste.winkel ? `<br><small>${winkelLink(paneelBeste)} (${eurFmt.format(Prijs.vergelijkPrijs(paneelBeste))} per paneel)</small>` : ""}</td><td style="text-align:right;white-space:nowrap;">circa <b>${eurFmt.format(panelenPrijs)}</b></td></tr>
+          <tr style="border-top:1px dotted var(--kleur-rand);"><td style="padding: var(--ruimte-6) var(--ruimte-6) var(--ruimte-6) 0;">${Iconen.svg("stroom")} ${escapeHtml(topOmvormer.merk)} ${escapeHtml(topOmvormer.model)}${perPaneelOmvormer ? "" : ` (kies circa ${omvormerKw} kW)`}${omvormerBeste && omvormerBeste.winkel ? `<br><small>${winkelLink(omvormerBeste)} (${eurFmt.format(Prijs.vergelijkPrijs(omvormerBeste))}${topOmvormer.type === "micro" ? " per stuk" : topOmvormer.type === "optimizer" ? " voor de losse omvormer" : ""})</small>` : ""}</td><td style="text-align:right;white-space:nowrap;">circa <b>${eurFmt.format(omvormerPrijs)}</b></td></tr>
+          <tr style="border-top:1px dotted var(--kleur-rand);"><td style="padding: var(--ruimte-6) var(--ruimte-6) var(--ruimte-6) 0;">${Iconen.svg("installatie")} Montage, bekabeling en meterkast (indicatie)</td><td style="text-align:right;white-space:nowrap;">circa <b>${eurFmt.format(montagePrijs)}</b></td></tr>
+          ${batterij ? `<tr style="border-top:1px dotted var(--kleur-rand);"><td style="padding: var(--ruimte-6) var(--ruimte-6) var(--ruimte-6) 0;">${Iconen.svg("batterij")} Thuisbatterij ${s.batterijPlan === "ja" ? `van circa ${batterij.onder} tot ${batterij.boven} kWh` : "(later bij te plaatsen)"}</td><td style="text-align:right;white-space:nowrap;">${s.batterijPlan === "ja" ? "apart budget" : "later"}</td></tr>` : ""}
+          <tr style="border-top:2px solid var(--kleur-rand);font-weight:700;"><td style="padding: var(--ruimte-6) var(--ruimte-6) var(--ruimte-6) 0;">Totaal zonnestroomsysteem${batterij && s.batterijPlan === "ja" ? " (excl. batterij)" : ""}</td><td style="text-align:right;white-space:nowrap;">circa ${eurFmt.format(totaal)}</td></tr>
         </table></div>
-        ${smartRegel ? `<p style="margin:8px 0 0;font-size:var(--tekst-15);">${Iconen.svg("huis")} ${smartRegel}</p>` : ""}
-        <p style="margin:10px 0 0;"><a class="knop" style="padding:8px 14px;font-size:var(--tekst-15);" href="systeem.html?paneel=${encodeURIComponent(topPaneel.id)}&omvormer=${encodeURIComponent(topOmvormer.id)}&aantal=${aantalGeadviseerd}&schaduw=${encodeURIComponent(s.schaduw)}&batterij=${encodeURIComponent(s.batterijPlan)}&smart=${encodeURIComponent(s.smartHome === "anders" ? "geen" : s.smartHome)}">${Iconen.svg("installatie")} Pas dit systeem aan in de samensteller ${Iconen.svg("pijl-rechts")}</a></p>
-        <p class="hint" style="margin:8px 0 0;">Paneel- en omvormerprijzen zijn de goedkoopst gevonden winkelprijzen; klik op de winkel voor de actuele aanbieding. Alle bedragen zijn indicaties (0% btw waar van toepassing, losse onderdelen soms exclusief btw); vraag altijd meerdere offertes aan. <a href="javascript:window.print()">${Iconen.svg("printen")} Advies afdrukken of bewaren als pdf</a></p>
+        ${smartRegel ? `<p style="margin: var(--ruimte-6) 0 0;font-size:var(--tekst-15);">${Iconen.svg("huis")} ${smartRegel}</p>` : ""}
+        <p style="margin: var(--ruimte-10) 0 0;"><a class="knop" style="padding: var(--ruimte-6) var(--ruimte-14);font-size:var(--tekst-15);" href="systeem.html?paneel=${encodeURIComponent(topPaneel.id)}&omvormer=${encodeURIComponent(topOmvormer.id)}&aantal=${aantalGeadviseerd}&schaduw=${encodeURIComponent(s.schaduw)}&batterij=${encodeURIComponent(s.batterijPlan)}&smart=${encodeURIComponent(s.smartHome === "anders" ? "geen" : s.smartHome)}">${Iconen.svg("installatie")} Pas dit systeem aan in de samensteller ${Iconen.svg("pijl-rechts")}</a></p>
+        <p class="hint" style="margin: var(--ruimte-6) 0 0;">Paneel- en omvormerprijzen zijn de goedkoopst gevonden winkelprijzen; klik op de winkel voor de actuele aanbieding. Alle bedragen zijn indicaties (0% btw waar van toepassing, losse onderdelen soms exclusief btw); vraag altijd meerdere offertes aan. <a href="javascript:window.print()">${Iconen.svg("printen")} Advies afdrukken of bewaren als pdf</a></p>
       </div>` : ""}
 
-      <h2 style="margin-top:20px;">Drie kanten van de keuze</h2>
-      <p class="hint" style="margin:0 0 12px;">Niet de beste drie, maar de beste op drie verschillende vragen: een ranglijst levert vrijwel altijd drie vergelijkbare buren op. De bedragen hieronder gelden voor de panelen samen, niet per stuk - een duurder paneel met meer vermogen kan een goedkoper systeem opleveren.</p>
+      <h2 style="margin-top: var(--ruimte-20);">Drie kanten van de keuze</h2>
+      <p class="hint" style="margin: 0 0 var(--ruimte-10);">Niet de beste drie, maar de beste op drie verschillende vragen: een ranglijst levert vrijwel altijd drie vergelijkbare buren op. De bedragen hieronder gelden voor de panelen samen, niet per stuk - een duurder paneel met meer vermogen kan een goedkoper systeem opleveren.</p>
       ${top3.map(({ p, per, as, asUitleg }, i) => {
         const beste = bestePrijs(p);
         const stuk = beste ? Prijs.vergelijkPrijs(beste) : (p.richtprijs_eur || 0);
@@ -364,15 +364,15 @@
           <span class="plek" title="${escapeHtml(asUitleg || "")}">${escapeHtml(as || "")}</span>
           <h3><a href="paneel/${encodeURIComponent(p.id)}.html">${escapeHtml(naamVan(p))}</a></h3>
           <div class="reden">${redenVoor(p, s, dakTeKlein)}</div>
-          <p style="margin:8px 0 0;font-size:var(--tekst-15);">${p.vermogen_wp} Wp · <b>${eurFmt.format(stuk)}</b> per paneel${beste && beste.winkel ? ` (${winkelLink(beste)})` : " (richtprijs)"} · ${aantalGeadviseerd} stuks: circa <b>${eurFmt.format(stuk * aantalGeadviseerd)}</b> (excl. montage en omvormer)</p>
-          <p style="margin:8px 0 0;">${beste && beste.winkel && koopUrl(beste) ? `<a class="knop" style="padding:8px 14px;font-size:var(--tekst-15);" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a> ` : ""}<a class="knop knop-secundair" style="padding:8px 14px;font-size:var(--tekst-15);" href="rekenmodule.html?paneel=${encodeURIComponent(p.id)}&aantal=${aantalGeadviseerd}${topOmvormer ? `&omvormer=${encodeURIComponent(topOmvormer.id)}` : ""}">Bereken terugverdientijd ${Iconen.svg("pijl-rechts")}</a></p>
+          <p style="margin: var(--ruimte-6) 0 0;font-size:var(--tekst-15);">${p.vermogen_wp} Wp · <b>${eurFmt.format(stuk)}</b> per paneel${beste && beste.winkel ? ` (${winkelLink(beste)})` : " (richtprijs)"} · ${aantalGeadviseerd} stuks: circa <b>${eurFmt.format(stuk * aantalGeadviseerd)}</b> (excl. montage en omvormer)</p>
+          <p style="margin: var(--ruimte-6) 0 0;">${beste && beste.winkel && koopUrl(beste) ? `<a class="knop" style="padding: var(--ruimte-6) var(--ruimte-14);font-size:var(--tekst-15);" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a> ` : ""}<a class="knop knop-secundair" style="padding: var(--ruimte-6) var(--ruimte-14);font-size:var(--tekst-15);" href="rekenmodule.html?paneel=${encodeURIComponent(p.id)}&aantal=${aantalGeadviseerd}${topOmvormer ? `&omvormer=${encodeURIComponent(topOmvormer.id)}` : ""}">Bereken terugverdientijd ${Iconen.svg("pijl-rechts")}</a></p>
         </div>`;
       }).join("")}
       ${!top3.length ? '<p class="hint">Geen panelen gevonden met deze wensen; zet bijvoorbeeld het full black-filter uit.</p>' : ""}
 
       ${topOmvormers ? `
-      <h2 style="margin-top:24px;">En welke omvormer past daarbij?</h2>
-      <p class="hint" style="margin-top:0;">Op basis van je schaduw${s.batterijPlan !== "nee" ? ", batterijplannen" : ""}${s.smartHome !== "geen" ? " en wens om slim aan te sturen" : ""}. Richt je op een omvormer van circa ${omvormerKw} kW bij ${aantalGeadviseerd} panelen.</p>
+      <h2 style="margin-top: var(--ruimte-20);">En welke omvormer past daarbij?</h2>
+      <p class="hint" style="margin-top: 0;">Op basis van je schaduw${s.batterijPlan !== "nee" ? ", batterijplannen" : ""}${s.smartHome !== "geen" ? " en wens om slim aan te sturen" : ""}. Richt je op een omvormer van circa ${omvormerKw} kW bij ${aantalGeadviseerd} panelen.</p>
       ${topOmvormers.map(({ o }, i) => {
         const beste = bestePrijs(o);
         const uitWinkel = !!(beste && beste.winkel);
@@ -381,30 +381,30 @@
           <span class="plek">${["" + Iconen.svg("stroom") + " Beste match", "" + Iconen.svg("stroom") + " Ook geschikt"][i]}</span>
           <h3>${escapeHtml(o.merk)} ${escapeHtml(o.model)}</h3>
           <div class="reden">${omvormerReden(o, s)}</div>
-          <p style="margin:8px 0 0;font-size:var(--tekst-15);">${o.panelen_per_eenheid
+          <p style="margin: var(--ruimte-6) 0 0;font-size:var(--tekst-15);">${o.panelen_per_eenheid
             ? `voor ${aantalGeadviseerd} panelen circa <b>${eurFmt.format(Prijs.systeemPrijs(o, aantalGeadviseerd))}</b> <small>(${Math.ceil(aantalGeadviseerd / o.panelen_per_eenheid)} stuks à ${eurFmt.format(Prijs.vergelijkPrijs(beste))}${o.systeem_toeslag_eur ? ` plus ${eurFmt.format(o.systeem_toeslag_eur)} voor de gateway` : ""})</small>`
             : uitWinkel ? `laagste prijs <b>${eurFmt.format(Prijs.vergelijkPrijs(beste))}</b>, ${winkelLink(beste)}${Prijs.isOmgerekend(beste) ? " <small>(winkelprijs excl. btw, hier omgerekend)</small>" : ""}` : `richtprijs <b>${eurFmt.format(o.richtprijs_eur || 0)}</b>`} (${escapeHtml(o.prijs_toelichting || "indicatie")})</p>
-          ${uitWinkel && koopUrl(beste) ? `<p style="margin:8px 0 0;"><a class="knop" style="padding:8px 14px;font-size:var(--tekst-15);" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a></p>` : ""}
+          ${uitWinkel && koopUrl(beste) ? `<p style="margin: var(--ruimte-6) 0 0;"><a class="knop" style="padding: var(--ruimte-6) var(--ruimte-14);font-size:var(--tekst-15);" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a></p>` : ""}
         </div>`;
       }).join("")}
-      <p class="hint" style="margin-top:10px;">Alle ${omvormers.length} omvormersystemen vergelijken op batterij, Home Assistant, Homey en schaduw? <a href="omvormers.html">Naar de omvormer-vergelijker ${Iconen.svg("pijl-rechts")}</a></p>` : ""}
+      <p class="hint" style="margin-top: var(--ruimte-10);">Alle ${omvormers.length} omvormersystemen vergelijken op batterij, Home Assistant, Homey en schaduw? <a href="omvormers.html">Naar de omvormer-vergelijker ${Iconen.svg("pijl-rechts")}</a></p>` : ""}
 
       ${batterij ? `
-      <h2 style="margin-top:24px;">En de thuisbatterij?</h2>
+      <h2 style="margin-top: var(--ruimte-20);">En de thuisbatterij?</h2>
       <div class="advies-kaart">
         <span class="plek">${Iconen.svg("batterij")} ${s.batterijPlan === "ja" ? "Ons batterij-advies" : "Optie openhouden: zo doe je dat"}</span>
         ${s.batterijPlan === "ja" ? `
-        <p style="margin:8px 0 0;font-size:var(--tekst-15);">Richtgrootte voor jouw situatie: <b>circa ${batterij.onder} tot ${batterij.boven} kWh</b>. Vuistregel: de batterij hoeft niet groter dan het kleinste van je gemiddelde zomerse dagoverschot en je avond- en nachtverbruik.</p>
-        <p style="margin:8px 0 0;font-size:var(--tekst-15);">${batterij.hybride
+        <p style="margin: var(--ruimte-6) 0 0;font-size:var(--tekst-15);">Richtgrootte voor jouw situatie: <b>circa ${batterij.onder} tot ${batterij.boven} kWh</b>. Vuistregel: de batterij hoeft niet groter dan het kleinste van je gemiddelde zomerse dagoverschot en je avond- en nachtverbruik.</p>
+        <p style="margin: var(--ruimte-6) 0 0;font-size:var(--tekst-15);">${batterij.hybride
           ? `De geadviseerde ${escapeHtml(batterij.topOmvormer.merk)}-omvormer is hybride: de batterij sluit er rechtstreeks op aan (let op de merkkeuze die daarbij hoort, zie de omvormerdetails).`
           : `Bij dit omvormeradvies past een <b>AC-gekoppelde of plug-in batterij</b>: die meet via de slimme meter (P1) je overschot en werkt met elk merk panelen en omvormers.`}</p>` : `
-        <p style="margin:8px 0 0;font-size:var(--tekst-15);">Verstandig: na 2027 (einde saldering) wordt een batterij interessanter. ${batterij.hybride
+        <p style="margin: var(--ruimte-6) 0 0;font-size:var(--tekst-15);">Verstandig: na 2027 (einde saldering) wordt een batterij interessanter. ${batterij.hybride
           ? `De geadviseerde ${escapeHtml(batterij.topOmvormer.merk)}-omvormer is al hybride, dus een batterij is later zó bijgeplaatst.`
           : `Een AC-gekoppelde of plug-in batterij is later altijd toe te voegen via de slimme meter (P1), ongeacht je omvormerkeuze.`} Grootte bepaal je dan op basis van je werkelijke overschot.</p>`}
-        <p style="margin:8px 0 0;font-size:var(--tekst-15);">Batterijen vergelijken op prijs per kWh, noodstroom en slimme aansturing doe je op onze zustersite: <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl ${Iconen.svg("pijl-rechts")}</a> Verwarm je (straks) met een warmtepomp, dan benut die je zonnestroom extra goed; vergelijk warmtepompen op <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje ${Iconen.svg("pijl-rechts")}</a></p>
+        <p style="margin: var(--ruimte-6) 0 0;font-size:var(--tekst-15);">Batterijen vergelijken op prijs per kWh, noodstroom en slimme aansturing doe je op onze zustersite: <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl ${Iconen.svg("pijl-rechts")}</a> Verwarm je (straks) met een warmtepomp, dan benut die je zonnestroom extra goed; vergelijk warmtepompen op <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje ${Iconen.svg("pijl-rechts")}</a></p>
       </div>` : ""}
 
-      <p class="hint" style="margin-top:14px;">Alle ${panelen.length} panelen zelf vergelijken? <a href="index.html">Naar de vergelijker ${Iconen.svg("pijl-rechts")}</a></p>
+      <p class="hint" style="margin-top: var(--ruimte-14);">Alle ${panelen.length} panelen zelf vergelijken? <a href="index.html">Naar de vergelijker ${Iconen.svg("pijl-rechts")}</a></p>
     `;
   }
 

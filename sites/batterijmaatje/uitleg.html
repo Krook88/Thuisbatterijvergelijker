@@ -26,22 +26,22 @@
        iets grotere letters en extra ruimte tussen de regels */
     .content-pagina { font-size: var(--tekst-17); line-height: 1.8; }
     .stap {
-      display: flex; gap: 16px; align-items: flex-start;
+      display: flex; gap: var(--ruimte-14); align-items: flex-start;
       background: var(--kleur-wit); border: 1px solid var(--kleur-rand);
-      border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px;
+      border-radius: var(--radius); padding: var(--ruimte-14) var(--ruimte-20); margin-bottom: var(--ruimte-10);
     }
     .stap .nummer {
       flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%;
       background: var(--kleur-primair); color: #fff; font-weight: 800; font-size: var(--tekst-19);
       display: flex; align-items: center; justify-content: center;
     }
-    .stap p { margin: 4px 0 0; }
+    .stap p { margin: var(--ruimte-4) 0 0; }
     .woord {
       background: var(--kleur-wit); border: 1px solid var(--kleur-rand);
-      border-radius: var(--radius); padding: 14px 18px; margin-bottom: 10px;
+      border-radius: var(--radius); padding: var(--ruimte-14) var(--ruimte-20); margin-bottom: var(--ruimte-10);
     }
     .woord dt { font-weight: 800; color: var(--kleur-primair-donker); font-size: var(--tekst-17); }
-    .woord dd { margin: 4px 0 0; }
+    .woord dd { margin: var(--ruimte-4) 0 0; }
   </style>
 </head>
 <body>

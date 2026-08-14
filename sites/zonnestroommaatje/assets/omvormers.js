@@ -189,7 +189,7 @@
         <dt>Homey</dt><dd>${escapeHtml(homey.tekst)}</dd>
         <dt>Schaduwaanpak</dt><dd>${escapeHtml(schaduw.tekst)}</dd>
         ${o.opmerkingen ? `<dt>Goed om te weten</dt><dd>${escapeHtml(o.opmerkingen)}</dd>` : ""}
-        ${(o.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${o.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${eurFmt.format(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""} &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul>${o.prijs_datum ? `<span class="datum-stempel" style="display:block;margin-top:8px;">Prijzen gecontroleerd: ${escapeHtml(datumNL(o.prijs_datum))}. Zonder controledatum is de prijs een indicatie.</span>` : ""}</dd>` : ""}
+        ${(o.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${o.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${eurFmt.format(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""} &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul>${o.prijs_datum ? `<span class="datum-stempel" style="display:block;margin-top: var(--ruimte-6);">Prijzen gecontroleerd: ${escapeHtml(datumNL(o.prijs_datum))}. Zonder controledatum is de prijs een indicatie.</span>` : ""}</dd>` : ""}
         ${o.product_url ? `<dt>Fabrikant</dt><dd><a href="${escapeHtml(o.product_url)}" target="_blank" rel="noopener">officiële website van ${escapeHtml(o.merk)}</a></dd>` : ""}
       </div>
       <div class="kaart-prijs">
@@ -259,7 +259,7 @@
             <td>${checkCel(o.batterij)}</td>
             <td>${checkCel(o.home_assistant)}</td>
             <td>${checkCel(o.homey)}</td>
-            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:var(--tekst-15);" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
+            <td>${beste && beste.url ? `<a class="knop" style="padding: var(--ruimte-6) var(--ruimte-10);font-size:var(--tekst-15);" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
           </tr>`;
         }).join("")}
       </tbody>
@@ -271,7 +271,7 @@
      ------------------------------------------------------------------ */
 
   function vergelijkModalHtml(items) {
-    const rij = (label, fn) => `<tr><th style="text-align:left;padding:8px 10px;background:var(--kleur-achtergrond);white-space:nowrap;position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">${label}</th>${items.map((o) => `<td style="padding:8px 10px;border-bottom:1px solid var(--kleur-rand);">${fn(o)}</td>`).join("")}</tr>`;
+    const rij = (label, fn) => `<tr><th style="text-align:left;padding: var(--ruimte-6) var(--ruimte-10);background:var(--kleur-achtergrond);white-space:nowrap;position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">${label}</th>${items.map((o) => `<td style="padding: var(--ruimte-6) var(--ruimte-10);border-bottom:1px solid var(--kleur-rand);">${fn(o)}</td>`).join("")}</tr>`;
     const d3 = (v) => { const d = driewaardig(v); return d.status === "nee" ? `${Iconen.svg("nee")} ${escapeHtml(d.tekst === "Nee" ? "Nee" : d.tekst)}` : d.status === "deels" ? `~ ${escapeHtml(d.tekst)}` : `${Iconen.svg("ja")} ${escapeHtml(d.tekst)}`; };
     return `
       <h2>Vergelijking</h2>

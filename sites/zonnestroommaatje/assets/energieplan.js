@@ -219,19 +219,19 @@
       : `
       ${metBedragen.length ? `<div class="plan-samenvatting">
         <div class="resultaat-groot">${tvt === null ? "?" : tvt.toFixed(1).replace(".", ",") + " jaar"}</div>
-        <p class="hint" style="margin:0 0 10px;">terugverdientijd van het hele plan</p>
+        <p class="hint" style="margin: 0 0 var(--ruimte-10);">terugverdientijd van het hele plan</p>
         <div class="plan-totalen">
           <span>Totale investering (na subsidie): <b>${eurFmt.format(totInvestering)}</b></span>
           <span>Totale besparing: <b>${eurFmt.format(totBesparing)} per jaar</b> <small>(≈ ${eurFmt.format(totBesparing / 12)} per maand)</small></span>
         </div>
-        <div class="vgl-tabel" style="margin-top:12px;">
+        <div class="vgl-tabel" style="margin-top: var(--ruimte-10);">
           <div class="vgl-rij"><span class="vgl-label">Energiekosten nu</span><div class="vgl-balk"><span style="width:${(voor / maxT) * 100}%;background:var(--kleur-primair);"></span></div><b class="vgl-bedrag">${eurFmt.format(voor)}</b></div>
           <div class="vgl-rij"><span class="vgl-label">Na het plan</span><div class="vgl-balk"><span style="width:${(na / maxT) * 100}%;background:var(--kleur-groen, #16a34a);"></span></div><b class="vgl-bedrag">${eurFmt.format(na)}</b></div>
         </div>
-        <p class="hint" style="margin:8px 0 0;">${Iconen.svg("tip")} Alles tegelijk hoeft niet: elke stap staat op zichzelf en bespaart direct. Veel mensen spreiden de stappen over meerdere jaren.</p>
+        <p class="hint" style="margin: var(--ruimte-6) 0 0;">${Iconen.svg("tip")} Alles tegelijk hoeft niet: elke stap staat op zichzelf en bespaart direct. Veel mensen spreiden de stappen over meerdere jaren.</p>
       </div>` : ""}
       ${stappen.map((st, i) => stapKaart(st, i + 1)).join("")}
-      <p class="hint" style="margin-top:12px;">Indicatie op basis van vuistregels en gemiddelde prijzen; geen offerte of financieel advies. Per stap rekent de gekoppelde tool het exact voor je door. <a href="javascript:window.print()">${Iconen.svg("printen")} Plan afdrukken</a></p>
+      <p class="hint" style="margin-top: var(--ruimte-10);">Indicatie op basis van vuistregels en gemiddelde prijzen; geen offerte of financieel advies. Per stap rekent de gekoppelde tool het exact voor je door. <a href="javascript:window.print()">${Iconen.svg("printen")} Plan afdrukken</a></p>
     `;
   }
 

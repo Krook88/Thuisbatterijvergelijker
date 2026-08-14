@@ -26,18 +26,18 @@
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <style>
-    .advies-indeling { display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: start; margin: 26px 0 40px; }
+    .advies-indeling { display: grid; grid-template-columns: 400px 1fr; gap: var(--ruimte-20); align-items: start; margin: var(--ruimte-28) 0 var(--ruimte-40); }
     @media (max-width: 900px) { .advies-indeling { grid-template-columns: 1fr; } }
-    .advies-paneel { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); box-shadow: var(--schaduw); padding: 22px; }
-    .advies-paneel h2 { margin: 0 0 4px; font-size: var(--tekst-17); color: var(--kleur-primair-donker); }
-    .advies-paneel h2:not(:first-child) { margin-top: 22px; }
-    .veld { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+    .advies-paneel { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); box-shadow: var(--schaduw); padding: var(--ruimte-20); }
+    .advies-paneel h2 { margin: 0 0 var(--ruimte-4); font-size: var(--tekst-17); color: var(--kleur-primair-donker); }
+    .advies-paneel h2:not(:first-child) { margin-top: var(--ruimte-20); }
+    .veld { display: flex; flex-direction: column; gap: var(--ruimte-4); margin-top: var(--ruimte-10); }
     .veld label { font-size: var(--tekst-15); font-weight: 700; color: var(--kleur-tekst-licht); }
-    .veld input:not([type="checkbox"]), .veld select { padding: 9px 12px; border: 1px solid var(--kleur-rand); border-radius: var(--radius-klein); font-size: var(--tekst-15); width: 100%; min-width: 0; }
+    .veld input:not([type="checkbox"]), .veld select { padding: var(--ruimte-10) var(--ruimte-10); border: 1px solid var(--kleur-rand); border-radius: var(--radius-klein); font-size: var(--tekst-15); width: 100%; min-width: 0; }
     /* Checkbox-opties als strakke rijen: allemaal even breed, onder elkaar */
-    .veld .checkbox-groep { display: flex; flex-direction: column; gap: 8px; }
+    .veld .checkbox-groep { display: flex; flex-direction: column; gap: var(--ruimte-6); }
     .veld .checkbox-groep label {
-      width: 100%; justify-content: flex-start; padding: 10px 14px;
+      width: 100%; justify-content: flex-start; padding: var(--ruimte-10) var(--ruimte-14);
       font-size: var(--tekst-15); font-weight: 400; color: var(--kleur-tekst); text-align: left;
     }
     /* Voorkom dat lange select-opties de layout breder maken dan het scherm */
@@ -47,8 +47,8 @@
        onder het formulier in plaats van ernaast, en zie je dus niet dat het
        meebeweegt. Zie assets/advies-balk.js voor wanneer hij verschijnt. */
     .advies-balk { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 60;
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-      min-height: 52px; padding: 8px 14px; border: 1px solid var(--kleur-rand); border-radius: var(--radius-pil);
+      display: flex; align-items: center; justify-content: space-between; gap: var(--ruimte-10);
+      min-height: 52px; padding: var(--ruimte-6) var(--ruimte-14); border: 1px solid var(--kleur-rand); border-radius: var(--radius-pil);
       background: var(--kleur-wit); box-shadow: var(--schaduw-hover); color: var(--kleur-tekst);
       font-family: inherit; font-size: var(--tekst-15); text-align: left; cursor: pointer; }
     .advies-balk[hidden] { display: none; }
@@ -62,7 +62,7 @@
     body.heeft-advies-balk { padding-bottom: 76px; }
     @media (min-width: 901px) { .advies-balk { display: none; } body.heeft-advies-balk { padding-bottom: 0; } }
     .veld .hint { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); }
-    .veld-rij { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .veld-rij { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ruimte-10); }
     @media (max-width: 480px) { .veld-rij { grid-template-columns: 1fr; } }
   </style>
 </head>

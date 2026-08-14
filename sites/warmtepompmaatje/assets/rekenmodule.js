@@ -168,18 +168,18 @@
 
     el("resultaatInhoud").innerHTML = `
       <div class="resultaat-groot">${tvtTekst}</div>
-      <p class="hint" style="margin:0 0 14px;">${prijsOnbekend
+      <p class="hint" style="margin: 0 0 var(--ruimte-14);">${prijsOnbekend
         ? `van deze warmtepomp hebben wij nog geen winkelprijs, dus de investering is onbekend. De besparing per jaar hieronder klopt wel: die hangt alleen af van je verbruik en de tarieven.`
         : `geschatte terugverdientijd${s.installatieGeschat ? " (bij geschatte installatiekosten)" : ""}`}</p>
       <div class="resultaat-rij"><span>Warmtepomp</span><b>${escapeHtml(s.w.merk)} ${escapeHtml(s.w.model)} (${s.type === "hybride" ? "hybride" : "all-electric"})</b></div>
       <div class="resultaat-rij"><span>Toestel ${prijsOnbekend ? "" : (s.beste && !s.beste.is_richtprijs ? `<small>(laagste prijs, bij ${escapeHtml(s.beste.winkel)})</small>` : "<small>(richtprijs)</small>")}</span><b>${prijsOnbekend ? "prijs onbekend" : eurFmt.format(s.toestelPrijs)}</b></div>
-      ${Prijs.prijsToelichting(s.beste) ? `<p class="hint" style="margin:0 0 6px;">${escapeHtml(Prijs.prijsToelichting(s.beste))}</p>` : ""}
+      ${Prijs.prijsToelichting(s.beste) ? `<p class="hint" style="margin: 0 0 var(--ruimte-6);">${escapeHtml(Prijs.prijsToelichting(s.beste))}</p>` : ""}
       <div class="resultaat-rij"><span>Installatie ${s.installatieGeschat ? "<small>(schatting)</small>" : ""}${s.gasAf && s.afsluitkosten ? ` <small>+ gas afsluiten ${eurFmt.format(s.afsluitkosten)}</small>` : ""}</span><b>${eurFmt.format(s.installatie + (s.gasAf ? s.afsluitkosten : 0))}</b></div>
       <div class="resultaat-rij"><span>ISDE-subsidie <small>(indicatie)</small></span><b>− ${eurFmt.format(s.isde)}</b></div>
       <div class="resultaat-rij"><span>Netto investering</span><b>${prijsOnbekend ? "onbekend" : eurFmt.format(netto)}</b></div>
       <div class="resultaat-rij"><span>Gasbesparing per jaar</span><b>${numFmt.format(gasBespaard)} m³${s.type === "hybride" ? ` <small style="font-weight:400;color:var(--kleur-tekst-licht);">(${numFmt.format(gasOver)} m³ blijft voor piekkou en warm water)</small>` : ""}</b></div>
       <div class="resultaat-rij"><span>Extra stroomverbruik per jaar</span><b>${numFmt.format(stroomKwh)} kWh</b></div>
-      <p class="hint" style="margin:0 0 6px;">${gebruikteScop.eigen
+      <p class="hint" style="margin: 0 0 var(--ruimte-6);">${gebruikteScop.eigen
         ? `Gerekend met het rendement van deze pomp: SCOP ${String(s.w.scop).replace(".", ",")} volgens het label bij 35 graden aanvoer, hier op ${String(Math.round((s.type === "hybride" ? gebruikteScop.hybride : gebruikteScop.allel) * 10) / 10).replace(".", ",")} gezet omdat een woning geen testbank is.`
         : `Gerekend met een praktijkrendement van ${String(s.type === "hybride" ? HYBRIDE_SCOP : ALLEL_SCOP).replace(".", ",")} voor een gemiddelde pomp. Van deze pomp is niet vastgesteld bij welke aanvoertemperatuur zijn SCOP geldt, en bij 55 graden ligt die ruim een punt lager dan bij 35 - dan zou dit een te mooi getal worden.`}</p>
       ${vastrechtBesparing ? `<div class="resultaat-rij"><span>Vaste gaskosten vervallen</span><b>${eurFmt.format(vastrechtBesparing)} per jaar</b></div>` : ""}
@@ -188,10 +188,10 @@
       <div class="resultaat-rij"><span>Netto voordeel over ${LEVENSDUUR_JAAR} jaar</span><b>${eurFmt.format(besparingLevensduur - netto)}</b></div>
       <div class="resultaat-rij"><span>Vermeden CO₂-uitstoot per jaar <small>(indicatie)</small></span><b>circa ${numFmt.format(co2)} kg</b></div>
       ${voorNaDiagram}
-      ${tvt !== null && tvt > LEVENSDUUR_JAAR ? `<p class="hint" style="margin-top:12px;background:var(--kleur-accent-licht);border-radius:var(--radius-klein);padding:10px 12px;">${Iconen.svg("let-op")} De terugverdientijd is langer dan de gemiddelde levensduur van ${LEVENSDUUR_JAAR} jaar. Financieel is dit dan vooral een duurzame keuze. Check of een goedkopere pomp, een hybride of eerst isoleren beter uitpakt; de <a href="advies.html">keuzehulp</a> helpt daarbij.</p>` : ""}
-      ${s.type === "all-electric" && !s.gasAf ? `<p class="hint" style="margin-top:12px;">${Iconen.svg("tip")} Laat je de gasaansluiting aan (bijvoorbeeld om op gas te koken), dan blijf je circa ${eurFmt.format(s.vastrecht)} per jaar aan vaste gaskosten betalen. Die zijn hier niet als besparing meegerekend.</p>` : ""}
-      <p style="margin-top:14px;"><a href="pomp/${encodeURIComponent(s.w.id)}.html">Alle details van de ${escapeHtml(s.w.merk)} ${escapeHtml(s.w.model)} ${Iconen.svg("pijl-rechts")}</a></p>
-      <p class="hint" style="margin-top:10px;">Indicatie op basis van jouw invoer en onze aannames; geen offerte of financieel advies.</p>
+      ${tvt !== null && tvt > LEVENSDUUR_JAAR ? `<p class="hint" style="margin-top: var(--ruimte-10);background:var(--kleur-accent-licht);border-radius:var(--radius-klein);padding: var(--ruimte-10) var(--ruimte-10);">${Iconen.svg("let-op")} De terugverdientijd is langer dan de gemiddelde levensduur van ${LEVENSDUUR_JAAR} jaar. Financieel is dit dan vooral een duurzame keuze. Check of een goedkopere pomp, een hybride of eerst isoleren beter uitpakt; de <a href="advies.html">keuzehulp</a> helpt daarbij.</p>` : ""}
+      ${s.type === "all-electric" && !s.gasAf ? `<p class="hint" style="margin-top: var(--ruimte-10);">${Iconen.svg("tip")} Laat je de gasaansluiting aan (bijvoorbeeld om op gas te koken), dan blijf je circa ${eurFmt.format(s.vastrecht)} per jaar aan vaste gaskosten betalen. Die zijn hier niet als besparing meegerekend.</p>` : ""}
+      <p style="margin-top: var(--ruimte-14);"><a href="pomp/${encodeURIComponent(s.w.id)}.html">Alle details van de ${escapeHtml(s.w.merk)} ${escapeHtml(s.w.model)} ${Iconen.svg("pijl-rechts")}</a></p>
+      <p class="hint" style="margin-top: var(--ruimte-10);">Indicatie op basis van jouw invoer en onze aannames; geen offerte of financieel advies.</p>
     `;
   }
 

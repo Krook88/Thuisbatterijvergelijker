@@ -23,40 +23,40 @@
   <script src="assets/nav.js?v=20260728a" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <style>
-    .reken-indeling { display: grid; grid-template-columns: 380px 1fr; gap: 24px; align-items: start; margin: 26px 0 40px; }
+    .reken-indeling { display: grid; grid-template-columns: 380px 1fr; gap: var(--ruimte-20); align-items: start; margin: var(--ruimte-28) 0 var(--ruimte-40); }
     @media (max-width: 900px) { .reken-indeling { grid-template-columns: 1fr; } }
-    .reken-paneel { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); box-shadow: var(--schaduw); padding: 22px; }
-    .reken-paneel h2 { margin: 0 0 4px; font-size: var(--tekst-19); color: var(--kleur-primair-donker); }
-    .veld { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+    .reken-paneel { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); box-shadow: var(--schaduw); padding: var(--ruimte-20); }
+    .reken-paneel h2 { margin: 0 0 var(--ruimte-4); font-size: var(--tekst-19); color: var(--kleur-primair-donker); }
+    .veld { display: flex; flex-direction: column; gap: var(--ruimte-4); margin-top: var(--ruimte-10); }
     .veld label { font-size: var(--tekst-15); font-weight: 700; color: var(--kleur-tekst-licht); }
-    .veld input:not([type="checkbox"]), .veld select { padding: 9px 12px; border: 1px solid var(--kleur-rand); border-radius: var(--radius-klein); font-size: var(--tekst-15); width: 100%; min-width: 0; box-sizing: border-box; }
+    .veld input:not([type="checkbox"]), .veld select { padding: var(--ruimte-10) var(--ruimte-10); border: 1px solid var(--kleur-rand); border-radius: var(--radius-klein); font-size: var(--tekst-15); width: 100%; min-width: 0; box-sizing: border-box; }
     .veld .hint { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); }
-    .veld .checkbox-groep { display: flex; flex-direction: column; gap: 8px; }
+    .veld .checkbox-groep { display: flex; flex-direction: column; gap: var(--ruimte-6); }
     .reken-indeling > *, .veld { min-width: 0; }
-    .veld-rij { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .veld-rij { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--ruimte-10); }
     @media (max-width: 480px) { .veld-rij { grid-template-columns: 1fr; } }
-    .stappen-intro { margin: 0 0 6px; font-size: var(--tekst-15); color: var(--kleur-tekst-licht); background: var(--kleur-primair-licht); border-radius: var(--radius-klein); padding: 10px 14px; }
+    .stappen-intro { margin: 0 0 var(--ruimte-6); font-size: var(--tekst-15); color: var(--kleur-tekst-licht); background: var(--kleur-primair-licht); border-radius: var(--radius-klein); padding: var(--ruimte-10) var(--ruimte-14); }
     .resultaat-groot { font-size: var(--tekst-28); font-weight: 800; color: var(--kleur-primair-donker); letter-spacing: -0.02em; }
-    .plan-samenvatting { background: var(--kleur-primair-licht); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 14px; }
-    .plan-totalen { display: flex; flex-direction: column; gap: 4px; font-size: var(--tekst-15); }
-    .plan-stap { border: 1px solid var(--kleur-rand); border-radius: var(--radius); padding: 14px 16px; margin-top: 12px; background: var(--kleur-wit); }
-    .plan-stap-kop { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .plan-samenvatting { background: var(--kleur-primair-licht); border-radius: var(--radius); padding: var(--ruimte-14) var(--ruimte-20); margin-bottom: var(--ruimte-14); }
+    .plan-totalen { display: flex; flex-direction: column; gap: var(--ruimte-4); font-size: var(--tekst-15); }
+    .plan-stap { border: 1px solid var(--kleur-rand); border-radius: var(--radius); padding: var(--ruimte-14) var(--ruimte-14); margin-top: var(--ruimte-10); background: var(--kleur-wit); }
+    .plan-stap-kop { display: flex; align-items: center; gap: var(--ruimte-10); flex-wrap: wrap; }
     .plan-stap-kop h3 { margin: 0; font-size: var(--tekst-17); min-width: 0; }
     .plan-nummer { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--kleur-primair); color: #fff; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; font-size: var(--tekst-15); }
     .plan-icoon { font-size: var(--tekst-19); }
-    .plan-advies { margin: 8px 0 0; font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
-    .plan-bedragen { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; font-size: var(--tekst-15); }
-    .plan-knoppen { margin: 10px 0 0; }
-    .plan-knoppen .knop { padding: 8px 14px; font-size: var(--tekst-15); }
-    .vgl-tabel { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px 8px; align-items: center; }
+    .plan-advies { margin: var(--ruimte-6) 0 0; font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
+    .plan-bedragen { display: flex; flex-direction: column; gap: var(--ruimte-2); margin-top: var(--ruimte-6); font-size: var(--tekst-15); }
+    .plan-knoppen { margin: var(--ruimte-10) 0 0; }
+    .plan-knoppen .knop { padding: var(--ruimte-6) var(--ruimte-14); font-size: var(--tekst-15); }
+    .vgl-tabel { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--ruimte-6) var(--ruimte-6); align-items: center; }
     .vgl-rij { display: contents; }
     .vgl-label { font-size: var(--tekst-15); }
     .vgl-balk { display: flex; height: 20px; border-radius: var(--radius-mini); overflow: hidden; background: rgba(255,255,255,0.7); min-width: 0; }
     .vgl-balk span { display: block; height: 100%; min-width: 2px; }
     .vgl-bedrag { font-size: var(--tekst-15); overflow-wrap: anywhere; min-width: 0; }
-    .volgorde-figuur { margin: 18px 0 6px; padding: 16px 16px 10px; background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); }
+    .volgorde-figuur { margin: var(--ruimte-20) 0 var(--ruimte-6); padding: var(--ruimte-14) var(--ruimte-14) var(--ruimte-10); background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); }
     .volgorde-figuur svg { display: block; width: 100%; max-width: 640px; height: auto; margin: 0 auto; }
-    .volgorde-figuur figcaption { margin-top: 8px; font-size: var(--tekst-15); color: var(--kleur-tekst-licht); text-align: center; }
+    .volgorde-figuur figcaption { margin-top: var(--ruimte-6); font-size: var(--tekst-15); color: var(--kleur-tekst-licht); text-align: center; }
   </style>
 </head>
 <body>

@@ -163,7 +163,7 @@
     const labelLinks = terugverdientijd > H * 0.55;
 
     return `
-    <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:var(--tekst-15);color:var(--kleur-tekst-licht);margin:16px 0 4px;">
+    <div style="display:flex;gap: var(--ruimte-14);flex-wrap:wrap;font-size:var(--tekst-15);color:var(--kleur-tekst-licht);margin: var(--ruimte-14) 0 var(--ruimte-4);">
       <span><span style="display:inline-block;width:14px;height:3px;background:#0d9488;border-radius:2px;vertical-align:middle;"></span> Opgetelde besparing</span>
       <span><span style="display:inline-block;width:14px;height:0;border-top:3px dashed #d97706;vertical-align:middle;"></span> Investering</span>
     </div>
@@ -254,7 +254,7 @@
       `<tr><td>Na ${jaar} jaar</td><td style="text-align:right;">${eurFmt.format(r.totaal * jaar)}</td><td style="text-align:right;font-weight:700;color:${r.totaal * jaar - r.investering >= 0 ? "var(--kleur-groen)" : "var(--kleur-rood)"};">${eurFmt.format(r.totaal * jaar - r.investering)}</td></tr>`;
 
     doel.innerHTML = `
-      <div style="text-align:center;padding:10px 0 18px;">${oordeel}</div>
+      <div style="text-align:center;padding: var(--ruimte-10) 0 var(--ruimte-20);">${oordeel}</div>
       ${grafiek}
       <div style="overflow-x:auto;">
       <table class="vergelijk-tabel" style="min-width:0;">
@@ -266,7 +266,7 @@
       </table>
       </div>
       ${r.terugverdientijd != null ? `
-      <div style="overflow-x:auto;margin-top:12px;">
+      <div style="overflow-x:auto;margin-top: var(--ruimte-10);">
       <table class="vergelijk-tabel" style="min-width:0;">
         <thead><tr><th>Verloop</th><th style="text-align:right;">Bespaard</th><th style="text-align:right;">Saldo t.o.v. investering</th></tr></thead>
         <tbody>
@@ -274,7 +274,7 @@
         </tbody>
       </table>
       </div>` : ""}
-      ${waarschuwingen.map((w) => `<div class="waarschuwing-kader" style="margin:12px 0;">${w}</div>`).join("")}
+      ${waarschuwingen.map((w) => `<div class="waarschuwing-kader" style="margin: var(--ruimte-10) 0;">${w}</div>`).join("")}
       ${kanttekeningen.length ? `<details class="kanttekeningen">
         <summary>Kanttekeningen bij deze berekening (${kanttekeningen.length})</summary>
         <ul>${kanttekeningen.map((k) => `<li>${k}</li>`).join("")}</ul>

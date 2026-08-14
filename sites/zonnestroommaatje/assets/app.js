@@ -214,7 +214,7 @@
             <td>${p.uitvoering === "glas-glas" ? '<span class="check-ja">' + Iconen.svg("ja") + '</span>' : '<span class="check-nee">' + Iconen.svg("nee") + '</span>'}</td>
             <td>${p.garantie_product_jaar ? p.garantie_product_jaar + " jr" : "?"}</td>
             <td title="Punten voor productgarantie, vermogensbehoud en glas-glas"><b>${zekerScore(p)}/6</b></td>
-            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:var(--tekst-15);" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de ${escapeHtml(naamVan(p))}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
+            <td>${beste && beste.url ? `<a class="knop" style="padding: var(--ruimte-6) var(--ruimte-10);font-size:var(--tekst-15);" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de ${escapeHtml(naamVan(p))}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
           </tr>`;
         }).join("")}
       </tbody>
@@ -227,7 +227,7 @@
 
   function vergelijkModalHtml(items) {
     // Eerste kolom sticky, zodat de labels leesbaar blijven bij horizontaal scrollen op een telefoon
-    const rij = (label, fn) => `<tr><th style="text-align:left;padding:8px 10px;background:var(--kleur-achtergrond);white-space:nowrap;position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">${label}</th>${items.map((p) => `<td style="padding:8px 10px;border-bottom:1px solid var(--kleur-rand);">${fn(p)}</td>`).join("")}</tr>`;
+    const rij = (label, fn) => `<tr><th style="text-align:left;padding: var(--ruimte-6) var(--ruimte-10);background:var(--kleur-achtergrond);white-space:nowrap;position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">${label}</th>${items.map((p) => `<td style="padding: var(--ruimte-6) var(--ruimte-10);border-bottom:1px solid var(--kleur-rand);">${fn(p)}</td>`).join("")}</tr>`;
     const jaNee = (v) => (v ? `${Iconen.svg("ja")} Ja` : `${Iconen.svg("nee")} Nee`);
     return `
       <h2>Vergelijking</h2>
