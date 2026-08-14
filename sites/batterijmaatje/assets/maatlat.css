@@ -73,17 +73,56 @@
   --tekst-36: 2.25rem;
   --tekst-46: 2.875rem;
 
-  /* De afstanden staan hier nog niet.
+  /* -- Afstand -------------------------------------------------------------
 
-     Ze horen er wel: 55 verschillende verticale afstanden is hetzelfde
-     probleem als 39 tekstmaten. Maar ze zijn niet in dezelfde stap op te
-     lossen. Van de gebruikte waarden liggen 14 en 20 px er precies tussenin,
-     en die twee staan samen op ruim veertig plekken - dat naar 16 of 24
-     trekken verschuift de opbouw van elke kaart en elk formulier. Dat is een
-     eigen stap, met eigen controle op de 134 pagina's.
+     Negen stappen, vanaf 6 telkens ongeveer maal 1,4 - de wortel van twee.
 
-     Wat hier staat verandert alleen de maat van de letters en de ronding van
-     de hoeken; de indeling blijft zoals hij was. */
+     Deze ladder is niet bedacht maar gevonden. De eerste gedachte was het
+     gebruikelijke acht-puntsraster (4, 8, 12, 16, 24, 32 ...), maar dat past
+     slecht op wat er staat: van de 529 afstandswaarden in de drie
+     stylesheets zouden er 362 moeten verschuiven, 79 daarvan met meer dan
+     twee pixels, samen 867 pixels. Daar wordt de hele site strakker van, en
+     dat is een herontwerp en geen gelijktrekken.
+
+     Toen bleek waarom het niet paste: de meest gebruikte waarden zijn 6
+     (58x), 20 (58x), 12 (57x), 14 (53x) en 10 (50x). Daar zit al een ritme
+     in van maal 1,4; er staat alleen ruis omheen - 5, 7, 9, 11, 13, 18, 22 -
+     die niemand kan benoemen. Op deze ladder blijven 273 waarden staan,
+     verschuiven er 236 hooguit twee pixels en 20 wat verder. Samen 507
+     pixels in plaats van 867.
+
+        2  haarafstand: een label tegen zijn waarde aan
+        4  binnen een woordgroep
+        6  tussen etiketten, en de binnenrand van een badge
+       10  tussen regels in een kaart
+       14  binnenrand van een kaart, tussen velden in een formulier
+       20  tussen kaarten, binnenrand van een paneel
+       28  tussen blokken op een pagina
+       40  boven een nieuw hoofdstuk
+       56  rond de opening en onderaan de pagina
+
+     In pixels en niet in rem: afstand hoort mee te schalen met het scherm,
+     niet met de tekstinstelling van de bezoeker - anders valt een raster uit
+     elkaar zodra iemand grotere letters kiest.
+
+     Twee soorten waarden staan er bewust niet op:
+
+     - Negatieve. Die zijn hier geen vormgeving maar techniek, zoals de clip
+       van .visueel-verborgen.
+     - Alles boven 56 px. Dat zijn er drie, en het is alle drie ruimte die
+       voor een element is vrijgehouden: 150 px voor de vergelijkbalk, 76 px
+       voor de adviesbalk, 90 px zodat een anker onder de plakkende kop uit
+       komt. Op de ladder trekken zou de balk over het laatste veld leggen.
+     ------------------------------------------------------------------------ */
+  --ruimte-2: 2px;
+  --ruimte-4: 4px;
+  --ruimte-6: 6px;
+  --ruimte-10: 10px;
+  --ruimte-14: 14px;
+  --ruimte-20: 20px;
+  --ruimte-28: 28px;
+  --ruimte-40: 40px;
+  --ruimte-56: 56px;
 
   /* -- Hoekronding ---------------------------------------------------------
 

@@ -247,27 +247,27 @@
     el("systeemInhoud").innerHTML = `
       <div class="advies-samenvatting">
         <div class="groot">${s.aantal} × ${escapeHtml(naamVan(p))} + ${escapeHtml(o.merk)}</div>
-        <p style="margin:6px 0 0;">Totaal <b>${numFmt.format(totWp)} Wp</b> · systeemprijs circa <b>${eurFmt.format(totaal)}</b>${heeftFout ? " · " + Iconen.svg("let-op") + " let op: deze combinatie heeft een probleem, zie de checks" : ""}</p>
+        <p style="margin: var(--ruimte-6) 0 0;">Totaal <b>${numFmt.format(totWp)} Wp</b> · systeemprijs circa <b>${eurFmt.format(totaal)}</b>${heeftFout ? " · " + Iconen.svg("let-op") + " let op: deze combinatie heeft een probleem, zie de checks" : ""}</p>
       </div>
 
-      <h3 style="margin:16px 0 0;font-size:var(--tekst-15);">Technische check</h3>
+      <h3 style="margin: var(--ruimte-14) 0 0;font-size:var(--tekst-15);">Technische check</h3>
       <ul class="check-lijst">
         ${alleChecks.map((c) => `<li class="${c.soort}"><span class="icoon">${icoon[c.soort]}</span><span>${c.tekst}</span></li>`).join("")}
       </ul>
 
-      <h3 style="margin:18px 0 0;font-size:var(--tekst-15);">Prijsopbouw met goedkoopste winkels</h3>
+      <h3 style="margin: var(--ruimte-20) 0 0;font-size:var(--tekst-15);">Prijsopbouw met goedkoopste winkels</h3>
       <div style="overflow-x:auto;"><table class="systeem-tabel">
         ${rijen.map((r) => `<tr><td>${r.label}${r.sub ? `<br>${r.sub}` : ""}</td><td>circa <b>${eurFmt.format(r.bedrag)}</b></td></tr>`).join("")}
         <tr class="totaal-rij"><td>Totaal zonnestroomsysteem</td><td>circa ${eurFmt.format(totaal)}</td></tr>
       </table></div>
-      <p class="hint" style="margin:8px 0 0;">Prijzen zijn de goedkoopst gevonden winkelprijzen of richtprijzen (0% btw waar van toepassing, losse onderdelen soms exclusief btw). Klik op de winkel voor de actuele aanbieding en vraag altijd meerdere offertes aan.</p>
+      <p class="hint" style="margin: var(--ruimte-6) 0 0;">Prijzen zijn de goedkoopst gevonden winkelprijzen of richtprijzen (0% btw waar van toepassing, losse onderdelen soms exclusief btw). Klik op de winkel voor de actuele aanbieding en vraag altijd meerdere offertes aan.</p>
 
-      <p style="margin:14px 0 0;display:flex;gap:8px;flex-wrap:wrap;">
+      <p style="margin: var(--ruimte-14) 0 0;display:flex;gap: var(--ruimte-6);flex-wrap:wrap;">
         <a class="knop" href="rekenmodule.html?paneel=${encodeURIComponent(p.id)}&aantal=${s.aantal}">Bereken terugverdientijd ${Iconen.svg("pijl-rechts")}</a>
         <a class="knop knop-secundair" href="advies.html">Twijfel je? Doe de keuzehulp</a>
         <a class="knop knop-secundair" href="javascript:window.print()">${Iconen.svg("printen")} Afdrukken</a>
       </p>
-      ${s.batterij !== "nee" ? `<p class="hint" style="margin:10px 0 0;">${Iconen.svg("batterij")} Batterijen vergelijken op prijs per kWh, noodstroom en slimme aansturing doe je op onze zustersite <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl ${Iconen.svg("pijl-rechts")}</a> Verwarm je (straks) met een warmtepomp, dan benut die je zonnestroom extra goed; vergelijk warmtepompen op <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje ${Iconen.svg("pijl-rechts")}</a></p>` : ""}
+      ${s.batterij !== "nee" ? `<p class="hint" style="margin: var(--ruimte-10) 0 0;">${Iconen.svg("batterij")} Batterijen vergelijken op prijs per kWh, noodstroom en slimme aansturing doe je op onze zustersite <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl ${Iconen.svg("pijl-rechts")}</a> Verwarm je (straks) met een warmtepomp, dan benut die je zonnestroom extra goed; vergelijk warmtepompen op <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje ${Iconen.svg("pijl-rechts")}</a></p>` : ""}
     `;
   }
 

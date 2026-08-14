@@ -136,20 +136,20 @@
 
     el("resultaatInhoud").innerHTML = `
       <div class="resultaat-groot">${tvtTekst}</div>
-      <p class="hint" style="margin:0 0 14px;">geschatte terugverdientijd${s.kostenGeschat ? " (bij geschatte installatiekosten)" : ""}</p>
+      <p class="hint" style="margin: 0 0 var(--ruimte-14);">geschatte terugverdientijd${s.kostenGeschat ? " (bij geschatte installatiekosten)" : ""}</p>
       <div class="resultaat-rij"><span>Opgesteld vermogen</span><b>${kwhFmt.format(s.wpTotaal)} Wp (${s.aantal} × ${p ? p.vermogen_wp : 440} Wp)</b></div>
       <div class="resultaat-rij"><span>Jaaropbrengst (jaar 1)</span><b>${kwhFmt.format(opwek)} kWh</b></div>
       <div class="resultaat-rij"><span>Dekking van je verbruik</span><b>${dekking}%</b></div>
       <div class="resultaat-rij"><span>Besparing per jaar t/m 2026 <small>(met saldering)</small></span><b>${eurFmt.format(metSaldering)}</b></div>
       <div class="resultaat-rij"><span>Besparing per jaar vanaf 2027</span><b>${eurFmt.format(zonderSaldering)} <small style="font-weight:400;color:var(--kleur-tekst-licht);">(≈ ${eurFmt.format(zonderSaldering / 12)} per maand)</small></b></div>
       <div class="resultaat-rij"><span>Investering ${s.kostenGeschat ? "<small>(schatting incl. montage en omvormer)</small>" : ""}</span><b>${eurFmt.format(s.kosten)}</b></div>
-      ${s.kostenGeschat && s.omvormer ? `<p class="hint" style="margin:0 0 6px;">Inclusief de ${escapeHtml(s.omvormer.merk)} ${escapeHtml(s.omvormer.model)} uit je advies: ${eurFmt.format(s.omvormerPrijs)}${s.omvormer.panelen_per_eenheid ? ` voor ${Math.ceil(s.aantal / s.omvormer.panelen_per_eenheid)} stuks` : ""}, plus ${eurFmt.format(BEKABELING_EN_VOORRIJDEN)} bekabeling en voorrijden.</p>` : ""}
+      ${s.kostenGeschat && s.omvormer ? `<p class="hint" style="margin: 0 0 var(--ruimte-6);">Inclusief de ${escapeHtml(s.omvormer.merk)} ${escapeHtml(s.omvormer.model)} uit je advies: ${eurFmt.format(s.omvormerPrijs)}${s.omvormer.panelen_per_eenheid ? ` voor ${Math.ceil(s.aantal / s.omvormer.panelen_per_eenheid)} stuks` : ""}, plus ${eurFmt.format(BEKABELING_EN_VOORRIJDEN)} bekabeling en voorrijden.</p>` : ""}
       <div class="resultaat-rij"><span>Totale besparing over 25 jaar</span><b>${eurFmt.format(besparing25)}</b></div>
       <div class="resultaat-rij"><span>Netto voordeel over 25 jaar</span><b>${eurFmt.format(besparing25 - s.kosten)}</b></div>
       <div class="resultaat-rij"><span>Vermeden CO₂-uitstoot per jaar <small>(indicatie)</small></span><b>circa ${kwhFmt.format(co2)} kg</b></div>
-      ${overdimensionering ? `<p class="hint" style="margin-top:12px;background:var(--kleur-accent-licht);border-radius:var(--radius-klein);padding:10px 12px;">${Iconen.svg("let-op")} Je wekt fors meer op dan je verbruikt. Na 2027 levert dat overschot weinig op. Overweeg minder panelen, of verhoog je eigen verbruik met bijvoorbeeld een <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">thuisbatterij</a>, een <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">warmtepomp</a> of slim laden van een elektrische auto.</p>` : ""}
-      ${p ? `<p style="margin-top:14px;"><a href="paneel/${encodeURIComponent(p.id)}.html">Alle details van de ${escapeHtml(naamVan(p))} ${Iconen.svg("pijl-rechts")}</a></p>` : ""}
-      <p class="hint" style="margin-top:10px;">Indicatie op basis van jouw invoer en onze aannames; geen financieel advies.</p>
+      ${overdimensionering ? `<p class="hint" style="margin-top: var(--ruimte-10);background:var(--kleur-accent-licht);border-radius:var(--radius-klein);padding: var(--ruimte-10) var(--ruimte-10);">${Iconen.svg("let-op")} Je wekt fors meer op dan je verbruikt. Na 2027 levert dat overschot weinig op. Overweeg minder panelen, of verhoog je eigen verbruik met bijvoorbeeld een <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">thuisbatterij</a>, een <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">warmtepomp</a> of slim laden van een elektrische auto.</p>` : ""}
+      ${p ? `<p style="margin-top: var(--ruimte-14);"><a href="paneel/${encodeURIComponent(p.id)}.html">Alle details van de ${escapeHtml(naamVan(p))} ${Iconen.svg("pijl-rechts")}</a></p>` : ""}
+      <p class="hint" style="margin-top: var(--ruimte-10);">Indicatie op basis van jouw invoer en onze aannames; geen financieel advies.</p>
     `;
   }
 
