@@ -15,6 +15,14 @@
 
    Datamodel (alle velden optioneel, de standaard is de veiligste aanname):
 
+     aanbieding.niet_leverbaar   true = de winkel voert dit artikel op dit moment
+                                 niet. Wordt alleen gezet door een bron die het
+                                 zelf zegt (de bol-API antwoordt met 404), nooit
+                                 op basis van een gok. Zo'n aanbieding telt niet
+                                 mee voor de kopprijs maar blijft wel in de
+                                 winkellijst staan; komt het artikel terug, dan
+                                 valt de markering bij de eerstvolgende controle
+                                 vanzelf af.
      aanbieding.btw_inbegrepen   false = deze winkelprijs is excl. btw.
                                  Weggelaten betekent incl. btw, zoals gebruikelijk
                                  bij consumentenverkoop in Nederland.
@@ -65,8 +73,15 @@
     return !!aanbieding && !inclusiefBtw(aanbieding);
   }
 
+  // Een aanbieding die de winkel niet meer voert is geen aanbieding meer. Ze
+  // blijft wel in de gegevens staan: gooien we haar weg, dan is de winkel-URL
+  // weg en moet iemand die opnieuw opzoeken zodra het artikel terugkomt.
+  function nietLeverbaar(aanbieding) {
+    return !!aanbieding && aanbieding.niet_leverbaar === true;
+  }
+
   function geldigeAanbiedingen(w) {
-    return ((w && w.aanbiedingen) || []).filter((a) => a && typeof a.prijs_eur === "number");
+    return ((w && w.aanbiedingen) || []).filter((a) => a && typeof a.prijs_eur === "number" && !nietLeverbaar(a));
   }
 
   // De richtprijs als aanbieding-achtig object, zodat de rest van de code geen
@@ -144,6 +159,7 @@
     inclusiefBtw,
     vergelijkPrijs,
     isOmgerekend,
+    nietLeverbaar,
     geldigeAanbiedingen,
     richtprijsAlsAanbieding,
     beste,

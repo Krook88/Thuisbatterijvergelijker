@@ -148,7 +148,15 @@ async function haalOp(url, methode) {
     method: methode,
     redirect: "follow",
     signal: stop,
-    headers: { "User-Agent": USER_AGENT, "Accept-Language": "nl,en;q=0.8" },
+    // Accept hoort erbij: een client die niet zegt wat hij aankan, krijgt van
+    // sommige servers een 406 of 415 terug. Dat leek een kapotte link terwijl
+    // de pagina het gewoon doet. De User-Agent blijft eerlijk - dit is een
+    // linkcontrole en die hoeft zich niet voor te doen als een browser.
+    headers: {
+      "User-Agent": USER_AGENT,
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "Accept-Language": "nl,en;q=0.8",
+    },
   });
 }
 
@@ -208,10 +216,17 @@ async function main() {
   console.log(`\nExterne links: ${bronnen.size} adressen controleren...`);
   const uitkomsten = await controleerExtern(bronnen);
 
-  // 401/403/429 betekent doorgaans "wij houden bots buiten", niet "de pagina
-  // bestaat niet". Die apart houden, anders verdrinkt een echte 404 in de ruis.
-  const stuk = uitkomsten.filter((u) => u.status === 0 || (u.status >= 400 && ![401, 403, 429].includes(u.status)));
-  const geweerd = uitkomsten.filter((u) => [401, 403, 429].includes(u.status));
+  // Deze codes betekenen "wij houden bots buiten", niet "de pagina bestaat
+  // niet". Die apart houden, anders verdrinkt een echte 404 in de ruis.
+  //
+  // 406 en 415 staan er sinds kort bij. 406 zegt dat de server niets kan
+  // leveren dat wij accepteren, en 415 gaat over het formaat van een
+  // verzoekinhoud die een GET niet eens heeft - allebei onmogelijk als
+  // antwoord op "bestaat deze pagina?". Zonnefabriek en Energiewaaier stonden
+  // daardoor als kapot in de lijst terwijl hun pagina's het gewoon doen.
+  const WEERT_BOTS = [401, 403, 406, 415, 429];
+  const stuk = uitkomsten.filter((u) => u.status === 0 || (u.status >= 400 && !WEERT_BOTS.includes(u.status)));
+  const geweerd = uitkomsten.filter((u) => WEERT_BOTS.includes(u.status));
   const goed = uitkomsten.length - stuk.length - geweerd.length;
 
   console.log(`\n${goed} in orde, ${stuk.length} kapot, ${geweerd.length} niet te controleren (server weert bots)`);

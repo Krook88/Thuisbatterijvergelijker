@@ -8,7 +8,7 @@
       "model": "Elga Ace",
       "type": "hybride",
       "voorbeeld_variant": "Elga Ace 4,0 kW (monoblock)",
-      "vermogen_kw": 4,
+      "vermogen_kw": 3,
       "scop_toelichting": "hoge COP bij lage aanvoertemperatuur; werkt samen met de cv-ketel",
       "geluid_db": 58,
       "geluid_toelichting": "geluidsvermogen buitenunit volgens label; met stille modus voor de nacht",
@@ -16,7 +16,7 @@
       "tapwater": "via de cv-ketel",
       "max_aanvoer_c": 55,
       "richtprijs_eur": 3299,
-      "prijs_toelichting": "buitenunit + binnenmodule, excl. installatie en cv-ketel",
+      "prijs_toelichting": "buitenunit + binnenmodule, excl. installatie en cv-ketel. De 4,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 3 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 1700,
       "sturing": {
         "status": "deels",
@@ -55,7 +55,8 @@
           "isde_eur": 2150,
           "meldcode": "KA17439"
         }
-      ]
+      ],
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "daikin-altherma-hybrid",
@@ -63,7 +64,7 @@
       "model": "Altherma H Hybride",
       "type": "hybride",
       "voorbeeld_variant": "Altherma H Hybride 4 kW (monoblock, EJHA04AV3)",
-      "vermogen_kw": 4,
+      "vermogen_kw": 3,
       "scop_toelichting": "sterk in grotere woningen; koppelt met een Daikin-gasketel of bestaande ketel",
       "geluid_db": 59,
       "geluid_toelichting": "geluidsvermogen buitenunit volgens label; stille nachtstand instelbaar",
@@ -71,7 +72,7 @@
       "tapwater": "via de cv-ketel",
       "max_aanvoer_c": 55,
       "richtprijs_eur": 3800,
-      "prijs_toelichting": "los toestel, excl. installatie en cv-ketel",
+      "prijs_toelichting": "los toestel, excl. installatie en cv-ketel. De 4,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 3 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 1700,
       "sturing": {
         "status": "deels",
@@ -88,7 +89,7 @@
       "app": "Daikin Onecta",
       "garantie_jaar": 5,
       "opmerkingen": "Een monoblock die naast je cv-ketel komt te hangen: al het koudemiddel zit in de buitenunit, binnen loopt alleen water. Van alle pompen hier is dit met 59 dB(A) de luidste, dus met de buren dichtbij is dit niet je eerste keus. Let op de naam: Daikin heeft ook een R Hybride, en dat is een split met een aparte binnenunit.",
-      "product_url": "https://www.daikin.nl/nl_nl/producten/altherma.html",
+      "product_url": "https://www.daikin.nl/nl_nl/installateurs/productgroup/verwarming-en-warmtepompen/lucht-water-warmtepompen/hybrid-heatpump.html",
       "aanbiedingen": [
         {
           "winkel": "Coen+",
@@ -98,7 +99,8 @@
         }
       ],
       "prijs_datum": "2026-08-14",
-      "isde_meldcode": "KA14853"
+      "isde_meldcode": "KA14853",
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "quatt-hybrid",
@@ -106,7 +108,7 @@
       "model": "Quatt hybride (Duo mogelijk)",
       "type": "hybride",
       "voorbeeld_variant": "Quatt Single (Duo voor grotere woningen)",
-      "vermogen_kw": 4.5,
+      "vermogen_kw": 4,
       "scop_toelichting": "hoge praktijkrendementen door slimme cloud-aansturing (Quatt CIC)",
       "geluid_db": 56,
       "geluid_toelichting": "geluidsvermogen buitenunit volgens datasheet; nachtmodus via de app",
@@ -142,15 +144,16 @@
           "omvat": "Quatt verkoopt rechtstreeks en altijd inclusief basisinstallatie; de richtprijs hiernaast geldt voor het losse toestel."
         }
       ],
-      "prijs_datum": "2026-08-14"
+      "prijs_datum": "2026-08-14",
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "intergas-xtend",
       "merk": "Intergas",
       "model": "Xtend",
       "type": "hybride",
-      "voorbeeld_variant": "Xtend 4,5 kW (monoblock)",
-      "vermogen_kw": 4.5,
+      "voorbeeld_variant": "Xtend 5 (monoblock)",
+      "vermogen_kw": 4,
       "scop_toelichting": "ontworpen als één systeem met de Intergas-ketel; slimme pendelregeling",
       "geluid_db": 57,
       "geluid_toelichting": "geluidsvermogen buitenunit volgens label",
@@ -158,7 +161,7 @@
       "tapwater": "via de cv-ketel",
       "max_aanvoer_c": 55,
       "richtprijs_eur": 3100,
-      "prijs_toelichting": "los toestel, excl. installatie; het voordeligst in combinatie met een Intergas-ketel",
+      "prijs_toelichting": "los toestel, excl. installatie; het voordeligst in combinatie met een Intergas-ketel. Onze varianttekst noemde eerder 4,5 kW, maar de meldcode KA22154 hoort bij de Xtend 5. Naam en meldcode wijzen nu naar hetzelfde toestel; RVO geeft er 4 kW voor bij de ontwerpbuitentemperatuur.",
       "isde_indicatie_eur": 1925,
       "sturing": {
         "status": "deels",
@@ -185,7 +188,8 @@
         }
       ],
       "isde_meldcode": "KA22154",
-      "prijs_datum": "2026-08-14"
+      "prijs_datum": "2026-08-14",
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "vaillant-arotherm-plus",
@@ -193,7 +197,7 @@
       "model": "aroTHERM plus",
       "type": "all-electric",
       "voorbeeld_variant": "aroTHERM plus 5 kW (monoblock)",
-      "vermogen_kw": 5,
+      "vermogen_kw": 4,
       "scop": 4.7,
       "scop_toelichting": "SCOP circa 4,65 tot 4,9 bij 35 °C aanvoer; A+++",
       "geluid_db": 54,
@@ -202,7 +206,7 @@
       "tapwater": "aparte boiler (uniSTOR) nodig",
       "max_aanvoer_c": 75,
       "richtprijs_eur": 7300,
-      "prijs_toelichting": "toestel met binnenmodule, excl. boiler en installatie",
+      "prijs_toelichting": "toestel met binnenmodule, excl. boiler en installatie. De 5,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 4 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 2125,
       "sturing": {
         "status": "ja",
@@ -267,7 +271,9 @@
           "isde_eur": 3925,
           "meldcode": "KA32101"
         }
-      ]
+      ],
+      "scop_conditie": "35",
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "viessmann-vitocal-250a",
@@ -301,7 +307,7 @@
       "app": "ViCare",
       "garantie_jaar": 5,
       "opmerkingen": "Hoog rendement, propaan als koudemiddel en 70 graden aanvoer: geschikt voor bestaande bouw zonder dat de radiatoren eruit moeten. Sterk punt is de koppeling: officiële Home Assistant-integratie én open aansturing, iets wat lang niet elk merk biedt. Garantie is via de installateur uit te breiden.",
-      "product_url": "https://www.viessmann.nl/nl/producten/warmtepomp/vitocal-250-a.html",
+      "product_url": "https://www.viessmann.nl/nl/producten/warmtepompen/vitocal-250-a.html",
       "aanbiedingen": [
         {
           "winkel": "Gewoon Gasvrij",
@@ -334,7 +340,9 @@
           "isde_eur": 2575,
           "meldcode": "KA28388"
         }
-      ]
+      ],
+      "scop_conditie": "35",
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "nibe-s2125",
@@ -342,9 +350,9 @@
       "model": "S2125",
       "type": "all-electric",
       "voorbeeld_variant": "S2125-8 (monoblock) met SVM-binnenunit",
-      "vermogen_kw": 8,
+      "vermogen_kw": 5,
       "scop": 4.8,
-      "scop_toelichting": "hoog seizoensrendement; A+++",
+      "scop_toelichting": "hoog seizoensrendement; A+++. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.",
       "geluid_db": 53,
       "geluid_toelichting": "geldt als een van de stilste buitenunits (circa 43 dB(A) geluidsdruk op afstand volgens tests)",
       "koudemiddel": "R290 (natuurlijk)",
@@ -368,7 +376,7 @@
       "app": "myUplink",
       "garantie_jaar": 5,
       "opmerkingen": "Gebouwd voor Zweedse winters, en dat zie je terug: 75 graden aanvoer en 53 dB(A) maken hem stil én geschikt voor bestaande radiatoren. Op koppelbaarheid scoort hij het maximum - officiële integratie met zowel Home Assistant als Homey, plus open aansturing. Je betaalt er wel voor.",
-      "product_url": "https://www.nibenl.eu/nl-nl/producten/warmtepompen/lucht-water-warmtepompen/nibe-s2125",
+      "product_url": "https://www.nibe.eu/nl-nl/producten/warmtepompen/lucht-water-warmtepompen/s2125",
       "aanbiedingen": [
         {
           "winkel": "123Klimaatshop",
@@ -400,7 +408,9 @@
           "meldcode": "KA30935"
         }
       ],
-      "prijs_datum": "2026-08-14"
+      "prijs_datum": "2026-08-14",
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "35"
     },
     {
       "id": "mitsubishi-ecodan",
@@ -408,7 +418,7 @@
       "model": "Ecodan (R290)",
       "type": "all-electric",
       "voorbeeld_variant": "Ecodan 6 kW (monoblock) met hydrobox",
-      "vermogen_kw": 6,
+      "vermogen_kw": 5,
       "scop": 4.8,
       "scop_toelichting": "hoog rendement; Ultra Quiet-uitvoeringen beschikbaar",
       "geluid_db": 55,
@@ -417,7 +427,7 @@
       "tapwater": "via hydrobox met boiler",
       "max_aanvoer_c": 70,
       "richtprijs_eur": 8000,
-      "prijs_toelichting": "buitenunit + hydrobox, excl. installatie",
+      "prijs_toelichting": "buitenunit + hydrobox, excl. installatie. De 6,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 5 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 2350,
       "sturing": {
         "status": "ja",
@@ -434,15 +444,15 @@
       "app": "MELCloud",
       "garantie_jaar": 5,
       "opmerkingen": "Ook 6 van de 6 op koppelbaarheid: officieel ondersteund in Home Assistant én Homey, met open aansturing erbij. Draait op propaan, kan 70 graden aanvoeren en heeft een van de breedste installateursnetwerken van Nederland - handig als er over tien jaar iets stukgaat.",
-      "product_url": "https://www.mitsubishi-electric.nl/warmtepompen/producten/ecodan",
+      "product_url": "https://alklima.nl/ecodan",
       "aanbiedingen": [
         {
           "winkel": "GroupSumi",
           "url": "https://groupsumi.nl/airconditioning/aerotherm/monoblock-lucht-water-warmtepomp/monobloc-lucht-water-warmtepomp-mitsubishi-ecodan-puz-wz-r290-6-kw-puz-wz60vaa-bs",
           "prijs_eur": 4042,
           "datum": "2026-08-14",
-          "btw_inbegrepen": false,
-          "omvat": "Dit is de kale monoblock zonder hydrobox; de richtprijs hiernaast geldt voor het complete systeem."
+          "omvat": "Dit is de kale monoblock zonder hydrobox; de richtprijs hiernaast geldt voor het complete systeem.",
+          "btw_inbegrepen": false
         }
       ],
       "isde_meldcode": "KA27330",
@@ -463,7 +473,9 @@
           "isde_eur": 2800,
           "meldcode": "KA27334"
         }
-      ]
+      ],
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "onbekend"
     },
     {
       "id": "daikin-altherma-3",
@@ -497,7 +509,7 @@
       "app": "Daikin Onecta",
       "garantie_jaar": 5,
       "opmerkingen": "Het meest geïnstalleerde all-electric platform van Nederland, dus overal monteurs en onderdelen. Daar staat tegenover dat hij op R32 draait en tot 65 graden komt, waar nieuwere concurrenten propaan gebruiken en verder komen. De opvolger op R290 is inmiddels onderweg.",
-      "product_url": "https://www.daikin.nl/nl_nl/producten/altherma.html",
+      "product_url": "https://www.daikin.nl/nl_nl/consument/products-and-advice/product-categories/heat-pumps/air-to-water-heat-pumps/daikin-altherma-3-r-w.html",
       "isde_meldcode": "KA22094",
       "aanbiedingen": [
         {
@@ -524,7 +536,9 @@
           "isde_eur": 2800,
           "meldcode": "KA22095"
         }
-      ]
+      ],
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "onbekend"
     },
     {
       "id": "bosch-compress-5800i",
@@ -532,16 +546,16 @@
       "model": "Compress 5800i AW",
       "type": "all-electric",
       "voorbeeld_variant": "Compress 5800i AW 5 kW (monoblock)",
-      "vermogen_kw": 5,
+      "vermogen_kw": 6,
       "scop": 4.8,
-      "scop_toelichting": "A+++; geldt als een van de stilste warmtepompen van dit moment",
+      "scop_toelichting": "A+++; geldt als een van de stilste warmtepompen van dit moment. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.",
       "geluid_db": 51,
       "geluid_toelichting": "zeer stil ontwerp; geluidsvermogen tot circa 51 dB(A) volgens datasheet",
       "koudemiddel": "R290 (natuurlijk)",
       "tapwater": "aparte boiler of tower-binnenunit",
       "max_aanvoer_c": 75,
       "richtprijs_eur": 7800,
-      "prijs_toelichting": "compleet toestel, excl. boiler en installatie",
+      "prijs_toelichting": "compleet toestel, excl. boiler en installatie. De 5,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 6 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 2375,
       "sturing": {
         "status": "ja",
@@ -558,7 +572,7 @@
       "app": "Bosch HomeCom Easy",
       "garantie_jaar": 5,
       "opmerkingen": "Met 51 dB(A) de stilste pomp in deze vergelijking op de Inventum na, en die laatste is een heel ander type. Als je buren dichtbij wonen of de unit onder een slaapkamerraam komt, is dat het argument. Propaan, 75 graden aanvoer, en in Nederland ook via de Nefit-kanalen te krijgen.",
-      "product_url": "https://www.nefit-bosch.nl/producten/warmtepompen/compress-5800i-aw/",
+      "product_url": "https://www.nefit-bosch.nl/ocs/compress-5800i-aw-21076799-p/",
       "aanbiedingen": [
         {
           "winkel": "Aircozonderstek",
@@ -592,7 +606,9 @@
           "isde_eur": 3050,
           "meldcode": "KA30141"
         }
-      ]
+      ],
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "35"
     },
     {
       "id": "panasonic-aquarea-l",
@@ -602,7 +618,7 @@
       "voorbeeld_variant": "Aquarea L 5 kW (monoblock)",
       "vermogen_kw": 5,
       "scop": 4.7,
-      "scop_toelichting": "A+++; hoge aanvoertemperatuur voor bestaande bouw",
+      "scop_toelichting": "A+++; hoge aanvoertemperatuur voor bestaande bouw. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.",
       "geluid_db": 56,
       "geluid_toelichting": "geluidsvermogen buitenunit volgens label; stille modus instelbaar",
       "koudemiddel": "R290 (natuurlijk)",
@@ -653,7 +669,9 @@
           "meldcode": "KA26160"
         }
       ],
-      "prijs_datum": "2026-08-14"
+      "prijs_datum": "2026-08-14",
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "35"
     },
     {
       "id": "lg-therma-v",
@@ -663,7 +681,7 @@
       "voorbeeld_variant": "Therma V R290 Monobloc 7 kW (1-fase)",
       "vermogen_kw": 7,
       "scop": 4.7,
-      "scop_toelichting": "A+++; scherp geprijsd voor de specificaties",
+      "scop_toelichting": "A+++; scherp geprijsd voor de specificaties. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.",
       "geluid_db": 56,
       "geluid_toelichting": "geluidsvermogen buitenunit volgens label; stille nachtmodus",
       "koudemiddel": "R290 (natuurlijk)",
@@ -687,7 +705,7 @@
       "app": "LG ThinQ",
       "garantie_jaar": 5,
       "opmerkingen": "Veel techniek voor je geld: propaan, 75 graden aanvoer en A+++ voor een prijs waar de premiummerken niet bij in de buurt komen. De keerzijde zit in de service - het installateursnetwerk is kleiner dan bij Daikin of Remeha, en de koppeling loopt overal via een omweg.",
-      "product_url": "https://www.lg.com/nl/business/therma-v/",
+      "product_url": "https://www.lg.com/nl/warmtepomp/therma-v-r290-monobloc/",
       "aanbiedingen": [
         {
           "winkel": "Aircoshop Nederland",
@@ -697,7 +715,9 @@
         }
       ],
       "prijs_datum": "2026-08-14",
-      "isde_meldcode": "KA29289"
+      "isde_meldcode": "KA29289",
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "35"
     },
     {
       "id": "samsung-ehs-mono-ht",
@@ -707,7 +727,7 @@
       "voorbeeld_variant": "EHS Mono HT Quiet 8 kW",
       "vermogen_kw": 8,
       "scop": 4.6,
-      "scop_toelichting": "A+++; ontworpen op stille werking (Quiet-modus)",
+      "scop_toelichting": "A+++; ontworpen op stille werking (Quiet-modus). Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.",
       "geluid_db": 54,
       "geluid_toelichting": "Quiet-modus verlaagt het geluid fors; geluidsvermogen circa 54 dB(A)",
       "koudemiddel": "R32",
@@ -758,15 +778,17 @@
           "isde_eur": 3925,
           "meldcode": "KA23553"
         }
-      ]
+      ],
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "35"
     },
     {
       "id": "weheat-blackbird",
       "merk": "Weheat",
       "model": "Blackbird",
       "type": "all-electric",
-      "voorbeeld_variant": "Blackbird 5 kW (monoblock)",
-      "vermogen_kw": 5,
+      "voorbeeld_variant": "Blackbird P60 (monoblock)",
+      "vermogen_kw": 6,
       "scop": 5,
       "scop_toelichting": "Nederlandse nieuwkomer met zeer hoog opgegeven rendement",
       "geluid_db": 54,
@@ -775,7 +797,7 @@
       "tapwater": "aparte boiler",
       "max_aanvoer_c": 70,
       "richtprijs_eur": 7000,
-      "prijs_toelichting": "toestel, excl. boiler en installatie",
+      "prijs_toelichting": "toestel, excl. boiler en installatie. Onze varianttekst noemde eerder 5 kW, maar de meldcode KA28196 hoort bij de Blackbird P60. Naam en meldcode wijzen nu naar hetzelfde toestel; RVO geeft er 6 kW voor bij de ontwerpbuitentemperatuur.",
       "isde_indicatie_eur": 2575,
       "sturing": {
         "status": "ja",
@@ -812,7 +834,9 @@
           "isde_eur": 3025,
           "meldcode": "KA25415"
         }
-      ]
+      ],
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "onbekend"
     },
     {
       "id": "stiebel-wpl-a07",
@@ -831,7 +855,7 @@
       "richtprijs_eur": 8500,
       "prijs_toelichting": "monoblock met hydraulische module, excl. installatie en boiler",
       "isde_indicatie_eur": 2800,
-      "product_url": "https://www.stiebel-eltron.nl/",
+      "product_url": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-a-05-07-hk-premium/wpl-a-07-hk-230-premium.html",
       "sturing": {
         "status": "ja",
         "tekst": "Modbus via de ISG-gateway; SG-ready."
@@ -853,9 +877,9 @@
         },
         {
           "winkel": "Wasco",
-          "prijs_eur": 7500,
+          "prijs_eur": 8812,
           "url": "https://www.wasco.nl/artikel/stiebel-warmtepomp-wpl-a-07-hk-230-premium/1111594",
-          "datum": null
+          "datum": "2026-08-13"
         }
       ],
       "prijs_datum": "2026-08-14",
@@ -882,7 +906,9 @@
           "isde_eur": 3950,
           "meldcode": "KA29827"
         }
-      ]
+      ],
+      "scop_conditie": "35",
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "wolf-cha-07",
@@ -890,7 +916,7 @@
       "model": "CHA-07 Monoblock",
       "type": "all-electric",
       "voorbeeld_variant": "CHA-Monoblock 07 (7 kW)",
-      "vermogen_kw": 7,
+      "vermogen_kw": 6,
       "scop": 4.7,
       "scop_toelichting": "labelwaarde bij 35 °C aanvoer",
       "geluid_db": 55,
@@ -899,7 +925,7 @@
       "tapwater": "aparte boiler of CHC-module nodig",
       "max_aanvoer_c": 70,
       "richtprijs_eur": 6900,
-      "prijs_toelichting": "losse buitenunit met regelmodule, excl. installatie en boiler",
+      "prijs_toelichting": "losse buitenunit met regelmodule, excl. installatie en boiler. De 7,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 6 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 2575,
       "product_url": "https://www.wolf.eu/monobloc-cha",
       "sturing": {
@@ -926,12 +952,6 @@
           "prijs_eur": 8795,
           "url": "https://www.aircozonderstek.nl/product/wolf-cha-monoblock-07-lucht-water-propaan-warmtepomp-7kw/",
           "datum": "2026-08-14"
-        },
-        {
-          "winkel": "Benem",
-          "prijs_eur": 6900,
-          "url": "https://benem.nl/wolf-cha-monoblock-7.html",
-          "datum": null
         }
       ],
       "prijs_datum": "2026-08-14",
@@ -948,7 +968,9 @@
           "isde_eur": 3025,
           "meldcode": "KA15252"
         }
-      ]
+      ],
+      "scop_conditie": "35",
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "itho-amber-95",
@@ -956,7 +978,7 @@
       "model": "Amber 95",
       "type": "all-electric",
       "voorbeeld_variant": "Amber 95 monoblock (9,5 kW)",
-      "vermogen_kw": 9.5,
+      "vermogen_kw": 6,
       "scop": 4.5,
       "scop_toelichting": "labelwaarde bij 35 °C aanvoer",
       "geluid_db": 52,
@@ -965,7 +987,7 @@
       "tapwater": "aparte boiler nodig",
       "max_aanvoer_c": 65,
       "richtprijs_eur": 5450,
-      "prijs_toelichting": "losse buitenunit, excl. installatie en boiler",
+      "prijs_toelichting": "losse buitenunit, excl. installatie en boiler. De 9,5 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 6 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 2575,
       "product_url": "https://www.ithodaalderop.nl/amber",
       "sturing": {
@@ -1019,7 +1041,9 @@
           "isde_eur": 3025,
           "meldcode": "KA24522"
         }
-      ]
+      ],
+      "scop_conditie": "35",
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "inventum-ecolution-combi",
@@ -1027,7 +1051,7 @@
       "model": "Ecolution Combi 50",
       "type": "hybride",
       "voorbeeld_variant": "Ecolution Combi 50 (ventilatielucht, met 50 liter boilervat)",
-      "vermogen_kw": 1.6,
+      "vermogen_kw": 2,
       "scop_toelichting": "ventilatielucht-warmtepomp: gebruikt de warmte uit je afzuiglucht; rendement afhankelijk van het ventilatiedebiet",
       "geluid_db": 48,
       "geluid_toelichting": "binnenopstelling; geen buitenunit, dus geen erfgrens-eis",
@@ -1060,7 +1084,8 @@
       ],
       "prijs_datum": "2026-08-14",
       "isde_meldcode": "KA01709",
-      "opmerkingen": "Een buitenbeentje: dit is een ventilatiewarmtepomp die warmte uit je afgezogen binnenlucht haalt in plaats van uit de buitenlucht. Daarom geen buitenunit, geen geluid in de tuin, en met 48 dB(A) de stilste hier. Het vermogen van 1,6 kW is klein - hij ondersteunt je cv-ketel, hij vervangt hem niet."
+      "opmerkingen": "Een buitenbeentje: dit is een ventilatiewarmtepomp die warmte uit je afgezogen binnenlucht haalt in plaats van uit de buitenlucht. Daarom geen buitenunit, geen geluid in de tuin, en met 48 dB(A) de stilste hier. Het vermogen van 1,6 kW is klein - hij ondersteunt je cv-ketel, hij vervangt hem niet.",
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "gree-versati-iv-10",
@@ -1068,7 +1093,7 @@
       "model": "Versati IV 10 kW",
       "type": "all-electric",
       "voorbeeld_variant": "Versati IV monoblock 10 kW (ook als Tosot verkocht)",
-      "vermogen_kw": 10,
+      "vermogen_kw": 9,
       "scop": 4.5,
       "scop_toelichting": "labelwaarde bij 35 °C aanvoer",
       "geluid_db": 56,
@@ -1077,7 +1102,7 @@
       "tapwater": "aparte boiler nodig (All-in-One-variant heeft ingebouwd vat)",
       "max_aanvoer_c": 60,
       "richtprijs_eur": 3500,
-      "prijs_toelichting": "losse monoblock; het budgetsegment onder de A-merken",
+      "prijs_toelichting": "losse monoblock; het budgetsegment onder de A-merken. De 10,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 9 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 3050,
       "product_url": "https://www.gree.nl/gree-versati-warmtepompen",
       "sturing": {
@@ -1135,7 +1160,9 @@
           "isde_eur": 3925,
           "meldcode": "KA22407"
         }
-      ]
+      ],
+      "scop_conditie": "35",
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "atag-energion-m-hybrid",
@@ -1195,7 +1222,8 @@
           "isde_eur": 3700,
           "meldcode": "KA21383"
         }
-      ]
+      ],
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "itho-vincent-v45-hybride",
@@ -1203,12 +1231,12 @@
       "model": "Vincent V45-Hybride",
       "type": "hybride",
       "voorbeeld_variant": "Vincent V45-Hybride 4,5 kW (binnenopstelling)",
-      "vermogen_kw": 4.5,
+      "vermogen_kw": 4,
       "scop_toelichting": "binnenopgestelde warmtepomp op propaan; werkt samen met de bestaande cv-ketel",
       "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; de unit staat binnen, waardoor de labelwaarde anders uitpakt dan bij een buitenunit",
       "koudemiddel": "R290",
       "tapwater": "via de cv-ketel",
-      "prijs_toelichting": "los toestel voor binnenopstelling, excl. installatie; werkt samen met de cv-ketel",
+      "prijs_toelichting": "los toestel voor binnenopstelling, excl. installatie; werkt samen met de cv-ketel. De 4,5 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 4 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 1925,
       "isde_meldcode": "KA20994",
       "sturing": {
@@ -1233,7 +1261,8 @@
           "datum": "2026-08-14"
         }
       ],
-      "prijs_datum": "2026-08-14"
+      "prijs_datum": "2026-08-14",
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "toshiba-estia-r290",
@@ -1241,9 +1270,9 @@
       "model": "Estia Bi-Bloc R290",
       "type": "all-electric",
       "voorbeeld_variant": "Estia Bi-Bloc R290 6 kW (HWP-601HW-E)",
-      "vermogen_kw": 6,
+      "vermogen_kw": 5,
       "scop": 4.8,
-      "scop_toelichting": "SCOP tot 4,8 bij lage aanvoertemperatuur, energielabel A+++; leverbaar van 4 tot 16 kW",
+      "scop_toelichting": "SCOP tot 4,8 bij lage aanvoertemperatuur, energielabel A+++; leverbaar van 4 tot 16 kW. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.",
       "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; Toshiba publiceert 30 dB(A) in stille modus op 5 meter, en dat is geluidsdruk op afstand - niet vergelijkbaar met de labelwaarde in deze kolom",
       "koudemiddel": "R290 (natuurlijk)",
       "tapwater": "via de binnenunit met boiler",
@@ -1304,7 +1333,13 @@
           "meldcode": "KA30465"
         }
       ],
-      "prijs_datum": "2026-08-14"
+      "prijs_datum": "2026-08-14",
+      "zoeknamen": [
+        "Bi-Bloc R290"
+      ],
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "35",
+      "prijs_toelichting": "De 6,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 5 kW volgens de ISDE-meldcodelijst."
     },
     {
       "id": "hitachi-yutaki-m",
@@ -1345,7 +1380,8 @@
           "isde_eur": 2575,
           "meldcode": "KA15893"
         }
-      ]
+      ],
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "atlantic-alfea-extensa",
@@ -1353,7 +1389,7 @@
       "model": "Alfea Extensa",
       "type": "all-electric",
       "voorbeeld_variant": "Alfea Extensa A.I./S 6 R32",
-      "vermogen_kw": 6,
+      "vermogen_kw": 5,
       "scop": 4.65,
       "scop_toelichting": "SCOP 4,65 bij 35 graden aanvoer en 4,46 bij hogere temperatuur, energielabel A+++",
       "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; Atlantic noemt 33 dB(A), maar dat is geluidsdruk op afstand",
@@ -1406,7 +1442,9 @@
           "meldcode": "KA20245"
         }
       ],
-      "prijs_datum": "2026-08-14"
+      "prijs_datum": "2026-08-14",
+      "scop_conditie": "35",
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "dewarmte-pomp-ao",
@@ -1439,9 +1477,14 @@
       "aanbiedingen": [
         {
           "winkel": "Woonwijzerwinkel",
-          "url": "https://www.woonwijzerwinkel.nl/product/pomp-ao-van-dewarmte/"
+          "url": "https://www.woonwijzerwinkel.nl/product/pomp-ao-van-dewarmte/",
+          "prijs_eur": 3400,
+          "datum": "2026-08-13"
         }
-      ]
+      ],
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "onbekend",
+      "prijs_datum": "2026-08-13"
     },
     {
       "id": "viessmann-vitocal-150a",
@@ -1469,7 +1512,7 @@
         "tekst": "Niet vastgesteld voor deze lijn."
       },
       "opmerkingen": "Voor wie een groter of slechter geïsoleerd huis heeft en de 250-A te duur vindt: dezelfde fabrikant, een toegankelijker lijn, op propaan. Met 11 kW zit hij in de klasse waar de meeste vrijstaande woningen uitkomen.",
-      "product_url": "https://www.viessmann.nl/nl/warmtepompen.html",
+      "product_url": "https://www.viessmann.nl/nl/producten/warmtepompen/vitocal-150-a.html",
       "varianten": [
         {
           "vermogen_kw": 9,
@@ -1486,7 +1529,8 @@
           "isde_eur": 3925,
           "meldcode": "KA28310"
         }
-      ]
+      ],
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "panasonic-aquarea-wxg",
@@ -1556,7 +1600,8 @@
           "omvat": "Dit is de losse buitenunit; voor een compleet systeem hoort er een hydromodule of boiler bij."
         }
       ],
-      "prijs_datum": "2026-08-14"
+      "prijs_datum": "2026-08-14",
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "stiebel-wpl-a13",
@@ -1585,7 +1630,7 @@
         "tekst": "Geen officiële app; community-oplossingen via de ISG-gateway en Modbus."
       },
       "opmerkingen": "Het zwaarste toestel op propaan dat we voeren, met 75 graden aanvoer: bedoeld voor grote of slecht geïsoleerde woningen waar de radiatoren moeten blijven hangen. Let op de driefase-aansluiting - die heeft niet elke meterkast.",
-      "product_url": "https://www.stiebel-eltron.nl/nl/home/producten-oplossingen/hernieuwbare_energie/warmtepomp.html",
+      "product_url": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-a-trend/wpl-a-13-2-trend-hk-400.html",
       "varianten": [
         {
           "vermogen_kw": 5,
@@ -1612,7 +1657,8 @@
           "isde_eur": 5275,
           "meldcode": "KA31832"
         }
-      ]
+      ],
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "bosch-compress-5800i-12",
@@ -1662,7 +1708,8 @@
           "datum": "2026-08-14"
         }
       ],
-      "prijs_datum": "2026-08-14"
+      "prijs_datum": "2026-08-14",
+      "vermogen_conditie": "Prated"
     },
     {
       "id": "mitsubishi-ecodan-120",
@@ -1708,7 +1755,8 @@
           "isde_eur": 3475,
           "meldcode": "KA32008"
         }
-      ]
+      ],
+      "vermogen_conditie": "Prated"
     }
   ]
 }

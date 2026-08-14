@@ -134,7 +134,7 @@
     const gemAanvoer = gemiddelde((w) => (w.max_aanvoer_c ? (w.max_aanvoer_c >= 70 ? 1 : 0) : null));
     const gemScop = gemiddelde((w) => (w.scop ? (w.scop - 4) * 1.2 : null));
 
-    return kandidaten.map((w) => {
+    const gemeten = kandidaten.map((w) => {
       let score = 0;
       // Nettoprijs (prijs minus subsidie-indicatie): goedkoper = beter
       const netto = nettoVan(w);
@@ -154,8 +154,103 @@
       if (s.afgifte === "radiatoren" && type === "all-electric") score += 1.5 * (w.max_aanvoer_c ? (w.max_aanvoer_c >= 70 ? 1 : 0) : gemAanvoer);
       // Rendement
       score += w.scop ? (w.scop - 4) * 1.2 : gemScop;
-      return { w, score, netto };
-    }).sort((a, b) => b.score - a.score).slice(0, 3);
+
+      const afwijking = w.vermogen_kw ? Math.abs(w.vermogen_kw - benodigdKw(s)) / benodigdKw(s) : null;
+      return { w, score, netto, afwijking, geluid: w.geluid_db ?? null };
+    });
+
+    return kiesDrie(gemeten, s);
+  }
+
+  /**
+   * Hoeveel kilowatt heeft deze woning nodig?
+   *
+   * Dit ontbrak, en dat was te zien: de gasverbruikvraag - de eerste die we
+   * stellen en waar iemand zijn jaarafrekening voor pakt - veranderde nooit
+   * welke pomp eruit kwam. Over 2.592 antwoordcombinaties gemeten: 0%. Hij
+   * voedde alleen de besparingsberekening.
+   *
+   * Nu kan het wel, want sinds de meldcodelijst staat het vermogen van alle
+   * dertig pompen onder dezelfde conditie (Prated volgens EU 811/2013). Daarvoor
+   * had vergelijken op vermogen geen zin: het ene typenummer noemde het
+   * vermogen op een milde dag en het andere bij de ontwerptemperatuur.
+   *
+   * Vuistregel: een kuub gas is ongeveer 9,77 kWh, een cv-ketel haalt daar zo'n
+   * 90% warmte uit, en een Nederlandse woning draait ruwweg 2.000 vollasturen.
+   * Dat is een indicatie voor de keuzehulp, geen warmteverliesberekening - die
+   * hoort een installateur te maken, en dat zegt het advies er ook bij.
+   */
+  function benodigdKw(s) {
+    const warmtevraagKwh = s.gas * 9.77 * 0.9;
+    return Math.max(2, warmtevraagKwh / 2000);
+  }
+
+  /**
+   * Drie antwoorden op drie vragen, in plaats van een ranglijst waarvan we de
+   * kop tonen.
+   *
+   * Waarom: een gewogen ranglijst levert altijd drie buren op die een paar
+   * honderdsten uit elkaar liggen. Doormeten liet zien hoe erg dat hier was -
+   * 2.592 antwoordcombinaties leverden 11 verschillende drietallen op, van de
+   * dertig pompen kwamen er 14 ooit in beeld en zes ooit op de eerste plek, en
+   * een enkele pomp stond in 47% van alle gevallen bovenaan.
+   *
+   * De derde as past zich aan de bezoeker aan: wie buren dichtbij heeft krijgt
+   * de stilste, de rest de best aanstuurbare. Zo verandert die vraag echt iets
+   * in plaats van alleen een gewicht te verschuiven.
+   */
+  function kiesDrie(gemeten, s) {
+    // De derde as past zich aan de bezoeker aan. Bij de eerste versie hiervan
+    // koos ik "stilst of aansturing", en dat brak juist de vraag die er het
+    // meest toe deed: het smart home-platform ging van 100% invloed naar 0%,
+    // omdat de aansturing-as naar de algemene koppel-score keek in plaats van
+    // naar het platform dat iemand had aangevinkt. Doormeten liet dat zien.
+    //
+    // Nu op volgorde van hoe hard de wens is: geluid is een eis van de
+    // erfgrens, aansturing is een voorkeur, en wie geen van beide opgeeft
+    // krijgt de zuinigste.
+    const burenDichtbij = s.buren === "dichtbij";
+    const stuurWens = s.smartHome !== "geen" || s.zon || s.batterij;
+
+    const platformPunt = (w) =>
+      s.smartHome === "home_assistant" ? punt(w.home_assistant)
+      : s.smartHome === "homey" ? punt(w.homey)
+      : punt(w.sturing);
+
+    const derdeAs = burenDichtbij
+      ? { label: "Stilst",
+          uitleg: "laagste geluidsvermogen; je gaf aan dat de buren dichtbij zitten",
+          orde: (a, b) => (a.geluid ?? 99) - (b.geluid ?? 99) }
+      : stuurWens
+        ? { label: "Beste aansturing",
+            uitleg: s.smartHome === "home_assistant" ? "beste ondersteuning voor Home Assistant"
+                  : s.smartHome === "homey" ? "beste ondersteuning voor Homey"
+                  : "beste slimme sturing, waardevol met zonnepanelen of een thuisbatterij",
+            orde: (a, b) => platformPunt(b.w) - platformPunt(a.w) || koppelScore(b.w) - koppelScore(a.w) || b.score - a.score }
+        : { label: "Zuinigst",
+            uitleg: "hoogste seizoensrendement (SCOP) bij 35 graden aanvoer",
+            orde: (a, b) => (b.w.scop ?? 0) - (a.w.scop ?? 0) || b.score - a.score };
+
+    const assen = [
+      { label: "Beste pasvorm",
+        uitleg: `vermogen ligt het dichtst bij de ${nlGetal(benodigdKw(s))} kW die deze woning ruwweg vraagt`,
+        orde: (a, b) => (a.afwijking ?? 9) - (b.afwijking ?? 9) },
+      { label: "Voordeligst na subsidie",
+        uitleg: "laagste prijs voor het toestel na aftrek van de ISDE-indicatie, exclusief installatie",
+        orde: (a, b) => (a.netto ?? Infinity) - (b.netto ?? Infinity) },
+      derdeAs,
+    ];
+
+    const gekozen = [];
+    for (const as of assen) {
+      const vrij = [...gemeten].sort(as.orde).find((k) => !gekozen.some((g) => g.w.id === k.w.id));
+      if (vrij) gekozen.push({ ...vrij, as: as.label, asUitleg: as.uitleg });
+    }
+    return gekozen;
+  }
+
+  function nlGetal(n) {
+    return String(Math.round(n * 10) / 10).replace(".", ",");
   }
 
   function redenVoor(w, s) {
@@ -191,7 +286,7 @@
     const advies = typeAdvies(s);
     const b = besparing(s, advies.type);
     const top = scorePompen(s, advies.type);
-    const plekken = [`${Iconen.svg("medaille")} Beste match`, `${Iconen.svg("medaille")} Tweede keus`, `${Iconen.svg("medaille")} Derde keus`];
+
 
     const smartRegel = (() => {
       if (!top.length) return "";
@@ -217,12 +312,13 @@
         ${s.buren === "dichtbij" ? `<p class="hint" style="margin:6px 0 0;">${Iconen.svg("stil")} Omdat je buren dichtbij wonen, wegen wij het geluid van de buitenunit zwaar mee. Op de erfgrens geldt in de nacht een eis van 40 dB.</p>` : ""}
       </div>
 
-      <h2 style="margin-top:20px;">De drie best passende warmtepompen</h2>
-      ${top.map(({ w, netto }, i) => {
+      <h2 style="margin-top:20px;">Drie kanten van de keuze</h2>
+      <p class="hint" style="margin:0 0 12px;">Niet de beste drie, maar de beste op drie verschillende vragen. Een ranglijst levert vrijwel altijd drie vergelijkbare buren op; deze drie doen elk iets anders goed. Het benodigde vermogen (circa ${nlGetal(benodigdKw(s))} kW) is een vuistregel op basis van je gasverbruik - een installateur hoort het warmteverlies door te rekenen.</p>
+      ${top.map(({ w, netto, as, asUitleg }, i) => {
         const beste = bestePrijs(w);
         return `
         <div class="advies-kaart">
-          <span class="plek">${plekken[i]}</span>
+          <span class="plek" title="${escapeHtml(asUitleg || "")}">${escapeHtml(as || "")}</span>
           <h3>${escapeHtml(w.merk)} ${escapeHtml(w.model)}</h3>
           <div class="reden">${redenVoor(w, s)}</div>
           <p style="margin:8px 0 0;font-size:0.95rem;">${beste && !beste.is_richtprijs ? `laagste prijs <b>${eurFmt.format(vergelijkPrijs(beste))}</b>, goedkoopst bij <a href="${escapeHtml(beste.url || "")}" target="_blank" rel="noopener">${escapeHtml(beste.winkel)}</a>` : `richtprijs <b>${beste ? eurFmt.format(vergelijkPrijs(beste)) : "?"}</b>`} · ISDE-subsidie circa <b>${w.isde_indicatie_eur ? eurFmt.format(w.isde_indicatie_eur) : "?"}</b> · netto circa <b>${eurFmt.format(netto)}</b> voor het toestel (excl. installatie)</p>

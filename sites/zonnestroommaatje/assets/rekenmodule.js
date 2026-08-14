@@ -14,13 +14,30 @@
 
   // Vaste aannames (toegelicht op de pagina onder "Hoe rekenen wij?")
   const DEGRADATIE_PER_JAAR = 0.004;   // 0,4% minder opbrengst per jaar
+  // Eén bedrag voor omvormer, bekabeling en voorrijden. Dat is een redelijke
+  // schatting zolang je niet weet welke omvormer het wordt, maar het verschil
+  // is groot: een Growatt kost 540 euro en een Enphase-systeem voor twaalf
+  // panelen 1.558. Komt de bezoeker uit de keuzehulp, dan weten we welke
+  // omvormer erbij is geadviseerd en rekenen we met die prijs.
   const VASTE_INSTALLATIEKOSTEN = 1200; // omvormer, bekabeling, voorrijden
+  const BEKABELING_EN_VOORRIJDEN = 450; // wat er overblijft als de omvormer apart geteld wordt
   const KOSTEN_PER_PANEEL = 130;        // montagemateriaal en arbeid per paneel
-  const SALDERING_EINDJAAR = 2026;      // laatste jaar mét saldering
-  const START_JAAR = 2026;              // aanschafjaar; telt voor een half jaar mee
+  const SALDERING_EINDJAAR = 2026;      // laatste jaar mét saldering (Wet beëindiging salderingsregeling)
+
+  // Het aanschafjaar volgt de kalender en staat niet vast.
+  //
+  // Hier stond 2026. Dat werkte tot en met dit jaar en zou op 1 januari 2027
+  // stilletjes fout gaan: de berekening telt het eerste jaar voor de helft mee
+  // en gebruikt saldering zolang het jaartal onder SALDERING_EINDJAAR ligt.
+  // Iemand die in 2027 koopt kreeg zo een half jaar salderingsvoordeel
+  // toegerekend dat hij nooit krijgt, en dus een te mooie terugverdientijd -
+  // precies op het moment dat mensen gaan rekenen omdat de regeling verandert.
+  const START_JAAR = new Date().getFullYear();
   const CO2_PER_KWH = 0.27;             // kg CO2 per kWh Nederlandse stroommix (indicatie, co2emissiefactoren.nl)
 
   let panelen = [];
+  let omvormers = [];
+  let gekozenOmvormer = null;
 
   function gekozenPaneel() {
     const id = el("keuzePaneel").value;
@@ -43,7 +60,12 @@
       vergoeding: Number(el("vergoeding").value) || 0,
       terugleverkosten: Number(el("terugleverkosten").value) || 0,
       eigenPct: Math.min(100, Math.max(5, Number(el("eigenverbruik").value) || 35)) / 100,
-      kosten: eigenSysteemprijs > 0 ? eigenSysteemprijs : Math.round(prijsPerPaneel * aantal + VASTE_INSTALLATIEKOSTEN + KOSTEN_PER_PANEEL * aantal),
+      omvormerPrijs: gekozenOmvormer ? Prijs.systeemPrijs(gekozenOmvormer, aantal) : null,
+      omvormer: gekozenOmvormer,
+      kosten: eigenSysteemprijs > 0
+        ? eigenSysteemprijs
+        : Math.round(prijsPerPaneel * aantal + KOSTEN_PER_PANEEL * aantal
+            + (gekozenOmvormer ? Prijs.systeemPrijs(gekozenOmvormer, aantal) + BEKABELING_EN_VOORRIJDEN : VASTE_INSTALLATIEKOSTEN)),
       kostenGeschat: eigenSysteemprijs <= 0,
     };
   }
@@ -121,6 +143,7 @@
       <div class="resultaat-rij"><span>Besparing per jaar t/m 2026 <small>(met saldering)</small></span><b>${eurFmt.format(metSaldering)}</b></div>
       <div class="resultaat-rij"><span>Besparing per jaar vanaf 2027</span><b>${eurFmt.format(zonderSaldering)} <small style="font-weight:400;color:var(--kleur-tekst-licht);">(≈ ${eurFmt.format(zonderSaldering / 12)} per maand)</small></b></div>
       <div class="resultaat-rij"><span>Investering ${s.kostenGeschat ? "<small>(schatting incl. montage en omvormer)</small>" : ""}</span><b>${eurFmt.format(s.kosten)}</b></div>
+      ${s.kostenGeschat && s.omvormer ? `<p class="hint" style="margin:0 0 6px;">Inclusief de ${escapeHtml(s.omvormer.merk)} ${escapeHtml(s.omvormer.model)} uit je advies: ${eurFmt.format(s.omvormerPrijs)}${s.omvormer.panelen_per_eenheid ? ` voor ${Math.ceil(s.aantal / s.omvormer.panelen_per_eenheid)} stuks` : ""}, plus ${eurFmt.format(BEKABELING_EN_VOORRIJDEN)} bekabeling en voorrijden.</p>` : ""}
       <div class="resultaat-rij"><span>Totale besparing over 25 jaar</span><b>${eurFmt.format(besparing25)}</b></div>
       <div class="resultaat-rij"><span>Netto voordeel over 25 jaar</span><b>${eurFmt.format(besparing25 - s.kosten)}</b></div>
       <div class="resultaat-rij"><span>Vermeden CO₂-uitstoot per jaar <small>(indicatie)</small></span><b>circa ${kwhFmt.format(co2)} kg</b></div>
@@ -140,7 +163,11 @@
 
   async function init() {
     try {
-      const res = await fetch("data/panelen.json", { cache: "no-cache" });
+      const [res, resOmv] = await Promise.all([
+        fetch("data/panelen.json", { cache: "no-cache" }),
+        fetch("data/omvormers.json", { cache: "no-cache" }).catch(() => null),
+      ]);
+      if (resOmv && resOmv.ok) omvormers = (await resOmv.json()).omvormers || [];
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
       panelen = (data.panelen || []).slice().sort((a, b) => naamVan(a).localeCompare(naamVan(b), "nl"));
@@ -157,6 +184,10 @@
       if (gevraagd && panelen.some((p) => p.id === gevraagd)) select.value = gevraagd;
       const gevraagdAantal = Number(params.get("aantal"));
       if (gevraagdAantal >= 1 && gevraagdAantal <= 60) el("aantalPanelen").value = gevraagdAantal;
+      // ?omvormer=<id> komt uit de keuzehulp: dan rekenen we met de prijs van
+      // die omvormer voor dit aantal panelen in plaats van met een vast bedrag.
+      const gevraagdeOmvormer = params.get("omvormer");
+      if (gevraagdeOmvormer) gekozenOmvormer = omvormers.find((o) => o.id === gevraagdeOmvormer) || null;
 
       ["keuzePaneel", "aantalPanelen", "jaarverbruik", "dakligging", "schaduw",
        "stroomprijs", "vergoeding", "terugleverkosten", "eigenverbruik", "systeemprijs"].forEach((id) => {

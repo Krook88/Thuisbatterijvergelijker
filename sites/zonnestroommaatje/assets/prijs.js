@@ -26,6 +26,14 @@
 
    Datamodel (alle velden optioneel, de standaard is de veiligste aanname):
 
+     aanbieding.niet_leverbaar   true = de winkel voert dit artikel op dit moment
+                                 niet. Wordt alleen gezet door een bron die het
+                                 zelf zegt (de bol-API antwoordt met 404), nooit
+                                 op basis van een gok. Zo'n aanbieding telt niet
+                                 mee voor de kopprijs maar blijft wel in de
+                                 winkellijst staan; komt het artikel terug, dan
+                                 valt de markering bij de eerstvolgende controle
+                                 vanzelf af.
      aanbieding.btw_inbegrepen   false = deze winkelprijs is excl. btw.
                                  Weggelaten betekent incl. btw, zoals gebruikelijk
                                  bij consumentenverkoop in Nederland.
@@ -74,8 +82,15 @@
     return !!aanbieding && !inclusiefBtw(aanbieding);
   }
 
+  // Een aanbieding die de winkel niet meer voert is geen aanbieding meer. Ze
+  // blijft wel in de gegevens staan: gooien we haar weg, dan is de winkel-URL
+  // weg en moet iemand die opnieuw opzoeken zodra het artikel terugkomt.
+  function nietLeverbaar(aanbieding) {
+    return !!aanbieding && aanbieding.niet_leverbaar === true;
+  }
+
   function geldigeAanbiedingen(p) {
-    return ((p && p.aanbiedingen) || []).filter((a) => a && typeof a.prijs_eur === "number");
+    return ((p && p.aanbiedingen) || []).filter((a) => a && typeof a.prijs_eur === "number" && !nietLeverbaar(a));
   }
 
   // De richtprijs als aanbieding-achtig object, zodat de rest van de code geen
@@ -135,6 +150,30 @@
   // De maatstaf waarop panelen onderling te vergelijken zijn. Niet afronden:
   // het gaat om centen per wattpiek, en een paneel van € 0,19 per Wp is echt
   // goedkoper dan een van € 0,24.
+  // Wat kost deze omvormer voor een dak van n panelen?
+  //
+  // Waarom dit nodig is: micro-omvormers worden per stuk verkocht en je hebt er
+  // een per paneel (Enphase) of per twee panelen (APsystems). Een string-
+  // omvormer is een apparaat voor de hele installatie. Die bedragen naast
+  // elkaar zetten vergelijkt een onderdeel met een compleet systeem: Enphase
+  // stond op 109 euro naast een SolarEdge van 1.050, terwijl je er voor twaalf
+  // panelen twaalf van nodig hebt plus een gateway.
+  //
+  // De keuzehulp koos daardoor in elk scenario dezelfde twee omvormers, ook
+  // voor iemand zonder schaduw die met een gewone string-omvormer goedkoper uit
+  // was geweest. Dezelfde fout als een prijs excl. btw naast een prijs incl.
+  // btw, of een bruto capaciteit naast een bruikbare.
+  //
+  // panelen_per_eenheid = null betekent: een eenheid voor de hele installatie.
+  function systeemPrijs(omvormer, aantalPanelen) {
+    const basis = vergelijkPrijs(beste(omvormer));
+    if (basis === null) return null;
+    const per = omvormer && omvormer.panelen_per_eenheid;
+    if (!per) return basis;
+    const n = Math.max(1, Math.ceil((aantalPanelen || 1) / per));
+    return basis * n + (omvormer.systeem_toeslag_eur || 0);
+  }
+
   function prijsPerWp(p) {
     const prijs = vergelijkPrijs(beste(p));
     if (!prijs || !p || !p.vermogen_wp) return null;
@@ -155,6 +194,7 @@
     inclusiefBtw,
     vergelijkPrijs,
     isOmgerekend,
+    nietLeverbaar,
     geldigeAanbiedingen,
     richtprijsAlsAanbieding,
     beste,
@@ -162,6 +202,7 @@
     heeftKorting,
     vanPrijs,
     prijsPerWp,
+    systeemPrijs,
     prijsToelichting,
   };
 });

@@ -19,6 +19,21 @@ const Prijs = vereis("../assets/prijs.js");
 const Iconen = vereis("../assets/iconen.js");
 const Kaart = vereis("../assets/kaart.js");
 
+// Hoe de capaciteit in lopende tekst verschijnt.
+//
+// Sinds de bruikbare capaciteit de norm is, verdween de bruto maat van de
+// pagina - en dat is precies het getal waarop mensen zoeken. Een Marstek Venus
+// E heet in elke webshop "5,12 kWh"; wie daarop googelt vond ons daarna niet
+// meer, want op onze pagina stond alleen nog 4,6. De bruikbare maat blijft
+// leidend, de bruto maat staat erachter zodat beide vindbaar zijn.
+function capaciteitInTekst(b) {
+  const bruikbaar = `${nl(b.capaciteit_kwh)} kWh`;
+  const nominaal = b.capaciteit_nominaal_kwh;
+  if (!nominaal || Math.abs(nominaal - b.capaciteit_kwh) < 0.005) return bruikbaar;
+  return `${bruikbaar} bruikbaar (${nl(nominaal)} kWh bruto)`;
+}
+
+
 // Het merkicoon staat in de kop en de voet van elke pagina.
 const ICOON_LOGO = Iconen.svg("batterij", { klasse: "icoon-groot" });
 
@@ -184,21 +199,54 @@ function typeIllustratie(type) {
 
 /* ------------------------------------------------------------------ */
 
+// Google laat een prijs weg zodra priceValidUntil verstreken is, en toont geen
+// beschikbaarheid als availability ontbreekt. Beide stonden er niet, terwijl de
+// prijs in het zoekresultaat juist is waar deze site het van moet hebben.
+//
+// De houdbaarheidsdatum is dertig dagen na de laatste prijscontrole. De
+// workflow draait dagelijks, dus in de praktijk schuift die elke dag mee; valt
+// de update een tijd uit, dan verloopt de vermelding vanzelf in plaats van een
+// oude prijs te blijven beloven.
+function houdbaarTot(datum) {
+  const vanaf = datum ? new Date(datum) : new Date();
+  if (Number.isNaN(vanaf.getTime())) return null;
+  vanaf.setDate(vanaf.getDate() + 30);
+  const tot = vanaf.toISOString().slice(0, 10);
+  // Een datum die al verstreken is publiceren is erger dan er geen zetten:
+  // Google negeert de prijs dan actief. Dat gebeurt zodra een winkel niet meer
+  // door het prijsscript bereikt wordt en de datum blijft staan - bij
+  // batterijmaatje gold dat voor twaalf producten. Die staleness hoort in het
+  // rapport van verse-data.mjs thuis, niet in de markup.
+  return tot > new Date().toISOString().slice(0, 10) ? tot : null;
+}
+
 function productLd(b) {
-  const offers = (b.aanbiedingen || []).filter((a) => a && a.prijs_eur);
+  // Prijs.geldigeAanbiedingen en niet een eigen filter: dat sluit ook de
+  // aanbiedingen uit die de winkel niet meer voert. Die stonden hier wel in,
+  // waardoor de structured data een prijs beloofde die de vergelijker zelf al
+  // niet meer meetelde.
+  const offers = Prijs.geldigeAanbiedingen(b);
   const ld = {
     "@context": "https://schema.org",
     "@type": "Product",
     "name": `${volledigeNaam(b)}`,
     "brand": { "@type": "Brand", "name": b.merk },
-    "description": `${volledigeNaam(b)}: thuisbatterij van ${nl(b.capaciteit_kwh)} kWh. ${b.zonnepanelen_koppeling || ""}`.slice(0, 300),
+    "description": `${volledigeNaam(b)}: thuisbatterij van ${capaciteitInTekst(b)}. ${b.zonnepanelen_koppeling || ""}`.slice(0, 300),
     "url": `${SITE}/batterij/${b.id}.html`,
   };
   if (b.afbeelding) {
     ld.image = /^https?:/i.test(b.afbeelding) ? b.afbeelding : `${SITE}/${b.afbeelding.replace(/^\//, "")}`;
   }
   if (offers.length === 1) {
-    ld.offers = { "@type": "Offer", "price": Prijs.vergelijkPrijs(offers[0]), "priceCurrency": "EUR", "url": offers[0].url };
+    ld.offers = {
+      "@type": "Offer",
+      "price": Prijs.vergelijkPrijs(offers[0]),
+      "priceCurrency": "EUR",
+      "url": offers[0].url,
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition",
+      ...(houdbaarTot(offers[0].datum || b.prijs_datum) ? { "priceValidUntil": houdbaarTot(offers[0].datum || b.prijs_datum) } : {}),
+    };
   } else if (offers.length > 1) {
     const prijzen = offers.map((o) => Prijs.vergelijkPrijs(o));
     ld.offers = {
@@ -207,6 +255,9 @@ function productLd(b) {
       "highPrice": Math.max(...prijzen),
       "priceCurrency": "EUR",
       "offerCount": offers.length,
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition",
+      ...(houdbaarTot(b.prijs_datum) ? { "priceValidUntil": houdbaarTot(b.prijs_datum) } : {}),
     };
   }
   return JSON.stringify(ld, null, 2);
@@ -233,11 +284,15 @@ function pagina(b) {
   const nood = vierwaardig(b.noodstroom);
   const typeLabel = { "plug-in": "Plug-in (stopcontact)", "ac-gekoppeld": "AC-gekoppeld", "hybride": "Hybride omvormer" }[b.type] || b.type;
 
-  const metaDesc = kortOmschrijving(
-    `${naamZonderHaakjes(b)}: ${nl(b.capaciteit_kwh)} kWh thuisbatterij` +
-    (beste ? `, vanaf ${eur(Prijs.vergelijkPrijs(beste)).replace(" ", " ")} incl. btw` : "") +
-    ". Specificaties, koppeling met Homey en Home Assistant, en je terugverdientijd."
-  );
+  // Twee staarten: de lange noemt Homey en Home Assistant met naam, en daar
+  // wordt op gezocht. Past die niet binnen wat Google toont, dan de korte -
+  // beter een hele zin dan een afgekapte met "en je…" erachter.
+  const kop = `${naamZonderHaakjes(b)}: thuisbatterij van ${capaciteitInTekst(b)}` +
+    (beste ? `, vanaf ${eur(Prijs.vergelijkPrijs(beste)).replace(" ", " ")} incl. btw` : "");
+  const lang = kop + ". Specificaties, koppeling met Homey en Home Assistant, en je terugverdientijd.";
+  const metaDesc = lang.length <= OMSCHRIJVING_MAX
+    ? lang
+    : kortOmschrijving(kop + ". Specificaties, koppelingen en terugverdientijd.");
   const kortenaam = naamZonderHaakjes(b);
   const paginaTitel = besteTitel([
     `${kortenaam}: prijs en specificaties`,
@@ -316,7 +371,7 @@ ${breadcrumbLd(b)}
   <div class="product-kop">
     <div class="product-kop-tekst">
       <h1>${merkLogoHtml(b.merk)}${esc(volledigeNaam(b))}</h1>
-      <p class="intro">${esc(typeLabel)} thuisbatterij van ${nl(b.capaciteit_kwh)} kWh${b.uitbreidbaar_tot_kwh ? `, uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh` : ""}. Prijzen dagelijks gecontroleerd, laatst op ${esc(datumNL(b.prijs_datum || data.laatst_bijgewerkt))}.</p>
+      <p class="intro">${esc(typeLabel)} thuisbatterij van ${capaciteitInTekst(b)}${b.uitbreidbaar_tot_kwh ? `, uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh` : ""}. Prijzen dagelijks gecontroleerd, laatst op ${esc(datumNL(b.prijs_datum || data.laatst_bijgewerkt))}.</p>
     </div>
     ${b.afbeelding
       ? `<div class="kaart-foto batterij-foto-groot">
@@ -339,8 +394,8 @@ ${breadcrumbLd(b)}
   <h2>Specificaties</h2>
   <div class="tabel-blok">
   <table class="data-tabel spec-tabel">
-    ${specRij("Capaciteit", `${nl(b.capaciteit_kwh)} kWh${b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh)` : ""}`)}
-    ${specRij("Vermogen", b.vermogen_kw ? `${nl(b.vermogen_kw)} kW` : null)}
+    ${specRij("Capaciteit", `${nl(b.capaciteit_kwh)} kWh${Prijs.capaciteitLabelHtml(b)}${b.capaciteit_nominaal_kwh && Math.abs(b.capaciteit_nominaal_kwh - b.capaciteit_kwh) >= 0.005 ? ` <small>(${nl(b.capaciteit_nominaal_kwh)} kWh bruto)</small>` : ""}${b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh)` : ""}`)}
+    ${specRij("Vermogen", b.vermogen_kw ? `${nl(b.vermogen_kw)} kW${Prijs.vermogenLabelHtml(b)}` : null)}
     ${specRij("Type", `<a class="term-link" href="/uitleg.html#${esc(b.type)}" title="Wat betekent dit? Lees de uitleg in de woordenlijst">${esc(typeLabel)}</a>`)}
     ${specRij("Aansluiting", esc(b.fase || ""))}
     ${specRij("Installatie", b.installatie === "zelf" ? "Zelf aan te sluiten (stopcontact)" : "Door installateur")}
@@ -454,7 +509,7 @@ function overzichtTabel(lijst, veld) {
       return `
       <tr>
         <td>${merkLogoHtml(b.merk)}<a href="/batterij/${esc(b.id)}.html"><b>${esc(volledigeNaam(b))}</b></a></td>
-        <td class="niet-afbreken">${nl(b.capaciteit_kwh)} kWh</td>
+        <td class="niet-afbreken"${Prijs.capaciteitToelichting(b) ? ` title="${esc(Prijs.capaciteitToelichting(b))}"` : ""}>${nl(b.capaciteit_kwh)} kWh</td>
         <td class="niet-afbreken">${beste ? `<b>${eur(Prijs.vergelijkPrijs(beste))}</b><br><small>bij ${esc(beste.winkel)}</small>` : "op aanvraag"}</td>
         <td class="niet-afbreken">${perKwh ? eur(perKwh) : "n.b."}</td>
         <td class="niet-afbreken"><b>${koppelScore(b)}/6</b></td>
@@ -649,7 +704,13 @@ function vergelijkingsPagina(v) {
 
   const plusA = pluspunten(A, B), plusB = pluspunten(B, A);
   const titel = `${naam(A)} vs ${naam(B)}: welke thuisbatterij?`;
-  const paginaTitel = besteTitel([`${naamZonderHaakjes(A)} vs ${naamZonderHaakjes(B)}`]);
+  // Bij een lange modelnaam ("SigenStor 8 kWh + 8 kW omvormer") past zelfs de
+  // kale vergelijking niet meer; dan volstaat merk plus capaciteit.
+  const kortAf = (b) => `${b.merk} ${nl(b.capaciteit_kwh)} kWh`;
+  const paginaTitel = besteTitel([
+    `${naamZonderHaakjes(A)} vs ${naamZonderHaakjes(B)}`,
+    `${kortAf(A)} vs ${kortAf(B)}`,
+  ]);
   const metaDesc = kortOmschrijving(`${naamZonderHaakjes(A)} of ${naamZonderHaakjes(B)}? Vergelijk prijs per kWh, capaciteit, noodstroom en slimme aansturing. Prijzen dagelijks gecontroleerd.`);
 
   const itemList = JSON.stringify({
@@ -732,7 +793,7 @@ ${itemList}
       ${rij("Beste prijs incl. btw", besteA ? `${eur(Prijs.vergelijkPrijs(besteA))}<br><small>bij ${esc(besteA.winkel)}</small>` : "op aanvraag", besteB ? `${eur(Prijs.vergelijkPrijs(besteB))}<br><small>bij ${esc(besteB.winkel)}</small>` : "op aanvraag")}
       ${rij("Compleet gebruiksklaar (indicatie)", totaalprijsTekst(A) || "op aanvraag", totaalprijsTekst(B) || "op aanvraag")}
       ${rij("Prijs per kWh opslag", perA ? eur(perA) : "n.b.", perB ? eur(perB) : "n.b.", laagWint(perA, perB))}
-      ${rij("Capaciteit", `${nl(A.capaciteit_kwh)} kWh${A.uitbreidbaar_tot_kwh ? ` <small>(tot ${nl(A.uitbreidbaar_tot_kwh)})</small>` : ""}`, `${nl(B.capaciteit_kwh)} kWh${B.uitbreidbaar_tot_kwh ? ` <small>(tot ${nl(B.uitbreidbaar_tot_kwh)})</small>` : ""}`)}
+      ${rij("Capaciteit", `${nl(A.capaciteit_kwh)} kWh${Prijs.capaciteitLabelHtml(A)}${A.uitbreidbaar_tot_kwh ? ` <small>(tot ${nl(A.uitbreidbaar_tot_kwh)})</small>` : ""}`, `${nl(B.capaciteit_kwh)} kWh${Prijs.capaciteitLabelHtml(B)}${B.uitbreidbaar_tot_kwh ? ` <small>(tot ${nl(B.uitbreidbaar_tot_kwh)})</small>` : ""}`)}
       ${rij("Vermogen", A.vermogen_kw ? `${nl(A.vermogen_kw)} kW` : "n.b.", B.vermogen_kw ? `${nl(B.vermogen_kw)} kW` : "n.b.", hoogWint(A.vermogen_kw, B.vermogen_kw))}
       ${rij("Type en installatie", `${esc(typeLabelVan(A))}<br><small>${A.installatie === "zelf" ? "zelf aan te sluiten" : "door installateur"}</small>`, `${esc(typeLabelVan(B))}<br><small>${B.installatie === "zelf" ? "zelf aan te sluiten" : "door installateur"}</small>`)}
       ${rij("Koppel-score", `${koppelScore(A)}/6`, `${koppelScore(B)}/6`, hoogWint(koppelScore(A), koppelScore(B)))}

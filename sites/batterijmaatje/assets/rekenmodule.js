@@ -239,7 +239,11 @@
     if (r.extraOnbalans > 0) {
       kanttekeningen.push("Opbrengsten uit de onbalansmarkt zijn de afgelopen jaren gedaald en bieden geen garantie; TenneT waarschuwt daar expliciet voor.");
     }
-    kanttekeningen.push("Tot en met 31 december 2026 geldt de salderingsregeling nog; deze berekening gaat uit van de situatie vanaf 2027.");
+    // Deze zin hangt aan de kalender: vanaf 1 januari 2027 is "geldt nog" niet
+    // meer waar. Hij past zich daarom aan in plaats van te verouderen.
+    kanttekeningen.push(new Date() < new Date("2027-01-01")
+      ? "Tot en met 31 december 2026 geldt de salderingsregeling nog; deze berekening gaat uit van de situatie daarna."
+      : "De salderingsregeling is per 1 januari 2027 vervallen; deze berekening gaat uit van de situatie zonder saldering.");
     kanttekeningen.push("Het model rekent niet met batterijdegradatie, rente of stijgende/dalende energieprijzen; zie de toelichting onderaan voor alle aannames.");
 
     const grafiek = r.terugverdientijd != null && r.terugverdientijd <= 27
@@ -310,11 +314,22 @@
     el("inpCapaciteit").value = b.capaciteit_kwh;
     el("inpInvestering").value = inv ? inv.bedrag : "";
     const hint = el("batterijHint");
+    const delen = [];
     if (inv && inv.soort === "totaal") {
-      hint.textContent = `Als investering is de indicatie compleet gebruiksklaar ingevuld (${eurFmt.format(inv.bedrag)}${b.totaalprijs_tot_eur ? ` tot ${eurFmt.format(b.totaalprijs_tot_eur)}` : ""}, incl. installatie). Heb je een offerte? Vul dan dat bedrag in bij "alle getallen".`;
-    } else {
-      hint.textContent = b.prijs_omvat ? `Let op wat de prijs dekt: ${b.prijs_omvat}. Tel installatiekosten zelf op bij de investering als die er niet in zitten.` : "";
+      delen.push(`Als investering is de indicatie compleet gebruiksklaar ingevuld (${eurFmt.format(inv.bedrag)}${b.totaalprijs_tot_eur ? ` tot ${eurFmt.format(b.totaalprijs_tot_eur)}` : ""}, incl. installatie). Heb je een offerte? Vul dan dat bedrag in bij "alle getallen".`);
+    } else if (b.prijs_omvat) {
+      delen.push(`Let op wat de prijs dekt: ${b.prijs_omvat}. Tel installatiekosten zelf op bij de investering als die er niet in zitten.`);
     }
+    // De besparing wordt gerekend over de capaciteit hierboven, en die betekent
+    // niet bij elke batterij hetzelfde: bij een bruto opgave haal je er minder
+    // uit dan er staat, en valt de besparing dus lager uit dan hier berekend.
+    // De vergelijker en de keuzehulp tonen dat al met een label; zonder deze
+    // regel zou juist de pagina die er een bedrag aan hangt erover zwijgen.
+    const capToelichting = Prijs.capaciteitToelichting(b);
+    if (capToelichting) {
+      delen.push(`Over de capaciteit van ${String(b.capaciteit_kwh).replace(".", ",")} kWh: ${capToelichting}. Haal je er minder uit, dan valt de besparing lager uit dan hieronder staat.`);
+    }
+    hint.textContent = delen.join(" ");
     bereken();
     // Op smalle schermen staat het resultaat onder het formulier en zou een
     // batterijkeuze anders onzichtbaar blijven: scroll er dan even naartoe.

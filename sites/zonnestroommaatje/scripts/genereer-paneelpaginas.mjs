@@ -24,6 +24,42 @@ const Prijs = vereis("../assets/prijs.js");
 // kunnen afwijken van wat de browser tekent.
 const Kaart = vereis("../assets/kaart.js");
 
+/* ------------------------------------------------------------------
+   Titels en omschrijvingen binnen de ruimte die Google toont
+
+   Google kapt een titel af rond de 60 tekens en een omschrijving rond de 155.
+   Wat daarna komt ziet niemand, en juist het achtervoegsel met de sitenaam
+   duwde hier de inhoud eruit: " | Zonnestroommaatje" kost al 20 tekens.
+
+   Dezelfde aanpak als op batterijmaatje: de naam staat vooraan want daar zoekt
+   de bezoeker op, en het achtervoegsel wijkt als het niet past. besteTitel
+   krijgt varianten van lang naar kort en pakt de eerste die past.
+   ------------------------------------------------------------------ */
+
+const TITEL_MAX = 60;
+const OMSCHRIJVING_MAX = 155;
+const MERK_ACHTERVOEGSEL = " | Zonnestroommaatje";
+
+function titelMetMerk(kern) {
+  return kern.length + MERK_ACHTERVOEGSEL.length <= TITEL_MAX ? kern + MERK_ACHTERVOEGSEL : kern;
+}
+
+function besteTitel(varianten) {
+  for (const variant of varianten) {
+    const metMerk = titelMetMerk(variant);
+    if (metMerk.length <= TITEL_MAX) return metMerk;
+  }
+  return varianten[varianten.length - 1];
+}
+
+function kortOmschrijving(tekst, maximum = OMSCHRIJVING_MAX) {
+  if (tekst.length <= maximum) return tekst;
+  const geknipt = tekst.slice(0, maximum - 1);
+  const spatie = geknipt.lastIndexOf(" ");
+  return (spatie > maximum * 0.6 ? geknipt.slice(0, spatie) : geknipt).replace(/[,.;:]$/, "") + "\u2026";
+}
+
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const SITE = "https://zonnestroommaatje.nl";
@@ -153,8 +189,26 @@ const paneelById = Object.fromEntries(data.panelen.map((p) => [p.id, p]));
 // "Denim" + model "Denim 440 Wp" wordt anders "Denim Denim 440 Wp"
 const volledigeNaam = (p) => p.model.toLowerCase().startsWith(p.merk.toLowerCase()) ? p.model : `${p.merk} ${p.model}`;
 
+// Google laat een prijs weg zodra priceValidUntil verstreken is, en toont geen
+// beschikbaarheid als availability ontbreekt. Dertig dagen na de laatste
+// prijscontrole; de workflow draait dagelijks, dus die datum schuift mee.
+function houdbaarTot(datum) {
+  const vanaf = datum ? new Date(datum) : new Date();
+  if (Number.isNaN(vanaf.getTime())) return null;
+  vanaf.setDate(vanaf.getDate() + 30);
+  const tot = vanaf.toISOString().slice(0, 10);
+  // Een datum die al verstreken is publiceren is erger dan er geen zetten:
+  // Google negeert de prijs dan actief. Dat gebeurt zodra een winkel niet meer
+  // door het prijsscript bereikt wordt en de datum blijft staan - bij
+  // batterijmaatje gold dat voor twaalf producten. Die staleness hoort in het
+  // rapport van verse-data.mjs thuis, niet in de markup.
+  return tot > new Date().toISOString().slice(0, 10) ? tot : null;
+}
+
 function productLd(p) {
-  const offers = (p.aanbiedingen || []).filter((a) => a && a.prijs_eur);
+  // Prijs.geldigeAanbiedingen en niet een eigen filter: dat sluit ook de
+  // aanbiedingen uit die de winkel niet meer voert.
+  const offers = Prijs.geldigeAanbiedingen(p);
   const ld = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -164,7 +218,15 @@ function productLd(p) {
     "url": `${SITE}/paneel/${p.id}.html`,
   };
   if (offers.length === 1) {
-    ld.offers = { "@type": "Offer", "price": Prijs.vergelijkPrijs(offers[0]), "priceCurrency": "EUR", "url": offers[0].url };
+    ld.offers = {
+      "@type": "Offer",
+      "price": Prijs.vergelijkPrijs(offers[0]),
+      "priceCurrency": "EUR",
+      "url": offers[0].url,
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition",
+      ...(houdbaarTot(offers[0].datum || p.prijs_datum) ? { "priceValidUntil": houdbaarTot(offers[0].datum || p.prijs_datum) } : {}),
+    };
   } else if (offers.length > 1) {
     const prijzen = offers.map((o) => Prijs.vergelijkPrijs(o));
     ld.offers = {
@@ -173,6 +235,9 @@ function productLd(p) {
       "highPrice": Math.max(...prijzen),
       "priceCurrency": "EUR",
       "offerCount": offers.length,
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition",
+      ...(houdbaarTot(p.prijs_datum) ? { "priceValidUntil": houdbaarTot(p.prijs_datum) } : {}),
     };
   }
   return JSON.stringify(ld, null, 2);
@@ -235,15 +300,20 @@ const FOOTER = `
 const wrapLd = (...jsons) => jsons.filter(Boolean).map((j) => `<script type="application/ld+json">\n${j}\n  </script>`).join("\n  ");
 
 function kop(titel, metaDesc, canoniek, ld = "") {
+  // titel mag een reeks varianten zijn, van lang naar kort: besteTitel pakt de
+  // eerste die binnen de ruimte van Google past. Een enkele string blijft
+  // werken en krijgt hooguit het achtervoegsel als het past.
+  const paginaTitel = Array.isArray(titel) ? besteTitel(titel) : titelMetMerk(titel);
+  const socialTitel = Array.isArray(titel) ? titel[0] : titel;
   return `<!DOCTYPE html>
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${esc(titel)} | Zonnestroommaatje.nl</title>
-  <meta name="description" content="${esc(metaDesc)}">
+  <title>${esc(paginaTitel)}</title>
+  <meta name="description" content="${esc(kortOmschrijving(metaDesc))}">
   <link rel="canonical" href="${canoniek}">
-  <meta property="og:title" content="${esc(titel)}">
+  <meta property="og:title" content="${esc(socialTitel)}">
   <meta property="og:description" content="${esc(metaDesc)}">
   <meta property="og:type" content="website">
   <meta property="og:url" content="${canoniek}">
@@ -290,7 +360,9 @@ function pagina(p) {
     `<tr><th>${esc(label)}</th><td>${waarde}</td></tr>`;
 
   return `${kop(
-    `${volledigeNaam(p)}: prijs, specificaties en garantie`,
+    [`${volledigeNaam(p)}: prijs, specificaties en garantie`,
+     `${volledigeNaam(p)}: prijs en specificaties`,
+     volledigeNaam(p)],
     metaDesc,
     `${SITE}/paneel/${esc(p.id)}.html`,
     wrapLd(productLd(p), breadcrumbLd(p))
@@ -510,7 +582,13 @@ function vergelijkingsPagina(v) {
     })),
   }, null, 2);
 
-  return `${kop(`${titel} (2026)`, metaDesc, `${SITE}/vergelijk/${esc(v.slug)}.html`, wrapLd(itemList))}
+  // Twee volledige paneelnamen zijn samen al negentig tekens ("AIKO Neostar 2S+
+  // 455 Wp Full Black (glas-glas)"). Voor de titel volstaat merk plus vermogen:
+  // dat is waar iemand op zoekt en het past wel.
+  const kortePaneelnaam = (x) => `${x.merk} ${x.vermogen_wp} Wp`;
+  return `${kop([`${titel} (2026)`, titel,
+                 `${kortePaneelnaam(A)} vs ${kortePaneelnaam(B)}: welk paneel?`,
+                 `${kortePaneelnaam(A)} vs ${kortePaneelnaam(B)}`], metaDesc, `${SITE}/vergelijk/${esc(v.slug)}.html`, wrapLd(itemList))}
 
 <main class="container leespagina">
   <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>

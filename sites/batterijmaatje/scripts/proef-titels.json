@@ -1,0 +1,123 @@
+{
+  "toelichting": "Echte winkeltitels met wat scripts/nieuwe-modellen.mjs ervan hoort te maken. 'bekend' = dit staat al in data/, 'nieuw' = dit hoort gemeld te worden, 'genegeerd' = dit is geen product voor deze site. Draai met: npm run modellen:proef. Voeg hier een regel toe zodra een melding onterecht blijkt - dan kan diezelfde fout niet terugkomen. Een regel kan ook 'buur' zetten: het model waar de melding volgens ons het dichtst bij zit. Een verkeerde buur is geen fout in bekend/nieuw en zou dus onzichtbaar blijven, terwijl hij de lezer wel het verkeerde model aanwijst.",
+  "titels": [
+    {
+      "titel": "Marstek Venus E 3.0 Thuisbatterij 5,12 kWh incl. P1-meter",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "Marstek Venus D 2,56 kWh modulaire thuisbatterij",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "Tesla Powerwall 3 thuisbatterij 13,5 kWh",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "Zendure SolarFlow Hyper 2000 met 1 x AB3000 batterij",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "Sessy thuisbatterij 5 kWh",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "HomeWizard Plug-In Battery 2,7 kWh",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "EcoFlow Stream AC Pro thuisbatterij 1920Wh",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "Marstek Venus E 5.0 Thuisbatterij 5,12 kWh",
+      "verwacht": "nieuw"
+    },
+    {
+      "titel": "Tesla Powerwall 4 thuisbatterij",
+      "verwacht": "nieuw",
+      "buur": "tesla-powerwall-3"
+    },
+    {
+      "titel": "Anker SOLIX Solarbank 4 Pro thuisbatterij",
+      "verwacht": "nieuw"
+    },
+    {
+      "titel": "EcoFlow PowerOcean DC Fit 10 kWh thuisbatterij",
+      "verwacht": "nieuw"
+    },
+    {
+      "titel": "USB-kabel voor thuisbatterij 2 meter",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "Wandbeugel voor Marstek Venus",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "Duracell AA batterijen alkaline 8 stuks",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "Draagbaar Powerstation 3600W - 3600Wh LiFePO4 Thuisbatterij - Generator met Zonnepaneel Aansluiting & App - Noodstroom & Outdoor",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "OUKITEL Draagbare Powerstation - 5120Wh - Energieopslag - Solar Generator - Noodstroomvoorziening - LiFePO4 batterij - Camping en thuisgebruik",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "Duracell Specialties - Electronics batteries 2025 2PK Wegwerpbatterij CR2025 Lithium",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "TOVBMUP Parasollamp - 28 LED-lampjes - Werkt op batterijen - Balkonverlichting - Tuinverlichting",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "Explosieveilige Lithium-Batterij Opbergtas - Brand- en Hittewerend tot 1000 graden",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "MPPT Windturbine Laadcontroller voor het Boosteren van Voltage - Efficiente Energieopslag",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "Plug-in thuisbatterij laten aansluiten door Zoofy",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "Velmio Portable Power Station - Zonnepaneel Power Bank - Thuisbatterij - Ecoflow - Bluetti",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "Huawei LUNA2000-7-E1 Thuisbatterij 7 kWh - Batterijmodule voor Zonne-energie Opslag",
+      "verwacht": "nieuw"
+    },
+    {
+      "titel": "Jackery SolarVault 3 Pro Max - Incl. 2x BP2500 - Thuisbatterij - 7,5 kWh",
+      "verwacht": "nieuw"
+    },
+    {
+      "titel": "PEGO Smart Energy Stapelbare Thuisbatterij Plug & Play Energieopslag uitbreidbaar tot 15kwh",
+      "verwacht": "nieuw"
+    },
+    {
+      "titel": "AEG Solarcube - 4.8 kWh Plug-In Battery",
+      "verwacht": "bekend"
+    },
+    {
+      "titel": "AEG Solarcube Expand - 4.8 kWh Uitbreidingsunit",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "Huawei SmartGuard-63A-S0 Energiebeheerunit - Back-up Systeem voor Huawei Zonne-energie",
+      "verwacht": "genegeerd"
+    },
+    {
+      "titel": "AEG Solarcube Pro - 6.4 kWh Plug-In Battery",
+      "verwacht": "nieuw",
+      "buur": "aeg-solarcube-48"
+    }
+  ]
+}

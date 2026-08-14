@@ -1,0 +1,88 @@
+{
+  "toelichting": "Waar zoeken we naar modellen die we nog niet kennen. Zie scripts/nieuwe-modellen.mjs. Bol verkoopt geen lucht-waterwarmtepompen, dus hier zijn categoriepagina's van installatiewinkels de enige bron. Elke url hieronder is het bovenliggende pad van een productlink die al in data/warmtepompen.json staat - afgeleid, niet gegokt.",
+  "extra_generiek": [
+    "lucht",
+    "water",
+    "monoblock",
+    "monobloc",
+    "split",
+    "buitenunit",
+    "binnenunit",
+    "propaan",
+    "r290",
+    "r32",
+    "fase",
+    "unit",
+    "kit"
+  ],
+  "bronnen": [
+    {
+      "soort": "overzicht",
+      "winkel": "Intercool",
+      "url": "https://www.intercool.nl/assortiment/warmtepompen/",
+      "link": "/assortiment/warmtepompen/",
+      "alleen_bekende_merken": true,
+      "minimum_modelwoorden": 2
+    },
+    {
+      "soort": "overzicht",
+      "winkel": "Boilermarkt",
+      "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/",
+      "link": "/Warmtepomp/",
+      "alleen_bekende_merken": true,
+      "minimum_modelwoorden": 2
+    },
+    {
+      "soort": "overzicht",
+      "winkel": "Aircoshop Nederland",
+      "url": "https://aircoshopnl.nl/warmtepomp/monoblock-warmtepomp/",
+      "link": "/warmtepomp/",
+      "alleen_bekende_merken": true,
+      "minimum_modelwoorden": 2
+    },
+    {
+      "soort": "overzicht",
+      "winkel": "GroupSumi",
+      "url": "https://groupsumi.nl/airconditioning/aerotherm/monoblock-lucht-water-warmtepomp/",
+      "link": "monoblock-lucht-water-warmtepomp/",
+      "alleen_bekende_merken": true,
+      "minimum_modelwoorden": 2
+    }
+  ],
+  "onderwerp_woorden": [
+    "warmtepomp",
+    "monoblock",
+    "monobloc",
+    "lucht-water",
+    "lucht water",
+    "hybride",
+    "altherma",
+    "aquarea",
+    "ecodan",
+    "therma v",
+    "arotherm",
+    "vitocal"
+  ],
+  "uitsluit_woorden": [
+    "boiler",
+    "buffervat",
+    "expansievat",
+    "vulset",
+    "aansluitset",
+    "kabel",
+    "beugel",
+    "onderhoud",
+    "servicebeurt",
+    "filter",
+    "afdekkap",
+    "voetsteun",
+    "trillingsdemper",
+    "leidingset",
+    "onderdeel",
+    "airco",
+    "airconditioner"
+  ],
+  "toelichting_filters": "Bundels worden wel opgenomen (zie REDACTIE.md), dus de pakketten van Boilermarkt ('classic compact plus Set 1.1') blijven gemeld. Voorwaarde bij het opnemen is dat het veld 'omvat' gevuld wordt met wat er in de set zit; zonder dat vergelijkt de site een pakket met een losse pomp.",
+  "afgewezen": [],
+  "maat_eenheid": "kw"
+}

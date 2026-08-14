@@ -21,11 +21,11 @@
 
 (function (root, factory) {
   if (typeof module === "object" && module.exports) {
-    module.exports = factory(require("./prijs.js"), require("./iconen.js"));
+    module.exports = factory(require("./prijs.js"), require("./iconen.js"), require("./condities.js"));
   } else {
-    root.Kaart = factory(root.Prijs, root.Iconen);
+    root.Kaart = factory(root.Prijs, root.Iconen, root.Condities);
   }
-})(typeof self !== "undefined" ? self : globalThis, function (Prijs, Iconen) {
+})(typeof self !== "undefined" ? self : globalThis, function (Prijs, Iconen, Condities) {
   "use strict";
 
   const eurFmt = new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
@@ -189,7 +189,7 @@
       </div>
       ${koppelMeter(w)}
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">${String(w.vermogen_kw).replace(".", ",")} kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde"${Condities.vermogenToelichting(w) ? ` title="${escapeHtml(Condities.vermogenToelichting(w))}"` : ""}>${String(w.vermogen_kw).replace(".", ",")} kW${Condities.labelHtml("vermogen", w)}</span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">${escapeHtml(w.koudemiddel || "?")}</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa ${w.isde_indicatie_eur ? eurFmt.format(w.isde_indicatie_eur) : "?"}</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">${w.max_aanvoer_c ? w.max_aanvoer_c + " &deg;C" : "?"}</span></div>
@@ -206,7 +206,7 @@
         <dt>Slimme aansturing</dt><dd>${escapeHtml(sturing.tekst)}</dd>
         <dt>Home Assistant</dt><dd>${escapeHtml(ha.tekst)}</dd>
         <dt>Homey</dt><dd>${escapeHtml(homey.tekst)}</dd>
-        <dt>Rendement</dt><dd>${w.scop ? `SCOP circa ${String(w.scop).replace(".", ",")} · ` : ""}${escapeHtml(w.scop_toelichting || "")}</dd>
+        <dt>Rendement</dt><dd>${w.scop ? `SCOP circa ${String(w.scop).replace(".", ",")}${Condities.labelHtml("scop", w)} · ` : ""}${escapeHtml(w.scop_toelichting || "")}</dd>
         <dt>Geluid</dt><dd>${escapeHtml(w.geluid_toelichting || "")}</dd>
         <dt>Warm tapwater</dt><dd>${escapeHtml(w.tapwater || "?")}</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>${w.max_aanvoer_c ? w.max_aanvoer_c + " °C" : "?"} (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>

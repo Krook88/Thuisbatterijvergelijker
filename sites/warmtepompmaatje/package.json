@@ -8,7 +8,12 @@
   },
   "scripts": {
     "genereer": "node scripts/genereer-warmtepomppaginas.mjs",
+    "keuzehulp": "node scripts/keuzehulp-spreiding.mjs",
     "prijzen": "node scripts/update-prices.mjs",
+    "condities": "node scripts/condities-status.mjs",
+    "isde": "node scripts/isde-condities.mjs",
+    "modellen": "node scripts/nieuwe-modellen.mjs",
+    "modellen:proef": "node scripts/nieuwe-modellen.mjs --proef",
     "links": "node scripts/controleer-links.mjs",
     "links:intern": "node scripts/controleer-links.mjs --intern",
     "meet": "node scripts/meet-site.mjs",
@@ -16,7 +21,8 @@
     "meet:vergelijk": "node scripts/meet-site.mjs --vergelijk",
     "beeld:voor": "node scripts/schermafdrukken.mjs --voor",
     "beeld:na": "node scripts/schermafdrukken.mjs --na",
-    "beeld:verschil": "node scripts/schermafdrukken.mjs --verschil"
+    "beeld:verschil": "node scripts/schermafdrukken.mjs --verschil",
+    "test": "node --test scripts/*.test.mjs"
   },
   "dependencies": {
     "nodemailer": "^9.0.3"

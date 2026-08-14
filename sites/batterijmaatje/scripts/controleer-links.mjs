@@ -161,7 +161,15 @@ async function haalOp(url, methode) {
     method: methode,
     redirect: "follow",
     signal: stop,
-    headers: { "User-Agent": USER_AGENT, "Accept-Language": "nl,en;q=0.8" },
+    // Accept hoort erbij: een client die niet zegt wat hij aankan, krijgt van
+    // sommige servers een 406 of 415 terug. Dat leek een kapotte link terwijl
+    // de pagina het gewoon doet. De User-Agent blijft eerlijk - dit is een
+    // linkcontrole en die hoeft zich niet voor te doen als een browser.
+    headers: {
+      "User-Agent": USER_AGENT,
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "Accept-Language": "nl,en;q=0.8",
+    },
   });
 }
 
@@ -224,8 +232,10 @@ async function main() {
   // 401/403/429 betekent doorgaans "wij houden bots buiten", niet "de pagina
   // bestaat niet". 415 hoort in datzelfde rijtje: bij een GET zonder body slaat
   // "verkeerd mediatype" nergens op en komt het van een firewall die ons weert.
+  // 406 net zo: dat zegt dat de server niets kan leveren dat wij accepteren,
+  // en niet dat de pagina weg is.
   // Die apart houden, anders verdrinkt een echte 404 in de ruis.
-  const GEWEERD = [401, 403, 415, 429];
+  const GEWEERD = [401, 403, 406, 415, 429];
   const stuk = uitkomsten.filter((u) => u.status === 0 || (u.status >= 400 && !GEWEERD.includes(u.status)));
   const geweerd = uitkomsten.filter((u) => GEWEERD.includes(u.status));
   const goed = uitkomsten.length - stuk.length - geweerd.length;

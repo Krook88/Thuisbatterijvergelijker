@@ -3,10 +3,8 @@
  * Dagelijkse prijsupdate voor data/panelen.json en data/omvormers.json.
  *
  * Voor elke aanbieding (winkel-URL) probeert dit script de actuele prijs van de
- * productpagina te lezen, in deze volgorde:
- *   1. JSON-LD structured data (schema.org Product/Offer) - meest betrouwbaar
- *   2. Meta-tags (og:price:amount, product:price:amount, itemprop="price")
- *   3. Een voorzichtige regex op zichtbare prijzen in de HTML
+ * productpagina te lezen. Hoe dat lezen gaat staat in scripts/prijs-uitlezen.mjs,
+ * gedeeld met de andere twee sites; hier staat wat er met de uitkomst gebeurt.
  *
  * Veiligheidsregels:
  *   - Een nieuwe prijs wordt alleen overgenomen als hij plausibel is
@@ -21,6 +19,7 @@
 import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { haalPagina, prijsUitPagina } from "./prijs-uitlezen.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -32,8 +31,14 @@ const BESTANDEN = [
   // nultarief, dus incl. en excl. btw zijn hetzelfde bedrag. Bij een los
   // verkochte omvormer geldt dat niet, en daar tonen sommige winkels hun
   // prijzen zonder btw. Daarom wordt alleen daar op btw gelet.
-  { pad: resolve(__dirname, "../data/panelen.json"), lijst: "panelen", min: 20, max: 2000, btwControle: false },
-  { pad: resolve(__dirname, "../data/omvormers.json"), lijst: "omvormers", min: 50, max: 3000, btwControle: true },
+  // De marge zegt hoeveel een prijs sinds de vorige keer mag zijn veranderd.
+  // Bij een paneel van 95 euro is een sprong van tientallen procenten gewoon
+  // een actie; bij een omvormer is een verdubbeling geen prijswijziging maar
+  // een ander apparaat. Bij Pavento leverde de SH5.0RT 2.183 euro op terwijl
+  // dezelfde omvormer bij CV Totaal 950 kost en de richtprijs 1.450 is: dat is
+  // de buurman op de pagina (die winkel voert ook de SH8.0RT en SH10.0RT).
+  { pad: resolve(__dirname, "../data/panelen.json"), lijst: "panelen", min: 20, max: 2000, btwControle: false, onder: 0.4, boven: 2.5 },
+  { pad: resolve(__dirname, "../data/omvormers.json"), lijst: "omvormers", min: 50, max: 3000, btwControle: true, onder: 0.6, boven: 1.6 },
 ];
 
 // Alleen de btw-controle draaien, zonder prijzen aan te raken. Handig om het
@@ -41,9 +46,11 @@ const BESTANDEN = [
 const ALLEEN_BTW = process.argv.includes("--alleen-btw");
 
 const VANDAAG = new Date().toISOString().slice(0, 10);
-const TIMEOUT_MS = 20000;
-const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36 Zonnestroommaatje-prijscheck/1.0";
+
+// Alleen kijken, niets wegschrijven: laat zien welke prijs het script zou
+// vinden zonder de gegevens aan te raken. Zo is een wijziging aan het uitlezen
+// te controleren voordat hij de site haalt.
+const DROOG = process.argv.includes("--droog");
 
 /* ------------------------------------------------------------------
    Bol.com Marketing Catalog API (officiële partnerroute).
@@ -104,93 +111,6 @@ async function bolApiPrijs(aanbieding) {
   return prijs ? Math.round(prijs) : null;
 }
 
-/* ------------------------------------------------------------------ */
-
-async function haalPagina(url) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-  try {
-    const res = await fetch(url, {
-      signal: controller.signal,
-      redirect: "follow",
-      headers: {
-        "User-Agent": USER_AGENT,
-        "Accept": "text/html,application/xhtml+xml",
-        "Accept-Language": "nl-NL,nl;q=0.9,en;q=0.6",
-      },
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.text();
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-function parsePrijsWaarde(raw) {
-  if (raw == null) return null;
-  let s = String(raw).trim().replace(/[^\d.,]/g, "");
-  if (!s) return null;
-  // "1.234,56" (NL) -> 1234.56 ; "1234.56" -> 1234.56 ; "1.299" -> 1299
-  if (s.includes(",") && s.includes(".")) s = s.replace(/\./g, "").replace(",", ".");
-  else if (s.includes(",")) s = s.replace(",", ".");
-  else if (/\.\d{3}$/.test(s)) s = s.replace(/\./g, "");
-  const n = Number.parseFloat(s);
-  return Number.isFinite(n) ? Math.round(n) : null;
-}
-
-function prijsUitJsonLd(html) {
-  const blokken = html.match(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi) || [];
-  for (const blok of blokken) {
-    const inhoud = blok.replace(/<script[^>]*>/i, "").replace(/<\/script>/i, "");
-    let data;
-    try { data = JSON.parse(inhoud); } catch { continue; }
-    const items = Array.isArray(data) ? data : [data];
-    for (const item of items) {
-      const kandidaten = [item, ...(item["@graph"] || [])];
-      for (const k of kandidaten) {
-        if (!k || typeof k !== "object") continue;
-        const offers = k.offers ? (Array.isArray(k.offers) ? k.offers : [k.offers]) : [];
-        for (const offer of offers) {
-          const p = parsePrijsWaarde(offer.price ?? offer.lowPrice);
-          if (p) return p;
-        }
-      }
-    }
-  }
-  return null;
-}
-
-function prijsUitMeta(html) {
-  const patronen = [
-    /<meta[^>]+(?:property|name)=["'](?:og:price:amount|product:price:amount)["'][^>]+content=["']([^"']+)["']/i,
-    /<meta[^>]+content=["']([^"']+)["'][^>]+(?:property|name)=["'](?:og:price:amount|product:price:amount)["']/i,
-    /itemprop=["']price["'][^>]*content=["']([^"']+)["']/i,
-  ];
-  for (const p of patronen) {
-    const m = html.match(p);
-    if (m) {
-      const prijs = parsePrijsWaarde(m[1]);
-      if (prijs) return prijs;
-    }
-  }
-  return null;
-}
-
-function prijsUitTekst(html, grenzen) {
-  // Voorzichtige fallback: pak de meest voorkomende "€ x.xxx"-prijs op de pagina.
-  const matches = html.match(/€\s?([\d.]{3,7}(?:,\d{2})?)/g) || [];
-  const telling = new Map();
-  for (const m of matches) {
-    const p = parsePrijsWaarde(m);
-    if (p && p >= grenzen.min && p <= grenzen.max) telling.set(p, (telling.get(p) || 0) + 1);
-  }
-  let beste = null, max = 0;
-  for (const [prijs, n] of telling) {
-    if (n > max) { max = n; beste = prijs; }
-  }
-  return max >= 2 ? beste : null; // alleen bij herhaald voorkomen
-}
-
 /* ------------------------------------------------------------------
    Btw-signaal.
 
@@ -232,9 +152,21 @@ function meldBtw(product, aanbieding, html) {
   });
 }
 
+/**
+ * Waar het uitlezen op mikt: de naam waarmee dit product op de winkelpagina
+ * staat. Bij een omvormer is het modelveld een serie ("SH-serie (hybride)") en
+ * geen product; alleen daarop mikken laat "Sungrow" en "hybride" over, en die
+ * staan op zo'n pagina overal. Bij Pavento leverde dat 2.183 euro op voor een
+ * omvormer van rond de duizend - een buurproduct. De voorbeeldvariant noemt de
+ * uitvoering zelf (SH5.0RT), en die staat maar op één plek.
+ */
+function productNaam(p) {
+  return `${p.merk || ""} ${p.voorbeeld_variant || ""} ${p.model || ""}`.trim();
+}
+
 function plausibel(nieuw, oud, grenzen) {
   if (!oud) return nieuw >= grenzen.min && nieuw <= grenzen.max;
-  return nieuw >= oud * 0.4 && nieuw <= oud * 2.5;
+  return nieuw >= oud * grenzen.onder && nieuw <= oud * grenzen.boven;
 }
 
 /* ------------------------------------------------------------------ */
@@ -250,7 +182,10 @@ async function updateAanbieding(paneel, aanbieding, grenzen) {
       const html = await haalPagina(aanbieding.url);
       if (grenzen.btwControle) meldBtw(paneel, aanbieding, html);
       if (ALLEEN_BTW) return false;
-      nieuw = prijsUitJsonLd(html) ?? prijsUitMeta(html) ?? prijsUitTekst(html, grenzen);
+      // lowPriceTelt: bij een paneel dat tien winkels voeren is de laagste
+      // prijs in een AggregateOffer wél wat je betaalt, anders dan bij een
+      // productpagina met varianten.
+      nieuw = prijsUitPagina(html, productNaam(paneel), { ...grenzen, lowPriceTelt: true }).prijs;
     }
     if (!nieuw) {
       console.log(`  ~ ${paneel.id} @ ${aanbieding.winkel}: geen prijs gevonden, oude prijs blijft (€${aanbieding.prijs_eur})`);
@@ -289,8 +224,10 @@ async function main() {
     }
 
     if (!ALLEEN_BTW) {
-      data.laatst_bijgewerkt = VANDAAG;
-      writeFileSync(bestand.pad, JSON.stringify(data, null, 2) + "\n", "utf8");
+      if (!DROOG) {
+        data.laatst_bijgewerkt = VANDAAG;
+        writeFileSync(bestand.pad, JSON.stringify(data, null, 2) + "\n", "utf8");
+      }
     }
   }
   // De paneelpagina's en sitemap worden hierna herbouwd door
@@ -321,7 +258,7 @@ async function main() {
 
   console.log(ALLEEN_BTW
     ? "\nAlleen de btw-controle gedraaid; geen prijzen of bestanden aangeraakt."
-    : `\nKlaar. ${wijzigingen} prijswijziging(en). laatst_bijgewerkt = ${VANDAAG}`);
+    : `\nKlaar. ${wijzigingen} prijswijziging(en).${DROOG ? " Droge run: niets weggeschreven." : ` laatst_bijgewerkt = ${VANDAAG}`}`);
 }
 
 main().catch((err) => {

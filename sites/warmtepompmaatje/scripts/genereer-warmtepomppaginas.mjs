@@ -17,9 +17,48 @@ const Iconen = vereis("../assets/iconen.js");
 // En dezelfde prijslogica, zodat een pomppagina nooit een ander bedrag
 // noemt dan de kaart in de vergelijker.
 const Prijs = vereis("../assets/prijs.js");
+// En dezelfde regels over onder welke omstandigheden een getal geldt, zodat
+// het label op een pomppagina niet iets anders zegt dan op de kaart.
+const Condities = vereis("../assets/condities.js");
 // En dezelfde kaartopmaak, zodat de voorgerenderde kaarten in index.html niet
 // kunnen afwijken van wat de browser tekent.
 const Kaart = vereis("../assets/kaart.js");
+
+/* ------------------------------------------------------------------
+   Titels en omschrijvingen binnen de ruimte die Google toont
+
+   Google kapt een titel af rond de 60 tekens en een omschrijving rond de 155.
+   Wat daarna komt ziet niemand, en juist het achtervoegsel met de sitenaam
+   duwde hier de inhoud eruit: " | Warmtepompmaatje" kost al 19 tekens.
+
+   Dezelfde aanpak als op batterijmaatje: de naam staat vooraan want daar zoekt
+   de bezoeker op, en het achtervoegsel wijkt als het niet past. besteTitel
+   krijgt varianten van lang naar kort en pakt de eerste die past.
+   ------------------------------------------------------------------ */
+
+const TITEL_MAX = 60;
+const OMSCHRIJVING_MAX = 155;
+const MERK_ACHTERVOEGSEL = " | Warmtepompmaatje";
+
+function titelMetMerk(kern) {
+  return kern.length + MERK_ACHTERVOEGSEL.length <= TITEL_MAX ? kern + MERK_ACHTERVOEGSEL : kern;
+}
+
+function besteTitel(varianten) {
+  for (const variant of varianten) {
+    const metMerk = titelMetMerk(variant);
+    if (metMerk.length <= TITEL_MAX) return metMerk;
+  }
+  return varianten[varianten.length - 1];
+}
+
+function kortOmschrijving(tekst, maximum = OMSCHRIJVING_MAX) {
+  if (tekst.length <= maximum) return tekst;
+  const geknipt = tekst.slice(0, maximum - 1);
+  const spatie = geknipt.lastIndexOf(" ");
+  return (spatie > maximum * 0.6 ? geknipt.slice(0, spatie) : geknipt).replace(/[,.;:]$/, "") + "\u2026";
+}
+
 
 // Het merkicoon staat in de kop en de voet van elke pagina.
 const ICOON_LOGO = Iconen.svg("warmte", { klasse: "icoon-groot" });
@@ -71,6 +110,23 @@ function variantenBlok(w) {
   </div>`;
 }
 
+// Google laat een prijs weg zodra priceValidUntil verstreken is. Dertig dagen
+// na de laatste prijscontrole: de workflow draait dagelijks, dus die datum
+// schuift mee; valt de update uit, dan verloopt de vermelding vanzelf in plaats
+// van een oude prijs te blijven beloven.
+function houdbaarTot(datum) {
+  const vanaf = datum ? new Date(datum) : new Date();
+  if (Number.isNaN(vanaf.getTime())) return null;
+  vanaf.setDate(vanaf.getDate() + 30);
+  const tot = vanaf.toISOString().slice(0, 10);
+  // Een datum die al verstreken is publiceren is erger dan er geen zetten:
+  // Google negeert de prijs dan actief. Dat gebeurt zodra een winkel niet meer
+  // door het prijsscript bereikt wordt en de datum blijft staan - bij
+  // batterijmaatje gold dat voor twaalf producten. Die staleness hoort in het
+  // rapport van verse-data.mjs thuis, niet in de markup.
+  return tot > new Date().toISOString().slice(0, 10) ? tot : null;
+}
+
 function productLd(w) {
   const naam = `${w.merk} ${w.model}`;
   const beste = bestePrijs(w);
@@ -89,12 +145,12 @@ function productLd(w) {
     "url": `${SITE}/pomp/${w.id}.html`,
   };
   if (aanbiedingen.length === 1) {
-    ld.offers = { "@type": "Offer", "price": vergelijkPrijs(aanbiedingen[0]), "priceCurrency": "EUR", "url": aanbiedingen[0].affiliate_url || aanbiedingen[0].url, "availability": "https://schema.org/InStock" };
+    ld.offers = { "@type": "Offer", "price": vergelijkPrijs(aanbiedingen[0]), "priceCurrency": "EUR", "url": aanbiedingen[0].affiliate_url || aanbiedingen[0].url, "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", ...(houdbaarTot(w.prijs_datum) ? { "priceValidUntil": houdbaarTot(w.prijs_datum) } : {}) };
   } else if (aanbiedingen.length > 1) {
     const prijzen = aanbiedingen.map(vergelijkPrijs);
-    ld.offers = { "@type": "AggregateOffer", "lowPrice": Math.min(...prijzen), "highPrice": Math.max(...prijzen), "priceCurrency": "EUR", "offerCount": aanbiedingen.length };
+    ld.offers = { "@type": "AggregateOffer", "lowPrice": Math.min(...prijzen), "highPrice": Math.max(...prijzen), "priceCurrency": "EUR", "offerCount": aanbiedingen.length, "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", ...(houdbaarTot(w.prijs_datum) ? { "priceValidUntil": houdbaarTot(w.prijs_datum) } : {}) };
   } else if (beste && Prijs.zelfdeSamenstelling(beste)) {
-    ld.offers = { "@type": "Offer", "price": vergelijkPrijs(beste), "priceCurrency": "EUR", "url": beste.url, "availability": "https://schema.org/InStock" };
+    ld.offers = { "@type": "Offer", "price": vergelijkPrijs(beste), "priceCurrency": "EUR", "url": beste.url, "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", ...(houdbaarTot(w.prijs_datum) ? { "priceValidUntil": houdbaarTot(w.prijs_datum) } : {}) };
   }
   const kruimel = {
     "@context": "https://schema.org",
@@ -160,8 +216,8 @@ function pompPagina(w) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${esc(naam)}: prijs, subsidie, geluid en slimme koppeling | Warmtepompmaatje.nl</title>
-  <meta name="description" content="Alles over de ${esc(naam)} (${esc(w.type)}): actuele prijs, ISDE-subsidie, geluid van de buitenunit, rendement en of hij koppelt met Home Assistant en Homey (Koppel-score ${score}/6).">
+  <title>${esc(besteTitel([`${naam}: prijs, subsidie, geluid en koppeling`, `${naam}: prijs, subsidie en geluid`, `${naam}: prijs en subsidie`, naam]))}</title>
+  <meta name="description" content="${esc(kortOmschrijving(`${naam} (${w.type}): actuele prijs, ISDE-subsidie, geluid van de buitenunit, rendement en koppeling met Home Assistant en Homey (Koppel-score ${score}/6).`))}">
   <link rel="canonical" href="${SITE}/pomp/${esc(w.id)}.html">
   <meta property="og:title" content="${esc(naam)}: prijs, subsidie en slimme koppeling">
   <meta property="og:description" content="${esc(w.type === "hybride" ? "Hybride warmtepomp" : "All-electric warmtepomp")}, Koppel-score ${score}/6, ISDE-indicatie ${w.isde_indicatie_eur ? eur(w.isde_indicatie_eur) : "onbekend"}.">
@@ -214,8 +270,8 @@ ${kop("index", true)}
       <h2 class="kop-aansluitend">Specificaties</h2>
       <table class="spec-tabel">
         ${specRij("Type", w.type === "hybride" ? "Hybride (naast de cv-ketel)" : "All-electric (van het gas af)")}
-        ${specRij("Vermogen", w.vermogen_kw ? `${String(w.vermogen_kw).replace(".", ",")} kW` : null)}
-        ${specRij("Rendement (SCOP)", w.scop ? `${String(w.scop).replace(".", ",")}${w.scop_toelichting ? ` <small>(${esc(w.scop_toelichting)})</small>` : ""}` : (w.scop_toelichting ? esc(w.scop_toelichting) : null))}
+        ${specRij("Vermogen", w.vermogen_kw ? `${String(w.vermogen_kw).replace(".", ",")} kW${Condities.labelHtml("vermogen", w)}` : null)}
+        ${specRij("Rendement (SCOP)", w.scop ? `${String(w.scop).replace(".", ",")}${Condities.labelHtml("scop", w)}${w.scop_toelichting ? ` <small>(${esc(w.scop_toelichting)})</small>` : ""}` : (w.scop_toelichting ? esc(w.scop_toelichting) : null))}
         ${specRij("Geluid buitenunit", w.geluid_db ? `${w.geluid_db} dB(A)${w.geluid_toelichting ? ` <small>(${esc(w.geluid_toelichting)})</small>` : ""}` : null)}
         ${specRij("Koudemiddel", w.koudemiddel ? esc(w.koudemiddel) : null)}
         ${specRij("Warm tapwater", typeof w.tapwater === "string" ? esc(w.tapwater) : d3html(w.tapwater))}

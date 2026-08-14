@@ -199,7 +199,7 @@
           return `<tr>
             <td><b>${escapeHtml(w.merk)}</b><br>${escapeHtml(w.model)}</td>
             <td>${escapeHtml(TYPE_KORT[w.type] || w.type)}</td>
-            <td>${String(w.vermogen_kw).replace(".", ",")}</td>
+            <td${Condities.vermogenToelichting(w) ? ` title="${escapeHtml(Condities.vermogenToelichting(w))}"` : ""}>${String(w.vermogen_kw).replace(".", ",")}</td>
             <td class="tabel-prijs" title="${escapeHtml([w.prijs_toelichting, Prijs.prijsToelichting(beste)].filter(Boolean).join(" · "))}">${beste ? eurFmt.format(vergelijkPrijs(beste)) : "n.b."}</td>
             <td title="Indicatie ISDE-subsidie; het bedrag per meldcode bij RVO is leidend">${w.isde_indicatie_eur ? "± " + eurFmt.format(w.isde_indicatie_eur) : "?"}</td>
             <td>${w.geluid_db ? w.geluid_db + " dB" : "?"}</td>
@@ -226,7 +226,7 @@
       <table style="width:100%;border-collapse:collapse;font-size:0.93rem;min-width:${220 * items.length + 160}px;">
         ${rij("Model", (w) => `<b>${escapeHtml(w.merk)} ${escapeHtml(w.model)}</b>`)}
         ${rij("Type", (w) => escapeHtml(TYPE_LABEL[w.type] || w.type))}
-        ${rij("Vermogen", (w) => `${String(w.vermogen_kw).replace(".", ",")} kW`)}
+        ${rij("Vermogen", (w) => `${String(w.vermogen_kw).replace(".", ",")} kW${Condities.labelHtml("vermogen", w)}`)}
         ${rij("Prijs", (w) => { const b = bestePrijs(w); return `${b ? `<b>${eurFmt.format(vergelijkPrijs(b))}</b>` : "n.b."}<br><small>${escapeHtml([w.prijs_toelichting, Prijs.prijsToelichting(b)].filter(Boolean).join(" · "))}</small>`; })}
         ${rij("Subsidie (ISDE, indicatie)", (w) => (w.isde_indicatie_eur ? `circa ${eurFmt.format(w.isde_indicatie_eur)}` : "?"))}
         ${rij("Geluid buitenunit", (w) => (w.geluid_db ? `${w.geluid_db} dB(A)` : "?"))}

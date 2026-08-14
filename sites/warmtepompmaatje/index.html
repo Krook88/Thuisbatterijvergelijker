@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Warmtepompen vergelijken op subsidie, geluid én slimme koppeling | Warmtepompmaatje.nl</title>
-  <meta name="description" content="Onafhankelijke warmtepomp-vergelijker: hybride en all-electric warmtepompen naast elkaar op prijs, ISDE-subsidie, geluid, rendement en koppelbaarheid met Home Assistant en Homey (Koppel-score).">
+  <title>Warmtepompen vergelijken op subsidie en geluid</title>
+  <meta name="description" content="Hybride en all-electric warmtepompen naast elkaar op prijs, ISDE-subsidie, geluid, rendement en koppeling met Home Assistant en Homey.">
   <link rel="canonical" href="https://warmtepompmaatje.nl/">
   <meta property="og:title" content="Warmtepompen vergelijken op subsidie, geluid én slimme koppeling">
-  <meta property="og:description" content="Hybride en all-electric warmtepompen naast elkaar: prijs, ISDE-subsidie, geluid en de Koppel-score voor Home Assistant en Homey.">
+  <meta property="og:description" content="Hybride en all-electric warmtepompen naast elkaar op prijs, ISDE-subsidie, geluid, rendement en koppeling met Home Assistant en Homey.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://warmtepompmaatje.nl/">
   <meta property="og:locale" content="nl_NL">
@@ -16,6 +16,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="assets/style.css?v=20260729c">
   <script src="assets/iconen.js?v=20260729c" defer></script>
+  <script src="assets/condities.js?v=20260811" defer></script>
   <script src="assets/prijs.js?v=20260729c" defer></script>
   <script src="assets/kaart.js?v=20260729c" defer></script>
   <script src="assets/app.js?v=20260729c" defer></script>
@@ -197,32 +198,32 @@
     {
       "@type": "ListItem",
       "position": 25,
+      "url": "https://warmtepompmaatje.nl/pomp/dewarmte-pomp-ao.html",
+      "name": "DeWarmte Pomp AO"
+    },
+    {
+      "@type": "ListItem",
+      "position": 26,
       "url": "https://warmtepompmaatje.nl/pomp/itho-vincent-v45-hybride.html",
       "name": "Itho Daalderop Vincent V45-Hybride"
     },
     {
       "@type": "ListItem",
-      "position": 26,
+      "position": 27,
       "url": "https://warmtepompmaatje.nl/pomp/atlantic-alfea-extensa.html",
       "name": "Atlantic Alfea Extensa"
     },
     {
       "@type": "ListItem",
-      "position": 27,
+      "position": 28,
       "url": "https://warmtepompmaatje.nl/pomp/toshiba-estia-r290.html",
       "name": "Toshiba Estia Bi-Bloc R290"
     },
     {
       "@type": "ListItem",
-      "position": 28,
+      "position": 29,
       "url": "https://warmtepompmaatje.nl/pomp/hitachi-yutaki-m.html",
       "name": "Hitachi Yutaki M"
-    },
-    {
-      "@type": "ListItem",
-      "position": 29,
-      "url": "https://warmtepompmaatje.nl/pomp/dewarmte-pomp-ao.html",
-      "name": "DeWarmte Pomp AO"
     },
     {
       "@type": "ListItem",
@@ -360,6 +361,7 @@
       <div class="legenda-rij"><span><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 18a6 6 0 0 0 0-12v12z" /></svg></span><span>Werkt via een omweg: community-integratie, extra module of de thermostaat. Tik op de badge voor de uitleg.</span></div>
       <div class="legenda-rij"><span><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg></span><span>Niet ondersteund</span></div>
       <div class="legenda-rij"><span><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg></span><span>Niet vastgesteld: wij hebben geen betrouwbare bron gevonden. Dat is iets anders dan niet ondersteund.</span></div>
+      <div class="legenda-rij"><span><small class="maat-bevestigd">bij 35 °C</small></span><span>Achter een getal staat onder welke omstandigheden het geldt. Dat is hier geen detail: een SCOP van 4,7 bij 35 graden aanvoer is ruim een punt beter dan dezelfde 4,7 bij 55 graden, en een vermogen gemeten bij 7 graden buiten zegt niets over een koude dag. Staat er <small class="maat-bevestigd">koude dag</small>, dan komt het vermogen uit de ISDE-meldcodelijst van RVO: het vermogen bij de ontwerpbuitentemperatuur, volgens EU 811/2013. Dat wijkt vaak af van het typenummer, en dat is geen fout van ons. Een Ecodan 6 kW staat bij RVO op 5 kW en een Itho Amber 95 op 6 in plaats van 9,5, omdat fabrikanten hun modellen benoemen naar het vermogen op een milde dag. De naam die u bij een installateur bestelt houden we daarom aan zoals hij heet.</span></div>
       <div class="legenda-rij"><span><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg>/<svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h.01" /> <path d="M3 12h.01" /> <path d="M3 19h.01" /> <path d="M8 5h13" /> <path d="M8 12h13" /> <path d="M8 19h13" /></svg></span><span>Wissel tussen kaarten en tabel; vink "vergelijk" aan op maximaal 3 kaarten om ze zij aan zij te zien.</span></div>
     </div>
   </details>
@@ -399,7 +401,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">6 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">5 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (natuurlijk, nieuwste generatie)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.350</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">70 &deg;C</span></div>
@@ -433,14 +435,14 @@
         <dt>Maximale aanvoertemperatuur</dt><dd>70 °C (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
         <dt>Goed om te weten</dt><dd>Ook 6 van de 6 op koppelbaarheid: officieel ondersteund in Home Assistant én Homey, met open aansturing erbij. Draait op propaan, kan 70 graden aanvoeren en heeft een van de breedste installateursnetwerken van Nederland - handig als er over tien jaar iets stukgaat.</dd>
         <dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst"><li><span>GroupSumi<br><small>de winkel toont € 4.042 exclusief btw; hierboven staat het bedrag inclusief 21% btw · Dit is de kale monoblock zonder hydrobox; de richtprijs hiernaast geldt voor het complete systeem.</small></span><span><b>€ 4.891</b> &nbsp;<a href="https://groupsumi.nl/airconditioning/aerotherm/monoblock-lucht-water-warmtepomp/monobloc-lucht-water-warmtepomp-mitsubishi-ecodan-puz-wz-r290-6-kw-puz-wz60vaa-bs" target="_blank" rel="noopener">bekijk</a></span></li></ul><span class="datum-stempel prijs-gecontroleerd">Prijzen gecontroleerd: 14 augustus 2026. Zonder controledatum is de prijs een indicatie.</span></dd>
-        <dt>Fabrikant</dt><dd><a href="https://www.mitsubishi-electric.nl/warmtepompen/producten/ecodan" target="_blank" rel="noopener">officiële website van Mitsubishi Electric</a></dd>
+        <dt>Fabrikant</dt><dd><a href="https://alklima.nl/ecodan" target="_blank" rel="noopener">officiële website van Mitsubishi Electric</a></dd>
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
           <div class="prijs">€ 4.891</div>
           <div class="prijs-winkel">bij GroupSumi</div>
           <div class="prijs-per-kwh">prijs voor: Ecodan 6 kW (monoblock) met hydrobox</div>
-          <div class="prijs-winkel">buitenunit + hydrobox, excl. installatie</div>
+          <div class="prijs-winkel">buitenunit + hydrobox, excl. installatie. De 6,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 5 kW volgens de ISDE-meldcodelijst.</div>
           <div class="prijs-let-op">de winkel toont € 4.042 exclusief btw; hierboven staat het bedrag inclusief 21% btw · Dit is de kale monoblock zonder hydrobox; de richtprijs hiernaast geldt voor het complete systeem.</div>
         </div>
       </div>
@@ -473,7 +475,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">8 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">5 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (natuurlijk)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.350</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">75 &deg;C</span></div>
@@ -501,13 +503,13 @@
         <dt>Slimme aansturing</dt><dd>SG-ready en Modbus; uitgebreide eigen regelaar met weersafhankelijke regeling.</dd>
         <dt>Home Assistant</dt><dd>Officiële myUplink-integratie in Home Assistant (cloud-API); lokaal kan via Modbus.</dd>
         <dt>Homey</dt><dd>Meerdere NIBE/myUplink-apps in de Homey App Store voor uitlezen en flows.</dd>
-        <dt>Rendement</dt><dd>SCOP circa 4,8 · hoog seizoensrendement; A+++</dd>
+        <dt>Rendement</dt><dd>SCOP circa 4,8 <small class="maat-bevestigd" title="Labelwaarde bij 35 graden aanvoer, gemiddeld klimaat">bij 35 °C</small> · hoog seizoensrendement; A+++. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.</dd>
         <dt>Geluid</dt><dd>geldt als een van de stilste buitenunits (circa 43 dB(A) geluidsdruk op afstand volgens tests)</dd>
         <dt>Warm tapwater</dt><dd>via de binnenunit met geïntegreerde boiler</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>75 °C (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
         <dt>Goed om te weten</dt><dd>Gebouwd voor Zweedse winters, en dat zie je terug: 75 graden aanvoer en 53 dB(A) maken hem stil én geschikt voor bestaande radiatoren. Op koppelbaarheid scoort hij het maximum - officiële integratie met zowel Home Assistant als Homey, plus open aansturing. Je betaalt er wel voor.</dd>
         <dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst"><li><span>123Klimaatshop</span><span><b>€ 9.199</b> &nbsp;<a href="https://www.123klimaatshop.nl/product/nibe-s2125-8-lucht-water-monoblock-warmtepomp-67-kw-exclusief-binnen-unit-1x230v/" target="_blank" rel="noopener">bekijk</a></span></li></ul><span class="datum-stempel prijs-gecontroleerd">Prijzen gecontroleerd: 14 augustus 2026. Zonder controledatum is de prijs een indicatie.</span></dd>
-        <dt>Fabrikant</dt><dd><a href="https://www.nibenl.eu/nl-nl/producten/warmtepompen/lucht-water-warmtepompen/nibe-s2125" target="_blank" rel="noopener">officiële website van NIBE</a></dd>
+        <dt>Fabrikant</dt><dd><a href="https://www.nibe.eu/nl-nl/producten/warmtepompen/lucht-water-warmtepompen/s2125" target="_blank" rel="noopener">officiële website van NIBE</a></dd>
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
@@ -547,7 +549,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">10 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">10 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (natuurlijk)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 3.475</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">70 &deg;C</span></div>
@@ -611,7 +613,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">7 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">7 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (propaan)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.800</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">75 &deg;C</span></div>
@@ -639,25 +641,25 @@
         <dt>Slimme aansturing</dt><dd>Modbus via de ISG-gateway; SG-ready.</dd>
         <dt>Home Assistant</dt><dd>Officiële Home Assistant-integratie (stiebel_eltron) via de ISG-gateway met Modbus.</dd>
         <dt>Homey</dt><dd>Geen officiële app; community-oplossingen via de ISG-gateway en Modbus.</dd>
-        <dt>Rendement</dt><dd>SCOP circa 4,6 · labelwaarde bij 35 °C aanvoer</dd>
+        <dt>Rendement</dt><dd>SCOP circa 4,6 <small class="maat-bevestigd" title="Labelwaarde bij 35 graden aanvoer, gemiddeld klimaat">bij 35 °C</small> · labelwaarde bij 35 °C aanvoer</dd>
         <dt>Geluid</dt><dd>geluidsvermogen buitenunit; met stille nachtmodus</dd>
         <dt>Warm tapwater</dt><dd>via geïntegreerde hydromodule met aparte boiler</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>75 °C (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
         <dt>Goed om te weten</dt><dd>Propaan, 75 graden aanvoer en officiële Home Assistant-integratie: een combinatie die je niet vaak samen ziet. Met 54 dB(A) hoort hij bij de stillere helft. Een degelijke keus als je van het gas af wilt zonder je afgiftesysteem te verbouwen.</dd>
-        <dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst"><li><span>Boilermarkt</span><span><b>€ 7.950</b> &nbsp;<a href="https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-WPL-A-07-HK-230-Premium-lucht-water-warmtepomp-6-87-kW/" target="_blank" rel="noopener">bekijk</a></span></li><li><span>Wasco</span><span><b>€ 7.500</b> &nbsp;<a href="https://www.wasco.nl/artikel/stiebel-warmtepomp-wpl-a-07-hk-230-premium/1111594" target="_blank" rel="noopener">bekijk</a></span></li></ul><span class="datum-stempel prijs-gecontroleerd">Prijzen gecontroleerd: 14 augustus 2026. Zonder controledatum is de prijs een indicatie.</span></dd>
-        <dt>Fabrikant</dt><dd><a href="https://www.stiebel-eltron.nl/" target="_blank" rel="noopener">officiële website van Stiebel Eltron</a></dd>
+        <dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst"><li><span>Boilermarkt</span><span><b>€ 7.950</b> &nbsp;<a href="https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-WPL-A-07-HK-230-Premium-lucht-water-warmtepomp-6-87-kW/" target="_blank" rel="noopener">bekijk</a></span></li><li><span>Wasco</span><span><b>€ 8.812</b> &nbsp;<a href="https://www.wasco.nl/artikel/stiebel-warmtepomp-wpl-a-07-hk-230-premium/1111594" target="_blank" rel="noopener">bekijk</a></span></li></ul><span class="datum-stempel prijs-gecontroleerd">Prijzen gecontroleerd: 14 augustus 2026. Zonder controledatum is de prijs een indicatie.</span></dd>
+        <dt>Fabrikant</dt><dd><a href="https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-a-05-07-hk-premium/wpl-a-07-hk-230-premium.html" target="_blank" rel="noopener">officiële website van Stiebel Eltron</a></dd>
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
-          <div class="prijs">€ 7.500</div>
-          <div class="prijs-winkel">bij Wasco</div>
+          <div class="prijs">€ 7.950</div>
+          <div class="prijs-winkel">bij Boilermarkt</div>
           <div class="prijs-per-kwh">prijs voor: WPL-A 07.2 Plus HK 230 (monoblock, 7 kW)</div>
           <div class="prijs-winkel">monoblock met hydraulische module, excl. installatie en boiler</div>
           
         </div>
       </div>
       <div class="kaart-acties">
-        <a class="knop" href="https://www.wasco.nl/artikel/stiebel-warmtepomp-wpl-a-07-hk-230-premium/1111594" target="_blank" rel="noopener" aria-label="Bekijk de Stiebel Eltron WPL-A 07 HK Premium">Bekijk aanbieding <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+        <a class="knop" href="https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-WPL-A-07-HK-230-Premium-lucht-water-warmtepomp-6-87-kW/" target="_blank" rel="noopener" aria-label="Bekijk de Stiebel Eltron WPL-A 07 HK Premium">Bekijk aanbieding <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
         <a class="knop knop-secundair" href="pomp/stiebel-wpl-a07.html" title="Alle specificaties, prijzen en koppelingsdetails van de Stiebel Eltron WPL-A 07 HK Premium">Alle details</a>
       </div>
       <a class="kaart-naar-reken" href="rekenmodule.html?pomp=stiebel-wpl-a07" title="Bereken de besparing en terugverdientijd van de Stiebel Eltron WPL-A 07 HK Premium">Bereken de terugverdientijd van deze pomp <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
@@ -685,7 +687,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">6 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">6 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (natuurlijk)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.575</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">70 &deg;C</span></div>
@@ -713,13 +715,13 @@
         <dt>Slimme aansturing</dt><dd>SG-ready; uitgebreide regeling via de Vitocal-regelaar en ViCare-platform.</dd>
         <dt>Home Assistant</dt><dd>Officiële ViCare-integratie in Home Assistant (cloud-API): temperaturen, bedrijfsmodus en tapwater.</dd>
         <dt>Homey</dt><dd>Community-app voor ViCare in de Homey App Store (cloud).</dd>
-        <dt>Rendement</dt><dd>SCOP circa 5 · SCOP-waarden rond of boven 5,0 bij 35 °C aanvoer; A+++</dd>
+        <dt>Rendement</dt><dd>SCOP circa 5 <small class="maat-bevestigd" title="Labelwaarde bij 35 graden aanvoer, gemiddeld klimaat">bij 35 °C</small> · SCOP-waarden rond of boven 5,0 bij 35 °C aanvoer; A+++</dd>
         <dt>Geluid</dt><dd>stille buitenunit met nachtmodus; geluidsvermogen circa 54 dB(A)</dd>
         <dt>Warm tapwater</dt><dd>aparte boiler of hydro-toren</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>70 °C (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
         <dt>Goed om te weten</dt><dd>Hoog rendement, propaan als koudemiddel en 70 graden aanvoer: geschikt voor bestaande bouw zonder dat de radiatoren eruit moeten. Sterk punt is de koppeling: officiële Home Assistant-integratie én open aansturing, iets wat lang niet elk merk biedt. Garantie is via de installateur uit te breiden.</dd>
         <dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst"><li><span>Gewoon Gasvrij</span><span><b>€ 11.325</b> &nbsp;<a href="https://www.gewoongasvrij.nl/product/viessmann-vitocal-warmtepomp-250a-251-a06-230v-4-8-kw/" target="_blank" rel="noopener">bekijk</a></span></li><li><span>CV Dump</span><span><b>€ 8.431</b> &nbsp;<a href="https://cvdump.nl/product/viessmann-vitocal-250-a-warmtepomp/" target="_blank" rel="noopener">bekijk</a></span></li></ul><span class="datum-stempel prijs-gecontroleerd">Prijzen gecontroleerd: 14 augustus 2026. Zonder controledatum is de prijs een indicatie.</span></dd>
-        <dt>Fabrikant</dt><dd><a href="https://www.viessmann.nl/nl/producten/warmtepomp/vitocal-250-a.html" target="_blank" rel="noopener">officiële website van Viessmann</a></dd>
+        <dt>Fabrikant</dt><dd><a href="https://www.viessmann.nl/nl/producten/warmtepompen/vitocal-250-a.html" target="_blank" rel="noopener">officiële website van Viessmann</a></dd>
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
@@ -759,7 +761,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">13 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">13 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (propaan)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 4.150</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">75 &deg;C</span></div>
@@ -783,7 +785,7 @@
         <dt>Maximale aanvoertemperatuur</dt><dd>75 °C (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
         <dt>Goed om te weten</dt><dd>Het zwaarste toestel op propaan dat we voeren, met 75 graden aanvoer: bedoeld voor grote of slecht geïsoleerde woningen waar de radiatoren moeten blijven hangen. Let op de driefase-aansluiting - die heeft niet elke meterkast.</dd>
         
-        <dt>Fabrikant</dt><dd><a href="https://www.stiebel-eltron.nl/nl/home/producten-oplossingen/hernieuwbare_energie/warmtepomp.html" target="_blank" rel="noopener">officiële website van Stiebel Eltron</a></dd>
+        <dt>Fabrikant</dt><dd><a href="https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-a-trend/wpl-a-13-2-trend-hk-400.html" target="_blank" rel="noopener">officiële website van Stiebel Eltron</a></dd>
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
@@ -823,7 +825,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">4,5 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">4 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R32</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.125</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">55 &deg;C</span></div>
@@ -896,7 +898,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">12 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">12 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (natuurlijk)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 3.925</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">?</span></div>
@@ -960,7 +962,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">5 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">6 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (natuurlijk)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.575</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">70 &deg;C</span></div>
@@ -1000,8 +1002,8 @@
         <div class="prijs-blok">
           <div class="prijs">€ 7.000</div>
           <div class="prijs-winkel">richtprijs (indicatie)</div>
-          <div class="prijs-per-kwh">prijs voor: Blackbird 5 kW (monoblock)</div>
-          <div class="prijs-winkel">toestel, excl. boiler en installatie</div>
+          <div class="prijs-per-kwh">prijs voor: Blackbird P60 (monoblock)</div>
+          <div class="prijs-winkel">toestel, excl. boiler en installatie. Onze varianttekst noemde eerder 5 kW, maar de meldcode KA28196 hoort bij de Blackbird P60. Naam en meldcode wijzen nu naar hetzelfde toestel; RVO geeft er 6 kW voor bij de ontwerpbuitentemperatuur.</div>
           
         </div>
       </div>
@@ -1034,7 +1036,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">5 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">5 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (natuurlijk)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.350</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">75 &deg;C</span></div>
@@ -1062,7 +1064,7 @@
         <dt>Slimme aansturing</dt><dd>SG-ready; via de CZ-TAW1-module op de Aquarea-cloud, of volledig lokaal via HeishaMon.</dd>
         <dt>Home Assistant</dt><dd>Grote community: HeishaMon (volledig lokaal, zeer uitgebreid) of de Aquarea Smart Cloud-integratie; geen officiële integratie.</dd>
         <dt>Homey</dt><dd>Community-app voor Aquarea Smart Cloud in de Homey App Store.</dd>
-        <dt>Rendement</dt><dd>SCOP circa 4,7 · A+++; hoge aanvoertemperatuur voor bestaande bouw</dd>
+        <dt>Rendement</dt><dd>SCOP circa 4,7 <small class="maat-bevestigd" title="Labelwaarde bij 35 graden aanvoer, gemiddeld klimaat">bij 35 °C</small> · A+++; hoge aanvoertemperatuur voor bestaande bouw. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.</dd>
         <dt>Geluid</dt><dd>geluidsvermogen buitenunit volgens label; stille modus instelbaar</dd>
         <dt>Warm tapwater</dt><dd>aparte boiler of all-in-one binnenunit</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>75 °C (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
@@ -1108,7 +1110,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">4,5 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">4 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R32</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 1.925</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">55 &deg;C</span></div>
@@ -1147,8 +1149,8 @@
         <div class="prijs-blok">
           <div class="prijs">€ 2.749</div>
           <div class="prijs-winkel">bij 123Klimaatshop</div>
-          <div class="prijs-per-kwh">prijs voor: Xtend 4,5 kW (monoblock)</div>
-          <div class="prijs-winkel">los toestel, excl. installatie; het voordeligst in combinatie met een Intergas-ketel</div>
+          <div class="prijs-per-kwh">prijs voor: Xtend 5 (monoblock)</div>
+          <div class="prijs-winkel">los toestel, excl. installatie; het voordeligst in combinatie met een Intergas-ketel. Onze varianttekst noemde eerder 4,5 kW, maar de meldcode KA22154 hoort bij de Xtend 5. Naam en meldcode wijzen nu naar hetzelfde toestel; RVO geeft er 4 kW voor bij de ontwerpbuitentemperatuur.</div>
           
         </div>
       </div>
@@ -1181,7 +1183,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">4 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">3 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R32</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 1.700</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">55 &deg;C</span></div>
@@ -1222,7 +1224,7 @@
           <div class="prijs">€ 3.299</div>
           <div class="prijs-winkel">bij 123Klimaatshop</div>
           <div class="prijs-per-kwh">prijs voor: Elga Ace 4,0 kW (monoblock)</div>
-          <div class="prijs-winkel">buitenunit + binnenmodule, excl. installatie en cv-ketel</div>
+          <div class="prijs-winkel">buitenunit + binnenmodule, excl. installatie en cv-ketel. De 4,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 3 kW volgens de ISDE-meldcodelijst.</div>
           
         </div>
       </div>
@@ -1255,7 +1257,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">4 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">3 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R32</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 1.700</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">55 &deg;C</span></div>
@@ -1288,14 +1290,14 @@
         <dt>Maximale aanvoertemperatuur</dt><dd>55 °C (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
         <dt>Goed om te weten</dt><dd>Een monoblock die naast je cv-ketel komt te hangen: al het koudemiddel zit in de buitenunit, binnen loopt alleen water. Van alle pompen hier is dit met 59 dB(A) de luidste, dus met de buren dichtbij is dit niet je eerste keus. Let op de naam: Daikin heeft ook een R Hybride, en dat is een split met een aparte binnenunit.</dd>
         <dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst"><li><span>Coen+</span><span><b>€ 3.343</b> &nbsp;<a href="https://www.coen-plus.nl/daikin-altherma-hybride-warmtepomp-4kw-monoblock.html" target="_blank" rel="noopener">bekijk</a></span></li></ul><span class="datum-stempel prijs-gecontroleerd">Prijzen gecontroleerd: 14 augustus 2026. Zonder controledatum is de prijs een indicatie.</span></dd>
-        <dt>Fabrikant</dt><dd><a href="https://www.daikin.nl/nl_nl/producten/altherma.html" target="_blank" rel="noopener">officiële website van Daikin</a></dd>
+        <dt>Fabrikant</dt><dd><a href="https://www.daikin.nl/nl_nl/installateurs/productgroup/verwarming-en-warmtepompen/lucht-water-warmtepompen/hybrid-heatpump.html" target="_blank" rel="noopener">officiële website van Daikin</a></dd>
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
           <div class="prijs">€ 3.343</div>
           <div class="prijs-winkel">bij Coen+</div>
           <div class="prijs-per-kwh">prijs voor: Altherma H Hybride 4 kW (monoblock, EJHA04AV3)</div>
-          <div class="prijs-winkel">los toestel, excl. installatie en cv-ketel</div>
+          <div class="prijs-winkel">los toestel, excl. installatie en cv-ketel. De 4,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 3 kW volgens de ISDE-meldcodelijst.</div>
           
         </div>
       </div>
@@ -1328,7 +1330,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">5 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">5 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R32</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.350</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">?</span></div>
@@ -1392,7 +1394,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">5 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">4 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (natuurlijk)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.125</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">75 &deg;C</span></div>
@@ -1420,7 +1422,7 @@
         <dt>Slimme aansturing</dt><dd>SG-ready en via de eBUS volledig lokaal aan te sturen (ebusd); uitgebreide regelaar (sensoCOMFORT).</dd>
         <dt>Home Assistant</dt><dd>Sterke community-routes: myVAILLANT-integratie (cloud, HACS) of volledig lokaal via ebusd; geen officiële integratie.</dd>
         <dt>Homey</dt><dd>Geen bekende Homey-app; verbruik zichtbaar via de Homey Energy Dongle (P1).</dd>
-        <dt>Rendement</dt><dd>SCOP circa 4,7 · SCOP circa 4,65 tot 4,9 bij 35 °C aanvoer; A+++</dd>
+        <dt>Rendement</dt><dd>SCOP circa 4,7 <small class="maat-bevestigd" title="Labelwaarde bij 35 graden aanvoer, gemiddeld klimaat">bij 35 °C</small> · SCOP circa 4,65 tot 4,9 bij 35 °C aanvoer; A+++</dd>
         <dt>Geluid</dt><dd>een van de stillere all-electrics: circa 44 dB(A) geluidsdruk op 3 m, geluidsvermogen circa 54 dB(A)</dd>
         <dt>Warm tapwater</dt><dd>aparte boiler (uniSTOR) nodig</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>75 °C (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
@@ -1433,7 +1435,7 @@
           <div class="prijs">€ 4.513</div>
           <div class="prijs-winkel">bij Woon op Stroom</div>
           <div class="prijs-per-kwh">prijs voor: aroTHERM plus 5 kW (monoblock)</div>
-          <div class="prijs-winkel">toestel met binnenmodule, excl. boiler en installatie</div>
+          <div class="prijs-winkel">toestel met binnenmodule, excl. boiler en installatie. De 5,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 4 kW volgens de ISDE-meldcodelijst.</div>
           <div class="prijs-let-op">Dit is de losse buitenunit; de richtprijs hiernaast geldt voor een compleet systeem met binnenunit.</div>
         </div>
       </div>
@@ -1466,7 +1468,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">9,5 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">6 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R32</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.575</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">65 &deg;C</span></div>
@@ -1494,7 +1496,7 @@
         <dt>Slimme aansturing</dt><dd>Aansturing via de Itho Spider-thermostaat; geen open lokale API.</dd>
         <dt>Home Assistant</dt><dd>Community-integratie via de Spider-thermostaat; geen officiële integratie.</dd>
         <dt>Homey</dt><dd>Community-app voor de Spider-thermostaat; geen officiële app.</dd>
-        <dt>Rendement</dt><dd>SCOP circa 4,5 · labelwaarde bij 35 °C aanvoer</dd>
+        <dt>Rendement</dt><dd>SCOP circa 4,5 <small class="maat-bevestigd" title="Labelwaarde bij 35 graden aanvoer, gemiddeld klimaat">bij 35 °C</small> · labelwaarde bij 35 °C aanvoer</dd>
         <dt>Geluid</dt><dd>geluidsvermogen buitenunit; ontworpen op stille werking</dd>
         <dt>Warm tapwater</dt><dd>aparte boiler nodig</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>65 °C (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
@@ -1507,7 +1509,7 @@
           <div class="prijs">€ 4.630</div>
           <div class="prijs-winkel">bij Installmat</div>
           <div class="prijs-per-kwh">prijs voor: Amber 95 monoblock (9,5 kW)</div>
-          <div class="prijs-winkel">losse buitenunit, excl. installatie en boiler</div>
+          <div class="prijs-winkel">losse buitenunit, excl. installatie en boiler. De 9,5 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 6 kW volgens de ISDE-meldcodelijst.</div>
           
         </div>
       </div>
@@ -1540,7 +1542,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">6 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">6 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R32</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.575</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">65 &deg;C</span></div>
@@ -1574,7 +1576,7 @@
         <dt>Maximale aanvoertemperatuur</dt><dd>65 °C (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
         <dt>Goed om te weten</dt><dd>Het meest geïnstalleerde all-electric platform van Nederland, dus overal monteurs en onderdelen. Daar staat tegenover dat hij op R32 draait en tot 65 graden komt, waar nieuwere concurrenten propaan gebruiken en verder komen. De opvolger op R290 is inmiddels onderweg.</dd>
         <dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst"><li><span>KliMate</span><span><b>€ 5.414</b> &nbsp;<a href="https://www.klimate.nl/daikin-altherma-3-r-w-lucht-water-warmtepomp-split-unit-6-kw.html" target="_blank" rel="noopener">bekijk</a></span></li></ul><span class="datum-stempel prijs-gecontroleerd">Prijzen gecontroleerd: 14 augustus 2026. Zonder controledatum is de prijs een indicatie.</span></dd>
-        <dt>Fabrikant</dt><dd><a href="https://www.daikin.nl/nl_nl/producten/altherma.html" target="_blank" rel="noopener">officiële website van Daikin</a></dd>
+        <dt>Fabrikant</dt><dd><a href="https://www.daikin.nl/nl_nl/consument/products-and-advice/product-categories/heat-pumps/air-to-water-heat-pumps/daikin-altherma-3-r-w.html" target="_blank" rel="noopener">officiële website van Daikin</a></dd>
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
@@ -1614,7 +1616,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">7 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">7 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (natuurlijk)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.800</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">75 &deg;C</span></div>
@@ -1641,13 +1643,13 @@
         <dt>Slimme aansturing</dt><dd>SG-ready contact; verdere regeling via de LG-regelaar en ThinQ-cloud, Modbus via interface.</dd>
         <dt>Home Assistant</dt><dd>Via de officiële LG ThinQ-integratie (beperkte warmtepompfuncties) of lokaal via Modbus; community-ervaring wisselend per model.</dd>
         <dt>Homey</dt><dd>LG ThinQ-app in de Homey App Store (functies per apparaat verschillend).</dd>
-        <dt>Rendement</dt><dd>SCOP circa 4,7 · A+++; scherp geprijsd voor de specificaties</dd>
+        <dt>Rendement</dt><dd>SCOP circa 4,7 <small class="maat-bevestigd" title="Labelwaarde bij 35 graden aanvoer, gemiddeld klimaat">bij 35 °C</small> · A+++; scherp geprijsd voor de specificaties. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.</dd>
         <dt>Geluid</dt><dd>geluidsvermogen buitenunit volgens label; stille nachtmodus</dd>
         <dt>Warm tapwater</dt><dd>aparte boiler of IWT-binnenunit</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>75 °C (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
         <dt>Goed om te weten</dt><dd>Veel techniek voor je geld: propaan, 75 graden aanvoer en A+++ voor een prijs waar de premiummerken niet bij in de buurt komen. De keerzijde zit in de service - het installateursnetwerk is kleiner dan bij Daikin of Remeha, en de koppeling loopt overal via een omweg.</dd>
         <dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst"><li><span>Aircoshop Nederland</span><span><b>€ 6.549</b> &nbsp;<a href="https://aircoshopnl.nl/warmtepomp/monoblock-warmtepomp/lg-therma-v-monobloc-warmtepomp-r290-1-fase-70-kw/" target="_blank" rel="noopener">bekijk</a></span></li></ul><span class="datum-stempel prijs-gecontroleerd">Prijzen gecontroleerd: 14 augustus 2026. Zonder controledatum is de prijs een indicatie.</span></dd>
-        <dt>Fabrikant</dt><dd><a href="https://www.lg.com/nl/business/therma-v/" target="_blank" rel="noopener">officiële website van LG</a></dd>
+        <dt>Fabrikant</dt><dd><a href="https://www.lg.com/nl/warmtepomp/therma-v-r290-monobloc/" target="_blank" rel="noopener">officiële website van LG</a></dd>
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
@@ -1687,7 +1689,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">5 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">6 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (natuurlijk)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.375</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">75 &deg;C</span></div>
@@ -1715,20 +1717,20 @@
         <dt>Slimme aansturing</dt><dd>SG-ready en EEBUS; energiemanagers van derden kunnen hem aansturen.</dd>
         <dt>Home Assistant</dt><dd>Via de community: EMS-ESP leest de Bosch/Nefit EMS-bus volledig lokaal uit; officiële integratie ontbreekt (wel HomeCom-cloud).</dd>
         <dt>Homey</dt><dd>Geen bekende Homey-app; verbruik zichtbaar via de Homey Energy Dongle (P1).</dd>
-        <dt>Rendement</dt><dd>SCOP circa 4,8 · A+++; geldt als een van de stilste warmtepompen van dit moment</dd>
+        <dt>Rendement</dt><dd>SCOP circa 4,8 <small class="maat-bevestigd" title="Labelwaarde bij 35 graden aanvoer, gemiddeld klimaat">bij 35 °C</small> · A+++; geldt als een van de stilste warmtepompen van dit moment. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.</dd>
         <dt>Geluid</dt><dd>zeer stil ontwerp; geluidsvermogen tot circa 51 dB(A) volgens datasheet</dd>
         <dt>Warm tapwater</dt><dd>aparte boiler of tower-binnenunit</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>75 °C (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
         <dt>Goed om te weten</dt><dd>Met 51 dB(A) de stilste pomp in deze vergelijking op de Inventum na, en die laatste is een heel ander type. Als je buren dichtbij wonen of de unit onder een slaapkamerraam komt, is dat het argument. Propaan, 75 graden aanvoer, en in Nederland ook via de Nefit-kanalen te krijgen.</dd>
         <dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst"><li><span>Aircozonderstek<br><small>Dit is de losse buitenunit van de 5 kW-uitvoering; de richtprijs hiernaast geldt voor het complete toestel.</small></span><span><b>€ 5.695</b> &nbsp;<a href="https://www.aircozonderstek.nl/product/nefit-bosch-compress-5800i-aw-5-or-s-buitenunit/" target="_blank" rel="noopener">bekijk</a></span></li><li><span>Woonwijzerwinkel</span><span><b>€ 7.500</b> &nbsp;<a href="https://www.woonwijzerwinkel.nl/product/nefit-bosch-monoblock-compress-5800i-aw/" target="_blank" rel="noopener">bekijk</a></span></li></ul><span class="datum-stempel prijs-gecontroleerd">Prijzen gecontroleerd: 14 augustus 2026. Zonder controledatum is de prijs een indicatie.</span></dd>
-        <dt>Fabrikant</dt><dd><a href="https://www.nefit-bosch.nl/producten/warmtepompen/compress-5800i-aw/" target="_blank" rel="noopener">officiële website van Bosch</a></dd>
+        <dt>Fabrikant</dt><dd><a href="https://www.nefit-bosch.nl/ocs/compress-5800i-aw-21076799-p/" target="_blank" rel="noopener">officiële website van Bosch</a></dd>
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
           <div class="prijs">€ 7.500</div>
           <div class="prijs-winkel">bij Woonwijzerwinkel</div>
           <div class="prijs-per-kwh">prijs voor: Compress 5800i AW 5 kW (monoblock)</div>
-          <div class="prijs-winkel">compleet toestel, excl. boiler en installatie</div>
+          <div class="prijs-winkel">compleet toestel, excl. boiler en installatie. De 5,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 6 kW volgens de ISDE-meldcodelijst.</div>
           
         </div>
       </div>
@@ -1761,7 +1763,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">8 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">8 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R32</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 3.025</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">70 &deg;C</span></div>
@@ -1789,7 +1791,7 @@
         <dt>Slimme aansturing</dt><dd>SG-ready en Modbus (MIM-modules); daardoor goed in energiemanagementsystemen op te nemen.</dd>
         <dt>Home Assistant</dt><dd>Geen officiële integratie; sterke community-routes via Modbus en het EHS-Sentinel-project (lokaal).</dd>
         <dt>Homey</dt><dd>Geen bekende Homey-app voor de EHS-lijn; verbruik zichtbaar via de Homey Energy Dongle (P1).</dd>
-        <dt>Rendement</dt><dd>SCOP circa 4,6 · A+++; ontworpen op stille werking (Quiet-modus)</dd>
+        <dt>Rendement</dt><dd>SCOP circa 4,6 <small class="maat-bevestigd" title="Labelwaarde bij 35 graden aanvoer, gemiddeld klimaat">bij 35 °C</small> · A+++; ontworpen op stille werking (Quiet-modus). Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.</dd>
         <dt>Geluid</dt><dd>Quiet-modus verlaagt het geluid fors; geluidsvermogen circa 54 dB(A)</dd>
         <dt>Warm tapwater</dt><dd>aparte boiler of ClimateHub-binnenunit</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>70 °C (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
@@ -1835,7 +1837,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">12 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">12 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (natuurlijk)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 3.925</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">75 &deg;C</span></div>
@@ -1899,7 +1901,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">10 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">9 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R32</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 3.050</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">60 &deg;C</span></div>
@@ -1927,7 +1929,7 @@
         <dt>Slimme aansturing</dt><dd>Wifi-app en Modbus-aansluiting; geen gedocumenteerde open API.</dd>
         <dt>Home Assistant</dt><dd>Community-integratie via Modbus (gree-versati); geen officiële integratie.</dd>
         <dt>Homey</dt><dd>Geen app bekend.</dd>
-        <dt>Rendement</dt><dd>SCOP circa 4,5 · labelwaarde bij 35 °C aanvoer</dd>
+        <dt>Rendement</dt><dd>SCOP circa 4,5 <small class="maat-bevestigd" title="Labelwaarde bij 35 graden aanvoer, gemiddeld klimaat">bij 35 °C</small> · labelwaarde bij 35 °C aanvoer</dd>
         <dt>Geluid</dt><dd>geluidsvermogen buitenunit</dd>
         <dt>Warm tapwater</dt><dd>aparte boiler nodig (All-in-One-variant heeft ingebouwd vat)</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>60 °C (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
@@ -1940,7 +1942,7 @@
           <div class="prijs">€ 4.139</div>
           <div class="prijs-winkel">bij Aircoshop</div>
           <div class="prijs-per-kwh">prijs voor: Versati IV monoblock 10 kW (ook als Tosot verkocht)</div>
-          <div class="prijs-winkel">losse monoblock; het budgetsegment onder de A-merken</div>
+          <div class="prijs-winkel">losse monoblock; het budgetsegment onder de A-merken. De 10,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 9 kW volgens de ISDE-meldcodelijst.</div>
           
         </div>
       </div>
@@ -1973,7 +1975,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">1,6 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">2 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R134a</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 1.675</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">55 &deg;C</span></div>
@@ -2046,7 +2048,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak vol"></span><span class="meter-vak vol"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">7 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">6 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (propaan)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.575</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">70 &deg;C</span></div>
@@ -2074,28 +2076,91 @@
         <dt>Slimme aansturing</dt><dd>eBUS; Modbus via de optionele ISM8i-interfacemodule.</dd>
         <dt>Home Assistant</dt><dd>Community-route via ebusd (eBUS) of de ISM8i-module; geen officiële integratie.</dd>
         <dt>Homey</dt><dd>Geen app bekend.</dd>
-        <dt>Rendement</dt><dd>SCOP circa 4,7 · labelwaarde bij 35 °C aanvoer</dd>
+        <dt>Rendement</dt><dd>SCOP circa 4,7 <small class="maat-bevestigd" title="Labelwaarde bij 35 graden aanvoer, gemiddeld klimaat">bij 35 °C</small> · labelwaarde bij 35 °C aanvoer</dd>
         <dt>Geluid</dt><dd>geluidsvermogen buitenunit; fluisterstand beschikbaar</dd>
         <dt>Warm tapwater</dt><dd>aparte boiler of CHC-module nodig</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>70 °C (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
         <dt>Goed om te weten</dt><dd>Propaan en 70 graden aanvoer voor een nette prijs. De koppeling is het zwakke punt: geen officiële integratie met Home Assistant of Homey, en aansturen loopt via de thermostaat. Prima pomp als slimme sturing voor jou geen eis is.</dd>
-        <dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst"><li><span>Gewoon Gasvrij</span><span><b>€ 8.795</b> &nbsp;<a href="https://www.gewoongasvrij.nl/product/wolf-cha-monoblock-07-lucht-water-propaan-warmtepomp-7-kw/" target="_blank" rel="noopener">bekijk</a></span></li><li><span>Aircozonderstek</span><span><b>€ 8.795</b> &nbsp;<a href="https://www.aircozonderstek.nl/product/wolf-cha-monoblock-07-lucht-water-propaan-warmtepomp-7kw/" target="_blank" rel="noopener">bekijk</a></span></li><li><span>Benem</span><span><b>€ 6.900</b> &nbsp;<a href="https://benem.nl/wolf-cha-monoblock-7.html" target="_blank" rel="noopener">bekijk</a></span></li></ul><span class="datum-stempel prijs-gecontroleerd">Prijzen gecontroleerd: 14 augustus 2026. Zonder controledatum is de prijs een indicatie.</span></dd>
+        <dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst"><li><span>Gewoon Gasvrij</span><span><b>€ 8.795</b> &nbsp;<a href="https://www.gewoongasvrij.nl/product/wolf-cha-monoblock-07-lucht-water-propaan-warmtepomp-7-kw/" target="_blank" rel="noopener">bekijk</a></span></li><li><span>Aircozonderstek</span><span><b>€ 8.795</b> &nbsp;<a href="https://www.aircozonderstek.nl/product/wolf-cha-monoblock-07-lucht-water-propaan-warmtepomp-7kw/" target="_blank" rel="noopener">bekijk</a></span></li></ul><span class="datum-stempel prijs-gecontroleerd">Prijzen gecontroleerd: 14 augustus 2026. Zonder controledatum is de prijs een indicatie.</span></dd>
         <dt>Fabrikant</dt><dd><a href="https://www.wolf.eu/monobloc-cha" target="_blank" rel="noopener">officiële website van Wolf</a></dd>
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
-          <div class="prijs">€ 6.900</div>
-          <div class="prijs-winkel">bij Benem</div>
+          <div class="prijs">€ 8.795</div>
+          <div class="prijs-winkel">bij Gewoon Gasvrij</div>
           <div class="prijs-per-kwh">prijs voor: CHA-Monoblock 07 (7 kW)</div>
-          <div class="prijs-winkel">losse buitenunit met regelmodule, excl. installatie en boiler</div>
+          <div class="prijs-winkel">losse buitenunit met regelmodule, excl. installatie en boiler. De 7,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 6 kW volgens de ISDE-meldcodelijst.</div>
           
         </div>
       </div>
       <div class="kaart-acties">
-        <a class="knop" href="https://benem.nl/wolf-cha-monoblock-7.html" target="_blank" rel="noopener" aria-label="Bekijk de Wolf CHA-07 Monoblock">Bekijk aanbieding <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+        <a class="knop" href="https://www.gewoongasvrij.nl/product/wolf-cha-monoblock-07-lucht-water-propaan-warmtepomp-7-kw/" target="_blank" rel="noopener" aria-label="Bekijk de Wolf CHA-07 Monoblock">Bekijk aanbieding <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
         <a class="knop knop-secundair" href="pomp/wolf-cha-07.html" title="Alle specificaties, prijzen en koppelingsdetails van de Wolf CHA-07 Monoblock">Alle details</a>
       </div>
       <a class="kaart-naar-reken" href="rekenmodule.html?pomp=wolf-cha-07" title="Bereken de besparing en terugverdientijd van de Wolf CHA-07 Monoblock">Bereken de terugverdientijd van deze pomp <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+    </article>
+
+    <article class="paneel-kaart" data-id="dewarmte-pomp-ao">
+      <div class="vergelijk-checkbox-wrap">
+        <label class="badge" title="Selecteer om te vergelijken (max. 3)">
+          <input type="checkbox" class="vergelijk-check" data-id="dewarmte-pomp-ao" > vergelijk
+        </label>
+      </div>
+      <div class="kaart-kop">
+        <div>
+          <div class="merk">DeWarmte</div>
+          <h3>Pomp AO</h3>
+          <span class="type-badge type-all-electric">All-electric</span>
+        </div>
+      </div>
+      <div class="koppel-meter" data-uitleg="Koppel-score">
+      <div class="koppel-meter-kop">
+        <span class="koppel-meter-label"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /> <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg> Koppel-score</span>
+        <span class="koppel-meter-cijfer"><b>0</b><span class="van">/6</span></span>
+      </div>
+      <div class="meter-spoor" role="img" aria-label="Koppel-score 0 van 6"
+           title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
+    </div>
+      <div class="kaart-specs">
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">6 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
+        <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R32</span></div>
+        <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.375</span></div>
+        <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">?</span></div>
+      </div>
+      <div class="geluid-strook leeg"><span class="spec-label">Geluid buitenunit</span><span class="geluid-onbekend">nog niet vastgesteld</span></div>
+      
+      <div class="kaart-badges">
+        <span class="badge onbekend" data-uitleg="Slimme aansturing" title="Niet vastgesteld welke open aansturing deze unit biedt."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg> Slimme aansturing</span>
+        <span class="badge onbekend" data-uitleg="Home Assistant" title="Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg> Home Assistant</span>
+        <span class="badge onbekend" data-uitleg="Homey" title="Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg> Homey</span>
+      </div>
+      <button class="details-toggle" data-id="dewarmte-pomp-ao">Meer details</button>
+      <div class="kaart-details" data-details="dewarmte-pomp-ao" hidden>
+        <dt>Slimme aansturing</dt><dd>Niet vastgesteld welke open aansturing deze unit biedt.</dd>
+        <dt>Home Assistant</dt><dd>Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp.</dd>
+        <dt>Homey</dt><dd>Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp.</dd>
+        <dt>Rendement</dt><dd>SCOP circa 4,9 · SCOP 4,9; ontworpen voor het bestaande cv-net van Nederlandse woningen</dd>
+        <dt>Geluid</dt><dd>geluidsvermogen nog niet vastgesteld; DeWarmte noemt 45 dB zonder de grootheid erbij, en hun grotere Pomp MP staat op 53 dB geluidsvermogen - die 45 is dus niet zonder meer vergelijkbaar</dd>
+        <dt>Warm tapwater</dt><dd>via de cv-ketel of een aparte boiler</dd>
+        <dt>Maximale aanvoertemperatuur</dt><dd>? (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
+        <dt>Goed om te weten</dt><dd>Nederlands merk uit Delft dat snel groeit. Het toestel is gemaakt om aan te sluiten op je bestaande cv-net, dus je hoeft je radiatoren niet eerst te vervangen, en je kunt hem flexibel rond de woning plaatsen.</dd>
+        <dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst"><li><span>Woonwijzerwinkel</span><span><b>€ 3.400</b> &nbsp;<a href="https://www.woonwijzerwinkel.nl/product/pomp-ao-van-dewarmte/" target="_blank" rel="noopener">bekijk</a></span></li></ul><span class="datum-stempel prijs-gecontroleerd">Prijzen gecontroleerd: 13 augustus 2026. Zonder controledatum is de prijs een indicatie.</span></dd>
+        <dt>Fabrikant</dt><dd><a href="https://www.dewarmte.nl/" target="_blank" rel="noopener">officiële website van DeWarmte</a></dd>
+      </div>
+      <div class="kaart-prijs">
+        <div class="prijs-blok">
+          <div class="prijs">€ 3.400</div>
+          <div class="prijs-winkel">bij Woonwijzerwinkel</div>
+          <div class="prijs-per-kwh">prijs voor: Pomp AO (2 tot 8 kW)</div>
+          
+          
+        </div>
+      </div>
+      <div class="kaart-acties">
+        <a class="knop" href="https://www.woonwijzerwinkel.nl/product/pomp-ao-van-dewarmte/" target="_blank" rel="noopener" aria-label="Bekijk de DeWarmte Pomp AO">Bekijk aanbieding <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+        <a class="knop knop-secundair" href="pomp/dewarmte-pomp-ao.html" title="Alle specificaties, prijzen en koppelingsdetails van de DeWarmte Pomp AO">Alle details</a>
+      </div>
+      <a class="kaart-naar-reken" href="rekenmodule.html?pomp=dewarmte-pomp-ao" title="Bereken de besparing en terugverdientijd van de DeWarmte Pomp AO">Bereken de terugverdientijd van deze pomp <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
     </article>
 
     <article class="paneel-kaart" data-id="itho-vincent-v45-hybride">
@@ -2120,7 +2185,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">4,5 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">4 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 1.925</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">?</span></div>
@@ -2150,7 +2215,7 @@
           <div class="prijs">€ 3.995</div>
           <div class="prijs-winkel">bij Aircozonderstek</div>
           <div class="prijs-per-kwh">prijs voor: Vincent V45-Hybride 4,5 kW (binnenopstelling)</div>
-          <div class="prijs-winkel">los toestel voor binnenopstelling, excl. installatie; werkt samen met de cv-ketel</div>
+          <div class="prijs-winkel">los toestel voor binnenopstelling, excl. installatie; werkt samen met de cv-ketel. De 4,5 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 4 kW volgens de ISDE-meldcodelijst.</div>
           
         </div>
       </div>
@@ -2183,7 +2248,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">6 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">5 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R32</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.350</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">?</span></div>
@@ -2201,7 +2266,7 @@
         <dt>Slimme aansturing</dt><dd>Niet vastgesteld welke open aansturing deze unit biedt.</dd>
         <dt>Home Assistant</dt><dd>Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp.</dd>
         <dt>Homey</dt><dd>Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp.</dd>
-        <dt>Rendement</dt><dd>SCOP circa 4,65 · SCOP 4,65 bij 35 graden aanvoer en 4,46 bij hogere temperatuur, energielabel A+++</dd>
+        <dt>Rendement</dt><dd>SCOP circa 4,65 <small class="maat-bevestigd" title="Labelwaarde bij 35 graden aanvoer, gemiddeld klimaat">bij 35 °C</small> · SCOP 4,65 bij 35 graden aanvoer en 4,46 bij hogere temperatuur, energielabel A+++</dd>
         <dt>Geluid</dt><dd>geluidsvermogen nog niet vastgesteld; Atlantic noemt 33 dB(A), maar dat is geluidsdruk op afstand</dd>
         <dt>Warm tapwater</dt><dd>via de DUO-uitvoering met ingebouwde boiler</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>? (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
@@ -2247,7 +2312,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">6 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">5 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (natuurlijk)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.350</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">?</span></div>
@@ -2265,7 +2330,7 @@
         <dt>Slimme aansturing</dt><dd>Niet vastgesteld welke open aansturing deze unit biedt.</dd>
         <dt>Home Assistant</dt><dd>Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp.</dd>
         <dt>Homey</dt><dd>Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp.</dd>
-        <dt>Rendement</dt><dd>SCOP circa 4,8 · SCOP tot 4,8 bij lage aanvoertemperatuur, energielabel A+++; leverbaar van 4 tot 16 kW</dd>
+        <dt>Rendement</dt><dd>SCOP circa 4,8 <small class="maat-bevestigd" title="Labelwaarde bij 35 graden aanvoer, gemiddeld klimaat">bij 35 °C</small> · SCOP tot 4,8 bij lage aanvoertemperatuur, energielabel A+++; leverbaar van 4 tot 16 kW. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.</dd>
         <dt>Geluid</dt><dd>geluidsvermogen nog niet vastgesteld; Toshiba publiceert 30 dB(A) in stille modus op 5 meter, en dat is geluidsdruk op afstand - niet vergelijkbaar met de labelwaarde in deze kolom</dd>
         <dt>Warm tapwater</dt><dd>via de binnenunit met boiler</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>? (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
@@ -2278,7 +2343,7 @@
           <div class="prijs">€ 8.107</div>
           <div class="prijs-winkel">bij Intercool</div>
           <div class="prijs-per-kwh">prijs voor: Estia Bi-Bloc R290 6 kW (HWP-601HW-E)</div>
-          
+          <div class="prijs-winkel">De 6,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 5 kW volgens de ISDE-meldcodelijst.</div>
           <div class="prijs-let-op">Intercool is de Nederlandse distributeur; prijzen lopen doorgaans via de installateur.</div>
         </div>
       </div>
@@ -2311,7 +2376,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">4 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">4 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R32</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.125</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">?</span></div>
@@ -2353,69 +2418,6 @@
       <a class="kaart-naar-reken" href="rekenmodule.html?pomp=hitachi-yutaki-m" title="Bereken de besparing en terugverdientijd van de Hitachi Yutaki M">Bereken de terugverdientijd van deze pomp <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
     </article>
 
-    <article class="paneel-kaart" data-id="dewarmte-pomp-ao">
-      <div class="vergelijk-checkbox-wrap">
-        <label class="badge" title="Selecteer om te vergelijken (max. 3)">
-          <input type="checkbox" class="vergelijk-check" data-id="dewarmte-pomp-ao" > vergelijk
-        </label>
-      </div>
-      <div class="kaart-kop">
-        <div>
-          <div class="merk">DeWarmte</div>
-          <h3>Pomp AO</h3>
-          <span class="type-badge type-all-electric">All-electric</span>
-        </div>
-      </div>
-      <div class="koppel-meter" data-uitleg="Koppel-score">
-      <div class="koppel-meter-kop">
-        <span class="koppel-meter-label"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /> <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg> Koppel-score</span>
-        <span class="koppel-meter-cijfer"><b>0</b><span class="van">/6</span></span>
-      </div>
-      <div class="meter-spoor" role="img" aria-label="Koppel-score 0 van 6"
-           title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
-    </div>
-      <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">6 kW</span></div>
-        <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R32</span></div>
-        <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 2.375</span></div>
-        <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">?</span></div>
-      </div>
-      <div class="geluid-strook leeg"><span class="spec-label">Geluid buitenunit</span><span class="geluid-onbekend">nog niet vastgesteld</span></div>
-      
-      <div class="kaart-badges">
-        <span class="badge onbekend" data-uitleg="Slimme aansturing" title="Niet vastgesteld welke open aansturing deze unit biedt."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg> Slimme aansturing</span>
-        <span class="badge onbekend" data-uitleg="Home Assistant" title="Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg> Home Assistant</span>
-        <span class="badge onbekend" data-uitleg="Homey" title="Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg> Homey</span>
-      </div>
-      <button class="details-toggle" data-id="dewarmte-pomp-ao">Meer details</button>
-      <div class="kaart-details" data-details="dewarmte-pomp-ao" hidden>
-        <dt>Slimme aansturing</dt><dd>Niet vastgesteld welke open aansturing deze unit biedt.</dd>
-        <dt>Home Assistant</dt><dd>Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp.</dd>
-        <dt>Homey</dt><dd>Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp.</dd>
-        <dt>Rendement</dt><dd>SCOP circa 4,9 · SCOP 4,9; ontworpen voor het bestaande cv-net van Nederlandse woningen</dd>
-        <dt>Geluid</dt><dd>geluidsvermogen nog niet vastgesteld; DeWarmte noemt 45 dB zonder de grootheid erbij, en hun grotere Pomp MP staat op 53 dB geluidsvermogen - die 45 is dus niet zonder meer vergelijkbaar</dd>
-        <dt>Warm tapwater</dt><dd>via de cv-ketel of een aparte boiler</dd>
-        <dt>Maximale aanvoertemperatuur</dt><dd>? (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
-        <dt>Goed om te weten</dt><dd>Nederlands merk uit Delft dat snel groeit. Het toestel is gemaakt om aan te sluiten op je bestaande cv-net, dus je hoeft je radiatoren niet eerst te vervangen, en je kunt hem flexibel rond de woning plaatsen.</dd>
-        <dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst"><li><span>Woonwijzerwinkel</span><span><b>prijs volgt</b> &nbsp;<a href="https://www.woonwijzerwinkel.nl/product/pomp-ao-van-dewarmte/" target="_blank" rel="noopener">bekijk</a></span></li></ul></dd>
-        <dt>Fabrikant</dt><dd><a href="https://www.dewarmte.nl/" target="_blank" rel="noopener">officiële website van DeWarmte</a></dd>
-      </div>
-      <div class="kaart-prijs">
-        <div class="prijs-blok">
-          <div class="prijs">Prijs op aanvraag</div>
-          
-          <div class="prijs-per-kwh">prijs voor: Pomp AO (2 tot 8 kW)</div>
-          
-          
-        </div>
-      </div>
-      <div class="kaart-acties">
-        
-        <a class="knop knop-secundair" href="pomp/dewarmte-pomp-ao.html" title="Alle specificaties, prijzen en koppelingsdetails van de DeWarmte Pomp AO">Alle details</a>
-      </div>
-      <a class="kaart-naar-reken" href="rekenmodule.html?pomp=dewarmte-pomp-ao" title="Bereken de besparing en terugverdientijd van de DeWarmte Pomp AO">Bereken de terugverdientijd van deze pomp <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
-    </article>
-
     <article class="paneel-kaart" data-id="viessmann-vitocal-150a">
       <div class="vergelijk-checkbox-wrap">
         <label class="badge" title="Selecteer om te vergelijken (max. 3)">
@@ -2438,7 +2440,7 @@
            title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details."><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span><span class="meter-vak"></span></div>
     </div>
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">11 kW</span></div>
+        <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">11 kW <small class="maat-bevestigd" title="Prated volgens EU 811/2013: het vermogen bij de ontwerpbuitentemperatuur, de maat waarop je een pomp kiest">koude dag</small></span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">R290 (natuurlijk)</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa € 3.700</span></div>
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">?</span></div>
@@ -2462,7 +2464,7 @@
         <dt>Maximale aanvoertemperatuur</dt><dd>? (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
         <dt>Goed om te weten</dt><dd>Voor wie een groter of slechter geïsoleerd huis heeft en de 250-A te duur vindt: dezelfde fabrikant, een toegankelijker lijn, op propaan. Met 11 kW zit hij in de klasse waar de meeste vrijstaande woningen uitkomen.</dd>
         
-        <dt>Fabrikant</dt><dd><a href="https://www.viessmann.nl/nl/warmtepompen.html" target="_blank" rel="noopener">officiële website van Viessmann</a></dd>
+        <dt>Fabrikant</dt><dd><a href="https://www.viessmann.nl/nl/producten/warmtepompen/vitocal-150-a.html" target="_blank" rel="noopener">officiële website van Viessmann</a></dd>
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">

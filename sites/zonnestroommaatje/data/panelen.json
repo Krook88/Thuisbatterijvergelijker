@@ -353,7 +353,7 @@
       "vermogen_behoud_25j_pct": 89.4,
       "temp_coefficient": -0.3,
       "richtprijs_eur": 85,
-      "prijs_datum": "2026-07-21",
+      "prijs_datum": "2026-08-13",
       "prijs_omvat": "prijs per paneel, 0% btw bij levering voor een woning, excl. omvormer en installatie",
       "product_url": "https://alius.nl/",
       "opmerkingen": "Merk van de Nederlandse distributeur Alius: productie in Azië, maar Nederlandse garantieafhandeling en support. Glas-glas en bifaciaal, met 30 jaar garantie op product en vermogen (bij sommige varianten tot 35 jaar). Populair bij installateurs vanwege de prijs-kwaliteitverhouding.",
@@ -366,9 +366,9 @@
         },
         {
           "winkel": "Solar-NU",
-          "prijs_eur": 114,
+          "prijs_eur": 130,
           "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1445/denim-n-type-440w-all-black-glas-glas-bifacial-zonnepaneel-u-n3-440-bbg-108h-1762x1134x30mm-0259w.html",
-          "datum": null
+          "datum": "2026-08-13"
         }
       ]
     },

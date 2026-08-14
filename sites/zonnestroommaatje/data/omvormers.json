@@ -63,7 +63,9 @@
           "prijs_eur": 250
         },
         "bron": "Enphase IQ8HC datasheet: aanbevolen paneelvermogen tot 560 Wp"
-      }
+      },
+      "panelen_per_eenheid": 1,
+      "systeem_toeslag_eur": 250
     },
     {
       "id": "apsystems-ds3",
@@ -119,7 +121,9 @@
           "prijs_eur": 230
         },
         "bron": "APsystems DS3 datasheet: 300-660 Wp+ aanbevolen, tot 550 Wp per ingang gangbaar"
-      }
+      },
+      "panelen_per_eenheid": 2,
+      "systeem_toeslag_eur": 150
     },
     {
       "id": "solaredge-home-wave",
@@ -179,7 +183,8 @@
         ],
         "max_dc_ac": 1.5,
         "bron": "SolarEdge S500-datasheet (tot 500 Wp per optimizer); SolarEdge staat 135-155% overdimensionering toe"
-      }
+      },
+      "panelen_per_eenheid": null
     },
     {
       "id": "sma-tripower-smart-energy",
@@ -236,7 +241,8 @@
         ],
         "max_dc_ac": 1.5,
         "bron": "SMA: hybride 5-10 kW; SMA staat ruime overdimensionering toe"
-      }
+      },
+      "panelen_per_eenheid": null
     },
     {
       "id": "fronius-gen24",
@@ -293,7 +299,8 @@
         ],
         "max_dc_ac": 1.35,
         "bron": "Fronius GEN24: Primo 3-6 kW (1-fase), Symo 6-10 kW (3-fase)"
-      }
+      },
+      "panelen_per_eenheid": null
     },
     {
       "id": "goodwe-et",
@@ -345,7 +352,8 @@
         ],
         "max_dc_ac": 1.35,
         "bron": "GoodWe ET-serie: 5-15 kW, 3-fase"
-      }
+      },
+      "panelen_per_eenheid": null
     },
     {
       "id": "huawei-sun2000",
@@ -413,7 +421,8 @@
         ],
         "max_dc_ac": 1.35,
         "bron": "Huawei SUN2000 L1: 2-6 kW, 1-fase"
-      }
+      },
+      "panelen_per_eenheid": null
     },
     {
       "id": "growatt-min-xh",
@@ -481,7 +490,8 @@
         ],
         "max_dc_ac": 1.35,
         "bron": "Growatt MIN TL-XH: 2,5-6 kW, 1-fase"
-      }
+      },
+      "panelen_per_eenheid": null
     },
     {
       "id": "solis-s6-hybride",
@@ -541,7 +551,8 @@
         ],
         "max_dc_ac": 1.35,
         "bron": "Solis S6 hybride: 3-10 kW in 1- en 3-fase varianten"
-      }
+      },
+      "panelen_per_eenheid": null
     },
     {
       "id": "sungrow-sh",
@@ -603,7 +614,8 @@
         ],
         "max_dc_ac": 1.35,
         "bron": "Sungrow SH-serie: 3,6-10 kW (RS 1-fase, RT 3-fase)"
-      }
+      },
+      "panelen_per_eenheid": null
     },
     {
       "id": "deye-sg04lp1",
@@ -658,7 +670,8 @@
         ],
         "max_dc_ac": 1.35,
         "bron": "Deye SG04LP1: 3,6-12 kW, 1-fase"
-      }
+      },
+      "panelen_per_eenheid": null
     },
     {
       "id": "victron-multiplus2",
@@ -703,7 +716,8 @@
         "soort": "maatwerk",
         "voorbeeld_ac_kw": 4,
         "bron": "Victron MultiPlus-II 48/5000: 4.000 W continu; panelen via aparte MPPT-laadregelaars (ontwerp door specialist)"
-      }
+      },
+      "panelen_per_eenheid": null
     }
   ]
 }

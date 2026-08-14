@@ -1,0 +1,95 @@
+{
+  "toelichting": "Modellen die in een winkel staan maar niet in onze gegevens. Automatisch gevonden, nooit automatisch toegevoegd: nakijken en dan zelf opnemen, of de titel in scripts/nieuwe-modellen.json onder \"afgewezen\" zetten.",
+  "kandidaten": [
+    {
+      "titel": "denim n type 490w all black glas glas bifaciaal zonnepaneel u n3 490 bbg 120h 1909x1134x30mm 0255w",
+      "bron": "Solar-NU (panelen)",
+      "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1446/denim-n-type-490w-all-black-glas-glas-bifaciaal-zonnepaneel-u-n3-490-bbg-120h-1909x1134x30mm-0255w.html",
+      "ean": null,
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "490 wp",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "dmegc zonnepaneel 440wp mono full black 220wpm2 n type hc mc4 evo2 dm440m10rt 54hbb 1762x1134x30mm 0294w",
+      "bron": "Solar-NU (panelen)",
+      "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1348/dmegc-zonnepaneel-440wp-mono-full-black-220wpm2-n-type-hc-mc4-evo2-dm440m10rt-54hbb-1762x1134x30mm-0294w.html",
+      "ean": null,
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "440 wp",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "dmegc zonnepaneel 460wp transparant black frame n type glassglass 20mm bifacial hc mc4 evo 2a dm460g12rt b48hbt 1762x1134x30 0235w",
+      "bron": "Solar-NU (panelen)",
+      "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/glas-glas-panelen/detail/1499/dmegc-zonnepaneel-460wp-transparant--black-frame-n-type-glassglass-20mm-bifacial-hc-mc4-evo-2a-dm460g12rt-b48hbt-1762x1134x30-0235w.html",
+      "ean": null,
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "460 wp",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "dmegc zonnepaneel 470wp mono full black n type glassglass 20mm mono facial hc 30mm met mc4 evo 2a 1762x1134x30mm 0260w",
+      "bron": "Solar-NU (panelen)",
+      "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1524/dmegc-zonnepaneel-470wp-mono-full-black-n-type-glassglass-20mm-mono-facial-hc-30mm-met-mc4-evo-2a-1762x1134x30mm-0260w.html",
+      "ean": null,
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "470 wp",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "ja solar jam54d40lb 465w bifacial double glass half cut black frame jam54d40 465lb 1762 x 1134 x 30 nm 0217w",
+      "bron": "Solar-NU (panelen)",
+      "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1526/ja-solar-jam54d40lb-465w-bifacial-double-glass-half-cut-black-frame-jam54d40-465lb--1762-x-1134-x-30-nm-0217w.html",
+      "ean": null,
+      "prijs_eur": null,
+      "lijkt_op": "ja-solar-jam54d41-440",
+      "maat_uit_titel": "465 wp",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "jinko solar tiger neo 455w half cut full black dual glass ppe2 jkm455n 48hl4m db 1762x1134x30mm 0213w",
+      "bron": "Solar-NU (panelen)",
+      "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1500/jinko-solar-tiger-neo-455w-half-cut-full-black-dual-glass-ppe2-jkm455n-48hl4m-db-1762x1134x30mm-0213w.html",
+      "ean": null,
+      "prijs_eur": null,
+      "lijkt_op": "jinko-tiger-neo-440",
+      "maat_uit_titel": "455 wp",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "jinko solar tiger neo 470w half cut silver frame jkm470n 60hl4 v 1903113430mm 0282w",
+      "bron": "Solar-NU (panelen)",
+      "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1311/jinko-solar-tiger-neo-470w-half-cut-silver-frame---jkm470n-60hl4-v-1903113430mm-0282w.html",
+      "ean": null,
+      "prijs_eur": null,
+      "lijkt_op": "jinko-tiger-neo-440",
+      "maat_uit_titel": "470 wp",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "jinko solar tiger neo r 435w half cut full black 25 years jkm435n 54hl4r b 1762x1134x30mm 0168w",
+      "bron": "Solar-NU (panelen)",
+      "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/detail/1388/jinko-solar-tiger-neo-r-435w-half-cut-full-black-25-years-jkm435n-54hl4r-b-1762x1134x30mm--0168w.html",
+      "ean": null,
+      "prijs_eur": null,
+      "lijkt_op": "jinko-tiger-neo-440",
+      "maat_uit_titel": "435 wp",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "jinko solar tiger neo r 450w half cut full black 25 years new quantity jkm450n 54hl4r b 1762x1134x30mm 0212w",
+      "bron": "Solar-NU (panelen)",
+      "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1415/jinko-solar-tiger-neo-r-450w-half-cut-full-black-25-years---new-quantity-jkm450n-54hl4r-b-1762x1134x30mm-0212w.html",
+      "ean": null,
+      "prijs_eur": null,
+      "lijkt_op": "jinko-tiger-neo-440",
+      "maat_uit_titel": "450 wp",
+      "eerst_gezien": "2026-08-11"
+    }
+  ]
+}

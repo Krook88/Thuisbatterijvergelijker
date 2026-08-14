@@ -14,6 +14,16 @@ on:
         type: choice
         options: ["alle", "batterijmaatje", "zonnestroommaatje", "warmtepompmaatje"]
         default: "alle"
+      droog:
+        # De ontwikkelomgeving komt niet bij winkelpagina's (de egress-proxy
+        # laat alleen npm en pypi door), dus een wijziging aan het uitlezen van
+        # prijzen is daar niet te beoordelen. Hiermee is dat hier wel te doen:
+        # de runner bezoekt de winkels, het logboek laat zien welk bedrag elke
+        # weg oplevert, en er wordt niets weggeschreven of geduwd.
+        description: "Alleen kijken: prijzen ophalen zonder iets weg te schrijven"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -49,6 +59,17 @@ jobs:
         with:
           node-version: "22"
 
+      # De enige stap die de run wel laat falen. De andere controles melden,
+      # want die gaan over gegevens waar een fabrikant iets aan moet doen. Deze
+      # gaat over onze eigen logica: prijs.js en condities.js bepalen wat
+      # vergelijkbaar is, en dat voedt de vergelijker, de keuzehulp, de
+      # rekenmodule en de generator tegelijk. Een stille fout daar verandert
+      # elke prijs op elke pagina.
+      - name: Tests
+        if: steps.keuze.outputs.doen == 'true'
+        working-directory: sites/${{ matrix.site }}
+        run: npm test
+
       - name: Prijzen bijwerken
         if: steps.keuze.outputs.doen == 'true'
         working-directory: sites/${{ matrix.site }}
@@ -57,10 +78,39 @@ jobs:
           # oude prijs staan; het script faalt daar niet op.
           BOL_CLIENT_ID: ${{ secrets.BOL_CLIENT_ID }}
           BOL_CLIENT_SECRET: ${{ secrets.BOL_CLIENT_SECRET }}
-        run: npm run prijzen
+        run: npm run prijzen ${{ github.event.inputs.droog == 'true' && '-- --droog' || '' }}
+
+      # Prijzen werken zichzelf bij, maar een nieuw model verschijnt nergens
+      # vanzelf. Deze stap zoekt ernaar en meldt alleen: toevoegen blijft
+      # mensenwerk, want een verkeerd toegevoegd model krijgt een pagina en een
+      # plek in de vergelijking zonder dat iemand de specificaties heeft gezien.
+      # Faalt nooit de run: dit is een signaal, geen bewaking.
+      - name: Nieuwe modellen zoeken
+        if: steps.keuze.outputs.doen == 'true'
+        continue-on-error: true
+        working-directory: sites/${{ matrix.site }}
+        env:
+          BOL_CLIENT_ID: ${{ secrets.BOL_CLIENT_ID }}
+          BOL_CLIENT_SECRET: ${{ secrets.BOL_CLIENT_SECRET }}
+        run: npm run modellen
+
+      # Van zestien batterijen ligt niet vast of het getal in vermogen_kw het
+      # continue vermogen is, een piek, of de 800 W die op een gedeelde groep is
+      # toegestaan. Die staan door elkaar in een kolom waarop de site
+      # vergelijkt. De datasheets staan op de sites van de fabrikanten, en daar
+      # kan de ontwikkelomgeving niet bij (de egress-proxy laat alleen npm en
+      # pypi door) maar de runner wel.
+      #
+      # Rapporteert alleen; overnemen is mensenwerk. Een regex die "5 kW" naast
+      # het woord "continu" ziet is een aanwijzing, geen specificatie.
+      - name: Vermogens op fabrikantpagina's zoeken
+        if: steps.keuze.outputs.doen == 'true' && matrix.site == 'batterijmaatje'
+        continue-on-error: true
+        working-directory: sites/batterijmaatje
+        run: npm run vermogens
 
       - name: Pagina's en sitemap herbouwen
-        if: steps.keuze.outputs.doen == 'true'
+        if: steps.keuze.outputs.doen == 'true' && github.event.inputs.droog != 'true'
         working-directory: sites/${{ matrix.site }}
         run: npm run genereer
 
@@ -75,7 +125,7 @@ jobs:
         run: node scripts/controleer-links.mjs --zonder-winkels
 
       - name: Wijzigingen committen en pushen
-        if: steps.keuze.outputs.doen == 'true'
+        if: steps.keuze.outputs.doen == 'true' && github.event.inputs.droog != 'true'
         run: |
           git config user.name "prijsupdate-bot"
           git config user.email "actions@github.com"
@@ -111,6 +161,40 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+
+      # Drie controles die geen enkele stap laten falen maar wel elke dag
+      # melden. Ze bewaken alle drie hetzelfde soort fout: iets dat klopte toen
+      # het geschreven werd en stilletjes onwaar wordt, zonder dat iemand er
+      # iets voor hoeft te doen.
+
+      # Titels, omschrijvingen, canonicals en de productmarkup. Die stonden op
+      # twee van de drie sites ver buiten wat Google toont - 67 titels tot 103
+      # tekens - en van de zestig offers had er geen enkele een
+      # houdbaarheidsdatum. Met de hand rechtgezet, en zonder controle zakt dat
+      # net zo geruisloos terug: een generator die een zin een half woord langer
+      # maakt ziet niemand, want de pagina werkt gewoon.
+      - name: Wat de zoekmachine ziet
+        continue-on-error: true
+        run: node scripts/zoekmachine.mjs
+
+      # Teksten die aan de kalender hangen verlopen zonder dat iemand iets doet:
+      # niemand verandert iets, de datum verschuift en de site heeft ongelijk.
+      # In de rekenmodule stond het aanschafjaar hard op 2026, wat op 1 januari
+      # een half jaar salderingsvoordeel zou toerekenen dat er niet meer is.
+      - name: Teksten die aan een datum hangen
+        continue-on-error: true
+        run: node scripts/datumteksten.mjs
+
+      # Vijf keer is op deze sites een getal vergeleken met een getal dat iets
+      # anders betekende: btw, bruto capaciteit, apparaat tegenover compleet,
+      # milde dag tegenover koude dag, stuksprijs tegenover systeemprijs. Elke
+      # keer viel het pas op toen iemand het toevallig opmerkte. Deze controle
+      # meldt het zodra een getal de gegevens in komt zonder dat vastligt wat
+      # het is. Faalt de run niet: een controle die rood kan blijven staan omdat
+      # een fabrikant iets niet publiceert, leest niemand meer.
+      - name: Vergelijkbaarheid van de getallen
+        continue-on-error: true
+        run: node scripts/vergelijkbaar.mjs
 
       - name: Ouderdom van de gegevens per site
         run: |

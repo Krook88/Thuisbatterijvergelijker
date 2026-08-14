@@ -6,8 +6,8 @@
     {
       "id": "marstek-venus-e-3",
       "merk": "Marstek",
-      "model": "Venus E 3.0 (5,12 kWh)",
-      "capaciteit_kwh": 5.12,
+      "model": "Venus E 3.0 (4,6 kWh bruikbaar)",
+      "capaciteit_kwh": 4.6,
       "uitbreidbaar_tot_kwh": 15.36,
       "vermogen_kw": 2.5,
       "type": "plug-in",
@@ -29,9 +29,9 @@
       "aanbiedingen": [
         {
           "winkel": "Marstek.nl (officieel)",
-          "prijs_eur": 1299,
+          "prijs_eur": 1199,
           "url": "https://www.marstek.nl/product/marstek-venus-e-3-0-plug-charge-thuisbatterij-5-12-kwh-incl-p1-meter/",
-          "datum": "2026-07-13"
+          "datum": "2026-08-13"
         },
         {
           "winkel": "bol.com",
@@ -43,9 +43,9 @@
         },
         {
           "winkel": "Thuisbatterij.nl",
-          "prijs_eur": 1295,
+          "prijs_eur": 1250,
           "url": "https://thuisbatterij.nl/winkel/marstek-venus-e-versie-3/",
-          "datum": null
+          "datum": "2026-08-13"
         }
       ],
       "totaalprijs_van_eur": 1299,
@@ -56,7 +56,11 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "geschikt voor binnen en buiten, -20 tot 55 °C",
       "afbeelding": "assets/producten/marstek-venus-e-3.webp",
-      "afbeelding_bron": "foto: Marstek"
+      "afbeelding_bron": "foto: Marstek",
+      "capaciteit_nominaal_kwh": 5.12,
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "max",
+      "vermogen_bron": "Marstek geeft 800 W on-grid en 2500 W off-grid; dit getal is de off-grid maximumwaarde"
     },
     {
       "id": "marstek-venus-c-768",
@@ -97,7 +101,11 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "geschikt voor binnen en buiten",
       "afbeelding": "assets/producten/marstek-venus-c-768.webp",
-      "afbeelding_bron": "foto: Marstek"
+      "afbeelding_bron": "foto: Marstek",
+      "capaciteit_soort": "nominaal",
+      "capaciteit_nominaal_kwh": 7.68,
+      "vermogen_conditie": "max",
+      "vermogen_bron": "Marstek geeft 800 W on-grid en 2500 W off-grid; dit getal is de off-grid maximumwaarde"
     },
     {
       "id": "sessy-5kwh",
@@ -121,7 +129,7 @@
       "app": "Sessy app",
       "garantie_jaar": 10,
       "cycli": 6000,
-      "opmerkingen": "Nederlands fabrikaat, gebouwd door Charged B.V. in Enschede. Hij handelt zelf op EPEX-uurprijzen en doet mee op de onbalansmarkt, en laat zich ook aansturen via Frank Energie Slim Handelen. De garantie is opgesplitst: 10 jaar op de batterij, 5 jaar op de omvormer. Inmiddels is er de Sessy 2.0, die stiller is en beter koelt, en een 10 kWh-uitvoering (adviesprijs 5.500 euro incl. btw, zonder installatie). Heb je noodstroom nodig, dan is het wachten op de aangekondigde Sessy Plus (15 kWh), met eerste leveringen vanaf oktober 2026.",
+      "opmerkingen": "Nederlands fabrikaat, gebouwd door Charged B.V. in Enschede. Hij handelt zelf op EPEX-uurprijzen en doet mee op de onbalansmarkt, en laat zich ook aansturen via Frank Energie Slim Handelen. De garantie is opgesplitst: 10 jaar op de batterij, 5 jaar op de omvormer. Inmiddels is er de Sessy 2.0, die stiller is en beter koelt, en een 10 kWh-uitvoering (adviesprijs 5.500 euro incl. btw, zonder installatie). Heb je noodstroom nodig, dan is het wachten op de aangekondigde Sessy Plus (15 kWh), met eerste leveringen vanaf oktober 2026. Sessy geeft 5 kWh op als bruikbare opslagcapaciteit.",
       "product_url": "https://www.sessy.nl/sessy-5-kwh/",
       "aanbiedingen": [
         {
@@ -137,7 +145,10 @@
       "noodstroom": "Alleen met de optionele Sessy-noodstroommodule plus een externe Victron-omvormer: handmatig apparaten voeden, geen automatische omschakeling en geen voeding van de huisinstallatie.",
       "noodstroom_uitleg": "Alleen met de optionele Sessy-noodstroommodule plus een externe Victron-omvormer: handmatig apparaten voeden, geen automatische omschakeling en geen voeding van de huisinstallatie.",
       "ip_klasse": "IP20",
-      "buiten_toelichting": "alleen voor droge binnenruimtes, 0-40 °C"
+      "buiten_toelichting": "alleen voor droge binnenruimtes, 0-40 °C",
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "Sessy geeft 2,2 kW laden en 1,7 kW ontladen voor de ingebouwde omvormer; ons getal is die ontlaadwaarde"
     },
     {
       "id": "homewizard-plug-in-battery",
@@ -150,7 +161,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 1395,
       "prijs_omvat": "incl. btw, excl. HomeWizard P1-meter (ca. 35 euro, vereist)",
-      "prijs_datum": "2026-07-13",
+      "prijs_datum": "2026-08-13",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "De HomeWizard P1-meter leest je slimme meter uit, waarna de batterij op nul-op-de-meter stuurt en het overschot van je bestaande panelen opvangt. Stekker in het stopcontact en je bent klaar.",
       "koppeling_gemak": 5,
@@ -170,14 +181,15 @@
           "winkel": "HomeWizard shop",
           "prijs_eur": 1195,
           "url": "https://www.homewizard.com/shop/plug-in-battery/",
-          "datum": "2026-07-13"
+          "datum": "2026-08-13"
         },
         {
           "winkel": "bol.com",
           "prijs_eur": 1195,
           "url": "https://www.bol.com/nl/nl/p/homewizard-plug-in-battery-thuisbatterij/9300000238947832/",
           "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fhomewizard-plug-in-battery-thuisbatterij%2F9300000238947832%2F&name=homewizard-plug-in-battery&subid=batterijmaatje",
-          "datum": null
+          "datum": null,
+          "niet_leverbaar": true
         }
       ],
       "totaalprijs_van_eur": 1230,
@@ -188,7 +200,11 @@
       "ip_klasse": "onbekend",
       "buiten_toelichting": "fabrikant: alleen binnen gebruiken, vorstvrij en droog",
       "afbeelding": "assets/producten/homewizard-plug-in-battery.webp",
-      "afbeelding_bron": "foto: HomeWizard"
+      "afbeelding_bron": "foto: HomeWizard",
+      "capaciteit_soort": "nominaal",
+      "capaciteit_nominaal_kwh": 2.7,
+      "vermogen_conditie": "stopcontact",
+      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
     },
     {
       "id": "ecoflow-stream-ac-pro",
@@ -220,7 +236,8 @@
           "url": "https://www.bol.com/nl/nl/p/ecoflow-stream-ac-pro-thuisbatterij/9300000232241116/",
           "datum": "2026-08-05",
           "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fecoflow-stream-ac-pro-thuisbatterij%2F9300000232241116%2F&name=ecoflow-stream-ac-pro&subid=batterijmaatje",
-          "ean": "4895251643849"
+          "ean": "4895251643849",
+          "niet_leverbaar": true
         }
       ],
       "totaalprijs_van_eur": 729,
@@ -231,7 +248,10 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "geschikt voor buiten, -20 tot 55 °C",
       "afbeelding": "assets/producten/ecoflow-stream-ac-pro.webp",
-      "afbeelding_bron": "foto: EcoFlow"
+      "afbeelding_bron": "foto: EcoFlow",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "stopcontact",
+      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
     },
     {
       "id": "anker-solix-solarbank-3-pro",
@@ -274,7 +294,11 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "geschikt voor buiten; interne verwarming tot -20 °C",
       "afbeelding": "assets/producten/anker-solix-solarbank-3-pro.webp",
-      "afbeelding_bron": "foto: Anker SOLIX"
+      "afbeelding_bron": "foto: Anker SOLIX",
+      "capaciteit_soort": "nominaal",
+      "capaciteit_nominaal_kwh": 2.69,
+      "vermogen_conditie": "stopcontact",
+      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
     },
     {
       "id": "zendure-solarflow-hyper-2000",
@@ -307,7 +331,8 @@
           "url": "https://www.bol.com/nl/nl/p/zendure-solarflow-ab2000x-thuisbatterij-hyper-2000-omvormer/9300000243337538/",
           "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fzendure-solarflow-ab2000x-thuisbatterij-hyper-2000-omvormer%2F9300000243337538%2F&name=zendure-solarflow-hyper-2000&subid=batterijmaatje",
           "datum": null,
-          "ean": "7440847461436"
+          "ean": "7440847461436",
+          "niet_leverbaar": true
         }
       ],
       "totaalprijs_van_eur": 850,
@@ -318,7 +343,10 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "geldt voor de Hyper-unit; geschikt voor buiten",
       "afbeelding": "assets/producten/zendure-solarflow-hyper-2000.webp",
-      "afbeelding_bron": "foto: Zendure"
+      "afbeelding_bron": "foto: Zendure",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "stopcontact",
+      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
     },
     {
       "id": "zonneplan-nexus",
@@ -331,6 +359,8 @@
       "fase": "3-fase",
       "richtprijs_eur": 5990,
       "prijs_omvat": "vanaf-prijs incl. installatie door Zonneplan",
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "vanaf-prijs uit een offerte van Zonneplan; er staat geen vast bedrag op een pagina",
       "prijs_datum": "2026-07-13",
       "prijs_bron": "Zonneplan (offerte)",
       "installatie": "installateur",
@@ -358,7 +388,9 @@
       "noodstroom": "Optioneel noodstroom-stopcontact bij installatie (ca. 200 euro meerprijs): levert bij een storing tot 3.600 W; de rest van de woning blijft spanningsloos.",
       "noodstroom_uitleg": "Optioneel noodstroom-stopcontact bij installatie (ca. 200 euro meerprijs): levert bij een storing tot 3.600 W; de rest van de woning blijft spanningsloos.",
       "ip_klasse": "IP55",
-      "buiten_toelichting": "fabrikant: niet buiten plaatsen; vorstvrij en droog opstellen"
+      "buiten_toelichting": "fabrikant: niet buiten plaatsen; vorstvrij en droog opstellen",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "enphase-iq-battery-5p",
@@ -371,6 +403,8 @@
       "fase": "beide",
       "richtprijs_eur": 5426,
       "prijs_omvat": "vanaf-prijs incl. installatie en btw (via Vattenfall/Feenstra); losse unit ca. 3.700 tot 4.800 euro excl. btw",
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "vanaf-prijs incl. installatie via Vattenfall/Feenstra; er staat geen vast bedrag op een pagina",
       "prijs_datum": "2026-07-13",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "AC-gekoppeld, dus welk merk omvormer je ook hebt: die mag blijven zitten. Je hebt wel een IQ Gateway (Envoy) nodig. Dankzij FlexPhase past dezelfde hardware zowel op 1- als 3-fase.",
@@ -399,7 +433,10 @@
       "ip_klasse": "IP55",
       "buiten_toelichting": "binnen en buiten installeerbaar volgens fabrikant",
       "afbeelding": "assets/producten/enphase-iq-battery-5p.webp",
-      "afbeelding_bron": "foto: Enphase"
+      "afbeelding_bron": "foto: Enphase",
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "Enphase-datasheet: 3,84 kVA rated (continuous) output, piek 7,68 kW gedurende 3 seconden"
     },
     {
       "id": "victron-pylontech-3fase",
@@ -437,7 +474,9 @@
       "noodstroom": true,
       "noodstroom_uitleg": "Ingebouwde UPS-functie in de MultiPlus-II: neemt bij netuitval binnen ca. 20 ms de belasting over. Hele huis of kritische groepen mogelijk, ca. 12 kW bij de 3-fase opstelling.",
       "ip_klasse": "IP20",
-      "buiten_toelichting": "alleen binnen, in een droge technische ruimte"
+      "buiten_toelichting": "alleen binnen, in een droge technische ruimte",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "sigenergy-sigenstor-8kwh",
@@ -472,15 +511,16 @@
           "datum": "2026-08-14"
         }
       ],
-      "totaalprijs_van_eur": 6500,
-      "totaalprijs_tot_eur": 8000,
-      "totaalprijs_toelichting": "praktijkindicatie compleet geinstalleerd incl. btw (8 kWh)",
+      "totaalprijs_van_eur": 7864,
+      "totaalprijs_toelichting": "het aanbod van Frank Energie is compleet geinstalleerd: 6.499 euro excl. btw, oftewel 7.864 incl. btw. Hier stond eerder 6.500 tot 8.000 - dat eerste getal was het bedrag excl. btw van datzelfde aanbod, waardoor de complete prijs lager leek dan het toestel alleen. Een bovengrens hebben wij niet uit een bron; die is daarom weggelaten in plaats van geschat.",
       "noodstroom": "Alleen met de optionele Sigen Energy Gateway (ca. 2.000 euro): schakelt de hele woning vrijwel naadloos om naar de batterij, tot ca. 10 kW.",
       "noodstroom_uitleg": "Alleen met de optionele Sigen Energy Gateway (ca. 2.000 euro): schakelt de hele woning vrijwel naadloos om naar de batterij, tot ca. 10 kW.",
       "ip_klasse": "IP66",
       "buiten_toelichting": "binnen en buiten, zonder extra overkapping",
       "afbeelding": "assets/producten/sigenergy-sigenstor-8kwh.webp",
-      "afbeelding_bron": "foto: Sigenergy"
+      "afbeelding_bron": "foto: Sigenergy",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "tesla-powerwall-3",
@@ -525,7 +565,10 @@
       "noodstroom": "Alleen met de Tesla Backup Gateway 2 of Backup Switch: hele woning, tot ca. 11 kW per Powerwall. Er is Nederlandstalige installatiedocumentatie, maar hoe gangbaar dit in NL is, is beperkt gedocumenteerd.",
       "noodstroom_uitleg": "Alleen met de Tesla Backup Gateway 2 of Backup Switch: hele woning, tot ca. 11 kW per Powerwall. Er is Nederlandstalige installatiedocumentatie, maar hoe gangbaar dit in NL is, is beperkt gedocumenteerd.",
       "ip_klasse": "IP67",
-      "buiten_toelichting": "binnen en buiten; bedradingscompartiment IP55"
+      "buiten_toelichting": "binnen en buiten; bedradingscompartiment IP55",
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "onze notitie: continu circa 5 kW, piek 7 kW"
     },
     {
       "id": "alphaess-smile-g3-t10",
@@ -565,7 +608,10 @@
       "noodstroom": "Alleen met de optionele AlphaESS Backup Box (kritische groepen of noodstopcontact) of Backup Box Plus (hele woning); omschakeling binnen ca. 10 ms.",
       "noodstroom_uitleg": "Alleen met de optionele AlphaESS Backup Box (kritische groepen of noodstopcontact) of Backup Box Plus (hele woning); omschakeling binnen ca. 10 ms.",
       "ip_klasse": "onbekend",
-      "buiten_toelichting": "omvormer IP65; de IP-klasse van de batterijmodule verschilt per uitvoering, vraag de installateur"
+      "buiten_toelichting": "omvormer IP65; de IP-klasse van de batterijmodule verschilt per uitvoering, vraag de installateur",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "max",
+      "vermogen_bron": "AlphaESS noemt op de eigen pagina \"Maximaal laadvermogen 4 / 6 / 8 / 10 kW\": ons getal is de bovenste variant en bovendien een laadvermogen, niet het ontlaadvermogen"
     },
     {
       "id": "fox-ess-ep11",
@@ -580,6 +626,7 @@
       "prijs_omvat": "alleen batterij incl. btw; excl. omvormer en installatie",
       "prijs_datum": "2026-07-13",
       "prijs_bron": "Energiemagazijn",
+      "prijs_bron_url": "https://energiemagazijn.nl/thuisbatterijen/209-foxess-ep11.html",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Hij werkt met de omvormers van Fox ESS zelf: de hybride H1 (1-fase), KH, H3 en H3-Pro (3-fase), én AC-gekoppeld via de AC1 of AC3. Dankzij dat laatste hoeft je huidige omvormer er bij bestaande panelen niet uit.",
       "koppeling_gemak": 3,
@@ -594,13 +641,16 @@
       "aanbiedingen": [],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "geen betrouwbare totaalprijs bekend; vraag een offerte op",
+      "totaalprijs_toelichting": "Van dit systeem hebben wij geen prijs inclusief installatie uit een bron. Dit is het toestel (3385 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
       "noodstroom": true,
       "noodstroom_uitleg": "De Fox ESS H1/H3-omvormers hebben standaard een EPS-poort die een aparte noodstroomgroep voedt bij netuitval; voor een groter deel van de installatie is de optionele EPS Box nodig. De noodstroomgroep moet door de installateur worden aangesloten.",
       "ip_klasse": "IP65",
       "buiten_toelichting": "binnen en buiten",
       "afbeelding": "assets/producten/fox-ess-ep11.webp",
-      "afbeelding_bron": "foto: Fox ESS"
+      "afbeelding_bron": "foto: Fox ESS",
+      "capaciteit_soort": "onbekend",
+      "totaalprijs_geschat_van_eur": 3885,
+      "totaalprijs_geschat_tot_eur": 5385
     },
     {
       "id": "growatt-apx-10",
@@ -634,7 +684,8 @@
       "ip_klasse": "IP66",
       "buiten_toelichting": "binnen en buiten",
       "afbeelding": "assets/producten/growatt-apx-10.webp",
-      "afbeelding_bron": "foto: Growatt"
+      "afbeelding_bron": "foto: Growatt",
+      "capaciteit_soort": "onbekend"
     },
     {
       "id": "sungrow-sbr096",
@@ -676,13 +727,15 @@
       "ip_klasse": "IP55",
       "buiten_toelichting": "binnen en buiten volgens fabrikant",
       "afbeelding": "assets/producten/sungrow-sbr096.webp",
-      "afbeelding_bron": "foto: Sungrow"
+      "afbeelding_bron": "foto: Sungrow",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "byd-battery-box-hvm-11",
       "merk": "BYD",
-      "model": "Battery-Box Premium HVM 11.0 (11 kWh)",
-      "capaciteit_kwh": 11.04,
+      "model": "Battery-Box Premium HVM 11.0 (11 kWh bruikbaar)",
+      "capaciteit_kwh": 11,
       "uitbreidbaar_tot_kwh": 66.2,
       "vermogen_kw": 10,
       "type": "hybride",
@@ -708,7 +761,10 @@
       "noodstroom": "Afhankelijk van de gekozen omvormer: bijvoorbeeld Fronius GEN24 met PV Point (ca. 3 kW) of Full Backup met extra omschakelvoorziening. De batterij zelf regelt geen noodstroom.",
       "noodstroom_uitleg": "Afhankelijk van de gekozen omvormer: bijvoorbeeld Fronius GEN24 met PV Point (ca. 3 kW) of Full Backup met extra omschakelvoorziening. De batterij zelf regelt geen noodstroom.",
       "ip_klasse": "IP55",
-      "buiten_toelichting": "buiten toegestaan volgens fabrikant, -10 tot 50 °C"
+      "buiten_toelichting": "buiten toegestaan volgens fabrikant, -10 tot 50 °C",
+      "capaciteit_nominaal_kwh": 11.04,
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "solaredge-home-battery-48v",
@@ -744,11 +800,17 @@
       ],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "geen betrouwbare totaalprijs bekend; vraag een offerte op",
+      "totaalprijs_toelichting": "Van dit systeem hebben wij geen prijs inclusief installatie uit een bron. Dit is het toestel (6200 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
       "noodstroom": false,
       "noodstroom_uitleg": "De SolarEdge 48V-lijn levert in Nederland geen noodstroom; SolarEdge biedt back-up alleen via de 400V-lijn met de Home Backup Interface.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "EU-uitvoering; binnen en buiten"
+      "buiten_toelichting": "EU-uitvoering; binnen en buiten",
+      "capaciteit_soort": "bruikbaar",
+      "capaciteit_nominaal_kwh": 9.7,
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "onze notitie: vanaf 2 modules continu 5 kW",
+      "totaalprijs_geschat_van_eur": 6700,
+      "totaalprijs_geschat_tot_eur": 8200
     },
     {
       "id": "huawei-luna2000-10",
@@ -791,7 +853,10 @@
       "ip_klasse": "IP66",
       "buiten_toelichting": "binnen en buiten, -20 tot 55 °C",
       "afbeelding": "assets/producten/huawei-luna2000-10.webp",
-      "afbeelding_bron": "foto: Huawei"
+      "afbeelding_bron": "foto: Huawei",
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "onze notitie: piek 7 kW gedurende 10 seconden, dus 5 kW is de continue waarde"
     },
     {
       "id": "deye-rw-m61-set",
@@ -806,6 +871,7 @@
       "prijs_omvat": "batterijen plus hybride omvormer (samengestelde componentenprijs), excl. installatie",
       "prijs_datum": "2026-07-13",
       "prijs_bron": "laatst bekende setprijs (juli 2026)",
+      "prijs_controle": "handmatig",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "De 48V-batterijen werken alleen via een Deye SUN-hybride omvormer, 1- of 3-fase. In Nederland wordt dit meestal als apart systeem naast bestaande panelen neergezet.",
       "koppeling_gemak": 3,
@@ -820,11 +886,15 @@
       "aanbiedingen": [],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "geen betrouwbare totaalprijs bekend; vraag een offerte op",
+      "totaalprijs_toelichting": "Van dit systeem hebben wij geen prijs inclusief installatie uit een bron. Dit is het toestel (5770 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
       "noodstroom": true,
       "noodstroom_uitleg": "Ingebouwde backup/load-poort met UPS-functie: aangesloten groepen blijven bij netuitval doorwerken; de omvormer kan ook volledig off-grid draaien.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "binnen en buiten (RW-M6.1-B-uitvoering)"
+      "buiten_toelichting": "binnen en buiten (RW-M6.1-B-uitvoering)",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend",
+      "totaalprijs_geschat_van_eur": 6270,
+      "totaalprijs_geschat_tot_eur": 7770
     },
     {
       "id": "lg-enblock-flex-129",
@@ -837,8 +907,9 @@
       "fase": "beide",
       "richtprijs_eur": 5113,
       "prijs_omvat": "alleen batterij; excl. hybride omvormer en installatie (compleet NL-systeem incl. omvormer en installatie ca. 4.400 tot 14.500 euro afhankelijk van capaciteit)",
-      "prijs_datum": "2026-07-13",
+      "prijs_datum": "2026-08-13",
       "prijs_bron": "MG Solar Shop",
+      "prijs_bron_url": "https://www.mg-solar-shop.com/lg-energy-solution-enblock-flex-12.9-kwh-batteriespeicher",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "DC-gekoppeld, dus je hebt een compatibele hybride omvormer nodig (Fronius, KOSTAL, SMA of GoodWe, 1- en 3-fase). Zonder zo'n omvormer, of zonder je huidige te vervangen, past hij niet bij een bestaand systeem.",
       "koppeling_gemak": 2,
@@ -853,11 +924,14 @@
       "aanbiedingen": [],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "geen betrouwbare totaalprijs bekend; vraag een offerte op",
+      "totaalprijs_toelichting": "Van dit systeem hebben wij geen prijs inclusief installatie uit een bron. Dit is het toestel (5113 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
       "noodstroom": null,
       "noodstroom_uitleg": "Afhankelijk van de gekozen omvormer (GoodWe, SMA, Fronius, Kostal) en bijbehorende backup-voorziening; voor de Nederlandse markt is hierover weinig eenduidige informatie. Vraag je installateur.",
       "ip_klasse": "IP55",
-      "buiten_toelichting": "buiten plaatsen toegestaan volgens fabrikant"
+      "buiten_toelichting": "buiten plaatsen toegestaan volgens fabrikant",
+      "capaciteit_soort": "bruikbaar",
+      "totaalprijs_geschat_van_eur": 5613,
+      "totaalprijs_geschat_tot_eur": 7113
     },
     {
       "id": "jackery-homepower-2000-ultra",
@@ -895,7 +969,8 @@
           "url": "https://www.bol.com/nl/nl/p/jackery-homepower-2000-ultra-thuisbatterij-2-kwh-plug-in-lifepo4-1500w-noodstroom-uitbreidbaar-tot-8-kwh-ip65/9300000258671106/",
           "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fjackery-homepower-2000-ultra-thuisbatterij-2-kwh-plug-in-lifepo4-1500w-noodstroom-uitbreidbaar-tot-8-kwh-ip65%2F9300000258671106%2F&name=jackery-homepower-2000-ultra&subid=batterijmaatje",
           "datum": null,
-          "ean": "6958657302128"
+          "ean": "6958657302128",
+          "niet_leverbaar": true
         }
       ],
       "totaalprijs_van_eur": 669,
@@ -906,7 +981,10 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "ook voor balkon of terras; interne verwarming tot -20 °C",
       "afbeelding": "assets/producten/jackery-homepower-2000-ultra.webp",
-      "afbeelding_bron": "foto: Jackery"
+      "afbeelding_bron": "foto: Jackery",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "stopcontact",
+      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
     },
     {
       "id": "goodwe-lynx-home-u-54",
@@ -944,19 +1022,23 @@
       ],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "sterk afhankelijk van omvormerkeuze en installatie; vraag een offerte",
+      "totaalprijs_toelichting": "Van dit systeem hebben wij geen prijs inclusief installatie uit een bron. Dit is het toestel (2383 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
       "noodstroom": "Via de hybride omvormer (bijvoorbeeld GoodWe ES G2 met UPS-omschakeling); laat de installateur dit inregelen",
       "noodstroom_uitleg": "De batterij zelf regelt geen noodstroom; in combinatie met een GoodWe hybride omvormer met back-upfunctie (zoals de ES G2, omschakeling binnen 10 ms) kan een deel van het huis doorwerken bij een storing.",
       "ip_klasse": "IP65",
       "buiten_toelichting": "binnen en buiten; laden kan pas vanaf 0 °C",
       "afbeelding": "assets/producten/goodwe-lynx-home-u-54.webp",
-      "afbeelding_bron": "foto: GoodWe"
+      "afbeelding_bron": "foto: GoodWe",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend",
+      "totaalprijs_geschat_van_eur": 2883,
+      "totaalprijs_geschat_tot_eur": 4383
     },
     {
       "id": "solax-triple-power-t58",
       "merk": "SolaX",
-      "model": "Triple Power T-BAT H 5.8",
-      "capaciteit_kwh": 5.8,
+      "model": "Triple Power T-BAT H 5.8 (5,22 kWh bruikbaar)",
+      "capaciteit_kwh": 5.22,
       "uitbreidbaar_tot_kwh": 23.2,
       "vermogen_kw": null,
       "type": "hybride",
@@ -992,13 +1074,15 @@
       "noodstroom": "EPS-noodstroomfunctie via de hybride omvormer; bij 3-fase is een aparte EPS Box nodig (extra hardware)",
       "noodstroom_uitleg": "Met de EPS-functie van de SolaX hybride omvormer kan (een deel van) het huis doorwerken bij een storing; voor 3-fase-installaties is daarvoor een aparte X3 EPS Box nodig.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "bedrijfstemperatuur vanaf 0 °C; buiten hangen in de winter is twijfelachtig"
+      "buiten_toelichting": "bedrijfstemperatuur vanaf 0 °C; buiten hangen in de winter is twijfelachtig",
+      "capaciteit_nominaal_kwh": 5.8,
+      "capaciteit_soort": "bruikbaar"
     },
     {
       "id": "dyness-powerbox-g2",
       "merk": "Dyness",
-      "model": "Powerbox G2 (10,24 kWh)",
-      "capaciteit_kwh": 10.24,
+      "model": "Powerbox G2 (9,73 kWh bruikbaar)",
+      "capaciteit_kwh": 9.73,
       "uitbreidbaar_tot_kwh": null,
       "vermogen_kw": 5.12,
       "type": "hybride",
@@ -1042,7 +1126,11 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "beschut buiten mogelijk; interne verwarming tot -20 °C",
       "afbeelding": "assets/producten/dyness-powerbox-g2.webp",
-      "afbeelding_bron": "foto: Dyness"
+      "afbeelding_bron": "foto: Dyness",
+      "capaciteit_nominaal_kwh": 10.24,
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "Dyness-datasheet: 5,12 kW nominaal laad-/ontlaadvermogen, 10,24 kW maximaal ontlaadvermogen"
     },
     {
       "id": "saj-h2-5k-s2-10kwh",
@@ -1080,22 +1168,27 @@
           "url": "https://www.bol.com/nl/nl/p/saj-h2-5k-s2-10kwh-alles-in-een-oplossing/9300000150679949/",
           "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fsaj-h2-5k-s2-10kwh-alles-in-een-oplossing%2F9300000150679949%2F&name=saj-h2-5k-s2-10kwh&subid=batterijmaatje",
           "datum": null,
-          "ean": "6096224278213"
+          "ean": "6096224278213",
+          "niet_leverbaar": true
         }
       ],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "reken op circa 1.200 tot 2.000 euro installatiekosten bovenop de pakketprijs (indicatie)",
+      "totaalprijs_toelichting": "Van dit systeem hebben wij geen prijs inclusief installatie uit een bron. Dit is het toestel (4566 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
       "noodstroom": "Ingebouwde back-upaansluiting met UPS-omschakeling binnen 10 ms; de installateur sluit de gewenste groepen aan",
       "noodstroom_uitleg": "Het systeem heeft een aparte back-upuitgang die binnen 10 milliseconden omschakelt bij een stroomstoring; welke delen van het huis doorwerken hangt af van wat de installateur op die uitgang aansluit.",
       "ip_klasse": "IP65",
-      "buiten_toelichting": "omvormer en batterijmodule beide IP65, wand- of grondmontage buiten mogelijk"
+      "buiten_toelichting": "omvormer en batterijmodule beide IP65, wand- of grondmontage buiten mogelijk",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend",
+      "totaalprijs_geschat_van_eur": 5066,
+      "totaalprijs_geschat_tot_eur": 6566
     },
     {
       "id": "duracell-dura5",
       "merk": "Duracell Energy",
-      "model": "Dura5 (5,12 kWh)",
-      "capaciteit_kwh": 5.12,
+      "model": "Dura5 (4,6 kWh bruikbaar)",
+      "capaciteit_kwh": 4.6,
       "uitbreidbaar_tot_kwh": 25,
       "vermogen_kw": 5,
       "type": "hybride",
@@ -1130,7 +1223,10 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "wordt als buitenbatterij verkocht; werkt tot -10 °C",
       "afbeelding": "assets/producten/duracell-dura5.webp",
-      "afbeelding_bron": "foto: Duracell Energy"
+      "afbeelding_bron": "foto: Duracell Energy",
+      "capaciteit_nominaal_kwh": 5.12,
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "bluetti-balco-500",
@@ -1153,7 +1249,7 @@
       "app": "BLUETTI app",
       "garantie_jaar": 10,
       "cycli": null,
-      "opmerkingen": "Nieuw op de Nederlandse markt. De voorverkoop loopt van 15 juni tot en met 27 augustus 2026 via de officiële Bluetti EU-shop, daarna volgt de levering. Voor 1.599 euro krijg je 5 kWh, wat veel opslag voor je geld is, met een ingebouwd noodstroom-stopcontact tot 3.680 W. De AI-aansturing werkt op dynamische uur- en kwartierprijzen.",
+      "opmerkingen": "Nieuw op de Nederlandse markt. Voorverkoop via de officiële Bluetti EU-shop van 15 juni tot en met 27 augustus 2026; de levering volgt daarna. Voor 1.599 euro krijg je 5 kWh, wat veel opslag voor je geld is, met een ingebouwd noodstroom-stopcontact tot 3.680 W. De AI-aansturing werkt op dynamische uur- en kwartierprijzen.",
       "product_url": "https://bluetti.com/product/balco-500",
       "aanbiedingen": [
         {
@@ -1171,7 +1267,10 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "ontworpen voor balkon of buiten, -20 tot 55 °C",
       "afbeelding": "assets/producten/bluetti-balco-500.webp",
-      "afbeelding_bron": "foto: Bluetti"
+      "afbeelding_bron": "foto: Bluetti",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "stopcontact",
+      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
     },
     {
       "id": "anker-solix-solarbank-max-ac",
@@ -1208,7 +1307,10 @@
       "totaalprijs_tot_eur": null,
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren",
       "noodstroom": true,
-      "noodstroom_uitleg": "Noodstroomuitgang met omschakeling binnen ca. 10 ms (fabrieksopgave)."
+      "noodstroom_uitleg": "Noodstroomuitgang met omschakeling binnen ca. 10 ms (fabrieksopgave).",
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "Anker geeft 3.500 W laad- en ontlaadvermogen als rated waarde"
     },
     {
       "id": "zendure-solarflow-3000-mix-ac",
@@ -1249,7 +1351,10 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "fabrieksopgave (metalen behuizing); eisen voor buitenplaatsing niet geverifieerd",
       "afbeelding": "assets/producten/zendure-solarflow-3000-mix-ac.webp",
-      "afbeelding_bron": "foto: Zendure"
+      "afbeelding_bron": "foto: Zendure",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "Zendure geeft 3 kW continu on-grid en 3,68 kW off-grid; ons getal is de continue on-grid waarde"
     },
     {
       "id": "zendure-solarflow-4000-mix-pro",
@@ -1290,7 +1395,10 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "fabrieksopgave (metalen behuizing); eisen voor buitenplaatsing niet geverifieerd",
       "afbeelding": "assets/producten/zendure-solarflow-4000-mix-pro.webp",
-      "afbeelding_bron": "foto: Zendure"
+      "afbeelding_bron": "foto: Zendure",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "Zendure geeft 4 kW bidirectioneel uitgangsvermogen (5 kW alleen in PV-passthrough)"
     },
     {
       "id": "mova-lumegret-a4000",
@@ -1335,7 +1443,9 @@
       "noodstroom": true,
       "noodstroom_uitleg": "Fabrikant vermeldt noodstroom; vermogen en omschakeltijd niet gespecificeerd gevonden.",
       "afbeelding": "assets/producten/mova-lumegret-a4000.webp",
-      "afbeelding_bron": "foto: MOVA"
+      "afbeelding_bron": "foto: MOVA",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "indevolt-solidflex-3000",
@@ -1348,7 +1458,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 799,
       "prijs_omvat": "incl. btw, introductieprijs; stekkerklaar, excl. installatie",
-      "prijs_datum": "2026-07-20",
+      "prijs_datum": "2026-08-13",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "AC-gekoppeld via het stopcontact, met een P1- of CT-meter. Je bestaande zonnepanelensysteem blijft ongemoeid.",
       "koppeling_gemak": 5,
@@ -1363,9 +1473,9 @@
       "aanbiedingen": [
         {
           "winkel": "Thuisbatterij.nl",
-          "prijs_eur": 799,
+          "prijs_eur": 795,
           "url": "https://thuisbatterij.nl/winkel/indevolt-solidflex-3000/",
-          "datum": "2026-07-20"
+          "datum": "2026-08-13"
         }
       ],
       "totaalprijs_van_eur": 799,
@@ -1376,7 +1486,9 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "fabrieksopgave; eisen voor buitenplaatsing niet geverifieerd",
       "afbeelding": "assets/producten/indevolt-solidflex-3000.webp",
-      "afbeelding_bron": "foto: Indevolt"
+      "afbeelding_bron": "foto: Indevolt",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "marstek-venus-d",
@@ -1417,13 +1529,16 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "buitenplaatsing mogelijk volgens fabrikant",
       "afbeelding": "assets/producten/marstek-venus-d.webp",
-      "afbeelding_bron": "foto: Marstek"
+      "afbeelding_bron": "foto: Marstek",
+      "capaciteit_soort": "nominaal",
+      "capaciteit_nominaal_kwh": 2.56,
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "aeg-solarcube-48",
       "merk": "AEG",
-      "model": "SolarCube AS-BBL09 (4,8 kWh)",
-      "capaciteit_kwh": 4.8,
+      "model": "SolarCube AS-BBL09 (4,32 kWh bruikbaar)",
+      "capaciteit_kwh": 4.32,
       "uitbreidbaar_tot_kwh": 14.4,
       "vermogen_kw": 2.4,
       "type": "plug-in",
@@ -1458,13 +1573,20 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "fabrieksopgave; eisen voor buitenplaatsing niet geverifieerd",
       "afbeelding": "assets/producten/aeg-solarcube-48.webp",
-      "afbeelding_bron": "foto: AEG"
+      "afbeelding_bron": "foto: AEG",
+      "zoeknamen": [
+        "SolarCube 4.8 kWh"
+      ],
+      "capaciteit_nominaal_kwh": 4.8,
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "max",
+      "vermogen_bron": "AEG schrijft op de eigen productpagina \"Vermogen Tot 2,4 kW\": dat woordje tot maakt het een bovengrens, geen aanhoudende waarde"
     },
     {
       "id": "sunpura-s4800",
       "merk": "Sunpura",
-      "model": "S4800 AC (4,8 kWh)",
-      "capaciteit_kwh": 4.8,
+      "model": "S4800 AC (4,32 kWh bruikbaar)",
+      "capaciteit_kwh": 4.32,
       "uitbreidbaar_tot_kwh": 14.4,
       "vermogen_kw": 0.8,
       "type": "plug-in",
@@ -1489,13 +1611,17 @@
       "totaalprijs_tot_eur": null,
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren; richtprijs uit prijsvergelijking",
       "noodstroom": true,
-      "noodstroom_uitleg": "Off-grid/noodstroomuitgang tot 2.400 W continu (piek 3.600 W, fabrieksopgave)."
+      "noodstroom_uitleg": "Off-grid/noodstroomuitgang tot 2.400 W continu (piek 3.600 W, fabrieksopgave).",
+      "capaciteit_nominaal_kwh": 4.8,
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "stopcontact",
+      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
     },
     {
       "id": "marstek-venus-e-4",
       "merk": "Marstek",
-      "model": "Venus E 4.0 (5,12 kWh)",
-      "capaciteit_kwh": 5.12,
+      "model": "Venus E 4.0 (4,6 kWh bruikbaar)",
+      "capaciteit_kwh": 4.6,
       "uitbreidbaar_tot_kwh": null,
       "vermogen_kw": 3,
       "type": "plug-in",
@@ -1530,7 +1656,11 @@
       "noodstroom": null,
       "noodstroom_uitleg": "Nog niet vastgesteld voor dit model; de Venus E 3.0 heeft een noodstroom-stopcontact.",
       "afbeelding": "assets/producten/marstek-venus-e-4.webp",
-      "afbeelding_bron": "foto: Marstek"
+      "afbeelding_bron": "foto: Marstek",
+      "capaciteit_nominaal_kwh": 5.12,
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "max",
+      "vermogen_bron": "Marstek geeft 800 W on-grid en 2500 W off-grid; dit getal is de off-grid maximumwaarde"
     },
     {
       "id": "ecoflow-stream-ac-5000",
@@ -1543,7 +1673,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 1699,
       "prijs_omvat": "incl. btw, stekkerklaar; excl. installatie",
-      "prijs_datum": "2026-07-27",
+      "prijs_datum": "2026-08-13",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "AC-gekoppeld via het stopcontact, dus je bestaande panelen en omvormer blijven zoals ze zijn. Panelen rechtstreeks aansluiten kan op dit model niet.",
       "koppeling_gemak": 5,
@@ -1558,9 +1688,9 @@
       "aanbiedingen": [
         {
           "winkel": "Thuisbatterij.nl (pre-sale)",
-          "prijs_eur": 1399,
+          "prijs_eur": 1199,
           "url": "https://thuisbatterij.nl/winkel/ecoflow-stream-ac-5000/",
-          "datum": "2026-07-27"
+          "datum": "2026-08-13"
         }
       ],
       "totaalprijs_van_eur": 1399,
@@ -1569,13 +1699,15 @@
       "noodstroom": null,
       "noodstroom_uitleg": "Niet vastgesteld; controleer bij de fabrikant.",
       "afbeelding": "assets/producten/ecoflow-stream-ac-5000.webp",
-      "afbeelding_bron": "foto: EcoFlow"
+      "afbeelding_bron": "foto: EcoFlow",
+      "capaciteit_soort": "onbekend",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "samduo-nex-e6000",
       "merk": "SAMDUO",
-      "model": "Nex E6000 (6 kWh)",
-      "capaciteit_kwh": 6,
+      "model": "Nex E6000 (5,43 kWh bruikbaar)",
+      "capaciteit_kwh": 5.43,
       "uitbreidbaar_tot_kwh": null,
       "vermogen_kw": 2.6,
       "type": "plug-in",
@@ -1602,7 +1734,10 @@
       "noodstroom": null,
       "noodstroom_uitleg": "Niet vastgesteld voor de E6000; de duurdere E6000H-variant heeft wel noodstroom (2.600 W).",
       "afbeelding": "assets/producten/samduo-nex-e6000.webp",
-      "afbeelding_bron": "foto: SAMDUO"
+      "afbeelding_bron": "foto: SAMDUO",
+      "capaciteit_nominaal_kwh": 6,
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "voltdeer-sr5000",
@@ -1615,6 +1750,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 1295,
       "prijs_bron": "richtprijs uit prijsvergelijkingen (juli 2026); winkelprijzen lopen uiteen",
+      "prijs_bron_url": "https://stekkerdeal.nl/products/voltdeer-sr5000/",
       "prijs_omvat": "incl. btw en P1-meter, stekkerklaar; excl. installatie",
       "prijs_datum": "2026-07-27",
       "installatie": "zelf",
@@ -1637,21 +1773,24 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "fabrieksopgave; eisen voor buitenplaatsing niet geverifieerd",
       "afbeelding": "assets/producten/voltdeer-sr5000.webp",
-      "afbeelding_bron": "foto: Voltdeer"
+      "afbeelding_bron": "foto: Voltdeer",
+      "capaciteit_soort": "nominaal",
+      "capaciteit_nominaal_kwh": 5.12
     },
     {
       "id": "zendure-solarflow-2400-pro",
       "merk": "Zendure",
-      "model": "SolarFlow 2400 Pro (2,88 kWh)",
-      "capaciteit_kwh": 2.88,
+      "model": "SolarFlow 2400 Pro (2,4 kWh bruikbaar)",
+      "capaciteit_kwh": 2.4,
       "uitbreidbaar_tot_kwh": 17.28,
       "vermogen_kw": 2.4,
       "type": "plug-in",
       "fase": "1-fase",
-      "richtprijs_eur": 1209,
+      "richtprijs_eur": 1339,
       "prijs_bron": "prijsoverzichten en webshops (juli 2026); actieprijzen wisselen",
+      "prijs_bron_url": "https://www.zendure.nl/products/zendure-solarflow-2400-pro",
       "prijs_omvat": "incl. btw, stekkerklaar met ingebouwde hybride omvormer; excl. installatie",
-      "prijs_datum": "2026-07-27",
+      "prijs_datum": "2026-08-13",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Een hybride plug-in: AC-gekoppeld én met 4 MPPT-ingangen om panelen rechtstreeks aan te sluiten, tot ongeveer 3.000 W PV.",
       "koppeling_gemak": 4,
@@ -1661,14 +1800,18 @@
       "app": "Zendure app",
       "garantie_jaar": null,
       "cycli": null,
-      "opmerkingen": "Sinds het voorjaar van 2026 leverbaar via zendure.nl en meerdere Nederlandse webshops. Eén ding om te weten voordat je de prijs per kWh vergelijkt: de bronnen zijn het oneens over de capaciteit per module, 2,4 of 2,88 kWh bruikbaar. Wij houden de opgave van de Nederlandse winkels aan (2,88 kWh) tot dit hard is, en dat verschil telt direct door in de prijs per kWh. De prijzen wisselen bovendien sterk per actie; we zagen 999 tot 1.339 euro. Garantie, IP-klasse en Homey-ondersteuning waren in juli 2026 nog niet vastgesteld.",
+      "opmerkingen": "Sinds het voorjaar van 2026 leverbaar via zendure.nl en meerdere Nederlandse webshops. Over de capaciteit bestond verwarring: winkels noemen 2,88 kWh en de fabrikant 2,4 kWh. Dat zijn geen tegenstrijdige opgaven maar twee verschillende maten - 2,88 kWh is het bruto pakket, 2,4 kWh is wat je er bij 90% ontlaaddiepte werkelijk uit haalt. Wij vergelijken op de bruikbare capaciteit, dus staat hier 2,4 kWh; dat telt direct door in de prijs per kWh. De prijzen wisselen sterk per actie; we zagen 999 tot 1.339 euro. Garantie, IP-klasse en Homey-ondersteuning waren in juli 2026 nog niet vastgesteld.",
       "product_url": "https://www.zendure.nl/products/zendure-solarflow-2400-pro",
       "aanbiedingen": [],
       "totaalprijs_van_eur": 999,
       "totaalprijs_tot_eur": 1339,
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren; prijzen wisselen per actie",
       "noodstroom": null,
-      "noodstroom_uitleg": "Niet vastgesteld; controleer bij de fabrikant."
+      "noodstroom_uitleg": "Niet vastgesteld; controleer bij de fabrikant.",
+      "capaciteit_soort": "bruikbaar",
+      "capaciteit_nominaal_kwh": 2.88,
+      "vermogen_conditie": "continu",
+      "vermogen_bron": "Zendure geeft 2400 W AC in beide richtingen als vermogen van de serie"
     }
   ]
 }

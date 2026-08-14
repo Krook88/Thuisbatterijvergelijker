@@ -15,6 +15,14 @@
 
    Datamodel (alle velden optioneel, de standaard is de veiligste aanname):
 
+     aanbieding.niet_leverbaar   true = de winkel voert dit artikel op dit moment
+                                 niet. Wordt alleen gezet door een bron die het
+                                 zelf zegt (de bol-API antwoordt met 404), nooit
+                                 op basis van een gok. Zo'n aanbieding telt niet
+                                 mee voor de kopprijs maar blijft wel in de
+                                 winkellijst staan; komt het artikel terug, dan
+                                 valt de markering bij de eerstvolgende controle
+                                 vanzelf af.
      aanbieding.btw_inbegrepen   false = deze winkelprijs is excl. btw.
                                  Weggelaten betekent incl. btw, zoals gebruikelijk
                                  bij consumentenverkoop in Nederland.
@@ -25,8 +33,27 @@
                                  wordt er dus geen korting berekend.
      batterij.richtprijs_btw_inbegrepen
                                  Idem voor de richtprijs zelf.
+     batterij.capaciteit_soort   Waar het getal in capaciteit_kwh vandaan komt:
+                                 "bruikbaar"  = wat je er echt uit haalt (de norm)
+                                 "nominaal"   = de bruto pakketmaat
+                                 "onbekend"   = nagezocht, maar de fabrikant
+                                                publiceert het niet
+                                 weggelaten   = nog niet nagekeken
+                                 Zie hieronder waarom dit een apart veld is.
+     batterij.capaciteit_nominaal_kwh
+                                 De bruto opgave, als die bekend is naast de
+                                 bruikbare.
 
-   Werkt zowel in de browser (window.Prijs) als in Node (require).
+   Over capaciteit, en waarom hier hetzelfde speelt als bij btw: fabrikanten
+   geven twee verschillende getallen op. De bruto pakketmaat ("nominaal") en wat
+   je er werkelijk uit haalt ("bruikbaar"), en dat scheelt tot twintig procent.
+   Zet je die naast elkaar zonder onderscheid, dan lijkt een batterij goedkoper
+   per kWh zonder dat er iets goedkoper is - precies dezelfde fout als een prijs
+   excl. btw naast een prijs incl. btw.
+
+   De norm van deze site is de bruikbare capaciteit: dat is wat de besparing
+   bepaalt. Zolang dat voor een model niet is vastgesteld hoort de site dat te
+   zeggen in plaats van te doen alsof, en daar is capaciteit_soort voor.
    ========================================================================== */
 
 (function (root, factory) {
@@ -57,8 +84,15 @@
     return !!aanbieding && !inclusiefBtw(aanbieding);
   }
 
+  // Een aanbieding die de winkel niet meer voert is geen aanbieding meer. Ze
+  // blijft wel in de gegevens staan: gooien we haar weg, dan is de winkel-URL
+  // weg en moet iemand die opnieuw opzoeken zodra het artikel terugkomt.
+  function nietLeverbaar(aanbieding) {
+    return !!aanbieding && aanbieding.niet_leverbaar === true;
+  }
+
   function geldigeAanbiedingen(b) {
-    return ((b && b.aanbiedingen) || []).filter((a) => a && typeof a.prijs_eur === "number");
+    return ((b && b.aanbiedingen) || []).filter((a) => a && typeof a.prijs_eur === "number" && !nietLeverbaar(a));
   }
 
   // De richtprijs als aanbieding-achtig object, zodat de rest van de code geen
@@ -109,6 +143,80 @@
     return vergelijkPrijs(richtprijsAlsAanbieding(b));
   }
 
+  // Is voor dit model vastgesteld dat het getal de bruikbare capaciteit is?
+  // Zo niet, dan mag de site de prijs per kWh nog wel tonen - een indicatie is
+  // beter dan niets - maar niet als hard vergelijkbaar getal presenteren.
+  function capaciteitBevestigd(b) {
+    return !!b && b.capaciteit_soort === "bruikbaar";
+  }
+
+  function capaciteitToelichting(b) {
+    if (!b || typeof b.capaciteit_kwh !== "number") return null;
+    if (b.capaciteit_soort === "bruikbaar") return null;
+    if (b.capaciteit_soort === "nominaal") {
+      return "fabrieksopgave bruto; bruikbaar ligt lager";
+    }
+    if (b.capaciteit_soort === "onbekend") {
+      return "de fabrikant publiceert niet hoeveel hiervan bruikbaar is";
+    }
+    return "niet vastgesteld of dit de bruto- of de bruikbare capaciteit is";
+  }
+
+  // Een klein label achter de capaciteit. Bewust alleen bij wat vastgesteld is:
+  // van de meeste modellen weten we het nog niet, en 39 waarschuwingen op 41
+  // kaarten leest niemand meer - dan wordt het behang in plaats van een signaal.
+  // Wat de standaard is als er geen label staat, zegt de legenda één keer.
+  function capaciteitLabel(b) {
+    if (!b || typeof b.capaciteit_kwh !== "number") return null;
+    if (b.capaciteit_soort === "bruikbaar") {
+      return { tekst: "bruikbaar", klasse: "maat-bevestigd", titel: "Dit is wat je er werkelijk uit haalt, niet de bruto pakketmaat" };
+    }
+    if (b.capaciteit_soort === "nominaal") {
+      return { tekst: "bruto", klasse: "maat-bruto", titel: "Fabrieksopgave van het hele pakket; wat je er bruikbaar uit haalt ligt lager" };
+    }
+    return null;
+  }
+
+  // Klaar om in HTML te zetten; hier zit geen invoer van buiten in, alle drie
+  // de teksten staan hierboven.
+  // Hetzelfde voor het vermogen. "max" is het getal dat je in dagelijks gebruik
+  // niet haalt - Marstek geeft 800 W on-grid en 2500 W off-grid, en het tweede
+  // stond bij ons in het veld. Dat hoort de bezoeker te zien, want de kaart
+  // suggereert anders dat zo'n batterij zijn avondpiek dekt.
+  function vermogenLabel(b) {
+    if (!b || typeof b.vermogen_kw !== "number") return null;
+    if (b.vermogen_conditie === "continu") {
+      return { tekst: "continu", klasse: "maat-bevestigd", titel: "Dit levert hij aanhoudend aan je huis" };
+    }
+    if (b.vermogen_conditie === "max") {
+      return { tekst: "maximum", klasse: "maat-bruto", titel: "Een piek- of off-grid maximum; in dagelijks gebruik ligt het lager. " + (b.vermogen_bron || "") };
+    }
+    // 800 W is de veiligheidsafspraak voor een gedeelde groep, geen eigenschap
+    // van de batterij. Zonder dit label lijkt zo'n toestel drie keer zwakker
+    // dan een buurmodel waarvan de fabrikant het volle vermogen opgeeft,
+    // terwijl het om dezelfde soort apparaten gaat.
+    if (b.vermogen_conditie === "stopcontact") {
+      return { tekst: "stopcontactgrens", klasse: "maat-bruto", titel: "Dit is de 800 W die op een gedeelde groep is toegestaan, niet wat het toestel kan. " + (b.vermogen_bron || "") };
+    }
+    return null;
+  }
+
+  function vermogenLabelHtml(b) {
+    const l = vermogenLabel(b);
+    return l ? ` <small class="${l.klasse}" title="${l.titel}">${l.tekst}</small>` : "";
+  }
+
+  // Mag de site zeggen dat dit vermogen iets dekt? Alleen als vaststaat dat het
+  // de continue waarde is; anders belooft ze iets op basis van een piek.
+  function vermogenDektIets(b) {
+    return !!b && b.vermogen_conditie === "continu";
+  }
+
+  function capaciteitLabelHtml(b) {
+    const l = capaciteitLabel(b);
+    return l ? ` <small class="${l.klasse}" title="${l.titel}">${l.tekst}</small>` : "";
+  }
+
   function prijsPerKwh(b) {
     const aanbieding = beste(b);
     const prijs = vergelijkPrijs(aanbieding);
@@ -130,12 +238,20 @@
     inclusiefBtw,
     vergelijkPrijs,
     isOmgerekend,
+    nietLeverbaar,
     geldigeAanbiedingen,
     richtprijsAlsAanbieding,
     beste,
     zelfdeSamenstelling,
     heeftKorting,
     vanPrijs,
+    capaciteitBevestigd,
+    capaciteitToelichting,
+    capaciteitLabel,
+    capaciteitLabelHtml,
+    vermogenLabel,
+    vermogenLabelHtml,
+    vermogenDektIets,
     prijsPerKwh,
     prijsToelichting,
   };

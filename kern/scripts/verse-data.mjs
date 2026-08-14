@@ -13,6 +13,14 @@
  * Een groene workflow zegt dus niet dat de gegevens vers zijn. Deze controle
  * zegt dat wel, want hij kijkt naar de uitkomst in plaats van naar de stappen.
  *
+ * Sinds kort kijkt hij ook per product. Het bestand kan van vandaag zijn
+ * terwijl losse prijzen al een maand stilstaan: bij batterijmaatje stond
+ * laatst_bijgewerkt op 12 augustus, en tegelijk hadden zes batterijen een
+ * prijs van 13 juli. Hun winkels - Sessy, HomeWizard, Enphase, Zonneplan,
+ * AlphaESS, SolarEdge - worden niet door het prijsscript bereikt, dus die datum
+ * blijft staan terwijl de rest van het bestand doorloopt. De bezoeker ziet dan
+ * "prijzen dagelijks gecontroleerd" boven een prijs van een maand oud.
+ *
  * Gebruik:
  *   node scripts/verse-data.mjs            meld de ouderdom, stop met 0
  *   node scripts/verse-data.mjs --streng   stop met een foutcode als iets te
@@ -44,6 +52,12 @@ if (!existsSync(DATA)) {
 const vandaag = new Date(new Date().toISOString().slice(0, 10));
 const bevindingen = [];
 
+// Een losse prijs mag verder achterlopen dan het bestand als geheel: niet elke
+// winkel is te bevragen. Een maand is de grens, want dat is ook hoe lang de
+// houdbaarheidsdatum in de structured data meegaat.
+const MAX_PRIJS_DAGEN = 30;
+const oudePrijzen = [];
+
 for (const bestand of readdirSync(DATA).filter((f) => f.endsWith(".json"))) {
   let data;
   try {
@@ -60,6 +74,40 @@ for (const bestand of readdirSync(DATA).filter((f) => f.endsWith(".json"))) {
     ? null
     : Math.round((vandaag - toen) / 86400000);
   bevindingen.push({ bestand, datum: data.laatst_bijgewerkt, ouderdom });
+
+  // Per product: een bestand van vandaag kan prijzen van een maand oud bevatten.
+  const lijst = Object.values(data).find((v) => Array.isArray(v) && v.length && typeof v[0] === "object");
+  for (const item of lijst || []) {
+    // Een product zonder prijs kan geen verouderde prijs tonen. Drie batterijen
+    // stonden hier maandenlang in met een prijsdatum en een richtprijs van
+    // null: een datum op niets, die elke dag een regel in het rapport kostte.
+    //
+    // Aanbiedingen die de winkel niet meer voert tellen niet mee. Die staan
+    // bewust in de gegevens - zo blijft de winkel-URL bewaard en valt de
+    // markering vanzelf af als het artikel terugkomt - maar ze horen niet bij
+    // de vraag hoe vers de prijs is die de bezoeker ziet.
+    const teKoop = (item.aanbiedingen || []).filter((a) => a && !a.niet_leverbaar);
+    const heeftPrijs =
+      typeof item.richtprijs_eur === "number" ||
+      teKoop.some((a) => typeof a.prijs_eur === "number");
+    if (!heeftPrijs) continue;
+
+    const datums = [item.prijs_datum, ...teKoop.map((a) => a.datum)].filter(Boolean);
+    if (!datums.length) continue;
+    const jongste = datums.sort().at(-1);
+    const dagen = Math.round((vandaag - new Date(jongste)) / 86400000);
+    if (Number.isFinite(dagen) && dagen > MAX_PRIJS_DAGEN) {
+      // Heeft deze prijs überhaupt een adres waar een script hem kan
+      // bevestigen? Zonder dat is stilstand geen storing maar een ontbrekende
+      // bron, en dat vraagt om iets anders dan wachten tot het script hem haalt.
+      const soort = item.prijs_controle === "handmatig"
+        ? "handmatig"
+        : (item.aanbiedingen || []).some((a) => a && a.url) || typeof item.prijs_bron_url === "string"
+          ? "adres"
+          : "geen bron";
+      oudePrijzen.push({ id: item.id || "?", datum: jongste, dagen, soort });
+    }
+  }
 }
 
 if (!bevindingen.length) {
@@ -77,6 +125,25 @@ for (const b of bevindingen) {
     : b.ouderdom === 1 ? "van gisteren"
     : `${b.ouderdom} dagen oud`;
   console.log(`  ${teOud.includes(b) ? "!" : "="} ${site}/${b.bestand}: ${b.datum || "?"} (${staat})`);
+}
+
+if (oudePrijzen.length) {
+  // Drie verschillende dingen, met drie verschillende vervolgen. Vroeger
+  // stonden ze op één hoop, en dan lijkt een lijst van twaalf twaalf keer
+  // hetzelfde probleem terwijl er maar een deel van op te lossen viel.
+  const groepen = [
+    ["adres", "het prijsscript bezoekt hun winkel wel, maar krijgt er geen bedrag uit"],
+    ["geen bron", "geen bron-URL: hier valt niets te automatiseren zolang niemand vastlegt waar het bedrag vandaan komt"],
+    ["handmatig", "als mensenwerk aangemerkt (offerte, schatting, samengestelde prijs): geen script haalt deze ooit op"],
+  ];
+  console.log(`\n  ! ${site}: ${oudePrijzen.length} product(en) met een prijs ouder dan ${MAX_PRIJS_DAGEN} dagen.`);
+  for (const [soort, uitleg] of groepen) {
+    const groep = oudePrijzen.filter((p) => p.soort === soort);
+    if (!groep.length) continue;
+    console.log(`    ${groep.length} ${uitleg}.`);
+    for (const p of groep.slice(0, 8)) console.log(`      ${p.id}: ${p.datum} (${p.dagen} dagen)`);
+    if (groep.length > 8) console.log(`      ... en nog ${groep.length - 8}`);
+  }
 }
 
 if (teOud.length && process.env.GITHUB_STEP_SUMMARY) {

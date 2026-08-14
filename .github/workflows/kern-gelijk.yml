@@ -29,3 +29,17 @@ jobs:
           node-version: "22"
       - name: Kern vergelijken met de sites
         run: node scripts/kern-verdelen.mjs --controleer
+
+      # Het herkennen van modelnamen faalt stil: staat het te ruim, dan meldt
+      # het script niets meer, en "geen kandidaten" ziet er precies zo uit als
+      # "alles is al bekend". Deze proef gaat langs een lijstje echte
+      # winkeltitels en kost geen enkel verzoek naar buiten, dus hij kan hier
+      # bij elke wijziging mee.
+      - name: Herkenning van modelnamen toetsen
+        run: |
+          fout=0
+          for site in sites/*/; do
+            echo "--- ${site}"
+            ( cd "$site" && node scripts/nieuwe-modellen.mjs --proef ) || fout=1
+          done
+          exit $fout

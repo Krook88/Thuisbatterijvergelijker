@@ -1,0 +1,291 @@
+{
+  "toelichting": "Modellen die in een winkel staan maar niet in onze gegevens. Automatisch gevonden, nooit automatisch toegevoegd: nakijken en dan zelf opnemen, of de titel in scripts/nieuwe-modellen.json onder \"afgewezen\" zetten.",
+  "kandidaten": [
+    {
+      "titel": "AEG Solarcube – 4.8 kWh Plug-In Battery",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000258215840/",
+      "ean": "0884620072223",
+      "prijs_eur": null,
+      "lijkt_op": "homewizard-plug-in-battery",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "AEG Solarcube Expand – 4.8 kWh Uitbreidingsunit",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000258404355/",
+      "ean": "0884620072230",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Dyness® - Thuisbatterij 16.1 Kwh- - Thuisbatterij voor zonnepanelen - Thuisaccu - Thuisbatterij - Tijdelijke voorjaarsactie",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000249114382/",
+      "ean": "8720892858504",
+      "prijs_eur": null,
+      "lijkt_op": "dyness-powerbox-g2",
+      "maat_uit_titel": "16.1 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Growatt SPH5000 5KW hybride omvormer met 15,3Kw thuisbatterij - Growatt SPH5000 - 15Kw Thuisbatterij - Thuisaccu - Thuisbatterij met omvormer",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000256101204/",
+      "ean": "8720892858511",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Huawei Luna2000 7.0 kWh Thuisbatterij – Energieopslag voor Zonnepanelen, 51.2V",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000225766004/",
+      "ean": "9502169372772",
+      "prijs_eur": null,
+      "lijkt_op": "huawei-luna2000-10",
+      "maat_uit_titel": "7 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Huawei LUNA2000-15-S0 Batterijopslagsysteem 15 kWh – Modulaire Thuisbatterij Set",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000162056994/",
+      "ean": "8720929510375",
+      "prijs_eur": null,
+      "lijkt_op": "huawei-luna2000-10",
+      "maat_uit_titel": "15 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Huawei LUNA2000-7-E1 Thuisbatterij 7 kWh – Batterijmodule voor Zonne-energie Opslag",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000229178500/",
+      "ean": "5904905317575",
+      "prijs_eur": null,
+      "lijkt_op": "huawei-luna2000-10",
+      "maat_uit_titel": "7 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Huawei LUNA2000-7-S1 Batterijopslag 7 kWh met BMS – Modulaire Energieopslag voor PV Systemen",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000266719689/",
+      "ean": "4262431423957",
+      "prijs_eur": null,
+      "lijkt_op": "huawei-luna2000-10",
+      "maat_uit_titel": "7 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Huawei SmartGuard-63A-S0 Energiebeheerunit – Back-up Systeem voor Huawei Zonne-energie",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000272388763/",
+      "ean": "8490006399901",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Hybride Zonne-energie Omvormer – Zonnepaneel Omvormer – Energieopslag – Batterijlader – 6,2 kW Vermogen – MPPT Zonladers",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000269906573/",
+      "ean": "8721391846955",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Jackery SolarVault 3 - BP2500 - 2.520 Wh - Uitbreidbare opslag.",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000265060410/",
+      "ean": "6958657303286",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "2.52 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Jackery SolarVault 3 - Pro Max - Powerstation - 2.520 Wh - Uitbreidbaar",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000266388502/",
+      "ean": "6958657304054",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "2.52 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Jackery SolarVault 3 Pro Max - Incl. 2x BP2500 - Thuisbatterij - 7,5 kWh",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000279313211/",
+      "ean": "6153917866895",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "7.5 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Jackery SolarVault 3 Pro Max & Bp2500 bundle- Thuisbatterij - 5,04 kWh",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000279207060/",
+      "ean": "6153917790725",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "5.04 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Jackery SolarVault 3 Pro Max AC - Incl. BP2500- Thuisbatterij - 5,04 kWh",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000278350981/",
+      "ean": "6153917593531",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "5.04 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Jackery SolarVault 3 Pro Max AC -Incl. 3x BP2500 -Thuisbatterij - LiFePO4 - IP65",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000288535982/",
+      "ean": "6153922619660",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": null,
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Marstek Venus A 2,12 kWh Thuisbatterij – Energieopslagsysteem / Slimme Batterij voor Zonne-energie (1 battery module)",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000281977106/",
+      "ean": "6951525704970",
+      "prijs_eur": null,
+      "lijkt_op": "marstek-venus-d",
+      "maat_uit_titel": "2.12 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "PEGO Smart Energy Compacte Stapelbare Thuisbatterij Plug & Play Energieopslag Thuisbatterij en Omvormer in 1 uitbreidbaar tot 15kwh met offgrid functie ook als UPS te gebruiken en Ai functie voor automatisch stroom inkoop en verkoop",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000247197561/",
+      "ean": "7421122186404",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "15 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "PEGO Smart Energy Compacte Stapelbare Thuisbatterij Plug & Play Energieopslag Thuisbatterij en Omvormer in 1 uitbreidbaar tot 15kwh met offgrid functie ook als UPS te gebruiken en Ai functie voor automatisch stroom inkoop en verkoop :extra batterij",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000247406236/",
+      "ean": "7421122186381",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "15 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "PEGO Smart Energy Thuisbatterij Plug & Play Energieopslag Thuisbatterij en Omvormer in 1 uitbreidbaar tot 15kwh met offgrid functie en overal te gebruiken ook als UPS te gebruiken en Ai functie voor automatisch stroom inkoop en verkoop 6 kwh",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000247522367/",
+      "ean": "7421122186350",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "15 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Solar Edge Energy Bank 9.7 kWh Battery SE-BATTERY02-10KWH",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000146694126/",
+      "ean": "8720769902200",
+      "prijs_eur": null,
+      "lijkt_op": "solaredge-home-battery-48v",
+      "maat_uit_titel": "10 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Thuisbatterij 15.3 Kwh- Thuisbatterij met omvormer - Thuisbatterij voor zonnepanelen - Thuisaccu - Thuisbatterij - drie fase omvormer - Solis omvormer - Thuisbatterij 15Kwh",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000256731452/",
+      "ean": "8720892858528",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "15.3 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Thuisbatterij 16Kwh LIFePO4 voor zonne-energie opslag zonnepanelen ( Prijs doorbraak - introductieprijs )",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000171018735/",
+      "ean": "8720892355218",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "16 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Zendure SolarFlow 2400 AC+ accu voor balkoncentrale, 2,4 kWh energieopslag",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000279185477/",
+      "ean": "8711474504018",
+      "prijs_eur": null,
+      "lijkt_op": "zendure-solarflow-2400-pro",
+      "maat_uit_titel": "2.4 kwh",
+      "eerst_gezien": "2026-08-11"
+    },
+    {
+      "titel": "Thuisbatterij 10Kwh LIFePO4 voor zonne-energie opslag zonnepanelen ( Prijs doorbraak - week aanbieding )",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000164433288/",
+      "ean": "8719327730867",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "10 kwh",
+      "eerst_gezien": "2026-08-12"
+    },
+    {
+      "titel": "Jackery - SolarVault 3 Pro Max AC - Powerstation - 2.520 Wh - Uitbreidbaar",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000265060411/",
+      "ean": "6958657304061",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "2.52 kwh",
+      "eerst_gezien": "2026-08-13"
+    },
+    {
+      "titel": "Jackery SolarVault 3 Pro Max AC - Incl. 2x BP2500 - Thuisbatterij - LiFePO4 - IP65",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000288535983/",
+      "ean": "6153922339377",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": null,
+      "eerst_gezien": "2026-08-13"
+    },
+    {
+      "titel": "Zonnepaneel 120 W 12 V Hoog Efficiëntie Volledig Zwart Ontwerp Geschikt voor Motorhome, Balkon, Tuin en Energieopslag",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000267821739/",
+      "ean": "9101142936941",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": null,
+      "eerst_gezien": "2026-08-13"
+    },
+    {
+      "titel": "Zonnepaneel Waterfonteinpomp - Energieopslag voor 24 Uur - 50W Met Hoge Wateropbrengst",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000263099493/",
+      "ean": "6153257112195",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": null,
+      "eerst_gezien": "2026-08-13"
+    }
+  ]
+}
