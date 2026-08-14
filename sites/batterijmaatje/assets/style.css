@@ -345,6 +345,8 @@ a { color: var(--kleur-primair); }
   .filterbalk { margin-top: var(--ruimte-10); }
 }
 
+.filterbalk .zoekbalk { margin: 0 0 var(--ruimte-14); }
+
 .filterbalk {
   background: var(--kleur-wit);
   border: 1px solid var(--kleur-rand);
@@ -1191,7 +1193,8 @@ table.vergelijk-tabel {
 a.icoon-kaart { text-decoration: none; color: inherit; }
 .stap-uitleg { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
 
-.filter-rij.tweede { margin-top: var(--ruimte-14); }
+.filter-rij.tweede { margin-top: var(--ruimte-14); align-items: center; }
+.filter-rij.tweede .filter-groep { flex: 1; }
 #veelgestelde-vragen { margin: var(--ruimte-28) 0 var(--ruimte-56); }
 
 /* Op de donkere vergelijkbalk moet de secundaire knop wit contrasteren. */

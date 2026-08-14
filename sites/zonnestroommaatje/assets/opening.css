@@ -210,3 +210,65 @@
   .hero-acties { gap: var(--ruimte-14); }
   .hero-acties .knop { width: 100%; }
 }
+
+/* -- De drie stappen -------------------------------------------------------
+   Stonden als drie omlijnde kaarten van samen 188 px onder de opening. Dat is
+   veel gewicht voor een uitleg die je een keer leest en daarna nooit meer, en
+   het duwt de lijst waarvoor je komt naar beneden.
+
+   Nu een regel: nummer in een open cirkel, kop, en de uitleg eronder. Geen
+   kader, geen vulling, geen schaduw. De inhoud blijft woord voor woord gelijk;
+   alleen het gewicht gaat eraf.
+
+   Bewust op .stappen gescoped: .icoon-kaart wordt op de uitlegpagina ook
+   gebruikt, en daar is de kaartvorm wel op zijn plaats.
+   -------------------------------------------------------------------------- */
+/* Het raster stond op drie sites op drie maten: minmax(220px) op
+   batterijmaatje en zonnestroommaatje, minmax(270px) op warmtepompmaatje. Dat
+   viel niet op zolang de tussenruimte klein was, maar met meer lucht ertussen
+   paste de vierde stap van warmtepompmaatje ineens niet meer op een regel en
+   werd het blok 330 px in plaats van 165. Nu een maat, en die past op drie
+   stappen en op vier. */
+.stappen .icoon-kaarten {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: var(--ruimte-20) var(--ruimte-28);
+  margin: 0;
+}
+
+.stappen .icoon-kaart {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  column-gap: var(--ruimte-10);
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+}
+
+.stappen .icoon-kaart b {
+  margin: 0;
+  align-self: center;
+  font-size: var(--tekst-15);
+  color: var(--kleur-tekst);
+}
+
+.stappen .icoon-kaart > :last-child {
+  grid-column: 2;
+  margin-top: var(--ruimte-2);
+}
+
+/* Open cirkel in plaats van een gevulde: een genummerde stap is een wegwijzer,
+   geen knop. */
+.stappen .stap-nummer {
+  width: 1.6rem;
+  height: 1.6rem;
+  background: none;
+  border: 1.5px solid var(--kleur-primair);
+  color: var(--kleur-primair);
+  font-size: var(--tekst-12);
+}
+
+@media (max-width: 700px) {
+  .stappen .icoon-kaarten { gap: var(--ruimte-14); }
+}
