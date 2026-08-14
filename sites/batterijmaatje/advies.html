@@ -87,6 +87,8 @@
 
     <form id="adviesFormulier" class="advies-paneel" onsubmit="return false;">
 
+      <p class="hint">Het advies past zich aan terwijl je invult. De vooringevulde getallen zijn gemiddelden om je op weg te helpen; pas ze gerust aan naar je eigen situatie — je jaarnota is de beste bron.</p>
+
       <h2>1. Je stroomverbruik</h2>
       <div class="veld-rij">
         <div class="veld">
@@ -188,11 +190,9 @@
         <span class="hint">Leeg laten = geen limiet. Let op: sommige prijzen zijn excl. installatie</span>
       </div>
 
-      <button type="button" class="knop breed" id="advStart"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" /></svg> Geef mij advies</button>
-
     </form>
 
-    <div class="advies-paneel">
+    <div id="advies" class="advies-paneel" aria-live="polite">
       <h2>Jouw advies</h2>
       <div id="adviesResultaat"><p class="datum-stempel">Laden…</p></div>
     </div>

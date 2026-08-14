@@ -1747,7 +1747,9 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 .advies-as {
   display: inline-block;
   background: var(--kleur-accent-licht);
-  color: var(--kleur-accent-donker, var(--kleur-accent));
+  /* Zelfde reden als bij .maat-bevestigd: --kleur-accent-donker haalt op dit
+     lichte amber 4,44:1 en WCAG 1.4.3 (AA) vraagt 4,5:1. */
+  color: #92400e;
   font-weight: 700;
   font-size: 0.72rem;
   letter-spacing: 0.02em;
