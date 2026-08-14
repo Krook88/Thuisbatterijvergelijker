@@ -214,7 +214,7 @@
             <td>${p.uitvoering === "glas-glas" ? '<span class="check-ja">' + Iconen.svg("ja") + '</span>' : '<span class="check-nee">' + Iconen.svg("nee") + '</span>'}</td>
             <td>${p.garantie_product_jaar ? p.garantie_product_jaar + " jr" : "?"}</td>
             <td title="Punten voor productgarantie, vermogensbehoud en glas-glas"><b>${zekerScore(p)}/6</b></td>
-            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:0.85rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de ${escapeHtml(naamVan(p))}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
+            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:var(--tekst-15);" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de ${escapeHtml(naamVan(p))}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
           </tr>`;
         }).join("")}
       </tbody>
@@ -232,7 +232,7 @@
     return `
       <h2>Vergelijking</h2>
       <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-size:0.93rem;min-width:${220 * items.length + 160}px;">
+      <table style="width:100%;border-collapse:collapse;font-size:var(--tekst-15);min-width:${220 * items.length + 160}px;">
         ${rij("Model", (p) => `<b>${escapeHtml(naamVan(p))}</b>`)}
         ${rij("Celtype", (p) => escapeHtml(celtypeLabel(p)))}
         ${rij("Vermogen", (p) => (p.vermogen_wp ? p.vermogen_wp + " Wp" : "?"))}

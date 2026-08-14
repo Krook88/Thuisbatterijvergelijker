@@ -214,7 +214,7 @@
             <td title="Punten voor Homey, Home Assistant en dynamisch contract"><b>${koppelScore(b)}/6</b></td>
             <td>${checkCel(b.homey)}</td>
             <td>${checkCel(b.home_assistant)}</td>
-            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:0.85rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
+            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:var(--tekst-15);" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
           </tr>`;
         }).join("")}
       </tbody>
@@ -232,7 +232,7 @@
     return `
       <h2>Vergelijking</h2>
       <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-size:0.93rem;min-width:${220 * items.length + 160}px;">
+      <table style="width:100%;border-collapse:collapse;font-size:var(--tekst-15);min-width:${220 * items.length + 160}px;">
         ${rij("Model", (b) => `<b>${escapeHtml(naamVan(b))}</b>`)}
         ${rij("Type", (b) => escapeHtml(b.type))}
         ${rij("Capaciteit", (b) => (b.capaciteit_kwh ? String(b.capaciteit_kwh).replace(".", ",") + " kWh" : "?") + Prijs.capaciteitLabelHtml(b) + (b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${String(b.uitbreidbaar_tot_kwh).replace(".", ",")} kWh)` : ""))}

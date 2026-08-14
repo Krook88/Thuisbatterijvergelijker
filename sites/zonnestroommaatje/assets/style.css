@@ -2,6 +2,8 @@
    Zonnepaneelmaatje.nl - stijlen
    ========================================================================== */
 
+@import url("maatlat.css");
+
 :root {
   --kleur-primair: #0369a1;
   --kleur-primair-donker: #075985;
@@ -23,8 +25,6 @@
   --kleur-blauw-licht: #dbeafe;
   --schaduw: 0 1px 2px rgba(38, 33, 20, 0.06), 0 6px 18px rgba(38, 33, 20, 0.07);
   --schaduw-hover: 0 4px 10px rgba(38, 33, 20, 0.08), 0 16px 36px rgba(38, 33, 20, 0.14);
-  --radius: 16px;
-  --radius-klein: 10px;
   --font-basis: "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
@@ -71,7 +71,7 @@ body {
   line-height: 1.6;
   /* 1rem in plaats van 16px: zo groeit ook de lopende tekst mee met de
      tekstgrootte-instelling van de browser (toegankelijkheid, WCAG 1.4.4) */
-  font-size: 1rem;
+  font-size: var(--tekst-17);
   /* Lange (samengestelde) woorden mogen afbreken bij grote tekstinstellingen */
   overflow-wrap: break-word;
 }
@@ -98,7 +98,7 @@ main section > h2::after {
   display: block;
   width: 44px;
   height: 4px;
-  border-radius: 999px;
+  border-radius: var(--radius-pil);
   background: var(--kleur-accent);
   margin-top: 6px;
 }
@@ -136,11 +136,11 @@ a { color: var(--kleur-primair); }
   justify-content: center;
   width: 1.9em;
   height: 1.9em;
-  border-radius: 999px;
+  border-radius: var(--radius-pil);
   background: var(--kleur-primair-licht);
   color: var(--kleur-primair-donker);
   font-weight: 800;
-  font-size: 0.95rem;
+  font-size: var(--tekst-15);
 }
 
 /* Iconen in badges en knoppen lijnen uit met de tekst ernaast */
@@ -183,7 +183,7 @@ a { color: var(--kleur-primair); }
   font-weight: 700;
   /* Groeit mee met de tekstgrootte-instelling, maar nooit breder dan het
      scherm (6.5vw als plafond op smalle schermen) */
-  font-size: min(1.15rem, 6.5vw);
+  font-size: min(var(--tekst-19), 6.5vw);
   color: var(--kleur-tekst);
   text-decoration: none;
 }
@@ -218,7 +218,7 @@ a { color: var(--kleur-primair); }
   height: 44px;
   padding: 0;
   border: 1px solid var(--kleur-rand);
-  border-radius: 10px;
+  border-radius: var(--radius-klein);
   background: var(--kleur-wit);
   color: var(--kleur-tekst);
   cursor: pointer;
@@ -261,8 +261,8 @@ a { color: var(--kleur-primair); }
   color: var(--kleur-tekst-licht);
   font-weight: 600;
   padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: var(--radius-klein);
+  font-size: var(--tekst-15);
 }
 
 .hoofdnav a:hover { background: var(--kleur-achtergrond); color: var(--kleur-tekst); }
@@ -277,8 +277,8 @@ a { color: var(--kleur-primair); }
   color: var(--kleur-tekst-licht);
   font-weight: 600;
   padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: var(--radius-klein);
+  font-size: var(--tekst-15);
   user-select: none;
 }
 .hoofdnav details.nav-meer summary::-webkit-details-marker { display: none; }
@@ -319,7 +319,7 @@ a { color: var(--kleur-primair); }
 
 .hero h1 {
   margin: 0 0 14px;
-  font-size: clamp(1.75rem, 4.6vw, 2.8rem);
+  font-size: clamp(var(--tekst-28), 4.6vw, var(--tekst-46));
   line-height: 1.18;
   letter-spacing: -0.02em;
   max-width: 800px;
@@ -328,7 +328,7 @@ a { color: var(--kleur-primair); }
 .hero p {
   margin: 0;
   max-width: 720px;
-  font-size: 1.05rem;
+  font-size: var(--tekst-17);
   opacity: 0.92;
 }
 
@@ -339,8 +339,8 @@ a { color: var(--kleur-primair); }
   margin-top: 18px;
   background: rgba(255, 255, 255, 0.14);
   padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 0.88rem;
+  border-radius: var(--radius-pil);
+  font-size: var(--tekst-15);
 }
 
 /* --------------------------------------------------------------------------
@@ -356,7 +356,7 @@ a { color: var(--kleur-primair); }
   display: flex;
   gap: 12px;
   align-items: flex-start;
-  font-size: 0.95rem;
+  font-size: var(--tekst-15);
 }
 
 .regel-banner .icoon { width: 1.3em; height: 1.3em; }
@@ -379,7 +379,7 @@ a { color: var(--kleur-primair); }
   border: 1px solid var(--kleur-rand);
   border-radius: var(--radius);
   box-shadow: var(--schaduw);
-  font-size: 1rem;
+  font-size: var(--tekst-15);
   font-weight: 700;
   color: var(--kleur-tekst);
   cursor: pointer;
@@ -412,7 +412,7 @@ a { color: var(--kleur-primair); }
 
 .filter-groep > label,
 .filter-groep .filter-label {
-  font-size: 0.8rem;
+  font-size: var(--tekst-12);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -422,9 +422,9 @@ a { color: var(--kleur-primair); }
 .filter-groep select {
   padding: 9px 12px;
   border: 1px solid var(--kleur-rand);
-  border-radius: 8px;
+  border-radius: var(--radius-klein);
   background: var(--kleur-wit);
-  font-size: 0.95rem;
+  font-size: var(--tekst-15);
   color: var(--kleur-tekst);
   min-width: 150px;
 }
@@ -435,12 +435,12 @@ a { color: var(--kleur-primair); }
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 0.93rem;
+  font-size: var(--tekst-15);
   cursor: pointer;
   background: var(--kleur-achtergrond);
   border: 1px solid var(--kleur-rand);
   padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: var(--radius-klein);
   user-select: none;
 }
 
@@ -459,7 +459,7 @@ a { color: var(--kleur-primair); }
   color: var(--kleur-primair);
   font-weight: 600;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: var(--tekst-15);
   padding: 9px 4px;
   text-decoration: underline;
 }
@@ -477,7 +477,7 @@ a { color: var(--kleur-primair); }
   margin: 8px 0 16px;
 }
 
-.resultaten-telling { font-weight: 600; color: var(--kleur-tekst-licht); font-size: 0.95rem; }
+.resultaten-telling { font-weight: 600; color: var(--kleur-tekst-licht); font-size: var(--tekst-15); }
 
 .weergave-knoppen { display: flex; gap: 8px; align-items: center; }
 
@@ -485,9 +485,9 @@ a { color: var(--kleur-primair); }
   padding: 8px 14px;
   border: 1px solid var(--kleur-rand);
   background: var(--kleur-wit);
-  border-radius: 8px;
+  border-radius: var(--radius-klein);
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: var(--tekst-15);
   font-weight: 600;
   color: var(--kleur-tekst-licht);
 }
@@ -544,24 +544,24 @@ a { color: var(--kleur-primair); }
   flex-wrap: wrap;
 }
 
-.kaart-kop .merk { font-size: 0.85rem; font-weight: 700; color: var(--kleur-primair); text-transform: uppercase; letter-spacing: 0.05em; }
-.kaart-kop h3 { margin: 2px 0 0; font-size: 1.2rem; line-height: 1.3; }
+.kaart-kop .merk { font-size: var(--tekst-15); font-weight: 700; color: var(--kleur-primair); text-transform: uppercase; letter-spacing: 0.05em; }
+.kaart-kop h3 { margin: 2px 0 0; font-size: var(--tekst-19); line-height: 1.3; }
 
 .aanbieding-vlag {
   background: var(--kleur-rood);
   color: var(--kleur-wit);
-  font-size: 0.75rem;
+  font-size: var(--tekst-12);
   font-weight: 700;
   padding: 4px 10px;
-  border-radius: 999px;
+  border-radius: var(--radius-pil);
 }
 
 .type-badge {
   display: inline-block;
-  font-size: 0.78rem;
+  font-size: var(--tekst-12);
   font-weight: 700;
   padding: 3px 10px;
-  border-radius: 999px;
+  border-radius: var(--radius-pil);
   margin-top: 8px;
 }
 
@@ -584,11 +584,11 @@ a.term-link:hover { color: var(--kleur-primair); }
      kaart niet uit beeld groeit bij grote tekstinstellingen */
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px 16px;
-  font-size: 0.92rem;
+  font-size: var(--tekst-15);
 }
 
 .spec { display: flex; flex-direction: column; }
-.spec .spec-label { font-size: 0.8rem; color: var(--kleur-tekst-licht); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+.spec .spec-label { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
 .spec .spec-waarde { font-weight: 600; }
 
 .kaart-badges {
@@ -602,10 +602,10 @@ a.term-link:hover { color: var(--kleur-primair); }
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.875rem;
+  font-size: var(--tekst-15);
   font-weight: 600;
   padding: 7px 12px;
-  border-radius: 999px;
+  border-radius: var(--radius-pil);
   background: var(--kleur-achtergrond);
   border: 1px solid var(--kleur-rand);
   color: var(--kleur-tekst-licht);
@@ -624,10 +624,10 @@ a.term-link:hover { color: var(--kleur-primair); }
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.78rem;
+  font-size: var(--tekst-12);
   font-weight: 700;
   padding: 3px 10px;
-  border-radius: 999px;
+  border-radius: var(--radius-pil);
   border: 1px solid transparent;
   white-space: nowrap;
 }
@@ -659,12 +659,12 @@ a.term-link:hover { color: var(--kleur-primair); }
 }
 
 .kaart-badges .badge {
-  font-size: 0.8rem;
+  font-size: var(--tekst-12);
   font-weight: 500;
   color: var(--kleur-tekst);
   background: none;
   border: 0;
-  border-radius: 6px;
+  border-radius: var(--radius-mini);
   /* De binnenmarge is het raakvlak; de negatieve marge links haalt hem weer uit
      de uitlijning, zodat de labels op één lijn met de rest staan. Minstens 24
      pixels hoog, want daaronder is het volgens WCAG 2.5.8 (AA) een gebrek. */
@@ -736,7 +736,7 @@ a.term-link:hover { color: var(--kleur-primair); }
 .kaart-details .uitgelicht,
 .kaart-details.uitgelicht {
   animation: uitlichten 1.6s ease;
-  border-radius: 6px;
+  border-radius: var(--radius-mini);
 }
 @keyframes uitlichten {
   0% { background-color: var(--kleur-accent-licht); }
@@ -773,19 +773,19 @@ h1 .merk-logo { height: 28px; vertical-align: -4px; }
   border: 1px solid var(--kleur-rand);
   border-radius: var(--radius);
   padding: 16px 18px;
-  font-size: 0.97rem;
+  font-size: var(--tekst-15);
   line-height: 1.55;
 }
-.icoon-kaart .icoon { font-size: 1.6rem; display: block; }
+.icoon-kaart .icoon { font-size: var(--tekst-28); display: block; }
 .icoon-kaart b { display: block; margin: 6px 0 4px; color: var(--kleur-primair-donker); }
 
 /* Woordenlijst: klikbare chips om direct naar een begrip te springen */
 .woordenlijst-nav { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0 20px; }
 .woordenlijst-nav a {
-  font-size: 0.9rem;
+  font-size: var(--tekst-15);
   background: var(--kleur-wit);
   border: 1px solid var(--kleur-rand);
-  border-radius: 999px;
+  border-radius: var(--radius-pil);
   padding: 9px 14px;
   text-decoration: none;
   color: var(--kleur-primair-donker);
@@ -808,7 +808,7 @@ details.lees-meer summary::after { content: " ▾"; }
 details.lees-meer[open] summary::after { content: " ▴"; }
 
 /* Legenda: ingeklapte uitleg van de symbolen, rustig en scanbaar */
-.legenda { margin: 8px 0 0; font-size: 0.88rem; }
+.legenda { margin: 8px 0 0; font-size: var(--tekst-15); }
 .legenda summary {
   cursor: pointer;
   list-style: none;
@@ -816,7 +816,7 @@ details.lees-meer[open] summary::after { content: " ▴"; }
   color: var(--kleur-tekst-licht);
   font-weight: 600;
   padding: 6px 10px;
-  border-radius: 8px;
+  border-radius: var(--radius-klein);
   user-select: none;
 }
 .legenda summary::-webkit-details-marker { display: none; }
@@ -843,9 +843,9 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 .badge.onbekend { background: var(--kleur-achtergrond); border-style: dashed; color: var(--kleur-tekst-licht); }
 
 /* Koppelgemak sterren */
-.koppelgemak { padding: 0 20px 12px; font-size: 0.9rem; }
-.koppelgemak .sterren { color: var(--kleur-accent); letter-spacing: 2px; font-size: 1rem; }
-.koppelgemak .uitleg { color: var(--kleur-tekst-licht); font-size: 0.85rem; margin-top: 2px; }
+.koppelgemak { padding: 0 20px 12px; font-size: var(--tekst-15); }
+.koppelgemak .sterren { color: var(--kleur-accent); letter-spacing: 2px; font-size: var(--tekst-15); }
+.koppelgemak .uitleg { color: var(--kleur-tekst-licht); font-size: var(--tekst-15); margin-top: 2px; }
 
 .kaart-prijs {
   margin-top: auto;
@@ -859,10 +859,10 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 }
 
 .kaart-prijs { background: linear-gradient(180deg, rgba(246, 243, 236, 0.0), rgba(246, 243, 236, 0.65)); }
-.prijs-blok .van-prijs { font-size: 0.85rem; color: var(--kleur-tekst-licht); text-decoration: line-through; }
-.prijs-blok .prijs { font-size: 1.7rem; font-weight: 800; color: var(--kleur-primair-donker); letter-spacing: -0.02em; }
-.prijs-blok .prijs-per-kwh { font-size: 0.82rem; color: var(--kleur-tekst-licht); }
-.prijs-blok .prijs-winkel { font-size: 0.82rem; color: var(--kleur-tekst-licht); }
+.prijs-blok .van-prijs { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); text-decoration: line-through; }
+.prijs-blok .prijs { font-size: var(--tekst-28); font-weight: 800; color: var(--kleur-primair-donker); letter-spacing: -0.02em; }
+.prijs-blok .prijs-per-kwh { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); }
+.prijs-blok .prijs-winkel { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); }
 
 /* Staat de winkelprijs excl. btw, dan mag de site dat niet stilzwijgend
    omrekenen: de bezoeker ziet straks een ander bedrag op de winkelpagina. */
@@ -871,8 +871,8 @@ details.lees-meer[open] summary::after { content: " ▴"; }
   padding: 8px 10px;
   border-left: 3px solid var(--kleur-accent);
   background: var(--kleur-accent-licht);
-  border-radius: 0 8px 8px 0;
-  font-size: 0.82rem;
+  border-radius: 0 var(--radius-klein) var(--radius-klein) 0;
+  font-size: var(--tekst-12);
   line-height: 1.45;
   color: var(--kleur-tekst);
 }
@@ -886,9 +886,9 @@ details.lees-meer[open] summary::after { content: " ▴"; }
   color: var(--kleur-wit);
   font-weight: 800;
   padding: 12px 22px;
-  border-radius: 999px;
+  border-radius: var(--radius-pil);
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: var(--tekst-15);
   border: none;
   cursor: pointer;
   transition: background 0.15s ease;
@@ -913,7 +913,7 @@ details.lees-meer[open] summary::after { content: " ▴"; }
   color: var(--kleur-primair);
   font-weight: 600;
   cursor: pointer;
-  font-size: 0.88rem;
+  font-size: var(--tekst-15);
   padding: 0 20px 16px;
   text-align: left;
   text-decoration: underline;
@@ -921,14 +921,14 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 
 .kaart-details {
   padding: 0 20px 18px;
-  font-size: 0.9rem;
+  font-size: var(--tekst-15);
   color: var(--kleur-tekst);
   border-top: 1px dashed var(--kleur-rand);
   padding-top: 12px;
   margin: 0 20px 18px;
 }
 
-.kaart-details dt { font-weight: 700; margin-top: 8px; font-size: 0.82rem; color: var(--kleur-tekst-licht); text-transform: uppercase; }
+.kaart-details dt { font-weight: 700; margin-top: 8px; font-size: var(--tekst-12); color: var(--kleur-tekst-licht); text-transform: uppercase; }
 .kaart-details dd { margin: 2px 0 0; }
 .kaart-details .winkel-lijst { list-style: none; padding: 0; margin: 4px 0 0; }
 .kaart-details .winkel-lijst li { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; border-bottom: 1px dotted var(--kleur-rand); }
@@ -949,7 +949,7 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 table.vergelijk-tabel {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.92rem;
+  font-size: var(--tekst-15);
   min-width: 900px;
 }
 
@@ -958,7 +958,7 @@ table.vergelijk-tabel {
   padding: 12px 14px;
   background: var(--kleur-achtergrond);
   border-bottom: 2px solid var(--kleur-rand);
-  font-size: 0.8rem;
+  font-size: var(--tekst-12);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--kleur-tekst-licht);
@@ -1034,7 +1034,7 @@ table.vergelijk-tabel {
   right: 6px;
   background: none;
   border: none;
-  font-size: 1.6rem;
+  font-size: var(--tekst-28);
   min-width: 44px;
   min-height: 44px;
   cursor: pointer;
@@ -1049,9 +1049,9 @@ table.vergelijk-tabel {
    -------------------------------------------------------------------------- */
 
 .content-pagina { max-width: 820px; margin: 0 auto; padding: 36px 20px 60px; }
-.content-pagina h1 { font-size: 2rem; line-height: 1.25; }
+.content-pagina h1 { font-size: var(--tekst-36); line-height: 1.25; }
 .content-pagina h2 { margin-top: 2.2em; color: var(--kleur-primair-donker); }
-.content-pagina .intro { font-size: 1.1rem; color: var(--kleur-tekst-licht); }
+.content-pagina .intro { font-size: var(--tekst-17); color: var(--kleur-tekst-licht); }
 
 .info-kader {
   border-left: 4px solid var(--kleur-primair);
@@ -1059,7 +1059,7 @@ table.vergelijk-tabel {
   padding: 14px 18px;
   border-radius: 0 var(--radius) var(--radius) 0;
   margin: 20px 0;
-  font-size: 0.97rem;
+  font-size: var(--tekst-15);
 }
 
 .waarschuwing-kader {
@@ -1068,7 +1068,7 @@ table.vergelijk-tabel {
   padding: 14px 18px;
   border-radius: 0 var(--radius) var(--radius) 0;
   margin: 20px 0;
-  font-size: 0.97rem;
+  font-size: var(--tekst-15);
 }
 
 /* Vaste mitsen en maren onder het rekenresultaat: één compact inklapbaar
@@ -1077,7 +1077,7 @@ details.kanttekeningen {
   margin: 14px 0 4px;
   padding-top: 10px;
   border-top: 1px dashed var(--kleur-rand);
-  font-size: 0.85rem;
+  font-size: var(--tekst-15);
   color: var(--kleur-tekst-licht);
 }
 details.kanttekeningen summary {
@@ -1092,10 +1092,10 @@ details.kanttekeningen ul {
   gap: 6px;
 }
 
-.bron-lijst { font-size: 0.88rem; color: var(--kleur-tekst-licht); }
+.bron-lijst { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
 .bron-lijst li { margin-bottom: 6px; }
 
-.datum-stempel { font-size: 0.85rem; color: var(--kleur-tekst-licht); font-style: italic; }
+.datum-stempel { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); font-style: italic; }
 
 /* --------------------------------------------------------------------------
    FAQ
@@ -1122,7 +1122,7 @@ details.faq-item summary {
   gap: 10px;
 }
 
-details.faq-item summary::after { content: "+"; font-size: 1.3rem; color: var(--kleur-primair); }
+details.faq-item summary::after { content: "+"; font-size: var(--tekst-22); color: var(--kleur-primair); }
 details.faq-item[open] summary::after { content: "\2013"; }
 details.faq-item p { margin-top: 0; }
 
@@ -1137,11 +1137,11 @@ details.faq-item p { margin-top: 0; }
   color: rgba(255, 255, 255, 0.85);
   padding: 40px 0;
   margin-top: 48px;
-  font-size: 0.9rem;
+  font-size: var(--tekst-15);
 }
 
 .site-footer a { color: var(--kleur-wit); }
-.site-footer .disclaimer { max-width: 760px; opacity: 0.75; font-size: 0.83rem; margin-top: 14px; }
+.site-footer .disclaimer { max-width: 760px; opacity: 0.75; font-size: var(--tekst-12); margin-top: 14px; }
 
 /* --------------------------------------------------------------------------
    Laden en leeg
@@ -1151,7 +1151,7 @@ details.faq-item p { margin-top: 0; }
   text-align: center;
   padding: 60px 20px;
   color: var(--kleur-tekst-licht);
-  font-size: 1.05rem;
+  font-size: var(--tekst-17);
 }
 
 /* --------------------------------------------------------------------------
@@ -1163,7 +1163,7 @@ details.faq-item p { margin-top: 0; }
   .filter-rij { gap: 12px; }
   .filter-groep select { min-width: 130px; }
   .hero { padding: 26px 0 24px; }
-  .hero p { font-size: 1rem; }
+  .hero p { font-size: var(--tekst-15); }
   .kaart-acties { flex-direction: column; }
 }
 
@@ -1191,7 +1191,7 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
+  font-size: var(--tekst-22);
   text-decoration: none;
   box-shadow: var(--schaduw-hover);
   z-index: 40;
@@ -1250,7 +1250,7 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   display: block;
   margin-top: 5px;
   color: var(--kleur-tekst-licht);
-  font-size: 0.85rem;
+  font-size: var(--tekst-15);
 }
 
 /* Het honingpotveld moet onzichtbaar zijn voor mensen maar wel invulbaar voor
@@ -1306,7 +1306,7 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 }
 .tabel-blok.los { margin: 14px 0; }
 
-.data-tabel { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.data-tabel { width: 100%; border-collapse: collapse; font-size: var(--tekst-15); }
 .data-tabel th,
 .data-tabel td { padding: 10px 14px; }
 .data-tabel th { text-align: left; background: var(--kleur-achtergrond); }
@@ -1318,7 +1318,7 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 /* Overzicht en duel zijn breder dan een telefoonscherm; ze schuiven in
    .tabel-blok. Elke regel krijgt een lijn erboven, ook als de eerste cel van
    die regel een <th> is. */
-.brede-tabel { font-size: 0.93rem; }
+.brede-tabel { font-size: var(--tekst-15); }
 .brede-tabel tbody th,
 .brede-tabel tbody td { border-top: 1px solid var(--kleur-rand); }
 
@@ -1364,10 +1364,10 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 .product-kop-tekst { flex: 1; min-width: 250px; }
 
 /* Het prijskader: het bedrag groot, de herkomst en de dekking eronder. */
-.info-prijs { font-size: 1.6rem; font-weight: 800; }
-.info-prijs-bron { font-size: 0.95rem; font-weight: 400; color: var(--kleur-tekst-licht); }
-.info-dekking { font-size: 0.9rem; color: var(--kleur-tekst-licht); }
-.info-totaal { font-size: 0.95rem; margin-top: 6px; }
+.info-prijs { font-size: var(--tekst-28); font-weight: 800; }
+.info-prijs-bron { font-size: var(--tekst-15); font-weight: 400; color: var(--kleur-tekst-licht); }
+.info-dekking { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
+.info-totaal { font-size: var(--tekst-15); margin-top: 6px; }
 .info-acties { margin: 14px 0 0; }
 
 /* Sterrenreeks in lopende tekst; op de kaart heeft .koppelgemak zijn eigen. */
@@ -1397,7 +1397,7 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 /* Kopje boven de sterrenreeks op een kaart: kleiner en rustiger dan een
    gewoon spec-label, want het gaat om een oordeel en niet om een meetwaarde. */
 .spec-label.klein-kapitaal {
-  font-size: 0.75rem;
+  font-size: var(--tekst-12);
   color: var(--kleur-tekst-licht);
   font-weight: 600;
   text-transform: uppercase;
@@ -1469,7 +1469,7 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   gap: 12px;
 }
 a.icoon-kaart { text-decoration: none; color: inherit; }
-.stap-uitleg { font-size: 0.9rem; color: var(--kleur-tekst-licht); }
+.stap-uitleg { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
 
 .filter-rij.tweede { margin-top: 14px; }
 #veelgestelde-vragen { margin: 30px 0 50px; }
@@ -1482,11 +1482,11 @@ a.icoon-kaart { text-decoration: none; color: inherit; }
 }
 
 /* Keuzehulp-formulier: kopje boven een groep aankruisvakjes. */
-.veld-label { font-size: 0.85rem; font-weight: 700; color: var(--kleur-tekst-licht); }
-.knop.breed { width: 100%; margin-top: 22px; font-size: 1.05rem; }
+.veld-label { font-size: var(--tekst-15); font-weight: 700; color: var(--kleur-tekst-licht); }
+.knop.breed { width: 100%; margin-top: 22px; font-size: var(--tekst-17); }
 
 /* Knop die alleen tekst is: kopieert het e-mailadres. */
-.kopieer-knop { border: none; cursor: pointer; font-size: 1rem; }
+.kopieer-knop { border: none; cursor: pointer; font-size: var(--tekst-15); }
 
 /* Terug-naar-de-vergelijker onderaan een tekstpagina. */
 .terug-knop { margin-top: 2.5em; }
@@ -1509,7 +1509,7 @@ a.icoon-kaart { text-decoration: none; color: inherit; }
 
 /* 404 */
 .content-pagina.foutpagina { text-align: center; }
-.foutpagina h1 { font-size: 3rem; }
+.foutpagina h1 { font-size: var(--tekst-46); }
 .foutpagina .foutpagina-acties { margin-top: 2em; }
 
 
@@ -1523,8 +1523,8 @@ a.icoon-kaart { text-decoration: none; color: inherit; }
 .zoekveld {
   padding: 9px 12px;
   border: 1px solid var(--kleur-rand);
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: var(--radius-klein);
+  font-size: var(--tekst-15);
   width: 100%;
 }
 
@@ -1543,7 +1543,7 @@ a.icoon-kaart { text-decoration: none; color: inherit; }
    nodig heeft. */
 .aansluitend { padding-top: 0; }
 
-.stappen-naschrift { margin: 10px 2px 0; font-size: 0.9rem; color: var(--kleur-tekst-licht); }
+.stappen-naschrift { margin: 10px 2px 0; font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
 .deel-link { margin: 14px 0 0; }
 .bij-veld { margin: 4px 0 0; }
 .adres-regel { margin: 0; }

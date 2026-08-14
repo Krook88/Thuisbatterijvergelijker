@@ -250,12 +250,12 @@
         <p style="margin:6px 0 0;">Totaal <b>${numFmt.format(totWp)} Wp</b> · systeemprijs circa <b>${eurFmt.format(totaal)}</b>${heeftFout ? " · " + Iconen.svg("let-op") + " let op: deze combinatie heeft een probleem, zie de checks" : ""}</p>
       </div>
 
-      <h3 style="margin:16px 0 0;font-size:1rem;">Technische check</h3>
+      <h3 style="margin:16px 0 0;font-size:var(--tekst-15);">Technische check</h3>
       <ul class="check-lijst">
         ${alleChecks.map((c) => `<li class="${c.soort}"><span class="icoon">${icoon[c.soort]}</span><span>${c.tekst}</span></li>`).join("")}
       </ul>
 
-      <h3 style="margin:18px 0 0;font-size:1rem;">Prijsopbouw met goedkoopste winkels</h3>
+      <h3 style="margin:18px 0 0;font-size:var(--tekst-15);">Prijsopbouw met goedkoopste winkels</h3>
       <div style="overflow-x:auto;"><table class="systeem-tabel">
         ${rijen.map((r) => `<tr><td>${r.label}${r.sub ? `<br>${r.sub}` : ""}</td><td>circa <b>${eurFmt.format(r.bedrag)}</b></td></tr>`).join("")}
         <tr class="totaal-rij"><td>Totaal zonnestroomsysteem</td><td>circa ${eurFmt.format(totaal)}</td></tr>

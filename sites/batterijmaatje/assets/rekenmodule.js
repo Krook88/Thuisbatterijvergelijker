@@ -163,7 +163,7 @@
     const labelLinks = terugverdientijd > H * 0.55;
 
     return `
-    <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:0.85rem;color:var(--kleur-tekst-licht);margin:16px 0 4px;">
+    <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:var(--tekst-15);color:var(--kleur-tekst-licht);margin:16px 0 4px;">
       <span><span style="display:inline-block;width:14px;height:3px;background:#0d9488;border-radius:2px;vertical-align:middle;"></span> Opgetelde besparing</span>
       <span><span style="display:inline-block;width:14px;height:0;border-top:3px dashed #d97706;vertical-align:middle;"></span> Investering</span>
     </div>
@@ -221,7 +221,7 @@
     } else {
       const t = r.terugverdientijd;
       const kleur = t <= 8 ? "var(--kleur-groen)" : t <= 15 ? "var(--kleur-accent)" : "var(--kleur-rood)";
-      oordeel = `<div style="font-size:2rem;font-weight:800;color:${kleur};">${jaarFmt.format(t)} jaar</div>
+      oordeel = `<div style="font-size:var(--tekst-28);font-weight:800;color:${kleur};">${jaarFmt.format(t)} jaar</div>
         <div class="datum-stempel">terugverdientijd bij een jaarlijkse opbrengst van ${eurFmt.format(r.totaal)}</div>`;
       if (t > 15) waarschuwingen.push('De berekende terugverdientijd is langer dan de levensduur die vaak wordt aangehouden (10 tot 15 jaar). Met deze invoer verdient de batterij zichzelf waarschijnlijk niet terug. Lees ook: <a href="uitleg.html#waarom-toch">is een thuisbatterij het waard bij een lange terugverdientijd?</a>');
       else if (t > 10) waarschuwingen.push('De terugverdientijd nadert de verwachte levensduur van de batterij (10 tot 15 jaar). Reken jezelf niet rijk en vergelijk meerdere scenario\'s. Lees ook: <a href="uitleg.html#waarom-toch">is een thuisbatterij het waard bij een lange terugverdientijd?</a>');

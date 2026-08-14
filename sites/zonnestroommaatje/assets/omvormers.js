@@ -259,7 +259,7 @@
             <td>${checkCel(o.batterij)}</td>
             <td>${checkCel(o.home_assistant)}</td>
             <td>${checkCel(o.homey)}</td>
-            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:0.85rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
+            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:var(--tekst-15);" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
           </tr>`;
         }).join("")}
       </tbody>
@@ -276,7 +276,7 @@
     return `
       <h2>Vergelijking</h2>
       <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-size:0.93rem;min-width:${220 * items.length + 160}px;">
+      <table style="width:100%;border-collapse:collapse;font-size:var(--tekst-15);min-width:${220 * items.length + 160}px;">
         ${rij("Model", (o) => `<b>${escapeHtml(o.merk)} ${escapeHtml(o.model)}</b>`)}
         ${rij("Type", (o) => escapeHtml(TYPE_LABEL[o.type] || o.type))}
         ${rij("Vermogen", (o) => escapeHtml(o.vermogen_bereik || "?"))}

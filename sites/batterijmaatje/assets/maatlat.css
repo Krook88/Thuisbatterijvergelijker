@@ -1,0 +1,128 @@
+/* ==========================================================================
+   De maatlat - gedeeld door batterijmaatje, warmtepompmaatje en
+   zonnestroommaatje.
+
+   Waarom dit bestand bestaat
+   --------------------------
+   De drie sites deelden al een font en een kleurenopzet, maar niet hun
+   maatvoering. Gemeten op de eigen pagina's leverde dat dit op:
+
+                        batterij   warmtepomp   zonnestroom
+     tekstgroottes           39         32           28
+     verticale afstanden     55         39           37
+     hoekrondingen            7          9            7
+     basistekstgrootte     17 px      17 px        16 px
+
+   Dat waren geen bewuste keuzes maar opgeteld toeval: elk onderdeel kreeg
+   zijn eigen rem-waarde, en 0,82 / 0,85 / 0,88 / 0,90 / 0,92 / 0,93 / 0,95
+   staan naast elkaar zonder dat iemand het verschil kan benoemen. Je ziet het
+   niet als losse fout, je ziet het als "die site voelt net anders".
+
+   Wat hier staat is de vervanging: acht tekstmaten, negen afstanden, drie
+   hoekrondingen. Klein genoeg om te onthouden, dus klein genoeg om je eraan
+   te houden.
+
+   Hoe het bij de sites komt
+   -------------------------
+   Dit bestand staat in kern/ en wordt door scripts/kern-verdelen.mjs naar
+   sites/<site>/assets/maatlat.css gekopieerd; --controleer bewaakt dat de
+   drie kopieen identiek blijven. Elke style.css begint met
+   @import url("maatlat.css").
+
+   Waarom een @import en geen tweede <link>: de drie sites hebben samen 134
+   HTML-bestanden. Een <link> erbij is 134 bestanden aanpassen en 134 kansen
+   om er ergens een te vergeten; een @import is drie regels en kan niet
+   scheeflopen. De kosten zijn gelijk - beide zijn een extra verzoek dat het
+   tekenen ophoudt - en dit bestand is klein genoeg om dat te dragen.
+
+   Kleur staat hier bewust niet in. Dat is het enige wat per site hoort te
+   verschillen.
+   ========================================================================== */
+
+:root {
+
+  /* -- Tekst ---------------------------------------------------------------
+
+     Acht maten, elk met een taak. De sprongen zijn 1,15 tot 1,3 keer: groot
+     genoeg om te zien dat het een andere maat is, klein genoeg om niet te
+     springen.
+
+     Alles in rem, gerekend vanaf de standaard van de browser (16 px). Zo
+     groeit de tekst mee met de instelling van de bezoeker (WCAG 1.4.4).
+
+       12 px  veldnaam, kolomkop - meestal in klein kapitaal
+       15 px  bediening: knop, menu, tabel, formulier, etiket, bijschrift
+       17 px  lopende tekst; dit is de basis
+       19 px  productnaam, inleidende alinea
+       22 px  bedrag, kerncijfer
+       28 px  hoofdstukkop (h2), en de ondergrens van de paginakop
+       36 px  paginakop op een inhoudspagina
+       46 px  paginakop op een vergelijker (bovengrens van de clamp)
+
+     15 px in plaats van 14: daar zat het gedrang. Zeventien verschillende
+     declaraties lagen tussen 13,3 en 15,5 px - nav, knoppen, tabellen,
+     formulieren, badges. Die gaan nu allemaal naar een en dezelfde maat, en
+     dat is precies waar de winst zit.
+     ------------------------------------------------------------------------ */
+  --tekst-12: 0.75rem;
+  --tekst-15: 0.9375rem;
+  --tekst-17: 1.0625rem;
+  --tekst-19: 1.1875rem;
+  --tekst-22: 1.375rem;
+  --tekst-28: 1.75rem;
+  --tekst-36: 2.25rem;
+  --tekst-46: 2.875rem;
+
+  /* De afstanden staan hier nog niet.
+
+     Ze horen er wel: 55 verschillende verticale afstanden is hetzelfde
+     probleem als 39 tekstmaten. Maar ze zijn niet in dezelfde stap op te
+     lossen. Van de gebruikte waarden liggen 14 en 20 px er precies tussenin,
+     en die twee staan samen op ruim veertig plekken - dat naar 16 of 24
+     trekken verschuift de opbouw van elke kaart en elk formulier. Dat is een
+     eigen stap, met eigen controle op de 134 pagina's.
+
+     Wat hier staat verandert alleen de maat van de letters en de ronding van
+     de hoeken; de indeling blijft zoals hij was. */
+
+  /* -- Hoekronding ---------------------------------------------------------
+
+     Drie maten en een pil. Er stonden er zeven tot negen: 3, 4, 5, 6, 8, 10,
+     16 en 999 px door elkaar heen, waarbij 3 naast 4 naast 5 niets toevoegt
+     behalve dat twee dingen die naast elkaar staan nooit helemaal uitlijnen.
+
+     --radius en --radius-klein hielden hun naam en hun waarde: die twee waren
+     al goed en worden op honderden plekken gebruikt. Alleen de losse waarden
+     eromheen zijn hierheen gehaald.
+     ------------------------------------------------------------------------ */
+  --radius-mini: 4px;    /* vinkje, streepje, staafje, voortgangsbalk */
+  --radius-klein: 10px;  /* knop, invoerveld, keuzelijst, badge */
+  --radius: 16px;        /* kaart, paneel, kader */
+  --radius-pil: 999px;   /* etiket en schakelaar, en verder niets */
+}
+
+/* --------------------------------------------------------------------------
+   Koppen die niemand een maat had gegeven
+
+   Een deel van de koppen had helemaal geen font-size: die vielen terug op de
+   standaard van de browser, en die rekent in em. Op batterijmaatje en
+   warmtepompmaatje werd een h2 daardoor 25,5 px (1,5 x 17) en op
+   zonnestroommaatje 24 px (1,5 x 16) - hetzelfde element, twee maten, puur
+   omdat de basistekst verschilde. Precies het soort verschil dat je voelt
+   zonder te kunnen aanwijzen waarom.
+
+   Deze regels zijn de bodem. Elke bestaande regel is specifieker en wint, dus
+   de hero-kop houdt zijn clamp en de inhoudspagina houdt zijn eigen maat.
+   -------------------------------------------------------------------------- */
+h1 { font-size: var(--tekst-36); }
+h2 { font-size: var(--tekst-28); }
+h3 { font-size: var(--tekst-19); }
+h4, h5, h6 { font-size: var(--tekst-17); }
+
+/* <small> krijgt bewust geen trede.
+
+   Het element betekent "een maatje kleiner dan waar het in staat", en dat is
+   een verhouding, geen maat. Vastzetten op 12 px zou de hulpteksten in een
+   formulier kleiner maken dan ze nu zijn; vastzetten op 15 px zou de
+   bijschriften in een kaart juist groter maken. Beide zijn slechter dan de
+   regel die er al is. */
