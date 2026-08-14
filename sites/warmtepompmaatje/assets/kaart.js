@@ -177,6 +177,63 @@
 
   const geluidBekend = (w) => typeof w.geluid_db === "number";
 
+  /* De resultaatregel: hetzelfde product, maar dan om kolommen te vergelijken
+     in plaats van producten.
+
+     Waarom deze naast de kaart bestaat: een kaart is honderden pixels hoog,
+     dus op een scherm passen er drie. Wie twintig producten tegen elkaar houdt
+     scrollt zich suf en moet onthouden wat er schermen hoger stond. In een
+     regel staan de getallen onder elkaar uitgelijnd, met cijfers van gelijke
+     breedte, en zie je er vijf tegelijk.
+
+     Dezelfde volgorde als op de zustersites: plek, model, drie feiten, score,
+     prijs. Alleen de kolomnamen verschillen. */
+  function regelHtml(w, opties, plek) {
+    const o = opties || {};
+    const beste = bestePrijs(w);
+    const vergelijk = Prijs.vergelijkPrijs(beste);
+    const score = koppelScore(w);
+    const geselecteerd = (o.selectie || []).includes(w.id);
+
+    return `
+    <article class="resultaat-regel" data-id="${escapeHtml(w.id)}">
+      <span class="regel-plek cijfer">${plek}</span>
+      <div class="regel-naam">
+        <span class="regel-merk">${escapeHtml(w.merk)}</span>
+        <h3><a class="kop-link" href="pomp/${encodeURIComponent(w.id)}.html">${escapeHtml(w.model)}</a></h3>
+        <label class="badge regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+          <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(w.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
+        </label>
+      </div>
+      <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>${w.vermogen_kw ? String(w.vermogen_kw).replace(".", ",") + " kW" : "Onbekend"}</div>
+      <div class="regel-waarde cijfer" data-naam="Koudemiddel"><span class="regel-label">Koudemiddel</span>${escapeHtml(w.koudemiddel || "Onbekend")}</div>
+      <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>${w.geluid_db ? w.geluid_db + " dB(A)" : "Onbekend"}</div>
+      <div class="regel-waarde cijfer" data-naam="Koppel-score">
+        <span class="regel-label">Koppel-score</span>${score}<span class="regel-van">/6</span>
+        <span class="regel-baan"><span class="regel-vul" style="width:${Math.round((score / 6) * 100)}%"></span></span>
+      </div>
+      <div class="regel-slot">
+        <span class="regel-bedrag cijfer">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>
+        ${w.isde_indicatie_eur ? `<span class="regel-per cijfer">ISDE circa ${eurFmt.format(w.isde_indicatie_eur)}</span>` : ""}
+        ${beste && beste.url
+          ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijken</a>`
+          : `<a class="knop" href="pomp/${encodeURIComponent(w.id)}.html">Bekijken</a>`}
+      </div>
+    </article>`;
+  }
+
+  /* De kop boven de regels. Staat los van de regel zodat hij een keer in de
+     lijst staat en niet bij elk product. */
+  function lijstHtml(lijst, opties) {
+    const koppen = ["Model", "Vermogen", "Koudemiddel", "Geluid", "Koppel-score", "Prijs"];
+    return `<div class="resultaat-lijst">
+      <div class="resultaat-regel regel-kop" aria-hidden="true">
+        <span></span>${koppen.map((k) => `<span>${k}</span>`).join("")}
+      </div>
+      ${lijst.map((x, i) => regelHtml(x, opties, i + 1)).join("")}
+    </div>`;
+  }
+
   function kaartHtml(w, opties) {
     const o = opties || {};
     const sturing = driewaardig(w.sturing);
@@ -272,6 +329,8 @@
     TYPE_LABEL,
     TYPE_KORT,
     kaartHtml,
+    regelHtml,
+    lijstHtml,
     standaardVolgorde,
   };
 });

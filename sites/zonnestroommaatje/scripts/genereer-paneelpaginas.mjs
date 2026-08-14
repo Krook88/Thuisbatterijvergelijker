@@ -715,9 +715,11 @@ const EIND = "<!-- kaarten:eind -->";
 
 const gesorteerdePanelen = Kaart.standaardVolgorde(data.panelen);
 
-const kaarten = gesorteerdePanelen
-  .map((p) => Kaart.kaartHtml(p, { merkLogos: data.merk_logos }))
-  .join("\n");
+// De vergelijker opent in lijstweergave, dus dat is ook wat hier in de HTML
+// komt te staan. Zet je hier kaarten neer terwijl de browser meteen daarna
+// regels tekent, dan ziet de bezoeker het beeld een keer omklappen en krijgt
+// een zoekmachine iets anders te zien dan een mens.
+const kaarten = Kaart.lijstHtml(gesorteerdePanelen, { merkLogos: data.merk_logos });
 
 // ItemList vertelt de zoekmachine dat dit een gerangschikte lijst producten is
 // en welke pagina bij elk item hoort.

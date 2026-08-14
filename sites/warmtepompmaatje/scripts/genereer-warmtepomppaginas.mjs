@@ -376,9 +376,11 @@ const EIND = "<!-- kaarten:eind -->";
 
 const gesorteerdePompen = Kaart.standaardVolgorde(data.warmtepompen);
 
-const kaarten = gesorteerdePompen
-  .map((w) => Kaart.kaartHtml(w, { pompen: data.warmtepompen }))
-  .join("\n");
+// De vergelijker opent in lijstweergave, dus dat is ook wat hier in de HTML
+// komt te staan. Zet je hier kaarten neer terwijl de browser meteen daarna
+// regels tekent, dan ziet de bezoeker het beeld een keer omklappen en krijgt
+// een zoekmachine iets anders te zien dan een mens.
+const kaarten = Kaart.lijstHtml(gesorteerdePompen, { pompen: data.warmtepompen });
 
 const itemLijst = {
   "@context": "https://schema.org",

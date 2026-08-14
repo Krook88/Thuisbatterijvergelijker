@@ -173,6 +173,68 @@
     return [...lijst].sort((a, b) => (Prijs.prijsPerKwh(a) || Infinity) - (Prijs.prijsPerKwh(b) || Infinity));
   }
 
+  /* De resultaatregel: dezelfde batterij, maar dan om kolommen te vergelijken
+     in plaats van producten.
+
+     Waarom deze naast de kaart bestaat: een kaart is ruim 1.100 px hoog, dus
+     op een scherm passen er drie. Wie twintig batterijen tegen elkaar houdt
+     scrollt zich suf en moet onthouden wat er drie schermen hoger stond. In
+     een regel staan de vier getallen onder elkaar uitgelijnd, met cijfers van
+     gelijke breedte, en zie je er vijf tegelijk.
+
+     Dezelfde volgorde als op de zustersites: plek, model, drie feiten, score,
+     prijs. Alleen de kolomnamen verschillen per site. */
+  function regelHtml(b, opties, plek) {
+    const o = opties || {};
+    const beste = Prijs.beste(b);
+    // vergelijkPrijs neemt de aanbieding, niet de batterij - dezelfde aanroep
+    // als in kaartHtml. Met het verkeerde argument komt er null uit en stond er
+    // bij elke regel "Op aanvraag".
+    const vergelijk = Prijs.vergelijkPrijs(beste);
+    const perKwh = Prijs.prijsPerKwh(b);
+    const capaciteit = b.capaciteit_kwh ? `${String(b.capaciteit_kwh).replace(".", ",")} kWh` : "Onbekend";
+    const score = koppelScore(b);
+    const geselecteerd = (o.selectie || []).includes(b.id);
+
+    return `
+    <article class="resultaat-regel" data-id="${escapeHtml(b.id)}">
+      <span class="regel-plek cijfer">${plek}</span>
+      <div class="regel-naam">
+        <span class="regel-merk">${escapeHtml(b.merk)}</span>
+        <h3><a class="kop-link" href="batterij/${encodeURIComponent(b.id)}.html">${escapeHtml(b.model)}</a></h3>
+        <label class="badge regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+          <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(b.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
+        </label>
+      </div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>${capaciteit}</div>
+      <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>${b.vermogen_kw ? String(b.vermogen_kw).replace(".", ",") + " kW" : "Onbekend"}</div>
+      <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>${b.installatie === "zelf" ? "Zelf" : "Installateur"}</div>
+      <div class="regel-waarde cijfer" data-naam="Koppel-score">
+        <span class="regel-label">Koppel-score</span>${score}<span class="regel-van">/6</span>
+        <span class="regel-baan"><span class="regel-vul" style="width:${Math.round((score / 6) * 100)}%"></span></span>
+      </div>
+      <div class="regel-slot">
+        <span class="regel-bedrag cijfer">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>
+        ${perKwh ? `<span class="regel-per cijfer">${eurFmt.format(perKwh)} per kWh opslag</span>` : ""}
+        ${beste && beste.url
+          ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))}">Bekijken</a>`
+          : `<a class="knop" href="batterij/${encodeURIComponent(b.id)}.html" aria-label="Alle details van de ${escapeHtml(naamVan(b))}">Bekijken</a>`}
+      </div>
+    </article>`;
+  }
+
+  /* De kop boven de regels. Staat los van de regel zelf zodat hij een keer in
+     de lijst staat en niet 41 keer. */
+  function lijstHtml(lijst, opties) {
+    const koppen = ["Model", "Capaciteit", "Vermogen", "Installatie", "Koppel-score", "Prijs"];
+    return `<div class="resultaat-lijst">
+      <div class="resultaat-regel regel-kop" aria-hidden="true">
+        <span></span>${koppen.map((k) => `<span>${k}</span>`).join("")}
+      </div>
+      ${lijst.map((b, i) => regelHtml(b, opties, i + 1)).join("")}
+    </div>`;
+  }
+
   function kaartHtml(b, opties) {
     const o = opties || {};
     const beste = Prijs.beste(b);
@@ -284,5 +346,7 @@
     standaardVolgorde,
     fotoHtml,
     kaartHtml,
+    regelHtml,
+    lijstHtml,
   };
 });
