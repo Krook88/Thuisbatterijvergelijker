@@ -429,3 +429,155 @@
 
   .regel-slot .knop { grid-row: 1 / 3; grid-column: 2; margin: 0; min-height: 44px; }
 }
+
+/* ==========================================================================
+   Het filterpaneel
+
+   Stond op de drie sites in drie opbouwen: 307, 150 en 241 px hoog voor
+   hetzelfde ding. Batterijmaatje had de zoekbalk los boven het paneel,
+   warmtepompmaatje zette "Toon alleen" naast de vinkjes zonder groep eromheen,
+   zonnestroommaatje liet "Sorteren op" op een eigen regel achterblijven. De
+   groep heette ook nog eens drie dingen: "Moet werken met", "Toon alleen",
+   "TOON ALLEEN".
+
+   Grappig genoeg waren de losse regels wél identiek - ze zijn jarenlang met de
+   hand gelijk gehouden in drie bestanden. Nu staan ze hier, een keer.
+
+   Twee zones:
+     1. Zoeken en verfijnen in een raster met gelijke kolommen. Het zoekveld
+        krijgt er twee, want een merk typen vraagt meer ruimte dan kiezen.
+     2. Een haarlijn, en daaronder "Toon alleen" met de schakelaars en het
+        wissen.
+
+   Sorteren staat er niet in. Dat verandert niet wát je ziet maar in welke
+   volgorde, en het hoort dus bij de resultatenbalk. Het scheelde ook de enige
+   maat die niet paste: met zes bedieningen op 1136 px worden de kolommen
+   153 px en heeft elke keuzelijst er minstens 168 nodig - dan wordt overal
+   tekst afgekapt.
+   ========================================================================== */
+
+.filterbalk {
+  background: var(--kleur-wit);
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius);
+  padding: var(--ruimte-14);
+  margin: var(--ruimte-20) 0;
+  box-shadow: var(--schaduw);
+}
+
+.filter-rij {
+  display: grid;
+  /* auto-fit heeft een vaste ondergrens nodig; met minmax(0, 1fr) kan de
+     browser het aantal kolommen niet uitrekenen en valt alles in een kolom. */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--ruimte-10);
+}
+
+.filter-groep { display: flex; flex-direction: column; gap: var(--ruimte-4); min-width: 0; }
+.filter-groep.breed { grid-column: span 2; }
+
+.filter-groep > label,
+.filter-groep .filter-label {
+  font-size: var(--tekst-12);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--kleur-tekst-licht);
+}
+
+.filter-groep select,
+.filter-groep input {
+  font: inherit;
+  font-size: var(--tekst-15);
+  padding: var(--ruimte-6) var(--ruimte-10);
+  min-height: 40px;
+  width: 100%;
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius-klein);
+  background: var(--kleur-wit);
+  color: var(--kleur-tekst);
+}
+
+/* De tweede zone. Het label staat naast de schakelaars en niet erboven: dat
+   scheelt een regel, en op een blok van twee regels lijnt het uit op de
+   eerste - niet zwevend in het midden, zoals het stond. */
+.filter-rij.tweede {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ruimte-10);
+  margin-top: var(--ruimte-10);
+  padding-top: var(--ruimte-10);
+  border-top: 1px solid var(--kleur-rand);
+}
+
+.filter-rij.tweede .filter-groep { flex: 1; flex-direction: row; align-items: flex-start; gap: var(--ruimte-10); }
+.filter-rij.tweede .filter-label { flex: none; padding-top: 12px; }
+
+.checkbox-groep { display: flex; flex-wrap: wrap; gap: var(--ruimte-6); flex: 1; }
+
+/* Zelfde rechthoek en ronding als een keuzelijst. Het waren grijsgevulde
+   pillen naast rechthoekige velden: twee vormentalen in een paneel. */
+.checkbox-groep label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ruimte-6);
+  min-height: 40px;
+  padding: var(--ruimte-4) var(--ruimte-10);
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius-klein);
+  background: var(--kleur-wit);
+  font-size: var(--tekst-15);
+  font-weight: 600;
+  color: var(--kleur-tekst-licht);
+  cursor: pointer;
+}
+
+/* Aan is de merkkleur, niet een grijstint: zo zie je in een oogopslag welk
+   filter er nog aanstaat. */
+.checkbox-groep label:has(input:checked) {
+  border-color: var(--kleur-primair);
+  background: var(--kleur-primair-licht);
+  color: var(--kleur-primair-donker);
+  font-weight: 700;
+}
+
+.checkbox-groep input { accent-color: var(--kleur-primair); width: 16px; height: 16px; }
+
+.filter-reset {
+  flex: none;
+  margin-left: var(--ruimte-4);
+  padding: var(--ruimte-6) 0;
+  min-height: 40px;
+  background: none;
+  border: 0;
+  color: var(--kleur-primair);
+  font: inherit;
+  font-size: var(--tekst-15);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Sorteren, in de resultatenbalk naast het aantal en de weergaveknoppen. */
+.sorteer-keuze { display: inline-flex; align-items: center; gap: var(--ruimte-6); }
+.sorteer-keuze > span { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
+
+.sorteer-keuze select {
+  font: inherit;
+  font-size: var(--tekst-15);
+  padding: var(--ruimte-4) var(--ruimte-10);
+  min-height: 40px;
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius-klein);
+  background: var(--kleur-wit);
+  color: var(--kleur-tekst);
+}
+
+@media (max-width: 700px) {
+  .filter-rij { grid-template-columns: 1fr; }
+  .filter-groep.breed { grid-column: auto; }
+  .filter-rij.tweede { flex-direction: column; }
+  .filter-rij.tweede .filter-groep { flex-direction: column; }
+  .filter-rij.tweede .filter-label { padding-top: 0; }
+  .sorteer-keuze { width: 100%; }
+  .sorteer-keuze select { flex: 1; }
+}

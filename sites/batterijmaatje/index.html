@@ -438,23 +438,21 @@
     <p><b>Salderingsregeling stopt per 1 januari 2027.</b> Zonnestroom zelf opslaan en gebruiken wordt daardoor veel interessanter. <a href="regelgeving.html">Wat betekent dit voor jou? <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a> Batterij, zonnepanelen én warmtepomp in één keer bekijken? <a href="https://zonnestroommaatje.nl/energieplan.html" target="_blank" rel="noopener">Maak je energieplan <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a></p>
   </div>
 
-
   <button class="filter-toggle" id="filterToggle"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 5H3" /> <path d="M12 19H3" /> <path d="M14 3v4" /> <path d="M16 17v4" /> <path d="M21 12h-9" /> <path d="M21 19h-5" /> <path d="M21 5h-7" /> <path d="M8 10v4" /> <path d="M8 12H3" /></svg> Filteren en sorteren</button>
 
   <div class="filterbalk ingeklapt" id="filterbalk">
-  <div class="zoekbalk">
-    <label for="zoekVeld" class="visueel-verborgen">Zoek op merk of model</label>
-    <svg class="icoon zoek-icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg>
-    <input type="search" id="zoekVeld" placeholder="Zoek op merk of model, bijvoorbeeld Marstek Venus" autocomplete="off" enterkeyhint="search">
-  </div>
     <div class="filter-rij">
+      <div class="filter-groep breed">
+        <label for="zoekVeld" class="filter-label">Zoeken</label>
+        <input type="search" id="zoekVeld" placeholder="Zoek op merk of model, bijv. Marstek" autocomplete="off" enterkeyhint="search">
+      </div>
       <div class="filter-groep">
-        <label for="filterType">Type systeem</label>
+        <label for="filterType">Hoe hij aansluit</label>
         <select id="filterType">
           <option value="alle">Alle typen</option>
-          <option value="plug-in">Plug-in (stopcontact)</option>
-          <option value="ac-gekoppeld">AC-gekoppeld</option>
-          <option value="hybride">Hybride omvormer</option>
+          <option value="plug-in">In het stopcontact</option>
+          <option value="ac-gekoppeld">Naast je omvormer (AC-gekoppeld)</option>
+          <option value="hybride">Vervangt je omvormer (hybride)</option>
         </select>
       </div>
       <div class="filter-groep">
@@ -467,7 +465,7 @@
         </select>
       </div>
       <div class="filter-groep">
-        <label for="filterInstallatie">Installatie</label>
+        <label for="filterInstallatie">Wie sluit hem aan</label>
         <select id="filterInstallatie">
           <option value="alle">Maakt niet uit</option>
           <option value="zelf">Zelf aan te sluiten</option>
@@ -480,27 +478,16 @@
           <option value="alle">Alle merken</option>
         </select>
       </div>
-      <div class="filter-groep">
-        <label for="sorteer">Sorteren op</label>
-        <select id="sorteer">
-          <option value="prijs-per-kwh" selected>Beste prijs per kWh opslag</option>
-          <option value="koppel-score">Koppel-score (slimste eerst)</option>
-          <option value="prijs-oplopend">Winkelprijs (laag naar hoog)</option>
-          <option value="totaalprijs">Totaalprijs gebruiksklaar (indicatie)</option>
-          <option value="prijs-aflopend">Winkelprijs (hoog naar laag)</option>
-          <option value="capaciteit">Capaciteit (grootste eerst)</option>
-          <option value="koppelgemak">Makkelijkst te koppelen</option>
-        </select>
-      </div>
+      
     </div>
     <div class="filter-rij tweede">
       <div class="filter-groep">
-        <span class="filter-label">Moet werken met</span>
+        <span class="filter-label">Toon alleen</span>
         <div class="checkbox-groep">
           <label><input type="checkbox" id="checkHomey"> Homey</label>
           <label><input type="checkbox" id="checkHA"> Home Assistant</label>
           <label><input type="checkbox" id="checkDynamisch"> Dynamisch energiecontract</label>
-          <label title="Toon alleen batterijen met een officiële koppeling; community-integraties en omwegen vallen dan af"><input type="checkbox" id="checkOfficieel"> alleen officiële koppelingen</label>
+          <label title="Verscherpt de drie vinkjes hierboven: alleen koppelingen die de fabrikant zelf ondersteunt tellen dan mee. Community-integraties en omwegen vallen af. Los aanvinken verandert niets."><input type="checkbox" id="checkOfficieel"> Alleen officiële ondersteuning (geen omwegen)</label>
           <label><input type="checkbox" id="checkNoodstroom"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z" /> <path d="m2 22 3-3" /> <path d="M7.5 13.5 10 11" /> <path d="M10.5 16.5 13 14" /> <path d="m18 3-4 4h6l-4 4" /></svg> Noodstroom bij stroomuitval</label>
           <label><input type="checkbox" id="checkAanbieding"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" /></svg> Alleen aanbiedingen</label>
         </div>
@@ -524,6 +511,15 @@
 
   <div class="resultaten-balk">
     <span class="resultaten-telling" id="resultatenTelling">Laden…</span>
+    <label class="sorteer-keuze"><span>Sorteren op</span><select id="sorteer">
+          <option value="prijs-per-kwh" selected>Beste prijs per kWh opslag</option>
+          <option value="koppel-score">Koppel-score (slimste eerst)</option>
+          <option value="prijs-oplopend">Winkelprijs (laag naar hoog)</option>
+          <option value="totaalprijs">Totaalprijs gebruiksklaar (indicatie)</option>
+          <option value="prijs-aflopend">Winkelprijs (hoog naar laag)</option>
+          <option value="capaciteit">Capaciteit (grootste eerst)</option>
+          <option value="koppelgemak">Makkelijkst te koppelen</option>
+        </select></label>
     <div class="weergave-knoppen">
       <button id="knopLijst" class="actief"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="5" x="3" y="3" rx="1" /> <rect width="18" height="5" x="3" y="10" rx="1" /> <rect width="18" height="5" x="3" y="17" rx="1" /></svg> Lijst</button>
       <button id="knopKaarten"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg> Kaarten</button>
