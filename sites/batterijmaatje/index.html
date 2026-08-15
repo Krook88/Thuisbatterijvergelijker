@@ -447,12 +447,12 @@
         <input type="search" id="zoekVeld" placeholder="Zoek op merk of model, bijv. Marstek" autocomplete="off" enterkeyhint="search">
       </div>
       <div class="filter-groep">
-        <label for="filterType">Type systeem</label>
+        <label for="filterType">Hoe hij aansluit</label>
         <select id="filterType">
           <option value="alle">Alle typen</option>
-          <option value="plug-in">Plug-in (stopcontact)</option>
-          <option value="ac-gekoppeld">AC-gekoppeld</option>
-          <option value="hybride">Hybride omvormer</option>
+          <option value="plug-in">In het stopcontact</option>
+          <option value="ac-gekoppeld">Naast je omvormer (AC-gekoppeld)</option>
+          <option value="hybride">Vervangt je omvormer (hybride)</option>
         </select>
       </div>
       <div class="filter-groep">
@@ -465,7 +465,7 @@
         </select>
       </div>
       <div class="filter-groep">
-        <label for="filterInstallatie">Installatie</label>
+        <label for="filterInstallatie">Wie sluit hem aan</label>
         <select id="filterInstallatie">
           <option value="alle">Maakt niet uit</option>
           <option value="zelf">Zelf aan te sluiten</option>
@@ -487,7 +487,7 @@
           <label><input type="checkbox" id="checkHomey"> Homey</label>
           <label><input type="checkbox" id="checkHA"> Home Assistant</label>
           <label><input type="checkbox" id="checkDynamisch"> Dynamisch energiecontract</label>
-          <label title="Toon alleen batterijen met een officiële koppeling; community-integraties en omwegen vallen dan af"><input type="checkbox" id="checkOfficieel"> alleen officiële koppelingen</label>
+          <label title="Verscherpt de drie vinkjes hierboven: alleen koppelingen die de fabrikant zelf ondersteunt tellen dan mee. Community-integraties en omwegen vallen af. Los aanvinken verandert niets."><input type="checkbox" id="checkOfficieel"> Alleen officiële ondersteuning (geen omwegen)</label>
           <label><input type="checkbox" id="checkNoodstroom"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z" /> <path d="m2 22 3-3" /> <path d="M7.5 13.5 10 11" /> <path d="M10.5 16.5 13 14" /> <path d="m18 3-4 4h6l-4 4" /></svg> Noodstroom bij stroomuitval</label>
           <label><input type="checkbox" id="checkAanbieding"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" /></svg> Alleen aanbiedingen</label>
         </div>
