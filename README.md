@@ -57,6 +57,7 @@ wat CI ook doet:
 | `npm test` | de proeven bij het prijsrekenen en het uitlezen van winkelpagina's |
 | `npm run modellen` | het herkennen van modelnamen, dat anders stil faalt |
 | `npm run workflows` | stappen die naar een stap in een ander blok verwijzen en zichzelf daardoor overslaan |
+| `npm run datums` | teksten die aan een voorbije datum hangen, en jaartallen in titels die achterlopen |
 | `npm run keuring` | contrast, aanraakvlakken, tekstmaten en javascriptfouten op elke pagina van de drie sites, op 1280 en 390 pixels |
 | `npm run dode-regels` | declaraties die er wel staan maar overal worden overruled |
 
@@ -67,6 +68,18 @@ bestand, en dus in het verkeerde blok. Hij keek naar `steps.keuze` en
 af: zo'n verwijzing wordt een lege tekst, de `if` is altijd onwaar, en de stap
 slaat zichzelf elke dag over. In de lijst staat hij dan grijs, alsof dat de
 bedoeling was.
+
+`npm run datums` bewaakt fouten zonder dader: niemand verandert iets, de
+kalender verschuift en de site heeft ongelijk. Een jaartal in een titel hoort
+daarbij. "Beste thuisbatterij (2026)" nodigt uit tot klikken zolang het 2026
+is, en is op 1 januari juist een reden om niet te klikken.
+
+De generatoren halen dat jaartal inmiddels uit de kalender (`const JAAR`), dus
+die titels rollen bij de eerste prijsrun van het nieuwe jaar vanzelf om. De
+handgeschreven pagina's kunnen dat niet: bij hún jaartal hoort inhoud die
+klopt voor dat jaar — de ISDE-bedragen, de rekengrondslag — en die mag niet
+stilletjes meebewegen. Die worden dus gemeld, en een mens past ze aan. Op
+1 januari 2027 zijn dat er vijf; nagemeten door de klok vooruit te zetten.
 
 `npm run dode-regels` vangt wat de keuring niet kan vangen. Het opschrift boven
 de hero stond op 12px in de merkkleur en rendeerde als 19px grijs, omdat

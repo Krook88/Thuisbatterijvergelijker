@@ -52,6 +52,13 @@ jobs:
       - name: Verwijzingen binnen de workflows
         run: npm run workflows
 
+      # Jaartallen in titels en koppen die achterlopen op de kalender. De
+      # gegenereerde pagina's rollen vanzelf om bij de dagelijkse prijsrun; de
+      # handgeschreven niet, en daar hoort bij het jaartal ook inhoud die
+      # iemand moet nakijken.
+      - name: Teksten die aan een datum hangen
+        run: npm run datums
+
   # De keuring start een echte browser en is daarom een aparte baan: hij duurt
   # langer dan de rest samen, en als hij valt wil je kunnen zien of de andere
   # controles wél doorkwamen.
