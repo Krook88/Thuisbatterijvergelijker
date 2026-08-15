@@ -2,8 +2,8 @@
    Zonnepaneelmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260815c");
-@import url("vergelijker.css?v=20260815c");
+@import url("maatlat.css?v=20260815d");
+@import url("vergelijker.css?v=20260815d");
 
 :root {
   --kleur-primair: #0369a1;
@@ -862,6 +862,22 @@ table.vergelijk-tabel {
 
 .vergelijk-tabel th .sorteer-pijl { opacity: 0.5; }
 .vergelijk-tabel td { padding: var(--ruimte-10) var(--ruimte-14); border-bottom: 1px solid var(--kleur-rand); vertical-align: top; }
+
+/* De naamkolom is de enige die echt breedte nodig heeft. Zonder ondergrens
+   knijpt de browser hem tot een paar honderd pixels minder en breken lange
+   modelnamen over drie regels. */
+.vergelijk-tabel th:first-child,
+.vergelijk-tabel td:first-child { min-width: 230px; }
+
+/* Getallen rechts en met vaste cijferbreedte. Een tabel bestaat om een kolom
+   van boven naar beneden te vergelijken, en dat kan alleen als de cijfers
+   onder elkaar staan. */
+.vergelijk-tabel th.getal,
+.vergelijk-tabel td.getal { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* De deal-vlag naar de linkerkant van de cel, anders schuift hij juist de
+   prijzen met korting uit de rechterlijn. */
+.vergelijk-tabel td.getal .aanbieding-vlag { float: left; }
 .vergelijk-tabel tr:hover td { background: #f0f8ff; }
 .vergelijk-tabel .tabel-prijs { font-weight: 700; white-space: nowrap; }
 .vergelijk-tabel .check-ja { color: var(--kleur-groen); font-weight: 700; }
