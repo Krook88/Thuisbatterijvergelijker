@@ -166,12 +166,12 @@
 
   const tabelKolommen = [
     { key: "model", label: "Model", get: (b) => naamVan(b) },
-    { key: "capaciteit", label: "kWh", get: (b) => b.capaciteit_kwh || 0 },
-    { key: "vermogen", label: "kW", get: (b) => b.vermogen_kw || 0 },
+    { key: "capaciteit", label: "kWh", getal: true, get: (b) => b.capaciteit_kwh || 0 },
+    { key: "vermogen", label: "kW", getal: true, get: (b) => b.vermogen_kw || 0 },
     { key: "type", label: "Type", get: (b) => b.type },
-    { key: "prijs", label: "Prijs incl. btw", get: vergelijkPrijs },
-    { key: "totaal", label: "Totaal (indicatie)", get: (b) => b.totaalprijs_van_eur || Infinity },
-    { key: "perkwh", label: "€/kWh", get: (b) => prijsPerKwh(b) || Infinity },
+    { key: "prijs", label: "Prijs incl. btw", getal: true, get: vergelijkPrijs },
+    { key: "totaal", label: "Totaal (indicatie)", getal: true, get: (b) => b.totaalprijs_van_eur || Infinity },
+    { key: "perkwh", label: "€/kWh", getal: true, get: (b) => prijsPerKwh(b) || Infinity },
     { key: "koppeling", label: "PV-koppeling", get: (b) => b.koppeling_gemak || 0 },
     { key: "slim", label: "Koppel-score", get: (b) => koppelScore(b) },
     { key: "homey", label: "Homey", get: (b) => driewaardig(b.homey).status },
@@ -197,19 +197,19 @@
     };
     return `
     <table class="vergelijk-tabel">
-      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}">${k.label}${k.key !== "actie" ? ' <span class="sorteer-pijl">${Iconen.svg("chevron")}</span>' : ""}</th>`).join("")}</tr></thead>
+      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}"${k.getal ? ' class="getal"' : ""}>${k.label}${k.key !== "actie" ? ` <span class="sorteer-pijl">${Iconen.svg("chevron")}</span>` : ""}</th>`).join("")}</tr></thead>
       <tbody>
         ${rijen.map((b) => {
           const beste = bestePrijs(b);
           const perKwh = prijsPerKwh(b);
           return `<tr>
             <td><b>${merkHtml(b)}</b><br><a href="batterij/${encodeURIComponent(b.id)}.html">${escapeHtml(b.model)}</a></td>
-            <td${Prijs.capaciteitToelichting(b) ? ` title="${escapeHtml(Prijs.capaciteitToelichting(b))}"` : ""}>${b.capaciteit_kwh ? String(b.capaciteit_kwh).replace(".", ",") : "?"}</td>
-            <td>${b.vermogen_kw ? String(b.vermogen_kw).replace(".", ",") : "?"}</td>
+            <td class="getal"${Prijs.capaciteitToelichting(b) ? ` title="${escapeHtml(Prijs.capaciteitToelichting(b))}"` : ""}>${b.capaciteit_kwh ? String(b.capaciteit_kwh).replace(".", ",") : "?"}</td>
+            <td class="getal">${b.vermogen_kw ? String(b.vermogen_kw).replace(".", ",") : "?"}</td>
             <td>${escapeHtml(b.type)}</td>
-            <td class="tabel-prijs" title="${escapeHtml([b.prijs_omvat, Prijs.prijsToelichting(beste)].filter(Boolean).join(" | "))}">${Prijs.vergelijkPrijs(beste) !== null ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "n.b."}${heeftKorting(b) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
-            <td title="${escapeHtml(b.totaalprijs_toelichting || "")}">${totaalprijsTekst(b) || "op aanvraag"}</td>
-            <td${Prijs.capaciteitToelichting(b) ? ` title="Per kWh: ${escapeHtml(Prijs.capaciteitToelichting(b))}"` : ""}>${perKwh ? eurFmt.format(perKwh) : "n.b."}</td>
+            <td class="tabel-prijs getal" title="${escapeHtml([b.prijs_omvat, Prijs.prijsToelichting(beste)].filter(Boolean).join(" | "))}">${Prijs.vergelijkPrijs(beste) !== null ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "n.b."}${heeftKorting(b) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
+            <td class="getal" title="${escapeHtml(b.totaalprijs_toelichting || "")}">${totaalprijsTekst(b) || "op aanvraag"}</td>
+            <td class="getal"${Prijs.capaciteitToelichting(b) ? ` title="Per kWh: ${escapeHtml(Prijs.capaciteitToelichting(b))}"` : ""}>${perKwh ? eurFmt.format(perKwh) : "n.b."}</td>
             <td title="${escapeHtml(b.zonnepanelen_koppeling || "")}">${Kaart.waardering(b.koppeling_gemak, 5)}</td>
             <td title="Punten voor Homey, Home Assistant en dynamisch contract"><b>${koppelScore(b)}/6</b></td>
             <td>${checkCel(b.homey)}</td>

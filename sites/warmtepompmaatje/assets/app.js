@@ -157,12 +157,12 @@
   const tabelKolommen = [
     { key: "model", label: "Model", get: (w) => `${w.merk} ${w.model}` },
     { key: "type", label: "Type", get: (w) => w.type },
-    { key: "vermogen", label: "kW", get: (w) => w.vermogen_kw || 0 },
+    { key: "vermogen", getal: true, label: "kW", get: (w) => w.vermogen_kw || 0 },
     // null en niet een groot getal: een ontbrekende waarde hoort onderaan omdat
     // hij ontbreekt, niet omdat hij hoog zou zijn. Zie de sorteervergelijking.
-    { key: "prijs", label: "Prijs", get: (w) => vergelijkPrijs(bestePrijs(w)) },
-    { key: "subsidie", label: "ISDE", get: (w) => w.isde_indicatie_eur || 0 },
-    { key: "geluid", label: "Geluid", get: (w) => (geluidBekend(w) ? w.geluid_db : null) },
+    { key: "prijs", getal: true, label: "Prijs", get: (w) => vergelijkPrijs(bestePrijs(w)) },
+    { key: "subsidie", getal: true, label: "ISDE", get: (w) => w.isde_indicatie_eur || 0 },
+    { key: "geluid", getal: true, label: "Geluid", get: (w) => (geluidBekend(w) ? w.geluid_db : null) },
     { key: "koppel", label: "Koppel-score", get: (w) => koppelScore(w) },
     { key: "ha", label: "Home Assistant", get: (w) => driewaardig(w.home_assistant).status },
     { key: "homey", label: "Homey", get: (w) => driewaardig(w.homey).status },
@@ -192,17 +192,17 @@
     };
     return `
     <table class="vergelijk-tabel">
-      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}">${k.label}${k.key !== "actie" ? ` <span class="sorteer-pijl">${Iconen.svg("sorteren")}</span>` : ""}</th>`).join("")}</tr></thead>
+      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}"${k.getal ? ' class="getal"' : ""}>${k.label}${k.key !== "actie" ? ` <span class="sorteer-pijl">${Iconen.svg("sorteren")}</span>` : ""}</th>`).join("")}</tr></thead>
       <tbody>
         ${rijen.map((w) => {
           const beste = bestePrijs(w);
           return `<tr>
             <td><b>${escapeHtml(w.merk)}</b><br>${escapeHtml(w.model)}</td>
             <td>${escapeHtml(TYPE_KORT[w.type] || w.type)}</td>
-            <td${Condities.vermogenToelichting(w) ? ` title="${escapeHtml(Condities.vermogenToelichting(w))}"` : ""}>${String(w.vermogen_kw).replace(".", ",")}</td>
-            <td class="tabel-prijs" title="${escapeHtml([w.prijs_toelichting, Prijs.prijsToelichting(beste)].filter(Boolean).join(" · "))}">${beste ? eurFmt.format(vergelijkPrijs(beste)) : "n.b."}</td>
-            <td title="Indicatie ISDE-subsidie; het bedrag per meldcode bij RVO is leidend">${w.isde_indicatie_eur ? "± " + eurFmt.format(w.isde_indicatie_eur) : "?"}</td>
-            <td>${w.geluid_db ? w.geluid_db + " dB" : "?"}</td>
+            <td class="getal"${Condities.vermogenToelichting(w) ? ` title="${escapeHtml(Condities.vermogenToelichting(w))}"` : ""}>${String(w.vermogen_kw).replace(".", ",")}</td>
+            <td class="tabel-prijs getal" title="${escapeHtml([w.prijs_toelichting, Prijs.prijsToelichting(beste)].filter(Boolean).join(" · "))}">${beste ? eurFmt.format(vergelijkPrijs(beste)) : "n.b."}</td>
+            <td class="getal" title="Indicatie ISDE-subsidie; het bedrag per meldcode bij RVO is leidend">${w.isde_indicatie_eur ? "± " + eurFmt.format(w.isde_indicatie_eur) : "?"}</td>
+            <td class="getal">${w.geluid_db ? w.geluid_db + " dB" : "?"}</td>
             <td title="Punten voor slimme aansturing, Home Assistant en Homey"><b>${koppelScore(w)}/6</b></td>
             <td>${checkCel(w.home_assistant)}</td>
             <td>${checkCel(w.homey)}</td>
