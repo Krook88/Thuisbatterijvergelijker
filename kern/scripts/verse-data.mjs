@@ -26,6 +26,20 @@
  *   node scripts/verse-data.mjs --streng   stop met een foutcode als iets te
  *                                          oud is (voor CI)
  *   node scripts/verse-data.mjs --dagen 3  wat "te oud" betekent (standaard 2)
+ *
+ * Wat --streng wel en niet afvangt. Het stopt met een foutcode op teOud: een
+ * databestand waarvan laatst_bijgewerkt ouder is dan MAX_DAGEN. Het stopt
+ * *niet* op oudePrijzen, de prijzen per product die hieronder wel worden
+ * uitgerekend en gemeld. Dat is met opzet en het is ook de enige mogelijkheid,
+ * want update-prices.mjs zet laatst_bijgewerkt elke geslaagde run op vandaag,
+ * of er nu een bedrag veranderd is of niet. Het bestand is dus altijd van
+ * vandaag terwijl de prijzen erin maanden kunnen stilstaan.
+ *
+ * --streng beantwoordt daarmee de vraag "heeft de leiding gedraaid?" en niet
+ * "heeft de leiding iets opgeleverd?". Die tweede vraag stelt de stap
+ * "Prijzen die aandacht vragen" in .github/workflows/update-prijzen.yml, op
+ * basis van wat update-prices.mjs telt. De twee overlappen dus niet; ze staan
+ * na elkaar in dezelfde ketting.
  */
 
 import { readFileSync, readdirSync, existsSync, appendFileSync } from "node:fs";

@@ -46,6 +46,12 @@ jobs:
       - name: Herkenning van modelnamen toetsen
         run: npm run modellen
 
+      # Een stap die naar steps.X kijkt terwijl X in een ander blok staat wordt
+      # door GitHub niet afgekeurd: de verwijzing wordt leeg, de voorwaarde
+      # onwaar, en de stap slaat zichzelf elke run over zonder iets roods.
+      - name: Verwijzingen binnen de workflows
+        run: npm run workflows
+
   # De keuring start een echte browser en is daarom een aparte baan: hij duurt
   # langer dan de rest samen, en als hij valt wil je kunnen zien of de andere
   # controles wél doorkwamen.

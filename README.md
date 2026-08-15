@@ -56,8 +56,17 @@ wat CI ook doet:
 | `npm run kern:controleer` | de sites lopen gelijk met `kern/`, en de `?v=`-nummers binnen een site lopen gelijk |
 | `npm test` | de proeven bij het prijsrekenen en het uitlezen van winkelpagina's |
 | `npm run modellen` | het herkennen van modelnamen, dat anders stil faalt |
+| `npm run workflows` | stappen die naar een stap in een ander blok verwijzen en zichzelf daardoor overslaan |
 | `npm run keuring` | contrast, aanraakvlakken, tekstmaten en javascriptfouten op elke pagina van de drie sites, op 1280 en 390 pixels |
 | `npm run dode-regels` | declaraties die er wel staan maar overal worden overruled |
+
+`npm run workflows` kwam uit een eigen misser. Een stap die de dagelijkse
+prijsrun rood moest laten worden bij verouderde prijzen belandde onderaan het
+bestand, en dus in het verkeerde blok. Hij keek naar `steps.keuze` en
+`steps.prijzen`, die alleen in het blok erboven bestaan. GitHub keurt dat niet
+af: zo'n verwijzing wordt een lege tekst, de `if` is altijd onwaar, en de stap
+slaat zichzelf elke dag over. In de lijst staat hij dan grijs, alsof dat de
+bedoeling was.
 
 Die laatste vangt wat de keuring niet kan vangen. Het opschrift boven de hero
 stond op 12px in de merkkleur en rendeerde als 19px grijs, omdat `.hero p`
