@@ -3,6 +3,13 @@
   "framework": null,
   "cleanUrls": false,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/batterij/deye-rw-m61-set.html",
+      "destination": "/index.html",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
