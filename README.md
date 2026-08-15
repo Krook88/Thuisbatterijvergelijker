@@ -68,10 +68,10 @@ af: zo'n verwijzing wordt een lege tekst, de `if` is altijd onwaar, en de stap
 slaat zichzelf elke dag over. In de lijst staat hij dan grijs, alsof dat de
 bedoeling was.
 
-Die laatste vangt wat de keuring niet kan vangen. Het opschrift boven de hero
-stond op 12px in de merkkleur en rendeerde als 19px grijs, omdat `.hero p`
-specifieker is dan `.hero-opschrift`. Formeel klopte dat: 19px staat op de
-maatlat en het contrast was 5,4:1. De code deed alleen niet wat er stond.
+`npm run dode-regels` vangt wat de keuring niet kan vangen. Het opschrift boven
+de hero stond op 12px in de merkkleur en rendeerde als 19px grijs, omdat
+`.hero p` specifieker is dan `.hero-opschrift`. Formeel klopte dat: 19px staat
+op de maatlat en het contrast was 5,4:1. De code deed alleen niet wat er stond.
 
 Het meet dat niet door de cascade na te rekenen, maar door hem te vragen: elke
 declaratie krijgt even `!important` mee, en verandert er dan iets aan wat de
