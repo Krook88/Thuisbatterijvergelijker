@@ -71,6 +71,7 @@ jobs:
         run: npm test
 
       - name: Prijzen bijwerken
+        id: prijzen
         if: steps.keuze.outputs.doen == 'true'
         working-directory: sites/${{ matrix.site }}
         env:
@@ -203,3 +204,16 @@ jobs:
             ( cd "$site" && node scripts/verse-data.mjs --streng ) || fout=1
           done
           exit $fout
+
+      # Alles hierboven is al weggeschreven en gepusht: een signaal mag de
+      # dagelijkse ronde niet tegenhouden. Maar groen blijven mag ook niet.
+      # De samenvatting van de prijsstap stond er al; alleen keek niemand,
+      # want er was niets dat om aandacht vroeg. Twaalf prijzen liepen daardoor
+      # 33 dagen achter en een bedrag van 9.000 euro stond naast een winkel die
+      # 4.945 vraagt - opgemerkt doordat iemand toevallig op een pagina klikte.
+      - name: Prijzen die aandacht vragen
+        if: steps.keuze.outputs.doen == 'true' && steps.prijzen.outputs.aandacht != '0'
+        run: |
+          echo "${{ matrix.site }}: ${{ steps.prijzen.outputs.aandacht_kort }}"
+          echo "Zie de samenvatting van deze run voor de tabellen per soort."
+          exit 1
