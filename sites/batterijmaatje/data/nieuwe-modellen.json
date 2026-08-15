@@ -286,6 +286,46 @@
       "lijkt_op": null,
       "maat_uit_titel": null,
       "eerst_gezien": "2026-08-13"
+    },
+    {
+      "titel": "5kWh Li-ion muur gemonteerde thuisbatterij, slimme energieopslag, voor zonne-energiesysteem",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000336486913/",
+      "ean": "0769890261327",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "5 kwh",
+      "eerst_gezien": "2026-08-15"
+    },
+    {
+      "titel": "AEG Solarcube Pro - 6 Kwh - Plug and Play - Thuisbatterij",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000361259247/",
+      "ean": "6977211612169",
+      "prijs_eur": null,
+      "lijkt_op": "aeg-solarcube-48",
+      "maat_uit_titel": "6 kwh",
+      "eerst_gezien": "2026-08-15"
+    },
+    {
+      "titel": "HYXI Halo 3kWh-MS-3000AC - Thuisbatterij - Plug & Play - Uitbreidbaar",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000361240702/",
+      "ean": "6977211612138",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": "3 kwh",
+      "eerst_gezien": "2026-08-15"
+    },
+    {
+      "titel": "Zonnecontroller - Energieopslag Controle - Thuis Energie Beheer - Intelligente Ventilator - 40A Laadstroom - One Color",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000304949930/",
+      "ean": "9101241034456",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": null,
+      "eerst_gezien": "2026-08-15"
     }
   ]
 }
