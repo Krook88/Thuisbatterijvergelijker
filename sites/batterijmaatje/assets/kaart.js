@@ -50,6 +50,17 @@
     return Number.isNaN(d.getTime()) ? iso : datumFmt.format(d);
   }
 
+  // Een prijs die al weken stilstaat hoort dat te zeggen op de plek waar het
+  // bedrag staat. De site belooft "prijzen dagelijks gecontroleerd"; klopt dat
+  // voor dit model even niet, dan is dat een mededeling en geen voetnoot in de
+  // uitklap. Prijs.prijsOuderdomLabel geeft null zolang het meevalt, dus staat
+  // er niets bij de meeste kaarten.
+  function ouderdomHtml(item) {
+    const oud = Prijs.prijsOuderdomLabel(item);
+    if (!oud) return "";
+    return `<span class="prijs-ouderdom" title="Dit bedrag is ${oud.dagen} dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van ${escapeHtml(datumNL(oud.datum))}</span>`;
+  }
+
   // true / "tekst" => ondersteund (evt. met kanttekening); false/null => niet
   function driewaardig(v) {
     // Objectvorm {status, tekst}: officiële ondersteuning ("ja") mét uitlegtekst
@@ -216,6 +227,7 @@
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>
         ${perKwh ? `<span class="regel-per cijfer">${eurFmt.format(perKwh)} per kWh opslag</span>` : ""}
+        ${ouderdomHtml(b)}
         ${beste && beste.url
           ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))}">Bekijken</a>`
           : `<a class="knop" href="batterij/${encodeURIComponent(b.id)}.html" aria-label="Alle details van de ${escapeHtml(naamVan(b))}">Bekijken</a>`}
@@ -308,6 +320,7 @@
           ${vanPrijs ? `<div class="van-prijs">${eurFmt.format(vanPrijs)}</div>` : ""}
           <div class="prijs">${vergelijk !== null ? eurFmt.format(vergelijk) : "Prijs op aanvraag"}</div>
           ${perKwh ? `<div class="prijs-per-kwh"${Prijs.capaciteitToelichting(b) ? ` title="Per kWh: ${Prijs.capaciteitToelichting(b)}"` : ""}>${eurFmt.format(perKwh)} per kWh opslag</div>` : ""}
+          ${ouderdomHtml(b)}
           ${beste && beste.is_richtprijs ? `<div class="prijs-winkel">richtprijs; op dit moment geen winkel met deze batterij</div>` : beste && beste.winkel ? `<div class="prijs-winkel">bij ${escapeHtml(beste.winkel)}</div>` : ""}
           ${omgerekend ? `<div class="prijs-let-op">De winkel toont ${eurFmt.format(beste.prijs_eur)} <b>excl. btw</b>. Hierboven staat het bedrag incl. btw, zodat het te vergelijken is met de andere batterijen.</div>` : ""}
           ${beste && beste.omvat && b.richtprijs_eur ? `<div class="prijs-let-op">Deze winkelprijs is <b>${escapeHtml(beste.omvat)}</b>; de richtprijs van ${eurFmt.format(b.richtprijs_eur)} dekt meer. Het verschil is dus geen korting.</div>` : ""}

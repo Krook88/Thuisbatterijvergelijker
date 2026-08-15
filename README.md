@@ -129,3 +129,24 @@ prijsupdate → Run workflow**.
 De secrets `BOL_CLIENT_ID` en `BOL_CLIENT_SECRET` staan op repositoryniveau en
 gelden dus voor alle drie. Ontbreken ze, dan slaat het prijsscript bol over en
 blijft de oude prijs staan.
+
+### Wanneer een prijs stilstaat
+
+Niet elke winkel laat zich uitlezen, dus bij een deel van de producten staat
+het bedrag stil terwijl de pagina eromheen elke dag ververst wordt. Daar zijn
+drie signalen voor, op oplopende afstand van de bezoeker:
+
+| na | wat er gebeurt |
+| --- | --- |
+| 14 dagen | de bezoeker ziet *prijs van 13 juli* onder het bedrag, op de kaart, in de regel en op de productpagina |
+| 21 dagen | `update-prices.mjs` telt hem mee en de dagelijkse run wordt rood |
+| 30 dagen | `verse-data.mjs` zet hem in het dagrapport, gegroepeerd naar wat eraan te doen valt |
+
+De bezoeker weet het dus eerder dan de beheerder, en dat is de bedoeling: hij
+rekent op dat bedrag en de beheerder niet.
+
+`verse-data.mjs --streng` faalt hier níét op. Dat kan niet, want
+`update-prices.mjs` zet `laatst_bijgewerkt` elke geslaagde run op vandaag, of
+er nu iets veranderd is of niet. `--streng` beantwoordt de vraag "heeft de
+leiding gedraaid?"; de stap in de workflow beantwoordt "heeft de leiding iets
+opgeleverd?".

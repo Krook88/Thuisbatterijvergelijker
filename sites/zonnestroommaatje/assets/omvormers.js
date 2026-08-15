@@ -29,6 +29,17 @@
     return Number.isNaN(d.getTime()) ? iso : datumFmt.format(d);
   }
 
+  // Een prijs die al weken stilstaat hoort dat te zeggen op de plek waar het
+  // bedrag staat. De site belooft "prijzen dagelijks gecontroleerd"; klopt dat
+  // voor dit model even niet, dan is dat een mededeling en geen voetnoot in de
+  // uitklap. Prijs.prijsOuderdomLabel geeft null zolang het meevalt, dus staat
+  // er niets bij de meeste kaarten.
+  function ouderdomHtml(item) {
+    const oud = Prijs.prijsOuderdomLabel(item);
+    if (!oud) return "";
+    return `<span class="prijs-ouderdom" title="Dit bedrag is ${oud.dagen} dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van ${escapeHtml(datumNL(oud.datum))}</span>`;
+  }
+
   const TYPE_LABEL = {
     "micro": "Micro-omvormers",
     "optimizer": "Optimizers",
@@ -199,6 +210,7 @@
           ${beste ? `<div class="prijs-winkel">${uitWinkel ? "bij " + escapeHtml(beste.winkel) : beste.winkel}</div>` : ""}
           ${Prijs.isOmgerekend(beste) ? `<div class="prijs-let-op">De winkel toont ${eurFmt.format(beste.prijs_eur)} <b>excl. btw</b>. Hierboven staat het bedrag incl. btw, zodat het te vergelijken is met de andere omvormers.</div>` : ""}
           ${o.voorbeeld_variant ? `<div class="prijs-per-kwh">prijs voor: ${escapeHtml(o.voorbeeld_variant)}</div>` : ""}
+          ${ouderdomHtml(o)}
           ${o.prijs_toelichting ? `<div class="prijs-winkel">${escapeHtml(o.prijs_toelichting)}</div>` : ""}
         </div>
       </div>

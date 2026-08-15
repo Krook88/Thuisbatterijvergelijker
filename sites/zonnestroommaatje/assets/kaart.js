@@ -68,6 +68,17 @@
     return Number.isNaN(d.getTime()) ? iso : datumFmt.format(d);
   }
 
+  // Een prijs die al weken stilstaat hoort dat te zeggen op de plek waar het
+  // bedrag staat. De site belooft "prijzen dagelijks gecontroleerd"; klopt dat
+  // voor dit model even niet, dan is dat een mededeling en geen voetnoot in de
+  // uitklap. Prijs.prijsOuderdomLabel geeft null zolang het meevalt, dus staat
+  // er niets bij de meeste kaarten.
+  function ouderdomHtml(item) {
+    const oud = Prijs.prijsOuderdomLabel(item);
+    if (!oud) return "";
+    return `<span class="prijs-ouderdom" title="Dit bedrag is ${oud.dagen} dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van ${escapeHtml(datumNL(oud.datum))}</span>`;
+  }
+
   const CELTYPE_LABEL = {
     "topcon": "TOPCon (N-type)",
     "hjt": "HJT (heterojunctie)",
@@ -188,6 +199,7 @@
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>
         ${prijsPerWp(p) ? `<span class="regel-per cijfer">${new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", minimumFractionDigits: 2 }).format(prijsPerWp(p))} per Wp</span>` : ""}
+        ${ouderdomHtml(p)}
         ${beste && beste.url
           ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijken</a>`
           : `<a class="knop" href="paneel/${encodeURIComponent(p.id)}.html">Bekijken</a>`}
@@ -263,6 +275,7 @@
           ${korting ? `<div class="van-prijs">${eurFmt.format(p.richtprijs_eur)}</div>` : ""}
           <div class="prijs">${beste ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "Prijs op aanvraag"}</div>
           ${perWp ? `<div class="prijs-per-kwh">${eurWpFmt.format(perWp)} per Wp</div>` : ""}
+          ${ouderdomHtml(p)}
           ${beste && beste.winkel ? `<div class="prijs-winkel">${beste.winkel.startsWith("richtprijs") ? beste.winkel : "bij " + escapeHtml(beste.winkel)}</div>` : ""}
           ${p.prijs_omvat ? `<div class="prijs-winkel">${escapeHtml(p.prijs_omvat)}</div>` : ""}
         </div>

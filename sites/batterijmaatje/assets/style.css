@@ -2,8 +2,8 @@
    Thuisbatterijvergelijker.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260815d");
-@import url("vergelijker.css?v=20260815d");
+@import url("maatlat.css?v=20260815f");
+@import url("vergelijker.css?v=20260815f");
 
 :root {
   --kleur-primair: #0f766e;
@@ -747,6 +747,23 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 .prijs-blok .prijs { font-size: var(--tekst-28); font-weight: 800; color: var(--kleur-primair-donker); letter-spacing: -0.03em; line-height: 1.1; font-variant-numeric: tabular-nums; }
 .prijs-blok .prijs-per-kwh { font-size: var(--tekst-15); font-weight: 600; color: var(--kleur-primair); margin-top: var(--ruimte-2); }
 .prijs-blok .prijs-winkel { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); }
+
+/* Ouderdom van het getoonde bedrag. Staat er alleen als de prijs meer dan
+   veertien dagen niet bevestigd is, dus op een minderheid van de kaarten - het
+   is een mededeling, geen waarschuwing. Daarom dezelfde maat als de winkelregel
+   eronder en niet het amber kader van .prijs-let-op: dat kader is voor bedragen
+   die iets anders betekenen dan ze lijken, en dit bedrag klopt gewoon, het is
+   alleen ouder. #92400e op deze amber haalt 4,5:1 bij 12 pixels. */
+.prijs-ouderdom {
+  display: inline-block;
+  margin-top: var(--ruimte-4);
+  padding: var(--ruimte-2) var(--ruimte-6);
+  border-radius: var(--radius-pil);
+  background: var(--kleur-accent-licht);
+  color: #92400e;
+  font-size: var(--tekst-12);
+  font-weight: 600;
+}
 
 /* Uitleg wanneer het getoonde bedrag afwijkt van wat de winkel toont: een
    prijs excl. btw of een aanbieding die minder dekt dan de richtprijs. */
