@@ -12,8 +12,9 @@
     "test": "node --test kern/scripts/*.test.mjs sites/*/scripts/*.test.mjs",
     "modellen": "node scripts/modelherkenning.mjs",
     "stempel": "node scripts/cachestempel.mjs",
+    "workflows": "node scripts/workflow-verwijzingen.mjs",
     "keuring": "node scripts/keuring.mjs",
     "dode-regels": "node scripts/dode-regels.mjs",
-    "controle": "npm run kern:controleer && npm test && npm run modellen && npm run keuring && npm run dode-regels"
+    "controle": "npm run kern:controleer && npm test && npm run modellen && npm run workflows && npm run keuring && npm run dode-regels"
   }
 }
