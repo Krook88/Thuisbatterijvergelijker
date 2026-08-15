@@ -302,6 +302,45 @@ function breadcrumbLd(b) {
   }, null, 2);
 }
 
+/* Kop en voet stonden drie keer letterlijk in dit bestand, en dat is precies
+   hoe een menu-item op de ene pagina wel en op de andere niet terechtkomt.
+   Nu staan ze een keer. */
+const NAV_HTML = `<header class="site-header">
+  <div class="container">
+    <a class="logo" href="/index.html">
+      <span class="logo-icoon">${ICOON_LOGO}</span>
+      <span>Batterij<b>maatje</b></span>
+    </a>
+    <button class="menu-knop" type="button" aria-expanded="false" aria-controls="hoofdnav" aria-label="Menu openen"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></svg></button>
+    <nav class="hoofdnav" id="hoofdnav">
+      <a href="/index.html">Thuisbatterijen</a>
+      <a href="/advies.html">Keuzehulp</a>
+      <a href="/rekenmodule.html">Terugverdientijd</a>
+      <a href="/uitleg.html">Uitleg</a>
+      <details class="nav-meer">
+        <summary>Meer ▾</summary>
+        <div class="nav-meer-paneel">
+          <a href="/regelgeving.html">Regels &amp; subsidies</a>
+          <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a>
+          <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a>
+          <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a>
+          <a href="/over-ons.html">Over ons</a>
+          <a href="/contact.html">Contact</a>
+        </div>
+      </details>
+    </nav>
+  </div>
+</header>`;
+
+const VOET_HTML = `<footer class="site-footer">
+  <div class="container">
+    <b>${ICOON_LOGO} Batterijmaatje</b>
+    <p>Onafhankelijke vergelijking van thuisbatterijen voor Nederlandse huishoudens.</p>
+    <p><a href="/index.html">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
+    <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
+  </div>
+</footer>`;
+
 function pagina(b) {
   const beste = bestePrijs(b);
   const totaal = totaalprijsTekst(b);
@@ -367,31 +406,7 @@ ${breadcrumbLd(b)}
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container">
-    <a class="logo" href="/index.html">
-      <span class="logo-icoon">${ICOON_LOGO}</span>
-      <span>Batterij<b>maatje</b></span>
-    </a>
-    <button class="menu-knop" type="button" aria-expanded="false" aria-controls="hoofdnav" aria-label="Menu openen"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></svg></button>
-    <nav class="hoofdnav" id="hoofdnav">
-      <a href="/index.html">Thuisbatterijen</a>
-      <a href="/advies.html">Keuzehulp</a>
-      <a href="/rekenmodule.html">Terugverdientijd</a>
-      <a href="/uitleg.html">Uitleg</a>
-      <details class="nav-meer">
-        <summary>Meer ▾</summary>
-        <div class="nav-meer-paneel">
-          <a href="/regelgeving.html">Regels &amp; subsidies</a>
-          <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a>
-          <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a>
-          <a href="/over-ons.html">Over ons</a>
-          <a href="/contact.html">Contact</a>
-        </div>
-      </details>
-    </nav>
-  </div>
-</header>
+${NAV_HTML}
 
 <main class="content-pagina">
 
@@ -474,14 +489,7 @@ ${breadcrumbLd(b)}
 
 </main>
 
-<footer class="site-footer">
-  <div class="container">
-    <b>${ICOON_LOGO} Batterijmaatje</b>
-    <p>Onafhankelijke vergelijking van thuisbatterijen voor Nederlandse huishoudens.</p>
-    <p><a href="/index.html">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
-    <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
-  </div>
-</footer>
+${VOET_HTML}
 
 <script src="/assets/nav.js?v=${ASSET_VERSIE}" defer></script>
 </body>
@@ -597,31 +605,7 @@ ${itemList}
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container">
-    <a class="logo" href="/index.html">
-      <span class="logo-icoon">${ICOON_LOGO}</span>
-      <span>Batterij<b>maatje</b></span>
-    </a>
-    <button class="menu-knop" type="button" aria-expanded="false" aria-controls="hoofdnav" aria-label="Menu openen"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></svg></button>
-    <nav class="hoofdnav" id="hoofdnav">
-      <a href="/index.html">Thuisbatterijen</a>
-      <a href="/advies.html">Keuzehulp</a>
-      <a href="/rekenmodule.html">Terugverdientijd</a>
-      <a href="/uitleg.html">Uitleg</a>
-      <details class="nav-meer">
-        <summary>Meer ▾</summary>
-        <div class="nav-meer-paneel">
-          <a href="/regelgeving.html">Regels &amp; subsidies</a>
-          <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a>
-          <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a>
-          <a href="/over-ons.html">Over ons</a>
-          <a href="/contact.html">Contact</a>
-        </div>
-      </details>
-    </nav>
-  </div>
-</header>
+${NAV_HTML}
 
 <main class="container leespagina">
   <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
@@ -659,14 +643,181 @@ ${itemList}
   <div class="waarschuwing-kader">Prijzen en integraties veranderen regelmatig. Deze pagina wordt dagelijks automatisch bijgewerkt vanuit onze <a href="/index.html">vergelijker</a>; de prijs en specificaties op de website van de winkel zijn altijd leidend.</div>
 </main>
 
-<footer class="site-footer">
-  <div class="container">
-    <b>${ICOON_LOGO} Batterijmaatje</b>
-    <p>Onafhankelijke vergelijking van thuisbatterijen voor Nederlandse huishoudens.</p>
-    <p><a href="/index.html">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
-    <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
-  </div>
-</footer>
+${VOET_HTML}
+
+<script src="/assets/nav.js?v=${ASSET_VERSIE}" defer></script>
+</body>
+</html>
+`;
+}
+
+/* ------------------------------------------------------------------
+   Stekkerbatterijen: één pagina voor vier namen.
+
+   "Stekkerbatterij", "plug-and-play thuisbatterij", "balkonbatterij" en
+   "thuisbatterij met stekker" zijn vier ingeburgerde namen voor hetzelfde
+   apparaat, en ze worden alle vier gezocht. Wie op een van die woorden
+   binnenkomt hoort dezelfde pagina te krijgen, dus staan ze er alle vier op -
+   niet als opsomming om de zoekmachine te plezieren, maar omdat een bezoeker
+   die "balkonbatterij" typt moet kunnen zien dat hij goed zit.
+
+   De selectie kost geen nieuw gegeven: type "plug-in" staat al in de data.
+   ------------------------------------------------------------------ */
+
+const STEKKER_BESTAND = "thuisbatterij-met-stekker.html";
+
+/* type "plug-in" en installatie "zelf" horen hetzelfde te betekenen. Nu is dat
+   zo, en de pagina leunt erop ("zonder installateur"). Loopt het ooit uiteen,
+   dan is dat een fout in de data en niet iets om hier stilletjes met een tweede
+   filter te omzeilen. */
+function controleerStekkerData(lijst) {
+  const scheef = data.batterijen.filter((b) => (b.type === "plug-in") !== (b.installatie === "zelf"));
+  if (scheef.length) {
+    throw new Error(
+      `type "plug-in" en installatie "zelf" lopen uiteen bij: ${scheef.map((b) => b.id).join(", ")}.\n` +
+      `De stekkerpagina zegt dat je deze batterijen zonder installateur aansluit; dat moet uit beide velden blijken.`,
+    );
+  }
+  if (!lijst.length) throw new Error("Geen enkele batterij heeft type \"plug-in\"; de stekkerpagina zou leeg zijn.");
+}
+
+function stekkerTabel(lijst) {
+  return `<div class="tabel-blok los">
+  <table class="data-tabel brede-tabel overzicht-tabel kolom-vast">
+    <thead><tr>
+      <th>Batterij</th>
+      <th>Capaciteit</th>
+      <th>Beste prijs</th>
+      <th>Per kWh</th>
+      <th>Vermogen</th>
+      <th>Noodstroom</th>
+      <th>Buiten</th>
+    </tr></thead>
+    <tbody>${lijst.map((b) => {
+      const beste = bestePrijs(b);
+      const perKwh = perKwhInclBtw(b);
+      const nood = vierwaardig(b.noodstroom);
+      return `
+      <tr>
+        <td>${merkLogoHtml(b.merk)}<a href="/batterij/${esc(b.id)}.html"><b>${esc(volledigeNaam(b))}</b></a></td>
+        <td class="niet-afbreken"${Prijs.capaciteitToelichting(b) ? ` title="${esc(Prijs.capaciteitToelichting(b))}"` : ""}>${nl(b.capaciteit_kwh)} kWh</td>
+        <td class="niet-afbreken">${beste ? `<b>${eur(Prijs.vergelijkPrijs(beste))}</b><br><small>bij ${esc(beste.winkel)}</small>` : "op aanvraag"}</td>
+        <td class="niet-afbreken">${perKwh ? eur(perKwh) : "n.b."}</td>
+        <td class="niet-afbreken">${b.vermogen_kw ? `${nl(b.vermogen_kw)} kW` : "n.b."}</td>
+        <td>${nood.status === "ja" ? `${Iconen.svg("ja")} Ja` : nood.status === "nee" ? `${Iconen.svg("nee")} Nee` : `~ ${esc(kortOmschrijving(nood.tekst, 90))}`}</td>
+        <td class="niet-afbreken">${buitenGeschikt(b) ? `${Iconen.svg("ja")} ${esc(b.ip_klasse)}` : b.ip_klasse ? esc(b.ip_klasse) : "n.b."}</td>
+      </tr>`;
+    }).join("")}</tbody>
+  </table>
+  </div>`;
+}
+
+function stekkerPagina() {
+  const stekker = data.batterijen
+    .filter((b) => b.type === "plug-in")
+    .sort((a, b) => (perKwhInclBtw(a) || Infinity) - (perKwhInclBtw(b) || Infinity));
+  controleerStekkerData(stekker);
+
+  const rest = data.batterijen.filter((b) => b.type !== "plug-in");
+  const caps = stekker.map((b) => b.capaciteit_kwh).filter(Boolean);
+  const vermogens = stekker.map((b) => b.vermogen_kw).filter(Boolean);
+  const prijzen = stekker.map((b) => bestePrijs(b)).filter(Boolean).map((a) => Prijs.vergelijkPrijs(a));
+  const restPrijzen = rest.map((b) => bestePrijs(b)).filter(Boolean).map((a) => Prijs.vergelijkPrijs(a));
+  const restCaps = rest.map((b) => b.capaciteit_kwh).filter(Boolean);
+  const metNoodstroom = stekker.filter((b) => vierwaardig(b.noodstroom).status === "ja").length;
+  const buiten = stekker.filter(buitenGeschikt).length;
+
+  const titel = `Thuisbatterij met stekker: ${stekker.length} stekkerbatterijen vergeleken`;
+  const paginaTitel = besteTitel([
+    `Stekkerbatterij vergelijken: ${stekker.length} modellen (2026)`,
+    "Stekkerbatterij vergelijken (2026)",
+  ]);
+  const metaDesc = kortOmschrijving(
+    `Stekkerbatterij, plug-and-play thuisbatterij of balkonbatterij: ${stekker.length} modellen die je zelf in het stopcontact steekt, vergeleken op prijs per kWh.`,
+  );
+
+  const itemList = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": titel,
+    "itemListElement": stekker.map((b, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": volledigeNaam(b),
+      "url": `${SITE}/batterij/${b.id}.html`,
+    })),
+  }, null, 2);
+
+  return `<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${esc(paginaTitel)}</title>
+  <meta name="description" content="${esc(metaDesc)}">
+  <link rel="canonical" href="${SITE}/${STEKKER_BESTAND}">
+  <meta property="og:title" content="${esc(titel)}">
+  <meta property="og:description" content="${esc(metaDesc)}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${SITE}/${STEKKER_BESTAND}">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:image" content="${SITE}/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Batterijmaatje.nl">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+${itemList}
+  </script>
+  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
+  <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+</head>
+<body>
+
+${NAV_HTML}
+
+<main class="container leespagina">
+  <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
+  <h1>${esc(titel)}</h1>
+  <p class="datum-stempel">Dagelijks automatisch bijgewerkt · laatst gecontroleerd op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+
+  <p>Een stekkerbatterij steek je zelf in een gewoon stopcontact: geen installateur, geen ingreep in de meterkast, geen wachtlijst. Je komt hem ook tegen als <b>plug-and-play thuisbatterij</b>, als <b>balkonbatterij</b> of gewoon als <b>thuisbatterij met stekker</b> &mdash; vier namen voor hetzelfde apparaat.</p>
+
+  <p>Hieronder staan alle ${stekker.length} modellen uit onze vergelijker die je zonder monteur aansluit, gesorteerd op prijs per kilowattuur. De prijzen worden dagelijks automatisch bij de winkels gecontroleerd.</p>
+
+  ${stekkerTabel(stekker)}
+
+  <h2>Wat je ervoor terugkrijgt</h2>
+  <p>Deze ${stekker.length} batterijen lopen van ${nl(Math.min(...caps))} tot ${nl(Math.max(...caps))} kWh, met een laad- en ontlaadvermogen van ${nl(Math.min(...vermogens))} tot ${nl(Math.max(...vermogens))} kW. Ze zijn alle ${stekker.length} eenfasig: ze werken op één groep van je meterkast en kunnen dus niet je hele huis in één keer voeden.</p>
+  <ul>
+    <li><b>Noodstroom is iets anders dan je denkt.</b> ${metNoodstroom} van de ${stekker.length} hebben een noodstroomfunctie, maar dat is bij vrijwel alle modellen een stopcontact op het apparaat zelf. Bij een stroomstoring blijft wat je daarin steekt werken; de rest van je huis niet. Een automatische overschakeling van de hele woning vraagt een batterij die een installateur plaatst.</li>
+    <li><b>Buiten hangen mag niet zomaar.</b> ${buiten} van de ${stekker.length} hebben een IP65-behuizing of beter en kunnen daarmee tegen regen. De rest hoort binnen te staan.</li>
+    <li><b>Je kunt hem meenemen.</b> Verhuis je, dan gaat hij mee. Dat scheelt bij een huurwoning of een huis dat je over een paar jaar verkoopt.</li>
+  </ul>
+
+  <h2>Stekker of installateur?</h2>
+  <p>De keuze gaat niet over prijs per kilowattuur &mdash; daar ontlopen de twee groepen elkaar minder dan je zou denken. Hij gaat over instapbedrag en over wat je ermee kunt.</p>
+  <ul>
+    <li><b>Instappen is goedkoper.</b> De goedkoopste stekkerbatterij in onze vergelijker kost ${eur(Math.min(...prijzen))}${restPrijzen.length ? `, tegenover ${eur(Math.min(...restPrijzen))} voor de goedkoopste batterij die een installateur plaatst` : ""}. Daar komt bij dat de installatie zelf niets kost.</li>
+    <li><b>Groot worden ze niet.</b> De stekkermodellen gaan tot ${nl(Math.max(...caps))} kWh${restCaps.length ? `; de vaste batterijen lopen door tot ${nl(Math.max(...restCaps))} kWh` : ""}. Heb je een groot verbruik, een warmtepomp of een elektrische auto, dan loop je tegen die grens aan.</li>
+    <li><b>Uitbreiden kan vaak wel.</b> Veel merken verkopen losse uitbreidingsmodules die je aan dezelfde stekkerbatterij hangt. Kijk op de modelpagina wat de maximale capaciteit is voordat je de kleinste koopt.</li>
+    <li><b>Zonnepanelen aansluiten verschilt.</b> Sommige stekkerbatterijen nemen zelf zonnepanelen aan, andere laden alleen uit het stopcontact en werken samen met je bestaande omvormer. Dat staat per model in de tabel op de <a href="/index.html">vergelijker</a>.</li>
+  </ul>
+
+  <h2>Zo kies je</h2>
+  <ul>
+    <li><b>Begin bij de maat.</b> De <a href="/advies.html">keuzehulp</a> rekent uit hoeveel kWh bij jouw verbruik past. Te groot kopen kost geld dat je niet terugverdient.</li>
+    <li><b>Reken het na.</b> De <a href="/rekenmodule.html">rekenmodule</a> laat zien wat een batterij per jaar oplevert bij een vast of een dynamisch contract, met of zonder zonnepanelen.</li>
+    <li><b>Let op de aansturing.</b> Wil je hem laten meebewegen met de uurprijzen, kijk dan naar de <a href="/uitleg.html#koppel-score">Koppel-score</a>: die telt Homey, Home Assistant en dynamisch contract mee.</li>
+    <li><b>Nieuw hier?</b> De <a href="/uitleg.html">uitleg</a> legt in gewone taal uit wat kWh, salderen en een dynamisch contract betekenen.</li>
+  </ul>
+
+  <div class="waarschuwing-kader">Prijzen en specificaties veranderen regelmatig. Deze pagina wordt dagelijks automatisch bijgewerkt vanuit onze <a href="/index.html">vergelijker</a>; de prijs en specificaties op de website van de winkel zijn altijd leidend.</div>
+</main>
+
+${VOET_HTML}
 
 <script src="/assets/nav.js?v=${ASSET_VERSIE}" defer></script>
 </body>
@@ -778,31 +929,7 @@ ${itemList}
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container">
-    <a class="logo" href="/index.html">
-      <span class="logo-icoon">${ICOON_LOGO}</span>
-      <span>Batterij<b>maatje</b></span>
-    </a>
-    <button class="menu-knop" type="button" aria-expanded="false" aria-controls="hoofdnav" aria-label="Menu openen"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></svg></button>
-    <nav class="hoofdnav" id="hoofdnav">
-      <a href="/index.html">Thuisbatterijen</a>
-      <a href="/advies.html">Keuzehulp</a>
-      <a href="/rekenmodule.html">Terugverdientijd</a>
-      <a href="/uitleg.html">Uitleg</a>
-      <details class="nav-meer">
-        <summary>Meer ▾</summary>
-        <div class="nav-meer-paneel">
-          <a href="/regelgeving.html">Regels &amp; subsidies</a>
-          <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a>
-          <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a>
-          <a href="/over-ons.html">Over ons</a>
-          <a href="/contact.html">Contact</a>
-        </div>
-      </details>
-    </nav>
-  </div>
-</header>
+${NAV_HTML}
 
 <main class="container leespagina">
   <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
@@ -855,14 +982,7 @@ ${itemList}
   <div class="waarschuwing-kader">Prijzen en specificaties veranderen regelmatig; deze pagina wordt dagelijks automatisch herbouwd. De prijs en voorwaarden op de website van de winkel zijn altijd leidend.</div>
 </main>
 
-<footer class="site-footer">
-  <div class="container">
-    <b>${ICOON_LOGO} Batterijmaatje</b>
-    <p>Onafhankelijke vergelijking van thuisbatterijen voor Nederlandse huishoudens.</p>
-    <p><a href="/index.html">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
-    <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
-  </div>
-</footer>
+${VOET_HTML}
 
 <script src="/assets/nav.js?v=${ASSET_VERSIE}" defer></script>
 </body>
@@ -883,6 +1003,9 @@ for (const cfg of OVERZICHTEN) {
   writeFileSync(resolve(ROOT, cfg.bestand), overzichtsPagina(cfg), "utf8");
 }
 console.log(`${OVERZICHTEN.length} overzichtspagina's gegenereerd (Home Assistant, Homey)`);
+
+writeFileSync(resolve(ROOT, STEKKER_BESTAND), stekkerPagina(), "utf8");
+console.log(`${STEKKER_BESTAND} gegenereerd (${data.batterijen.filter((b) => b.type === "plug-in").length} stekkerbatterijen)`);
 
 mkdirSync(resolve(ROOT, "vergelijk"), { recursive: true });
 for (const v of VERGELIJKINGEN) {
@@ -971,6 +1094,7 @@ const vast = [
   { loc: `${SITE}/regelgeving.html`, freq: "monthly", prio: "0.8" },
   { loc: `${SITE}/beste-thuisbatterij-home-assistant.html`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/beste-thuisbatterij-homey.html`, freq: "daily", prio: "0.8" },
+  { loc: `${SITE}/${STEKKER_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/over-ons.html`, freq: "monthly", prio: "0.4" },
   { loc: `${SITE}/contact.html`, freq: "yearly", prio: "0.3" },
   { loc: `${SITE}/privacy.html`, freq: "yearly", prio: "0.2" },

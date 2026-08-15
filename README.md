@@ -96,6 +96,13 @@ er zou veranderen, met een telling per bestand. Die telling is het punt:
 veranderen er 43 bestanden terwijl je er één bedoelde, dan zie je dat vóór het
 schrijven.
 
+## Waar bezoekers vandaan komen
+
+`docs/zoekwoorden.md` verzamelt de woorden waarop gezocht wordt, wat daarvan
+al gedekt is en welke pagina's ontbreken. Geen gemeten zoekvolumes — die
+kunnen pas uit Search Console komen — wel de termen waarop de markt zelf
+schrijft, en waarom die taal in 2026 verschuift.
+
 ## Publiceren
 
 Elke site heeft een eigen Vercel-project met **Root Directory** op zijn map in

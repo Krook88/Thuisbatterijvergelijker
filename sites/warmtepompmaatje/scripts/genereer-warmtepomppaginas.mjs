@@ -202,6 +202,7 @@ function kop(actief, diepte) {
       <details class="nav-meer">
         <summary>Meer ${Iconen.svg("chevron")}</summary>
         <div class="nav-meer-paneel">
+          <a href="${p}warmtepomp-geluid.html">Geluid</a>
           <a href="${p}over-ons.html">Over ons</a>
           <a href="${p}contact.html">Contact</a>
           <a href="${p}privacy.html">Privacy &amp; disclaimer</a>
@@ -218,10 +219,211 @@ function voet(diepte) {
   <div class="container">
     <b>${Iconen.svg("warmte")} Warmtepompmaatje</b>
     <p>Onafhankelijke vergelijking van warmtepompen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen).</p>
-    <p><a href="${p}index.html">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}over-ons.html">Over ons</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="${p}index.html">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}warmtepomp-geluid.html">Geluid</a> · <a href="${p}over-ons.html">Over ons</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties zijn indicaties; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
+}
+
+/* ------------------------------------------------------------------
+   Geluidspagina
+
+   Geluid is de vraag waar de meeste twijfel zit voordat iemand een warmtepomp
+   koopt, en de enige eigenschap met een harde wettelijke grens. Die grens gaat
+   alleen over iets anders dan het getal op het productlabel, en juist daar
+   gaat het mis in bijna elk stuk dat erover geschreven wordt:
+
+     geluidsvermogen  wat het apparaat afgeeft (Lw). Dat staat op het label en
+                      in onze data, en is geen meetwaarde op een plek.
+     geluidsdruk      wat je hoort op een afstand (Lp). Daar gaat de norm over:
+                      45 dB(A) tussen 07:00 en 19:00, 40 dB(A) tussen 19:00 en
+                      07:00, gemeten op de erfgrens.
+
+   Een pomp van 54 dB(A) op het label naast de 40 dB(A) van de norm leggen is
+   dus appels met peren, en zou elke pomp hier laten zakken. Daarom rekent deze
+   pagina het label om naar een schatting op afstand, met de vuistregel er
+   zichtbaar bij en met de mededeling dat de officiele berekening voorgeschreven
+   is (Omgevingsregeling art. 5.59 en bijlage XVII) en door de installateur
+   gedaan wordt.
+   ------------------------------------------------------------------ */
+
+const GELUID_BESTAND = "warmtepomp-geluid.html";
+
+/* Halfvrije uitstraling: een buitenunit staat vrijwel altijd tegen een gevel,
+   dus straalt hij in een halve bol. Lp = Lw - 10*log10(2*pi*r^2). Dat is de
+   standaardbenadering; hij houdt geen rekening met weerkaatsing tegen een
+   schutting of een tweede gevel, en valt daarmee aan de gunstige kant uit. */
+const aftrekOpAfstand = (meter) => 10 * Math.log10(2 * Math.PI * meter * meter);
+const AFSTANDEN = [2, 3, 5];
+
+/* Twee pompen in de vergelijker hebben geen buitenunit: een ventilatie-
+   warmtepomp en een hybride die binnen staat. Voor die twee bestaat de
+   erfgrensnorm niet en zegt een omrekening naar afstand niets - hun
+   labelwaarde is op een heel andere manier tot stand gekomen. Ze in dezelfde
+   kolom zetten zou precies de fout maken die deze pagina uitlegt, dus staat
+   het in de data en niet in een tekstvergelijking op de toelichting. */
+const heeftBuitenunit = (w) => w.buitenunit !== false;
+
+function geluidsdruk(w, meter) {
+  if (w.geluid_db == null || !heeftBuitenunit(w)) return null;
+  return w.geluid_db - aftrekOpAfstand(meter);
+}
+
+function geluidsdrukOp(w, meter) {
+  const lp = geluidsdruk(w, meter);
+  return lp == null ? null : Math.round(lp);
+}
+
+function geluidTabel(lijst) {
+  return `<div class="tabel-wrap">
+  <table class="vergelijk-tabel compact">
+    <thead><tr>
+      <th>Warmtepomp</th>
+      <th>Soort</th>
+      <th>Geluidsvermogen</th>
+      ${AFSTANDEN.map((m) => `<th>Op ${m} m</th>`).join("\n      ")}
+      <th>Toelichting</th>
+    </tr></thead>
+    <tbody>${lijst.map((w) => {
+      const opDrie = geluidsdrukOp(w, 3);
+      return `
+      <tr>
+        <td><a href="pomp/${esc(w.id)}.html"><b>${esc(w.merk)} ${esc(w.model)}</b></a></td>
+        <td>${esc(w.type)}</td>
+        <td class="niet-afbreken">${w.geluid_db != null ? `<b>${w.geluid_db} dB(A)</b>` : "niet opgegeven"}</td>
+        ${AFSTANDEN.map((m) => {
+          const lp = geluidsdrukOp(w, m);
+          const leeg = heeftBuitenunit(w) ? "&mdash;" : `<small>geen buitenunit</small>`;
+          return `<td class="niet-afbreken">${lp == null ? leeg : `${lp} dB(A)`}</td>`;
+        }).join("\n        ")}
+        <td>${esc(w.geluid_toelichting || "")}</td>
+      </tr>`;
+    }).join("")}</tbody>
+  </table>
+  </div>${opmerkingBijOntbrekend(lijst)}`;
+}
+
+function opmerkingBijOntbrekend(lijst) {
+  const zonder = lijst.filter((w) => w.geluid_db == null);
+  if (!zonder.length) return "";
+  return `\n  <p class="datum-stempel">Van ${zonder.length} van de ${lijst.length} pompen hebben wij het geluidsvermogen nog niet kunnen vaststellen. Die staan hier bewust wel in: ze weglaten zou de vergelijking vollediger laten lijken dan hij is. Wat de fabrikant er zelf over zegt, staat in de kolom Toelichting.</p>`;
+}
+
+function geluidPagina() {
+  /* Volgorde: eerst de buitenunits van stil naar luid, dan de pompen zonder
+     buitenunit, dan wat wij nog niet weten. Een onbekende waarde bovenaan
+     zetten zou hem laten lijken op een goede score. */
+  const rang = (w) => (w.geluid_db == null ? 2 : heeftBuitenunit(w) ? 0 : 1);
+  const opGeluid = [...pompen].sort((a, b) => rang(a) - rang(b) || (a.geluid_db || 0) - (b.geluid_db || 0));
+  const gemeten = opGeluid.filter((w) => w.geluid_db != null && heeftBuitenunit(w));
+  const stilste = gemeten[0];
+  const luidste = gemeten[gemeten.length - 1];
+  const haalt40OpDrie = gemeten.filter((w) => geluidsdruk(w, 3) <= 40).length;
+  const binnen = pompen.filter((w) => !heeftBuitenunit(w));
+
+  const titel = "Warmtepomp geluid: normen, dB en de erfgrens";
+  const metaDesc = kortOmschrijving(
+    `Hoeveel geluid maakt een warmtepomp? De norm van 45 en 40 dB(A) op de erfgrens uitgelegd, met het geluidsvermogen van ${gemeten.length} warmtepompen omgerekend naar afstand.`,
+  );
+
+  const itemList = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": titel,
+    "itemListElement": gemeten.map((w, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": `${w.merk} ${w.model}`,
+      "url": `${SITE}/pomp/${w.id}.html`,
+    })),
+  }, null, 2);
+
+  return `<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${esc(besteTitel([titel, "Warmtepomp geluid: normen en dB", "Warmtepomp en geluid"]))}</title>
+  <meta name="description" content="${esc(metaDesc)}">
+  <link rel="canonical" href="${SITE}/${GELUID_BESTAND}">
+  <meta property="og:title" content="${esc(titel)}">
+  <meta property="og:description" content="${esc(metaDesc)}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${SITE}/${GELUID_BESTAND}">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:site_name" content="Warmtepompmaatje.nl">
+  <meta property="og:image" content="${SITE}/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+${itemList}
+  </script>
+  <link rel="stylesheet" href="assets/style.css?v=${ASSET_VERSIE}">
+  <script src="assets/iconen.js?v=${ASSET_VERSIE}" defer></script>
+  <script src="assets/nav.js?v=${ASSET_VERSIE}" defer></script>
+  <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
+</head>
+<body>
+
+${kop("", false)}
+
+<main class="container leespagina">
+  <p class="datum-stempel"><a href="index.html">${Iconen.svg("pijl-links")} Alle warmtepompen vergelijken</a></p>
+  <h1>Warmtepomp en geluid</h1>
+  <p class="datum-stempel">Samengesteld uit onze vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+
+  <p>Geluid is de vraag waar de meeste twijfel zit voordat iemand een warmtepomp koopt, en terecht: het is de enige eigenschap met een harde wettelijke grens eraan. Alleen gaat die grens over iets anders dan het getal dat op het productblad staat, en dat verschil is precies waar het misgaat in bijna alles wat je erover leest.</p>
+
+  <h2>De norm: 45 dB(A) overdag, 40 dB(A) 's nachts</h2>
+  <p>Sinds 1 april 2021 geldt in Nederland een geluidseis voor de buitenunit van een warmtepomp of airco bij een woning. Die staat nu in het Besluit bouwwerken leefomgeving:</p>
+  <ul>
+    <li><b>45 dB(A)</b> tussen 07:00 en 19:00 uur;</li>
+    <li><b>40 dB(A)</b> tussen 19:00 en 07:00 uur.</li>
+  </ul>
+  <p>Beide gelden <b>op de erfgrens met de buren</b> &mdash; niet bij het apparaat en niet bij het slaapkamerraam van de buren. Blijf je daaronder, dan heb je in de regel geen vergunning nodig en kan de gemeente je niet op het geluid aanspreken. Sommige gemeenten hebben aanvullende beleidsregels over waar een unit mag hangen; dat verschilt per gemeente.</p>
+
+  <h2>Waarom het getal op het label niet de norm is</h2>
+  <p>Er zijn twee soorten decibellen in het spel, en ze verschillen makkelijk vijftien tot twintig punten:</p>
+  <ul>
+    <li><b>Geluidsvermogen (Lw)</b> is wat het apparaat afgeeft. Dat staat op het energielabel en in het datablad, en het is geen waarde op een plek. Dit is het getal in de tabel hieronder.</li>
+    <li><b>Geluidsdruk (Lp)</b> is wat je op een bepaalde afstand hoort. Daar gaat de norm over.</li>
+  </ul>
+  <p>Een pomp met 54 dB(A) op het label naast de 40 dB(A) van de norm leggen is dus appels met peren vergelijken: zo zou geen enkele warmtepomp erdoorheen komen, terwijl ze het in de praktijk vrijwel allemaal halen. Geluid neemt namelijk af met de afstand, en die afname laat zich benaderen:</p>
+  <div class="tabel-wrap">
+    <table class="vergelijk-tabel compact">
+      <thead><tr><th>Afstand tot de erfgrens</th><th>Gaat er ongeveer af</th></tr></thead>
+      <tbody>${AFSTANDEN.map((m) => `<tr><td>${m} meter</td><td>${Math.round(aftrekOpAfstand(m))} dB</td></tr>`).join("")}</tbody>
+    </table>
+  </div>
+  <p>Staat de unit ${AFSTANDEN[1]} meter van de erfgrens, dan haalt ${haalt40OpDrie} van de ${gemeten.length} pompen waarvan wij het geluidsvermogen kennen ook 's nachts de 40 dB(A). Dat is een schatting, geen toetsing: de officiële berekening is voorgeschreven in de Omgevingsregeling (artikel 5.59 en bijlage XVII) en houdt rekening met weerkaatsing tegen schuttingen en gevels. Die hoort de installateur te maken vóór de plaatsing. Vraag erom, en vraag hem op papier.</p>
+
+  <h2>Hoe stil de pompen in onze vergelijker zijn</h2>
+  <p>Gesorteerd van stil naar luid. De stilste buitenunit is die van de ${esc(stilste.merk)} ${esc(stilste.model)} met ${stilste.geluid_db} dB(A), de luidste die van de ${esc(luidste.merk)} ${esc(luidste.model)} met ${luidste.geluid_db} dB(A) &mdash; ${luidste.geluid_db - stilste.geluid_db} punten verschil, en dat hoor je.${binnen.length ? ` Onderaan staan ${binnen.length} ${binnen.length === 1 ? "pomp" : "pompen"} zonder buitenunit: daarvoor geldt de erfgrensnorm niet, en een omrekening naar afstand zegt er dus niets over.` : ""}</p>
+  ${geluidTabel(opGeluid)}
+
+  <h2>Wat je eraan kunt doen</h2>
+  <ul>
+    <li><b>Zet hem verder weg.</b> De goedkoopste maatregel die er is: elke verdubbeling van de afstand scheelt ongeveer 6 dB. Van 1,5 naar 3 meter is dus al een halvering van wat de buren horen.</li>
+    <li><b>Gebruik de nachtstand.</b> Vrijwel elke pomp heeft er een; hij draait dan langzamer en levert wat minder vermogen. Bij de meeste modellen in de tabel hierboven staat dat in de toelichting.</li>
+    <li><b>Richt hem niet op de erfgrens.</b> De ventilator blaast naar één kant. Die kant naar je eigen tuin draaien scheelt meer dan een omkasting.</li>
+    <li><b>Een omkasting werkt, maar niet gratis.</b> Een goede akoestische omkasting haalt er 10 tot 15 dB af, maar knijpt ook de luchtstroom af en kost daarmee rendement. Overleg met de installateur; een verkeerd geplaatste kast maakt de pomp duurder in gebruik.</li>
+    <li><b>Geen buitenunit is ook een optie.</b> Een ventilatiewarmtepomp gebruikt je mechanische ventilatie als bron en heeft daarom geen unit buiten &mdash; en dus ook geen erfgrensnorm. Hij levert wel minder vermogen.</li>
+  </ul>
+
+  <h2>Verder lezen</h2>
+  <ul>
+    <li><a href="advies.html">Keuzehulp</a>: welke warmtepomp bij jouw huis past, hybride of all-electric.</li>
+    <li><a href="uitleg.html">Uitleg</a>: hoe een warmtepomp werkt, in gewone taal.</li>
+    <li><a href="subsidie.html">ISDE-subsidie</a>: wat je terugkrijgt en hoe je het aanvraagt.</li>
+    <li><a href="index.html">Alle warmtepompen</a>: vergelijken op prijs, subsidie, rendement en geluid.</li>
+  </ul>
+
+  <div class="waarschuwing-kader">De omrekening naar afstand op deze pagina is een vuistregel om mee te kunnen kiezen, geen toetsing aan de wet. Voor die toetsing geldt de berekening uit de Omgevingsregeling; vraag je installateur daarom vóór de plaatsing.</div>
+</main>
+
+${voet(false)}
+</body>
+</html>
+`;
 }
 
 function pompPagina(w) {
@@ -422,12 +624,16 @@ if (index.includes(LD_BEGIN)) {
 writeFileSync(join(ROOT, "index.html"), index, "utf8");
 console.log(`index.html: ${gesorteerdePompen.length} kaarten voorgerenderd en ItemList bijgewerkt`);
 
+writeFileSync(join(ROOT, GELUID_BESTAND), geluidPagina(), "utf8");
+console.log(`${GELUID_BESTAND} gegenereerd (${pompen.filter((w) => w.geluid_db != null).length} van ${pompen.length} pompen met een opgegeven geluidsvermogen)`);
+
 const vast = [
   { loc: `${SITE}/`, prio: "1.0" },
   { loc: `${SITE}/advies.html`, prio: "0.9" },
   { loc: `${SITE}/rekenmodule.html`, prio: "0.9" },
   { loc: `${SITE}/uitleg.html`, prio: "0.8" },
   { loc: `${SITE}/subsidie.html`, prio: "0.8" },
+  { loc: `${SITE}/${GELUID_BESTAND}`, prio: "0.8" },
   { loc: `${SITE}/over-ons.html`, prio: "0.4" },
   { loc: `${SITE}/contact.html`, prio: "0.4" },
   { loc: `${SITE}/privacy.html`, prio: "0.2" },
