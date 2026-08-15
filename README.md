@@ -56,13 +56,22 @@ wat CI ook doet:
 | `npm run kern:controleer` | de sites lopen gelijk met `kern/`, en de `?v=`-nummers binnen een site lopen gelijk |
 | `npm test` | de proeven bij het prijsrekenen en het uitlezen van winkelpagina's |
 | `npm run modellen` | het herkennen van modelnamen, dat anders stil faalt |
+| `npm run workflows` | stappen die naar een stap in een ander blok verwijzen en zichzelf daardoor overslaan |
 | `npm run keuring` | contrast, aanraakvlakken, tekstmaten en javascriptfouten op elke pagina van de drie sites, op 1280 en 390 pixels |
 | `npm run dode-regels` | declaraties die er wel staan maar overal worden overruled |
 
-Die laatste vangt wat de keuring niet kan vangen. Het opschrift boven de hero
-stond op 12px in de merkkleur en rendeerde als 19px grijs, omdat `.hero p`
-specifieker is dan `.hero-opschrift`. Formeel klopte dat: 19px staat op de
-maatlat en het contrast was 5,4:1. De code deed alleen niet wat er stond.
+`npm run workflows` kwam uit een eigen misser. Een stap die de dagelijkse
+prijsrun rood moest laten worden bij verouderde prijzen belandde onderaan het
+bestand, en dus in het verkeerde blok. Hij keek naar `steps.keuze` en
+`steps.prijzen`, die alleen in het blok erboven bestaan. GitHub keurt dat niet
+af: zo'n verwijzing wordt een lege tekst, de `if` is altijd onwaar, en de stap
+slaat zichzelf elke dag over. In de lijst staat hij dan grijs, alsof dat de
+bedoeling was.
+
+`npm run dode-regels` vangt wat de keuring niet kan vangen. Het opschrift boven
+de hero stond op 12px in de merkkleur en rendeerde als 19px grijs, omdat
+`.hero p` specifieker is dan `.hero-opschrift`. Formeel klopte dat: 19px staat
+op de maatlat en het contrast was 5,4:1. De code deed alleen niet wat er stond.
 
 Het meet dat niet door de cascade na te rekenen, maar door hem te vragen: elke
 declaratie krijgt even `!important` mee, en verandert er dan iets aan wat de
@@ -120,3 +129,24 @@ prijsupdate → Run workflow**.
 De secrets `BOL_CLIENT_ID` en `BOL_CLIENT_SECRET` staan op repositoryniveau en
 gelden dus voor alle drie. Ontbreken ze, dan slaat het prijsscript bol over en
 blijft de oude prijs staan.
+
+### Wanneer een prijs stilstaat
+
+Niet elke winkel laat zich uitlezen, dus bij een deel van de producten staat
+het bedrag stil terwijl de pagina eromheen elke dag ververst wordt. Daar zijn
+drie signalen voor, op oplopende afstand van de bezoeker:
+
+| na | wat er gebeurt |
+| --- | --- |
+| 14 dagen | de bezoeker ziet *prijs van 13 juli* onder het bedrag, op de kaart, in de regel en op de productpagina |
+| 21 dagen | `update-prices.mjs` telt hem mee en de dagelijkse run wordt rood |
+| 30 dagen | `verse-data.mjs` zet hem in het dagrapport, gegroepeerd naar wat eraan te doen valt |
+
+De bezoeker weet het dus eerder dan de beheerder, en dat is de bedoeling: hij
+rekent op dat bedrag en de beheerder niet.
+
+`verse-data.mjs --streng` faalt hier níét op. Dat kan niet, want
+`update-prices.mjs` zet `laatst_bijgewerkt` elke geslaagde run op vandaag, of
+er nu iets veranderd is of niet. `--streng` beantwoordt de vraag "heeft de
+leiding gedraaid?"; de stap in de workflow beantwoordt "heeft de leiding iets
+opgeleverd?".

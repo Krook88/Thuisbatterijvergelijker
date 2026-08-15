@@ -341,6 +341,25 @@ const VOET_HTML = `<footer class="site-footer">
   </div>
 </footer>`;
 
+/* "Prijzen dagelijks gecontroleerd, laatst op 13 juli" is een zin die zichzelf
+   tegenspreekt zodra die datum ver weg ligt. Dat stond hier: de belofte kwam
+   uit de sjabloon en de datum uit de gegevens, en niemand vergeleek de twee.
+   Nu bepaalt de ouderdom welke zin er staat, en het bedrag zelf draagt dezelfde
+   markering als op de kaart. */
+function prijsZin(b) {
+  const datum = Prijs.prijsDatum(b);
+  const oud = Prijs.prijsOuderdomLabel(b);
+  if (!datum) return "Voor dit model hebben wij geen bevestigde winkelprijs.";
+  if (oud) return `Deze prijs is voor het laatst bevestigd op ${esc(datumNL(datum))}, ${oud.dagen} dagen geleden.`;
+  return `Prijzen dagelijks gecontroleerd, laatst op ${esc(datumNL(datum))}.`;
+}
+
+function ouderdomHtml(b) {
+  const oud = Prijs.prijsOuderdomLabel(b);
+  if (!oud) return "";
+  return `<span class="prijs-ouderdom" title="Dit bedrag is ${oud.dagen} dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van ${esc(datumNL(oud.datum))}</span>`;
+}
+
 function pagina(b) {
   const beste = bestePrijs(b);
   const totaal = totaalprijsTekst(b);
@@ -414,7 +433,7 @@ ${NAV_HTML}
   <div class="product-kop">
     <div class="product-kop-tekst">
       <h1>${merkLogoHtml(b.merk)}${esc(volledigeNaam(b))}</h1>
-      <p class="intro">${esc(typeLabel)} thuisbatterij van ${capaciteitInTekst(b)}${b.uitbreidbaar_tot_kwh ? `, uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh` : ""}. Prijzen dagelijks gecontroleerd, laatst op ${esc(datumNL(b.prijs_datum || data.laatst_bijgewerkt))}.</p>
+      <p class="intro">${esc(typeLabel)} thuisbatterij van ${capaciteitInTekst(b)}${b.uitbreidbaar_tot_kwh ? `, uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh` : ""}. ${prijsZin(b)}</p>
     </div>
     ${b.afbeelding
       ? `<div class="kaart-foto batterij-foto-groot">
@@ -425,7 +444,7 @@ ${NAV_HTML}
   </div>
 
   <div class="info-kader">
-    ${beste ? `<div class="info-prijs">${eur(Prijs.vergelijkPrijs(beste))} <span class="info-prijs-bron">incl. btw ${beste.is_richtprijs ? "(richtprijs; op dit moment geen winkel met deze batterij)" : `bij ${esc(beste.winkel)}`}${perKwh ? ` · ${eur(perKwh)} per kWh opslag` : ""}</span></div>${Prijs.prijsToelichting(beste) ? `<div class="prijs-let-op">${esc(Prijs.prijsToelichting(beste))}</div>` : ""}` : "<div><b>Prijs op aanvraag</b></div>"}
+    ${beste ? `<div class="info-prijs">${eur(Prijs.vergelijkPrijs(beste))} <span class="info-prijs-bron">incl. btw ${beste.is_richtprijs ? "(richtprijs; op dit moment geen winkel met deze batterij)" : `bij ${esc(beste.winkel)}`}${perKwh ? ` · ${eur(perKwh)} per kWh opslag` : ""}</span></div>${ouderdomHtml(b)}${Prijs.prijsToelichting(beste) ? `<div class="prijs-let-op">${esc(Prijs.prijsToelichting(beste))}</div>` : ""}` : "<div><b>Prijs op aanvraag</b></div>"}
     ${b.prijs_omvat ? `<div class="info-dekking">Deze prijs dekt: ${esc(b.prijs_omvat)}</div>` : ""}
     <div class="info-totaal" title="${esc(b.totaalprijs_toelichting || "")}">Compleet gebruiksklaar (indicatie): <b>${totaal || "op aanvraag"}</b></div>
     <p class="info-acties">

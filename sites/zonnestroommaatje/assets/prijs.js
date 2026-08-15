@@ -189,8 +189,56 @@
     return delen.join(" · ");
   }
 
+  /* Hoe oud is de prijs die de bezoeker ziet?
+
+     De site zegt "prijzen dagelijks gecontroleerd", en voor de meeste modellen
+     klopt dat. Maar niet elke winkel laat zich uitlezen: bij een deel staat het
+     bedrag stil terwijl de pagina eromheen elke dag ververst wordt. Dan klopt
+     de belofte niet meer, en dat hoort de bezoeker te zien bij het bedrag zelf
+     in plaats van weggestopt in de uitklap.
+
+     Veertien dagen is de grens. Dat is ver voorbij "dagelijks", en het ligt
+     onder de eenentwintig dagen waarop de dagelijkse run zelf aan de bel trekt:
+     de bezoeker weet het dus eerder dan de beheerder. Veel lager kan niet
+     zonder dat het behang wordt, en een label op elke kaart leest niemand. */
+  const PRIJS_OUD_NA_DAGEN = 14;
+
+  // De datum hoort bij het bedrag dat groot in beeld staat, niet bij het
+  // product als geheel: bij een winkelprijs die van die aanbieding, bij een
+  // richtprijs die van de richtprijs. Heeft de aanbieding zelf geen datum, dan
+  // weten we het niet - en dan is prijs_datum erbij halen een datum plakken op
+  // iets waar hij niet over gaat.
+  function prijsDatum(item) {
+    const a = beste(item);
+    if (!a) return null;
+    if (a.is_richtprijs) return (item && item.prijs_datum) || null;
+    return a.datum || null;
+  }
+
+  function prijsOuderdom(item, nu) {
+    const datum = prijsDatum(item);
+    if (typeof datum !== "string") return null;
+    const toen = new Date(datum + "T12:00:00");
+    if (Number.isNaN(toen.getTime())) return null;
+    const dagen = Math.round(((nu ? new Date(nu) : new Date()) - toen) / 86400000);
+    return dagen > 0 ? dagen : 0;
+  }
+
+  // null zolang de prijs vers genoeg is, zodat de aanroeper niets van de grens
+  // hoeft te weten. Het opmaken van de datum blijft hierbuiten: dat doet de
+  // kaart al, en twee datumopmakers gaan een keer uit elkaar lopen.
+  function prijsOuderdomLabel(item, nu) {
+    const dagen = prijsOuderdom(item, nu);
+    if (dagen === null || dagen < PRIJS_OUD_NA_DAGEN) return null;
+    return { dagen: dagen, datum: prijsDatum(item) };
+  }
+
   return {
     BTW_FACTOR,
+    PRIJS_OUD_NA_DAGEN,
+    prijsDatum,
+    prijsOuderdom,
+    prijsOuderdomLabel,
     inclusiefBtw,
     vergelijkPrijs,
     isOmgerekend,

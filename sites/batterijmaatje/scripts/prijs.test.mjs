@@ -152,3 +152,75 @@ test("een richtprijs telt als aanbieding, maar is als zodanig herkenbaar", () =>
   assert.equal(beste.is_richtprijs, true);
   assert.equal(Prijs.vergelijkPrijs(beste), 999);
 });
+
+/* ------------------------------------------------------------------
+   Ouderdom van de getoonde prijs
+
+   De site zegt "prijzen dagelijks gecontroleerd". Voor een deel van de
+   modellen klopt dat niet, omdat hun winkel zich niet laat uitlezen. Dat mag
+   de bezoeker zien bij het bedrag, en dan moet de datum wel bij dát bedrag
+   horen - niet bij het product in het algemeen.
+   ------------------------------------------------------------------ */
+
+const NU = "2026-08-15T12:00:00";
+
+test("de datum hoort bij de aanbieding die getoond wordt, niet bij het product", () => {
+  // prijs_datum gaat over de richtprijs. Zolang er een winkel is, is die
+  // richtprijs niet het bedrag dat de bezoeker ziet, dus ook zijn datum niet.
+  const b = {
+    richtprijs_eur: 4000,
+    prijs_datum: "2026-01-01",
+    aanbiedingen: [{ winkel: "Voorbeeld", prijs_eur: 3550, datum: "2026-08-10" }],
+  };
+  assert.equal(Prijs.prijsDatum(b), "2026-08-10");
+  assert.equal(Prijs.prijsOuderdom(b, NU), 5);
+  assert.equal(Prijs.prijsOuderdomLabel(b, NU), null, "vijf dagen is vers");
+});
+
+test("zonder winkel telt de datum van de richtprijs", () => {
+  const b = { richtprijs_eur: 4000, prijs_datum: "2026-07-13" };
+  assert.equal(Prijs.prijsDatum(b), "2026-07-13");
+  assert.equal(Prijs.prijsOuderdom(b, NU), 33);
+});
+
+test("een aanbieding zonder datum levert geen ouderdom in plaats van een geleende datum", () => {
+  // Hier ging het bijna mis: terugvallen op prijs_datum plakt de datum van de
+  // richtprijs op een winkelbedrag waar hij niet over gaat. Dan staat er een
+  // geruststellende datum onder een bedrag waarvan niemand weet hoe oud het is.
+  const b = {
+    richtprijs_eur: 4000,
+    prijs_datum: "2026-08-14",
+    aanbiedingen: [{ winkel: "Voorbeeld", prijs_eur: 3550 }],
+  };
+  assert.equal(Prijs.prijsDatum(b), null);
+  assert.equal(Prijs.prijsOuderdom(b, NU), null);
+  assert.equal(Prijs.prijsOuderdomLabel(b, NU), null);
+});
+
+test("het label komt pas op bij veertien dagen, en niet eerder", () => {
+  const opDag = (dagen) => {
+    const d = new Date(NU);
+    d.setDate(d.getDate() - dagen);
+    return { richtprijs_eur: 100, prijs_datum: d.toISOString().slice(0, 10) };
+  };
+  assert.equal(Prijs.PRIJS_OUD_NA_DAGEN, 14);
+  assert.equal(Prijs.prijsOuderdomLabel(opDag(13), NU), null);
+  assert.equal(Prijs.prijsOuderdomLabel(opDag(14), NU).dagen, 14);
+  assert.equal(Prijs.prijsOuderdomLabel(opDag(40), NU).dagen, 40);
+});
+
+test("de grens ligt onder de eenentwintig dagen waarop de dagelijkse run aanslaat", () => {
+  // Anders weet de beheerder het eerder dan de bezoeker, en dat is de
+  // verkeerde volgorde: de bezoeker rekent op het bedrag, de beheerder niet.
+  assert.ok(Prijs.PRIJS_OUD_NA_DAGEN < 21, "zie VEROUDERD_NA_DAGEN in update-prices.mjs");
+});
+
+test("een datum in de toekomst levert nul en geen negatief getal", () => {
+  const b = { richtprijs_eur: 100, prijs_datum: "2026-09-01" };
+  assert.equal(Prijs.prijsOuderdom(b, NU), 0);
+});
+
+test("een onleesbare datum levert niets in plaats van NaN", () => {
+  assert.equal(Prijs.prijsOuderdom({ richtprijs_eur: 100, prijs_datum: "gisteren" }, NU), null);
+  assert.equal(Prijs.prijsOuderdom({ richtprijs_eur: 100, prijs_datum: 20260713 }, NU), null);
+});

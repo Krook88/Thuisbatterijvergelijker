@@ -40,6 +40,17 @@
     return Number.isNaN(d.getTime()) ? iso : datumFmt.format(d);
   }
 
+  // Een prijs die al weken stilstaat hoort dat te zeggen op de plek waar het
+  // bedrag staat. De site belooft "prijzen dagelijks gecontroleerd"; klopt dat
+  // voor dit model even niet, dan is dat een mededeling en geen voetnoot in de
+  // uitklap. Prijs.prijsOuderdomLabel geeft null zolang het meevalt, dus staat
+  // er niets bij de meeste kaarten.
+  function ouderdomHtml(item) {
+    const oud = Prijs.prijsOuderdomLabel(item);
+    if (!oud) return "";
+    return `<span class="prijs-ouderdom" title="Dit bedrag is ${oud.dagen} dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van ${escapeHtml(datumNL(oud.datum))}</span>`;
+  }
+
   const TYPE_LABEL = { "hybride": "Hybride (naast de cv-ketel)", "all-electric": "All-electric (van het gas af)" };
   const TYPE_KORT = { "hybride": "Hybride", "all-electric": "All-electric" };
 
@@ -215,6 +226,7 @@
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>
         ${w.isde_indicatie_eur ? `<span class="regel-per cijfer">ISDE circa ${eurFmt.format(w.isde_indicatie_eur)}</span>` : ""}
+        ${ouderdomHtml(w)}
         ${beste && beste.url
           ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijken</a>`
           : `<a class="knop" href="pomp/${encodeURIComponent(w.id)}.html">Bekijken</a>`}
@@ -288,6 +300,7 @@
           <div class="prijs">${beste ? eurFmt.format(vergelijkPrijs(beste)) : "Prijs op aanvraag"}</div>
           ${beste ? `<div class="prijs-winkel">${uitWinkel ? "bij " + escapeHtml(beste.winkel) : beste.winkel}</div>` : ""}
           ${w.voorbeeld_variant ? `<div class="prijs-per-kwh">prijs voor: ${escapeHtml(w.voorbeeld_variant)}</div>` : ""}
+          ${ouderdomHtml(w)}
           ${w.prijs_toelichting ? `<div class="prijs-winkel">${escapeHtml(w.prijs_toelichting)}</div>` : ""}
           ${beste ? prijsLetOp(beste) : ""}
         </div>
