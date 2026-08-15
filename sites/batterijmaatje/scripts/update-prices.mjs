@@ -627,6 +627,23 @@ async function main() {
       appendFileSync(process.env.GITHUB_STEP_SUMMARY, regels.join("\n") + "\n");
     }
   }
+
+  /* Tot nu toe stond dit alles in een samenvatting die niemand opzoekt, omdat
+     de run groen bleef. Twaalf prijzen liepen daardoor 33 dagen achter en een
+     bedrag van 9.000 euro stond naast een winkel die 4.945 vraagt - gevonden
+     doordat iemand toevallig op een pagina klikte, niet doordat wij het
+     meldden. Dit getal gaat naar de workflow, die er aan het eind rood van
+     wordt. De prijzen zijn dan al weggeschreven en gepusht: een signaal mag
+     de dagelijkse ronde niet tegenhouden. */
+  const aandacht = verouderd.length + teControleren.length + geweigerd.length +
+    geenPrijs.length + zonderAdres.length + kapotteLinks.length;
+  if (process.env.GITHUB_OUTPUT) {
+    appendFileSync(process.env.GITHUB_OUTPUT, `aandacht=${aandacht}\n`);
+    appendFileSync(process.env.GITHUB_OUTPUT,
+      `aandacht_kort=${verouderd.length} verouderd, ${teControleren.length} te controleren, ` +
+      `${kapotteLinks.length} onbereikbaar, ${geweigerd.length} geweigerd, ` +
+      `${geenPrijs.length} zonder bedrag, ${zonderAdres.length} zonder bron\n`);
+  }
 }
 
 main().catch((err) => {
