@@ -8,6 +8,11 @@
   },
   "scripts": {
     "kern:verdeel": "node scripts/kern-verdelen.mjs",
-    "kern:controleer": "node scripts/kern-verdelen.mjs --controleer"
+    "kern:controleer": "node scripts/kern-verdelen.mjs --controleer",
+    "test": "node --test kern/scripts/*.test.mjs sites/*/scripts/*.test.mjs",
+    "modellen": "node scripts/modelherkenning.mjs",
+    "stempel": "node scripts/cachestempel.mjs",
+    "keuring": "node scripts/keuring.mjs",
+    "controle": "npm run kern:controleer && npm test && npm run modellen && npm run keuring"
   }
 }

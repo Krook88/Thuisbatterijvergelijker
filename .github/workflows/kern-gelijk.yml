@@ -4,6 +4,10 @@ name: Kern en sites lopen gelijk
 # stilletjes: iemand past een gedeeld bestand aan binnen één site, het werkt
 # daar, en maanden later lopen de sites weer uiteen. Precies zo ging het de
 # vorige keer mis.
+#
+# Wat hier draait is hetzelfde als 'npm run controle' op je eigen machine,
+# stap voor stap. Dat is met opzet: zodra CI iets anders doet dan jij, gaat
+# "bij mij was het groen" een eigen leven leiden.
 
 on:
   push:
@@ -11,12 +15,14 @@ on:
     paths:
       - "kern/**"
       - "sites/**"
-      - "scripts/kern-verdelen.mjs"
+      - "scripts/**"
+      - "package.json"
   pull_request:
     paths:
       - "kern/**"
       - "sites/**"
-      - "scripts/kern-verdelen.mjs"
+      - "scripts/**"
+      - "package.json"
   workflow_dispatch: {}
 
 jobs:
@@ -27,19 +33,36 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Kern vergelijken met de sites
-        run: node scripts/kern-verdelen.mjs --controleer
 
-      # Het herkennen van modelnamen faalt stil: staat het te ruim, dan meldt
-      # het script niets meer, en "geen kandidaten" ziet er precies zo uit als
-      # "alles is al bekend". Deze proef gaat langs een lijstje echte
-      # winkeltitels en kost geen enkel verzoek naar buiten, dus hij kan hier
-      # bij elke wijziging mee.
+      - name: Kern vergelijken met de sites
+        run: npm run kern:controleer
+
+      # De proeven bij prijs.mjs en prijs-uitlezen.mjs stonden er al, maar
+      # niemand draaide ze automatisch. Juist die rekenen met geld: een fout
+      # daarin zie je op de site niet als een fout, maar als een prijs.
+      - name: Proeven draaien
+        run: npm test
+
       - name: Herkenning van modelnamen toetsen
-        run: |
-          fout=0
-          for site in sites/*/; do
-            echo "--- ${site}"
-            ( cd "$site" && node scripts/nieuwe-modellen.mjs --proef ) || fout=1
-          done
-          exit $fout
+        run: npm run modellen
+
+  # De keuring start een echte browser en is daarom een aparte baan: hij duurt
+  # langer dan de rest samen, en als hij valt wil je kunnen zien of de andere
+  # controles wél doorkwamen.
+  keuren:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # Playwright staat bewust niet in package.json: de rest van de repo
+      # heeft nul afhankelijkheden en dat is het waard om te houden.
+      - name: Browser klaarzetten
+        run: npm i --no-save playwright && npx playwright install --with-deps chromium
+
+      # Contrast, aanraakvlakken, tekstmaten en javascriptfouten over elke
+      # pagina van de drie sites, op 1280 en 390 pixels breed.
+      - name: Keuring
+        run: npm run keuring

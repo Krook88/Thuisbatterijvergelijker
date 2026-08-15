@@ -98,7 +98,11 @@
   max-width: 20ch;
 }
 
-.hero p {
+/* Uitdrukkelijk niet het opschrift: sinds dat erbij kwam staan er twee
+   alinea's in de hero. ".hero p" was specifieker dan ".hero-opschrift" en won
+   dus van de regel erboven - het opschrift stond op alle drie de sites in
+   19px grijs in plaats van 12px in de merkkleur, hoofdletters en al. */
+.hero p:not(.hero-opschrift) {
   margin: 0;
   max-width: 62ch;
   font-size: var(--tekst-19);
@@ -203,7 +207,7 @@
 
 @media (max-width: 700px) {
   .hero { padding: var(--ruimte-28) 0 var(--ruimte-20); }
-  .hero p { font-size: var(--tekst-17); }
+  .hero p:not(.hero-opschrift) { font-size: var(--tekst-17); }
   .hero-badges { margin-top: var(--ruimte-20); }
 
   /* Naast elkaar passen er op een telefoon geen drie; onder elkaar met een
@@ -346,8 +350,21 @@
   color: var(--kleur-tekst-licht);
 }
 
-.regel-naam h3 { margin: var(--ruimte-2) 0 0; font-size: var(--tekst-19); }
-.regel-naam .kop-link { color: inherit; text-decoration: none; }
+/* 19 px tekst op regelafstand 1,2 geeft een link van 23 px hoog: net een
+   pixel onder de 24 die WCAG 2.5.8 vraagt. Een productnaam is geen link in
+   een lopende zin - dit is de weg naar de productpagina - dus die
+   uitzondering geldt hier niet.
+
+   Regelafstand op de h3 helpt niet: het vak van een inline-element volgt de
+   letterhoogte en niet de regel. De link zelf moet dus een blokje worden. */
+.regel-naam h3 { margin: var(--ruimte-2) 0 0; font-size: var(--tekst-19); line-height: 1.3; }
+
+.regel-naam .kop-link {
+  display: inline-block;
+  min-height: 24px;
+  color: inherit;
+  text-decoration: none;
+}
 .regel-naam .kop-link:hover { text-decoration: underline; }
 .regel-vergelijk { margin-top: var(--ruimte-6); }
 
@@ -543,6 +560,13 @@
 
 .checkbox-groep input { accent-color: var(--kleur-primair); width: 16px; height: 16px; }
 
+/* Een schakelaar die op dit moment niets kan doen: zichtbaar, maar duidelijk
+   niet aan de beurt. Weghalen zou erger zijn - dan springt de rij. */
+.checkbox-groep label.uitgeschakeld {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .filter-reset {
   flex: none;
   margin-left: var(--ruimte-4);
@@ -580,4 +604,35 @@
   .filter-rij.tweede .filter-label { padding-top: 0; }
   .sorteer-keuze { width: 100%; }
   .sorteer-keuze select { flex: 1; }
+}
+
+/* ==========================================================================
+   Aanraakvlak van losstaande links
+
+   WCAG 2.5.8 (AA) vraagt 24 bij 24 pixels, met een uitzondering voor een link
+   in een lopende zin: die kun je niet vergroten zonder de regelafstand te
+   slopen. Een link die in zijn eentje een blok vult valt niet onder die
+   uitzondering - een losse "Alle batterijen vergelijken", een productnaam in
+   een kop of in een tabelcel. Die waren 18 tot 20 px hoog.
+
+   Waarom :only-child en niet gewoon alle links: een inline-block breekt niet
+   meer netjes over twee regels. Bij een link die alleen in zijn blok staat
+   maakt dat niet uit; midden in een zin wel.
+   ========================================================================== */
+p > a:only-child,
+li > a:only-child,
+td > a:only-child,
+th > a:only-child,
+h1 > a:only-child,
+h2 > a:only-child,
+h3 > a:only-child,
+h4 > a:only-child,
+/* En drie plekken waar een link naast andere tekst in een cel of regel staat,
+   maar er duidelijk los van: een woordenlijstlink in een tabel, en het
+   "bekijk" achter een winkelprijs. Ook die zijn geen zin. */
+td a.term-link,
+th a.term-link,
+.winkel-lijst a {
+  display: inline-block;
+  min-height: 24px;
 }
