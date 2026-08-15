@@ -25,6 +25,14 @@
  *      Die worden alleen gemeld, want een jaartal als grens van een wet hoort
  *      juist vast te staan - het is de vermelding die mee moet bewegen, niet
  *      het feit.
+ *   3. Een jaartal in een <title> of <h1> dat achterloopt op de kalender.
+ *      "Beste thuisbatterij (2026)" nodigt uit tot klikken zolang het 2026 is
+ *      en is op 1 januari juist een reden om niet te klikken. De generatoren
+ *      halen dat jaartal inmiddels uit de kalender, dus die rollen vanzelf om
+ *      bij de dagelijkse prijsrun. De handgeschreven pagina's kunnen dat niet:
+ *      daar hoort bij het jaartal ook inhoud die klopt voor dat jaar - de
+ *      ISDE-bedragen, de rekengrondslag - en die mag niet stilletjes
+ *      meebewegen. Dus meldt deze controle ze, en past een mens ze aan.
  *
  * Gebruik:
  *   node scripts/datumteksten.mjs             rapport
@@ -63,8 +71,34 @@ function bestandenIn(map, uit = []) {
   return uit;
 }
 
+/* Een jaartal in een titel of kop, en of het achterloopt.
+
+   Volgend jaar mag: in december is een pagina over het komende jaar juist
+   vroeg. Verder terug dan dit jaar niet. Een jaartal verder vooruit dan
+   volgend jaar hoort bij een wet ("stopt in 2027") en gaat over een feit, dus
+   dat blijft buiten schot zolang het nog niet voorbij is. */
+const HUIDIG_JAAR = NU.getFullYear();
+const KOP_MET_JAAR = /<(title|h1)\b[^>]*>([^<]*\b(20\d{2})\b[^<]*)<\/\1>/gi;
+
+function verouderdeKoppen(inhoud) {
+  const uit = [];
+  for (const m of inhoud.matchAll(KOP_MET_JAAR)) {
+    const jaar = Number(m[3]);
+    if (jaar >= HUIDIG_JAAR) continue;
+    // Niet elk viercijferig getal dat op 20 begint is een jaartal. "Jackery
+    // HomePower 2000 Ultra" en "Zendure SolarFlow Hyper 2000" zijn modelnamen,
+    // en die stonden hier bij de eerste versie alle zes in het rapport. Een
+    // jaartal dat als verskeurmerk achterloopt ligt altijd vlak achter ons;
+    // drie jaar terug is ruim genoeg en houdt modelnummers erbuiten.
+    if (jaar < HUIDIG_JAAR - 3) continue;
+    uit.push({ tag: m[1].toLowerCase(), jaar, tekst: m[2].trim() });
+  }
+  return uit;
+}
+
 let verlopen = 0;
 let binnenkort = 0;
+let oudeKoppen = 0;
 
 for (const site of readdirSync(resolve(ROOT, "sites"))) {
   const meldingen = [];
@@ -83,22 +117,34 @@ for (const site of readdirSync(resolve(ROOT, "sites"))) {
       if (overDagen < 0) { verlopen++; meldingen.push(["VERLOPEN", overDagen, pad, m[0]]); }
       else if (overDagen < 180) { binnenkort++; meldingen.push(["verloopt", overDagen, pad, m[0]]); }
     }
+    if (/\.html$/.test(pad)) {
+      for (const k of verouderdeKoppen(inhoud)) {
+        oudeKoppen++;
+        meldingen.push([`OUD JAARTAL in <${k.tag}>`, null, pad, `${k.tekst}  (${k.jaar}, we zijn ${HUIDIG_JAAR})`]);
+      }
+    }
   }
   if (meldingen.length) {
     console.log(`\n${site}`);
     for (const [soort, dagen, pad, tekst] of meldingen) {
-      const wanneer = dagen < 0 ? `${-dagen} dagen geleden` : `over ${dagen} dagen`;
-      console.log(`  ${soort} (${wanneer})  ${relative(ROOT, pad)}`);
+      const wanneer = dagen === null ? "" : ` (${dagen < 0 ? `${-dagen} dagen geleden` : `over ${dagen} dagen`})`;
+      console.log(`  ${soort}${wanneer}  ${relative(ROOT, pad)}`);
       console.log(`     "${tekst.replace(/\s+/g, " ").trim().slice(0, 120)}"`);
     }
   }
 }
 
 console.log(
-  verlopen || binnenkort
-    ? `\n${verlopen} verlopen, ${binnenkort} verlopen binnen een half jaar.`
-    : "\nGeen teksten gevonden die aan een voorbije datum hangen."
+  verlopen || binnenkort || oudeKoppen
+    ? `\n${verlopen} verlopen, ${binnenkort} verlopen binnen een half jaar, ${oudeKoppen} kop(pen) met een achterhaald jaartal.`
+    : "\nGeen teksten gevonden die aan een voorbije datum hangen, en geen kop met een achterhaald jaartal."
 );
+if (oudeKoppen) {
+  console.log("\nEen jaartal in een titel is een verskeurmerk. Loopt het achter, dan is");
+  console.log("het juist een reden om niet te klikken. De gegenereerde pagina's rollen");
+  console.log("vanzelf om (zie JAAR in de generatoren); deze zijn handgeschreven, want");
+  console.log("bij dat jaartal hoort inhoud die iemand moet nakijken.");
+}
 if (binnenkort && !verlopen) {
   console.log("Nog niet fout, wel bijna. Een zin die zichzelf aanpast aan de datum");
   console.log("wordt overgeslagen: zie assets/advies.js voor hoe dat eruitziet.");
@@ -109,4 +155,4 @@ if ((verlopen || binnenkort) && process.env.GITHUB_STEP_SUMMARY) {
     `### Datumteksten: ${verlopen} verlopen, ${binnenkort} bijna\n\nZie scripts/datumteksten.mjs.\n\n`);
 }
 
-if (STRENG && verlopen) process.exit(1);
+if (STRENG && (verlopen || oudeKoppen)) process.exit(1);

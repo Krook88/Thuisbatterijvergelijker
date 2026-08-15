@@ -64,6 +64,15 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const SITE = "https://zonnestroommaatje.nl";
 const VANDAAG = new Date().toISOString().slice(0, 10);
+/* Het jaartal in een titel is een verskeurmerk: "(2026)" nodigt uit tot
+   klikken zolang het 2026 is, en werkt op 1 januari tegen ons. Daarom komt het
+   uit de kalender en niet uit de tekst - de dagelijkse prijsrun bouwt deze
+   pagina's toch al opnieuw, dus rolt het vanzelf om.
+
+   Alleen voor titels die "de stand van nu" betekenen. Een jaartal dat bij een
+   wet of een subsidiebedrag hoort blijft staan waar het staat: dat is een
+   feit, geen keurmerk, en dat mag niet meebewegen. */
+const JAAR = new Date().getFullYear();
 /* Versienummer achter css/js-links: dwingt browsers om na een wijziging het
    nieuwe bestand op te halen in plaats van een oude kopie uit de cache.
 
@@ -481,7 +490,7 @@ ${staart}`;
 const OVERZICHTEN = [
   {
     bestand: "beste-zonnepanelen-klein-dak.html",
-    titel: "Beste zonnepanelen voor een klein dak (2026)",
+    titel: `Beste zonnepanelen voor een klein dak (${JAAR})`,
     metaDesc: "Weinig dakruimte? Deze zonnepanelen leveren de meeste opbrengst per vierkante meter. Vergelijking op rendement, Wp per m², prijs en garanties.",
     intro: "Past je gewenste vermogen niet zomaar op je dak, dan telt elke vierkante meter. Het rendement van een paneel bepaalt direct hoeveel wattpiek er per m² past: 22% rendement is circa 220 Wp per m². Back-contact panelen zijn hier de koningen, maar je betaalt er iets meer voor. Hieronder alle panelen uit onze vergelijker, gesorteerd op opbrengst per vierkante meter.",
     selecteer: (lijst) => [...lijst].sort((a, b) => (b.rendement_pct || 0) - (a.rendement_pct || 0)),
@@ -489,7 +498,7 @@ const OVERZICHTEN = [
   },
   {
     bestand: "beste-glas-glas-zonnepanelen.html",
-    titel: "Beste glas-glas zonnepanelen (2026)",
+    titel: `Beste glas-glas zonnepanelen (${JAAR})`,
     metaDesc: "Glas-glas zonnepanelen vergeleken op prijs per Wp, garanties en rendement. Waarom glas-glas langer meegaat en wat het tegenwoordig kost.",
     intro: "Bij een glas-glas paneel liggen de cellen tussen twee lagen glas in plaats van glas en kunststof folie. Dat beschermt beter tegen vocht en microscheurtjes, vertraagt veroudering en levert vaak langere garanties op. Sinds fabrikanten dun gehard glas gebruiken, is het verschil in prijs en gewicht met foliepanelen klein. Hieronder alle glas-glas panelen uit onze vergelijker, gesorteerd op prijs per wattpiek.",
     selecteer: (lijst) => lijst.filter((p) => p.uitvoering === "glas-glas").sort((a, b) => (prijsPerWp(a) || Infinity) - (prijsPerWp(b) || Infinity)),
@@ -597,7 +606,7 @@ function nogZinPagina() {
   const opbrengstStraks = Math.round(eigen * TARIEF + terug * TERUGLEVER);
   const opbrengstHalf = Math.round(opwek * 0.5 * TARIEF + opwek * 0.5 * TERUGLEVER);
 
-  const titel = "Hebben zonnepanelen nog zin in 2026?";
+  const titel = `Hebben zonnepanelen nog zin in ${JAAR}?`;
   const metaDesc = `Ja, maar de rekensom verandert. Wat het einde van de salderingsregeling betekent, wat je panelen straks opleveren en de drie manieren om meer zelf te gebruiken.`;
 
   const itemList = JSON.stringify({
@@ -728,7 +737,7 @@ function vergelijkingsPagina(v) {
   // 455 Wp Full Black (glas-glas)"). Voor de titel volstaat merk plus vermogen:
   // dat is waar iemand op zoekt en het past wel.
   const kortePaneelnaam = (x) => `${x.merk} ${x.vermogen_wp} Wp`;
-  return `${kop([`${titel} (2026)`, titel,
+  return `${kop([`${titel} (${JAAR})`, titel,
                  `${kortePaneelnaam(A)} vs ${kortePaneelnaam(B)}: welk paneel?`,
                  `${kortePaneelnaam(A)} vs ${kortePaneelnaam(B)}`], metaDesc, `${SITE}/vergelijk/${esc(v.slug)}.html`, wrapLd(itemList))}
 

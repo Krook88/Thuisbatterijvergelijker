@@ -223,14 +223,20 @@ Op verwachte opbrengst gedeeld door moeite. De eerste drie staan er inmiddels:
 3. ✅ **`warmtepomp-geluid.html`** op warmtepompmaatje — de norm van 45/40 dB(A)
    op de erfgrens, en het verschil tussen geluidsvermogen en geluidsdruk dat in
    bijna elk stuk hierover verkeerd gaat.
-4. **`wat-kost-een-thuisbatterij.html`** — prijs per kWh per capaciteitsklasse,
-   gevoed door dezelfde dagelijkse prijsdata.
-5. **`nu-kopen-of-wachten.html`** — de duurste bezoeker, nul dekking.
-6. **`monoblock-of-split.html`** — de eerste keuze na "ik wil er een".
-7. **`thuisaccu` en de andere synoniemen** door de bestaande teksten heen,
-   waar ze natuurlijk passen. Geen nieuwe pagina's, wel nieuwe deuren.
+4. ✅ **`wat-kost-een-thuisbatterij.html`** — prijs per kWh per
+   capaciteitsklasse. Leverde onderweg een uitkomst op die de pagina bepaalt:
+   de prijs per kWh daalt hier *niet* met de maat, hij volgt de soort.
+5. ✅ **`nu-kopen-of-wachten.html`** — met een paragraaf over wat géén reden is,
+   waaronder de bewering dat batterijen elk jaar goedkoper worden. Die kunnen
+   wij niet hardmaken: er is geen prijsgeschiedenis in de data.
+6. ✅ **`monoblock-of-split.html`** — zonder kolom die per model zegt welke van
+   de twee het is. Dat staat niet in de gegevens en is ook geen eigenschap van
+   een reeks; wat er wel staat is het koudemiddel, en dat hangt er direct mee
+   samen.
+7. ✅ **`thuisaccu` en de andere synoniemen** in de woordenlijsten, de opening
+   van de uitleg en de hero van batterijmaatje.
 
-Alle zeven laten zich maken zoals `beste-thuisbatterij-homey.html` en
+Alle zeven zijn gemaakt zoals `beste-thuisbatterij-homey.html` en
 `beste-glas-glas-zonnepanelen.html` gemaakt zijn: een generator die de
 vergelijkingsdata filtert en er een gerichte pagina van maakt, die dus
 meebeweegt met de dagelijkse prijsupdate. Het patroon staat er al.

@@ -203,6 +203,7 @@ function kop(actief, diepte) {
         <summary>Meer ${Iconen.svg("chevron")}</summary>
         <div class="nav-meer-paneel">
           <a href="${p}warmtepomp-geluid.html">Geluid</a>
+          <a href="${p}monoblock-of-split.html">Monoblock of split</a>
           <a href="${p}over-ons.html">Over ons</a>
           <a href="${p}contact.html">Contact</a>
           <a href="${p}privacy.html">Privacy &amp; disclaimer</a>
@@ -219,7 +220,7 @@ function voet(diepte) {
   <div class="container">
     <b>${Iconen.svg("warmte")} Warmtepompmaatje</b>
     <p>Onafhankelijke vergelijking van warmtepompen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen).</p>
-    <p><a href="${p}index.html">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}warmtepomp-geluid.html">Geluid</a> · <a href="${p}over-ons.html">Over ons</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="${p}index.html">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}warmtepomp-geluid.html">Geluid</a> · <a href="${p}monoblock-of-split.html">Monoblock of split</a> · <a href="${p}over-ons.html">Over ons</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties zijn indicaties; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -418,6 +419,159 @@ ${kop("", false)}
   </ul>
 
   <div class="waarschuwing-kader">De omrekening naar afstand op deze pagina is een vuistregel om mee te kunnen kiezen, geen toetsing aan de wet. Voor die toetsing geldt de berekening uit de Omgevingsregeling; vraag je installateur daarom vóór de plaatsing.</div>
+</main>
+
+${voet(false)}
+</body>
+</html>
+`;
+}
+
+/* ------------------------------------------------------------------
+   "Monoblock of split?"
+
+   De eerste keuze die iemand maakt nadat hij besloten heeft dat hij een
+   warmtepomp wil, en er stond geen pagina over op de site.
+
+   Wat deze pagina bewust niet doet: per model zeggen of hij monoblock of split
+   is. Dat staat niet in onze gegevens, en het is ook geen eigenschap van een
+   reeks: de meeste series bestaan in allebei de uitvoeringen en welke je
+   krijgt hangt af van de samenstelling die de installateur kiest. Een kolom
+   met veertig keer een gok erin zou dit een slechtere pagina maken, geen
+   betere.
+
+   Wat we wel hebben is het koudemiddel, en dat hangt er direct mee samen: van
+   de 17 pompen op propaan haalt er geen enkele minder dan 70 graden aanvoer,
+   en propaan hoort om veiligheidsredenen buiten te blijven. Dat is dus een
+   eigenschap uit onze eigen data die zowel de bouwvorm als de vraag "kan ik
+   mijn radiatoren houden" raakt, en daar gaat de tabel dan ook over.
+   ------------------------------------------------------------------ */
+
+const BOUWVORM_BESTAND = "monoblock-of-split.html";
+
+const isPropaan = (w) => /R290|propaan/i.test(w.koudemiddel || "");
+
+function bouwvormTabel(lijst) {
+  return `<div class="tabel-wrap">
+  <table class="vergelijk-tabel compact">
+    <thead><tr>
+      <th>Warmtepomp</th>
+      <th>Soort</th>
+      <th>Koudemiddel</th>
+      <th>Max. aanvoer</th>
+      <th>Geluidsvermogen</th>
+    </tr></thead>
+    <tbody>${lijst.map((w) => `
+      <tr>
+        <td><a href="pomp/${esc(w.id)}.html"><b>${esc(w.merk)} ${esc(w.model)}</b></a></td>
+        <td>${esc(w.type)}</td>
+        <td class="niet-afbreken">${esc(w.koudemiddel || "niet opgegeven")}</td>
+        <td class="niet-afbreken">${w.max_aanvoer_c ? `${w.max_aanvoer_c} &deg;C` : "n.b."}</td>
+        <td class="niet-afbreken">${w.geluid_db != null ? `${w.geluid_db} dB(A)` : "niet opgegeven"}</td>
+      </tr>`).join("")}</tbody>
+  </table>
+  </div>`;
+}
+
+function bouwvormPagina() {
+  const propaan = pompen.filter(isPropaan);
+  const rest = pompen.filter((w) => !isPropaan(w));
+  const aanvoerVan = (lijst) => {
+    const g = lijst.map((w) => w.max_aanvoer_c).filter((n) => typeof n === "number");
+    return g.length ? { laag: Math.min(...g), hoog: Math.max(...g) } : null;
+  };
+  const aanvoerPropaan = aanvoerVan(propaan);
+  const aanvoerRest = aanvoerVan(rest);
+  const opAanvoer = [...pompen].sort((a, b) => (b.max_aanvoer_c || 0) - (a.max_aanvoer_c || 0));
+  const hoog = pompen.filter((w) => (w.max_aanvoer_c || 0) >= 70);
+
+  const titel = "Monoblock of split: welke warmtepomp past bij jouw huis?";
+  const metaDesc = kortOmschrijving(
+    "Het verschil tussen een monoblock en een split warmtepomp, wat het betekent voor geluid, installatie en je radiatoren, en waarom het koudemiddel de keuze mede bepaalt.",
+  );
+
+  const itemList = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Warmtepompen op aanvoertemperatuur",
+    "itemListElement": opAanvoer.map((w, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": `${w.merk} ${w.model}`,
+      "url": `${SITE}/pomp/${w.id}.html`,
+    })),
+  }, null, 2);
+
+  return `<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${esc(besteTitel(["Monoblock of split warmtepomp: wat kies je?", "Monoblock of split warmtepomp"]))}</title>
+  <meta name="description" content="${esc(metaDesc)}">
+  <link rel="canonical" href="${SITE}/${BOUWVORM_BESTAND}">
+  <meta property="og:title" content="${esc(titel)}">
+  <meta property="og:description" content="${esc(metaDesc)}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${SITE}/${BOUWVORM_BESTAND}">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:site_name" content="Warmtepompmaatje.nl">
+  <meta property="og:image" content="${SITE}/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+${itemList}
+  </script>
+  <link rel="stylesheet" href="assets/style.css?v=${ASSET_VERSIE}">
+  <script src="assets/iconen.js?v=${ASSET_VERSIE}" defer></script>
+  <script src="assets/nav.js?v=${ASSET_VERSIE}" defer></script>
+  <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
+</head>
+<body>
+
+${kop("", false)}
+
+<main class="container leespagina">
+  <p class="datum-stempel"><a href="index.html">${Iconen.svg("pijl-links")} Alle warmtepompen vergelijken</a></p>
+  <h1>Monoblock of split?</h1>
+  <p class="datum-stempel">Samengesteld uit onze vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+
+  <p class="intro">Dit is de eerste keuze nadat je besloten hebt dat je een warmtepomp wilt, en hij gaat niet over merken maar over waar de techniek zit. Bij een <b>monoblock</b> zit alles in de buitenunit en loopt er alleen water naar binnen. Bij een <b>split</b> staat er ook een unit binnen, met een koudemiddelleiding ertussen.</p>
+
+  <h2>Het verschil in één tabel</h2>
+  <div class="tabel-wrap">
+    <table class="vergelijk-tabel compact">
+      <thead><tr><th></th><th>Monoblock</th><th>Split</th></tr></thead>
+      <tbody>
+        <tr><th>Wat loopt er naar binnen</th><td>water</td><td>koudemiddel</td></tr>
+        <tr><th>Ruimte binnen nodig</th><td>weinig: alleen een boiler of buffervat</td><td>meer: er komt een binnenunit bij</td></tr>
+        <tr><th>Installatie</th><td>geen koeltechnicus nodig voor de verbinding</td><td>koudemiddelleiding, dus F-gassencertificaat</td></tr>
+        <tr><th>Bevriezingsrisico</th><td>ja: er staat water buiten, dus vorstbeveiliging is verplicht werk</td><td>nee: buiten zit koudemiddel</td></tr>
+        <tr><th>Geluid buiten</th><td>de hele techniek zit buiten</td><td>een deel zit binnen</td></tr>
+        <tr><th>Propaan (R290)</th><td>gebruikelijk</td><td>zeldzaam: brandbaar koudemiddel hoort niet binnen</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Dat laatste punt weegt zwaarder dan het lijkt, en het is meetbaar in onze eigen gegevens.</p>
+
+  <h2>Waarom het koudemiddel de keuze mede bepaalt</h2>
+  <p>Propaan (R290) is een natuurlijk koudemiddel met een verwaarloosbaar broeikaseffect, maar het is brandbaar. Daarom houden fabrikanten het buiten, en zijn pompen op propaan vrijwel altijd monoblock. Tegelijk kan propaan hoger: van de ${pompen.length} warmtepompen in onze vergelijker draaien er ${propaan.length} op propaan${aanvoerPropaan ? `, en die halen allemaal ${aanvoerPropaan.laag} tot ${aanvoerPropaan.hoog} graden aanvoer` : ""}.${aanvoerRest ? ` De ${rest.length} met een ander koudemiddel zitten op ${aanvoerRest.laag} tot ${aanvoerRest.hoog} graden.` : ""}</p>
+  <p><b>Dat is precies het getal waar je huis om vraagt.</b> Bestaande radiatoren willen vaak 65 tot 70 graden op een koude dag; vloerverwarming heeft aan 35 genoeg. ${hoog.length} van de ${pompen.length} pompen hier halen 70 graden of meer, en ${hoog.filter(isPropaan).length} daarvan draaien op propaan. Wil je je radiatoren houden zonder ze allemaal te vervangen, dan stuurt die eis je dus vanzelf richting een monoblock op propaan.</p>
+
+  ${bouwvormTabel(opAanvoer)}
+
+  <h2>Waarom hier niet per model "monoblock" of "split" staat</h2>
+  <p>Omdat dat geen eigenschap van een reeks is. De meeste series bestaan in beide uitvoeringen, en welke je krijgt hangt af van de samenstelling die je installateur kiest. Een kolom met dertig keer een aanname erin zou deze pagina niet beter maken maar onbetrouwbaar. Wat er wél staat &mdash; koudemiddel, aanvoertemperatuur, geluid &mdash; komt uit de datasheets, en daarmee kun je de vraag stellen die telt: <i>welke uitvoering biedt u aan, en waarom die?</i></p>
+
+  <h2>Zo kies je</h2>
+  <ul>
+    <li><b>Weinig ruimte binnen?</b> Monoblock. Er hoeft alleen water naar binnen, dus je bent een binnenunit kwijt.</li>
+    <li><b>Bestaande radiatoren houden?</b> Kijk naar de aanvoertemperatuur in de tabel hierboven, niet naar de bouwvorm. Alles vanaf 70 graden is kansrijk.</li>
+    <li><b>Buitenunit dicht bij de erfgrens?</b> Dan is geluid je bindende eis. Zie <a href="${GELUID_BESTAND}">warmtepomp en geluid</a> voor de norm en de omrekening naar afstand.</li>
+    <li><b>Nog niet zeker over hybride of all-electric?</b> Die keuze komt eerst. Doe de <a href="advies.html">keuzehulp</a>.</li>
+    <li><b>Wat het kost en oplevert</b> staat in de <a href="rekenmodule.html">rekenmodule</a>, en wat je terugkrijgt op <a href="subsidie.html">ISDE-subsidie</a>.</li>
+  </ul>
+
+  <div class="waarschuwing-kader">Welke uitvoering in jouw huis past, hangt af van je warmteverlies, je afgiftesysteem en de plek van de buitenunit. Dat is werk voor een installateur; deze pagina helpt je de goede vraag te stellen.</div>
 </main>
 
 ${voet(false)}
@@ -625,6 +779,8 @@ writeFileSync(join(ROOT, "index.html"), index, "utf8");
 console.log(`index.html: ${gesorteerdePompen.length} kaarten voorgerenderd en ItemList bijgewerkt`);
 
 writeFileSync(join(ROOT, GELUID_BESTAND), geluidPagina(), "utf8");
+writeFileSync(join(ROOT, BOUWVORM_BESTAND), bouwvormPagina(), "utf8");
+console.log(`${BOUWVORM_BESTAND} gegenereerd`);
 console.log(`${GELUID_BESTAND} gegenereerd (${pompen.filter((w) => w.geluid_db != null).length} van ${pompen.length} pompen met een opgegeven geluidsvermogen)`);
 
 const vast = [
@@ -634,6 +790,7 @@ const vast = [
   { loc: `${SITE}/uitleg.html`, prio: "0.8" },
   { loc: `${SITE}/subsidie.html`, prio: "0.8" },
   { loc: `${SITE}/${GELUID_BESTAND}`, prio: "0.8" },
+  { loc: `${SITE}/${BOUWVORM_BESTAND}`, prio: "0.8" },
   { loc: `${SITE}/over-ons.html`, prio: "0.4" },
   { loc: `${SITE}/contact.html`, prio: "0.4" },
   { loc: `${SITE}/privacy.html`, prio: "0.2" },

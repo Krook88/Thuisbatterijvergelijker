@@ -1,11 +1,46 @@
 [
-  ["vergelijker", "/index.html"],
-  ["keuzehulp", "/advies.html"],
-  ["rekenmodule", "/rekenmodule.html"],
-  ["uitleg", "/uitleg.html"],
-  ["contact", "/contact.html"],
-  ["batterijpagina", "/batterij/aeg-solarcube-48.html"],
-  ["overzicht", "/beste-thuisbatterij-home-assistant.html"],
-  ["stekker", "/thuisbatterij-met-stekker.html"],
-  ["duel", "/vergelijk/huawei-luna2000-10-vs-byd-battery-box-hvm-11.html"]
+  [
+    "vergelijker",
+    "/index.html"
+  ],
+  [
+    "keuzehulp",
+    "/advies.html"
+  ],
+  [
+    "rekenmodule",
+    "/rekenmodule.html"
+  ],
+  [
+    "uitleg",
+    "/uitleg.html"
+  ],
+  [
+    "contact",
+    "/contact.html"
+  ],
+  [
+    "batterijpagina",
+    "/batterij/aeg-solarcube-48.html"
+  ],
+  [
+    "overzicht",
+    "/beste-thuisbatterij-home-assistant.html"
+  ],
+  [
+    "stekker",
+    "/thuisbatterij-met-stekker.html"
+  ],
+  [
+    "duel",
+    "/vergelijk/huawei-luna2000-10-vs-byd-battery-box-hvm-11.html"
+  ],
+  [
+    "kosten",
+    "/wat-kost-een-thuisbatterij.html"
+  ],
+  [
+    "wachten",
+    "/nu-kopen-of-wachten.html"
+  ]
 ]
