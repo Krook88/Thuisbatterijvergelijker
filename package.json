@@ -8,6 +8,7 @@
   },
   "scripts": {
     "kern:verdeel": "node scripts/kern-verdelen.mjs",
-    "kern:controleer": "node scripts/kern-verdelen.mjs --controleer"
+    "kern:controleer": "node scripts/kern-verdelen.mjs --controleer",
+    "test": "node --test kern/scripts/*.test.mjs sites/*/scripts/*.test.mjs"
   }
 }

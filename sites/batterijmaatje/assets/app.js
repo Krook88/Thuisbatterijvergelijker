@@ -263,6 +263,26 @@
      Hoofd-render
      ------------------------------------------------------------------ */
 
+  /* "Alleen officiële ondersteuning" is geen filter maar een verscherping van
+     de drie koppelvinkjes: het verandert "ja of deels" in "alleen ja". Staat
+     er geen van die drie aan, dan doet hij niets - de teller ging van 41 naar
+     41. Een vinkje aanbieden dat niets kan doen is een belofte die je niet
+     waarmaakt, dus dan staat hij uit en legt de titel uit waarom. */
+  function officieelBijwerken() {
+    const knop = el("checkOfficieel");
+    if (!knop) return;
+    const f = state.filters;
+    const bruikbaar = f.homey || f.homeAssistant || f.dynamisch;
+    knop.disabled = !bruikbaar;
+    const label = knop.closest("label");
+    if (label) {
+      label.classList.toggle("uitgeschakeld", !bruikbaar);
+      label.title = bruikbaar
+        ? "Alleen koppelingen die de fabrikant zelf ondersteunt tellen mee. Community-integraties en omwegen vallen af."
+        : "Zet eerst Homey, Home Assistant of Dynamisch energiecontract aan; deze verscherpt die keuze.";
+    }
+  }
+
   function render() {
     syncUrl();
     const lijst = gesorteerd(gefilterd());
@@ -305,7 +325,7 @@
     });
 
     [["checkHomey", "homey"], ["checkHA", "homeAssistant"], ["checkDynamisch", "dynamisch"], ["checkOfficieel", "officieel"], ["checkNoodstroom", "noodstroom"], ["checkAanbieding", "aanbieding"]].forEach(([id, key]) => {
-      el(id).addEventListener("change", (e) => { state.filters[key] = e.target.checked; render(); });
+      el(id).addEventListener("change", (e) => { state.filters[key] = e.target.checked; officieelBijwerken(); render(); });
     });
 
     el("sorteer").addEventListener("change", (e) => { state.sortering = e.target.value; render(); });
@@ -333,6 +353,7 @@
       el("filterType").value = "alle"; el("filterCapaciteit").value = "alle";
       el("filterInstallatie").value = "alle"; el("filterMerk").value = "alle";
       ["checkHomey", "checkHA", "checkDynamisch", "checkOfficieel", "checkNoodstroom", "checkAanbieding"].forEach((id) => { el(id).checked = false; });
+      officieelBijwerken();
       render();
     });
 
@@ -452,6 +473,7 @@
 
       koppelEvents();
       leesUrl(); // na het vullen van het merkenfilter, zodat ?merk=... aankomt
+      officieelBijwerken(); // na leesUrl: een gedeelde link kan ?homey=1 meebrengen
       render();
     } catch (err) {
       el("resultaten").innerHTML = '<div class="leeg-melding">De batterijgegevens konden niet worden geladen. Vernieuw de pagina of probeer het later opnieuw.</div>';

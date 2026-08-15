@@ -30,6 +30,12 @@ jobs:
       - name: Kern vergelijken met de sites
         run: node scripts/kern-verdelen.mjs --controleer
 
+      # De proeven bij prijs.mjs en prijs-uitlezen.mjs stonden er al, maar
+      # niemand draaide ze automatisch. Juist die rekenen met geld: een fout
+      # daarin zie je op de site niet als een fout, maar als een prijs.
+      - name: Proeven draaien
+        run: npm test
+
       # Het herkennen van modelnamen faalt stil: staat het te ruim, dan meldt
       # het script niets meer, en "geen kandidaten" ziet er precies zo uit als
       # "alles is al bekend". Deze proef gaat langs een lijstje echte

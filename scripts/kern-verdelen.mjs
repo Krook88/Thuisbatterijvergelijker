@@ -104,9 +104,12 @@ function versiesGelijk(site) {
     }
   })(wortel);
 
+  /* Ook de scripts, niet alleen de stylesheet: /assets/ ligt zeven dagen in
+     de cache voor css en js allebei. Toen dit alleen naar style.css keek,
+     stond nav.js binnen batterijmaatje op twee verschillende nummers en wezen
+     app.js en kaart.js nog naar juli, terwijl ze sindsdien herschreven waren. */
   for (const pad of paginas) {
-    const m = readFileSync(pad, "utf8").match(/style\.css\?v=([A-Za-z0-9]+)/);
-    if (m) gevonden.add(m[1]);
+    for (const m of readFileSync(pad, "utf8").matchAll(/\.(?:css|js)\?v=([A-Za-z0-9]+)/g)) gevonden.add(m[1]);
   }
 
   return gevonden.size > 1 ? [...gevonden] : null;
@@ -126,8 +129,9 @@ if (CONTROLEER) {
     if (afwijkend.some((a) => a.reden.startsWith("cache-versies"))) {
       console.error(
         "\nDe pagina's en de @imports van een site horen hetzelfde ?v=-nummer te" +
-        "\ndragen. Zet ze gelijk; anders krijgt een bezoeker nieuwe HTML met een" +
-        "\nstylesheet van maximaal zeven dagen oud erbij.",
+        "\ndragen, voor css en js allebei. Zet ze gelijk; anders krijgt een" +
+        "\nbezoeker nieuwe HTML met opmaak of scripts van maximaal zeven dagen" +
+        "\noud erbij.",
       );
     }
     if (afwijkend.some((a) => !a.reden.startsWith("cache-versies"))) {
