@@ -2,8 +2,8 @@
    Zonnepaneelmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260815b");
-@import url("vergelijker.css?v=20260815b");
+@import url("maatlat.css?v=20260815c");
+@import url("vergelijker.css?v=20260815c");
 
 :root {
   --kleur-primair: #0369a1;
@@ -139,10 +139,10 @@ a { color: var(--kleur-primair); }
   height: 1.9em;
   border-radius: var(--radius-pil);
   background: var(--kleur-primair-licht);
-  color: var(--kleur-primair-donker);
   font-weight: 800;
-  font-size: var(--tekst-15);
 }
+/* Kleur en tekstgrootte staan hier niet meer: elk stapnummer op de site zit
+   in .stappen, en de open cirkel in vergelijker.css overschrijft ze allebei. */
 
 /* Iconen in badges en knoppen lijnen uit met de tekst ernaast */
 .badge { display: inline-flex; align-items: center; gap: var(--ruimte-4); }
@@ -668,7 +668,9 @@ h1 .merk-logo { height: 28px; vertical-align: -4px; }
   line-height: 1.55;
 }
 .icoon-kaart .icoon { font-size: var(--tekst-28); display: block; }
-.icoon-kaart b { display: block; margin: var(--ruimte-6) 0 var(--ruimte-4); color: var(--kleur-primair-donker); }
+/* Zonder kleur: .stappen .icoon-kaart b in vergelijker.css zet de inktkleur,
+   en elke icoon-kaart op de site staat in .stappen. */
+.icoon-kaart b { display: block; margin: var(--ruimte-6) 0 var(--ruimte-4); }
 
 /* Woordenlijst: klikbare chips om direct naar een begrip te springen */
 .woordenlijst-nav { display: flex; flex-wrap: wrap; gap: var(--ruimte-6); margin: var(--ruimte-10) 0 var(--ruimte-20); }

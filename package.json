@@ -13,6 +13,7 @@
     "modellen": "node scripts/modelherkenning.mjs",
     "stempel": "node scripts/cachestempel.mjs",
     "keuring": "node scripts/keuring.mjs",
-    "controle": "npm run kern:controleer && npm test && npm run modellen && npm run keuring"
+    "dode-regels": "node scripts/dode-regels.mjs",
+    "controle": "npm run kern:controleer && npm test && npm run modellen && npm run keuring && npm run dode-regels"
   }
 }

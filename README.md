@@ -57,6 +57,20 @@ wat CI ook doet:
 | `npm test` | de proeven bij het prijsrekenen en het uitlezen van winkelpagina's |
 | `npm run modellen` | het herkennen van modelnamen, dat anders stil faalt |
 | `npm run keuring` | contrast, aanraakvlakken, tekstmaten en javascriptfouten op elke pagina van de drie sites, op 1280 en 390 pixels |
+| `npm run dode-regels` | declaraties die er wel staan maar overal worden overruled |
+
+Die laatste vangt wat de keuring niet kan vangen. Het opschrift boven de hero
+stond op 12px in de merkkleur en rendeerde als 19px grijs, omdat `.hero p`
+specifieker is dan `.hero-opschrift`. Formeel klopte dat: 19px staat op de
+maatlat en het contrast was 5,4:1. De code deed alleen niet wat er stond.
+
+Het meet dat niet door de cascade na te rekenen, maar door hem te vragen: elke
+declaratie krijgt even `!important` mee, en verandert er dan iets aan wat de
+browser uitrekent, dan verloor hij. Gemeld wordt alleen wat bij *elk* element
+verliest, op *elke* pagina en *elke* breedte — een modifier die een deel van de
+elementen overschrijft is immers precies waar modifiers voor zijn. De breedtes
+komen uit de breekpunten in de stylesheet zelf, zodat elke mediaquery ergens
+de smalste is die geldt en dus een eerlijke kans krijgt.
 
 De keuring start een echte browser en is daarom de enige stap met een
 afhankelijkheid. Die staat bewust niet in `package.json`; installeer hem als je

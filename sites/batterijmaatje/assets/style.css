@@ -2,8 +2,8 @@
    Thuisbatterijvergelijker.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260815b");
-@import url("vergelijker.css?v=20260815b");
+@import url("maatlat.css?v=20260815c");
+@import url("vergelijker.css?v=20260815c");
 
 :root {
   --kleur-primair: #0f766e;
@@ -1326,11 +1326,12 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   height: 2rem;
   border-radius: var(--radius-pil);
   background: var(--kleur-primair);
-  color: var(--kleur-wit);
   font-weight: 800;
-  font-size: var(--tekst-15);
   line-height: 1;
 }
+/* Kleur en tekstgrootte staan hier niet meer: elk stapnummer op de site zit
+   in .stappen, en de open cirkel in vergelijker.css overschrijft ze allebei.
+   Ze stonden er dus wel, maar deden nergens iets. */
 
 /* Sterren voor aansluitgemak: gevuld en leeg uit dezelfde icoonset, zodat ze
    dezelfde vorm hebben in plaats van twee losse tekens. */

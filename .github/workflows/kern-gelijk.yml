@@ -66,3 +66,9 @@ jobs:
       # pagina van de drie sites, op 1280 en 390 pixels breed.
       - name: Keuring
         run: npm run keuring
+
+      # En het omgekeerde: regels die er wel staan maar overal verliezen. Het
+      # opschrift boven de hero stond op 12px in de merkkleur en rendeerde als
+      # 19px grijs; formeel klopte dat, dus de keuring zag het niet.
+      - name: Regels die niets doen
+        run: npm run dode-regels

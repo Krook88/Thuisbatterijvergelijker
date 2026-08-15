@@ -2,8 +2,8 @@
    Warmtepompmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260815b");
-@import url("vergelijker.css?v=20260815b");
+@import url("maatlat.css?v=20260815c");
+@import url("vergelijker.css?v=20260815c");
 
 :root {
   --kleur-primair: #c2410c;
@@ -604,13 +604,15 @@ h1 .merk-logo { height: 28px; vertical-align: -4px; }
   height: 2rem;
   border-radius: var(--radius-pil);
   background: var(--kleur-primair);
-  color: var(--kleur-wit);
   font-weight: 800;
-  font-size: var(--tekst-15);
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
-.icoon-kaart b { display: block; margin: var(--ruimte-6) 0 var(--ruimte-4); color: var(--kleur-primair-donker); }
+/* Kleur en tekstgrootte staan hier niet meer: elk stapnummer op de site zit
+   in .stappen, en de open cirkel in vergelijker.css overschrijft ze allebei. */
+/* Zonder kleur: .stappen .icoon-kaart b in vergelijker.css zet de inktkleur,
+   en elke icoon-kaart op de site staat in .stappen. */
+.icoon-kaart b { display: block; margin: var(--ruimte-6) 0 var(--ruimte-4); }
 
 /* Woordenlijst: klikbare chips om direct naar een begrip te springen */
 .woordenlijst-nav { display: flex; flex-wrap: wrap; gap: var(--ruimte-6); margin: var(--ruimte-10) 0 var(--ruimte-20); }
@@ -707,7 +709,9 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 .koppel-meter-label .icoon { color: var(--kleur-primair); }
 
 /* Het cijfer staat er altijd bij: kleur mag nooit de enige drager zijn. */
-.koppel-meter-cijfer { font-size: var(--tekst-19); font-weight: 800; color: var(--kleur-primair-donker); letter-spacing: -0.02em; }
+/* Geen font-size hier: de meter staat op alle dertig pomppagina's in
+   .koppel-meter-groot, en die zet 22px. De 19px hieronder haalde nooit iets uit. */
+.koppel-meter-cijfer { font-weight: 800; color: var(--kleur-primair-donker); letter-spacing: -0.02em; }
 .koppel-meter-cijfer .van { font-size: var(--tekst-12); font-weight: 600; color: var(--kleur-tekst-licht); }
 
 .meter-spoor { display: flex; gap: var(--ruimte-2); }
