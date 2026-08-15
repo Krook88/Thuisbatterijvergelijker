@@ -98,7 +98,11 @@
   max-width: 20ch;
 }
 
-.hero p {
+/* Uitdrukkelijk niet het opschrift: sinds dat erbij kwam staan er twee
+   alinea's in de hero. ".hero p" was specifieker dan ".hero-opschrift" en won
+   dus van de regel erboven - het opschrift stond op alle drie de sites in
+   19px grijs in plaats van 12px in de merkkleur, hoofdletters en al. */
+.hero p:not(.hero-opschrift) {
   margin: 0;
   max-width: 62ch;
   font-size: var(--tekst-19);
@@ -203,7 +207,7 @@
 
 @media (max-width: 700px) {
   .hero { padding: var(--ruimte-28) 0 var(--ruimte-20); }
-  .hero p { font-size: var(--tekst-17); }
+  .hero p:not(.hero-opschrift) { font-size: var(--tekst-17); }
   .hero-badges { margin-top: var(--ruimte-20); }
 
   /* Naast elkaar passen er op een telefoon geen drie; onder elkaar met een

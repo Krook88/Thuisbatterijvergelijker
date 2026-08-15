@@ -46,6 +46,42 @@ Wijzig je iets aan een gedeeld bestand, doe dat dan in `kern/` en draai
 `npm run kern:verdeel`. Hoort een wijziging bij één site, haal dat bestand dan
 uit `kern/` en leg in de commit vast waarom het niet langer gedeeld is.
 
+## Controleren
+
+`npm run controle` draait de vier controles achter elkaar, en dat is precies
+wat CI ook doet:
+
+| Commando | Wat het bewaakt |
+| --- | --- |
+| `npm run kern:controleer` | de sites lopen gelijk met `kern/`, en de `?v=`-nummers binnen een site lopen gelijk |
+| `npm test` | de proeven bij het prijsrekenen en het uitlezen van winkelpagina's |
+| `npm run modellen` | het herkennen van modelnamen, dat anders stil faalt |
+| `npm run keuring` | contrast, aanraakvlakken, tekstmaten en javascriptfouten op elke pagina van de drie sites, op 1280 en 390 pixels |
+
+De keuring start een echte browser en is daarom de enige stap met een
+afhankelijkheid. Die staat bewust niet in `package.json`; installeer hem als je
+hem nodig hebt:
+
+```
+npm i --no-save playwright && npx playwright install chromium
+```
+
+Ontbreekt playwright, dan stopt de keuring met een foutmelding in plaats van
+de controle stil over te slaan.
+
+### Twee hulpmiddelen
+
+`npm run stempel` zet het `?v=`-nummer van alle css en js binnen een site
+gelijk. Alles onder `/assets/` ligt zeven dagen in de cache van de bezoeker,
+dus verandert er iets aan de opmaak of de scripts, dan moet dit nummer mee.
+Draai daarna de generatoren opnieuw: die lezen de stempel uit `style.css`.
+
+`node scripts/vervang.mjs` doet zoeken-en-vervangen over meerdere bestanden,
+maar schrijft niets tenzij je `--doen` meegeeft. Zonder die vlag toont het wat
+er zou veranderen, met een telling per bestand. Die telling is het punt:
+veranderen er 43 bestanden terwijl je er één bedoelde, dan zie je dat vóór het
+schrijven.
+
 ## Publiceren
 
 Elke site heeft een eigen Vercel-project met **Root Directory** op zijn map in
