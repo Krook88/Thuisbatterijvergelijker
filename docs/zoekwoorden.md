@@ -212,15 +212,17 @@ batterij kijkt.
 
 ## Wat ik zou bouwen, op volgorde
 
-Op verwachte opbrengst gedeeld door moeite:
+Op verwachte opbrengst gedeeld door moeite. De eerste drie staan er inmiddels:
 
-1. **`thuisbatterij-met-stekker.html`** op batterijmaatje — vier zoekwoorden,
-   één pagina, en de modellen staan al in de vergelijker.
-2. **`hebben-zonnepanelen-nog-zin.html`** op zonnestroommaatje — dit is de
-   zoekvraag van 2026 en de site heeft het rekenwerk al.
-3. **`warmtepomp-geluid.html`** op warmtepompmaatje — harde getallen, geen
-   concurrentie van vergelijkbare kwaliteit, en de gegevens staan al in de
-   productpagina's.
+1. ✅ **`thuisbatterij-met-stekker.html`** op batterijmaatje — vier zoekwoorden,
+   één pagina. De selectie kostte geen nieuw gegeven: `type: "plug-in"` stond al
+   op 22 van de 41 modellen.
+2. ✅ **`hebben-zonnepanelen-nog-zin.html`** op zonnestroommaatje — de zoekvraag
+   van 2026, met het rekenvoorbeeld en de drie routes naar meer eigen verbruik.
+   Vangt meteen `omvormer vervangen`, `nulteruglevering` en `welk energiecontract`.
+3. ✅ **`warmtepomp-geluid.html`** op warmtepompmaatje — de norm van 45/40 dB(A)
+   op de erfgrens, en het verschil tussen geluidsvermogen en geluidsdruk dat in
+   bijna elk stuk hierover verkeerd gaat.
 4. **`wat-kost-een-thuisbatterij.html`** — prijs per kWh per capaciteitsklasse,
    gevoed door dezelfde dagelijkse prijsdata.
 5. **`nu-kopen-of-wachten.html`** — de duurste bezoeker, nul dekking.
@@ -228,10 +230,10 @@ Op verwachte opbrengst gedeeld door moeite:
 7. **`thuisaccu` en de andere synoniemen** door de bestaande teksten heen,
    waar ze natuurlijk passen. Geen nieuwe pagina's, wel nieuwe deuren.
 
-De eerste zes zijn stuk voor stuk pagina's die zich op dezelfde manier laten
-maken als `beste-thuisbatterij-homey.html` en `beste-glas-glas-zonnepanelen.html`:
-een generator die de vergelijkingsdata filtert en er een gerichte pagina van
-maakt. Het patroon staat er dus al.
+Alle zeven laten zich maken zoals `beste-thuisbatterij-homey.html` en
+`beste-glas-glas-zonnepanelen.html` gemaakt zijn: een generator die de
+vergelijkingsdata filtert en er een gerichte pagina van maakt, die dus
+meebeweegt met de dagelijkse prijsupdate. Het patroon staat er al.
 
 ## Bronnen
 

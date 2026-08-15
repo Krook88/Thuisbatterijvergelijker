@@ -106,6 +106,8 @@ const esc = (s) => String(s == null ? "" : s)
 const eur = (n) => "€ " + Number(n).toLocaleString("nl-NL", { maximumFractionDigits: 0 });
 const eurWp = (n) => "€ " + Number(n).toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const nl = (n) => String(n).replace(".", ",");
+// Hele getallen met een punt als duizendtalscheiding: 3783 leest als 3.783.
+const getal = (n) => Number(n).toLocaleString("nl-NL", { maximumFractionDigits: 0 });
 
 // ISO-datum (2026-07-21) leesbaar maken als "21 juli 2026"
 const datumNL = (iso) => {
@@ -303,6 +305,7 @@ const NAV = `
           <a href="/energieplan.html">Jouw energieplan</a>
           <a href="/uitleg.html">Uitleg</a>
           <a href="/waar-zonnepanelen-kopen.html">Waar koop je panelen?</a>
+          <a href="/hebben-zonnepanelen-nog-zin.html">Loont het nog?</a>
           <a href="/regelgeving.html">Regels &amp; subsidies</a>
           <a href="/beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a>
           <a href="/beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a>
@@ -319,7 +322,7 @@ const FOOTER = `
   <div class="container">
     <b>${Iconen.svg("zon")} Zonnestroommaatje</b>
     <p>Onafhankelijke vergelijking van zonnepanelen voor Nederlandse huishoudens. Zustersite van <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen) en <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a> (warmtepompen).</p>
-    <p><a href="/index.html">Zonnepanelen</a> · <a href="/omvormers.html">Omvormers</a> · <a href="/systeem.html">Samenstellen</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/energieplan.html">Jouw energieplan</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a> · <a href="/beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="/index.html">Zonnepanelen</a> · <a href="/omvormers.html">Omvormers</a> · <a href="/systeem.html">Samenstellen</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/energieplan.html">Jouw energieplan</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="/hebben-zonnepanelen-nog-zin.html">Loont het nog?</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a> · <a href="/beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. Prijzen zijn indicatief; de prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -553,6 +556,117 @@ ${staart}`;
 }
 
 /* ------------------------------------------------------------------
+   "Hebben zonnepanelen nog zin?"
+
+   Dit is de vraag waarmee mensen in 2026 zoeken. De verkoop van zonnepanelen
+   daalde in het eerste halfjaar met bijna veertig procent terwijl het aantal
+   thuisbatterijen verdubbelde, en dat is dezelfde beweging: het publiek is
+   niet weg, het vraagt iets anders. Niet meer "welke panelen koop ik" maar
+   "wat doe ik met de panelen die ik al heb".
+
+   Deze pagina beantwoordt die vraag en verwijst voor de regels zelf naar
+   regelgeving.html. Die twee moeten uit elkaar blijven: daar staat wat er
+   geldt, hier staat wat je ermee doet. De cijfers zijn bewust dezelfde als op
+   regelgeving.html (0,30 euro per kWh eigen verbruik, circa 0,07 euro
+   teruglevering, grofweg een derde eigen verbruik zonder maatregelen), zodat
+   de twee pagina's elkaar niet tegenspreken.
+   ------------------------------------------------------------------ */
+
+const NOG_ZIN_BESTAND = "hebben-zonnepanelen-nog-zin.html";
+
+function nogZinPagina() {
+  const opPrijs = [...data.panelen]
+    .filter((p) => prijsPerWp(p))
+    .sort((a, b) => prijsPerWp(a) - prijsPerWp(b));
+  const goedkoopste = opPrijs[0];
+  const perWpGoedkoopst = prijsPerWp(goedkoopste);
+
+  /* Rekenvoorbeeld, met dezelfde aannames als de rekenmodule: 0,85 kWh per Wp
+     per jaar voor een gunstig dak, een derde eigen verbruik zonder maatregelen.
+     Alles wordt hier uitgerekend en niet uitgeschreven, zodat het voorbeeld
+     meebeweegt als de prijzen in de vergelijker veranderen. */
+  const PANELEN = 10;
+  const KWH_PER_WP = 0.85;
+  const EIGEN_DEEL = 0.3;
+  const TARIEF = 0.3;
+  const TERUGLEVER = 0.07;
+  const opwek = Math.round(goedkoopste.vermogen_wp * PANELEN * KWH_PER_WP);
+  const eigen = Math.round(opwek * EIGEN_DEEL);
+  const terug = opwek - eigen;
+  const opbrengstNu = Math.round(opwek * TARIEF);
+  const opbrengstStraks = Math.round(eigen * TARIEF + terug * TERUGLEVER);
+  const opbrengstHalf = Math.round(opwek * 0.5 * TARIEF + opwek * 0.5 * TERUGLEVER);
+
+  const titel = "Hebben zonnepanelen nog zin in 2026?";
+  const metaDesc = `Ja, maar de rekensom verandert. Wat het einde van de salderingsregeling betekent, wat je panelen straks opleveren en de drie manieren om meer zelf te gebruiken.`;
+
+  const itemList = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Zonnepanelen op prijs per wattpiek",
+    "itemListElement": opPrijs.map((p, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": volledigeNaam(p),
+      "url": `${SITE}/paneel/${p.id}.html`,
+    })),
+  }, null, 2);
+
+  return `${kop([titel, "Hebben zonnepanelen nog zin?"], metaDesc, `${SITE}/${NOG_ZIN_BESTAND}`, wrapLd(itemList))}
+
+<main class="container leespagina">
+  <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
+  <h1>${esc(titel)}</h1>
+  <p class="datum-stempel">Automatisch bijgewerkt vanuit onze vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+
+  <p class="intro"><b>Ja &mdash; maar de som verandert wel.</b> Op 1 januari 2027 stopt de salderingsregeling, en daarmee verdwijnt het wegstrepen van wat je teruglevert tegen wat je verbruikt. Panelen blijven zichzelf terugverdienen, alleen verschuift het rendement van <i>opwekken</i> naar <i>zelf gebruiken</i>. Wie daar iets aan doet, merkt er weinig van. Wie niets doet, ziet de opbrengst dalen.</p>
+
+  <h2>Wat er precies verandert</h2>
+  <p>Tot en met 31 december 2026 mag je nog volledig salderen. Vanaf 1 januari 2027 krijg je voor teruggeleverde stroom een terugleververgoeding van je energieleverancier, en die is een stuk lager dan wat je voor stroom betaalt. Tot 2030 geldt als wettelijke ondergrens de helft van het kale leveringstarief. Daar kunnen bij veel leveranciers nog terugleverkosten vanaf. De regels zelf staan uitgebreider op <a href="/regelgeving.html">regels en subsidies</a>.</p>
+
+  <h2>Wat dat scheelt, in getallen</h2>
+  <p>Neem ${PANELEN} panelen van ${goedkoopste.vermogen_wp} Wp op een gunstig dak. Dat is ongeveer ${getal(opwek)} kWh per jaar. Zonder maatregelen gebruik je daarvan grofweg een derde direct zelf; de rest gaat het net op.</p>
+  <div class="tabel-wrap">
+    <table class="vergelijk-tabel compact">
+      <thead><tr><th>Situatie</th><th>Eigen verbruik</th><th>Teruglevering</th><th>Opbrengst per jaar</th></tr></thead>
+      <tbody>
+        <tr><td>Nu, met saldering</td><td>${getal(eigen)} kWh</td><td>${getal(terug)} kWh</td><td class="tabel-prijs"><b>${eur(opbrengstNu)}</b></td></tr>
+        <tr><td>Vanaf 2027, niets veranderd</td><td>${getal(eigen)} kWh</td><td>${getal(terug)} kWh</td><td class="tabel-prijs"><b>${eur(opbrengstStraks)}</b></td></tr>
+        <tr><td>Vanaf 2027, helft zelf gebruikt</td><td>${getal(Math.round(opwek * 0.5))} kWh</td><td>${getal(Math.round(opwek * 0.5))} kWh</td><td class="tabel-prijs"><b>${eur(opbrengstHalf)}</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="datum-stempel">Gerekend met ${nl(KWH_PER_WP)} kWh per Wp per jaar, ${eurWp(TARIEF)} per kWh voor stroom die je zelf gebruikt en ${eurWp(TERUGLEVER)} per kWh terugleververgoeding. Jouw tarieven wijken af; reken je eigen situatie door in de <a href="/rekenmodule.html">rekenmodule</a>.</p>
+  <p>Het verschil tussen de tweede en de derde regel is het hele punt: dat is ${eur(opbrengstHalf - opbrengstStraks)} per jaar, en daar hoef je geen paneel voor bij te kopen.</p>
+
+  <h2>Drie manieren om meer zelf te gebruiken</h2>
+  <ul>
+    <li><b>Verschuif je verbruik naar de dag.</b> De goedkoopste maatregel, want hij kost niets. Was, droog en vaatwas overdag, laad je auto als de zon schijnt, zet een warmtepompboiler op een dagprogramma.</li>
+    <li><b>Kijk naar je energiecontract.</b> Bij een dynamisch contract betaal je meestal geen of nauwelijks terugleverkosten, en krijg je voor teruglevering de marktprijs. Bij vaste contracten rekenen leveranciers die kosten juist wel. Vergelijk niet alleen het tarief maar ook de terugleverkosten en de terugleververgoeding.</li>
+    <li><b>Sla het op.</b> Een thuisbatterij tilt je eigen verbruik van een derde naar de helft of meer: overdag laden, 's avonds gebruiken. Dat is precies het verschil in de tabel hierboven. Op onze zustersite <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje</a> staan de modellen naast elkaar; met de <a href="/energieplan.html">energieplan-pagina</a> kijk je naar zon, batterij en warmtepomp in één keer.</li>
+  </ul>
+
+  <h2>Je hebt al panelen. Wat kun je nu doen?</h2>
+  <ul>
+    <li><b>Een batterij bijplaatsen kan op twee manieren.</b> Met een hybride omvormer wordt je omvormer vervangen en gaat de batterij aan de gelijkstroomkant; dat is efficiënter maar duurder en een ingreep. Met een stekkerbatterij of een AC-gekoppelde batterij blijft je bestaande omvormer gewoon hangen. Welke omvormers batterijklaar zijn, staat op <a href="/omvormers.html">omvormers vergelijken</a>.</li>
+    <li><b>Zet je omvormer op nulteruglevering.</b> Veel moderne omvormers kunnen de opwek terugregelen zodat er niets het net op gaat. Dat is zinnig als je leverancier per teruggeleverde kWh rekent, maar je gooit er wel opbrengst mee weg &mdash; doe het alleen als de terugleverkosten hoger zijn dan de vergoeding.</li>
+    <li><b>Laat je panelen niet uitzetten.</b> Bij aanhoudend negatieve prijzen schakelen sommige omvormers uit. Dat is normaal en tijdelijk; het is geen reden om een installatie te verbouwen.</li>
+    <li><b>Overdimensioneer niet alsnog.</b> Bijplaatsen "omdat het nu nog kan" loont zelden: na 2026 is elke kWh die je niet zelf gebruikt nog maar een fractie waard.</li>
+  </ul>
+
+  <h2>En als je nog moet kopen?</h2>
+  <p>Dan is er geen haast, maar ook geen reden om te wachten. Panelen gaan 25 jaar mee en de terugverdientijd wordt vooral bepaald door je eigen verbruik, niet door de datum van aanschaf. Belangrijker dan snelheid is de maat: stem het aantal panelen af op wat je zelf kunt gebruiken. De <a href="/advies.html">keuzehulp</a> rekent dat uit, en op <a href="/waar-zonnepanelen-kopen.html">waar koop je zonnepanelen</a> staan de vier routes naast elkaar.</p>
+
+  <h2>De panelen uit onze vergelijker, op prijs per wattpiek</h2>
+  <p>Van goedkoop naar duur. Dit is de prijs van het paneel zelf; installatie, omvormer en montagemateriaal komen daar bovenop. De goedkoopste is op dit moment de ${esc(volledigeNaam(goedkoopste))} op ${eurWp(perWpGoedkoopst)} per Wp.</p>
+  ${overzichtTabel(opPrijs)}
+
+  <div class="waarschuwing-kader">De bedragen hierboven zijn rekenvoorbeelden met vaste aannames, geen voorspelling. Tarieven, terugleverkosten en terugleververgoedingen verschillen per leverancier en veranderen; controleer ze in je eigen contract.</div>
+</main>
+${staart}`;
+}
+
+/* ------------------------------------------------------------------
    Vergelijkingspagina's "X vs Y" (SEO-landingspagina's voor veel
    gezochte duels). Volledig uit de data gegenereerd en herbouwd,
    zodat prijzen en scores actueel blijven.
@@ -685,6 +799,9 @@ for (const cfg of OVERZICHTEN) {
 }
 console.log(`${OVERZICHTEN.length} overzichtspagina's gegenereerd (klein dak, glas-glas)`);
 
+writeFileSync(resolve(ROOT, NOG_ZIN_BESTAND), nogZinPagina(), "utf8");
+console.log(`${NOG_ZIN_BESTAND} gegenereerd`);
+
 mkdirSync(resolve(ROOT, "vergelijk"), { recursive: true });
 for (const v of VERGELIJKINGEN) {
   writeFileSync(resolve(ROOT, "vergelijk", `${v.slug}.html`), relativeer(vergelijkingsPagina(v), 1), "utf8");
@@ -776,6 +893,7 @@ const vast = [
   { loc: `${SITE}/waar-zonnepanelen-kopen.html`, freq: "monthly", prio: "0.8" },
   { loc: `${SITE}/beste-zonnepanelen-klein-dak.html`, freq: "weekly", prio: "0.8" },
   { loc: `${SITE}/beste-glas-glas-zonnepanelen.html`, freq: "weekly", prio: "0.8" },
+  { loc: `${SITE}/${NOG_ZIN_BESTAND}`, freq: "weekly", prio: "0.9" },
   { loc: `${SITE}/over-ons.html`, freq: "monthly", prio: "0.4" },
   { loc: `${SITE}/contact.html`, freq: "yearly", prio: "0.3" },
   { loc: `${SITE}/privacy.html`, freq: "yearly", prio: "0.2" },

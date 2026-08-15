@@ -1046,6 +1046,7 @@
     },
     {
       "id": "inventum-ecolution-combi",
+      "buitenunit": false,
       "merk": "Inventum",
       "model": "Ecolution Combi 50",
       "type": "hybride",
@@ -1226,6 +1227,7 @@
     },
     {
       "id": "itho-vincent-v45-hybride",
+      "buitenunit": false,
       "merk": "Itho Daalderop",
       "model": "Vincent V45-Hybride",
       "type": "hybride",
