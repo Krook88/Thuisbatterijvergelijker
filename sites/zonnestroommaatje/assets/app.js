@@ -176,13 +176,13 @@
 
   const tabelKolommen = [
     { key: "model", label: "Model", get: (p) => naamVan(p) },
-    { key: "wp", label: "Wp", get: (p) => p.vermogen_wp || 0 },
-    { key: "rendement", label: "Rendement", get: (p) => p.rendement_pct || 0 },
+    { key: "wp", getal: true, label: "Wp", get: (p) => p.vermogen_wp || 0 },
+    { key: "rendement", getal: true, label: "Rendement", get: (p) => p.rendement_pct || 0 },
     { key: "celtype", label: "Celtype", get: (p) => p.celtype },
-    { key: "prijs", label: "Prijs", get: (p) => { const b = bestePrijs(p); return b ? Prijs.vergelijkPrijs(b) : Infinity; } },
-    { key: "perwp", label: "€/Wp", get: (p) => prijsPerWp(p) || Infinity },
+    { key: "prijs", getal: true, label: "Prijs", get: (p) => { const b = bestePrijs(p); return b ? Prijs.vergelijkPrijs(b) : Infinity; } },
+    { key: "perwp", getal: true, label: "€/Wp", get: (p) => prijsPerWp(p) || Infinity },
     { key: "uitvoering", label: "Glas-glas", get: (p) => (p.uitvoering === "glas-glas" ? 1 : 0) },
-    { key: "garantie", label: "Garantie", get: (p) => p.garantie_product_jaar || 0 },
+    { key: "garantie", getal: true, label: "Garantie", get: (p) => p.garantie_product_jaar || 0 },
     { key: "zeker", label: "Zeker-score", get: (p) => zekerScore(p) },
     { key: "actie", label: "", get: () => "" },
   ];
@@ -199,20 +199,20 @@
     }
     return `
     <table class="vergelijk-tabel">
-      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}">${k.label}${k.key !== "actie" ? ' <span class="sorteer-pijl">' + Iconen.svg("sorteren") + '</span>' : ""}</th>`).join("")}</tr></thead>
+      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}"${k.getal ? ' class="getal"' : ""}>${k.label}${k.key !== "actie" ? ' <span class="sorteer-pijl">' + Iconen.svg("sorteren") + '</span>' : ""}</th>`).join("")}</tr></thead>
       <tbody>
         ${rijen.map((p) => {
           const beste = bestePrijs(p);
           const perWp = prijsPerWp(p);
           return `<tr>
             <td><b>${merkHtml(p)}</b><br><a href="paneel/${encodeURIComponent(p.id)}.html">${escapeHtml(p.model)}</a></td>
-            <td>${p.vermogen_wp || "?"}</td>
-            <td>${p.rendement_pct ? nl(p.rendement_pct) + "%" : "?"}</td>
+            <td class="getal">${p.vermogen_wp || "?"}</td>
+            <td class="getal">${p.rendement_pct ? nl(p.rendement_pct) + "%" : "?"}</td>
             <td>${escapeHtml(celtypeLabel(p))}</td>
-            <td class="tabel-prijs" title="${escapeHtml(p.prijs_omvat || "")}">${beste ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "n.b."}${heeftKorting(p) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
-            <td>${perWp ? eurWpFmt.format(perWp) : "n.b."}</td>
+            <td class="tabel-prijs getal" title="${escapeHtml(p.prijs_omvat || "")}">${beste ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "n.b."}${heeftKorting(p) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
+            <td class="getal">${perWp ? eurWpFmt.format(perWp) : "n.b."}</td>
             <td>${p.uitvoering === "glas-glas" ? '<span class="check-ja">' + Iconen.svg("ja") + '</span>' : '<span class="check-nee">' + Iconen.svg("nee") + '</span>'}</td>
-            <td>${p.garantie_product_jaar ? p.garantie_product_jaar + " jr" : "?"}</td>
+            <td class="getal">${p.garantie_product_jaar ? p.garantie_product_jaar + " jr" : "?"}</td>
             <td title="Punten voor productgarantie, vermogensbehoud en glas-glas"><b>${zekerScore(p)}/6</b></td>
             <td>${beste && beste.url ? `<a class="knop" style="padding: var(--ruimte-6) var(--ruimte-10);font-size:var(--tekst-15);" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de ${escapeHtml(naamVan(p))}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
           </tr>`;

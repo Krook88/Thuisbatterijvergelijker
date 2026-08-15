@@ -2,8 +2,8 @@
    Thuisbatterijvergelijker.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260815c");
-@import url("vergelijker.css?v=20260815c");
+@import url("maatlat.css?v=20260815d");
+@import url("vergelijker.css?v=20260815d");
 
 :root {
   --kleur-primair: #0f766e;
@@ -891,6 +891,23 @@ table.vergelijk-tabel {
 
 .vergelijk-tabel th .sorteer-pijl { opacity: 0.5; }
 .vergelijk-tabel td { padding: var(--ruimte-10) var(--ruimte-14); border-bottom: 1px solid var(--kleur-rand); vertical-align: top; }
+
+/* De naamkolom is de enige die echt breedte nodig heeft. Zonder ondergrens
+   knijpt de browser hem tot 118 pixels en breekt "Triple Power T-BAT H 5.8
+   (5,22 kWh bruikbaar)" over drie regels; een rij werd dan 189 pixels hoog. */
+.vergelijk-tabel th:first-child,
+.vergelijk-tabel td:first-child { min-width: 230px; }
+
+/* Getallen rechts en met vaste cijferbreedte. Een tabel bestaat om een kolom
+   van boven naar beneden te vergelijken, en dat kan alleen als de cijfers
+   onder elkaar staan: 9,73 hoort recht boven 5,12 te eindigen, niet ernaast. */
+.vergelijk-tabel th.getal,
+.vergelijk-tabel td.getal { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* De deal-vlag naar de linkerkant van de cel. Stond hij achter het bedrag,
+   dan schoof hij juist de prijzen mét korting uit de rechterlijn - precies de
+   regels die je wilt kunnen vergelijken. */
+.vergelijk-tabel td.getal .aanbieding-vlag { float: left; }
 .vergelijk-tabel tr:hover td { background: #f0fdfa; }
 .vergelijk-tabel .tabel-prijs { font-weight: 700; white-space: nowrap; }
 .vergelijk-tabel .check-ja { color: var(--kleur-groen); font-weight: 700; }
@@ -1088,7 +1105,15 @@ table.vergelijk-tabel {
 .uitkomst-uitleg { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
 
 .advies-kop { margin-top: var(--ruimte-28); }
-.advies-grid { margin-top: var(--ruimte-20); }
+/* Eén advies per rij. In de rechterkolom van de keuzehulp is 698 pixels te
+   krap voor drie kaarten naast elkaar (dan blijft er 219 over) en te ruim
+   voor twee: de derde stond alleen, met een gat van 339 pixels ernaast. Dat
+   leest als "en dan nog eentje", terwijl het juist drie gelijkwaardige kanten
+   van dezelfde keuze zijn. Over de volle breedte zijn ze bovendien korter. */
+.advies-grid {
+  margin-top: var(--ruimte-20);
+  grid-template-columns: 1fr;
+}
 .advies-score { margin-top: var(--ruimte-6); }
 /* Duwt de knoppen naar de onderkant, zodat ze in een rij kaarten uitlijnen. */
 .advies-acties { margin-top: auto; }
