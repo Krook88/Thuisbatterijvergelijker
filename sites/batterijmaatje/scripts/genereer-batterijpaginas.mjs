@@ -1400,8 +1400,19 @@ if (index.includes(LD_BEGIN)) {
   index = index.replace("</head>", `  ${ldBlok}\n</head>`);
 }
 
+/* De teller in de hero stond op 36 terwijl er 41 in de lijst staan. Hij wordt
+   in de browser door app.js gevuld, dus op het scherm klopte hij altijd - maar
+   een zoekmachine leest de HTML zoals die van de server komt, en die zag het
+   oude getal. Zo kwam "vergelijkt 28 batterijen" ook op over-ons.html terecht:
+   een aantal dat met de hand is opgeschreven verloopt zonder dat iemand het
+   merkt. Nu telt de generator hem mee, net als de kaarten eronder. */
+index = index.replace(
+  /(<b id="tellerBatterijen">)\d+(<\/b>)/,
+  `$1${gesorteerdeBatterijen.length}$2`,
+);
+
 writeFileSync(resolve(ROOT, "index.html"), index, "utf8");
-console.log(`index.html: ${gesorteerdeBatterijen.length} kaarten voorgerenderd en ItemList bijgewerkt`);
+console.log(`index.html: ${gesorteerdeBatterijen.length} kaarten voorgerenderd, teller en ItemList bijgewerkt`);
 
 const vast = [
   { loc: `${SITE}/`, freq: "daily", prio: "1.0" },

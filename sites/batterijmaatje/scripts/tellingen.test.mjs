@@ -43,6 +43,15 @@ const CLAIMS = [
   { woord: "energieleveranciers", verwacht: () => leveranciers.length },
 ];
 
+test("de teller in de hero staat op het werkelijke aantal", () => {
+  // app.js zet dit getal in de browser goed, dus op het scherm viel nooit iets
+  // op. De HTML die van de server komt is wat een zoekmachine leest, en daar
+  // stond 36 terwijl er 41 in de lijst staan. De generator vult hem nu.
+  const teller = lees("index.html").match(/<b id="tellerBatterijen">(\d+)<\/b>/);
+  assert.ok(teller, "de teller staat niet meer in index.html; dan klopt de generator niet meer");
+  assert.equal(Number(teller[1]), batterijen.length);
+});
+
 for (const { woord, verwacht } of CLAIMS) {
   test(`elk genoemd aantal ${woord} klopt met de gegevens`, () => {
     const patroon = new RegExp(`(\\d+)\\s+${woord}`, "g");
