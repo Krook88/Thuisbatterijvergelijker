@@ -16,29 +16,34 @@
  *   probleem: de bezoeker klikt dan op "Bekijk aanbieding" en landt op een
  *   foutpagina, terwijl wij nog een prijs tonen.
  *
+ * Winkel-URL's worden overgeslagen wanneer --zonder-winkels meegegeven wordt.
+ * Reden: scripts/update-prices.mjs bezoekt elke dag al precies die pagina's om
+ * de prijs te lezen, en meldt zelf welke verdwenen zijn. Ze hier nog een keer
+ * ophalen belast dezelfde winkels dubbel zonder iets extra's op te leveren.
+ *
  * Gebruik:
- *   node scripts/controleer-links.mjs              alles
- *   node scripts/controleer-links.mjs --intern     alleen interne links (geen internet nodig)
- *   node scripts/controleer-links.mjs --streng     externe fouten geven ook een foutcode
+ *   node scripts/controleer-links.mjs                  alles
+ *   node scripts/controleer-links.mjs --intern         alleen interne links (geen internet nodig)
+ *   node scripts/controleer-links.mjs --zonder-winkels alles behalve de winkel-URL's
+ *   node scripts/controleer-links.mjs --streng         externe fouten geven ook een foutcode
  */
 
 import { readFileSync, existsSync, appendFileSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readdirSync, statSync } from "node:fs";
+import { controleerExtern, meldUitkomsten } from "./linkcontrole.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const ALLEEN_INTERN = process.argv.includes("--intern");
+const ZONDER_WINKELS = process.argv.includes("--zonder-winkels");
 const STRENG = process.argv.includes("--streng");
 
 // Sommige winkels weigeren alles wat geen browser is. Een nette user-agent met
 // contactmogelijkheid voorkomt dat we onnodig als bot worden geweerd.
 const USER_AGENT =
   "Mozilla/5.0 (compatible; ZonnestroommaatjeLinkcheck/1.0; +https://zonnestroommaatje.nl/contact.html)";
-const TIJDSLIMIET_MS = 20000;
-const GELIJKTIJDIG = 4;
-const PAUZE_PER_HOST_MS = 1500;
 
 /* ------------------------------------------------------------------
    Bestanden verzamelen
@@ -107,6 +112,11 @@ function externeLinks() {
     if (!bronnen.has(url)) bronnen.set(url, herkomst);
   };
 
+  // Winkel-URL's staan niet alleen in de data maar ook in de paneelpagina's die
+  // daaruit gegenereerd worden. Ze moeten dus op beide plekken overgeslagen
+  // worden, anders haalt de HTML-scan ze alsnog op.
+  const winkelUrls = new Set();
+
   // Panelen en omvormers staan in aparte bestanden maar hebben dezelfde opzet,
   // dus ze worden op dezelfde manier uitgelezen.
   for (const [bestand, sleutel] of [
@@ -117,8 +127,10 @@ function externeLinks() {
     for (const p of data[sleutel] || []) {
       if (p.product_url) noteer(p.product_url, `${p.id} (fabrikant)`);
       for (const a of p.aanbiedingen || []) {
-        if (a.url) noteer(a.url, `${p.id} @ ${a.winkel}`);
-        if (a.affiliate_url) noteer(a.affiliate_url, `${p.id} @ ${a.winkel} (commissielink)`);
+        for (const url of [a.url, a.affiliate_url].filter(Boolean)) {
+          if (ZONDER_WINKELS) { winkelUrls.add(url); continue; } // de prijsupdate bezoekt deze al dagelijks
+          noteer(url, `${p.id} @ ${a.winkel}${url === a.affiliate_url ? " (commissielink)" : ""}`);
+        }
       }
     }
   }
@@ -126,75 +138,11 @@ function externeLinks() {
   for (const bestand of htmlBestanden()) {
     const kort = bestand.replace(ROOT + "/", "");
     for (const ruw of verwijzingen(readFileSync(bestand, "utf8"))) {
-      if (/^https?:/i.test(ruw)) noteer(ruw, kort);
+      if (/^https?:/i.test(ruw) && !winkelUrls.has(ruw)) noteer(ruw, kort);
     }
   }
 
   return bronnen;
-}
-
-const laatsteHost = new Map();
-
-async function wachtVoorHost(host) {
-  const vorige = laatsteHost.get(host) || 0;
-  const wachten = PAUZE_PER_HOST_MS - (Date.now() - vorige);
-  if (wachten > 0) await new Promise((r) => setTimeout(r, wachten));
-  laatsteHost.set(host, Date.now());
-}
-
-async function haalOp(url, methode) {
-  const stop = AbortSignal.timeout(TIJDSLIMIET_MS);
-  return fetch(url, {
-    method: methode,
-    redirect: "follow",
-    signal: stop,
-    // Accept hoort erbij: een client die niet zegt wat hij aankan, krijgt van
-    // sommige servers een 406 of 415 terug. Dat leek een kapotte link terwijl
-    // de pagina het gewoon doet. De User-Agent blijft eerlijk - dit is een
-    // linkcontrole en die hoeft zich niet voor te doen als een browser.
-    headers: {
-      "User-Agent": USER_AGENT,
-      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-      "Accept-Language": "nl,en;q=0.8",
-    },
-  });
-}
-
-async function controleerUrl(url) {
-  const host = new URL(url).host;
-  await wachtVoorHost(host);
-  try {
-    // Eerst HEAD: scheelt bandbreedte bij de winkel. Niet elke server snapt
-    // dat, dus bij een weigering alsnog GET proberen voordat we iets afkeuren.
-    let reactie = await haalOp(url, "HEAD");
-    if (reactie.status === 405 || reactie.status === 403 || reactie.status === 501) {
-      reactie = await haalOp(url, "GET");
-    }
-    return { url, status: reactie.status, eind: reactie.url };
-  } catch (fout) {
-    return { url, status: 0, melding: fout.name === "TimeoutError" ? "geen antwoord binnen 20 seconden" : fout.message };
-  }
-}
-
-async function controleerExtern(bronnen) {
-  const lijst = [...bronnen.keys()];
-  const uitkomsten = [];
-  let volgende = 0;
-
-  async function werker() {
-    while (volgende < lijst.length) {
-      const url = lijst[volgende++];
-      const uitkomst = await controleerUrl(url);
-      uitkomst.herkomst = bronnen.get(url);
-      uitkomsten.push(uitkomst);
-      const teken = uitkomst.status >= 200 && uitkomst.status < 400 ? "." : "x";
-      process.stdout.write(teken);
-    }
-  }
-
-  await Promise.all(Array.from({ length: GELIJKTIJDIG }, werker));
-  process.stdout.write("\n");
-  return uitkomsten;
 }
 
 /* ------------------------------------------------------------------ */
@@ -213,46 +161,9 @@ async function main() {
   }
 
   const bronnen = externeLinks();
-  console.log(`\nExterne links: ${bronnen.size} adressen controleren...`);
-  const uitkomsten = await controleerExtern(bronnen);
-
-  // Deze codes betekenen "wij houden bots buiten", niet "de pagina bestaat
-  // niet". Die apart houden, anders verdrinkt een echte 404 in de ruis.
-  //
-  // 406 en 415 staan er sinds kort bij. 406 zegt dat de server niets kan
-  // leveren dat wij accepteren, en 415 gaat over het formaat van een
-  // verzoekinhoud die een GET niet eens heeft - allebei onmogelijk als
-  // antwoord op "bestaat deze pagina?". Zonnefabriek en Energiewaaier stonden
-  // daardoor als kapot in de lijst terwijl hun pagina's het gewoon doen.
-  const WEERT_BOTS = [401, 403, 406, 415, 429];
-  const stuk = uitkomsten.filter((u) => u.status === 0 || (u.status >= 400 && !WEERT_BOTS.includes(u.status)));
-  const geweerd = uitkomsten.filter((u) => WEERT_BOTS.includes(u.status));
-  const goed = uitkomsten.length - stuk.length - geweerd.length;
-
-  console.log(`\n${goed} in orde, ${stuk.length} kapot, ${geweerd.length} niet te controleren (server weert bots)`);
-
-  if (stuk.length) {
-    console.log("\nKapotte links:");
-    for (const u of stuk.sort((a, b) => a.herkomst.localeCompare(b.herkomst))) {
-      console.log(`  ${u.status || "geen antwoord"}  ${u.herkomst}\n     ${u.url}${u.melding ? `  (${u.melding})` : ""}`);
-    }
-  }
-
-  const regels = [`### Linkcontrole: ${goed} in orde, ${stuk.length} kapot`];
-  if (stuk.length) {
-    regels.push(
-      "",
-      "Een bezoeker die hierop klikt komt op een foutpagina terwijl wij nog een prijs tonen.",
-      "",
-      "| Waar | Status | Link |",
-      "| --- | --- | --- |",
-      ...stuk.map((u) => `| ${u.herkomst} | ${u.status || u.melding} | ${u.url} |`),
-    );
-  }
-  if (geweerd.length) {
-    regels.push("", `${geweerd.length} adres(sen) konden niet gecontroleerd worden omdat de server geautomatiseerde verzoeken weert.`);
-  }
-  samenvatting(regels);
+  console.log(`\nExterne links: ${bronnen.size} adressen controleren${ZONDER_WINKELS ? " (winkel-URL's overgeslagen; die doet de prijsupdate)" : ""}...`);
+  const uitkomsten = await controleerExtern(bronnen, { userAgent: USER_AGENT });
+  const { stuk } = meldUitkomsten(uitkomsten, samenvatting);
 
   if (kapotIntern.length) process.exit(1);
   if (STRENG && stuk.length) process.exit(1);

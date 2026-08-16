@@ -33,6 +33,7 @@ import { readFileSync, existsSync, appendFileSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readdirSync, statSync } from "node:fs";
+import { controleerExtern, meldUitkomsten } from "./linkcontrole.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -44,9 +45,6 @@ const STRENG = process.argv.includes("--streng");
 // contactmogelijkheid voorkomt dat we onnodig als bot worden geweerd.
 const USER_AGENT =
   "Mozilla/5.0 (compatible; BatterijmaatjeLinkcheck/1.0; +https://batterijmaatje.nl/contact.html)";
-const TIJDSLIMIET_MS = 20000;
-const GELIJKTIJDIG = 4;
-const PAUZE_PER_HOST_MS = 1500;
 
 /* ------------------------------------------------------------------
    Bestanden verzamelen
@@ -146,70 +144,6 @@ function externeLinks() {
   return bronnen;
 }
 
-const laatsteHost = new Map();
-
-async function wachtVoorHost(host) {
-  const vorige = laatsteHost.get(host) || 0;
-  const wachten = PAUZE_PER_HOST_MS - (Date.now() - vorige);
-  if (wachten > 0) await new Promise((r) => setTimeout(r, wachten));
-  laatsteHost.set(host, Date.now());
-}
-
-async function haalOp(url, methode) {
-  const stop = AbortSignal.timeout(TIJDSLIMIET_MS);
-  return fetch(url, {
-    method: methode,
-    redirect: "follow",
-    signal: stop,
-    // Accept hoort erbij: een client die niet zegt wat hij aankan, krijgt van
-    // sommige servers een 406 of 415 terug. Dat leek een kapotte link terwijl
-    // de pagina het gewoon doet. De User-Agent blijft eerlijk - dit is een
-    // linkcontrole en die hoeft zich niet voor te doen als een browser.
-    headers: {
-      "User-Agent": USER_AGENT,
-      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-      "Accept-Language": "nl,en;q=0.8",
-    },
-  });
-}
-
-async function controleerUrl(url) {
-  const host = new URL(url).host;
-  await wachtVoorHost(host);
-  try {
-    // Eerst HEAD: scheelt bandbreedte bij de winkel. Niet elke server snapt
-    // dat, dus bij een weigering alsnog GET proberen voordat we iets afkeuren.
-    let reactie = await haalOp(url, "HEAD");
-    if (reactie.status === 405 || reactie.status === 403 || reactie.status === 501) {
-      reactie = await haalOp(url, "GET");
-    }
-    return { url, status: reactie.status, eind: reactie.url };
-  } catch (fout) {
-    return { url, status: 0, melding: fout.name === "TimeoutError" ? "geen antwoord binnen 20 seconden" : fout.message };
-  }
-}
-
-async function controleerExtern(bronnen) {
-  const lijst = [...bronnen.keys()];
-  const uitkomsten = [];
-  let volgende = 0;
-
-  async function werker() {
-    while (volgende < lijst.length) {
-      const url = lijst[volgende++];
-      const uitkomst = await controleerUrl(url);
-      uitkomst.herkomst = bronnen.get(url);
-      uitkomsten.push(uitkomst);
-      const teken = uitkomst.status >= 200 && uitkomst.status < 400 ? "." : "x";
-      process.stdout.write(teken);
-    }
-  }
-
-  await Promise.all(Array.from({ length: GELIJKTIJDIG }, werker));
-  process.stdout.write("\n");
-  return uitkomsten;
-}
-
 /* ------------------------------------------------------------------ */
 
 function samenvatting(regels) {
@@ -227,43 +161,8 @@ async function main() {
 
   const bronnen = externeLinks();
   console.log(`\nExterne links: ${bronnen.size} adressen controleren${ZONDER_WINKELS ? " (winkel-URL's overgeslagen; die doet de prijsupdate)" : ""}...`);
-  const uitkomsten = await controleerExtern(bronnen);
-
-  // 401/403/429 betekent doorgaans "wij houden bots buiten", niet "de pagina
-  // bestaat niet". 415 hoort in datzelfde rijtje: bij een GET zonder body slaat
-  // "verkeerd mediatype" nergens op en komt het van een firewall die ons weert.
-  // 406 net zo: dat zegt dat de server niets kan leveren dat wij accepteren,
-  // en niet dat de pagina weg is.
-  // Die apart houden, anders verdrinkt een echte 404 in de ruis.
-  const GEWEERD = [401, 403, 406, 415, 429];
-  const stuk = uitkomsten.filter((u) => u.status === 0 || (u.status >= 400 && !GEWEERD.includes(u.status)));
-  const geweerd = uitkomsten.filter((u) => GEWEERD.includes(u.status));
-  const goed = uitkomsten.length - stuk.length - geweerd.length;
-
-  console.log(`\n${goed} in orde, ${stuk.length} kapot, ${geweerd.length} niet te controleren (server weert bots)`);
-
-  if (stuk.length) {
-    console.log("\nKapotte links:");
-    for (const u of stuk.sort((a, b) => a.herkomst.localeCompare(b.herkomst))) {
-      console.log(`  ${u.status || "geen antwoord"}  ${u.herkomst}\n     ${u.url}${u.melding ? `  (${u.melding})` : ""}`);
-    }
-  }
-
-  const regels = [`### Linkcontrole: ${goed} in orde, ${stuk.length} kapot`];
-  if (stuk.length) {
-    regels.push(
-      "",
-      "Een bezoeker die hierop klikt komt op een foutpagina terwijl wij nog een prijs tonen.",
-      "",
-      "| Waar | Status | Link |",
-      "| --- | --- | --- |",
-      ...stuk.map((u) => `| ${u.herkomst} | ${u.status || u.melding} | ${u.url} |`),
-    );
-  }
-  if (geweerd.length) {
-    regels.push("", `${geweerd.length} adres(sen) konden niet gecontroleerd worden omdat de server geautomatiseerde verzoeken weert.`);
-  }
-  samenvatting(regels);
+  const uitkomsten = await controleerExtern(bronnen, { userAgent: USER_AGENT });
+  const { stuk } = meldUitkomsten(uitkomsten, samenvatting);
 
   if (kapotIntern.length) process.exit(1);
   if (STRENG && stuk.length) process.exit(1);
