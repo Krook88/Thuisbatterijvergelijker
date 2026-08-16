@@ -253,6 +253,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://batterijmaatje.nl/batterij/zendure-solarflow-4000-mix-ac.html</loc>
+    <lastmod>2026-08-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://batterijmaatje.nl/batterij/zendure-solarflow-4000-mix-pro.html</loc>
     <lastmod>2026-08-16</lastmod>
     <changefreq>daily</changefreq>
@@ -362,6 +368,12 @@
   </url>
   <url>
     <loc>https://batterijmaatje.nl/vergelijk/huawei-luna2000-10-vs-byd-battery-box-hvm-11.html</loc>
+    <lastmod>2026-08-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://batterijmaatje.nl/vergelijk/zendure-solarflow-4000-mix-ac-vs-zendure-solarflow-3000-mix-ac.html</loc>
     <lastmod>2026-08-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
