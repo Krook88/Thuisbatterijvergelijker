@@ -65,6 +65,13 @@ Hetzelfde geldt zwakker voor `energieopslag thuis` en `stroom opslaan thuis` —
 breder, informatiever van intentie, maar wel de woorden waarin iemand denkt die
 nog niet weet dat "thuisbatterij" het vakwoord is.
 
+✅ Verwerkt: `thuisaccu` staat nu in de hero, in de opening van de uitleg en als
+eigen ingang in de woordenlijst, met `huisbatterij`, `energieopslag thuis` en
+`stroom opslaan thuis` ernaast. Ook `terugleverboete` staat er inmiddels, bij
+het begrip terugleverkosten — met de kanttekening dat het geen boete is maar
+een tarief. Dat is precies waarom het woord erin hoort: mensen zoeken op de
+term die ze kennen, en dan is dit de plek om uit te leggen hoe het echt zit.
+
 ### De vier namen voor één ding
 
 Voor de stekkerbatterij bestaan vier ingeburgerde namen, en ze worden alle vier
