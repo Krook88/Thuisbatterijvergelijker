@@ -17,9 +17,11 @@
  */
 
 import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { haalPagina, prijsUitPagina } from "./prijs-uitlezen.mjs";
+import { prijsUitPagina, sluitBrowser, browserBeschikbaar } from "./prijs-uitlezen.mjs";
+import { nieuweSignalen, noteerFout, haalMetTerugval, verzamelVerouderd, puntenVan, toonSignalen } from "./prijs-signalen.mjs";
+import { vergelijk, leesBekend, schrijfBekend, meldAandacht } from "./prijs-aandacht.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -171,7 +173,7 @@ function plausibel(nieuw, oud, grenzen) {
 
 /* ------------------------------------------------------------------ */
 
-async function updateAanbieding(paneel, aanbieding, grenzen) {
+async function updateAanbieding(paneel, aanbieding, grenzen, signalen) {
   if (!aanbieding.url) return false;
   try {
     let nieuw;
@@ -179,16 +181,20 @@ async function updateAanbieding(paneel, aanbieding, grenzen) {
       if (ALLEEN_BTW) return false;
       nieuw = await bolApiPrijs(aanbieding);
     } else {
-      const html = await haalPagina(aanbieding.url);
+      const gehaald = await haalMetTerugval(aanbieding.url, (h) =>
+        prijsUitPagina(h, productNaam(paneel), { ...grenzen, lowPriceTelt: true }));
+      const html = gehaald.html;
       if (grenzen.btwControle) meldBtw(paneel, aanbieding, html);
       if (ALLEEN_BTW) return false;
       // lowPriceTelt: bij een paneel dat tien winkels voeren is de laagste
       // prijs in een AggregateOffer wél wat je betaalt, anders dan bij een
-      // productpagina met varianten.
-      nieuw = prijsUitPagina(html, productNaam(paneel), { ...grenzen, lowPriceTelt: true }).prijs;
+      // productpagina met varianten. Het uitlezen zit in haalMetTerugval, zodat
+      // een pagina die het bedrag pas in de browser invult ook meetelt.
+      nieuw = gehaald.uit.prijs;
     }
     if (!nieuw) {
       console.log(`  ~ ${paneel.id} @ ${aanbieding.winkel}: geen prijs gevonden, oude prijs blijft (€${aanbieding.prijs_eur})`);
+      signalen.geenPrijs.push({ id: paneel.id, winkel: aanbieding.winkel, url: aanbieding.url });
       return false;
     }
     if (!plausibel(nieuw, aanbieding.prijs_eur, grenzen)) {
@@ -202,12 +208,17 @@ async function updateAanbieding(paneel, aanbieding, grenzen) {
     return veranderd;
   } catch (err) {
     console.log(`  x ${paneel.id} @ ${aanbieding.winkel}: ${err.message} (oude prijs blijft staan)`);
+    // Een 403 en een 404 vragen om iets heel anders; op één hoop is de melding
+    // niets waard. Zie kern/scripts/prijs-signalen.mjs.
+    noteerFout(signalen, { id: paneel.id, winkel: aanbieding.winkel, url: aanbieding.url }, err);
     return false;
   }
 }
 
 async function main() {
   let wijzigingen = 0;
+  const signalen = nieuweSignalen();
+  const alleProducten = [];
 
   for (const bestand of BESTANDEN) {
     console.log(`\n=== ${bestand.lijst} (${bestand.pad}) ===`);
@@ -215,7 +226,7 @@ async function main() {
 
     for (const product of data[bestand.lijst] || []) {
       for (const aanbieding of product.aanbiedingen || []) {
-        if (await updateAanbieding(product, aanbieding, bestand)) wijzigingen++;
+        if (await updateAanbieding(product, aanbieding, bestand, signalen)) wijzigingen++;
         await new Promise((r) => setTimeout(r, 1500)); // beleefde pauze tussen requests
       }
       // prijs_datum van het product = meest recente controle-datum van zijn aanbiedingen
@@ -223,6 +234,7 @@ async function main() {
       if (datums.length) product.prijs_datum = datums[datums.length - 1];
     }
 
+    alleProducten.push(...(data[bestand.lijst] || []));
     if (!ALLEEN_BTW) {
       if (!DROOG) {
         data.laatst_bijgewerkt = VANDAAG;
@@ -259,6 +271,30 @@ async function main() {
   console.log(ALLEEN_BTW
     ? "\nAlleen de btw-controle gedraaid; geen prijzen of bestanden aangeraakt."
     : `\nKlaar. ${wijzigingen} prijswijziging(en).${DROOG ? " Droge run: niets weggeschreven." : ` laatst_bijgewerkt = ${VANDAAG}`}`);
+
+  // Bij --alleen-btw is er niets opgehaald, dus zou alles er ten onrechte als
+  // opgelost uitzien. Die stand hoort de lijst niet te overschrijven.
+  if (!ALLEEN_BTW) {
+    signalen.verouderd = verzamelVerouderd(alleProducten, VANDAAG);
+    toonSignalen(signalen);
+
+    const punten = [
+      ...puntenVan(signalen),
+      ...btwTwijfel.map((b) => ({
+        soort: "btw wijkt af", id: b.id, winkel: b.winkel,
+        tekst: `${b.id} @ ${b.winkel}: bij ons ${b.bijOns}, pagina zegt ${b.volgensPagina}`,
+      })),
+    ];
+    const LIJST = join(dirname(fileURLToPath(import.meta.url)), "../data/prijs-aandacht.json");
+    const uitkomst = vergelijk(punten, leesBekend(LIJST), VANDAAG);
+    if (!DROOG) schrijfBekend(LIJST, uitkomst.punten, VANDAAG);
+    meldAandacht("zonnestroommaatje", uitkomst, VANDAAG);
+
+    if (!(await browserBeschikbaar())) {
+      console.log("\nLet op: playwright ontbreekt, dus winkels met botbescherming zijn niet met een browser geprobeerd.");
+    }
+  }
+  await sluitBrowser();
 }
 
 main().catch((err) => {
