@@ -200,6 +200,13 @@ workflow al over een andere controle stond:
 > Faalt de run niet: een controle die rood kan blijven staan omdat een
 > fabrikant iets niet publiceert, leest niemand meer.
 
+Dit geldt op alle drie de sites. Zonnestroommaatje en warmtepompmaatje vingen
+elke fout eerst op in één `catch` die "oude prijs blijft staan" logde en verder
+niets: geen onderscheid tussen een winkel die ons weert en een pagina die weg
+is, en geen ouderdomscontrole. In de workflow zag dat er hetzelfde uit als
+"niets aan de hand". `kern/scripts/prijs-signalen.mjs` doet dat nu voor
+allebei; batterijmaatje heeft zijn eigen, uitgebreidere versie inline.
+
 `data/prijs-aandacht.json` houdt per site bij wat we al weten, met de datum
 waarop elk punt voor het eerst opdook. Alleen wat daar niet in staat is nieuws
 en maakt de run rood; wat eraf gaat wordt als opgelost gemeld; de rest is

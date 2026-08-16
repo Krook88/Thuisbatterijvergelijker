@@ -28,10 +28,12 @@
  */
 
 import { readFileSync, writeFileSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
-import { haalPagina, prijsUitPagina } from "./prijs-uitlezen.mjs";
+import { prijsUitPagina, sluitBrowser, browserBeschikbaar } from "./prijs-uitlezen.mjs";
+import { nieuweSignalen, noteerFout, haalMetTerugval, verzamelVerouderd, puntenVan, toonSignalen } from "./prijs-signalen.mjs";
+import { vergelijk, leesBekend, schrijfBekend, meldAandacht } from "./prijs-aandacht.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -142,15 +144,15 @@ function plausibel(nieuw, oud, grenzen) {
 
 /* ------------------------------------------------------------------ */
 
-async function updateAanbieding(pomp, aanbieding, grenzen, verdacht) {
+async function updateAanbieding(pomp, aanbieding, grenzen, verdacht, signalen) {
   if (!aanbieding.url) return false;
   try {
     let gevonden;
     if (/www\.bol\.com/.test(aanbieding.url) && BOL_CLIENT_ID && BOL_CLIENT_SECRET) {
       gevonden = await bolApiPrijs(aanbieding, grenzen);
     } else {
-      const html = await haalPagina(aanbieding.url);
-      const uit = prijsUitPagina(html, `${pomp.merk || ""} ${pomp.model || ""}`, grenzen);
+      const { uit } = await haalMetTerugval(aanbieding.url, (h) =>
+        prijsUitPagina(h, `${pomp.merk || ""} ${pomp.model || ""}`, grenzen));
       gevonden = uit.prijs ? { bedrag: uit.prijs, btw: uit.btw } : null;
     }
     if (!gevonden) {
@@ -160,6 +162,7 @@ async function updateAanbieding(pomp, aanbieding, grenzen, verdacht) {
         ? `oude prijs blijft (€${aanbieding.prijs_eur})`
         : "er staat nog geen prijs bij deze winkel";
       console.log(`  ~ ${pomp.id} @ ${aanbieding.winkel}: geen prijs gevonden, ${staat}`);
+      signalen.geenPrijs.push({ id: pomp.id, winkel: aanbieding.winkel, url: aanbieding.url });
       return false;
     }
 
@@ -217,6 +220,9 @@ async function updateAanbieding(pomp, aanbieding, grenzen, verdacht) {
     return veranderd;
   } catch (err) {
     console.log(`  x ${pomp.id} @ ${aanbieding.winkel}: ${err.message} (oude prijs blijft staan)`);
+    // Een 403 en een 404 vragen om iets heel anders; op één hoop is de melding
+    // niets waard. Zie kern/scripts/prijs-signalen.mjs.
+    noteerFout(signalen, { id: pomp.id, winkel: aanbieding.winkel, url: aanbieding.url }, err);
     return false;
   }
 }
@@ -224,6 +230,8 @@ async function updateAanbieding(pomp, aanbieding, grenzen, verdacht) {
 async function main() {
   let wijzigingen = 0;
   const verdacht = [];
+  const signalen = nieuweSignalen();
+  const alleProducten = [];
 
   for (const bestand of BESTANDEN) {
     console.log(`\n=== ${bestand.lijst} (${bestand.pad}) ===`);
@@ -231,7 +239,7 @@ async function main() {
 
     for (const product of data[bestand.lijst] || []) {
       for (const aanbieding of product.aanbiedingen || []) {
-        if (await updateAanbieding(product, aanbieding, bestand, verdacht)) wijzigingen++;
+        if (await updateAanbieding(product, aanbieding, bestand, verdacht, signalen)) wijzigingen++;
         await new Promise((r) => setTimeout(r, 1500)); // beleefde pauze tussen requests
       }
       // prijs_datum van het product = meest recente controle-datum van zijn aanbiedingen
@@ -239,6 +247,7 @@ async function main() {
       if (datums.length) product.prijs_datum = datums[datums.length - 1];
     }
 
+    alleProducten.push(...(data[bestand.lijst] || []));
     if (!DROOG) {
       data.laatst_bijgewerkt = VANDAAG;
       writeFileSync(bestand.pad, JSON.stringify(data, null, 2) + "\n", "utf8");
@@ -253,6 +262,27 @@ async function main() {
   }
 
   console.log(`\nKlaar. ${wijzigingen} prijswijziging(en).${DROOG ? " Droge run: niets weggeschreven." : ` laatst_bijgewerkt = ${VANDAAG}`}`);
+
+  signalen.verouderd = verzamelVerouderd(alleProducten, VANDAAG);
+  toonSignalen(signalen);
+
+  const punten = [
+    ...puntenVan(signalen),
+    ...verdacht.map((r) => {
+      const [kop] = String(r).split(":");
+      const [id, winkel] = kop.split(" @ ");
+      return { soort: "te controleren", id: (id || "").trim(), winkel: (winkel || "").trim(), tekst: r };
+    }),
+  ];
+  const LIJST = join(dirname(fileURLToPath(import.meta.url)), "../data/prijs-aandacht.json");
+  const uitkomst = vergelijk(punten, leesBekend(LIJST), VANDAAG);
+  if (!DROOG) schrijfBekend(LIJST, uitkomst.punten, VANDAAG);
+  meldAandacht("warmtepompmaatje", uitkomst, VANDAAG);
+
+  if (!(await browserBeschikbaar())) {
+    console.log("\nLet op: playwright ontbreekt, dus winkels met botbescherming zijn niet met een browser geprobeerd.");
+  }
+  await sluitBrowser();
 }
 
 main().catch((err) => {
