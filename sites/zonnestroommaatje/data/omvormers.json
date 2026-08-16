@@ -1,5 +1,5 @@
 {
-  "laatst_bijgewerkt": "2026-08-15",
+  "laatst_bijgewerkt": "2026-08-16",
   "toelichting": "Richtprijzen zijn indicatief, gelden voor de genoemde gangbare variant (excl. installatie) en verschillen sterk per vermogen en uitvoering. Winkelprijzen betreffen de losse omvormer van de genoemde variant. Sommige winkels tonen prijzen exclusief btw; die rekenen wij om naar inclusief btw zodat alle bedragen vergelijkbaar zijn, met de winkelprijs erbij vermeld. Accessoires (gateway, meter, optimizers) komen er soms nog bij. Specificaties en integraties komen uit fabrikantendocumentatie en openbare bronnen; controleer voor aankoop de actuele datasheet en garantievoorwaarden. Koppelingsinformatie (batterij, Home Assistant) kan per firmwareversie veranderen. Homey-informatie is gebaseerd op de Homey App Store; controleer vóór aankoop of de app jouw model ondersteunt.",
   "omvormers": [
     {
@@ -37,24 +37,24 @@
           "winkel": "Zonnige Winkel",
           "prijs_eur": 109,
           "url": "https://zonnigewinkel.nl/product/enphase-micro-omvormer-iq8hc/",
-          "datum": "2026-08-14"
+          "datum": "2026-08-16"
         },
         {
           "winkel": "Winkelman Zonnepanelen",
           "prijs_eur": 109,
           "url": "https://www.winkelman-zonnepanelen.nl/enphase-iq8-hc-micro-omvormer.html",
-          "datum": "2026-08-15",
+          "datum": "2026-08-16",
           "btw_inbegrepen": false
         },
         {
           "winkel": "Solar Bouwmarkt",
           "prijs_eur": 119,
           "url": "https://www.solar-bouwmarkt.nl/iq8hc-micro-omvormer.html",
-          "datum": "2026-08-15",
+          "datum": "2026-08-16",
           "btw_inbegrepen": false
         }
       ],
-      "prijs_datum": "2026-08-15",
+      "prijs_datum": "2026-08-16",
       "samensteller": {
         "soort": "per_paneel",
         "max_wp_per_paneel": 560,
@@ -102,17 +102,17 @@
           "winkel": "Simply Solar",
           "prijs_eur": 149,
           "url": "https://www.simply-solar.nl/products/aps-ds3-microinverter",
-          "datum": "2026-08-15"
+          "datum": "2026-08-16"
         },
         {
           "winkel": "J en M Zonnepanelen",
           "prijs_eur": 145,
           "url": "https://www.jenm-zonnepanelen.nl/nl/apsystems-ds3-micro-omvormer.html",
-          "datum": "2026-08-15",
+          "datum": "2026-08-16",
           "btw_inbegrepen": false
         }
       ],
-      "prijs_datum": "2026-08-15",
+      "prijs_datum": "2026-08-16",
       "samensteller": {
         "soort": "per_2_panelen",
         "max_wp_per_paneel": 550,
@@ -279,11 +279,11 @@
           "winkel": "Zonnepanelen-voordelig",
           "prijs_eur": 1415,
           "url": "https://www.zonnepanelen-voordelig.nl/contents/nl/p58724_Fronius-Primo-GEN24-Plus-5.0-omvormer.html",
-          "datum": "2026-08-15",
+          "datum": "2026-08-16",
           "btw_inbegrepen": false
         }
       ],
-      "prijs_datum": "2026-08-15",
+      "prijs_datum": "2026-08-16",
       "samensteller": {
         "soort": "centraal",
         "voorbeeld_ac_kw": 5,
@@ -335,9 +335,9 @@
       "aanbiedingen": [
         {
           "winkel": "Zonnige Winkel",
-          "prijs_eur": 1100,
+          "prijs_eur": 1181,
           "url": "https://zonnigewinkel.nl/product/goodwe-5kn-et-hybride/",
-          "datum": null
+          "datum": "2026-08-16"
         }
       ],
       "samensteller": {
@@ -353,7 +353,8 @@
         "max_dc_ac": 1.35,
         "bron": "GoodWe ET-serie: 5-15 kW, 3-fase"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "prijs_datum": "2026-08-16"
     },
     {
       "id": "huawei-sun2000",
@@ -390,24 +391,24 @@
           "winkel": "Stralend Groen",
           "prijs_eur": 625,
           "url": "https://www.stralendgroen.nl/product/huawei-sun2000-5ktl-l1/",
-          "datum": "2026-08-15"
+          "datum": "2026-08-16"
         },
         {
           "winkel": "Groothandel Solar",
           "prijs_eur": 1000,
           "url": "https://www.groothandelsolar.com/omvormers/string-omvormers/huawei/huawai-sun2000-5ktl-l1",
-          "datum": "2026-08-15",
+          "datum": "2026-08-16",
           "btw_inbegrepen": false
         },
         {
           "winkel": "SolarNRG",
           "prijs_eur": 460,
           "url": "https://solarnrg.shop/omvormers/huawei-sun2000-5ktl-l1/",
-          "datum": "2026-08-15",
+          "datum": "2026-08-16",
           "btw_inbegrepen": false
         }
       ],
-      "prijs_datum": "2026-08-15",
+      "prijs_datum": "2026-08-16",
       "samensteller": {
         "soort": "centraal",
         "voorbeeld_ac_kw": 5,
@@ -459,7 +460,7 @@
           "winkel": "Stralend Groen",
           "prijs_eur": 540,
           "url": "https://www.stralendgroen.nl/en/product/growatt-min-5000tl-xh-hybrid/",
-          "datum": "2026-08-15"
+          "datum": "2026-08-16"
         },
         {
           "winkel": "Winkelman Zonnepanelen",
@@ -471,11 +472,11 @@
           "winkel": "WarmteBeheer",
           "prijs_eur": 620,
           "url": "https://www.warmtebeheer.nl/growatt-min-5000tl-xh-hybrid-ready-omvormer-5000w-2mppt-gratis-wifi-module.html",
-          "datum": "2026-08-15",
+          "datum": "2026-08-16",
           "btw_inbegrepen": false
         }
       ],
-      "prijs_datum": "2026-08-15",
+      "prijs_datum": "2026-08-16",
       "samensteller": {
         "soort": "centraal",
         "voorbeeld_ac_kw": 5,
@@ -528,7 +529,7 @@
           "winkel": "Zonnige Winkel",
           "prijs_eur": 799,
           "url": "https://zonnigewinkel.nl/product/solis-omvormer-hybride-s6-eh1p5klpl-1-fase/",
-          "datum": "2026-08-14"
+          "datum": "2026-08-16"
         },
         {
           "winkel": "VDH Power",
@@ -537,7 +538,7 @@
           "datum": null
         }
       ],
-      "prijs_datum": "2026-08-14",
+      "prijs_datum": "2026-08-16",
       "samensteller": {
         "soort": "centraal",
         "voorbeeld_ac_kw": 5,
@@ -589,7 +590,7 @@
           "winkel": "CV Totaal",
           "prijs_eur": 950,
           "url": "https://www.cvtotaal.nl/sungrow-sh5-0rt-v112-3-fase-hybride-omvormer-5000w.html",
-          "datum": "2026-08-15"
+          "datum": "2026-08-16"
         },
         {
           "winkel": "Pavento Solar",
@@ -599,7 +600,7 @@
           "btw_inbegrepen": false
         }
       ],
-      "prijs_datum": "2026-08-15",
+      "prijs_datum": "2026-08-16",
       "samensteller": {
         "soort": "centraal",
         "voorbeeld_ac_kw": 5,
@@ -652,11 +653,11 @@
           "winkel": "Eigen Stroom Opslaan",
           "prijs_eur": 1295,
           "url": "https://eigenstroomopslaan.nl/product/deye-inverter-sun-5k-sg03-lp1eu/",
-          "datum": "2026-08-15",
+          "datum": "2026-08-16",
           "btw_inbegrepen": false
         }
       ],
-      "prijs_datum": "2026-08-15",
+      "prijs_datum": "2026-08-16",
       "samensteller": {
         "soort": "centraal",
         "voorbeeld_ac_kw": 5,
@@ -708,10 +709,10 @@
           "winkel": "Acculaders.nl",
           "prijs_eur": 670,
           "url": "https://www.acculaders.nl/victron-multiplus-ii-48-5000-70-50-230v.html",
-          "datum": "2026-08-15"
+          "datum": "2026-08-16"
         }
       ],
-      "prijs_datum": "2026-08-15",
+      "prijs_datum": "2026-08-16",
       "samensteller": {
         "soort": "maatwerk",
         "voorbeeld_ac_kw": 4,
