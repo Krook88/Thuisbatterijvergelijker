@@ -35,6 +35,7 @@ import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { haalPagina, prijsUitPagina, controleerbaar } from "./prijs-uitlezen.mjs";
+import { vergelijk, leesBekend, schrijfBekend, meldAandacht } from "./prijs-aandacht.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_PAD = resolve(__dirname, "../data/batterijen.json");
@@ -641,22 +642,24 @@ async function main() {
     }
   }
 
-  /* Tot nu toe stond dit alles in een samenvatting die niemand opzoekt, omdat
-     de run groen bleef. Twaalf prijzen liepen daardoor 33 dagen achter en een
-     bedrag van 9.000 euro stond naast een winkel die 4.945 vraagt - gevonden
-     doordat iemand toevallig op een pagina klikte, niet doordat wij het
-     meldden. Dit getal gaat naar de workflow, die er aan het eind rood van
-     wordt. De prijzen zijn dan al weggeschreven en gepusht: een signaal mag
-     de dagelijkse ronde niet tegenhouden. */
-  const aandacht = verouderd.length + teControleren.length + geweigerd.length +
-    geenPrijs.length + zonderAdres.length + kapotteLinks.length;
-  if (process.env.GITHUB_OUTPUT) {
-    appendFileSync(process.env.GITHUB_OUTPUT, `aandacht=${aandacht}\n`);
-    appendFileSync(process.env.GITHUB_OUTPUT,
-      `aandacht_kort=${verouderd.length} verouderd, ${teControleren.length} te controleren, ` +
-      `${kapotteLinks.length} onbereikbaar, ${geweigerd.length} geweigerd, ` +
-      `${geenPrijs.length} zonder bedrag, ${zonderAdres.length} zonder bron\n`);
-  }
+  /* Vroeger werd de run rood zodra er iets aandacht vroeg, en dat was elke
+     dag: zevenentwintig punten, waarvan drie winkels die bots weren en dat
+     blijven doen. Zo'n controle staat binnen een week permanent rood en wordt
+     dan behang. Nu is alleen nieuws een alarm; de rest is werkvoorraad en
+     staat in het rapport. Zie kern/scripts/prijs-aandacht.mjs. */
+  const punten = [
+    ...verouderd.map((v) => ({ soort: "verouderd", id: v.id, winkel: v.winkel, tekst: `${v.id} @ ${v.winkel}: €${v.prijs} (${v.dagen === null ? "nooit bevestigd" : v.dagen + " dagen"})` })),
+    ...teControleren.map((t) => ({ soort: "te controleren", id: t.id, winkel: t.winkel, tekst: `${t.id} @ ${t.winkel}: €${t.oud} → €${t.nieuw} (${t.verschil > 0 ? "+" : ""}${t.verschil}%)` })),
+    ...kapotteLinks.map((k) => ({ soort: "onbereikbaar", id: k.id, winkel: k.winkel, tekst: `${k.id} @ ${k.winkel}: ${k.reden || "niet bereikbaar"}` })),
+    ...geweigerd.map((g) => ({ soort: "geweigerd", id: g.id, winkel: g.winkel, tekst: `${g.id} @ ${g.winkel}: ${g.reden || "HTTP 403"}` })),
+    ...geenPrijs.map((g) => ({ soort: "zonder bedrag", id: g.id, winkel: g.winkel, tekst: `${g.id} @ ${g.winkel}: geen leesbaar bedrag` })),
+    ...zonderAdres.map((z) => ({ soort: "zonder bron", id: z.id, winkel: z.bron, tekst: `${z.id}: €${z.prijs} van ${z.bron}, geen bron-URL` })),
+  ];
+
+  const LIJST = resolve(__dirname, "../data/prijs-aandacht.json");
+  const uitkomst = vergelijk(punten, leesBekend(LIJST), VANDAAG);
+  if (!DROOG) schrijfBekend(LIJST, uitkomst.punten, VANDAAG);
+  meldAandacht("batterijmaatje", uitkomst, VANDAAG);
 }
 
 main().catch((err) => {

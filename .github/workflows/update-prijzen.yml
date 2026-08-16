@@ -142,20 +142,34 @@ jobs:
 
       # Alles hierboven is al weggeschreven en gepusht: een signaal mag de
       # dagelijkse ronde niet tegenhouden. Maar groen blijven mag ook niet.
-      # De samenvatting van de prijsstap stond er al; alleen keek niemand,
-      # want er was niets dat om aandacht vroeg. Twaalf prijzen liepen daardoor
-      # 33 dagen achter en een bedrag van 9.000 euro stond naast een winkel die
-      # 4.945 vraagt - opgemerkt doordat iemand toevallig op een pagina klikte.
       #
-      # Deze stap hoort in dit blok en niet bij verse-data: keuze en prijzen
-      # zijn stappen van dit blok. Stond hij ergens anders, dan zijn die twee
-      # leeg, is de voorwaarde altijd onwaar en draait de stap nooit - zonder
-      # dat er iets roods te zien is. Precies zo stond hij er de eerste keer in.
+      # Deze stap wordt alleen rood van wat er nieuw is. De eerste versie werd
+      # rood zodra er íéts aandacht vroeg, en dat was elke dag: zevenentwintig
+      # punten op batterijmaatje, waarvan drie winkels die bots weren en dat
+      # blijven doen. Zo'n controle staat binnen een week permanent rood en
+      # wordt dan behang - precies wat er hieronder bij "Vergelijkbaarheid van
+      # de getallen" al over geschreven stond.
+      #
+      # De stap draait nu altijd en beslist zelf, zodat een ontbrekende output
+      # zichtbaar is. Dat ging namelijk mis: de voorwaarde keek naar
+      # `outputs.aandacht != '0'`, en GitHub rekent een output die niet bestaat
+      # om naar 0. Op zonnestroommaatje en warmtepompmaatje, waar het
+      # prijsscript dit getal niet schrijft, werd de stap daardoor stilletjes
+      # overgeslagen in plaats van te melden dat er niets gemeten werd.
       - name: Prijzen die aandacht vragen
-        if: steps.keuze.outputs.doen == 'true' && steps.prijzen.outputs.aandacht != '0'
+        if: steps.keuze.outputs.doen == 'true'
         run: |
+          alarm="${{ steps.prijzen.outputs.alarm }}"
+          if [ -z "$alarm" ]; then
+            echo "::warning title=Geen prijssignaal::${{ matrix.site }} meet nog niet welke prijzen aandacht vragen; scripts/update-prices.mjs schrijft geen alarm-output."
+            exit 0
+          fi
           echo "${{ matrix.site }}: ${{ steps.prijzen.outputs.aandacht_kort }}"
-          echo "Zie de samenvatting van deze run voor de tabellen per soort."
+          if [ "$alarm" != "true" ]; then
+            echo "Niets nieuws sinds de vorige run."
+            exit 0
+          fi
+          echo "Zie de samenvatting van deze run voor wat er nieuw is."
           exit 1
 
   # De matrix hierboven kan groen zijn terwijl een site toch stilstaat: als een

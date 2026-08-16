@@ -188,3 +188,24 @@ rekent op dat bedrag en de beheerder niet.
 er nu iets veranderd is of niet. `--streng` beantwoordt de vraag "heeft de
 leiding gedraaid?"; de stap in de workflow beantwoordt "heeft de leiding iets
 opgeleverd?".
+
+### Alleen nieuws maakt de run rood
+
+De stap *Prijzen die aandacht vragen* werd eerst rood zodra er íéts aandacht
+vroeg. Dat was elke dag: zevenentwintig punten op batterijmaatje, waarvan drie
+winkels die bots weren met een 403 en dat blijven doen. Zo'n controle staat
+binnen een week permanent rood en wordt dan behang — precies wat er in dezelfde
+workflow al over een andere controle stond:
+
+> Faalt de run niet: een controle die rood kan blijven staan omdat een
+> fabrikant iets niet publiceert, leest niemand meer.
+
+`data/prijs-aandacht.json` houdt per site bij wat we al weten, met de datum
+waarop elk punt voor het eerst opdook. Alleen wat daar niet in staat is nieuws
+en maakt de run rood; wat eraf gaat wordt als opgelost gemeld; de rest is
+werkvoorraad en staat in het rapport. Wil je een punt vergeten, haal de regel
+uit dat bestand.
+
+Een prijs die van € 850 naar € 860 kruipt is geen nieuw punt — de sleutel is
+soort plus product plus winkel, zonder bedrag. Van "geweigerd" naar
+"onbereikbaar" is dat wél, want dat is een andere storing.
