@@ -55,7 +55,7 @@ Elke mail wordt dan ongeveer 20 kB zwaarder.
 De opmaak staat volledig inline in de HTML (geen `<style>`-blok, geen klassen),
 omdat mailprogramma's stylesheets weggooien. Wijzig je iets, houd dat dan zo.
 
-- **Functietitel.** Staat in de regel onder de naam ("Oprichter & redactie").
+- **Functietitel.** Staat in de regel onder de naam ("Redactie").
 - **Telefoonnummer.** Nog niet opgenomen omdat de site er geen noemt. Toevoegen
   kan met een extra regel in hetzelfde blok als het e-mailadres:
   `<a href="tel:+31612345678" style="color:#0f766e;text-decoration:none;">06 12 34 56 78</a>`
