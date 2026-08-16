@@ -134,6 +134,22 @@ al gedekt is en welke pagina's ontbreken. Geen gemeten zoekvolumes — die
 kunnen pas uit Search Console komen — wel de termen waarop de markt zelf
 schrijft, en waarom die taal in 2026 verschuift.
 
+### De datum in de sitemap
+
+`<lastmod>` stond op elke URL op vandaag, elke dag. Eenenzestig pagina's
+beweerden dus dagelijks gewijzigd te zijn. Technisch klopte dat net — de
+dagelijkse prijsrun herschrijft de bestanden — maar inhoudelijk niet: wat er
+veranderde was het datumstempel en een teller "34 dagen geleden" die 35 werd.
+
+Google gebruikt `lastmod` zolang het betrouwbaar is en negeert het zodra het
+dat niet is. Een sitemap waarin alles altijd van vandaag is, leert Google
+precies dat. `kern/scripts/sitemap-datum.mjs` leest daarom de pagina's in vóór
+het genereren en vergelijkt erna: verandert er niets van betekenis, dan houdt
+de URL zijn oude datum. Welke teksten met de kalender meelopen zonder dat de
+pagina anders is, staat in dat bestand, met per stuk waar het vandaan komt —
+vastgesteld door de generator twee keer te draaien met een dag ertussen, niet
+door te bedenken wat het zou kunnen zijn.
+
 ## Publiceren
 
 Elke site heeft een eigen Vercel-project met **Root Directory** op zijn map in

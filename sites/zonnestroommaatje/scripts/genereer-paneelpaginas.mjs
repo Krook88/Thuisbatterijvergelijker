@@ -12,6 +12,7 @@ import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
+import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
 
 // Dezelfde icoonset als de browser gebruikt, zodat een icoon op een
 // gegenereerde pagina identiek is aan datzelfde icoon in de vergelijker.
@@ -96,6 +97,11 @@ function assetVersie() {
 const ASSET_VERSIE = assetVersie();
 
 const data = JSON.parse(readFileSync(resolve(ROOT, "data/panelen.json"), "utf8"));
+
+/* De stand van de pagina's vóór dit script ze overschrijft. Daarmee kan de
+   sitemap straks zeggen welke pagina's echt veranderd zijn, in plaats van elke
+   dag alles als vers te melden. Zie kern/scripts/sitemap-datum.mjs. */
+const STAND_VOOR = paginaStand(ROOT);
 mkdirSync(resolve(ROOT, "paneel"), { recursive: true });
 
 /* ------------------------------------------------------------------ */
@@ -232,7 +238,13 @@ const volledigeNaam = (p) => p.model.toLowerCase().startsWith(p.merk.toLowerCase
 // beschikbaarheid als availability ontbreekt. Dertig dagen na de laatste
 // prijscontrole; de workflow draait dagelijks, dus die datum schuift mee.
 function houdbaarTot(datum) {
-  const vanaf = datum ? new Date(datum) : new Date();
+  // Zonder prijsdatum weten we niet hoe vers het bedrag is, en dan is
+  // "geldig tot over dertig dagen" een belofte die nergens op steunt. Er stond
+  // hier new Date() als terugval, waardoor die datum elke dag een dag opschoof:
+  // het bestand veranderde dagelijks zonder dat er iets aan de pagina veranderde,
+  // en Google kreeg een houdbaarheidsdatum voor een prijs die nooit bevestigd is.
+  if (!datum) return null;
+  const vanaf = new Date(datum);
   if (Number.isNaN(vanaf.getTime())) return null;
   vanaf.setDate(vanaf.getDate() + 30);
   const tot = vanaf.toISOString().slice(0, 10);
@@ -914,9 +926,11 @@ const urls = [
   ...VERGELIJKINGEN.map((v) => ({ loc: `${SITE}/vergelijk/${v.slug}.html`, freq: "weekly", prio: "0.7" })),
 ];
 
+const lastmodVoor = lastmodMaker(ROOT, SITE, STAND_VOOR, VANDAAG);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-  urls.map((u) => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${VANDAAG}</lastmod>\n    <changefreq>${u.freq}</changefreq>\n    <priority>${u.prio}</priority>\n  </url>`).join("\n") +
+  urls.map((u) => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${lastmodVoor(u.loc)}</lastmod>\n    <changefreq>${u.freq}</changefreq>\n    <priority>${u.prio}</priority>\n  </url>`).join("\n") +
   `\n</urlset>\n`;
 
 writeFileSync(resolve(ROOT, "sitemap.xml"), sitemap, "utf8");
-console.log(`sitemap.xml herbouwd met ${urls.length} URL's (lastmod ${VANDAAG})`);
+const vers = urls.filter((u) => lastmodVoor(u.loc) === VANDAAG).length;
+console.log(`sitemap.xml herbouwd met ${urls.length} URL's, waarvan ${vers} met lastmod van vandaag`);
