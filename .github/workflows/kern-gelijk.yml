@@ -59,6 +59,12 @@ jobs:
       - name: Teksten die aan een datum hangen
         run: npm run datums
 
+      # llms.txt is de index die assistenten lezen. De sitemap wordt
+      # gegenereerd en klopt dus vanzelf; deze is handwerk en bleef achter toen
+      # er zes pagina's bij kwamen, zonder dat iets dat liet zien.
+      - name: llms.txt gelijk met het menu
+        run: npm run llms
+
   # De keuring start een echte browser en is daarom een aparte baan: hij duurt
   # langer dan de rest samen, en als hij valt wil je kunnen zien of de andere
   # controles wél doorkwamen.

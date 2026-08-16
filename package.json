@@ -14,8 +14,9 @@
     "stempel": "node scripts/cachestempel.mjs",
     "workflows": "node scripts/workflow-verwijzingen.mjs",
     "datums": "node scripts/datumteksten.mjs --streng",
+    "llms": "node scripts/llms-index.mjs",
     "keuring": "node scripts/keuring.mjs",
     "dode-regels": "node scripts/dode-regels.mjs",
-    "controle": "npm run kern:controleer && npm test && npm run modellen && npm run workflows && npm run datums && npm run keuring && npm run dode-regels"
+    "controle": "npm run kern:controleer && npm test && npm run modellen && npm run workflows && npm run datums && npm run llms && npm run keuring && npm run dode-regels"
   }
 }

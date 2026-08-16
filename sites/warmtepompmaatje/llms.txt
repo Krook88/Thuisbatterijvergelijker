@@ -12,6 +12,8 @@
 ## Uitleg en achtergrond
 - [Uitleg over warmtepompen](https://warmtepompmaatje.nl/uitleg.html): hybride versus all-electric, SCOP, geluid en slim koppelen, met illustraties.
 - [ISDE-subsidie](https://warmtepompmaatje.nl/subsidie.html): hoogte van de subsidie en de voorwaarden.
+- [Warmtepomp en geluid](https://warmtepompmaatje.nl/warmtepomp-geluid.html): de norm van 45 en 40 dB(A) op de erfgrens, en het verschil tussen geluidsvermogen en geluidsdruk.
+- [Monoblock of split](https://warmtepompmaatje.nl/monoblock-of-split.html): waar de techniek zit, wat dat betekent voor ruimte, installatie en je radiatoren.
 
 ## Over de site
 - [Over Warmtepompmaatje](https://warmtepompmaatje.nl/over-ons.html): hoe we onafhankelijk blijven.
