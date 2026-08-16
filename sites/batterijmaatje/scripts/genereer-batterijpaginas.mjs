@@ -1132,6 +1132,7 @@ const VERGELIJKINGEN = [
   { a: "ecoflow-stream-ac-pro", b: "anker-solix-solarbank-3-pro" },
   { a: "ecoflow-stream-ac-pro", b: "zendure-solarflow-hyper-2000" },
   { a: "huawei-luna2000-10", b: "byd-battery-box-hvm-11" },
+  { a: "zendure-solarflow-4000-mix-ac", b: "zendure-solarflow-3000-mix-ac" },
 ].map((v) => ({ ...v, slug: `${v.a}-vs-${v.b}` }));
 
 const batterijById = Object.fromEntries(data.batterijen.map((b) => [b.id, b]));
@@ -1177,9 +1178,17 @@ function vergelijkingsPagina(v) {
   const titel = `${naam(A)} vs ${naam(B)}: welke thuisbatterij?`;
   // Bij een lange modelnaam ("SigenStor 8 kWh + 8 kW omvormer") past zelfs de
   // kale vergelijking niet meer; dan volstaat merk plus capaciteit.
-  const kortAf = (b) => `${b.merk} ${nl(b.capaciteit_kwh)} kWh`;
+  //
+  // Behalve bij twee modellen van hetzelfde merk met dezelfde maat: dan levert
+  // die afkorting "Zendure 8 kWh vs Zendure 8 kWh" op, een titel waaruit de
+  // bezoeker niet kan opmaken wat er vergeleken wordt. Staat de merknaam al
+  // vooraan, dan is het model het onderscheid en de merknaam de ruimtevreter.
+  const zelfdeMerk = A.merk === B.merk;
+  const modelKort = (b) => b.model.replace(/\s*\([^)]*\)\s*$/, "").trim();
+  const kortAf = (b) => (zelfdeMerk ? modelKort(b) : `${b.merk} ${nl(b.capaciteit_kwh)} kWh`);
   const paginaTitel = besteTitel([
     `${naamZonderHaakjes(A)} vs ${naamZonderHaakjes(B)}`,
+    ...(zelfdeMerk ? [`${naamZonderHaakjes(A)} vs ${modelKort(B)}`] : []),
     `${kortAf(A)} vs ${kortAf(B)}`,
   ]);
   const metaDesc = kortOmschrijving(`${naamZonderHaakjes(A)} of ${naamZonderHaakjes(B)}? Vergelijk prijs per kWh, capaciteit, noodstroom en slimme aansturing. Prijzen dagelijks gecontroleerd.`);
