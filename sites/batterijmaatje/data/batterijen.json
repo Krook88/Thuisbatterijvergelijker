@@ -208,6 +208,7 @@
     },
     {
       "id": "ecoflow-stream-ac-pro",
+      "prijs_bron_url": "https://nl.ecoflow.com/products/stream-ac-pro",
       "merk": "EcoFlow",
       "model": "STREAM AC Pro (1,92 kWh)",
       "capaciteit_kwh": 1.92,
@@ -302,6 +303,7 @@
     },
     {
       "id": "zendure-solarflow-hyper-2000",
+      "prijs_bron_url": "https://www.zendure.nl/products/solarflow-hyper-2000",
       "merk": "Zendure",
       "model": "SolarFlow Hyper 2000 (1,92 kWh)",
       "capaciteit_kwh": 1.92,
