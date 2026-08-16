@@ -209,3 +209,20 @@ uit dat bestand.
 Een prijs die van € 850 naar € 860 kruipt is geen nieuw punt — de sleutel is
 soort plus product plus winkel, zonder bedrag. Van "geweigerd" naar
 "onbereikbaar" is dat wél, want dat is een andere storing.
+
+### Winkels die een gewoon verzoek weigeren
+
+Drie winkels antwoorden met 403 hoeveel headers we ook meesturen, en twee
+andere tonen wel een pagina maar vullen de prijs pas in de browser in. Dat is
+dezelfde oorzaak van twee kanten: wie zo weigert kijkt naar de
+TLS-vingerafdruk en naar of er javascript draait.
+
+Daarom valt `prijs-uitlezen.mjs` terug op een echte browser — bij een 403 of
+429, en bij een pagina die wél antwoordt maar geen bedrag prijsgeeft. Alleen
+als terugval: een browser starten kost een paar seconden, en voor de veertig
+winkels die gewoon antwoorden is dat weggegooide tijd.
+
+Playwright staat niet in `package.json`; de workflow installeert hem in de
+prijsstap. Ontbreekt hij, dan gedraagt alles zich precies zoals eerst en zegt
+het rapport dat erbij — "de winkel weigert" en "we hebben het niet geprobeerd"
+zijn twee verschillende dingen, en alleen het eerste vraagt om actie.
