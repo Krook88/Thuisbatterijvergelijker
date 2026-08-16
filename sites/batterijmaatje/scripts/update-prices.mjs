@@ -467,9 +467,22 @@ async function main() {
       if (await updateAanbieding(batterij, aanbieding)) wijzigingen++;
       await new Promise((r) => setTimeout(r, 1500)); // beleefde pauze tussen requests
     }
-    // Een batterij zonder aanbiedingen heeft alleen een richtprijs. Die werd
-    // vroeger overgeslagen; nu gaat hij mee zodra er een bron-URL bij staat.
-    if (!(batterij.aanbiedingen || []).length) {
+    /* Een batterij zonder bruikbare aanbieding toont de richtprijs, en die
+       hoort dus ook gecontroleerd te worden.
+
+       Hier stond "zonder aanbiedingen", en dat is iets anders. De Zendure
+       SolarFlow Hyper 2000 heeft één aanbieding bij bol, maar die staat op
+       niet_leverbaar omdat bol met 404 antwoordt. De bezoeker ziet daardoor de
+       richtprijs - Prijs.beste() valt daarop terug - terwijl dit script de
+       richtprijs oversloeg omdat de lijst niet leeg was. Een bron-URL erbij
+       zetten hielp dan niets: hij werd nooit bezocht.
+
+       Dezelfde regel als in assets/prijs.js: een aanbieding telt alleen mee als
+       ze een bedrag heeft en de winkel haar nog voert. */
+    const bruikbaar = (batterij.aanbiedingen || []).filter(
+      (a) => a && typeof a.prijs_eur === "number" && a.niet_leverbaar !== true,
+    );
+    if (!bruikbaar.length) {
       if (await updateRichtprijs(batterij)) wijzigingen++;
       await new Promise((r) => setTimeout(r, 1500));
     }
