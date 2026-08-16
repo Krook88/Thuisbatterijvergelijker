@@ -34,7 +34,7 @@
 import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { haalPagina, prijsUitPagina, controleerbaar } from "./prijs-uitlezen.mjs";
+import { haalPagina, haalMetBrowser, sluitBrowser, browserBeschikbaar, prijsUitPagina, controleerbaar } from "./prijs-uitlezen.mjs";
 import { vergelijk, leesBekend, schrijfBekend, meldAandacht } from "./prijs-aandacht.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -354,14 +354,39 @@ async function updateAanbieding(batterij, aanbieding) {
       nieuw = await bolApiPrijs(aanbieding);
       hoe = "bol-API";
     } else {
-      const html = await haalPagina(aanbieding.url);
+      /* Twee soorten winkels komen hier niet doorheen met een gewoon verzoek:
+         die met botbescherming (403, hoeveel headers je ook meestuurt) en die
+         de prijs pas in de browser invullen. Voor allebei is de terugval een
+         echte browser. Alleen als het nodig is - hem standaard gebruiken kost
+         twee seconden per winkel en levert bij veertig winkels niets op. */
+      let html;
+      let viaBrowser = false;
+      try {
+        html = await haalPagina(aanbieding.url);
+      } catch (err) {
+        if (!/HTTP (403|429)/.test(String(err.message))) throw err;
+        const uitBrowser = await haalMetBrowser(aanbieding.url).catch(() => null);
+        if (!uitBrowser) throw err;
+        html = uitBrowser;
+        viaBrowser = true;
+      }
       if (handmatig) {
         console.log(`  = ${batterij.id} @ ${aanbieding.winkel}: pagina staat er nog; prijs blijft mensenwerk (€${aanbieding.prijs_eur})`);
         return false;
       }
-      const uit = prijsUitPagina(html, naamVan(batterij), GRENZEN);
+      let uit = prijsUitPagina(html, naamVan(batterij), GRENZEN);
+      if (uit.prijs === null && !viaBrowser) {
+        // Pagina antwoordde wel maar toont geen bedrag: vaak wordt de prijs pas
+        // door javascript ingevuld. Sessy en BeterDuurzaam doen dat.
+        const uitBrowser = await haalMetBrowser(aanbieding.url).catch(() => null);
+        if (uitBrowser) {
+          html = uitBrowser;
+          viaBrowser = true;
+          uit = prijsUitPagina(html, naamVan(batterij), GRENZEN);
+        }
+      }
       nieuw = uit.prijs;
-      hoe = uit.hoe;
+      hoe = uit.hoe ? `${uit.hoe}${viaBrowser ? ", via de browser" : ""}` : uit.hoe;
 
       // Zegt de pagina eenduidig iets anders over btw dan wij, dan is dat het
       // melden waard. Zonder veld gaan wij uit van incl. btw.
@@ -660,6 +685,15 @@ async function main() {
   const uitkomst = vergelijk(punten, leesBekend(LIJST), VANDAAG);
   if (!DROOG) schrijfBekend(LIJST, uitkomst.punten, VANDAAG);
   meldAandacht("batterijmaatje", uitkomst, VANDAAG);
+
+  /* Of de browserterugval beschikbaar was, hoort in het rapport: anders is
+     "winkel weigert" niet te onderscheiden van "we hebben het niet geprobeerd".
+     Dat verschil bepaalt of iemand iets moet doen. */
+  if (!(await browserBeschikbaar())) {
+    console.log("\nLet op: playwright ontbreekt, dus winkels met botbescherming zijn niet met een browser geprobeerd.");
+    console.log("Installeren in de workflow:  npm i --no-save playwright && npx playwright install --with-deps chromium");
+  }
+  await sluitBrowser();
 }
 
 main().catch((err) => {

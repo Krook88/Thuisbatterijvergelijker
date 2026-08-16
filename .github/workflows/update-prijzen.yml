@@ -70,6 +70,17 @@ jobs:
         working-directory: sites/${{ matrix.site }}
         run: npm test
 
+      # Drie winkels weigeren een gewoon verzoek met een 403, hoeveel headers we
+      # ook meesturen, en twee andere vullen de prijs pas in de browser in. Voor
+      # allebei is een echte browser de terugval. Hij wordt alleen gestart als
+      # het nodig is; winkels die gewoon antwoorden merken er niets van.
+      #
+      # Zonder deze stap draait alles precies zoals eerst en zegt het rapport
+      # dat de browser er niet was - dat is iets anders dan "de winkel weigert".
+      - name: Browser voor winkels die een gewoon verzoek weigeren
+        if: steps.keuze.outputs.doen == 'true'
+        run: npm i --no-save playwright && npx playwright install chromium
+
       - name: Prijzen bijwerken
         id: prijzen
         if: steps.keuze.outputs.doen == 'true'

@@ -32,6 +32,8 @@
  *      staan. Zie `controleerbaar()` onderaan.
  */
 
+import { existsSync } from "node:fs";
+
 const TIMEOUT_MS = 20000;
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36 ThuisbatterijVergelijker-prijscheck/1.0";
@@ -56,6 +58,96 @@ function browserHeaders(url) {
 }
 
 const pauze = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/* ------------------------------------------------------------------
+   Terugval op een echte browser
+
+   Drie winkels antwoorden al maanden met 403: Marstek, Warmteservice en AH
+   Voordeelshop. Dat is geen kwestie van de goede headers meesturen - dat doen
+   we hierboven al, tot en met Referer en de Sec-Fetch-set. Wie zo weigert
+   kijkt naar de TLS-vingerafdruk en naar of er javascript draait, en daar valt
+   met fetch niet omheen te werken.
+
+   Twee andere winkels antwoorden wél maar tonen geen leesbaar bedrag: Sessy en
+   BeterDuurzaam bouwen de prijs in de browser op. Dat is dezelfde oorzaak van
+   de andere kant.
+
+   Een echte browser lost allebei op, en die hebben we al staan: de keuring
+   draait op playwright. Hij staat bewust niet in package.json, dus dit is een
+   terugval en geen vereiste - ontbreekt playwright, dan gedraagt alles zich
+   precies zoals eerst en zegt het rapport dat erbij.
+
+   Alleen als terugval, nooit als eerste keus: een browser starten kost een
+   seconde of twee per pagina, en voor de veertig winkels die gewoon antwoorden
+   is dat weggegooide tijd. */
+
+let browserBelofte = null;
+
+async function browser() {
+  if (browserBelofte) return browserBelofte;
+  browserBelofte = (async () => {
+    let pw;
+    try {
+      pw = await import("playwright");
+    } catch {
+      return null; // niet geïnstalleerd; de aanroeper valt terug op niets
+    }
+    const opties = { args: ["--disable-blink-features=AutomationControlled"] };
+    /* Dezelfde volgorde als scripts/keuring.mjs: eerst de chromium die naast
+       ons klaarstaat - dan hoeft er niets gedownload en past de versie altijd -
+       dan de chrome van het systeem, dan wat playwright zelf vindt. */
+    const eigen = "/opt/pw-browsers/chromium";
+    const pogingen = [
+      ...(existsSync(eigen) ? [{ ...opties, executablePath: eigen }] : []),
+      { ...opties, channel: "chrome" },
+      opties,
+    ];
+    for (const poging of pogingen) {
+      try { return await pw.chromium.launch(poging); } catch { /* volgende */ }
+    }
+    return null;
+  })();
+  return browserBelofte;
+}
+
+/** Sluit de browser als hij open is. Aanroepen aan het eind van een script. */
+export async function sluitBrowser() {
+  if (!browserBelofte) return;
+  const b = await browserBelofte;
+  browserBelofte = null;
+  if (b) await b.close().catch(() => {});
+}
+
+/** Is er een browser beschikbaar? Voor het rapport, zodat "niet gelukt" te onderscheiden is van "niet geprobeerd". */
+export async function browserBeschikbaar() {
+  return (await browser()) !== null;
+}
+
+/**
+ * Haalt een pagina op met een echte browser. Geeft null als playwright er niet
+ * is; gooit als de pagina zelf niet wil.
+ */
+export async function haalMetBrowser(url, { wachtMs = 2500 } = {}) {
+  const b = await browser();
+  if (!b) return null;
+  const context = await b.newContext({
+    locale: "nl-NL",
+    userAgent: USER_AGENT.replace(" ThuisbatterijVergelijker-prijscheck/1.0", ""),
+    viewport: { width: 1280, height: 900 },
+  });
+  try {
+    const pagina = await context.newPage();
+    const antwoord = await pagina.goto(url, { waitUntil: "domcontentloaded", timeout: TIMEOUT_MS });
+    if (antwoord && !antwoord.ok()) throw new Error(`HTTP ${antwoord.status()}`);
+    // Even ademruimte: bij de winkels waar dit voor bedoeld is wordt de prijs
+    // na het laden ingevuld. Netwerkstilte afwachten duurt bij winkels met
+    // trackers eindeloos, dus een vaste korte pauze werkt hier beter.
+    await pagina.waitForTimeout(wachtMs);
+    return await pagina.content();
+  } finally {
+    await context.close().catch(() => {});
+  }
+}
 
 /**
  * Haalt een pagina op. Bij een weigering of een storing volgt één herkansing:
