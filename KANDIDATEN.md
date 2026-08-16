@@ -7,7 +7,9 @@ getallen staan hier, de opnamebeslissing en de tekst doen we samen.
 **Hoe betrouwbaar dit is.** Directe productpagina's zijn vanuit deze omgeving
 niet bereikbaar (de egress-proxy staat de winkelhosts niet toe), dus dit komt
 uit zoekresultaten. Waar een getal maar uit één bron kwam of waar bronnen
-elkaar tegenspraken, staat dat erbij. Niets hiervan is in `data/` gezet.
+elkaar tegenspraken, staat dat erbij. Niets hiervan staat in `data/`, behalve
+waar bij een kandidaat staat dat hij is opgenomen - dan is het hier afgesloten
+en is de tekst op de site leidend.
 
 Toetsingskader: zie `REDACTIE.md`.
 
@@ -90,49 +92,18 @@ de bruikbare capaciteit?** Als dat door elkaar loopt, vergelijkt de site
 appels met peren op het veld dat er het meest toe doet. Dat wil ik nakijken
 over de hele lijst, los van deze toevoeging.
 
-### Zendure SolarFlow 4000 Mix AC+ — gemeld via het contactformulier
+### Zendure SolarFlow 4000 Mix AC+ — opgenomen, geen kandidaat meer
 
-Binnengekomen op 16 augustus 2026 van Richard Rozema: wij hebben de 3000 Mix
-AC+ en de 4000 Mix Pro, maar het model dat er tussenin zit ontbreekt. Zijn
-lezing is dat de AC+ dezelfde batterij is als de Pro zonder de directe
-zonnepaneelaansluitingen. Dat klopt met wat ik terugvind.
+Aangedragen door een lezer via het contactformulier en op 16 augustus 2026
+opgenomen (#53). Prijzen zijn op de winkelpagina's zelf nagekeken: €2.399 bij
+Zendure, dat hem nog als pre-order verkoopt, en €2.359 bij TechPunt. Er staat
+ook een vergelijkingspagina met de 3000 Mix AC+, want dat is de afweging waar
+de melding over ging.
 
-| | 3000 Mix AC+ (hebben we) | **4000 Mix AC+ (nieuw)** | 4000 Mix Pro (hebben we) |
-| --- | --- | --- | --- |
-| capaciteit | 8 kWh | 8 kWh | 8 kWh |
-| uitbreidbaar | **niet** — gesloten systeem | tot ca. 50 kWh, modules van 7 kWh | tot ca. 50 kWh, modules van 7 kWh |
-| vermogen | 3 kW bidirectioneel | 4 kW bidirectioneel | 4 kW bidirectioneel |
-| zonnepanelen direct | geen | geen MPPT; wel PV-IN AC tot 5 kW | 2 MPPT tot 8 kW + 5 kW AC = ca. 13 kW |
-| noodstroom | 3.680 W | 3.680 W | niet vastgesteld |
-| behuizing / garantie | IP65 / 10 jaar | IP65 / 10 jaar, 80 kg, −20 tot 55 °C | IP65 / 10 jaar |
-| prijs | €2.059 | **adviesprijs €2.419**, €2.399 gezien bij TechPunt | €2.899 |
-
-Waar hij op wijst is een echt gat in de lijst: tussen "goedkoop maar vast op
-8 kWh" en "hybride topmodel met 13 kW PV" staat nu niets, terwijl dat voor wie
-al zonnepanelen heeft juist de logische keuze is — je betaalt dan niet voor
-MPPT-ingangen die je toch niet gebruikt. Dat is €480 verschil met de Pro.
-
-Twee dingen om bij de opname te regelen:
-
-1. **Onze notitie bij de 3000 Mix AC+ klopt niet.** Daar staat nu dat de
-   fabrikant uitbreiding tot 50+ kWh belooft en dat de modules in Q4 2026
-   komen. Die belofte geldt alleen voor de 4000-serie; de 3000 heeft geen
-   uitbreidingspoort en blijft 8 kWh. Wil je meer, dan koop je een tweede unit
-   en koppel je ze via HEMS 2.0. `uitbreidbaar_tot_kwh: null` blijft goed, de
-   toelichting moet anders. Dit is precies het verschil dat de 4000 AC+ zijn
-   bestaansrecht geeft, dus het hoort in één beweging recht te worden gezet.
-2. **De uitbreidingsmodules zijn er nog steeds niet** (verwacht Q4 2026). Voor
-   de AC+ hoort `uitbreidbaar_tot_kwh` dus op `null` met de belofte in de
-   toelichting, gelijk aan hoe de Pro er nu in staat.
-
-Vier Zendure-regels op 41 modellen is wel iets om bewust te doen. Ze
-overlappen elkaar niet — 3 kW vast, 4 kW uitbreidbaar, 4 kW hybride — maar het
-is een merk dat de lijst begint te vullen.
-
-Betrouwbaarheid: zendure.nl, iotdomotica.nl en thuisbatterijgids.net zijn
-vanuit deze omgeving niet bereikbaar (egress-proxy), dus dit komt uit
-zoekresultaten. De prijs en de leverbaarheid van de uitbreidingsmodules horen
-bij een winkel nagekeken te worden voordat dit in `data/` gaat.
+Uit dezelfde ronde kwam een correctie op onze eigen gegevens: bij de 3000 Mix
+AC+ stond dat de uitbreiding tot 50+ kWh in Q4 2026 komt, maar die belofte
+geldt alleen voor de 4000-serie. De 3000 heeft geen uitbreidingspoort. Dat is
+meegegaan in dezelfde wijziging.
 
 ### Dyness 16,1 kWh
 
