@@ -1,0 +1,135 @@
+{
+  "bijgewerkt": "2026-08-16",
+  "punten": {
+    "geweigerd|goodwe-lynx-home-u-54|Warmteservice": {
+      "sinds": "2026-08-16",
+      "soort": "geweigerd",
+      "tekst": "goodwe-lynx-home-u-54 @ Warmteservice: HTTP 403"
+    },
+    "onbereikbaar|bluetti-balco-500|Bluetti EU-shop": {
+      "sinds": "2026-08-16",
+      "soort": "onbereikbaar",
+      "tekst": "bluetti-balco-500 @ Bluetti EU-shop: HTTP 404"
+    },
+    "onbereikbaar|dyness-powerbox-g2|Zonnige Winkel": {
+      "sinds": "2026-08-16",
+      "soort": "onbereikbaar",
+      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: fetch failed"
+    },
+    "onbereikbaar|fox-ess-ep11|Energiemagazijn": {
+      "sinds": "2026-08-16",
+      "soort": "onbereikbaar",
+      "tekst": "fox-ess-ep11 @ Energiemagazijn: fetch failed"
+    },
+    "onbereikbaar|tesla-powerwall-3|BeterDuurzaam": {
+      "sinds": "2026-08-16",
+      "soort": "onbereikbaar",
+      "tekst": "tesla-powerwall-3 @ BeterDuurzaam: fetch failed"
+    },
+    "te controleren|alphaess-smile-g3-t10|Frank Energie (sets incl. aansturing)": {
+      "sinds": "2026-08-16",
+      "soort": "te controleren",
+      "tekst": "alphaess-smile-g3-t10 @ Frank Energie (sets incl. aansturing): €9000 → €4945 (-45%)"
+    },
+    "te controleren|marstek-venus-e-4|Marstek.nl (officieel, excl. P1-meter)": {
+      "sinds": "2026-08-16",
+      "soort": "te controleren",
+      "tekst": "marstek-venus-e-4 @ Marstek.nl (officieel, excl. P1-meter): €1274 → €1674 (+31%)"
+    },
+    "te controleren|mova-lumegret-a4000|MOVA (officieel)": {
+      "sinds": "2026-08-16",
+      "soort": "te controleren",
+      "tekst": "mova-lumegret-a4000 @ MOVA (officieel): €1399 → €1990 (+42%)"
+    },
+    "te controleren|mova-lumegret-a4000|Thuisbatterij.io": {
+      "sinds": "2026-08-16",
+      "soort": "te controleren",
+      "tekst": "mova-lumegret-a4000 @ Thuisbatterij.io: €1190 → €709 (-40%)"
+    },
+    "te controleren|solaredge-home-battery-48v|Thuisbatterij Nederland (per module 4,6 kWh: ca. 3.100 euro)": {
+      "sinds": "2026-08-16",
+      "soort": "te controleren",
+      "tekst": "solaredge-home-battery-48v @ Thuisbatterij Nederland (per module 4,6 kWh: ca. 3.100 euro): €6200 → €1495 (-76%)"
+    },
+    "te controleren|zendure-solarflow-hyper-2000|Zendure": {
+      "sinds": "2026-08-16",
+      "soort": "te controleren",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 → €480 (-44%)"
+    },
+    "verouderd|aeg-solarcube-48|AH Voordeelshop": {
+      "sinds": "2026-08-16",
+      "soort": "verouderd",
+      "tekst": "aeg-solarcube-48 @ AH Voordeelshop: €1449 (27 dagen)"
+    },
+    "verouderd|alphaess-smile-g3-t10|Frank Energie (sets incl. aansturing)": {
+      "sinds": "2026-08-16",
+      "soort": "verouderd",
+      "tekst": "alphaess-smile-g3-t10 @ Frank Energie (sets incl. aansturing): €9000 (34 dagen)"
+    },
+    "verouderd|bluetti-balco-500|Bluetti EU-shop": {
+      "sinds": "2026-08-16",
+      "soort": "verouderd",
+      "tekst": "bluetti-balco-500 @ Bluetti EU-shop: €1599 (32 dagen)"
+    },
+    "verouderd|fox-ess-ep11|Energiemagazijn": {
+      "sinds": "2026-08-16",
+      "soort": "verouderd",
+      "tekst": "fox-ess-ep11 @ Energiemagazijn: €3385 (34 dagen)"
+    },
+    "verouderd|goodwe-lynx-home-u-54|Warmteservice": {
+      "sinds": "2026-08-16",
+      "soort": "verouderd",
+      "tekst": "goodwe-lynx-home-u-54 @ Warmteservice: €2383 (nooit bevestigd)"
+    },
+    "verouderd|mova-lumegret-a4000|MOVA (officieel)": {
+      "sinds": "2026-08-16",
+      "soort": "verouderd",
+      "tekst": "mova-lumegret-a4000 @ MOVA (officieel): €1399 (nooit bevestigd)"
+    },
+    "verouderd|sessy-5kwh|Sessy.nl (direct)": {
+      "sinds": "2026-08-16",
+      "soort": "verouderd",
+      "tekst": "sessy-5kwh @ Sessy.nl (direct): €3550 (34 dagen)"
+    },
+    "verouderd|solaredge-home-battery-48v|Thuisbatterij Nederland (per module 4,6 kWh: ca. 3.100 euro)": {
+      "sinds": "2026-08-16",
+      "soort": "verouderd",
+      "tekst": "solaredge-home-battery-48v @ Thuisbatterij Nederland (per module 4,6 kWh: ca. 3.100 euro): €6200 (34 dagen)"
+    },
+    "verouderd|sunpura-s4800|StekkerDeal-prijsvergelijking (juli 2026)": {
+      "sinds": "2026-08-16",
+      "soort": "verouderd",
+      "tekst": "sunpura-s4800 @ StekkerDeal-prijsvergelijking (juli 2026): €1330 (27 dagen)"
+    },
+    "verouderd|tesla-powerwall-3|BeterDuurzaam": {
+      "sinds": "2026-08-16",
+      "soort": "verouderd",
+      "tekst": "tesla-powerwall-3 @ BeterDuurzaam: €7497 (34 dagen)"
+    },
+    "verouderd|zendure-solarflow-hyper-2000|Zendure": {
+      "sinds": "2026-08-16",
+      "soort": "verouderd",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (31 dagen)"
+    },
+    "zonder bedrag|aeg-solarcube-48|AH Voordeelshop": {
+      "sinds": "2026-08-16",
+      "soort": "zonder bedrag",
+      "tekst": "aeg-solarcube-48 @ AH Voordeelshop: geen leesbaar bedrag"
+    },
+    "zonder bedrag|sessy-5kwh|Sessy.nl (direct)": {
+      "sinds": "2026-08-16",
+      "soort": "zonder bedrag",
+      "tekst": "sessy-5kwh @ Sessy.nl (direct): geen leesbaar bedrag"
+    },
+    "zonder bron|samduo-nex-e6000|adviesprijs fabrikant (samduo.nl, juli 2026)": {
+      "sinds": "2026-08-16",
+      "soort": "zonder bron",
+      "tekst": "samduo-nex-e6000: €1999 van adviesprijs fabrikant (samduo.nl, juli 2026), geen bron-URL"
+    },
+    "zonder bron|sunpura-s4800|StekkerDeal-prijsvergelijking (juli 2026)": {
+      "sinds": "2026-08-16",
+      "soort": "zonder bron",
+      "tekst": "sunpura-s4800: €1330 van StekkerDeal-prijsvergelijking (juli 2026), geen bron-URL"
+    }
+  }
+}
