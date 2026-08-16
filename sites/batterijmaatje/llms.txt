@@ -7,9 +7,12 @@
 - [Keuzehulp](https://batterijmaatje.nl/advies.html): advies op basis van verbruik, zonnepanelen en wensen.
 - [Beste thuisbatterij voor Home Assistant](https://batterijmaatje.nl/beste-thuisbatterij-home-assistant.html)
 - [Beste thuisbatterij voor Homey](https://batterijmaatje.nl/beste-thuisbatterij-homey.html)
+- [Thuisbatterij met stekker](https://batterijmaatje.nl/thuisbatterij-met-stekker.html): alle stekkerbatterijen (plug-and-play, balkonbatterij) die je zonder installateur aansluit.
 
 ## Rekenen
 - [Terugverdientijd berekenen](https://batterijmaatje.nl/rekenmodule.html): bereken de terugverdientijd met en zonder dynamisch contract.
+- [Wat kost een thuisbatterij?](https://batterijmaatje.nl/wat-kost-een-thuisbatterij.html): prijs en prijs per kWh per capaciteitsklasse, dagelijks bijgewerkt.
+- [Nu kopen of wachten?](https://batterijmaatje.nl/nu-kopen-of-wachten.html): wat er wel en niet verandert rond het einde van de saldering.
 
 ## Uitleg en achtergrond
 - [Uitleg over thuisbatterijen](https://batterijmaatje.nl/uitleg.html): begrippen, vast versus dynamisch contract en slim laden in gewone taal.
