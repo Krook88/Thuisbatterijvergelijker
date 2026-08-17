@@ -33,6 +33,7 @@ import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readdirSync, statSync } from "node:fs";
 import { controleerExtern, meldUitkomsten } from "./linkcontrole.mjs";
+import { haalMetBrowser, sluitBrowser } from "./prijs-uitlezen.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -162,7 +163,8 @@ async function main() {
 
   const bronnen = externeLinks();
   console.log(`\nExterne links: ${bronnen.size} adressen controleren${ZONDER_WINKELS ? " (winkel-URL's overgeslagen; die doet de prijsupdate)" : ""}...`);
-  const uitkomsten = await controleerExtern(bronnen, { userAgent: USER_AGENT });
+  const uitkomsten = await controleerExtern(bronnen, { userAgent: USER_AGENT, viaBrowser: haalMetBrowser });
+  await sluitBrowser();
   const { stuk } = meldUitkomsten(uitkomsten, samenvatting);
 
   if (kapotIntern.length) process.exit(1);

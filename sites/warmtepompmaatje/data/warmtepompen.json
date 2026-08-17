@@ -223,7 +223,7 @@
       "app": "myVAILLANT",
       "garantie_jaar": 10,
       "opmerkingen": "Kan tot 75 graden aanvoeren, en dat is precies waarom hij zo populair is bij renovatie: je bestaande radiatoren kunnen vaak gewoon blijven hangen. Draait op propaan en is met 54 dB(A) aan de stille kant. De koppeling is minder open dan het merk doet vermoeden - Home Assistant lukt alleen via een omweg en een Homey-app is er niet.",
-      "product_url": "https://www.vaillant.nl/consument/producten/arotherm-plus/",
+      "product_url": "https://www.vaillant.nl/consument/producten/arotherm-monobloc-21057.html",
       "aanbiedingen": [
         {
           "winkel": "Woon op Stroom",
@@ -750,7 +750,7 @@
       "app": "SmartThings",
       "garantie_jaar": 5,
       "opmerkingen": "Levert tapwater tot 70 graden, dus bestaande radiatoren kunnen meestal blijven zitten. De Quiet-uitvoering mikt op rijtjeshuizen: 54 dB(A) is netjes voor dit vermogen. Slim aansturen kan, maar Home Assistant vraagt een omweg en een Homey-app is er niet.",
-      "product_url": "https://www.samsung.com/nl/climate/",
+      "product_url": "https://www.samsung.com/nl/business/climate/",
       "isde_meldcode": "KA23536",
       "aanbiedingen": [
         {

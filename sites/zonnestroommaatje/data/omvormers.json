@@ -211,7 +211,7 @@
       "app": "SMA Energy / Sunny Portal",
       "garantie_jaar": 5,
       "opmerkingen": "Duitse kwaliteitsbouwer, al decennia actief. Garantie standaard 5 jaar, uit te breiden tot 10/15 jaar. Werkt samen met de Sunny Home Manager als EMS (ook voor warmtepomp en laadpaal).",
-      "product_url": "https://www.sma-benelux.com/nl",
+      "product_url": "https://www.sma.de/en/products/hybrid-inverters/sunny-tripower-smart-energy",
       "homey": {
         "status": "deels",
         "tekst": "Community-app voor SMA in de Homey App Store (lokaal via het netwerk)."
