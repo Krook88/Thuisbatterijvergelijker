@@ -355,16 +355,21 @@ async function updateAanbieding(batterij, aanbieding) {
       hoe = "bol-API";
     } else {
       /* Twee soorten winkels komen hier niet doorheen met een gewoon verzoek:
-         die met botbescherming (403, hoeveel headers je ook meestuurt) en die
-         de prijs pas in de browser invullen. Voor allebei is de terugval een
-         echte browser. Alleen als het nodig is - hem standaard gebruiken kost
-         twee seconden per winkel en levert bij veertig winkels niets op. */
+         die met botbescherming en die de prijs pas in de browser invullen.
+         Voor allebei is de terugval een echte browser. Alleen als het nodig is
+         - hem standaard gebruiken kost twee seconden per winkel en levert bij
+         veertig winkels niets op.
+
+         Elke mislukking telt, niet alleen een 403 of 429. Dat stond hier eerst
+         wel zo, en dat kostte bij zonnestroommaatje drie winkels: die weren
+         bots met een 404 of een 400, en zo hield de lijst aanbiedingen voor
+         dood die het gewoon doen. Lukt het de browser ook niet, dan geldt de
+         oorspronkelijke fout. */
       let html;
       let viaBrowser = false;
       try {
         html = await haalPagina(aanbieding.url);
       } catch (err) {
-        if (!/HTTP (403|429)/.test(String(err.message))) throw err;
         const uitBrowser = await haalMetBrowser(aanbieding.url).catch(() => null);
         if (!uitBrowser) throw err;
         html = uitBrowser;

@@ -54,12 +54,20 @@ export function noteerFout(signalen, item, err) {
  * Haalt een pagina op, met een echte browser als terugval.
  *
  * Twee keer terugvallen, om twee verschillende redenen:
- *   - de winkel weigert een gewoon verzoek (403/429). Headers helpen daar niet
- *     meer; die sturen we al allemaal mee.
+ *   - het gewone verzoek komt er niet doorheen.
  *   - de pagina antwoordt wel maar het bedrag wordt pas in de browser ingevuld.
  *
+ * Elke mislukking is reden voor een tweede poging, niet alleen een 403 of 429.
+ * Dat stond hier eerst wel zo, en dat kostte ons drie winkels: Memodo,
+ * Volt-shop en Winkelman stonden als "onbereikbaar" in de lijst terwijl hun
+ * productpagina's met precies onze URL gewoon in de zoekindex staan. Winkels
+ * die bots weren doen dat ook met een 404 of een 400, en wie alleen naar de
+ * code kijkt houdt een aanbieding voor dood die het doet. De linkcontrole
+ * leerde dat vandaag al; dit is dezelfde les één script verderop.
+ *
  * Alleen als terugval: een browser starten kost seconden, en de meeste winkels
- * antwoorden gewoon.
+ * antwoorden gewoon. Lukt het de browser ook niet, dan geldt de oorspronkelijke
+ * fout - dus een 404 die een 404 blijft heet nog steeds onbereikbaar.
  */
 export async function haalMetTerugval(url, leesPrijs) {
   let html;
@@ -67,7 +75,6 @@ export async function haalMetTerugval(url, leesPrijs) {
   try {
     html = await haalPagina(url);
   } catch (err) {
-    if (!/HTTP (403|429)/.test(String(err.message))) throw err;
     const uitBrowser = await haalMetBrowser(url).catch(() => null);
     if (!uitBrowser) throw err;
     html = uitBrowser;
