@@ -127,12 +127,17 @@ test("alleen een continu vermogen mag een dekkende uitspraak dragen", () => {
   assert.equal(Prijs.vermogenDektIets({ vermogen_kw: 0.8, vermogen_conditie: "stopcontact" }), false);
   assert.equal(Prijs.vermogenDektIets({ vermogen_kw: 5, vermogen_conditie: "onbekend" }), false);
   assert.equal(Prijs.vermogenDektIets({ vermogen_kw: 5 }), false);
+  // Uit de handleiding van de Zendure Mix: 4 kW haalt hij pas na een vaste
+  // aansluiting, in het stopcontact 800 W. Dat mag de keuzehulp dus niet als
+  // dekkend vermogen opvoeren bij iemand die hem in een stopcontact steekt.
+  assert.equal(Prijs.vermogenDektIets({ vermogen_kw: 4, vermogen_conditie: "vaste-aansluiting" }), false);
 });
 
 test("een maximum en een stopcontactgrens krijgen allebei een eigen label", () => {
   assert.match(Prijs.vermogenLabelHtml({ vermogen_kw: 2.5, vermogen_conditie: "max" }), /maximum/);
   assert.match(Prijs.vermogenLabelHtml({ vermogen_kw: 0.8, vermogen_conditie: "stopcontact" }), /stopcontactgrens/);
   assert.match(Prijs.vermogenLabelHtml({ vermogen_kw: 5, vermogen_conditie: "continu" }), /continu/);
+  assert.match(Prijs.vermogenLabelHtml({ vermogen_kw: 4, vermogen_conditie: "vaste-aansluiting" }), /vaste aansluiting/);
   assert.equal(Prijs.vermogenLabelHtml({ vermogen_kw: 5, vermogen_conditie: "onbekend" }), "");
 });
 

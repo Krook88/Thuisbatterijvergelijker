@@ -284,7 +284,7 @@
       // en met dat tweede getal zou de keuzehulp beweren dat hij een avondpiek
       // van 2,2 kW aankan terwijl hij er in huis 0,8 levert.
       if (b.vermogen_kw >= maat.piekKw && !Prijs.vermogenDektIets(b)) {
-        redenen.push(`het opgegeven vermogen (${String(b.vermogen_kw).replace(".", ",")} kW) ligt boven jouw avondgebruik (ca. ${String(maat.piekKw).replace(".", ",")} kW), maar van deze batterij is niet vastgesteld of dat het vermogen is dat hij aanhoudend levert`);
+        redenen.push(`het opgegeven vermogen (${String(b.vermogen_kw).replace(".", ",")} kW) ligt boven jouw avondgebruik (ca. ${String(maat.piekKw).replace(".", ",")} kW), maar dat is niet zonder meer het vermogen dat hij aanhoudend in huis levert; kijk bij dit model onder welke voorwaarde het geldt`);
       } else if (b.vermogen_kw >= maat.piekKw) {
         redenen.push(`het vermogen (${String(b.vermogen_kw).replace(".", ",")} kW) dekt jouw avondgebruik (ca. ${String(maat.piekKw).replace(".", ",")} kW)`);
       } else {
