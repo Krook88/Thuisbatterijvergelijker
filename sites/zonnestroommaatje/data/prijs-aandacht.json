@@ -1,16 +1,6 @@
 {
   "bijgewerkt": "2026-08-17",
   "punten": {
-    "onbereikbaar|enphase-iq8|Zonnige Winkel": {
-      "sinds": "2026-08-17",
-      "soort": "onbereikbaar",
-      "tekst": "enphase-iq8 @ Zonnige Winkel: fetch failed"
-    },
-    "onbereikbaar|goodwe-et|Zonnige Winkel": {
-      "sinds": "2026-08-17",
-      "soort": "onbereikbaar",
-      "tekst": "goodwe-et @ Zonnige Winkel: fetch failed"
-    },
     "onbereikbaar|growatt-min-xh|Winkelman Zonnepanelen": {
       "sinds": "2026-08-17",
       "soort": "onbereikbaar",
@@ -25,21 +15,6 @@
       "sinds": "2026-08-17",
       "soort": "onbereikbaar",
       "tekst": "sma-tripower-smart-energy @ Volt-shop: HTTP 404"
-    },
-    "onbereikbaar|solaredge-home-wave|Zonnige Winkel": {
-      "sinds": "2026-08-17",
-      "soort": "onbereikbaar",
-      "tekst": "solaredge-home-wave @ Zonnige Winkel: fetch failed"
-    },
-    "onbereikbaar|solis-s6-hybride|Zonnige Winkel": {
-      "sinds": "2026-08-17",
-      "soort": "onbereikbaar",
-      "tekst": "solis-s6-hybride @ Zonnige Winkel: fetch failed"
-    },
-    "onbereikbaar|sungrow-sh|Pavento Solar": {
-      "sinds": "2026-08-17",
-      "soort": "onbereikbaar",
-      "tekst": "sungrow-sh @ Pavento Solar: fetch failed"
     },
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
