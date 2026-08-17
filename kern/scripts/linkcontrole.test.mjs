@@ -106,6 +106,56 @@ test("een 403 op HEAD wordt nog steeds eerst met GET geprobeerd", async () => {
   assert.deepEqual(bezocht, ["HEAD", "GET"]);
 });
 
+/* ------------------------------------------------------------------
+   De browser als laatste woord
+   ------------------------------------------------------------------ */
+
+test("een 404 die een browser wel gewoon laadt is niet kapot", async () => {
+  // Dit is bluetti.com, volt-shop.nl en memodo.nl: botbescherming die zich
+  // voordoet als een verdwenen pagina.
+  const { haal } = nep({ HEAD: 404, GET: 404 });
+  const uit = await bereikbaarheid("https://winkel.nl/p", { haal, viaBrowser: async () => "<html>de pagina</html>" });
+  assert.equal(uit.status, 200);
+  assert.equal(uit.methode, "browser");
+});
+
+test("een 404 die ook in de browser een 404 is blijft kapot", async () => {
+  const { haal } = nep({ HEAD: 404, GET: 404 });
+  const stuk = async () => { throw new Error("HTTP 404"); };
+  const uit = await bereikbaarheid("https://winkel.nl/weg", { haal, viaBrowser: stuk });
+  assert.equal(uit.status, 404);
+  assert.equal(deelUitkomsten([{ ...uit, herkomst: "x" }]).stuk.length, 1);
+});
+
+test("zonder browser blijft het oordeel dat van het gewone verzoek", async () => {
+  const { haal } = nep({ HEAD: 404, GET: 404 });
+  const uit = await bereikbaarheid("https://winkel.nl/p", { haal });
+  assert.equal(uit.status, 404);
+  assert.equal(uit.methode, "GET");
+});
+
+test("een browser die zelf stukloopt verandert het oordeel niet", async () => {
+  // Playwright ontbreekt, of de start mislukt. Dan telt wat we wel weten.
+  const { haal } = nep({ HEAD: 404, GET: 404 });
+  const uit = await bereikbaarheid("https://winkel.nl/p", { haal, viaBrowser: async () => null });
+  assert.equal(uit.status, 404);
+  assert.equal(uit.methode, "GET");
+});
+
+test("een adres dat helemaal niet antwoordt krijgt ook een browserpoging", async () => {
+  // "fetch failed" kan ook een vingerafdruk-blokkade zijn.
+  const { haal } = nep({ HEAD: new Error("fetch failed"), GET: new Error("fetch failed") });
+  const uit = await bereikbaarheid("https://fabrikant.com/", { haal, viaBrowser: async () => "<html>ok</html>" });
+  assert.equal(uit.status, 200);
+});
+
+test("een goed antwoord kost nooit een browserpoging", async () => {
+  const { haal } = nep({ HEAD: 200 });
+  let geprobeerd = false;
+  await bereikbaarheid("https://winkel.nl/p", { haal, viaBrowser: async () => { geprobeerd = true; return "x"; } });
+  assert.equal(geprobeerd, false);
+});
+
 test("geen antwoord telt als kapot, niet als geweerd", () => {
   const { stuk, geweerd } = deelUitkomsten([{ url: "https://weg.nl/", status: 0, herkomst: "x" }]);
   assert.equal(stuk.length, 1);

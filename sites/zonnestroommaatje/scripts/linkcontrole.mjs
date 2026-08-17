@@ -69,7 +69,7 @@ function kopregels(userAgent) {
  * `haal` is er voor de proeven; in productie is dat gewoon fetch.
  */
 export async function bereikbaarheid(url, opties = {}) {
-  const { userAgent, tijdslimietMs = TIJDSLIMIET_MS, haal = fetch } = opties;
+  const { userAgent, tijdslimietMs = TIJDSLIMIET_MS, haal = fetch, viaBrowser = null } = opties;
   const verzoek = (methode) =>
     haal(url, {
       method: methode,
@@ -91,12 +91,47 @@ export async function bereikbaarheid(url, opties = {}) {
     eersteMelding = noem(fout);
   }
 
+  let zonderBrowser;
   try {
     const reactie = await verzoek("GET");
-    return { url, status: reactie.status, eind: reactie.url, methode: "GET" };
+    if (gelukt(reactie.status)) {
+      return { url, status: reactie.status, eind: reactie.url, methode: "GET" };
+    }
+    zonderBrowser = { url, status: reactie.status, eind: reactie.url, methode: "GET" };
   } catch (fout) {
-    return { url, status: 0, methode: "GET", melding: eersteMelding || noem(fout) };
+    zonderBrowser = { url, status: 0, methode: "GET", melding: eersteMelding || noem(fout) };
   }
+
+  return viaBrowser ? await metEchteBrowser(url, viaBrowser, zonderBrowser) : zonderBrowser;
+}
+
+/**
+ * Het laatste woord bij een adres dat ons weigert: een echte browser.
+ *
+ * Waarom dit nodig bleek. Na de HEAD-reparatie hielden we elf adressen over die
+ * "kapot" heetten. Van vier daarvan staat de pagina gewoon in de zoekindex,
+ * met precies de URL die wij aanroepen: bluetti.com/product/balco-500,
+ * volt-shop.nl (SMA 5.0), memodo.nl (SMA 5.0). Die winkels antwoorden een
+ * kaal verzoek met 404 of 400 in plaats van met 403 - botbescherming die zich
+ * voordoet als een verdwenen pagina. Wie daarop afgaat haalt aanbiedingen weg
+ * die het gewoon doen.
+ *
+ * Een browser kan dat onderscheid wel maken, en die staat in deze job al klaar
+ * voor de prijzen. haalMetBrowser gooit bij een echte foutcode; komt er HTML
+ * terug, dan heeft de browser een gewone pagina gekregen.
+ *
+ * Alleen voor adressen die er al doorheen gevallen zijn - dat zijn er een
+ * handvol per site, en zonder browser verandert er niets.
+ */
+async function metEchteBrowser(url, viaBrowser, zonderBrowser) {
+  try {
+    const html = await viaBrowser(url);
+    if (html) return { url, status: 200, methode: "browser" };
+  } catch (fout) {
+    const code = /HTTP (\d{3})/.exec(String(fout && fout.message));
+    if (code) return { url, status: Number(code[1]), methode: "browser" };
+  }
+  return zonderBrowser;
 }
 
 /** Niet meer dan één verzoek per anderhalve seconde per host. */
