@@ -1,0 +1,35 @@
+{
+  "bijgewerkt": "2026-08-17",
+  "punten": {
+    "geweigerd|gree-versati-iv-10|MaxiCool": {
+      "sinds": "2026-08-17",
+      "soort": "geweigerd",
+      "tekst": "gree-versati-iv-10 @ MaxiCool: HTTP 403"
+    },
+    "te controleren|inventum-ecolution-combi|JCB Ventilatie": {
+      "sinds": "2026-08-17",
+      "soort": "te controleren",
+      "tekst": "inventum-ecolution-combi @ JCB Ventilatie: €4843 is 167% van de richtprijs (€2900) - controleer of deze prijs hetzelfde dekt; klopt het verschil, zet dan \"omvat\" op deze aanbieding (https://www.jcbventilatiestore.nl/products/inventum-ecolution-combi-50-ventilatiewarmtepomp-50-liter)"
+    },
+    "verouderd|bosch-compress-5800i|Woonwijzerwinkel": {
+      "sinds": "2026-08-17",
+      "soort": "verouderd",
+      "tekst": "bosch-compress-5800i @ Woonwijzerwinkel: €7500 (nooit bevestigd)"
+    },
+    "verouderd|weheat-blackbird|richtprijs": {
+      "sinds": "2026-08-17",
+      "soort": "verouderd",
+      "tekst": "weheat-blackbird @ richtprijs: €7000 (nooit bevestigd)"
+    },
+    "zonder bedrag|itho-amber-95|Installmat": {
+      "sinds": "2026-08-17",
+      "soort": "zonder bedrag",
+      "tekst": "itho-amber-95 @ Installmat: geen leesbaar bedrag"
+    },
+    "zonder bedrag|weheat-blackbird|Weheat": {
+      "sinds": "2026-08-17",
+      "soort": "zonder bedrag",
+      "tekst": "weheat-blackbird @ Weheat: geen leesbaar bedrag"
+    }
+  }
+}
