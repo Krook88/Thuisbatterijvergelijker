@@ -700,7 +700,7 @@
       "fase": "3-fase",
       "richtprijs_eur": 3985,
       "prijs_omvat": "alleen batterij incl. btw; excl. omvormer (SH10RT ca. 1.400 euro incl. btw) en installatie",
-      "prijs_datum": "2026-08-16",
+      "prijs_datum": "2026-08-17",
       "prijs_bron": "Sunnergie",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "DC-gekoppeld en alleen te combineren met een Sungrow SH-hybride omvormer (SH-RS voor 1-fase, SH-RT voor 3-fase). Heb je een ander merk, dan moet de omvormer vervangen worden.",
@@ -718,7 +718,7 @@
           "winkel": "Thuisbatterij Outlet",
           "prijs_eur": 3695,
           "url": "https://thuisbatterijoutlet.eu/product/sungrow-sbr-hoogspannings-lfp-batterij-96kw-sbr096/",
-          "datum": "2026-08-16"
+          "datum": "2026-08-17"
         }
       ],
       "totaalprijs_van_eur": 5500,
@@ -1107,7 +1107,7 @@
       "fase": "1-fase (als H2-T2 ook leverbaar in 3-fase)",
       "richtprijs_eur": 4566,
       "prijs_omvat": "compleet pakket: hybride omvormer plus 10 kWh batterij, excl. installatie",
-      "prijs_datum": "2026-08-16",
+      "prijs_datum": "2026-08-17",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Alles in één kast: hybride omvormer en batterij samen, met je zonnepanelen er rechtstreeks op. Heb je al een systeem, dan vervangt dit meestal je huidige omvormer.",
       "koppeling_gemak": 3,
@@ -1124,7 +1124,7 @@
           "winkel": "Thuisbatterij Outlet",
           "prijs_eur": 4566,
           "url": "https://thuisbatterijoutlet.eu/product/saj-h2-5k-s2-10kwh-all-in-one-solution/",
-          "datum": "2026-08-16"
+          "datum": "2026-08-17"
         },
         {
           "winkel": "bol.com",
@@ -1696,7 +1696,7 @@
       "aanbiedingen": [
         {
           "winkel": "Thuisbatterij.nl (pre-sale)",
-          "prijs_eur": 1199,
+          "prijs_eur": 1299,
           "url": "https://thuisbatterij.nl/winkel/ecoflow-stream-ac-5000/",
           "datum": "2026-08-17"
         }

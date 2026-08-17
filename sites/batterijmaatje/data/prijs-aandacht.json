@@ -1,11 +1,6 @@
 {
   "bijgewerkt": "2026-08-17",
   "punten": {
-    "geweigerd|aeg-solarcube-48|AH Voordeelshop": {
-      "sinds": "2026-08-17",
-      "soort": "geweigerd",
-      "tekst": "aeg-solarcube-48 @ AH Voordeelshop: HTTP 403"
-    },
     "geweigerd|goodwe-lynx-home-u-54|Warmteservice": {
       "sinds": "2026-08-16",
       "soort": "geweigerd",
@@ -25,16 +20,6 @@
       "sinds": "2026-08-16",
       "soort": "onbereikbaar",
       "tekst": "fox-ess-ep11 @ Energiemagazijn: fetch failed"
-    },
-    "onbereikbaar|saj-h2-5k-s2-10kwh|Thuisbatterij Outlet": {
-      "sinds": "2026-08-17",
-      "soort": "onbereikbaar",
-      "tekst": "saj-h2-5k-s2-10kwh @ Thuisbatterij Outlet: fetch failed"
-    },
-    "onbereikbaar|sungrow-sbr096|Thuisbatterij Outlet": {
-      "sinds": "2026-08-17",
-      "soort": "onbereikbaar",
-      "tekst": "sungrow-sbr096 @ Thuisbatterij Outlet: fetch failed"
     },
     "onbereikbaar|tesla-powerwall-3|BeterDuurzaam": {
       "sinds": "2026-08-16",
@@ -140,6 +125,11 @@
       "sinds": "2026-08-16",
       "soort": "verouderd",
       "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (32 dagen)"
+    },
+    "zonder bedrag|aeg-solarcube-48|AH Voordeelshop": {
+      "sinds": "2026-08-17",
+      "soort": "zonder bedrag",
+      "tekst": "aeg-solarcube-48 @ AH Voordeelshop: geen leesbaar bedrag"
     },
     "zonder bedrag|sessy-5kwh|Sessy.nl (direct)": {
       "sinds": "2026-08-16",
