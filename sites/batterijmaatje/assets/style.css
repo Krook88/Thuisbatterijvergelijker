@@ -2,8 +2,8 @@
    Thuisbatterijvergelijker.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260815f");
-@import url("vergelijker.css?v=20260815f");
+@import url("maatlat.css?v=20260817a");
+@import url("vergelijker.css?v=20260817a");
 
 :root {
   --kleur-primair: #0f766e;
@@ -885,6 +885,18 @@ details.lees-meer[open] summary::after { content: " ▴"; }
   margin-bottom: var(--ruimte-40);
 }
 
+/* Een vergelijkingstabel heeft meer breedte nodig dan een alinea, en op een
+   bureaublad staat die ruimte er gewoon. Vanaf 1240 pixels mag het kader dus
+   twintig pixels aan weerskanten buiten de leeskolom steken. Precies vanaf
+   daar past het: eronder heeft het scherm de ruimte niet en schuift de tabel
+   in zijn eigen kader, zoals hij op een telefoon ook doet. */
+@media (min-width: 1240px) {
+  .tabel-wrap {
+    width: calc(100% + 40px);
+    margin-inline: -20px;
+  }
+}
+
 table.vergelijk-tabel {
   width: 100%;
   border-collapse: collapse;
@@ -903,7 +915,15 @@ table.vergelijk-tabel {
   color: var(--kleur-tekst-licht);
   cursor: pointer;
   user-select: none;
-  white-space: nowrap;
+
+  /* Koppen mogen over twee regels. Met nowrap bepaalde de langste kop de
+     kolombreedte, en dat waren juist de koppen boven de smalste inhoud:
+     "Home Assistant" eiste 153 pixels voor een vinkje, "Koppel-score" 138 voor
+     "3/6". Zo werd de tabel 1469 pixels breed terwijl er 1158 beschikbaar was,
+     en stond de laatste kolom op elk bureaublad buiten beeld - ook op een
+     scherm van 1920, want de leeskolom groeit niet mee. Twee regels kop kosten
+     40 pixels hoogte en leveren 300 pixels breedte op. */
+  white-space: normal;
 }
 
 .vergelijk-tabel th .sorteer-pijl { opacity: 0.5; }
