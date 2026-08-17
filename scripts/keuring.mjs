@@ -73,7 +73,7 @@ for (const site of TE_DOEN) {
   await new Promise((r) => srv.listen(0, r));
   const poort = srv.address().port;
 
-  const bevindingen = { contrast: new Map(), raakvlak: new Map(), tekst: new Map(), ronding: new Map() };
+  const bevindingen = { contrast: new Map(), raakvlak: new Map(), tekst: new Map(), ronding: new Map(), tabelbreedte: new Map() };
   const fouten = [];
 
   for (const [, pad] of paginasVan(root)) {
@@ -151,13 +151,32 @@ for (const site of TE_DOEN) {
           bevindingen[soort].set(sleutel, (bevindingen[soort].get(sleutel) || 0) + 1);
         }
       }
+      /* Pas hier de tabelweergave openen, ná de meting hierboven. Die knop
+         bouwt een halve pagina bij, en dat hoort niet stilletjes de omvang van
+         de andere controles te veranderen; wat daar mis is, is een eigen klus.
+         Waarom hij überhaupt gekeurd moet worden: de tabel zat achter een knop,
+         dus niemand keek ernaar, en zo stond hij maanden 311 pixels te breed
+         voor zijn kader terwijl de keuring "schoon" meldde. Alleen op 1280 -
+         op een telefoon hóórt hij te schuiven, daar is dat kader voor. */
+      if (breed >= 1280 && (await page.locator("#knopTabel").count())) {
+        await page.click("#knopTabel").catch(() => {});
+        await page.waitForTimeout(300);
+        const te = await page.evaluate(() => {
+          const w = document.querySelector(".tabel-wrap");
+          if (!w) return null;
+          const tekort = Math.round(w.scrollWidth - w.clientWidth);
+          return tekort > 1 ? `${tekort}px te breed voor zijn kader (${Math.round(w.scrollWidth)} in ${Math.round(w.clientWidth)})` : null;
+        });
+        if (te) bevindingen.tabelbreedte.set(`${pad}  ${te}`, 1);
+      }
+
       await page.close();
     }
   }
   srv.close();
 
   console.log(`\n=== ${site}`);
-  for (const soort of ["contrast", "raakvlak", "tekst", "ronding"]) {
+  for (const soort of ["contrast", "raakvlak", "tekst", "ronding", "tabelbreedte"]) {
     const lijst = [...bevindingen[soort].entries()].sort((a, c) => c[1] - a[1]);
     console.log(`  ${soort.padEnd(10)} ${lijst.length ? lijst.length + " soort(en)" : "schoon"}`);
     for (const [k, n] of lijst.slice(0, 8)) console.log(`      ${k}  (${n}x)`);
