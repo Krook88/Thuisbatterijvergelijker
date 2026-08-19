@@ -383,6 +383,42 @@ function ouderdomHtml(b) {
   return `<span class="prijs-ouderdom" title="Dit bedrag is ${oud.dagen} dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van ${esc(datumNL(oud.datum))}</span>`;
 }
 
+/**
+ * Wie deze batterij op de onbalansmarkt kan laten meedoen.
+ *
+ * Waarom dit apart staat van "dynamisch contract": dat zijn twee markten.
+ * Day-ahead prijzen staan een dag vooruit vast en daar kan een batterij zelf
+ * op sturen met zijn eigen app. De onbalansmarkt gaat per kwartier en vraagt
+ * reactie binnen seconden; dat kan een huishouden niet zelf, dat loopt altijd
+ * via een leverancier of aggregator die honderden batterijen bundelt. Wij
+ * gooiden die twee in één veld vrije tekst, waardoor je niet kon opzoeken
+ * welke batterij nu eigenlijk mee kan doen en via wie.
+ *
+ * Geen veld betekent: niet uitgezocht. Dat is iets anders dan "nee", en het
+ * hoort ook zo op de pagina te staan - anders leest een bezoeker een leeg
+ * vakje als een antwoord.
+ */
+function onbalansHtml(b) {
+  const o = b.onbalans;
+  const uitleg = `<a class="term-link" href="/uitleg.html#day-ahead-en-onbalans" title="Wat is de onbalansmarkt? Lees de uitleg">Onbalansmarkt</a>`;
+  if (!o) return `<li><b>${uitleg}:</b> nog niet uitgezocht voor dit model.</li>`;
+
+  const via = (o.via || []).map((v) => {
+    const naam = v.bron ? `<a href="${esc(v.bron)}" target="_blank" rel="noopener">${esc(v.partij)}</a>` : esc(v.partij);
+    /* De voorwaarde hoort binnen de haakjes van díé partij. Zet je hem
+       erachter, dan leest "via A of B, energiecontract nodig" alsof hij voor
+       allebei geldt - terwijl het juist het verschil tussen die twee kan zijn. */
+    const bij = [v.dienst && esc(v.dienst), v.eigen_contract && `energiecontract bij ${esc(v.partij)} nodig`].filter(Boolean);
+    return `${naam}${bij.length ? ` (${bij.join("; ")})` : ""}`;
+  });
+
+  const kop = o.status === "ja" ? `Ja, via ${via.join(" of ")}.`
+    : o.status === "nee" ? "Nee."
+    : via.length ? `Niet nagegaan; wel een koppeling met ${via.join(" of ")}.` : "Niet nagegaan.";
+
+  return `<li><b>${uitleg}:</b> ${kop}${o.toelichting ? ` ${esc(o.toelichting)}` : ""}</li>`;
+}
+
 function pagina(b) {
   const beste = bestePrijs(b);
   const totaal = totaalprijsTekst(b);
@@ -503,6 +539,7 @@ ${NAV_HTML}
     <li><b>Homey:</b> ${esc(homey.tekst)}</li>
     <li><b>Home Assistant:</b> ${esc(ha.tekst)}</li>
     <li><b>Dynamisch energiecontract:</b> ${esc(dyn.tekst)}</li>
+    ${onbalansHtml(b)}
   </ul>
 
   <h2>Noodstroom en zelfvoorzienendheid</h2>
