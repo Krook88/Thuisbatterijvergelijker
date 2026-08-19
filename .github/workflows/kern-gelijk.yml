@@ -9,9 +9,15 @@ name: Kern en sites lopen gelijk
 # stap voor stap. Dat is met opzet: zodra CI iets anders doet dan jij, gaat
 # "bij mij was het groen" een eigen leven leiden.
 
+# Waarom push alleen op de hoofdbranch: met branches ["**"] startte elke duw
+# naar een PR-tak deze controle twee keer, een keer via push en een keer via
+# pull_request. Twee keer hetzelfde werk, twee keer een Chromium van 300 MB
+# ophalen, en twee kansen dat er een blijft hangen. Dat gebeurde ook: op
+# 19 augustus stond dezelfde commit tegelijk groen (via pull_request) en
+# vastgelopen (via push).
 on:
   push:
-    branches: ["**"]
+    branches: ["claude/home-battery-comparison-nl-qxolhe"]
     paths:
       - "kern/**"
       - "sites/**"
@@ -70,6 +76,7 @@ jobs:
   # controles wél doorkwamen.
   keuren:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -78,7 +85,14 @@ jobs:
 
       # Playwright staat bewust niet in package.json: de rest van de repo
       # heeft nul afhankelijkheden en dat is het waard om te houden.
+      # Met een grens erop, want deze stap kan blijven hangen. Op 19 augustus
+      # stond hij 285 minuten op het ophalen van Chromium en zou hij pas na
+      # zes uur zijn afgekapt door de standaardgrens van GitHub - al die tijd
+      # met een pull request die op "checks nog niet klaar" bleef staan. Een
+      # download van 300 MB die na tien minuten niet klaar is, komt niet meer
+      # goed; dan is snel falen beter, want opnieuw draaien is een knop.
       - name: Browser klaarzetten
+        timeout-minutes: 10
         run: npm i --no-save playwright && npx playwright install --with-deps chromium
 
       # Contrast, aanraakvlakken, tekstmaten en javascriptfouten over elke
