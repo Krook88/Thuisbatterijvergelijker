@@ -127,6 +127,27 @@ er zou veranderen, met een telling per bestand. Die telling is het punt:
 veranderen er 43 bestanden terwijl je er één bedoelde, dan zie je dat vóór het
 schrijven.
 
+## Steun-knop
+
+Elke site heeft een `steun.html`: een korte pagina die om een kop koffie
+vraagt, met een link vanuit de voettekst en een blok onderaan `over-ons.html`
+en `rekenmodule.html`. Nederlandse bezoekers betalen met iDEAL, en daarvoor is
+een bunq.me-link gekozen: die is gratis, verloopt niet, kan zonder
+KvK-inschrijving en stuurt de bezoeker naar een betaalpagina in plaats van naar
+een betaalscript op onze site — dat scheelt een privacyverhaal.
+
+**De betaallink staat op één plek per site**: in `sites/<site>/steun.html`, in
+de enige `<a class="knop">` van het steunblok, met een commentaarregel ernaast.
+Zolang daar `https://bunq.me/JOUWNAAM` staat, wijst de knop nergens heen; de
+dagelijkse linkcontrole meldt hem dan als kapotte externe link. Vervang hem dus
+vóór de eerste publicatie, op alle drie de sites.
+
+De knop is bewust niet in het hoofdmenu gezet en staat niet op de vergelijker
+zelf. Een vergelijkingssite die om geld vraagt op de plek waar hij prijzen
+toont, roept precies de vraag op die `over-ons.html` juist probeert weg te
+nemen. Het blok staat daarom onderaan de twee pagina's waar de bezoeker net
+iets gekregen heeft, en verder in de voettekst.
+
 ## Waar bezoekers vandaan komen
 
 `docs/zoekwoorden.md` verzamelt de woorden waarop gezocht wordt, wat daarvan

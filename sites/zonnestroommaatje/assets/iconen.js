@@ -54,6 +54,8 @@
     "ja": '<path d="M20 6 9 17l-5-5" />',
     "nee": '<path d="M18 6 6 18" /> <path d="m6 6 12 12" />',
     "deels": '<circle cx="12" cy="12" r="10" /> <path d="M12 18a6 6 0 0 0 0-12v12z" />',
+    // Koffie: de steunknop en het steunblok. Zie steun.html.
+    "koffie": '<path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" />',
     "onbekend": '<circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" />',
     "pijl-rechts": '<path d="M5 12h14" /> <path d="m12 5 7 7-7 7" />',
     "pijl-links": '<path d="m12 19-7-7 7-7" /> <path d="M19 12H5" />',
