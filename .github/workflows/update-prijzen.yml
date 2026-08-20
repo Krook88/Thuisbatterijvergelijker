@@ -77,8 +77,14 @@ jobs:
       #
       # Zonder deze stap draait alles precies zoals eerst en zegt het rapport
       # dat de browser er niet was - dat is iets anders dan "de winkel weigert".
+      # Met een grens erop: deze download hing op 19 augustus vier uur in de
+      # andere workflow. Hier zou dat erger zijn, want deze baan duwt commits
+      # en houdt de volgende site tegen. Faalt hij, dan draait de prijsupdate
+      # gewoon zonder browser en zegt het rapport dat de browser er niet was.
       - name: Browser voor winkels die een gewoon verzoek weigeren
         if: steps.keuze.outputs.doen == 'true'
+        timeout-minutes: 10
+        continue-on-error: true
         run: npm i --no-save playwright && npx playwright install chromium
 
       - name: Prijzen bijwerken
