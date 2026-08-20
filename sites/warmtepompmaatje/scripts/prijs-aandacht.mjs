@@ -30,12 +30,37 @@
 import { readFileSync, writeFileSync, existsSync, appendFileSync } from "node:fs";
 
 /**
+ * Twee namen voor hetzelfde probleem.
+ *
+ * De AEG bij AH Voordeelshop maakte batterijmaatje in zijn eentje elke dag
+ * rood. Die winkel weert ons met een 403; lukt het de browser wel om binnen te
+ * komen, dan staat er geen leesbaar bedrag op de pagina. Welke van de twee we
+ * te zien krijgen hangt af van of de browser er die run doorheen kwam. Zo
+ * wisselde hij per run tussen "geweigerd" en "zonder bedrag", en telde elke
+ * wissel als één nieuw punt plus één opgelost punt.
+ *
+ * Voor een mens is het één situatie met één antwoord: deze winkel geeft ons
+ * geen prijs. Dus tellen ze als hetzelfde punt. Het rapport blijft wel de
+ * werkelijke soort noemen, want dat is het verschil tussen "ze houden ons
+ * buiten" en "we mogen binnen maar er staat niets".
+ *
+ * Wat hier nadrukkelijk niet bij hoort is "onbereikbaar". Van geweigerd naar
+ * een pagina die niet meer bestaat is wél een verandering die iemand hoort te
+ * zien: dan moet er een nieuwe URL komen.
+ */
+const FAMILIE = { geweigerd: "zonder prijs", "zonder bedrag": "zonder prijs" };
+
+export function familieVan(soort) {
+  return FAMILIE[soort] || soort;
+}
+
+/**
  * Een sleutel die hetzelfde punt op twee dagen herkent, en twee verschillende
  * punten uit elkaar houdt. Bewust zonder bedrag erin: een prijs die van 850
  * naar 860 kruipt is niet elke dag een nieuw probleem.
  */
 export function sleutelVan(soort, item) {
-  return [soort, item.id, item.winkel || ""].join("|");
+  return [familieVan(soort), item.id, item.winkel || ""].join("|");
 }
 
 /** De lijst met wat we al weten, als sleutel => {sinds, soort, tekst}. */

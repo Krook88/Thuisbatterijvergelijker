@@ -199,14 +199,6 @@
           "prijs_eur": 1195,
           "url": "https://www.homewizard.com/shop/plug-in-battery/",
           "datum": "2026-08-20"
-        },
-        {
-          "winkel": "bol.com",
-          "prijs_eur": 1195,
-          "url": "https://www.bol.com/nl/nl/p/homewizard-plug-in-battery-thuisbatterij/9300000238947832/",
-          "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fhomewizard-plug-in-battery-thuisbatterij%2F9300000238947832%2F&name=homewizard-plug-in-battery&subid=batterijmaatje",
-          "datum": null,
-          "niet_leverbaar": true
         }
       ],
       "totaalprijs_van_eur": 1230,
@@ -1294,16 +1286,8 @@
       "app": "BLUETTI app",
       "garantie_jaar": 10,
       "cycli": null,
-      "opmerkingen": "Nieuw op de Nederlandse markt. Voorverkoop via de officiële Bluetti EU-shop van 15 juni tot en met 27 augustus 2026; de levering volgt daarna. Voor 1.599 euro krijg je 5 kWh, wat veel opslag voor je geld is, met een ingebouwd noodstroom-stopcontact tot 3.680 W. De AI-aansturing werkt op dynamische uur- en kwartierprijzen.",
-      "product_url": "https://bluetti.com/product/balco-500",
-      "aanbiedingen": [
-        {
-          "winkel": "Bluetti EU-shop",
-          "prijs_eur": 1599,
-          "url": "https://bluetti.com/product/balco-500",
-          "datum": "2026-07-15"
-        }
-      ],
+      "opmerkingen": "Nieuw op de Nederlandse markt. De voorverkoop liep via de officiële Bluetti EU-shop; die productpagina is inmiddels weg, dus onderstaand bedrag is de aangekondigde adviesprijs en geen winkelprijs. Voor 1.599 euro krijg je 5 kWh, wat veel opslag voor je geld is, met een ingebouwd noodstroom-stopcontact tot 3.680 W. De AI-aansturing werkt op dynamische uur- en kwartierprijzen.",
+      "aanbiedingen": [],
       "totaalprijs_van_eur": 1599,
       "totaalprijs_tot_eur": null,
       "totaalprijs_toelichting": "plug & play: zelf te installeren, geen installatiekosten",
@@ -1315,7 +1299,8 @@
       "afbeelding_bron": "foto: Bluetti",
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "stopcontact",
-      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
+      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel.",
+      "prijs_bron": "adviesprijs fabrikant bij de aankondiging voor Europa; de productpagina van Bluetti is verdwenen"
     },
     {
       "id": "anker-solix-solarbank-max-ac",

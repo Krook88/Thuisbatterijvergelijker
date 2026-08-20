@@ -86,6 +86,34 @@ test("een ander soort probleem bij dezelfde winkel is wel nieuw", () => {
   assert.equal(vandaag.opgelost.length, 1);
 });
 
+test("een winkel die wisselt tussen weigeren en geen bedrag tonen is één punt", () => {
+  // Dit is de AEG bij AH Voordeelshop: die maakte de run in zijn eentje elke
+  // dag rood, terwijl er niets veranderde aan wat een mens ermee moest.
+  const gisteren = vergelijk([punt("geweigerd", "aeg", "AH")], new Map(), "2026-08-15");
+  const bekend = new Map(Object.entries(gisteren.punten));
+  const vandaag = vergelijk([punt("zonder bedrag", "aeg", "AH")], bekend, VANDAAG);
+  assert.equal(vandaag.nieuw.length, 0, "geen alarm");
+  assert.equal(vandaag.opgelost.length, 0, "en ook geen vals goed nieuws");
+  assert.equal(vandaag.onveranderd.length, 1);
+  assert.equal(vandaag.onveranderd[0].sinds, "2026-08-15", "de dag dat het begon blijft staan");
+});
+
+test("het rapport noemt wel de soort van vandaag", () => {
+  // De sleutel is hetzelfde, maar het verschil tussen "ze houden ons buiten"
+  // en "we mogen binnen maar er staat niets" hoort een mens wel te zien.
+  const gisteren = vergelijk([punt("geweigerd", "aeg", "AH")], new Map(), "2026-08-15");
+  const bekend = new Map(Object.entries(gisteren.punten));
+  const vandaag = vergelijk([punt("zonder bedrag", "aeg", "AH")], bekend, VANDAAG);
+  assert.equal(Object.values(vandaag.punten)[0].soort, "zonder bedrag");
+});
+
+test("van geen bedrag naar een verdwenen pagina is wél nieuws", () => {
+  const gisteren = vergelijk([punt("zonder bedrag", "a", "Winkel")], new Map(), "2026-08-15");
+  const bekend = new Map(Object.entries(gisteren.punten));
+  const vandaag = vergelijk([punt("onbereikbaar", "a", "Winkel")], bekend, VANDAAG);
+  assert.equal(vandaag.nieuw.length, 1);
+});
+
 test("hetzelfde punt twee keer op één dag telt één keer", () => {
   const u = vergelijk([punt("verouderd", "a", "Winkel"), punt("verouderd", "a", "Winkel")], new Map(), VANDAAG);
   assert.equal(u.nieuw.length, 1);
