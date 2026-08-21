@@ -343,7 +343,7 @@ const FOOTER = `
   <div class="container">
     <b>${Iconen.svg("zon")} Zonnestroommaatje</b>
     <p>Onafhankelijke vergelijking van zonnepanelen voor Nederlandse huishoudens. Zustersite van <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen) en <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a> (warmtepompen).</p>
-    <p><a href="/index.html">Zonnepanelen</a> · <a href="/omvormers.html">Omvormers</a> · <a href="/systeem.html">Samenstellen</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/energieplan.html">Jouw energieplan</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="/hebben-zonnepanelen-nog-zin.html">Loont het nog?</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a> · <a href="/beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="/index.html">Zonnepanelen</a> · <a href="/omvormers.html">Omvormers</a> · <a href="/systeem.html">Samenstellen</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/energieplan.html">Jouw energieplan</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="/hebben-zonnepanelen-nog-zin.html">Loont het nog?</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a> · <a href="/beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. Prijzen zijn indicatief; de prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -918,6 +918,7 @@ const vast = [
   { loc: `${SITE}/over-ons.html`, freq: "monthly", prio: "0.4" },
   { loc: `${SITE}/contact.html`, freq: "yearly", prio: "0.3" },
   { loc: `${SITE}/privacy.html`, freq: "yearly", prio: "0.2" },
+  { loc: `${SITE}/steun.html`, freq: "yearly", prio: "0.3" },
 ];
 
 const urls = [

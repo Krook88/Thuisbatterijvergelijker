@@ -2,8 +2,8 @@
    Thuisbatterijvergelijker.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260817a");
-@import url("vergelijker.css?v=20260817a");
+@import url("maatlat.css?v=20260820a");
+@import url("vergelijker.css?v=20260820a");
 
 :root {
   --kleur-primair: #0f766e;
@@ -1732,3 +1732,43 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   line-height: 1.5;
   color: var(--kleur-tekst-licht, var(--kleur-tekst));
 }
+
+/* --------------------------------------------------------------------------
+   Steunblok: trakteer me op een koffie
+
+   Eén blok voor twee plekken. Kort onderaan een pagina waar de bezoeker net
+   iets gekregen heeft (de rekenmodule, over ons), en groot op steun.html zelf,
+   met de betaalknop erin.
+
+   Amber en niet de merkkleur: dit is het enige onderdeel op de site dat om
+   iets vraagt in plaats van iets te vertellen. Dat hoort zichtbaar anders te
+   zijn dan een uitlegkader, anders leest het als informatie.
+
+   Het icoon staat op #92400e en niet op --kleur-accent-donker, om dezelfde
+   reden als bij .advies-as: op dit lichte amber haalt die laatste 4,44:1 en
+   WCAG 1.4.3 (AA) vraagt 4,5:1.
+   -------------------------------------------------------------------------- */
+.steun-blok {
+  display: flex;
+  gap: var(--ruimte-14);
+  align-items: flex-start;
+  background: var(--kleur-accent-licht);
+  border: 1px solid var(--kleur-accent);
+  border-radius: var(--radius);
+  padding: var(--ruimte-20);
+  margin: var(--ruimte-28) 0;
+}
+
+/* Het icoon krimpt niet mee: op een telefoon breekt de tekst ernaast, en dan
+   is een half kopje koffie erger dan geen kopje koffie. */
+.steun-icoon { flex: none; display: inline-flex; color: #92400e; }
+.steun-icoon .icoon { width: 28px; height: 28px; }
+
+.steun-inhoud { min-width: 0; }
+.steun-inhoud > b { display: block; font-size: var(--tekst-19); }
+.steun-inhoud p { margin: var(--ruimte-6) 0 0; font-size: var(--tekst-15); line-height: 1.55; }
+.steun-actie { margin-top: var(--ruimte-14); }
+.steun-klein { color: var(--kleur-tekst-licht); }
+
+/* Op steun.html staat het blok niet als terzijde maar als hoofdzaak. */
+.steun-blok-groot { margin: var(--ruimte-28) 0 var(--ruimte-40); }
