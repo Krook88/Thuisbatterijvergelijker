@@ -138,9 +138,9 @@ een betaalscript op onze site — dat scheelt een privacyverhaal.
 
 **De betaallink staat op één plek per site**: in `sites/<site>/steun.html`, in
 de enige `<a class="knop">` van het steunblok, met een commentaarregel ernaast.
-Zolang daar `https://bunq.me/JOUWNAAM` staat, wijst de knop nergens heen; de
-dagelijkse linkcontrole meldt hem dan als kapotte externe link. Vervang hem dus
-vóór de eerste publicatie, op alle drie de sites.
+Alle drie de sites wijzen naar dezelfde link, want er is één maker. Verandert
+die link ooit, dan zijn het dus drie bestanden — en dat is te merken aan de
+dagelijkse linkcontrole, die hem als externe link meeneemt.
 
 De knop is bewust niet in het hoofdmenu gezet en staat niet op de vergelijker
 zelf. Een vergelijkingssite die om geld vraagt op de plek waar hij prijzen
