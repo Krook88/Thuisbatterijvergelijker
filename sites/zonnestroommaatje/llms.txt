@@ -23,6 +23,7 @@
 ## Over de site
 - [Over Zonnestroommaatje](https://zonnestroommaatje.nl/over-ons.html): hoe we onafhankelijk blijven en hoe de Zeker-score werkt.
 - [Contact](https://zonnestroommaatje.nl/contact.html)
+- [Steun deze site](https://zonnestroommaatje.nl/steun.html): waarom de site gratis is en hoe je hem met een kop koffie kunt steunen.
 
 ## Zustersites
 - [Batterijmaatje.nl](https://batterijmaatje.nl/): thuisbatterijen vergelijken.

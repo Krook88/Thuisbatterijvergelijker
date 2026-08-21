@@ -130,11 +130,13 @@ schrijven.
 ## Steun-knop
 
 Elke site heeft een `steun.html`: een korte pagina die om een kop koffie
-vraagt, met een link vanuit de voettekst en een blok onderaan `over-ons.html`
-en `rekenmodule.html`. Nederlandse bezoekers betalen met iDEAL, en daarvoor is
-een bunq.me-link gekozen: die is gratis, verloopt niet, kan zonder
-KvK-inschrijving en stuurt de bezoeker naar een betaalpagina in plaats van naar
-een betaalscript op onze site — dat scheelt een privacyverhaal.
+vraagt. Er wijzen vier dingen naartoe: een item in het "Meer"-menu (dus op elke
+pagina), een link in de voettekst, en een blok onderaan `index.html`,
+`advies.html`, `rekenmodule.html` en `over-ons.html`. Nederlandse bezoekers
+betalen met iDEAL, en daarvoor is een bunq.me-link gekozen: die is gratis,
+verloopt niet, kan zonder KvK-inschrijving en stuurt de bezoeker naar een
+betaalpagina in plaats van naar een betaalscript op onze site — dat scheelt een
+privacyverhaal.
 
 **De betaallink staat op één plek per site**: in `sites/<site>/steun.html`, in
 de enige `<a class="knop">` van het steunblok, met een commentaarregel ernaast.
@@ -142,11 +144,21 @@ Alle drie de sites wijzen naar dezelfde link, want er is één maker. Verandert
 die link ooit, dan zijn het dus drie bestanden — en dat is te merken aan de
 dagelijkse linkcontrole, die hem als externe link meeneemt.
 
-De knop is bewust niet in het hoofdmenu gezet en staat niet op de vergelijker
-zelf. Een vergelijkingssite die om geld vraagt op de plek waar hij prijzen
+Wat er niet gebeurt: de vraag staat nergens bovenaan, en nergens tussen de
+prijzen. Een vergelijkingssite die om geld vraagt op de plek waar hij prijzen
 toont, roept precies de vraag op die `over-ons.html` juist probeert weg te
-nemen. Het blok staat daarom onderaan de twee pagina's waar de bezoeker net
-iets gekregen heeft, en verder in de voettekst.
+nemen. Elk blok staat daarom onderaan zijn pagina, nadat de bezoeker heeft
+gekregen waarvoor hij kwam. Om diezelfde reden staat er op `steun.html` een
+kader dat een donatie geen positie, vermelding of score koopt.
+
+Het menu-item is het enige met een icoon ernaast, en dat is met opzet: het is
+ook het enige item dat om iets vraagt in plaats van ergens heen te wijzen.
+Zonder dat verschil is het de negende grijze regel in een lijst van negen.
+
+`steun.html` staat daardoor in het hoofdmenu, en `npm run llms` eist dan dat
+hij ook in `llms.txt` staat. Dat is geen formaliteit: een assistent die de site
+samenvat hoort te kunnen vertellen dat hij van één maker is en van koffie
+draait.
 
 ## Waar bezoekers vandaan komen
 
