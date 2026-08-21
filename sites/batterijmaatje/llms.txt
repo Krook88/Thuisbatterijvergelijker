@@ -21,6 +21,7 @@
 ## Over de site
 - [Over Batterijmaatje](https://batterijmaatje.nl/over-ons.html): hoe we onafhankelijk blijven en hoe de Koppel-score werkt.
 - [Contact](https://batterijmaatje.nl/contact.html)
+- [Steun deze site](https://batterijmaatje.nl/steun.html): waarom de site gratis is en hoe je hem met een kop koffie kunt steunen.
 
 ## Zustersites
 - [Zonnestroommaatje.nl](https://zonnestroommaatje.nl/): zonnepanelen vergelijken.

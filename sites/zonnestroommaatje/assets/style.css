@@ -2,8 +2,8 @@
    Zonnepaneelmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260820a");
-@import url("vergelijker.css?v=20260820a");
+@import url("maatlat.css?v=20260821a");
+@import url("vergelijker.css?v=20260821a");
 
 :root {
   --kleur-primair: #0369a1;
@@ -1635,3 +1635,13 @@ a.icoon-kaart { text-decoration: none; color: inherit; }
 
 /* Op steun.html staat het blok niet als terzijde maar als hoofdzaak. */
 .steun-blok-groot { margin: var(--ruimte-28) 0 var(--ruimte-40); }
+
+/* Het steunitem in het "Meer"-menu.
+
+   Eén regel met een icoon tussen acht regels zonder. Dat is met opzet: dit is
+   het enige menu-item dat om iets vraagt in plaats van ergens heen te wijzen,
+   en zonder dat verschil is het de negende grijze regel op rij. Het icoon
+   staat op de accentkleur en niet op de merkkleur, zodat het bij het
+   steunblok hoort en niet bij de navigatie eromheen. */
+.hoofdnav .nav-meer-paneel a.nav-steun { display: flex; align-items: center; gap: var(--ruimte-6); }
+.hoofdnav .nav-meer-paneel a.nav-steun .icoon { color: var(--kleur-accent-donker); }
