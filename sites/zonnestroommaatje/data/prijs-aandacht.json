@@ -1,6 +1,16 @@
 {
-  "bijgewerkt": "2026-08-20",
+  "bijgewerkt": "2026-08-21",
   "punten": {
+    "onbereikbaar|enphase-iq8|Zonnige Winkel": {
+      "sinds": "2026-08-21",
+      "soort": "onbereikbaar",
+      "tekst": "enphase-iq8 @ Zonnige Winkel: fetch failed"
+    },
+    "onbereikbaar|goodwe-et|Zonnige Winkel": {
+      "sinds": "2026-08-21",
+      "soort": "onbereikbaar",
+      "tekst": "goodwe-et @ Zonnige Winkel: fetch failed"
+    },
     "onbereikbaar|growatt-min-xh|Winkelman Zonnepanelen": {
       "sinds": "2026-08-17",
       "soort": "onbereikbaar",
@@ -16,10 +26,20 @@
       "soort": "onbereikbaar",
       "tekst": "sma-tripower-smart-energy @ Volt-shop: HTTP 404"
     },
+    "onbereikbaar|solaredge-home-wave|Zonnige Winkel": {
+      "sinds": "2026-08-21",
+      "soort": "onbereikbaar",
+      "tekst": "solaredge-home-wave @ Zonnige Winkel: fetch failed"
+    },
+    "onbereikbaar|solis-s6-hybride|Zonnige Winkel": {
+      "sinds": "2026-08-21",
+      "soort": "onbereikbaar",
+      "tekst": "solis-s6-hybride @ Zonnige Winkel: fetch failed"
+    },
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (30 dagen)"
+      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (31 dagen)"
     },
     "verouderd|denim-440-full-black|Feenstra": {
       "sinds": "2026-08-17",
@@ -34,7 +54,7 @@
     "verouderd|growatt-min-xh|Winkelman Zonnepanelen": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "growatt-min-xh @ Winkelman Zonnepanelen: €546 (26 dagen)"
+      "tekst": "growatt-min-xh @ Winkelman Zonnepanelen: €546 (27 dagen)"
     },
     "verouderd|jinko-tiger-neo-440|GroothandelSolar": {
       "sinds": "2026-08-17",
@@ -44,7 +64,7 @@
     "verouderd|maxeon-6-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "maxeon-6-440 @ richtprijs: €230 (30 dagen)"
+      "tekst": "maxeon-6-440 @ richtprijs: €230 (31 dagen)"
     },
     "verouderd|qcells-qtron-430|Zonnefabriek": {
       "sinds": "2026-08-17",
@@ -69,7 +89,7 @@
     "verouderd|solarwatt-vision-am-425|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "solarwatt-vision-am-425 @ richtprijs: €140 (30 dagen)"
+      "tekst": "solarwatt-vision-am-425 @ richtprijs: €140 (31 dagen)"
     },
     "verouderd|solis-s6-hybride|VDH Power": {
       "sinds": "2026-08-17",
@@ -84,25 +104,25 @@
     "verouderd|ulica-440-full-black|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "ulica-440-full-black @ richtprijs: €55 (30 dagen)"
+      "tekst": "ulica-440-full-black @ richtprijs: €55 (31 dagen)"
     },
-    "zonder bedrag|denim-440-full-black|Feenstra": {
-      "sinds": "2026-08-17",
+    "zonder prijs|denim-440-full-black|Feenstra": {
+      "sinds": "2026-08-21",
       "soort": "zonder bedrag",
       "tekst": "denim-440-full-black @ Feenstra: geen leesbaar bedrag"
     },
-    "zonder bedrag|jinko-tiger-neo-440|GroothandelSolar": {
-      "sinds": "2026-08-17",
+    "zonder prijs|jinko-tiger-neo-440|GroothandelSolar": {
+      "sinds": "2026-08-21",
       "soort": "zonder bedrag",
       "tekst": "jinko-tiger-neo-440 @ GroothandelSolar: geen leesbaar bedrag"
     },
-    "zonder bedrag|qcells-qtron-430|Zonnefabriek": {
-      "sinds": "2026-08-17",
+    "zonder prijs|qcells-qtron-430|Zonnefabriek": {
+      "sinds": "2026-08-21",
       "soort": "zonder bedrag",
       "tekst": "qcells-qtron-430 @ Zonnefabriek: geen leesbaar bedrag"
     },
-    "zonder bedrag|solis-s6-hybride|VDH Power": {
-      "sinds": "2026-08-17",
+    "zonder prijs|solis-s6-hybride|VDH Power": {
+      "sinds": "2026-08-21",
       "soort": "zonder bedrag",
       "tekst": "solis-s6-hybride @ VDH Power: geen leesbaar bedrag"
     }
