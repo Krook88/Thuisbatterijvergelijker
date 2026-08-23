@@ -2,8 +2,8 @@
    Warmtepompmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260823e");
-@import url("vergelijker.css?v=20260823e");
+@import url("maatlat.css?v=20260823f");
+@import url("vergelijker.css?v=20260823f");
 
 :root {
   --kleur-primair: #c2410c;
@@ -608,7 +608,7 @@ h1 .merk-logo { height: 28px; vertical-align: -4px; }
   font-size: var(--tekst-15);
   background: var(--kleur-wit);
   border: 1px solid var(--kleur-rand);
-  border-radius: var(--radius-pil);
+  border-radius: var(--radius-klein);
   padding: var(--ruimte-10) var(--ruimte-14);
   text-decoration: none;
   color: var(--kleur-primair-donker);
@@ -817,7 +817,7 @@ details.lees-meer[open] summary::after { content: " ▴"; }
   color: var(--kleur-wit);
   font-weight: 800;
   padding: var(--ruimte-10) var(--ruimte-20);
-  border-radius: var(--radius-pil);
+  border-radius: var(--radius-klein);
   text-decoration: none;
   font-size: var(--tekst-15);
   border: none;
@@ -1158,11 +1158,15 @@ table.vergelijk-tabel {
 .content-pagina h2 { margin-top: 2.2em; color: var(--kleur-primair-donker); }
 .content-pagina .intro { font-size: var(--tekst-17); color: var(--kleur-tekst-licht); }
 
+/* Het prijsblok op een productpagina, en de uitkomst van de keuzehulp. Dit
+   was hetzelfde recept als een waarschuwing: een dikke streep links, een vlak
+   met kleur, alleen rechts rond. Daardoor las de belangrijkste inhoud van de
+   pagina als een melding. Het is nu een paneel: helemaal rond, geen streep.
+   De streep links is voortaan van .waarschuwing-kader alleen. */
 .info-kader {
-  border-left: 4px solid var(--kleur-primair);
   background: var(--kleur-primair-licht);
   padding: var(--ruimte-14) var(--ruimte-20);
-  border-radius: 0 var(--radius) var(--radius) 0;
+  border-radius: var(--radius);
   margin: var(--ruimte-20) 0;
   font-size: var(--tekst-15);
 }
@@ -1175,6 +1179,37 @@ table.vergelijk-tabel {
   margin: var(--ruimte-20) 0;
   font-size: var(--tekst-15);
 }
+
+/* Een terzijde: de kleine lettertjes die erbij horen maar die niemand hoeft te
+   lezen voordat hij verder kan. Dat de prijs van vandaag is, dat dit geen
+   offerte is, dat een installateur het laatste woord heeft.
+
+   Dit stond hier lang in hetzelfde amberkleurige kader als een echte
+   waarschuwing, veertig keer verspreid over drie sites. Als alles een
+   waarschuwing is, leest niemand er nog een. Vandaar: geen vlak, geen kleur,
+   alleen een dunne streep en een kleinere letter. */
+.noot {
+  border-top: 1px solid var(--kleur-rand);
+  margin: var(--ruimte-20) 0;
+  padding-top: var(--ruimte-10);
+  font-size: var(--tekst-15);
+  color: var(--kleur-tekst-licht);
+}
+.noot > :first-child { margin-top: 0; }
+.noot > :last-child { margin-bottom: 0; }
+
+/* Een blok dat bij elkaar hoort: een rekenvoorbeeld, een lijstje van wat je
+   nodig hebt voor een aanvraag. Omlijnd, niet ingekleurd; het is afgebakend,
+   niet dringend. */
+.blok {
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius);
+  padding: var(--ruimte-14) var(--ruimte-20);
+  margin: var(--ruimte-20) 0;
+}
+.blok > :first-child { margin-top: 0; }
+.blok > :last-child { margin-bottom: 0; }
+.blok > b:first-child { display: block; margin-bottom: var(--ruimte-6); }
 
 /* Vaste mitsen en maren onder het rekenresultaat: één compact inklapbaar
    blok in plaats van een stapel gele waarschuwingskaders */
@@ -1438,7 +1473,7 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 .kop-aansluitend { margin-top: 0; }
 .aansluitend { padding-top: 0; }
 
-.info-kader.los { margin-top: var(--ruimte-14); }
+.blok.los { margin-top: var(--ruimte-14); }
 /* Twee maten lucht boven een blok. Het verschil is klein maar zat al in de
    oorspronkelijke opmaak; het gelijktrekken zou de pagina's laten verspringen. */
 .onder-kop { margin: var(--ruimte-6) 0 0; }   /* een alinea direct onder een kop */

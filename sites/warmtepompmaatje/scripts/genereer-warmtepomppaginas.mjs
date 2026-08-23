@@ -431,7 +431,7 @@ ${kop("", false)}
     <li><a href="index.html">Alle warmtepompen</a>: vergelijken op prijs, subsidie, rendement en geluid.</li>
   </ul>
 
-  <div class="waarschuwing-kader">De omrekening naar afstand op deze pagina is een vuistregel om mee te kunnen kiezen, geen toetsing aan de wet. Voor die toetsing geldt de berekening uit de Omgevingsregeling; vraag je installateur daarom vóór de plaatsing.</div>
+  <div class="noot">De omrekening naar afstand op deze pagina is een vuistregel om mee te kunnen kiezen, geen toetsing aan de wet. Voor die toetsing geldt de berekening uit de Omgevingsregeling; vraag je installateur daarom vóór de plaatsing.</div>
 </main>
 
 ${voet(false)}
@@ -584,7 +584,7 @@ ${kop("", false)}
     <li><b>Wat het kost en oplevert</b> staat in de <a href="rekenmodule.html">rekenmodule</a>, en wat je terugkrijgt op <a href="subsidie.html">ISDE-subsidie</a>.</li>
   </ul>
 
-  <div class="waarschuwing-kader">Welke uitvoering in jouw huis past, hangt af van je warmteverlies, je afgiftesysteem en de plek van de buitenunit. Dat is werk voor een installateur; deze pagina helpt je de goede vraag te stellen.</div>
+  <div class="noot">Welke uitvoering in jouw huis past, hangt af van je warmteverlies, je afgiftesysteem en de plek van de buitenunit. Dat is werk voor een installateur; deze pagina helpt je de goede vraag te stellen.</div>
 </main>
 
 ${voet(false)}
@@ -669,7 +669,7 @@ ${kop("index", true)}
         ${specRij("ISDE-subsidie", w.isde_indicatie_eur ? `${eur(w.isde_indicatie_eur)} <small>${w.isde_meldcode ? `bij meldcode ${esc(w.isde_meldcode)} op de <a href="https://www.rvo.nl/subsidies-financiering/isde/meldcodelijsten/warmtepompen" target="_blank" rel="noopener">meldcodelijst van RVO</a>` : `(check de meldcode bij <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/warmtepomp" target="_blank" rel="noopener">RVO</a>)`}</small>` : null)}
       </table>
 
-      <div class="info-kader los">
+      <div class="blok los">
         <b>Wat je nodig hebt voor je ISDE-aanvraag</b>
         <p class="onder-kop">De ISDE-subsidie loopt per goedgekeurd apparaat, elk met een eigen meldcode. Ik vermeld die meldcode bewust niet: RVO werkt de lijst regelmatig bij en één model heeft vaak meerdere codes per vermogensvariant. Zoek de juiste meldcode op met deze gegevens van deze warmtepomp:</p>
         <ul class="onder-lijst">

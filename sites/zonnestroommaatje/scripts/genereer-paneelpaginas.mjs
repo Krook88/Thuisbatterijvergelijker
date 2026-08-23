@@ -487,7 +487,7 @@ function pagina(p) {
     }).join("\n    ")}
   </ul>` : ""}
 
-  <div class="waarschuwing-kader">Twijfel je of dit paneel bij je past? Doe de <a href="/advies.html">keuzehulp</a> voor een advies op maat, of <a href="/index.html">vergelijk alle zonnepanelen</a> op prijs per Wp, rendement en Zeker-score.</div>
+  <p>Twijfel je of dit paneel bij je past? Doe de <a href="/advies.html">keuzehulp</a> voor een advies op maat, of <a href="/index.html">vergelijk alle zonnepanelen</a> op prijs per Wp, rendement en Zeker-score.</p>
 
   ${p.product_url ? `<p>Meer informatie: <a href="${esc(p.product_url)}" target="_blank" rel="noopener">officiële website van ${esc(p.merk)}</a>.</p>` : ""}
 
@@ -572,7 +572,7 @@ function overzichtsPagina(cfg) {
   <p>${esc(cfg.intro)}</p>
   ${overzichtTabel(lijst)}
   <p>${esc(cfg.voetnoot)} Zie de <a href="/advies.html">keuzehulp</a> en de <a href="/uitleg.html#woordenlijst">woordenlijst</a>.</p>
-  <div class="waarschuwing-kader">Prijzen zijn indicatieve richtprijzen; de prijs en specificaties op de website van de aanbieder zijn altijd leidend. Deze pagina wordt automatisch herbouwd vanuit mijn <a href="/index.html">vergelijker</a>.</div>
+  <div class="noot">Prijzen zijn indicatieve richtprijzen; de prijs en specificaties op de website van de aanbieder zijn altijd leidend. Deze pagina wordt automatisch herbouwd vanuit mijn <a href="/index.html">vergelijker</a>.</div>
 </main>
 ${staart}`;
 }
@@ -683,7 +683,7 @@ function nogZinPagina() {
   <p>Van goedkoop naar duur. Dit is de prijs van het paneel zelf; installatie, omvormer en montagemateriaal komen daar bovenop. De goedkoopste is op dit moment de ${esc(volledigeNaam(goedkoopste))} op ${eurWp(perWpGoedkoopst)} per Wp.</p>
   ${overzichtTabel(opPrijs)}
 
-  <div class="waarschuwing-kader">De bedragen hierboven zijn rekenvoorbeelden met vaste aannames, geen voorspelling. Tarieven, terugleverkosten en terugleververgoedingen verschillen per leverancier en veranderen; controleer ze in je eigen contract.</div>
+  <div class="noot">De bedragen hierboven zijn rekenvoorbeelden met vaste aannames, geen voorspelling. Tarieven, terugleverkosten en terugleververgoedingen verschillen per leverancier en veranderen; controleer ze in je eigen contract.</div>
 </main>
 ${staart}`;
 }
@@ -802,7 +802,7 @@ function vergelijkingsPagina(v) {
     <li>Twijfel je over het aantal panelen? Doe de <a href="/advies.html">keuzehulp</a>.</li>
   </ul>
 
-  <div class="waarschuwing-kader">Prijzen en specificaties veranderen regelmatig; deze pagina wordt automatisch herbouwd. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</div>
+  <div class="noot">Prijzen en specificaties veranderen regelmatig; deze pagina wordt automatisch herbouwd. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</div>
 </main>
 ${staart}`;
 }

@@ -188,6 +188,101 @@
   }
 
 
+  /* ---- De dagmaat -------------------------------------------------------
+
+     Een capaciteit in kWh zegt niemand iets. 4,32 of 9,73: allebei "een
+     batterij", en groter lijkt beter. Dat laatste is precies het misverstand
+     dat een verkoper laat bestaan, want een batterij die groter is dan wat je
+     huishouden op een dag buiten de zonuren opmaakt, raakt zijn stroom niet
+     kwijt. Die extra kWh betaal je wel.
+
+     De rekenmodule zegt dat al, in een waarschuwing, nadat je een formulier
+     hebt ingevuld. Hier staat het bij het getal zelf, op elke regel en op elke
+     productpagina, in dezelfde vorm als de Koppel-score: vakjes die vollopen.
+
+     De maatstaf komt uit dezelfde twee aannames als de rekenmodule, zodat er
+     geen tweede getal ontstaat dat ervan kan gaan afwijken:
+       - een gemiddeld huishouden gebruikt 2.900 kWh per jaar;
+       - daarvan valt ongeveer 70% buiten de zonuren (avond, nacht, ochtend).
+     Samen: (2900 / 365) x 0,7 = 5,6 kWh per dag. Dat is de volle baan.
+
+     Wat een batterij daarboven heeft, krijgt een grijs staartje. Grijs en geen
+     rood kruis, want voor wie een warmtepomp heeft of een auto laadt is die
+     ruimte wél zinvol, en dat weet deze pagina niet. Wat de site wél weet is
+     dat het bij een gemiddeld verbruik niets doet, en dat staat er dan ook. */
+  const JAARVERBRUIK_KWH = 2900;   // gelijk aan de standaard in de rekenmodule
+  const BUITEN_ZONUREN = 0.7;      // idem
+  const BRUIKBAAR_DEEL = 0.9;      // idem: 90% van bruto is werkelijk bruikbaar
+  const DAGBEHOEFTE = (JAARVERBRUIK_KWH / 365) * BUITEN_ZONUREN;  // 5,56 kWh
+  const DAGVAKJES = 6;             // vakjes over de volle baan, ~0,93 kWh elk
+  const STAARTJES_MAX = 3;         // meer dan dit wordt een streepje te veel
+
+  const eenDecimaal = (n) => n.toFixed(1).replace(".", ",");
+
+  function dagmaat(b) {
+    if (!b || typeof b.capaciteit_kwh !== "number") return null;
+    const bevestigd = Prijs.capaciteitBevestigd(b);
+    const bruikbaar = bevestigd ? b.capaciteit_kwh : b.capaciteit_kwh * BRUIKBAAR_DEEL;
+    const stap = DAGBEHOEFTE / DAGVAKJES;
+    const vakjes = [];
+    for (let i = 0; i < DAGVAKJES; i++) {
+      const vol = bruikbaar >= (i + 1) * stap;
+      vakjes.push(vol ? 2 : bruikbaar >= (i + 0.5) * stap ? 1 : 0);
+    }
+    const over = Math.max(0, bruikbaar - DAGBEHOEFTE);
+    return {
+      bruikbaar,
+      bevestigd,
+      vakjes,
+      over,
+      staartjes: Math.min(STAARTJES_MAX, Math.round(over / stap)),
+      deel: Math.min(1, bruikbaar / DAGBEHOEFTE),
+    };
+  }
+
+  // De hele som op één regel tekst, voor het title-attribuut.
+  function dagmaatSamenvatting(b) {
+    const d = dagmaat(b);
+    if (!d) return "";
+    const bron = d.bevestigd
+      ? "bruikbare capaciteit volgens de fabrikant"
+      : `geschat op ${Math.round(BRUIKBAAR_DEEL * 100)}% van de opgegeven ${eenDecimaal(b.capaciteit_kwh)} kWh`;
+    const dekking = d.over > 0
+      ? `Dat is de hele dagbehoefte, met ${eenDecimaal(d.over)} kWh over die een gemiddeld huishouden op een dag niet opmaakt.`
+      : `Dat dekt ${Math.round(d.deel * 100)}% van die ${eenDecimaal(DAGBEHOEFTE)} kWh.`;
+    return `Een huishouden van ${JAARVERBRUIK_KWH.toLocaleString("nl-NL")} kWh per jaar gebruikt zo'n ${eenDecimaal(DAGBEHOEFTE)} kWh buiten de zonuren. Deze batterij levert ${eenDecimaal(d.bruikbaar)} kWh (${bron}). ${dekking}`;
+  }
+
+  // De korte vorm: dezelfde vakjes als de Koppel-score, met een grijs staartje
+  // voor wat er op een gemiddelde dag overblijft.
+  function dagmaatHtml(b) {
+    const d = dagmaat(b);
+    if (!d) return "";
+    const vakjes = d.vakjes.map((v) => `<span class="dagmaat-vak vak-${v}"></span>`).join("");
+    const staart = Array.from({ length: d.staartjes }, () => '<span class="dagmaat-over"></span>').join("");
+    return `<span class="dagmaat" title="${escapeHtml(dagmaatSamenvatting(b))}"><span class="dagmaat-baan">${vakjes}</span>${staart}</span>`;
+  }
+
+  // De uitgeschreven vorm op de productpagina, waar de ruimte er is.
+  function dagmaatUitlegHtml(b) {
+    const d = dagmaat(b);
+    if (!d) return "";
+    const oordeel = d.over > 0
+      ? `Deze batterij is daar ruim voor. De ${eenDecimaal(d.over)} kWh die overblijft, raakt hij op zo'n dag niet kwijt: die telt pas mee als je meer buiten de zonuren gebruikt, bijvoorbeeld met een warmtepomp of een auto aan de laadpaal.`
+      : d.deel >= 0.95
+        ? "Deze batterij dekt die dag vrijwel precies, zonder dat je betaalt voor ruimte die je niet gebruikt."
+        : `Deze batterij dekt daar ${Math.round(d.deel * 100)}% van. De rest koop je die avond gewoon in.`;
+    const herkomst = d.bevestigd
+      ? `De fabrikant geeft ${eenDecimaal(b.capaciteit_kwh)} kWh op als bruikbare capaciteit.`
+      : `De fabrikant geeft ${eenDecimaal(b.capaciteit_kwh)} kWh op zonder erbij te zeggen hoeveel daarvan bruikbaar is; hier staat ${Math.round(BRUIKBAAR_DEEL * 100)}% daarvan, ${eenDecimaal(d.bruikbaar)} kWh.`;
+    return `<div class="dagmaat-uitleg">
+      <b class="dagmaat-kop">${eenDecimaal(d.bruikbaar)} kWh tegenover een dagbehoefte van ${eenDecimaal(DAGBEHOEFTE)} kWh</b>
+      ${dagmaatHtml(b)}
+      <p>Een huishouden met ${JAARVERBRUIK_KWH.toLocaleString("nl-NL")} kWh per jaar gebruikt ongeveer ${eenDecimaal(DAGBEHOEFTE)} kWh buiten de zonuren, dus in de avond, de nacht en de vroege ochtend. Dat is wat een thuisbatterij op een gemiddelde dag kan opvangen. ${oordeel}</p>
+      <p class="dagmaat-voet">${herkomst} Andere aannames? Vul je eigen verbruik in bij de <a href="/rekenmodule.html?batterij=${encodeURIComponent(b.id)}">terugverdientijd-berekening</a>.</p>
+    </div>`;
+  }
+
   /* Eén vorm voor elk oordeel op een schaal, zie .waardering in de opmaak.
      Eerder stonden hier sterren; die lezen als een recensiecijfer van
      gebruikers, terwijl dit een rekensom is die op uitleg.html staat. */
@@ -282,7 +377,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(b.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>${capaciteit}</div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>${capaciteit}${dagmaatHtml(b)}</div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>${b.vermogen_kw ? String(b.vermogen_kw).replace(".", ",") + " kW" : "Onbekend"}</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>${b.installatie === "zelf" ? "Zelf" : "Installateur"}</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -350,7 +445,7 @@
       </div>
       ${fotoHtml(b)}
       <div class="kaart-specs">
-        <div class="spec"><span class="spec-label"><a class="term-link" href="uitleg.html#capaciteit" title="Wat is capaciteit (kWh)? Lees de uitleg">Capaciteit</a></span><span class="spec-waarde">${capaciteit}</span></div>
+        <div class="spec"><span class="spec-label"><a class="term-link" href="uitleg.html#capaciteit" title="Wat is capaciteit (kWh)? Lees de uitleg">Capaciteit</a></span><span class="spec-waarde">${capaciteit}${dagmaatHtml(b)}</span></div>
         <div class="spec"><span class="spec-label"><a class="term-link" href="uitleg.html#kw" title="Wat is vermogen (kW)? Lees de uitleg">Vermogen</a></span><span class="spec-waarde">${b.vermogen_kw ? String(b.vermogen_kw).replace(".", ",") + " kW" + Prijs.vermogenLabelHtml(b) : "Onbekend"}</span></div>
         <div class="spec"><span class="spec-label">Installatie</span><span class="spec-waarde">${b.installatie === "zelf" ? "Zelf (stopcontact)" : "Installateur"}</span></div>
         <div class="spec"><span class="spec-label">Garantie</span><span class="spec-waarde">${b.garantie_jaar ? b.garantie_jaar + " jaar" : "Onbekend"}</span></div>
@@ -421,6 +516,10 @@
     koppelDelen,
     koppelSamenvatting,
     koppelUitsplitsingHtml,
+    dagmaat,
+    dagmaatHtml,
+    dagmaatSamenvatting,
+    dagmaatUitlegHtml,
     badgeHtml,
     noodstroomBadge,
     sterren,

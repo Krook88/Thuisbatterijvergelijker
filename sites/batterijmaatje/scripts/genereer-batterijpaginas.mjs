@@ -529,6 +529,9 @@ ${NAV_HTML}
   </div>
   <p class="datum-stempel">Onbekende term (zoals kWh of hybride)? Alle woorden staan uitgelegd in de <a href="/uitleg.html#woordenlijst">woordenlijst</a>.</p>
 
+  <h2>Past hij op een gemiddelde dag?</h2>
+  ${Kaart.dagmaatUitlegHtml(b)}
+
   <h2>Koppeling met zonnepanelen</h2>
   <p>${waardering(b.koppeling_gemak, 5)} <span class="waardering-uitleg">aansluitgemak op je bestaande zonnepanelen</span></p>
   <p>${esc(b.zonnepanelen_koppeling || "")}</p>
@@ -560,7 +563,7 @@ ${NAV_HTML}
     }).join("\n    ")}
   </ul>` : ""}
 
-  <div class="waarschuwing-kader">Twijfel je of deze batterij bij je past? Doe de <a href="/advies.html">keuzehulp</a> voor een maatadvies, of <a href="/index.html">vergelijk alle thuisbatterijen</a> op prijs, capaciteit en koppelgemak.</div>
+  <p>Twijfel je of deze batterij bij je past? Doe de <a href="/advies.html">keuzehulp</a> voor een maatadvies, of <a href="/index.html">vergelijk alle thuisbatterijen</a> op prijs, capaciteit en koppelgemak.</p>
 
   ${b.product_url ? `<p>Meer informatie: <a href="${esc(b.product_url)}" target="_blank" rel="noopener">officiële productpagina van ${esc(b.merk)}</a>.</p>` : ""}
 
@@ -717,7 +720,7 @@ ${NAV_HTML}
     <li><b><a class="term-link" href="/uitleg.html#matter">Matter</a>.</b> De universele smart-home-standaard van onder meer Apple, Google en Samsung ondersteunt in de nieuwste versies ook thuisbatterijen. In de praktijk kunnen nog maar weinig batterijen dit; de verwachting is dat dit de komende jaren groeit.</li>
   </ul>
 
-  <div class="waarschuwing-kader">Prijzen en integraties veranderen regelmatig. Deze pagina wordt dagelijks automatisch bijgewerkt vanuit mijn <a href="/index.html">vergelijker</a>; de prijs en specificaties op de website van de winkel zijn altijd leidend.</div>
+  <div class="noot">Prijzen en integraties veranderen regelmatig. Deze pagina wordt dagelijks automatisch bijgewerkt vanuit mijn <a href="/index.html">vergelijker</a>; de prijs en specificaties op de website van de winkel zijn altijd leidend.</div>
 </main>
 
 ${VOET_HTML}
@@ -891,7 +894,7 @@ ${NAV_HTML}
     <li><b>Nieuw hier?</b> De <a href="/uitleg.html">uitleg</a> legt in gewone taal uit wat kWh, salderen en een dynamisch contract betekenen.</li>
   </ul>
 
-  <div class="waarschuwing-kader">Prijzen en specificaties veranderen regelmatig. Deze pagina wordt dagelijks automatisch bijgewerkt vanuit mijn <a href="/index.html">vergelijker</a>; de prijs en specificaties op de website van de winkel zijn altijd leidend.</div>
+  <div class="noot">Prijzen en specificaties veranderen regelmatig. Deze pagina wordt dagelijks automatisch bijgewerkt vanuit mijn <a href="/index.html">vergelijker</a>; de prijs en specificaties op de website van de winkel zijn altijd leidend.</div>
 </main>
 
 ${VOET_HTML}
@@ -1046,7 +1049,7 @@ ${NAV_HTML}
   <h2>Wat het je oplevert is een andere vraag</h2>
   <p>Een goedkope batterij die niet bij je verbruik past, verdient zichzelf niet terug. De <a href="/rekenmodule.html">rekenmodule</a> rekent uit wat een batterij per jaar oplevert bij jouw verbruik en contract, en de <a href="/advies.html">keuzehulp</a> zoekt de maat erbij. Reken met beide voordat je op de prijs afgaat: het verschil tussen een vast en een dynamisch contract is voor de opbrengst groter dan het verschil tussen twee modellen.</p>
 
-  <div class="waarschuwing-kader">Prijzen veranderen dagelijks. Deze pagina wordt automatisch bijgewerkt vanuit mijn <a href="/index.html">vergelijker</a>; de prijs op de website van de winkel is altijd leidend.</div>
+  <div class="noot">Prijzen veranderen dagelijks. Deze pagina wordt automatisch bijgewerkt vanuit mijn <a href="/index.html">vergelijker</a>; de prijs op de website van de winkel is altijd leidend.</div>
 </main>
 
 ${VOET_HTML}
@@ -1153,7 +1156,7 @@ ${NAV_HTML}
   <p>De <a href="/rekenmodule.html">rekenmodule</a> laat zien wat een batterij in jouw situatie per jaar oplevert, met of zonder zonnepanelen en bij een vast of dynamisch contract. Zet dezelfde som eens met en eens zonder saldering: het verschil tussen die twee uitkomsten is precies wat wachten je kost of oplevert. Dat is een concreter antwoord dan welk artikel dan ook kan geven, inclusief dit.</p>
   <p>En wat het apparaat op dit moment kost, staat op <a href="/${KOSTEN_BESTAND}">wat kost een thuisbatterij</a>.</p>
 
-  <div class="waarschuwing-kader">Deze pagina beschrijft de regels zoals ze nu vastliggen, met de bronnen op <a href="/regelgeving.html">regels en subsidies</a>. Het is geen financieel advies en geen voorspelling.</div>
+  <div class="noot">Deze pagina beschrijft de regels zoals ze nu vastliggen, met de bronnen op <a href="/regelgeving.html">regels en subsidies</a>. Het is geen financieel advies en geen voorspelling.</div>
 </main>
 
 ${VOET_HTML}
@@ -1327,7 +1330,7 @@ ${NAV_HTML}
     <li>Twijfel je over de juiste maat? Doe de <a href="/advies.html">keuzehulp</a>.</li>
   </ul>
 
-  <div class="waarschuwing-kader">Prijzen en specificaties veranderen regelmatig; deze pagina wordt dagelijks automatisch herbouwd. De prijs en voorwaarden op de website van de winkel zijn altijd leidend.</div>
+  <div class="noot">Prijzen en specificaties veranderen regelmatig; deze pagina wordt dagelijks automatisch herbouwd. De prijs en voorwaarden op de website van de winkel zijn altijd leidend.</div>
 </main>
 
 ${VOET_HTML}

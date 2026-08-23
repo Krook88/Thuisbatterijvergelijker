@@ -2,8 +2,8 @@
    Thuisbatterijvergelijker.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260823e");
-@import url("vergelijker.css?v=20260823e");
+@import url("maatlat.css?v=20260823f");
+@import url("vergelijker.css?v=20260823f");
 
 :root {
   --kleur-primair: #0f766e;
@@ -668,7 +668,7 @@ h1 .merk-logo { height: 28px; vertical-align: -4px; }
   font-size: var(--tekst-15);
   background: var(--kleur-wit);
   border: 1px solid var(--kleur-rand);
-  border-radius: var(--radius-pil);
+  border-radius: var(--radius-klein);
   padding: var(--ruimte-10) var(--ruimte-14);
   text-decoration: none;
   color: var(--kleur-primair-donker);
@@ -807,7 +807,7 @@ details.lees-meer[open] summary::after { content: " ▴"; }
   color: var(--kleur-wit);
   font-weight: 800;
   padding: var(--ruimte-10) var(--ruimte-20);
-  border-radius: var(--radius-pil);
+  border-radius: var(--radius-klein);
   text-decoration: none;
   font-size: var(--tekst-15);
   border: none;
@@ -1100,11 +1100,15 @@ table.vergelijk-tabel {
 .content-pagina h2 { margin-top: 2.2em; color: var(--kleur-primair-donker); }
 .content-pagina .intro { font-size: var(--tekst-17); color: var(--kleur-tekst-licht); }
 
+/* Het prijsblok op een productpagina, en de uitkomst van de keuzehulp. Dit
+   was hetzelfde recept als een waarschuwing: een dikke streep links, een vlak
+   met kleur, alleen rechts rond. Daardoor las de belangrijkste inhoud van de
+   pagina als een melding. Het is nu een paneel: helemaal rond, geen streep.
+   De streep links is voortaan van .waarschuwing-kader alleen. */
 .info-kader {
-  border-left: 4px solid var(--kleur-primair);
   background: var(--kleur-primair-licht);
   padding: var(--ruimte-14) var(--ruimte-20);
-  border-radius: 0 var(--radius) var(--radius) 0;
+  border-radius: var(--radius);
   margin: var(--ruimte-20) 0;
   font-size: var(--tekst-15);
 }
@@ -1248,6 +1252,37 @@ a.icoon-kaart { text-decoration: none; color: inherit; }
   margin: var(--ruimte-20) 0;
   font-size: var(--tekst-15);
 }
+
+/* Een terzijde: de kleine lettertjes die erbij horen maar die niemand hoeft te
+   lezen voordat hij verder kan. Dat de prijs van vandaag is, dat dit geen
+   offerte is, dat een installateur het laatste woord heeft.
+
+   Dit stond hier lang in hetzelfde amberkleurige kader als een echte
+   waarschuwing, veertig keer verspreid over drie sites. Als alles een
+   waarschuwing is, leest niemand er nog een. Vandaar: geen vlak, geen kleur,
+   alleen een dunne streep en een kleinere letter. */
+.noot {
+  border-top: 1px solid var(--kleur-rand);
+  margin: var(--ruimte-20) 0;
+  padding-top: var(--ruimte-10);
+  font-size: var(--tekst-15);
+  color: var(--kleur-tekst-licht);
+}
+.noot > :first-child { margin-top: 0; }
+.noot > :last-child { margin-bottom: 0; }
+
+/* Een blok dat bij elkaar hoort: een rekenvoorbeeld, een lijstje van wat je
+   nodig hebt voor een aanvraag. Omlijnd, niet ingekleurd; het is afgebakend,
+   niet dringend. */
+.blok {
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius);
+  padding: var(--ruimte-14) var(--ruimte-20);
+  margin: var(--ruimte-20) 0;
+}
+.blok > :first-child { margin-top: 0; }
+.blok > :last-child { margin-bottom: 0; }
+.blok > b:first-child { display: block; margin-bottom: var(--ruimte-6); }
 
 /* Vaste mitsen en maren onder het rekenresultaat: één compact inklapbaar
    blok in plaats van een stapel gele waarschuwingskaders */
@@ -1511,7 +1546,7 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   min-height: 52px;
   padding: var(--ruimte-10) var(--ruimte-14) var(--ruimte-10) var(--ruimte-40);
   border: 1px solid var(--kleur-rand);
-  border-radius: var(--radius-pil);
+  border-radius: var(--radius-klein);
   background: var(--kleur-wit);
   font: inherit;
   color: inherit;
@@ -1802,7 +1837,7 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   padding: var(--ruimte-6) var(--ruimte-14);
   min-height: 36px;
   border: 1.5px solid var(--kleur-rand);
-  border-radius: var(--radius-pil);
+  border-radius: var(--radius-klein);
   background: var(--kleur-wit);
   color: var(--kleur-tekst);
   cursor: pointer;
@@ -1822,6 +1857,87 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
    de volgorde bepaalt en die niemand kan narekenen is niet te onderscheiden
    van een score die zo gewogen is dat er uitkomt wat de maker wil.
    -------------------------------------------------------------------------- */
+/* -- De dagmaat -----------------------------------------------------------
+
+   Een capaciteit in kWh zegt niemand iets: 4,32 of 9,73, allebei "een
+   batterij", en groter lijkt beter. De dagmaat zet het getal af tegen wat een
+   gemiddeld huishouden op een dag buiten de zonuren opmaakt (5,6 kWh; de
+   rekensom staat in kaart.js en gebruikt dezelfde aannames als de
+   rekenmodule).
+
+   Waarom dit er níet uitziet als de Koppel-score-baan ernaast, terwijl het
+   allebei "een hoeveelheid binnen een maximum" is: twee identieke balkjes in
+   dezelfde regel die verschillende dingen meten, leest als opsmuk. De
+   Koppel-score is drie losse vakjes met lucht ertussen, want het zijn drie
+   losse onderdelen. De dagmaat is één doorlopende meter met een omlijning en
+   een nokje rechts: de vorm van een batterij, en er is maar één ding dat hier
+   volloopt.
+
+   De blokjes achter de meter zijn grijs en gearceerd als de batterij groter
+   is dan de dag die hij moet dekken. Grijs en geen rood, want voor wie een
+   warmtepomp heeft of een auto laadt is die ruimte wél zinvol, en dat weet
+   deze pagina niet. De arcering zegt: hier zit geen dagdekking meer in. */
+.dagmaat {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: var(--ruimte-4);
+}
+.dagmaat-baan {
+  display: flex;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+  max-width: 120px;
+  padding: 1px;
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius-mini);
+  background: var(--kleur-wit);
+}
+.dagmaat-vak {
+  flex: 1;
+  height: 7px;
+  background: var(--kleur-achtergrond);
+}
+.dagmaat-vak.vak-1 {
+  background: linear-gradient(to right, var(--kleur-primair) 0 50%, var(--kleur-achtergrond) 50% 100%);
+}
+.dagmaat-vak.vak-2 { background: var(--kleur-primair); }
+
+/* Het nokje van een batterij, maar dan als waarschuwing dat er capaciteit
+   voorbij de dagbehoefte steekt. */
+.dagmaat-over {
+  flex: 0 0 6px;
+  height: 7px;
+  border-radius: var(--radius-mini);
+  background: repeating-linear-gradient(
+    45deg,
+    var(--kleur-tekst-licht) 0 1px,
+    var(--kleur-wit) 1px 3px
+  );
+}
+
+/* De uitgeschreven vorm op de productpagina. Zelfde blok als de uitsplitsing
+   van de Koppel-score eronder: omlijnd, niet ingekleurd. */
+.dagmaat-uitleg {
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius);
+  padding: var(--ruimte-14) var(--ruimte-20);
+  margin: var(--ruimte-20) 0;
+}
+.dagmaat-kop { display: block; margin-bottom: var(--ruimte-10); }
+.dagmaat-uitleg .dagmaat { margin: 0 0 var(--ruimte-14); }
+.dagmaat-uitleg .dagmaat-baan { max-width: 260px; }
+.dagmaat-uitleg .dagmaat-vak,
+.dagmaat-uitleg .dagmaat-over { height: 12px; }
+.dagmaat-uitleg .dagmaat-over { flex-basis: 13px; }
+.dagmaat-uitleg p { margin: 0 0 var(--ruimte-6); }
+.dagmaat-uitleg .dagmaat-voet {
+  margin: 0;
+  font-size: var(--tekst-15);
+  color: var(--kleur-tekst-licht);
+}
+
 .koppel-uitsplitsing {
   border: 1px solid var(--kleur-rand);
   border-radius: var(--radius);

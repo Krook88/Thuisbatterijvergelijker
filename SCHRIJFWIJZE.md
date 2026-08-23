@@ -41,8 +41,18 @@ weggeklikt.
 X, het is Y". Dit geldt als de meest herkende vorm van AI-tekst die er is.
 Schrijf gewoon op wat het wél is.
 
+Het scharnier hoeft geen "maar" te zijn. "Dat is geen afkeuring: dit is ook de
+goedkoopste" is dezelfde beweging met een dubbele punt, en die kwam er in
+augustus 2026 gewoon doorheen tot een lezer hem aanwees. Wat de vorm verklikt
+is de beweging: eerst ontkennen, dan het echte antwoord geven, zodat de zin
+dieper klinkt dan hij is.
+
 Een gewone zin waarin "niet" en "maar" toevallig samen staan is doodgewoon
-Nederlands en wordt niet geraakt.
+Nederlands en wordt niet geraakt. Een ontkenning die alleen afbakent en er
+niets tegenoverstelt ook niet: "Dit is een hulpmiddel, geen persoonlijk
+advies" blijft gewoon staan. Beide soorten zinnen staan als proef in
+`scripts/slop.mjs` en worden bij elke run nagelopen, zodat de controle niet
+stilletjes kan gaan missen.
 
 **3. Een beroep op onderzoek zonder bron.** "Onderzoeken tonen aan", "studies
 laten zien", "experts zeggen", "het is algemeen bekend". Noem wie, of laat het

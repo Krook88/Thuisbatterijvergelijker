@@ -134,10 +134,16 @@
      al goed en worden op honderden plekken gebruikt. Alleen de losse waarden
      eromheen zijn hierheen gehaald.
      ------------------------------------------------------------------------ */
+  /* De ronding zegt wat een ding is, niet hoe modern het eruitziet. Een pil
+     was hier een tijdlang de standaardvorm voor knoppen, invoervelden,
+     menulinks en etiketten door elkaar; dan zegt de vorm niets meer. De
+     verdeling hieronder is de afspraak, en de keuring rekent erop. */
   --radius-mini: 4px;    /* vinkje, streepje, staafje, voortgangsbalk */
-  --radius-klein: 10px;  /* knop, invoerveld, keuzelijst, badge */
-  --radius: 16px;        /* kaart, paneel, kader */
-  --radius-pil: 999px;   /* etiket en schakelaar, en verder niets */
+  --radius-klein: 10px;  /* iets waar je op klikt of in typt: knop, invoerveld,
+                            keuzelijst, menulink */
+  --radius: 16px;        /* iets wat inhoud omsluit: kaart, paneel, kader */
+  --radius-pil: 999px;   /* een etiket dat je alleen leest (badge, score,
+                            meetbalk), en verder niets */
 }
 
 /* --------------------------------------------------------------------------
