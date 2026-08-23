@@ -360,7 +360,7 @@
     const hint = el("leverancierHint");
     const l = (leveranciersData?.leveranciers || []).find((x) => x.id === el("inpLeverancier").value);
     if (!l) {
-      hint.textContent = "Dan vullen wij de terugleverkosten alvast voor je in; zelf opzoeken hoeft niet.";
+      hint.textContent = "Dan vul ik de terugleverkosten alvast voor je in; zelf opzoeken hoeft niet.";
       bereken();
       return;
     }

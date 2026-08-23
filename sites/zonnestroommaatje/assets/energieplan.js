@@ -152,7 +152,7 @@
       const besparing = extraEigen * (STROOMPRIJS - (VERGOEDING - TERUGLEVERKOSTEN));
       stappen.push({
         icoon: Iconen.svg("batterij"), titel: `Thuisbatterij: circa ${capaciteit} kWh`,
-        advies: `${pompKwh > 0 || s.heeftPomp ? "Met een warmtepomp past een wat grotere batterij om de avond te overbruggen. " : ""}De batterij vangt je middagopwek op voor de avond en kan met een dynamisch contract extra verdienen op goedkope uren (die bonus rekenen wij hier niet mee).`,
+        advies: `${pompKwh > 0 || s.heeftPomp ? "Met een warmtepomp past een wat grotere batterij om de avond te overbruggen. " : ""}De batterij vangt je middagopwek op voor de avond en kan met een dynamisch contract extra verdienen op goedkope uren (die bonus reken ik hier niet mee).`,
         bedragen: { investering, subsidie: 0, besparing },
         knoppen: [{ tekst: `Doe de batterij-keuzehulp ${Iconen.svg("pijl-rechts")}`, url: "https://batterijmaatje.nl/advies.html", extern: true }],
       });
@@ -215,7 +215,7 @@
     const allesGedaan = !stappen.length;
 
     el("planInhoud").innerHTML = allesGedaan
-      ? `<p>${Iconen.svg("groen")} Mooi bezig: je hebt de grote stappen al gezet. Check onze vergelijkers voor optimalisatie, bijvoorbeeld een <a href="omvormers.html">slimmere omvormer</a> of <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">een grotere batterij</a>.</p>`
+      ? `<p>${Iconen.svg("groen")} Mooi bezig: je hebt de grote stappen al gezet. Check mijn vergelijkers voor optimalisatie, bijvoorbeeld een <a href="omvormers.html">slimmere omvormer</a> of <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">een grotere batterij</a>.</p>`
       : `
       ${metBedragen.length ? `<div class="plan-samenvatting">
         <div class="resultaat-groot">${tvt === null ? "?" : tvt.toFixed(1).replace(".", ",") + " jaar"}</div>

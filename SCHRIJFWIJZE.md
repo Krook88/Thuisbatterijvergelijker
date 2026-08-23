@@ -4,7 +4,7 @@ Deze site verkoopt niets. Wat hij te bieden heeft is een oordeel over een
 aankoop van tweeduizend euro, en dat is alleen iets waard als de lezer het kan
 nakijken. Alles hieronder volgt daaruit.
 
-`npm run slop` bewaakt de vier regels die te meten zijn. De rest is
+`npm run slop` bewaakt de vijf regels die te meten zijn. De rest is
 mensenwerk — en dat is precies waarom ze hier staan opgeschreven.
 
 ## De regel waar de rest uit volgt
@@ -49,7 +49,18 @@ laten zien", "experts zeggen", "het is algemeen bekend". Noem wie, of laat het
 weg en schrijf het feit zelf op. Een cijfer in dezelfde zin telt als genoeg:
 dan staat er een jaartal of een bedrag bij en is het na te lopen.
 
-**4. Dezelfde zin op meer dan één site.** Boilerplate mag identiek zijn — een
+**4. "Wij", "we", "ons" of "onze" in tekst die een bezoeker leest.** Deze site
+is van één maker en zegt "ik". "Wij" suggereert een redactie die er niet is, en
+dat is niet alleen een andere toon maar een onwaarheid.
+
+De terugval is makkelijk — "wij tonen" is de standaardstem van elke
+vergelijkingssite en van elk taalmodel — en daarom staat er een controle op.
+Twee dingen veranderden bewust niet mee: het commentaar in de code, want dat is
+de maker tegen zichzelf en geen tekst die iemand leest, en de bestandsnaam
+`over-ons.html`, want een URL die verspringt kost zoekverkeer. Alleen het
+menu-item en de voettekstlink heten nu "Over mij".
+
+**5. Dezelfde zin op meer dan één site.** Boilerplate mag identiek zijn — een
 privacyverklaring hoort niet drie keer anders geformuleerd te zijn, dus
 `privacy.html`, `contact.html`, `steun.html` en `404.html` doen niet mee. Voor
 de rest geldt: drie sites die dezelfde zin over drie verschillende producten
@@ -77,10 +88,6 @@ als zwakste pagina: 13 van de 22.
 
 **Schrijf zoals je praat, niet zoals een persbericht.** Korte zinnen mogen.
 Eén gedachte per zin.
-
-**"Wij" is geen redactie.** Deze site is van één maker. Elke zin die suggereert
-dat er een team achter zit, is onwaar, en de lezer voelt dat eerder dan je
-denkt.
 
 **Zeg wat niet werkt.** Een vergelijker die alleen opsomt wat er goed is aan
 elk product, is een folder. De zin die het meeste vertrouwen wint is die waarin

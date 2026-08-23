@@ -155,7 +155,7 @@
       "terugleververgoeding_omschrijving": "spotprijs; vaste kosten € 7,00/mnd, opslag € 0,02178 per kWh",
       "vanaf_2027": null,
       "kanttekening": "Geen eigen batterij-aansturing; eigen systeem (Homey, Home Assistant of fabrikant-app) nodig.",
-      "bron": "https://www.easyenergy.com/klantenservice/ons-aanbod/wat-kost-energie-bij-easyenergy",
+      "bron": "https://www.easyenergy.com/klantenservice/mij-aanbod/wat-kost-energie-bij-easyenergy",
       "peildatum": "2026-07"
     },
     {

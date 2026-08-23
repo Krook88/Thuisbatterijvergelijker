@@ -88,6 +88,17 @@ const STIJLFIGUUR = [
    met naam bij - dus dit bewaakt een gewoonte die er al is. */
 const GENERALISATIE = /(onderzoek(en)? (toont|tonen) aan|studies (laten zien|tonen)|experts? (zeggen|stellen|adviseren)|het is algemeen bekend|men zegt|over het algemeen wordt aangenomen)/gi;
 
+/* De site is van één maker en spreekt sinds augustus 2026 als "ik". "Wij" is
+   dan niet alleen een andere toon maar een onwaarheid: het suggereert een
+   redactie die er niet is, en dat is precies het soort gladheid waar lezers
+   een generator in herkennen.
+
+   Deze controle staat er omdat de terugval zo makkelijk is. Wie een nieuwe
+   pagina schrijft valt vanzelf terug in "wij tonen" - het is de standaardstem
+   van elke vergelijkingssite en van elk taalmodel. Nul treffers bij invoering,
+   dus alles wat hier opduikt is nieuw ingeslopen. */
+const MEERVOUDSSTEM = /\b(Wij|wij|We|we|ons|Ons|onze|Onze)\b/g;
+
 const zonderRuis = (html) =>
   html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/g, " ");
 
@@ -132,6 +143,10 @@ for (const site of teDoen) {
       for (const treffer of tekst.match(patroon) || []) {
         gebreken.push({ waar, soort: "stijlfiguur", melding: `${treffer.slice(0, 90)}` });
       }
+    }
+
+    for (const treffer of tekst.match(MEERVOUDSSTEM) || []) {
+      gebreken.push({ waar, soort: "meervoudsstem", melding: `"${treffer}" - deze site spreekt als "ik"` });
     }
 
     for (const zin of zinnenIn(tekst)) {
@@ -184,6 +199,7 @@ const UITLEG = {
   woordenschat: "Woorden die toon toevoegen en verder niets.",
   stijlfiguur: '"Niet X, maar Y" is de meest herkende vorm van AI-tekst. Schrijf de zin gewoon uit.',
   generalisatie: "Een beroep op onderzoek zonder te zeggen welk onderzoek.",
+  meervoudsstem: 'De site is van één maker en spreekt als "ik". "Wij" suggereert een redactie die er niet is.',
   "zelfde zin": "Staat letterlijk op meer dan één site. Hoort dat zo? Zet hem dan in scripts/gedeelde-zinnen.json, met een reden in de commit.",
 };
 
@@ -222,5 +238,6 @@ if (gebreken.length) {
    over op te scheppen - "niets gevonden" en "niets gekeken" horen er niet
    hetzelfde uit te zien. */
 const alles = teDoen.length === alleSites.length;
-console.log(`\nDe tekst is scherp op ${teDoen.length} site(s): geen lege woordenschat, geen "niet X maar Y"`);
+console.log(`\nDe tekst is scherp op ${teDoen.length} site(s): geen lege woordenschat, geen "niet X maar Y",`);
+console.log(`nergens "wij" waar "ik" hoort,`);
 console.log(`en geen beroep op onderzoek zonder bron${alles ? ", en geen zin die ongemerkt op twee sites staat" : " (de vergelijking tussen sites is overgeslagen)"}.`);

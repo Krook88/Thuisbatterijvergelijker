@@ -90,13 +90,13 @@
       } else {
         // Geen bruikbare uitleg van de server (bijvoorbeeld bij een storing):
         // noem dan het mailadres, zodat de bezoeker niet met lege handen staat.
-        toon(uitkomst.boodschap || "Er ging iets mis bij het versturen. Mail ons op info@batterijmaatje.nl.", "mislukt");
+        toon(uitkomst.boodschap || "Er ging iets mis bij het versturen. Mail mij op info@batterijmaatje.nl.", "mislukt");
         if (uitkomst.veld && el(uitkomst.veld)) el(uitkomst.veld).focus();
       }
     } catch (fout) {
       // Netwerk eruit of de functie onbereikbaar: dan is het mailadres de
       // uitweg, in plaats van een bericht dat nergens aankomt.
-      toon("Versturen lukte niet. Mail ons rechtstreeks op info@batterijmaatje.nl.", "mislukt");
+      toon("Versturen lukte niet. Mail mij rechtstreeks op info@batterijmaatje.nl.", "mislukt");
     } finally {
       knop.disabled = false;
     }

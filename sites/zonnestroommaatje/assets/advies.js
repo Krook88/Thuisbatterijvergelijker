@@ -333,8 +333,8 @@
       <div class="advies-samenvatting">
         <div class="groot">${aantalGeadviseerd} panelen (circa ${numFmt.format(wpGeadviseerd)} Wp)</div>
         <p style="margin: var(--ruimte-6) 0 0;">Verwachte opbrengst: <b>${numFmt.format(opbrengst)} kWh per jaar</b>, circa ${dekking}% van je ${extras.length ? "verwachte " : ""}verbruik van ${numFmt.format(doelVerbruik)} kWh.</p>
-        ${extras.length ? `<p class="hint" style="margin: var(--ruimte-6) 0 0;">Meegerekend: ${extras.join(", ")}.${s.warmtepomp ? ' Nog geen warmtepomp? Vergelijk ze op onze zustersite <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a>.' : ""}</p>` : ""}
-        ${s.batterijPlan !== "nee" ? '<p class="hint" style="margin: var(--ruimte-6) 0 0;">Omdat je een thuisbatterij (verwacht) hebt, adviseren wij iets ruimer: het overschot gebruik je dan zelf.</p>' : ""}
+        ${extras.length ? `<p class="hint" style="margin: var(--ruimte-6) 0 0;">Meegerekend: ${extras.join(", ")}.${s.warmtepomp ? ' Nog geen warmtepomp? Vergelijk ze op mijn zustersite <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a>.' : ""}</p>` : ""}
+        ${s.batterijPlan !== "nee" ? '<p class="hint" style="margin: var(--ruimte-6) 0 0;">Omdat je een thuisbatterij (verwacht) hebt, adviseer ik iets ruimer: het overschot gebruik je dan zelf.</p>' : ""}
         ${s.factor <= 0.65 ? '<p class="hint" style="margin: var(--ruimte-6) 0 0;">Let op: een noorddak levert circa een derde minder op dan een zuiddak. Vraag een installateur of het bij jouw dak uit kan; vaak is een oost-westdak of een kleiner systeem verstandiger.</p>' : ""}
         ${dakTeKlein ? `<p style="margin: var(--ruimte-6) 0 0;background:var(--kleur-accent-licht);border-radius:var(--radius-klein);padding: var(--ruimte-6) var(--ruimte-10);font-size:var(--tekst-15);">${Iconen.svg("let-op")} Voor je volledige verbruik zouden circa ${aantal} panelen nodig zijn, meer dan er op je dak passen. Kies daarom een paneel met een hoog rendement; die wegen hieronder automatisch zwaarder.</p>` : ""}
       </div>
@@ -392,7 +392,7 @@
       ${batterij ? `
       <h2 style="margin-top: var(--ruimte-20);">En de thuisbatterij?</h2>
       <div class="advies-kaart">
-        <span class="plek">${Iconen.svg("batterij")} ${s.batterijPlan === "ja" ? "Ons batterij-advies" : "Optie openhouden: zo doe je dat"}</span>
+        <span class="plek">${Iconen.svg("batterij")} ${s.batterijPlan === "ja" ? "Mij batterij-advies" : "Optie openhouden: zo doe je dat"}</span>
         ${s.batterijPlan === "ja" ? `
         <p style="margin: var(--ruimte-6) 0 0;font-size:var(--tekst-15);">Richtgrootte voor jouw situatie: <b>circa ${batterij.onder} tot ${batterij.boven} kWh</b>. Vuistregel: de batterij hoeft niet groter dan het kleinste van je gemiddelde zomerse dagoverschot en je avond- en nachtverbruik.</p>
         <p style="margin: var(--ruimte-6) 0 0;font-size:var(--tekst-15);">${batterij.hybride
@@ -401,7 +401,7 @@
         <p style="margin: var(--ruimte-6) 0 0;font-size:var(--tekst-15);">Verstandig: na 2027 (einde saldering) wordt een batterij interessanter. ${batterij.hybride
           ? `De geadviseerde ${escapeHtml(batterij.topOmvormer.merk)}-omvormer is al hybride, dus een batterij is later zó bijgeplaatst.`
           : `Een AC-gekoppelde of plug-in batterij is later altijd toe te voegen via de slimme meter (P1), ongeacht je omvormerkeuze.`} Grootte bepaal je dan op basis van je werkelijke overschot.</p>`}
-        <p style="margin: var(--ruimte-6) 0 0;font-size:var(--tekst-15);">Batterijen vergelijken op prijs per kWh, noodstroom en slimme aansturing doe je op onze zustersite: <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl ${Iconen.svg("pijl-rechts")}</a> Verwarm je (straks) met een warmtepomp, dan benut die je zonnestroom extra goed; vergelijk warmtepompen op <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje ${Iconen.svg("pijl-rechts")}</a></p>
+        <p style="margin: var(--ruimte-6) 0 0;font-size:var(--tekst-15);">Batterijen vergelijken op prijs per kWh, noodstroom en slimme aansturing doe je op mijn zustersite: <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl ${Iconen.svg("pijl-rechts")}</a> Verwarm je (straks) met een warmtepomp, dan benut die je zonnestroom extra goed; vergelijk warmtepompen op <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje ${Iconen.svg("pijl-rechts")}</a></p>
       </div>` : ""}
 
       <p class="hint" style="margin-top: var(--ruimte-14);">Alle ${panelen.length} panelen zelf vergelijken? <a href="index.html">Naar de vergelijker ${Iconen.svg("pijl-rechts")}</a></p>

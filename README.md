@@ -103,9 +103,16 @@ winkelnaam erbij kán geen slop zijn, want die kun je nakijken, en daar heeft
 deze site zijn hele bestaansrecht van gemaakt. Vier dingen laten de run vallen:
 woorden die alleen toon toevoegen, "niet X maar Y" als stijlfiguur, een beroep
 op onderzoek zonder te zeggen welk, en een zin die ongemerkt op twee sites
-staat. Ze zijn zo gekozen dat ze bij invoering op nul stonden — alles wat ze
-melden is dus nieuw. Een controle die meteen honderd meldingen geeft, is een
-controle die je wegklikt.
+staat, en sinds de stemwissel ook "wij" waar "ik" hoort. Ze zijn zo gekozen dat
+ze bij invoering op nul stonden — alles wat ze melden is dus nieuw. Een
+controle die meteen honderd meldingen geeft, is een controle die je wegklikt.
+
+Die laatste hangt samen met wat er in augustus 2026 veranderde: de sites
+spraken als "wij" en zijn van één maker. Dat was niet alleen een toon maar een
+onwaarheid. Alle 144 pagina's, de sjablonen in de generatoren, de schermteksten
+en de opmerkingen in de gegevens spreken nu als "ik"; het commentaar in de code
+niet, want dat leest geen bezoeker. De controle staat er omdat de terugval
+makkelijk is: "wij tonen" is de standaardstem van elke vergelijkingssite.
 
 De vijfde is een signaal en laat niets vallen: hoeveel alinea's van 25 woorden
 of meer bevatten geen enkel getal en geen enkele verwijzing. Dat is een oordeel

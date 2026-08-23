@@ -169,7 +169,7 @@
     el("resultaatInhoud").innerHTML = `
       <div class="resultaat-groot">${tvtTekst}</div>
       <p class="hint" style="margin: 0 0 var(--ruimte-14);">${prijsOnbekend
-        ? `van deze warmtepomp hebben wij nog geen winkelprijs, dus de investering is onbekend. De besparing per jaar hieronder klopt wel: die hangt alleen af van je verbruik en de tarieven.`
+        ? `van deze warmtepomp heb ik nog geen winkelprijs, dus de investering is onbekend. De besparing per jaar hieronder klopt wel: die hangt alleen af van je verbruik en de tarieven.`
         : `geschatte terugverdientijd${s.installatieGeschat ? " (bij geschatte installatiekosten)" : ""}`}</p>
       <div class="resultaat-rij"><span>Warmtepomp</span><b>${escapeHtml(s.w.merk)} ${escapeHtml(s.w.model)} (${s.type === "hybride" ? "hybride" : "all-electric"})</b></div>
       <div class="resultaat-rij"><span>Toestel ${prijsOnbekend ? "" : (s.beste && !s.beste.is_richtprijs ? `<small>(laagste prijs, bij ${escapeHtml(s.beste.winkel)})</small>` : "<small>(richtprijs)</small>")}</span><b>${prijsOnbekend ? "prijs onbekend" : eurFmt.format(s.toestelPrijs)}</b></div>
@@ -191,7 +191,7 @@
       ${tvt !== null && tvt > LEVENSDUUR_JAAR ? `<p class="hint" style="margin-top: var(--ruimte-10);background:var(--kleur-accent-licht);border-radius:var(--radius-klein);padding: var(--ruimte-10) var(--ruimte-10);">${Iconen.svg("let-op")} De terugverdientijd is langer dan de gemiddelde levensduur van ${LEVENSDUUR_JAAR} jaar. Financieel is dit dan vooral een duurzame keuze. Check of een goedkopere pomp, een hybride of eerst isoleren beter uitpakt; de <a href="advies.html">keuzehulp</a> helpt daarbij.</p>` : ""}
       ${s.type === "all-electric" && !s.gasAf ? `<p class="hint" style="margin-top: var(--ruimte-10);">${Iconen.svg("tip")} Laat je de gasaansluiting aan (bijvoorbeeld om op gas te koken), dan blijf je circa ${eurFmt.format(s.vastrecht)} per jaar aan vaste gaskosten betalen. Die zijn hier niet als besparing meegerekend.</p>` : ""}
       <p style="margin-top: var(--ruimte-14);"><a href="pomp/${encodeURIComponent(s.w.id)}.html">Alle details van de ${escapeHtml(s.w.merk)} ${escapeHtml(s.w.model)} ${Iconen.svg("pijl-rechts")}</a></p>
-      <p class="hint" style="margin-top: var(--ruimte-10);">Indicatie op basis van jouw invoer en onze aannames; geen offerte of financieel advies.</p>
+      <p class="hint" style="margin-top: var(--ruimte-10);">Indicatie op basis van jouw invoer en mijn aannames; geen offerte of financieel advies.</p>
     `;
   }
 

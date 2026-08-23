@@ -14,12 +14,12 @@
   <meta property="og:site_name" content="Warmtepompmaatje.nl">
   <meta property="og:image" content="https://warmtepompmaatje.nl/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="assets/style.css?v=20260823c">
-  <script src="assets/iconen.js?v=20260823c" defer></script>
-  <script src="assets/condities.js?v=20260823c" defer></script>
-  <script src="assets/prijs.js?v=20260823c" defer></script>
-  <script src="assets/rekenmodule.js?v=20260823c" defer></script>
-  <script src="assets/nav.js?v=20260823c" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20260823d">
+  <script src="assets/iconen.js?v=20260823d" defer></script>
+  <script src="assets/condities.js?v=20260823d" defer></script>
+  <script src="assets/prijs.js?v=20260823d" defer></script>
+  <script src="assets/rekenmodule.js?v=20260823d" defer></script>
+  <script src="assets/nav.js?v=20260823d" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <style>
     .reken-indeling { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ruimte-20); align-items: start; margin: var(--ruimte-28) 0 var(--ruimte-40); }
@@ -77,7 +77,7 @@
         <div class="nav-meer-paneel">
           <a href="warmtepomp-geluid.html">Geluid</a>
           <a href="monoblock-of-split.html">Monoblock of split</a>
-          <a href="over-ons.html">Over ons</a>
+          <a href="over-ons.html">Over mij</a>
           <a href="contact.html">Contact</a>
           <a href="privacy.html">Privacy &amp; disclaimer</a>
           <a href="steun.html" class="nav-steun"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></svg> Steun deze site</a>
@@ -100,7 +100,7 @@
 
     <form id="rekenformulier" class="reken-paneel" onsubmit="return false;">
       <h2>Jouw situatie</h2>
-      <p class="stappen-intro">Een paar keuzes en het resultaat rekent direct mee: op een groot scherm hiernaast, op een telefoon onder het formulier. Voor prijzen rekenen wij alvast met Nederlandse gemiddelden; aanpassen kan, maar hoeft niet.</p>
+      <p class="stappen-intro">Een paar keuzes en het resultaat rekent direct mee: op een groot scherm hiernaast, op een telefoon onder het formulier. Voor prijzen reken ik alvast met Nederlandse gemiddelden; aanpassen kan, maar hoeft niet.</p>
 
       <div class="veld">
         <label for="keuzePomp">Welke warmtepomp?</label>
@@ -123,7 +123,7 @@
 
       <details class="geavanceerd">
         <summary>Aannames aanpassen (energieprijzen, installatiekosten)</summary>
-        <p class="hint los">Wij rekenen standaard met: gasprijs € 1,45 per m³, stroomprijs € 0,30 per kWh, € 350 vaste gaskosten per jaar en € 700 eenmalige afsluitkosten. De installatie schatten wij op € 2.500 (hybride) of € 4.500 (all-electric, inclusief boiler). Wijkt jouw situatie of offerte af? Pas het hier aan; het resultaat rekent direct mee.</p>
+        <p class="hint los">Ik reken standaard met: gasprijs € 1,45 per m³, stroomprijs € 0,30 per kWh, € 350 vaste gaskosten per jaar en € 700 eenmalige afsluitkosten. De installatie schat ik op € 2.500 (hybride) of € 4.500 (all-electric, inclusief boiler). Wijkt jouw situatie of offerte af? Pas het hier aan; het resultaat rekent direct mee.</p>
         <div class="veld-rij">
           <div class="veld">
             <label for="gasprijs">Gasprijs (€ per m³)</label>
@@ -163,8 +163,8 @@
   </div>
 
   <section class="content-pagina aansluitend">
-    <h2>Hoe rekenen wij?</h2>
-    <p>De berekening is bewust eenvoudig en controleerbaar, en gebruikt dezelfde vuistregels als onze <a href="advies.html">keuzehulp</a>. Dit zijn de stappen en aannames:</p>
+    <h2>Hoe reken ik?</h2>
+    <p>De berekening is bewust eenvoudig en controleerbaar, en gebruikt dezelfde vuistregels als mijn <a href="advies.html">keuzehulp</a>. Dit zijn de stappen en aannames:</p>
 
     <figure class="grafiek-kader">
       <svg viewBox="0 0 560 204" role="img" aria-label="Staafdiagram: van het gasverbruik gaat 75% naar verwarming en 25% naar warm water en koken. Een hybride neemt 60% van het totaal over, all-electric alles." class="grafiek">
@@ -188,19 +188,19 @@
       <figcaption class="grafiek-bijschrift">Blauw = wordt elektrisch (de pomp), terracotta = gas. Hybride neemt circa 60% over, all-electric alles.</figcaption>
     </figure>
     <ul>
-      <li><b>Verdeling van je gasverbruik.</b> Circa 75% van het gas gaat naar verwarming en circa 25% naar warm water en koken (bron: Milieu Centraal). Die verdeling gebruiken wij bij all-electric om het warme water apart door te rekenen.</li>
-      <li><b>Hybride.</b> Een hybride warmtepomp neemt circa 60% van je totale warmtevraag over (circa 80% van de verwarming; warm water en piekkou blijven bij de cv-ketel), dezelfde vuistregel als in de keuzehulp. De pomp draait vooral op gunstige momenten, daarom rekenen wij met een seizoensrendement (SCOP) van 4,5.</li>
-      <li><b>All-electric.</b> De pomp vervangt de ketel volledig. Voor verwarming rekenen wij met een praktijk-SCOP van 4,0; voor warm water en koken met een rendement van 2,5, omdat een boilervat op hogere temperatuur werkt en inductiekoken meetelt.</li>
+      <li><b>Verdeling van je gasverbruik.</b> Circa 75% van het gas gaat naar verwarming en circa 25% naar warm water en koken (bron: Milieu Centraal). Die verdeling gebruik ik bij all-electric om het warme water apart door te rekenen.</li>
+      <li><b>Hybride.</b> Een hybride warmtepomp neemt circa 60% van je totale warmtevraag over (circa 80% van de verwarming; warm water en piekkou blijven bij de cv-ketel), dezelfde vuistregel als in de keuzehulp. De pomp draait vooral op gunstige momenten, daarom reken ik met een seizoensrendement (SCOP) van 4,5.</li>
+      <li><b>All-electric.</b> De pomp vervangt de ketel volledig. Voor verwarming reken ik met een praktijk-SCOP van 4,0; voor warm water en koken met een rendement van 2,5, omdat een boilervat op hogere temperatuur werkt en inductiekoken meetelt.</li>
       <li><b>Omrekening gas naar warmte.</b> 1 m³ gas levert circa 8,8 kWh nuttige warmte via een moderne cv-ketel.</li>
-      <li><b>Van het gas af.</b> Zeg je bij all-electric de gasaansluiting op, dan vervallen de vaste gaskosten (circa € 350 per jaar, verschilt per netbeheerder en leverancier) en rekenen wij eenmalige afsluitkosten mee (circa € 500 tot € 1.200; wij nemen € 700).</li>
-      <li><b>Subsidie.</b> De ISDE-indicatie per pomp trekken wij van de investering af. Het exacte bedrag hangt af van de meldcode; controleer het bij <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/warmtepomp" target="_blank" rel="noopener">RVO</a> of op onze <a href="subsidie.html">subsidiepagina</a>.</li>
-      <li><b>Terugverdientijd.</b> Netto investering (toestel + installatie + eventuele afsluitkosten − ISDE) gedeeld door de besparing per jaar. Energieprijzen houden we constant; stijgt de gasprijs harder dan de stroomprijs, dan verdien je sneller terug. Heb je een dynamisch contract en een slim aangestuurde pomp, dan ligt de gemiddelde stroomprijs vaak wat lager: pas hem aan onder "Aannames aanpassen". Onderhoudskosten laten we buiten de som: die zijn voor een warmtepomp en een cv-ketel vergelijkbaar (circa € 100 tot € 200 per jaar).</li>
-      <li><b>Levensduur.</b> Een warmtepomp gaat gemiddeld 15 tot 20 jaar mee; wij rekenen de totale besparing over 15 jaar. Is de terugverdientijd langer, dan waarschuwen wij daarvoor.</li>
-      <li><b>Installatiekosten.</b> Zonder eigen invoer schatten wij € 2.500 (hybride) of € 4.500 (all-electric, inclusief boilervat en aanpassingen). Dat sluit aan bij de totaalprijzen die Milieu Centraal noemt: circa € 6.200 voor een hybride en circa € 12.000 voor all-electric, inclusief installatie. Vraag altijd meerdere offertes aan; werkelijke prijzen verschillen per huis en regio.</li>
+      <li><b>Van het gas af.</b> Zeg je bij all-electric de gasaansluiting op, dan vervallen de vaste gaskosten (circa € 350 per jaar, verschilt per netbeheerder en leverancier) en reken ik eenmalige afsluitkosten mee (circa € 500 tot € 1.200; ik neem € 700).</li>
+      <li><b>Subsidie.</b> De ISDE-indicatie per pomp trek ik van de investering af. Het exacte bedrag hangt af van de meldcode; controleer het bij <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/warmtepomp" target="_blank" rel="noopener">RVO</a> of op mijn <a href="subsidie.html">subsidiepagina</a>.</li>
+      <li><b>Terugverdientijd.</b> Netto investering (toestel + installatie + eventuele afsluitkosten − ISDE) gedeeld door de besparing per jaar. Energieprijzen houd ik constant; stijgt de gasprijs harder dan de stroomprijs, dan verdien je sneller terug. Heb je een dynamisch contract en een slim aangestuurde pomp, dan ligt de gemiddelde stroomprijs vaak wat lager: pas hem aan onder "Aannames aanpassen". Onderhoudskosten laat ik buiten de som: die zijn voor een warmtepomp en een cv-ketel vergelijkbaar (circa € 100 tot € 200 per jaar).</li>
+      <li><b>Levensduur.</b> Een warmtepomp gaat gemiddeld 15 tot 20 jaar mee; ik reken de totale besparing over 15 jaar. Is de terugverdientijd langer, dan waarschuw ik daarvoor.</li>
+      <li><b>Installatiekosten.</b> Zonder eigen invoer schat ik € 2.500 (hybride) of € 4.500 (all-electric, inclusief boilervat en aanpassingen). Dat sluit aan bij de totaalprijzen die Milieu Centraal noemt: circa € 6.200 voor een hybride en circa € 12.000 voor all-electric, inclusief installatie. Vraag altijd meerdere offertes aan; werkelijke prijzen verschillen per huis en regio.</li>
       <li><b>CO₂.</b> Vermeden uitstoot: bespaard gas × 1,78 kg per m³, minus extra stroom × 0,27 kg per kWh (bron: co2emissiefactoren.nl).</li>
     </ul>
     <div class="waarschuwing-kader">Deze berekening is een indicatie, geen offerte of financieel advies. De werkelijke besparing hangt af van je huis, je stookgedrag, de installatie en toekomstige energieprijzen. Laat een installateur altijd het benodigde vermogen bepalen met een warmteverliesberekening.</div>
-    <p class="bron-lijst">Bronnen: <a href="https://www.milieucentraal.nl/energie-besparen/duurzaam-verwarmen/warmtepomp/" target="_blank" rel="noopener">Milieu Centraal over warmtepompen en kosten</a> · <a href="https://www.milieucentraal.nl/energie-besparen/inzicht-in-je-energierekening/gemiddeld-energieverbruik/" target="_blank" rel="noopener">Milieu Centraal over gemiddeld energieverbruik</a> · <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/warmtepomp" target="_blank" rel="noopener">RVO over de ISDE-subsidie</a> · <a href="https://co2emissiefactoren.nl/" target="_blank" rel="noopener">CO₂-emissiefactoren</a>. Zie ook onze pagina <a href="subsidie.html">Subsidie</a>.</p>
+    <p class="bron-lijst">Bronnen: <a href="https://www.milieucentraal.nl/energie-besparen/duurzaam-verwarmen/warmtepomp/" target="_blank" rel="noopener">Milieu Centraal over warmtepompen en kosten</a> · <a href="https://www.milieucentraal.nl/energie-besparen/inzicht-in-je-energierekening/gemiddeld-energieverbruik/" target="_blank" rel="noopener">Milieu Centraal over gemiddeld energieverbruik</a> · <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/warmtepomp" target="_blank" rel="noopener">RVO over de ISDE-subsidie</a> · <a href="https://co2emissiefactoren.nl/" target="_blank" rel="noopener">CO₂-emissiefactoren</a>. Zie ook mijn pagina <a href="subsidie.html">Subsidie</a>.</p>
   </section>
 
   <aside class="steun-blok">
@@ -218,7 +218,7 @@
   <div class="container">
     <b><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" /></svg> Warmtepompmaatje</b>
     <p>Onafhankelijke vergelijking van warmtepompen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen).</p>
-    <p><a href="index.html">Warmtepompen</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="uitleg.html">Uitleg</a> · <a href="subsidie.html">Subsidie</a> · <a href="warmtepomp-geluid.html">Geluid</a> · <a href="monoblock-of-split.html">Monoblock of split</a> · <a href="over-ons.html">Over ons</a> · <a href="contact.html">Contact</a> · <a href="steun.html">Steun deze site</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="index.html">Warmtepompen</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="uitleg.html">Uitleg</a> · <a href="subsidie.html">Subsidie</a> · <a href="warmtepomp-geluid.html">Geluid</a> · <a href="monoblock-of-split.html">Monoblock of split</a> · <a href="over-ons.html">Over mij</a> · <a href="contact.html">Contact</a> · <a href="steun.html">Steun deze site</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: deze berekening is een indicatie; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>

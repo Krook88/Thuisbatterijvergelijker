@@ -216,7 +216,7 @@ function kop(actief, diepte) {
         <div class="nav-meer-paneel">
           <a href="${p}warmtepomp-geluid.html">Geluid</a>
           <a href="${p}monoblock-of-split.html">Monoblock of split</a>
-          <a href="${p}over-ons.html">Over ons</a>
+          <a href="${p}over-ons.html">Over mij</a>
           <a href="${p}contact.html">Contact</a>
           <a href="${p}privacy.html">Privacy &amp; disclaimer</a>
           <a href="${p}steun.html" class="nav-steun"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></svg> Steun deze site</a>
@@ -233,7 +233,7 @@ function voet(diepte) {
   <div class="container">
     <b>${Iconen.svg("warmte")} Warmtepompmaatje</b>
     <p>Onafhankelijke vergelijking van warmtepompen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen).</p>
-    <p><a href="${p}index.html">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}warmtepomp-geluid.html">Geluid</a> · <a href="${p}monoblock-of-split.html">Monoblock of split</a> · <a href="${p}over-ons.html">Over ons</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}steun.html">Steun deze site</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="${p}index.html">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}warmtepomp-geluid.html">Geluid</a> · <a href="${p}monoblock-of-split.html">Monoblock of split</a> · <a href="${p}over-ons.html">Over mij</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}steun.html">Steun deze site</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties zijn indicaties; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -320,7 +320,7 @@ function geluidTabel(lijst) {
 function opmerkingBijOntbrekend(lijst) {
   const zonder = lijst.filter((w) => w.geluid_db == null);
   if (!zonder.length) return "";
-  return `\n  <p class="datum-stempel">Van ${zonder.length} van de ${lijst.length} pompen hebben wij het geluidsvermogen nog niet kunnen vaststellen. Die staan hier bewust wel in: ze weglaten zou de vergelijking vollediger laten lijken dan hij is. Wat de fabrikant er zelf over zegt, staat in de kolom Toelichting.</p>`;
+  return `\n  <p class="datum-stempel">Van ${zonder.length} van de ${lijst.length} pompen heb ik het geluidsvermogen nog niet kunnen vaststellen. Die staan hier bewust wel in: ze weglaten zou de vergelijking vollediger laten lijken dan hij is. Wat de fabrikant er zelf over zegt, staat in de kolom Toelichting.</p>`;
 }
 
 function geluidPagina() {
@@ -383,7 +383,7 @@ ${kop("", false)}
 <main class="container leespagina">
   <p class="datum-stempel"><a href="index.html">${Iconen.svg("pijl-links")} Alle warmtepompen vergelijken</a></p>
   <h1>Warmtepomp en geluid</h1>
-  <p class="datum-stempel">Samengesteld uit onze vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+  <p class="datum-stempel">Samengesteld uit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
   <p>Geluid is de vraag waar de meeste twijfel zit voordat iemand een warmtepomp koopt, en terecht: het is de enige eigenschap met een harde wettelijke grens eraan. Alleen gaat die grens over iets anders dan het getal dat op het productblad staat, en dat verschil is precies waar het misgaat in bijna alles wat je erover leest.</p>
 
@@ -408,9 +408,9 @@ ${kop("", false)}
       <tbody>${AFSTANDEN.map((m) => `<tr><td>${m} meter</td><td>${Math.round(aftrekOpAfstand(m))} dB</td></tr>`).join("")}</tbody>
     </table>
   </div>
-  <p>Staat de unit ${AFSTANDEN[1]} meter van de erfgrens, dan haalt ${haalt40OpDrie} van de ${gemeten.length} pompen waarvan wij het geluidsvermogen kennen ook 's nachts de 40 dB(A). Dat is een schatting, geen toetsing: de officiële berekening is voorgeschreven in de Omgevingsregeling (artikel 5.59 en bijlage XVII) en houdt rekening met weerkaatsing tegen schuttingen en gevels. Die hoort de installateur te maken vóór de plaatsing. Vraag erom, en vraag hem op papier.</p>
+  <p>Staat de unit ${AFSTANDEN[1]} meter van de erfgrens, dan haalt ${haalt40OpDrie} van de ${gemeten.length} pompen waarvan ik het geluidsvermogen ken ook 's nachts de 40 dB(A). Dat is een schatting, geen toetsing: de officiële berekening is voorgeschreven in de Omgevingsregeling (artikel 5.59 en bijlage XVII) en houdt rekening met weerkaatsing tegen schuttingen en gevels. Die hoort de installateur te maken vóór de plaatsing. Vraag erom, en vraag hem op papier.</p>
 
-  <h2>Hoe stil de pompen in onze vergelijker zijn</h2>
+  <h2>Hoe stil de pompen in mijn vergelijker zijn</h2>
   <p>Gesorteerd van stil naar luid. De stilste buitenunit is die van de ${esc(stilste.merk)} ${esc(stilste.model)} met ${stilste.geluid_db} dB(A), de luidste die van de ${esc(luidste.merk)} ${esc(luidste.model)} met ${luidste.geluid_db} dB(A) &mdash; ${luidste.geluid_db - stilste.geluid_db} punten verschil, en dat hoor je.${binnen.length ? ` Onderaan staan ${binnen.length} ${binnen.length === 1 ? "pomp" : "pompen"} zonder buitenunit: daarvoor geldt de erfgrensnorm niet, en een omrekening naar afstand zegt er dus niets over.` : ""}</p>
   ${geluidTabel(opGeluid)}
 
@@ -546,7 +546,7 @@ ${kop("", false)}
 <main class="container leespagina">
   <p class="datum-stempel"><a href="index.html">${Iconen.svg("pijl-links")} Alle warmtepompen vergelijken</a></p>
   <h1>Monoblock of split?</h1>
-  <p class="datum-stempel">Samengesteld uit onze vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+  <p class="datum-stempel">Samengesteld uit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
   <p class="intro">Dit is de eerste keuze nadat je besloten hebt dat je een warmtepomp wilt, en hij gaat niet over merken maar over waar de techniek zit. Bij een <b>monoblock</b> zit alles in de buitenunit en loopt er alleen water naar binnen. Bij een <b>split</b> staat er ook een unit binnen, met een koudemiddelleiding ertussen.</p>
 
@@ -564,10 +564,10 @@ ${kop("", false)}
       </tbody>
     </table>
   </div>
-  <p>Dat laatste punt weegt zwaarder dan het lijkt, en het is meetbaar in onze eigen gegevens.</p>
+  <p>Dat laatste punt weegt zwaarder dan het lijkt, en het is meetbaar in mijn eigen gegevens.</p>
 
   <h2>Waarom het koudemiddel de keuze mede bepaalt</h2>
-  <p>Propaan (R290) is een natuurlijk koudemiddel met een verwaarloosbaar broeikaseffect, maar het is brandbaar. Daarom houden fabrikanten het buiten, en zijn pompen op propaan vrijwel altijd monoblock. Tegelijk kan propaan hoger: van de ${pompen.length} warmtepompen in onze vergelijker draaien er ${propaan.length} op propaan${aanvoerPropaan ? `, en die halen allemaal ${aanvoerPropaan.laag} tot ${aanvoerPropaan.hoog} graden aanvoer` : ""}.${aanvoerRest ? ` De ${rest.length} met een ander koudemiddel zitten op ${aanvoerRest.laag} tot ${aanvoerRest.hoog} graden.` : ""}</p>
+  <p>Propaan (R290) is een natuurlijk koudemiddel met een verwaarloosbaar broeikaseffect, maar het is brandbaar. Daarom houden fabrikanten het buiten, en zijn pompen op propaan vrijwel altijd monoblock. Tegelijk kan propaan hoger: van de ${pompen.length} warmtepompen in mijn vergelijker draaien er ${propaan.length} op propaan${aanvoerPropaan ? `, en die halen allemaal ${aanvoerPropaan.laag} tot ${aanvoerPropaan.hoog} graden aanvoer` : ""}.${aanvoerRest ? ` De ${rest.length} met een ander koudemiddel zitten op ${aanvoerRest.laag} tot ${aanvoerRest.hoog} graden.` : ""}</p>
   <p><b>Dat is precies het getal waar je huis om vraagt.</b> Bestaande radiatoren willen vaak 65 tot 70 graden op een koude dag; vloerverwarming heeft aan 35 genoeg. ${hoog.length} van de ${pompen.length} pompen hier halen 70 graden of meer, en ${hoog.filter(isPropaan).length} daarvan draaien op propaan. Wil je je radiatoren houden zonder ze allemaal te vervangen, dan stuurt die eis je dus vanzelf richting een monoblock op propaan.</p>
 
   ${bouwvormTabel(opAanvoer)}
@@ -671,7 +671,7 @@ ${kop("index", true)}
 
       <div class="info-kader los">
         <b>Wat je nodig hebt voor je ISDE-aanvraag</b>
-        <p class="onder-kop">De ISDE-subsidie loopt per goedgekeurd apparaat, elk met een eigen meldcode. Wij vermelden die meldcode bewust niet: RVO werkt de lijst regelmatig bij en één model heeft vaak meerdere codes per vermogensvariant. Zoek de juiste meldcode op met deze gegevens van deze warmtepomp:</p>
+        <p class="onder-kop">De ISDE-subsidie loopt per goedgekeurd apparaat, elk met een eigen meldcode. Ik vermeld die meldcode bewust niet: RVO werkt de lijst regelmatig bij en één model heeft vaak meerdere codes per vermogensvariant. Zoek de juiste meldcode op met deze gegevens van deze warmtepomp:</p>
         <ul class="onder-lijst">
           <li><b>Merk:</b> ${esc(w.merk)}</li>
           <li><b>Model:</b> ${esc(w.model)}</li>

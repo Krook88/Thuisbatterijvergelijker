@@ -161,7 +161,7 @@
       "tapwater": "via de cv-ketel",
       "max_aanvoer_c": 55,
       "richtprijs_eur": 3100,
-      "prijs_toelichting": "los toestel, excl. installatie; het voordeligst in combinatie met een Intergas-ketel. Onze varianttekst noemde eerder 4,5 kW, maar de meldcode KA22154 hoort bij de Xtend 5. Naam en meldcode wijzen nu naar hetzelfde toestel; RVO geeft er 4 kW voor bij de ontwerpbuitentemperatuur.",
+      "prijs_toelichting": "los toestel, excl. installatie; het voordeligst in combinatie met een Intergas-ketel. Mijn varianttekst noemde eerder 4,5 kW, maar de meldcode KA22154 hoort bij de Xtend 5. Naam en meldcode wijzen nu naar hetzelfde toestel; RVO geeft er 4 kW voor bij de ontwerpbuitentemperatuur.",
       "isde_indicatie_eur": 1925,
       "sturing": {
         "status": "deels",
@@ -796,7 +796,7 @@
       "tapwater": "aparte boiler",
       "max_aanvoer_c": 70,
       "richtprijs_eur": 7000,
-      "prijs_toelichting": "toestel, excl. boiler en installatie. Onze varianttekst noemde eerder 5 kW, maar de meldcode KA28196 hoort bij de Blackbird P60. Naam en meldcode wijzen nu naar hetzelfde toestel; RVO geeft er 6 kW voor bij de ontwerpbuitentemperatuur.",
+      "prijs_toelichting": "toestel, excl. boiler en installatie. Mijn varianttekst noemde eerder 5 kW, maar de meldcode KA28196 hoort bij de Blackbird P60. Naam en meldcode wijzen nu naar hetzelfde toestel; RVO geeft er 6 kW voor bij de ontwerpbuitentemperatuur.",
       "isde_indicatie_eur": 2575,
       "sturing": {
         "status": "ja",
@@ -1252,7 +1252,7 @@
         "status": "onbekend",
         "tekst": "Geen betrouwbare bron gevonden over een app voor deze warmtepomp."
       },
-      "opmerkingen": "Het bijzondere aan deze: de warmtepomp staat binnen, niet in de tuin. Geen buitenunit dus - schelen kan dat als je weinig ruimte hebt, in een monument woont of de buren dicht op je zitten. Draait op propaan. Over de koppelbaarheid hebben we nog geen betrouwbare informatie gevonden.",
+      "opmerkingen": "Het bijzondere aan deze: de warmtepomp staat binnen, niet in de tuin. Geen buitenunit dus - schelen kan dat als je weinig ruimte hebt, in een monument woont of de buren dicht op je zitten. Draait op propaan. Over de koppelbaarheid heb ik nog geen betrouwbare informatie gevonden.",
       "product_url": "https://www.ithodaalderop.nl/nl-NL/consument/product/03-00660",
       "aanbiedingen": [
         {
@@ -1291,7 +1291,7 @@
         "status": "onbekend",
         "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
       },
-      "opmerkingen": "Bi-bloc op propaan: het koudemiddel blijft buiten, binnen loopt alleen water. Dat scheelt in de installatie-eisen. Toshiba noemt deze reeks een van de stilste van de markt, maar die claim gaat over geluidsdruk op een paar meter afstand en niet over de labelwaarde waarop wij vergelijken - vandaar dat het geluidsveld hier leeg staat.",
+      "opmerkingen": "Bi-bloc op propaan: het koudemiddel blijft buiten, binnen loopt alleen water. Dat scheelt in de installatie-eisen. Toshiba noemt deze reeks een van de stilste van de markt, maar die claim gaat over geluidsdruk op een paar meter afstand en niet over de labelwaarde waarop ik vergelijk - vandaar dat het geluidsveld hier leeg staat.",
       "product_url": "https://www.toshiba-aircondition.com/en/heat-pumps/estia/bi-bloc-r290",
       "aanbiedingen": [
         {
