@@ -330,7 +330,7 @@ const NAV = `
           <a href="/regelgeving.html">Regels &amp; subsidies</a>
           <a href="/beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a>
           <a href="/beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a>
-          <a href="/over-ons.html">Over ons</a>
+          <a href="/over-ons.html">Over mij</a>
           <a href="/contact.html">Contact</a>
           <a href="/steun.html" class="nav-steun"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></svg> Steun deze site</a>
         </div>
@@ -344,7 +344,7 @@ const FOOTER = `
   <div class="container">
     <b>${Iconen.svg("zon")} Zonnestroommaatje</b>
     <p>Onafhankelijke vergelijking van zonnepanelen voor Nederlandse huishoudens. Zustersite van <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen) en <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a> (warmtepompen).</p>
-    <p><a href="/index.html">Zonnepanelen</a> · <a href="/omvormers.html">Omvormers</a> · <a href="/systeem.html">Samenstellen</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/energieplan.html">Jouw energieplan</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="/hebben-zonnepanelen-nog-zin.html">Loont het nog?</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a> · <a href="/beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="/index.html">Zonnepanelen</a> · <a href="/omvormers.html">Omvormers</a> · <a href="/systeem.html">Samenstellen</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/energieplan.html">Jouw energieplan</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="/hebben-zonnepanelen-nog-zin.html">Loont het nog?</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a> · <a href="/beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a> · <a href="/over-ons.html">Over mij</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. Prijzen zijn indicatief; de prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -477,7 +477,7 @@ function pagina(p) {
   <ul>
     ${p.aanbiedingen.map((a) => `<li><a href="${esc(a.affiliate_url || a.url)}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">${esc(a.winkel)}</a>: <b>${eur(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""} <span class="datum-stempel">${a.datum ? `(gecontroleerd ${esc(datumNL(a.datum))})` : "(prijsindicatie; klik voor de actuele prijs)"}</span></li>`).join("\n    ")}
   </ul>
-  <p class="datum-stempel">De prijs op de website van de winkel is altijd leidend.${(p.aanbiedingen || []).some((a) => a.affiliate_url) ? " Sommige links zijn commissielinks: koop je via die link, dan ontvangen wij een kleine vergoeding van de winkel. Dit kost jou niets en beïnvloedt onze scores en volgorde niet." : ""}</p>` : ""}
+  <p class="datum-stempel">De prijs op de website van de winkel is altijd leidend.${(p.aanbiedingen || []).some((a) => a.affiliate_url) ? " Sommige links zijn commissielinks: koop je via die link, dan ontvang ik een kleine vergoeding van de winkel. Dit kost jou niets en beïnvloedt mijn scores en volgorde niet." : ""}</p>` : ""}
 
   ${VERGELIJKINGEN.filter((v) => v.a === p.id || v.b === p.id).length ? `<h2>Vergelijk met alternatieven</h2>
   <ul>
@@ -505,7 +505,7 @@ const OVERZICHTEN = [
     bestand: "beste-zonnepanelen-klein-dak.html",
     titel: `Beste zonnepanelen voor een klein dak (${JAAR})`,
     metaDesc: "Weinig dakruimte? Deze zonnepanelen leveren de meeste opbrengst per vierkante meter. Vergelijking op rendement, Wp per m², prijs en garanties.",
-    intro: "Past je gewenste vermogen niet zomaar op je dak, dan telt elke vierkante meter. Het rendement van een paneel bepaalt direct hoeveel wattpiek er per m² past: 22% rendement is circa 220 Wp per m². Back-contact panelen zijn hier de koningen, maar je betaalt er iets meer voor. Hieronder alle panelen uit onze vergelijker, gesorteerd op opbrengst per vierkante meter.",
+    intro: "Past je gewenste vermogen niet zomaar op je dak, dan telt elke vierkante meter. Het rendement van een paneel bepaalt direct hoeveel wattpiek er per m² past: 22% rendement is circa 220 Wp per m². Back-contact panelen zijn hier de koningen, maar je betaalt er iets meer voor. Hieronder alle panelen uit mijn vergelijker, gesorteerd op opbrengst per vierkante meter.",
     selecteer: (lijst) => [...lijst].sort((a, b) => (b.rendement_pct || 0) - (a.rendement_pct || 0)),
     voetnoot: "Tip: reken eerst uit hoeveel wattpiek je nodig hebt met de keuzehulp; misschien past een gewone middenklasser prima en bespaar je honderden euro's.",
   },
@@ -513,9 +513,9 @@ const OVERZICHTEN = [
     bestand: "beste-glas-glas-zonnepanelen.html",
     titel: `Beste glas-glas zonnepanelen (${JAAR})`,
     metaDesc: "Glas-glas zonnepanelen vergeleken op prijs per Wp, garanties en rendement. Waarom glas-glas langer meegaat en wat het tegenwoordig kost.",
-    intro: "Bij een glas-glas paneel liggen de cellen tussen twee lagen glas in plaats van glas en kunststof folie. Dat beschermt beter tegen vocht en microscheurtjes, vertraagt veroudering en levert vaak langere garanties op. Sinds fabrikanten dun gehard glas gebruiken, is het verschil in prijs en gewicht met foliepanelen klein. Hieronder alle glas-glas panelen uit onze vergelijker, gesorteerd op prijs per wattpiek.",
+    intro: "Bij een glas-glas paneel liggen de cellen tussen twee lagen glas in plaats van glas en kunststof folie. Dat beschermt beter tegen vocht en microscheurtjes, vertraagt veroudering en levert vaak langere garanties op. Sinds fabrikanten dun gehard glas gebruiken, is het verschil in prijs en gewicht met foliepanelen klein. Hieronder alle glas-glas panelen uit mijn vergelijker, gesorteerd op prijs per wattpiek.",
     selecteer: (lijst) => lijst.filter((p) => p.uitvoering === "glas-glas").sort((a, b) => (prijsPerWp(a) || Infinity) - (prijsPerWp(b) || Infinity)),
-    voetnoot: "Lees ook de uitleg over glas-glas en glas-folie in onze woordenlijst.",
+    voetnoot: "Lees ook de uitleg over glas-glas en glas-folie in mijn woordenlijst.",
   },
 ];
 
@@ -568,11 +568,11 @@ function overzichtsPagina(cfg) {
 <main class="container leespagina">
   <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
   <h1>${esc(cfg.titel)}</h1>
-  <p class="datum-stempel">Automatisch samengesteld uit onze vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+  <p class="datum-stempel">Automatisch samengesteld uit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
   <p>${esc(cfg.intro)}</p>
   ${overzichtTabel(lijst)}
   <p>${esc(cfg.voetnoot)} Zie de <a href="/advies.html">keuzehulp</a> en de <a href="/uitleg.html#woordenlijst">woordenlijst</a>.</p>
-  <div class="waarschuwing-kader">Prijzen zijn indicatieve richtprijzen; de prijs en specificaties op de website van de aanbieder zijn altijd leidend. Deze pagina wordt automatisch herbouwd vanuit onze <a href="/index.html">vergelijker</a>.</div>
+  <div class="waarschuwing-kader">Prijzen zijn indicatieve richtprijzen; de prijs en specificaties op de website van de aanbieder zijn altijd leidend. Deze pagina wordt automatisch herbouwd vanuit mijn <a href="/index.html">vergelijker</a>.</div>
 </main>
 ${staart}`;
 }
@@ -639,7 +639,7 @@ function nogZinPagina() {
 <main class="container leespagina">
   <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
   <h1>${esc(titel)}</h1>
-  <p class="datum-stempel">Automatisch bijgewerkt vanuit onze vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+  <p class="datum-stempel">Automatisch bijgewerkt vanuit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
   <p class="intro"><b>Ja &mdash; maar de som verandert wel.</b> Op 1 januari 2027 stopt de salderingsregeling, en daarmee verdwijnt het wegstrepen van wat je teruglevert tegen wat je verbruikt. Panelen blijven zichzelf terugverdienen, alleen verschuift het rendement van <i>opwekken</i> naar <i>zelf gebruiken</i>. Wie daar iets aan doet, merkt er weinig van. Wie niets doet, ziet de opbrengst dalen.</p>
 
@@ -665,7 +665,7 @@ function nogZinPagina() {
   <ul>
     <li><b>Verschuif je verbruik naar de dag.</b> De goedkoopste maatregel, want hij kost niets. Was, droog en vaatwas overdag, laad je auto als de zon schijnt, zet een warmtepompboiler op een dagprogramma.</li>
     <li><b>Kijk naar je energiecontract.</b> Bij een dynamisch contract betaal je meestal geen of nauwelijks terugleverkosten, en krijg je voor teruglevering de marktprijs. Bij vaste contracten rekenen leveranciers die kosten juist wel. Vergelijk niet alleen het tarief maar ook de terugleverkosten en de terugleververgoeding.</li>
-    <li><b>Sla het op.</b> Een thuisbatterij tilt je eigen verbruik van een derde naar de helft of meer: overdag laden, 's avonds gebruiken. Dat is precies het verschil in de tabel hierboven. Op onze zustersite <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje</a> staan de modellen naast elkaar; met de <a href="/energieplan.html">energieplan-pagina</a> kijk je naar zon, batterij en warmtepomp in één keer.</li>
+    <li><b>Sla het op.</b> Een thuisbatterij tilt je eigen verbruik van een derde naar de helft of meer: overdag laden, 's avonds gebruiken. Dat is precies het verschil in de tabel hierboven. Op mijn zustersite <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje</a> staan de modellen naast elkaar; met de <a href="/energieplan.html">energieplan-pagina</a> kijk je naar zon, batterij en warmtepomp in één keer.</li>
   </ul>
 
   <h2>Je hebt al panelen. Wat kun je nu doen?</h2>
@@ -679,7 +679,7 @@ function nogZinPagina() {
   <h2>En als je nog moet kopen?</h2>
   <p>Dan is er geen haast, maar ook geen reden om te wachten. Panelen gaan 25 jaar mee en de terugverdientijd wordt vooral bepaald door je eigen verbruik, niet door de datum van aanschaf. Belangrijker dan snelheid is de maat: stem het aantal panelen af op wat je zelf kunt gebruiken. De <a href="/advies.html">keuzehulp</a> rekent dat uit, en op <a href="/waar-zonnepanelen-kopen.html">waar koop je zonnepanelen</a> staan de vier routes naast elkaar.</p>
 
-  <h2>De panelen uit onze vergelijker, op prijs per wattpiek</h2>
+  <h2>De panelen uit mijn vergelijker, op prijs per wattpiek</h2>
   <p>Van goedkoop naar duur. Dit is de prijs van het paneel zelf; installatie, omvormer en montagemateriaal komen daar bovenop. De goedkoopste is op dit moment de ${esc(volledigeNaam(goedkoopste))} op ${eurWp(perWpGoedkoopst)} per Wp.</p>
   ${overzichtTabel(opPrijs)}
 
@@ -757,7 +757,7 @@ function vergelijkingsPagina(v) {
 <main class="container leespagina">
   <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
   <h1>${esc(naam(A))} vs ${esc(naam(B))}</h1>
-  <p class="datum-stempel">Op basis van dezelfde feiten als onze vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+  <p class="datum-stempel">Op basis van dezelfde feiten als mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
   <p>Twee veelvergeleken zonnepanelen naast elkaar. Onder de tabel staan de belangrijkste verschillen op een rij. Vetgedrukt betekent: op dit punt objectief in het voordeel.</p>
 
   <div class="tabel-blok los">

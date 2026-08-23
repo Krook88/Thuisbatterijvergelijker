@@ -233,7 +233,7 @@
       { sleutel: "prijs", label: "Voordeligst per kWh",
         alleenCompleet: true,
         uitleg: "laagste prijs per kWh opslag, gerekend over de complete prijs inclusief installatie",
-        uitlegKaal: "laagste prijs per kWh opslag over de apparaatprijs; van deze systemen kennen we de complete prijs niet",
+        uitlegKaal: "laagste prijs per kWh opslag over de apparaatprijs; van deze systemen ken ik de complete prijs niet",
         orde: (x, z) => x.perKwhCompleet - z.perKwhCompleet },
       { sleutel: "sturing", label: "Beste aansturing",
         uitleg: "meeste punten voor Homey, Home Assistant en dynamisch contract",
@@ -334,13 +334,13 @@
           <div class="kaart-specs">
             <div class="spec"><span class="spec-label">Capaciteit</span><span class="spec-waarde">${String(b.capaciteit_kwh).replace(".", ",")} kWh${Prijs.capaciteitLabelHtml(b)}${b.uitbreidbaar_tot_kwh ? ` <small>(tot ${String(b.uitbreidbaar_tot_kwh).replace(".", ",")})</small>` : ""}</span></div>
             <div class="spec"><span class="spec-label">Prijs incl. btw</span><span class="spec-waarde" title="${escapeHtml(Prijs.prijsToelichting(prijs))}">${prijs ? eurFmt.format(Prijs.vergelijkPrijs(prijs)) : "op aanvraag"}</span></div>
-            <div class="spec"><span class="spec-label">Per kWh${compleetBekend ? " compleet" : ""}</span><span class="spec-waarde" title="${escapeHtml((compleetBekend ? "Gerekend over de complete prijs inclusief installatie" : "Gerekend over de apparaatprijs; de complete prijs kennen we voor dit systeem niet") + (Prijs.capaciteitToelichting(b) ? " - " + Prijs.capaciteitToelichting(b) : ""))}">${prijs ? eurFmt.format(Math.round(perKwhCompleet)) : "n.b."}</span></div>
+            <div class="spec"><span class="spec-label">Per kWh${compleetBekend ? " compleet" : ""}</span><span class="spec-waarde" title="${escapeHtml((compleetBekend ? "Gerekend over de complete prijs inclusief installatie" : "Gerekend over de apparaatprijs; de complete prijs ken ik voor dit systeem niet") + (Prijs.capaciteitToelichting(b) ? " - " + Prijs.capaciteitToelichting(b) : ""))}">${prijs ? eurFmt.format(Math.round(perKwhCompleet)) : "n.b."}</span></div>
             <div class="spec"><span class="spec-label">Installatie</span><span class="spec-waarde">${b.installatie === "zelf" ? "Zelf" : "Installateur"}</span></div>
           </div>
           <div class="koppelgemak"><span class="uitleg"><b>Waarom deze past:</b> ${escapeHtml(waaromTekst(b, maat))}.</span></div>
           <div class="koppelgemak"><span class="uitleg">Compleet gebruiksklaar (indicatie): <b>${b.totaalprijs_van_eur ? eurFmt.format(b.totaalprijs_van_eur) + (b.totaalprijs_tot_eur ? " tot " + eurFmt.format(b.totaalprijs_tot_eur) : "") : "niet vastgesteld"}</b>${b.totaalprijs_van_eur ? "" : (b.totaalprijs_geschat_van_eur
-            ? `<br><small>Schatting: ${eurFmt.format(b.totaalprijs_geschat_van_eur)} tot ${eurFmt.format(b.totaalprijs_geschat_tot_eur)} - het toestel plus ${eurFmt.format(500)} tot ${eurFmt.format(2000)} installatie. Van dit systeem hebben wij geen complete prijs uit een bron, dus telt hij niet mee in de vergelijking op prijs per kWh.</small>`
-            : `<br><small>Wij hebben voor dit systeem geen prijs inclusief installatie gevonden.</small>`)}</span></div>
+            ? `<br><small>Schatting: ${eurFmt.format(b.totaalprijs_geschat_van_eur)} tot ${eurFmt.format(b.totaalprijs_geschat_tot_eur)} - het toestel plus ${eurFmt.format(500)} tot ${eurFmt.format(2000)} installatie. Van dit systeem heb ik geen complete prijs uit een bron, dus telt hij niet mee in de vergelijking op prijs per kWh.</small>`
+            : `<br><small>Ik heb voor dit systeem geen prijs inclusief installatie gevonden.</small>`)}</span></div>
           ${b.prijs_omvat ? `<div class="koppelgemak"><span class="uitleg">Winkelprijs dekt: ${escapeHtml(b.prijs_omvat)}</span></div>` : ""}
           <div class="kaart-acties advies-acties">
             ${prijs && prijs.url ? `<a class="knop" href="${escapeHtml(prijs.affiliate_url || prijs.url)}" target="_blank" rel="noopener${prijs.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>` : ""}
@@ -364,7 +364,7 @@
         ? "Let op: tot en met 31 december 2026 geldt de salderingsregeling nog, waardoor opslaan van eigen zonnestroom financieel weinig oplevert. Dit advies kijkt naar de situatie daarna."
         : "De salderingsregeling is per 1 januari 2027 vervallen: eigen zonnestroom opslaan levert nu wél op, want teruggeleverde stroom brengt nog maar een paar cent per kWh op."}</div>` : ""}
       <h2 class="advies-kop">Drie kanten van de keuze</h2>
-      <p class="advies-kop-uitleg">Van de ${totaal} batterijen die bij jouw antwoorden passen, tonen we niet de beste drie maar de beste op drie verschillende vragen. Dat scheelt: een ranglijst levert vrijwel altijd drie vergelijkbare buren op, terwijl deze drie elk iets anders goed doen.</p>
+      <p class="advies-kop-uitleg">Van de ${totaal} batterijen die bij jouw antwoorden passen, toon ik niet de beste drie maar de beste op drie verschillende vragen. Dat scheelt: een ranglijst levert vrijwel altijd drie vergelijkbare buren op, terwijl deze drie elk iets anders goed doen.</p>
       ${kaarten}
       <p class="advies-naar-vergelijker"><a href="index.html">Bekijk alle batterijen in de vergelijker</a></p>
     `;

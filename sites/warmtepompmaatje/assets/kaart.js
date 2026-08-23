@@ -277,7 +277,7 @@
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>${w.geluid_db ? w.geluid_db + " dB(A)" : "Onbekend"}</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>${score}<span class="regel-van">/6</span>
-        <span class="regel-baan regel-baan-delen" title="Koppel-score ${score} van 6 — ${escapeHtml(koppelSamenvatting(w))}">${koppelDelen(w).map((d) => `<span class="regel-deel deel-${d.punten}"></span>`).join("")}</span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score ${score} van 6: ${escapeHtml(koppelSamenvatting(w))}">${koppelDelen(w).map((d) => `<span class="regel-deel deel-${d.punten}"></span>`).join("")}</span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>

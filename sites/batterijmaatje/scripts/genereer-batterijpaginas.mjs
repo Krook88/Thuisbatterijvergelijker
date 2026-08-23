@@ -347,7 +347,7 @@ const NAV_HTML = `<header class="site-header">
           <a href="/nu-kopen-of-wachten.html">Nu kopen of wachten?</a>
           <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a>
           <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a>
-          <a href="/over-ons.html">Over ons</a>
+          <a href="/over-ons.html">Over mij</a>
           <a href="/contact.html">Contact</a>
           <a href="/steun.html" class="nav-steun"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></svg> Steun deze site</a>
         </div>
@@ -360,7 +360,7 @@ const VOET_HTML = `<footer class="site-footer">
   <div class="container">
     <b>${ICOON_LOGO} Batterijmaatje</b>
     <p>Onafhankelijke vergelijking van thuisbatterijen voor Nederlandse huishoudens.</p>
-    <p><a href="/index.html">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="/wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="/nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="/index.html">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="/wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="/nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="/over-ons.html">Over mij</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -373,7 +373,7 @@ const VOET_HTML = `<footer class="site-footer">
 function prijsZin(b) {
   const datum = Prijs.prijsDatum(b);
   const oud = Prijs.prijsOuderdomLabel(b);
-  if (!datum) return "Voor dit model hebben wij geen bevestigde winkelprijs.";
+  if (!datum) return "Voor dit model heb ik geen bevestigde winkelprijs.";
   if (oud) return `Deze prijs is voor het laatst bevestigd op ${esc(datumNL(datum))}, ${oud.dagen} dagen geleden.`;
   return `Prijzen dagelijks gecontroleerd, laatst op ${esc(datumNL(datum))}.`;
 }
@@ -550,7 +550,7 @@ ${NAV_HTML}
   <ul>
     ${b.aanbiedingen.map((a) => `<li><a href="${esc(a.affiliate_url || a.url)}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">${esc(a.winkel)}</a>: <b>${eur(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""}${a.omvat ? ` <small>${esc(a.omvat)}</small>` : ""} <span class="datum-stempel">${a.datum ? `(gecontroleerd ${esc(datumNL(a.datum))})` : "(prijsindicatie; klik voor de actuele prijs)"}</span></li>`).join("\n    ")}
   </ul>
-  <p class="datum-stempel">Prijzen worden dagelijks automatisch gecontroleerd; de prijs op de website van de winkel is altijd leidend.${(b.aanbiedingen || []).some((a) => a.affiliate_url) ? " Sommige links zijn commissielinks: koop je via die link, dan ontvangen wij een kleine vergoeding van de winkel. Dit kost jou niets en be\u00efnvloedt onze prijzen, scores en volgorde niet." : ""}</p>` : ""}
+  <p class="datum-stempel">Prijzen worden dagelijks automatisch gecontroleerd; de prijs op de website van de winkel is altijd leidend.${(b.aanbiedingen || []).some((a) => a.affiliate_url) ? " Sommige links zijn commissielinks: koop je via die link, dan ontvang ik een kleine vergoeding van de winkel. Dit kost jou niets en be\u00efnvloedt mijn prijzen, scores en volgorde niet." : ""}</p>` : ""}
 
   ${VERGELIJKINGEN.filter((v) => v.a === b.id || v.b === b.id).length ? `<h2>Vergelijk met alternatieven</h2>
   <ul>
@@ -689,7 +689,7 @@ ${NAV_HTML}
   <h1>Beste thuisbatterij voor ${esc(cfg.naam)} (${JAAR})</h1>
   <p class="datum-stempel">Dagelijks automatisch bijgewerkt · laatst gecontroleerd op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
   <p>${esc(cfg.intro)}</p>
-  <p>Hieronder zie je alle ${data.batterijen.length} thuisbatterijen uit onze vergelijker, ingedeeld naar ${esc(cfg.naam)}-ondersteuning. De prijzen worden dagelijks automatisch gecontroleerd bij de winkels. De <a href="/uitleg.html#koppel-score">Koppel-score</a> (0 tot 6 punten) telt daarnaast ook de ondersteuning voor ${cfg.veld === "homey" ? "Home Assistant" : "Homey"} en een dynamisch energiecontract mee.</p>
+  <p>Hieronder zie je alle ${data.batterijen.length} thuisbatterijen uit mijn vergelijker, ingedeeld naar ${esc(cfg.naam)}-ondersteuning. De prijzen worden dagelijks automatisch gecontroleerd bij de winkels. De <a href="/uitleg.html#koppel-score">Koppel-score</a> (0 tot 6 punten) telt daarnaast ook de ondersteuning voor ${cfg.veld === "homey" ? "Home Assistant" : "Homey"} en een dynamisch energiecontract mee.</p>
 
   <h2>${Iconen.svg("ja")} Volledige ${esc(cfg.naam)}-ondersteuning (${ja.length})</h2>
   <p>Deze batterijen hebben een officiële ${esc(cfg.naam)}-koppeling van de fabrikant. Installeren, koppelen en klaar.</p>
@@ -700,14 +700,14 @@ ${NAV_HTML}
   ${overzichtTabel(deels, cfg.veld)}
 
   <h2>${Iconen.svg("nee")} Geen ${esc(cfg.naam)}-ondersteuning (${nee.length})</h2>
-  <p>${nee.length ? `Van deze batterijen is geen bruikbare ${esc(cfg.naam)}-koppeling bekend: ${nee.map((b) => `<a href="/batterij/${esc(b.id)}.html">${esc(volledigeNaam(b))}</a>`).join(", ")}.` : `Alle batterijen in onze vergelijker hebben een vorm van ${esc(cfg.naam)}-ondersteuning.`}</p>
+  <p>${nee.length ? `Van deze batterijen is geen bruikbare ${esc(cfg.naam)}-koppeling bekend: ${nee.map((b) => `<a href="/batterij/${esc(b.id)}.html">${esc(volledigeNaam(b))}</a>`).join(", ")}.` : `Alle batterijen in mijn vergelijker hebben een vorm van ${esc(cfg.naam)}-ondersteuning.`}</p>
 
   <h2>Zo kies je</h2>
   <ul>
     <li><b>Wil je zekerheid?</b> Kies een batterij uit de eerste tabel: officiële ondersteuning blijft werken na updates en de fabrikant helpt bij problemen.</li>
     <li><b>Ben je handig?</b> De tweede tabel biedt vaak meer batterij voor je geld; community-integraties werken meestal goed, maar zonder garantie.</li>
     <li><b>Twijfel je over de maat?</b> Doe de <a href="/advies.html">keuzehulp</a>: die rekent uit welke capaciteit bij je verbruik past.</li>
-    <li><b>Wat is ${esc(cfg.naam)} eigenlijk?</b> Lees de eenvoudige uitleg in onze <a href="/uitleg.html#${cfg.anker}">woordenlijst</a>.</li>
+    <li><b>Wat is ${esc(cfg.naam)} eigenlijk?</b> Lees de eenvoudige uitleg in mijn <a href="/uitleg.html#${cfg.anker}">woordenlijst</a>.</li>
   </ul>
 
   <h2>Geen ${esc(cfg.naam)}? Er zijn meer manieren om slim aan te sturen</h2>
@@ -717,7 +717,7 @@ ${NAV_HTML}
     <li><b><a class="term-link" href="/uitleg.html#matter">Matter</a>.</b> De universele smart-home-standaard van onder meer Apple, Google en Samsung ondersteunt in de nieuwste versies ook thuisbatterijen. In de praktijk kunnen nog maar weinig batterijen dit; de verwachting is dat dit de komende jaren groeit.</li>
   </ul>
 
-  <div class="waarschuwing-kader">Prijzen en integraties veranderen regelmatig. Deze pagina wordt dagelijks automatisch bijgewerkt vanuit onze <a href="/index.html">vergelijker</a>; de prijs en specificaties op de website van de winkel zijn altijd leidend.</div>
+  <div class="waarschuwing-kader">Prijzen en integraties veranderen regelmatig. Deze pagina wordt dagelijks automatisch bijgewerkt vanuit mijn <a href="/index.html">vergelijker</a>; de prijs en specificaties op de website van de winkel zijn altijd leidend.</div>
 </main>
 
 ${VOET_HTML}
@@ -862,7 +862,7 @@ ${NAV_HTML}
 
   <p>Een stekkerbatterij steek je zelf in een gewoon stopcontact: geen installateur, geen ingreep in de meterkast, geen wachtlijst. Je komt hem ook tegen als <b>plug-and-play thuisbatterij</b>, als <b>balkonbatterij</b> of gewoon als <b>thuisbatterij met stekker</b> &mdash; vier namen voor hetzelfde apparaat.</p>
 
-  <p>Hieronder staan alle ${stekker.length} modellen uit onze vergelijker die je zonder monteur aansluit, gesorteerd op prijs per kilowattuur. De prijzen worden dagelijks automatisch bij de winkels gecontroleerd.</p>
+  <p>Hieronder staan alle ${stekker.length} modellen uit mijn vergelijker die je zonder monteur aansluit, gesorteerd op prijs per kilowattuur. De prijzen worden dagelijks automatisch bij de winkels gecontroleerd.</p>
 
   ${stekkerTabel(stekker)}
 
@@ -877,7 +877,7 @@ ${NAV_HTML}
   <h2>Stekker of installateur?</h2>
   <p>De keuze gaat niet over prijs per kilowattuur &mdash; daar ontlopen de twee groepen elkaar minder dan je zou denken. Hij gaat over instapbedrag en over wat je ermee kunt.</p>
   <ul>
-    <li><b>Instappen is goedkoper.</b> De goedkoopste stekkerbatterij in onze vergelijker kost ${eur(Math.min(...prijzen))}${restPrijzen.length ? `, tegenover ${eur(Math.min(...restPrijzen))} voor de goedkoopste batterij die een installateur plaatst` : ""}. Daar komt bij dat de installatie zelf niets kost.</li>
+    <li><b>Instappen is goedkoper.</b> De goedkoopste stekkerbatterij in mijn vergelijker kost ${eur(Math.min(...prijzen))}${restPrijzen.length ? `, tegenover ${eur(Math.min(...restPrijzen))} voor de goedkoopste batterij die een installateur plaatst` : ""}. Daar komt bij dat de installatie zelf niets kost.</li>
     <li><b>Groot worden ze niet.</b> De stekkermodellen gaan tot ${nl(Math.max(...caps))} kWh${restCaps.length ? `; de vaste batterijen lopen door tot ${nl(Math.max(...restCaps))} kWh` : ""}. Heb je een groot verbruik, een warmtepomp of een elektrische auto, dan loop je tegen die grens aan.</li>
     <li><b>Uitbreiden kan vaak wel.</b> Veel merken verkopen losse uitbreidingsmodules die je aan dezelfde stekkerbatterij hangt. Kijk op de modelpagina wat de maximale capaciteit is voordat je de kleinste koopt.</li>
     <li><b>Zonnepanelen aansluiten verschilt.</b> Sommige stekkerbatterijen nemen zelf zonnepanelen aan, andere laden alleen uit het stopcontact en werken samen met je bestaande omvormer. Dat staat per model in de tabel op de <a href="/index.html">vergelijker</a>.</li>
@@ -891,7 +891,7 @@ ${NAV_HTML}
     <li><b>Nieuw hier?</b> De <a href="/uitleg.html">uitleg</a> legt in gewone taal uit wat kWh, salderen en een dynamisch contract betekenen.</li>
   </ul>
 
-  <div class="waarschuwing-kader">Prijzen en specificaties veranderen regelmatig. Deze pagina wordt dagelijks automatisch bijgewerkt vanuit onze <a href="/index.html">vergelijker</a>; de prijs en specificaties op de website van de winkel zijn altijd leidend.</div>
+  <div class="waarschuwing-kader">Prijzen en specificaties veranderen regelmatig. Deze pagina wordt dagelijks automatisch bijgewerkt vanuit mijn <a href="/index.html">vergelijker</a>; de prijs en specificaties op de website van de winkel zijn altijd leidend.</div>
 </main>
 
 ${VOET_HTML}
@@ -1024,14 +1024,14 @@ ${NAV_HTML}
   <h1>${esc(titel)}</h1>
   <p class="datum-stempel">Dagelijks automatisch bijgewerkt · laatst gecontroleerd op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
-  <p class="intro">Voor het apparaat zelf: <b>${eur(Math.min(...alle))} tot ${eur(Math.max(...alle))}</b>, gerekend over de ${data.batterijen.length} modellen in onze vergelijker. Dat is een groot bereik, en de capaciteit verklaart er minder van dan je zou denken.</p>
+  <p class="intro">Voor het apparaat zelf: <b>${eur(Math.min(...alle))} tot ${eur(Math.max(...alle))}</b>, gerekend over de ${data.batterijen.length} modellen in mijn vergelijker. Dat is een groot bereik, en de capaciteit verklaart er minder van dan je zou denken.</p>
 
   <h2>Per capaciteit</h2>
   ${kostenTabel(rijen)}
-  <p class="datum-stempel">Prijs van het apparaat, incl. btw, bij de goedkoopste winkel die wij vinden. Waar geen winkel is, staat de richtprijs van de fabrikant. De mediaan is het middelste model van die groep, niet het gemiddelde: één uitschieter trekt een gemiddelde scheef en die staan er in elke groep.</p>
+  <p class="datum-stempel">Prijs van het apparaat, incl. btw, bij de goedkoopste winkel die ik vind. Waar geen winkel is, staat de richtprijs van de fabrikant. De mediaan is het middelste model van die groep, niet het gemiddelde: één uitschieter trekt een gemiddelde scheef en die staan er in elke groep.</p>
 
   <h2>Groter is niet goedkoper per kilowattuur</h2>
-  <p>Dat is de aanname achter bijna elk prijsoverzicht, en in onze gegevens klopt hij niet. De mediaan per kWh ligt bij <b>${eur(perKwhStekker)}</b> voor een stekkerbatterij en bij <b>${eur(perKwhVast)}</b> voor een batterij die een installateur plaatst &mdash; en de grootste modellen zijn juist die tweede soort.</p>
+  <p>Dat is de aanname achter bijna elk prijsoverzicht, en in mijn gegevens klopt hij niet. De mediaan per kWh ligt bij <b>${eur(perKwhStekker)}</b> voor een stekkerbatterij en bij <b>${eur(perKwhVast)}</b> voor een batterij die een installateur plaatst &mdash; en de grootste modellen zijn juist die tweede soort.</p>
   <p>De prijs per kilowattuur volgt dus niet de maat maar de <b>soort</b>. Dat draait de volgorde van je keuze om: eerst bepalen hoe hij wordt aangesloten, dan pas hoe groot. Wat die twee soorten zijn, staat op <a href="/${STEKKER_BESTAND}">thuisbatterij met stekker</a>.</p>
 
   <h2>Wat er nog bij komt</h2>
@@ -1040,13 +1040,13 @@ ${NAV_HTML}
     ${compleetStekker ? `<li><b>Met stekker: ${eur(compleetStekker.van)} tot ${eur(compleetStekker.tot)} compleet.</b> Vaak is de winkelprijs al alles; soms komt er een P1-meter van een paar tientjes bij. Je sluit hem zelf aan, dus installatiekosten zijn er niet.</li>` : ""}
     ${compleetVast ? `<li><b>Met installateur: ${eur(compleetVast.van)} tot ${eur(compleetVast.tot)} compleet.</b> Hier zit het verschil met de kale apparaatprijs in montage, bekabeling, een omvormer als je die nog niet hebt, en werk in de meterkast.</li>` : ""}
     <li><b>Btw.</b> Alle bedragen op deze site zijn incl. btw. Koop je de batterij samen met zonnepanelen, dan geldt vaak het nultarief; los ervan meestal niet. Wat er precies geldt staat op <a href="/regelgeving.html">regels en subsidies</a>.</li>
-    ${zonderCompleet ? `<li><b>Van ${zonderCompleet} modellen weten wij de complete prijs niet.</b> Dat zijn er die alleen via een installateur gaan, waar het bedrag van je woning afhangt. Die staan in de tabel met de apparaatprijs; de offerte is leidend.</li>` : ""}
+    ${zonderCompleet ? `<li><b>Van ${zonderCompleet} modellen weet ik de complete prijs niet.</b> Dat zijn er die alleen via een installateur gaan, waar het bedrag van je woning afhangt. Die staan in de tabel met de apparaatprijs; de offerte is leidend.</li>` : ""}
   </ul>
 
   <h2>Wat het je oplevert is een andere vraag</h2>
   <p>Een goedkope batterij die niet bij je verbruik past, verdient zichzelf niet terug. De <a href="/rekenmodule.html">rekenmodule</a> rekent uit wat een batterij per jaar oplevert bij jouw verbruik en contract, en de <a href="/advies.html">keuzehulp</a> zoekt de maat erbij. Reken met beide voordat je op de prijs afgaat: het verschil tussen een vast en een dynamisch contract is voor de opbrengst groter dan het verschil tussen twee modellen.</p>
 
-  <div class="waarschuwing-kader">Prijzen veranderen dagelijks. Deze pagina wordt automatisch bijgewerkt vanuit onze <a href="/index.html">vergelijker</a>; de prijs op de website van de winkel is altijd leidend.</div>
+  <div class="waarschuwing-kader">Prijzen veranderen dagelijks. Deze pagina wordt automatisch bijgewerkt vanuit mijn <a href="/index.html">vergelijker</a>; de prijs op de website van de winkel is altijd leidend.</div>
 </main>
 
 ${VOET_HTML}
@@ -1128,10 +1128,10 @@ ${NAV_HTML}
 
   <h2>Redenen om niet te wachten</h2>
   <ul>
-    <li><b>Je hebt al een dynamisch contract.</b> Dan levert een batterij nu al op, los van de saldering: laden als de prijs laag is, gebruiken als hij hoog is. ${dynamisch.length} van de ${data.batterijen.length} modellen in onze vergelijker kunnen op uurprijzen sturen.</li>
+    <li><b>Je hebt al een dynamisch contract.</b> Dan levert een batterij nu al op, los van de saldering: laden als de prijs laag is, gebruiken als hij hoog is. ${dynamisch.length} van de ${data.batterijen.length} modellen in mijn vergelijker kunnen op uurprijzen sturen.</li>
     <li><b>Je levert veel terug en betaalt terugleverkosten.</b> Die kosten lopen nu al, niet pas in 2027. Elke maand wachten is een maand betalen om je eigen stroom kwijt te raken.</li>
     <li><b>Je wilt een zwaardere aansluiting.</b> Bij netcongestie kun je als kleinverbruiker op een wachtlijst komen. Een batterij vangt juist de piek af, dus die aanvraag wordt er niet makkelijker op door te wachten.</li>
-    <li><b>Er staat nu een aanbieding op.</b> ${korting.length ? `Op dit moment ${korting.length === 1 ? "is dat bij één model het geval" : `zijn dat er ${korting.length}`}; wij markeren ze in de <a href="/index.html">vergelijker</a>.` : "Op dit moment staat er bij geen enkel model een korting, maar dat wisselt per week."}</li>
+    <li><b>Er staat nu een aanbieding op.</b> ${korting.length ? `Op dit moment ${korting.length === 1 ? "is dat bij één model het geval" : `zijn dat er ${korting.length}`}; ik markeer ze in de <a href="/index.html">vergelijker</a>.` : "Op dit moment staat er bij geen enkel model een korting, maar dat wisselt per week."}</li>
   </ul>
 
   <h2>Redenen om wel te wachten</h2>
@@ -1144,7 +1144,7 @@ ${NAV_HTML}
 
   <h2>Wat géén reden is</h2>
   <ul>
-    <li><b>"Batterijen worden elk jaar goedkoper."</b> Dat kunnen wij niet hardmaken en wij doen het daarom niet. Onze vergelijker bewaart de prijs van vandaag en geen prijsgeschiedenis, dus een dalende lijn zou hier een aanname zijn en geen meting. Wat we wel zien: het bereik loopt vandaag van ${eur(Math.min(...alle))} tot ${eur(Math.max(...alle))}, en dat verschil is groter dan wat een jaar wachten aan welke kant dan ook zou opleveren. Kiezen wat bij je past levert meer op dan timen.</li>
+    <li><b>"Batterijen worden elk jaar goedkoper."</b> Dat kan ik niet hardmaken en ik doe het daarom niet. Mijn vergelijker bewaart de prijs van vandaag en geen prijsgeschiedenis, dus een dalende lijn zou hier een aanname zijn en geen meting. Wat ik wel zie: het bereik loopt vandaag van ${eur(Math.min(...alle))} tot ${eur(Math.max(...alle))}, en dat verschil is groter dan wat een jaar wachten aan welke kant dan ook zou opleveren. Kiezen wat bij je past levert meer op dan timen.</li>
     <li><b>"Straks is er subsidie."</b> Er is in ${JAAR} geen landelijke aankoopsubsidie voor thuisbatterijen, en er ligt geen aangekondigde regeling klaar. Wachten op iets wat niet is aangekondigd is geen plan.</li>
     <li><b>"Ik moet erbij zijn voordat de saldering stopt."</b> Andersom: daarna is hij nuttiger. De datum is geen deadline voor de koper van een batterij.</li>
   </ul>
@@ -1283,7 +1283,7 @@ ${NAV_HTML}
   <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
   <h1>${esc(naam(A))} vs ${esc(naam(B))}</h1>
   <p class="datum-stempel">Prijzen dagelijks automatisch gecontroleerd · laatst op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
-  <p>Twee veelvergeleken thuisbatterijen naast elkaar, op basis van dezelfde feiten als in onze <a href="/index.html">vergelijker</a>. Onder de tabel staan de belangrijkste verschillen op een rij. Vetgedrukt betekent: op dit punt objectief in het voordeel.</p>
+  <p>Twee veelvergeleken thuisbatterijen naast elkaar, op basis van dezelfde feiten als in mijn <a href="/index.html">vergelijker</a>. Onder de tabel staan de belangrijkste verschillen op een rij. Vetgedrukt betekent: op dit punt objectief in het voordeel.</p>
 
   <div class="tabel-blok los">
   <table class="data-tabel brede-tabel duel-tabel kolom-vast">

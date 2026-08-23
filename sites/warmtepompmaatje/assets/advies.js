@@ -307,9 +307,9 @@
         <div class="groot">${advies.type === "hybride" ? "Hybride warmtepomp" : "All-electric warmtepomp"}</div>
         <p style="margin: var(--ruimte-6) 0 0;">${advies.reden}</p>
         <p style="margin: var(--ruimte-6) 0 0;">Indicatie: circa <b>${numFmt.format(b.gasBespaard)} m³ gas minder</b> per jaar, tegen circa ${numFmt.format(b.stroomKwh)} kWh extra stroom. Netto besparing: <b>circa ${eurFmt.format(b.nettoPerJaar)} per jaar</b> (≈ ${eurFmt.format(b.nettoPerJaar / 12)} per maand).</p>
-        ${s.zon ? `<p class="hint" style="margin: var(--ruimte-6) 0 0;">${Iconen.svg("zon")} Met zonnepanelen wordt het voordeliger: een slim aangestuurde pomp draait extra wanneer je panelen stroom over hebben. Daarom wegen wij slimme aansturing zwaarder mee.</p>` : ""}
-        ${s.batterij ? `<p class="hint" style="margin: var(--ruimte-6) 0 0;">${Iconen.svg("batterij")} Met een thuisbatterij loont slimme aansturing dubbel: de pomp verwarmt op momenten dat stroom goedkoop is of de batterij vol zit. Daarom wegen wij slimme aansturing zwaarder mee. Nog geen batterij? Vergelijk ze op <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a>.</p>` : ""}
-        ${s.buren === "dichtbij" ? `<p class="hint" style="margin: var(--ruimte-6) 0 0;">${Iconen.svg("stil")} Omdat je buren dichtbij wonen, wegen wij het geluid van de buitenunit zwaar mee. Op de erfgrens geldt in de nacht een eis van 40 dB.</p>` : ""}
+        ${s.zon ? `<p class="hint" style="margin: var(--ruimte-6) 0 0;">${Iconen.svg("zon")} Met zonnepanelen wordt het voordeliger: een slim aangestuurde pomp draait extra wanneer je panelen stroom over hebben. Daarom weeg ik slimme aansturing zwaarder mee.</p>` : ""}
+        ${s.batterij ? `<p class="hint" style="margin: var(--ruimte-6) 0 0;">${Iconen.svg("batterij")} Met een thuisbatterij loont slimme aansturing dubbel: de pomp verwarmt op momenten dat stroom goedkoop is of de batterij vol zit. Daarom weeg ik slimme aansturing zwaarder mee. Nog geen batterij? Vergelijk ze op <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a>.</p>` : ""}
+        ${s.buren === "dichtbij" ? `<p class="hint" style="margin: var(--ruimte-6) 0 0;">${Iconen.svg("stil")} Omdat je buren dichtbij wonen, weeg ik het geluid van de buitenunit zwaar mee. Op de erfgrens geldt in de nacht een eis van 40 dB.</p>` : ""}
       </div>
 
       <h2 style="margin-top: var(--ruimte-20);">Drie kanten van de keuze</h2>

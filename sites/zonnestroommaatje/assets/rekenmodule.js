@@ -149,7 +149,7 @@
       <div class="resultaat-rij"><span>Vermeden CO₂-uitstoot per jaar <small>(indicatie)</small></span><b>circa ${kwhFmt.format(co2)} kg</b></div>
       ${overdimensionering ? `<p class="hint" style="margin-top: var(--ruimte-10);background:var(--kleur-accent-licht);border-radius:var(--radius-klein);padding: var(--ruimte-10) var(--ruimte-10);">${Iconen.svg("let-op")} Je wekt fors meer op dan je verbruikt. Na 2027 levert dat overschot weinig op. Overweeg minder panelen, of verhoog je eigen verbruik met bijvoorbeeld een <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">thuisbatterij</a>, een <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">warmtepomp</a> of slim laden van een elektrische auto.</p>` : ""}
       ${p ? `<p style="margin-top: var(--ruimte-14);"><a href="paneel/${encodeURIComponent(p.id)}.html">Alle details van de ${escapeHtml(naamVan(p))} ${Iconen.svg("pijl-rechts")}</a></p>` : ""}
-      <p class="hint" style="margin-top: var(--ruimte-10);">Indicatie op basis van jouw invoer en onze aannames; geen financieel advies.</p>
+      <p class="hint" style="margin-top: var(--ruimte-10);">Indicatie op basis van jouw invoer en mijn aannames; geen financieel advies.</p>
     `;
   }
 
@@ -174,7 +174,7 @@
 
       const select = el("keuzePaneel");
       select.innerHTML = panelen.map((p) =>
-        `<option value="${escapeHtml(p.id)}">${escapeHtml(naamVan(p))} — ${p.vermogen_wp} Wp, ${eurFmt.format(p.richtprijs_eur || 0)}</option>`
+        `<option value="${escapeHtml(p.id)}">${escapeHtml(naamVan(p))} (${p.vermogen_wp} Wp, ${eurFmt.format(p.richtprijs_eur || 0)})</option>`
       ).join("");
 
       // Voorselectie via ?paneel=<id>&aantal=<n> (vanuit de vergelijker,

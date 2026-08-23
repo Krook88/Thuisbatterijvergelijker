@@ -17,12 +17,12 @@
   <meta property="og:site_name" content="Batterijmaatje.nl">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/style.css?v=20260823c">
-  <script src="assets/iconen.js?v=20260823c" defer></script>
-  <script src="assets/prijs.js?v=20260823c" defer></script>
-  <script src="assets/advies.js?v=20260823c" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20260823e">
+  <script src="assets/iconen.js?v=20260823e" defer></script>
+  <script src="assets/prijs.js?v=20260823e" defer></script>
+  <script src="assets/advies.js?v=20260823e" defer></script>
   <script src="assets/advies-balk.js" defer></script>
-  <script src="assets/nav.js?v=20260823c" defer></script>
+  <script src="assets/nav.js?v=20260823e" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <style>
@@ -89,7 +89,7 @@
           <a href="nu-kopen-of-wachten.html">Nu kopen of wachten?</a>
           <a href="beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a>
           <a href="beste-thuisbatterij-homey.html">Beste voor Homey</a>
-          <a href="over-ons.html">Over ons</a>
+          <a href="over-ons.html">Over mij</a>
           <a href="contact.html">Contact</a>
           <a href="steun.html" class="nav-steun"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></svg> Steun deze site</a>
         </div>
@@ -111,7 +111,7 @@
 
     <form id="adviesFormulier" class="advies-paneel" onsubmit="return false;">
 
-      <p class="hint">Het advies past zich aan terwijl je invult. De vooringevulde getallen zijn gemiddelden om je op weg te helpen; pas ze gerust aan naar je eigen situatie — je jaarnota is de beste bron.</p>
+      <p class="hint">Het advies past zich aan terwijl je invult. De vooringevulde getallen zijn gemiddelden om je op weg te helpen; pas ze gerust aan naar je eigen situatie: je jaarnota is de beste bron.</p>
 
       <h2>1. Je stroomverbruik</h2>
       <div class="veld-rij">
@@ -141,7 +141,7 @@
           <option value="ja">Ja</option>
           <option value="nee">Nee</option>
         </select>
-        <span class="hint">Nog geen panelen? Vergelijk ze op onze zustersite <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a></span>
+        <span class="hint">Nog geen panelen? Vergelijk ze op mijn zustersite <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a></span>
       </div>
       <div id="pvVragen">
         <div class="veld-rij">
@@ -206,7 +206,7 @@
           <label><input type="checkbox" class="avond-apparaat" data-kw="1"> Airco</label>
           <label><input type="checkbox" class="avond-apparaat" data-kw="1.6"> Kokendwaterkraan (Quooker e.d.)</label>
         </div>
-        <span class="hint">Hiermee schatten we hoeveel <b>vermogen</b> (kW) de batterij moet kunnen leveren om je avondgebruik te dekken. Vink alleen aan wat regelmatig tegelijk aanstaat; het sluimerverbruik van koelkast, vriezer, modem/internetkastjes, verlichting en tv rekenen we al mee als basislast. Een elektrische auto laad je via de laadpaal, niet via de batterij.</span>
+        <span class="hint">Hiermee schat ik hoeveel <b>vermogen</b> (kW) de batterij moet kunnen leveren om je avondgebruik te dekken. Vink alleen aan wat regelmatig tegelijk aanstaat; het sluimerverbruik van koelkast, vriezer, modem/internetkastjes, verlichting en tv reken ik al mee als basislast. Een elektrische auto laad je via de laadpaal, niet via de batterij.</span>
       </div>
       <div class="veld">
         <label for="advBudget">Maximaal budget (€, optioneel)</label>
@@ -227,13 +227,13 @@
     <h2>Hoe komt dit advies tot stand?</h2>
     <p>De geadviseerde accugrootte is een vuistregel, geen exacte wetenschap:</p>
     <ul>
-      <li><b>Met zonnepanelen</b> kijken we naar je gemiddelde zomerse stroomoverschot (het deel van de opwek dat je niet direct gebruikt) én naar je verbruik in de avond en nacht. De batterij hoeft niet groter dan het kleinste van die twee: meer opslaan dan je 's avonds gebruikt heeft geen zin.</li>
-      <li><b>Zonder zonnepanelen</b> maar met een dynamisch contract kijken we naar het deel van je dagverbruik dat je naar goedkope uren kunt verschuiven (aangenomen: circa 60%).</li>
-      <li>We tonen bewust een <b>bandbreedte</b> van plus en min 25%: je werkelijke verbruikspatroon bepaalt de precieze maat. Twijfel je tussen twee maten, kies dan een modulair systeem dat je later kunt uitbreiden.</li>
-      <li><b>Vermogen (kW):</b> vink je aan welke apparaten je 's avonds vaak tegelijk gebruikt, dan schatten we met indicatieve vermogens (bijvoorbeeld inductie koken circa 2,5 kW, warmtepomp circa 1,5 kW, kokendwaterkraan circa 1,6 kW tijdens het opwarmen, plus circa 0,4 kW basislast voor sluimerverbruik zoals koelkast, modem en verlichting) hoeveel de batterij moet kunnen leveren om dat te dekken. Levert een batterij minder, dan vult het stroomnet automatisch aan; je mist dan alleen besparing op die piekmomenten. Alleen voor <b>noodstroom</b> is voldoende vermogen echt een vereiste, want bij een storing is er geen net om bij te springen. Dit telt daarom mee als kanttekening bij de aanbevelingen, niet in de rangschikking.</li>
+      <li><b>Met zonnepanelen</b> kijk ik naar je gemiddelde zomerse stroomoverschot (het deel van de opwek dat je niet direct gebruikt) én naar je verbruik in de avond en nacht. De batterij hoeft niet groter dan het kleinste van die twee: meer opslaan dan je 's avonds gebruikt heeft geen zin.</li>
+      <li><b>Zonder zonnepanelen</b> maar met een dynamisch contract kijk ik naar het deel van je dagverbruik dat je naar goedkope uren kunt verschuiven (aangenomen: circa 60%).</li>
+      <li>Ik toon bewust een <b>bandbreedte</b> van plus en min 25%: je werkelijke verbruikspatroon bepaalt de precieze maat. Twijfel je tussen twee maten, kies dan een modulair systeem dat je later kunt uitbreiden.</li>
+      <li><b>Vermogen (kW):</b> vink je aan welke apparaten je 's avonds vaak tegelijk gebruikt, dan schat ik met indicatieve vermogens (bijvoorbeeld inductie koken circa 2,5 kW, warmtepomp circa 1,5 kW, kokendwaterkraan circa 1,6 kW tijdens het opwarmen, plus circa 0,4 kW basislast voor sluimerverbruik zoals koelkast, modem en verlichting) hoeveel de batterij moet kunnen leveren om dat te dekken. Levert een batterij minder, dan vult het stroomnet automatisch aan; je mist dan alleen besparing op die piekmomenten. Alleen voor <b>noodstroom</b> is voldoende vermogen echt een vereiste, want bij een storing is er geen net om bij te springen. Dit telt daarom mee als kanttekening bij de aanbevelingen, niet in de rangschikking.</li>
     </ul>
     <p>Kom je een onbekend woord tegen? Alle termen staan uitgelegd in de <a href="uitleg.html#woordenlijst">woordenlijst</a>.</p>
-    <p>De aanbevolen batterijen komen uit onze <a href="index.html">vergelijker</a> en worden gerangschikt op capaciteitspassing (50%), prijs per kWh opslag (30%) en het gemak waarmee ze aan bestaande zonnepanelen koppelen (20%). Controleer bij elke batterij wat de prijs dekt; sommige prijzen zijn exclusief btw of installatie. Reken het resultaat altijd door met de <a href="rekenmodule.html">terugverdientijd-module</a>.</p>
+    <p>De aanbevolen batterijen komen uit mijn <a href="index.html">vergelijker</a> en worden gerangschikt op capaciteitspassing (50%), prijs per kWh opslag (30%) en het gemak waarmee ze aan bestaande zonnepanelen koppelen (20%). Controleer bij elke batterij wat de prijs dekt; sommige prijzen zijn exclusief btw of installatie. Reken het resultaat altijd door met de <a href="rekenmodule.html">terugverdientijd-module</a>.</p>
     <div class="waarschuwing-kader">Dit is een hulpmiddel, geen persoonlijk (financieel) advies. Laat je bij twijfel adviseren door een erkend installateur, zeker bij 3-fase systemen of een vol stroomnet in je regio (zie <a href="regelgeving.html">Regels &amp; subsidies</a> over de registratieplicht en wachtlijsten).</div>
   </section>
 
@@ -252,7 +252,7 @@
   <div class="container">
     <b><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 7-3 5h4l-3 5" /> <path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935" /> <path d="M22 14v-4" /> <path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936" /></svg> Batterijmaatje</b>
     <p>Onafhankelijke vergelijking van thuisbatterijen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a> (warmtepompen).</p>
-    <p><a href="index.html">Thuisbatterijen</a> · <a href="uitleg.html">Uitleg</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="regelgeving.html">Regels &amp; subsidies</a> · <a href="beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="over-ons.html">Over ons</a> · <a href="contact.html">Contact</a> · <a href="steun.html">Steun deze site</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="index.html">Thuisbatterijen</a> · <a href="uitleg.html">Uitleg</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="regelgeving.html">Regels &amp; subsidies</a> · <a href="beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="over-ons.html">Over mij</a> · <a href="contact.html">Contact</a> · <a href="steun.html">Steun deze site</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: de keuzehulp geeft een indicatief advies op basis van vuistregels en de door jou ingevulde gegevens. De genoemde gemiddelden voor jaarverbruik zijn indicatief; je eigen jaarnota is leidend.</p>
   </div>
 </footer>
