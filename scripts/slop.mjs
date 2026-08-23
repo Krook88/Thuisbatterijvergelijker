@@ -76,11 +76,50 @@ const VERBODEN = [
    AI-tekst. In het Nederlands is de losse vorm ("Niet X, maar Y.") net zo
    herkenbaar. Let op: alleen als stijlfiguur - een gewone zin waarin "niet" en
    "maar" toevallig samen voorkomen wordt niet geraakt, want dat is doodgewoon
-   Nederlands en daar is niets mis mee. */
+   Nederlands en daar is niets mis mee.
+
+   De laatste twee patronen zijn er later bij gekomen, nadat een lezer er een
+   aanwees die hier gewoon doorheen kwam: "Dekt 44%. Dat is geen afkeuring:
+   dit is ook de goedkoopste." Zelfde figuur, ander scharnier - een dubbele
+   punt in plaats van "maar". Wat de vorm verklikt is niet het woord "maar"
+   maar de beweging: eerst ontkennen, dan het echte antwoord geven, zodat de
+   zin dieper klinkt dan hij is.
+
+   Wat bewust niet geraakt wordt: "Dit is een hulpmiddel, geen persoonlijk
+   advies." Daar staat de ontkenning achteraan als afbakening en wordt er
+   niets tegenovergesteld. Dat is een disclaimer en doodgewoon Nederlands. */
 const STIJLFIGUUR = [
   /(?:^|(?<=[.!?]\s))Niet [^.!?]{3,80}, maar [^.!?]{3,80}[.!?]/g,
   /Het is niet [^.!?]{3,60}, (?:het is|maar) [^.!?]{3,60}[.!?]/gi,
+  /\b(?:Dat|Dit|Het) is geen [^.!?:,]{3,60}[:,] (?:het|dit|dat) is [^.!?]{3,140}[.!?]/gi,
+  /\b(?:Dat|Dit|Het) is geen [^.!?:,]{3,60}[:,] maar [^.!?]{3,140}[.!?]/gi,
 ];
+
+/* Een controle die iets mist is erger dan geen controle: hij geeft groen en je
+   stopt met kijken. Precies dat gebeurde hier. Daarom staan de zinnen waar het
+   om gaat er nu bij, met wat er wél en niet uit hoort te komen, en draait die
+   proef bij elke run mee. Verandert er iemand aan de patronen, dan zegt dit
+   meteen wat er kapot is. */
+const PROEFZINNEN = [
+  ["Dekt 44%. Dat is geen afkeuring: dit is ook de goedkoopste, en wie hem in het stopcontact prikt weet nu wat hij krijgt.", true],
+  ["Dat is geen oordeel, maar een waarneming.", true],
+  ["Het is geen fout: het is een oordeel.", true],
+  ["Niet de prijs telt, maar de prijs per kWh.", true],
+  // Een ontkenning die iets afbakent en er niets tegenoverstelt, is doodgewoon
+  // Nederlands. Deze vier staan zo op de site en horen te blijven staan.
+  ["Dit is een hulpmiddel, geen persoonlijk (financieel) advies.", false],
+  ["Het is geen financieel advies en geen voorspelling.", false],
+  ["Dit is geen offerte. Laat een installateur altijd je dak beoordelen.", false],
+  ["Dat is geen toetsing aan de wet, dus vraag je installateur.", false],
+];
+
+for (const [zin, hoortTeRaken] of PROEFZINNEN) {
+  const raakt = STIJLFIGUUR.some((p) => { p.lastIndex = 0; return p.test(zin); });
+  if (raakt !== hoortTeRaken) {
+    console.error(`De stijlfiguurcontrole is stuk: "${zin}" ${raakt ? "wordt geraakt" : "komt erdoor"} en dat hoort niet.`);
+    process.exit(2);
+  }
+}
 
 /* Beweren dat "onderzoeken aantonen" zonder te zeggen welke, is precies het
    patroon dat mensen als slop herkennen: het klinkt onderbouwd en is het niet.

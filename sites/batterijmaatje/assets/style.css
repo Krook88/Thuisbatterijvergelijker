@@ -1873,10 +1873,10 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
    een nokje rechts: de vorm van een batterij, en er is maar één ding dat hier
    volloopt.
 
-   Het nokje is grijs en gearceerd als de batterij groter is dan de dag die
-   hij moet dekken. Niet rood: voor wie een warmtepomp heeft of een auto laadt
-   is die ruimte wél zinvol, en dat weet deze pagina niet. Grijs zegt "hier
-   zit geen dekking meer in", niet "fout". */
+   De blokjes achter de meter zijn grijs en gearceerd als de batterij groter
+   is dan de dag die hij moet dekken. Grijs en geen rood, want voor wie een
+   warmtepomp heeft of een auto laadt is die ruimte wél zinvol, en dat weet
+   deze pagina niet. De arcering zegt: hier zit geen dagdekking meer in. */
 .dagmaat {
   display: flex;
   align-items: center;

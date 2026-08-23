@@ -206,8 +206,8 @@
        - daarvan valt ongeveer 70% buiten de zonuren (avond, nacht, ochtend).
      Samen: (2900 / 365) x 0,7 = 5,6 kWh per dag. Dat is de volle baan.
 
-     Wat een batterij daarboven heeft, krijgt een grijs staartje. Niet rood en
-     niet weggelaten: voor wie een warmtepomp heeft of een auto laadt is die
+     Wat een batterij daarboven heeft, krijgt een grijs staartje. Grijs en geen
+     rood kruis, want voor wie een warmtepomp heeft of een auto laadt is die
      ruimte wél zinvol, en dat weet deze pagina niet. Wat de site wél weet is
      dat het bij een gemiddeld verbruik niets doet, en dat staat er dan ook. */
   const JAARVERBRUIK_KWH = 2900;   // gelijk aan de standaard in de rekenmodule
