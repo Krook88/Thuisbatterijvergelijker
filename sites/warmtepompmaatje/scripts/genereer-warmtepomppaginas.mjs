@@ -320,7 +320,7 @@ function geluidTabel(lijst) {
 function opmerkingBijOntbrekend(lijst) {
   const zonder = lijst.filter((w) => w.geluid_db == null);
   if (!zonder.length) return "";
-  return `\n  <p class="datum-stempel">Van ${zonder.length} van de ${lijst.length} pompen heb ik het geluidsvermogen nog niet kunnen vaststellen. Die staan hier bewust wel in: ze weglaten zou de vergelijking vollediger laten lijken dan hij is. Wat de fabrikant er zelf over zegt, staat in de kolom Toelichting.</p>`;
+  return `\n  <p class="datum-stempel">Van ${zonder.length} van de ${lijst.length} pompen heb ik het geluidsvermogen nog niet kunnen vaststellen. Die staan hier bewust wel in, want ze weglaten zou de vergelijking vollediger laten lijken dan hij is. Wat de fabrikant er zelf over zegt, staat in de kolom Toelichting.</p>`;
 }
 
 function geluidPagina() {
@@ -401,22 +401,22 @@ ${kop("", false)}
     <li><b>Geluidsvermogen (Lw)</b> is wat het apparaat afgeeft. Dat staat op het energielabel en in het datablad, en het is geen waarde op een plek. Dit is het getal in de tabel hieronder.</li>
     <li><b>Geluidsdruk (Lp)</b> is wat je op een bepaalde afstand hoort. Daar gaat de norm over.</li>
   </ul>
-  <p>Een pomp met 54 dB(A) op het label naast de 40 dB(A) van de norm leggen is dus appels met peren vergelijken: zo zou geen enkele warmtepomp erdoorheen komen, terwijl ze het in de praktijk vrijwel allemaal halen. Geluid neemt namelijk af met de afstand, en die afname laat zich benaderen:</p>
+  <p>Een pomp met 54 dB(A) op het label naast de 40 dB(A) van de norm leggen is dus appels met peren vergelijken, want zo zou geen enkele warmtepomp erdoorheen komen, terwijl ze het in de praktijk vrijwel allemaal halen. Geluid neemt namelijk af met de afstand, en die afname laat zich benaderen:</p>
   <div class="tabel-wrap">
     <table class="vergelijk-tabel compact">
       <thead><tr><th>Afstand tot de erfgrens</th><th>Gaat er ongeveer af</th></tr></thead>
       <tbody>${AFSTANDEN.map((m) => `<tr><td>${m} meter</td><td>${Math.round(aftrekOpAfstand(m))} dB</td></tr>`).join("")}</tbody>
     </table>
   </div>
-  <p>Staat de unit ${AFSTANDEN[1]} meter van de erfgrens, dan haalt ${haalt40OpDrie} van de ${gemeten.length} pompen waarvan ik het geluidsvermogen ken ook 's nachts de 40 dB(A). Dat is een schatting, geen toetsing: de officiële berekening is voorgeschreven in de Omgevingsregeling (artikel 5.59 en bijlage XVII) en houdt rekening met weerkaatsing tegen schuttingen en gevels. Die hoort de installateur te maken vóór de plaatsing. Vraag erom, en vraag hem op papier.</p>
+  <p>Staat de unit ${AFSTANDEN[1]} meter van de erfgrens, dan haalt ${haalt40OpDrie} van de ${gemeten.length} pompen waarvan ik het geluidsvermogen ken ook 's nachts de 40 dB(A). Dat is een schatting, geen toetsing. De officiële berekening is voorgeschreven in de Omgevingsregeling (artikel 5.59 en bijlage XVII) en houdt rekening met weerkaatsing tegen schuttingen en gevels. Die hoort de installateur te maken vóór de plaatsing. Vraag erom, en vraag hem op papier.</p>
 
   <h2>Hoe stil de pompen in mijn vergelijker zijn</h2>
-  <p>Gesorteerd van stil naar luid. De stilste buitenunit is die van de ${esc(stilste.merk)} ${esc(stilste.model)} met ${stilste.geluid_db} dB(A), de luidste die van de ${esc(luidste.merk)} ${esc(luidste.model)} met ${luidste.geluid_db} dB(A). Dat scheelt ${luidste.geluid_db - stilste.geluid_db} punten, en dat hoor je.${binnen.length ? ` Onderaan staan ${binnen.length} ${binnen.length === 1 ? "pomp" : "pompen"} zonder buitenunit: daarvoor geldt de erfgrensnorm niet, en een omrekening naar afstand zegt er dus niets over.` : ""}</p>
+  <p>Gesorteerd van stil naar luid. De stilste buitenunit is die van de ${esc(stilste.merk)} ${esc(stilste.model)} met ${stilste.geluid_db} dB(A), de luidste die van de ${esc(luidste.merk)} ${esc(luidste.model)} met ${luidste.geluid_db} dB(A). Dat scheelt ${luidste.geluid_db - stilste.geluid_db} punten, en dat hoor je.${binnen.length ? ` Onderaan staan ${binnen.length} ${binnen.length === 1 ? "pomp" : "pompen"} zonder buitenunit, waarvoor de erfgrensnorm niet geldt en een omrekening naar afstand dus niets zegt.` : ""}</p>
   ${geluidTabel(opGeluid)}
 
   <h2>Wat je eraan kunt doen</h2>
   <ul>
-    <li><b>Zet hem verder weg.</b> De goedkoopste maatregel die er is: elke verdubbeling van de afstand scheelt ongeveer 6 dB. Van 1,5 naar 3 meter is dus al een halvering van wat de buren horen.</li>
+    <li><b>Zet hem verder weg.</b> De goedkoopste maatregel die er is. Elke verdubbeling van de afstand scheelt ongeveer 6 dB. Van 1,5 naar 3 meter is dus al een halvering van wat de buren horen.</li>
     <li><b>Gebruik de nachtstand.</b> Vrijwel elke pomp heeft er een; hij draait dan langzamer en levert wat minder vermogen. Bij de meeste modellen in de tabel hierboven staat dat in de toelichting.</li>
     <li><b>Richt hem niet op de erfgrens.</b> De ventilator blaast naar één kant. Die kant naar je eigen tuin draaien scheelt meer dan een omkasting.</li>
     <li><b>Een omkasting werkt, maar niet gratis.</b> Een goede akoestische omkasting haalt er 10 tot 15 dB af, maar knijpt ook de luchtstroom af en kost daarmee rendement. Overleg met de installateur; een verkeerd geplaatste kast maakt de pomp duurder in gebruik.</li>
@@ -567,7 +567,7 @@ ${kop("", false)}
   <p>Dat laatste punt weegt zwaarder dan het lijkt, en het is meetbaar in mijn eigen gegevens.</p>
 
   <h2>Waarom het koudemiddel de keuze mede bepaalt</h2>
-  <p>Propaan (R290) is een natuurlijk koudemiddel met een verwaarloosbaar broeikaseffect, maar het is brandbaar. Daarom houden fabrikanten het buiten, en zijn pompen op propaan vrijwel altijd monoblock. Tegelijk kan propaan hoger: van de ${pompen.length} warmtepompen in mijn vergelijker draaien er ${propaan.length} op propaan${aanvoerPropaan ? `, en die halen allemaal ${aanvoerPropaan.laag} tot ${aanvoerPropaan.hoog} graden aanvoer` : ""}.${aanvoerRest ? ` De ${rest.length} met een ander koudemiddel zitten op ${aanvoerRest.laag} tot ${aanvoerRest.hoog} graden.` : ""}</p>
+  <p>Propaan (R290) is een natuurlijk koudemiddel met een verwaarloosbaar broeikaseffect, maar het is brandbaar. Daarom houden fabrikanten het buiten, en zijn pompen op propaan vrijwel altijd monoblock. Tegelijk kan propaan hoger. Van de ${pompen.length} warmtepompen in mijn vergelijker draaien er ${propaan.length} op propaan${aanvoerPropaan ? `, en die halen allemaal ${aanvoerPropaan.laag} tot ${aanvoerPropaan.hoog} graden aanvoer` : ""}.${aanvoerRest ? ` De ${rest.length} met een ander koudemiddel zitten op ${aanvoerRest.laag} tot ${aanvoerRest.hoog} graden.` : ""}</p>
   <p><b>Dat is precies het getal waar je huis om vraagt.</b> Bestaande radiatoren willen vaak 65 tot 70 graden op een koude dag; vloerverwarming heeft aan 35 genoeg. ${hoog.length} van de ${pompen.length} pompen hier halen 70 graden of meer, en ${hoog.filter(isPropaan).length} daarvan draaien op propaan. Wil je je radiatoren houden zonder ze allemaal te vervangen, dan stuurt die eis je dus vanzelf richting een monoblock op propaan.</p>
 
   ${bouwvormTabel(opAanvoer)}
