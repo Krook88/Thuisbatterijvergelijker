@@ -2,8 +2,8 @@
    Thuisbatterijvergelijker.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260821a");
-@import url("vergelijker.css?v=20260821a");
+@import url("maatlat.css?v=20260821b");
+@import url("vergelijker.css?v=20260821b");
 
 :root {
   --kleur-primair: #0f766e;
@@ -855,7 +855,11 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 
 /* De titel van een kaart is een link, maar hoort er niet als link uit te zien:
    de hele kaart is al duidelijk aanklikbaar. */
-.kop-link { color: inherit; text-decoration: none; }
+/* Ook in de kaartweergave is de productnaam de route naar onze eigen pagina,
+   en ook daar moet hij eruitzien als een link. De regel in vergelijker.css
+   doet hetzelfde voor de lijstweergave; die is specifieker en wint daar. */
+.kop-link { color: var(--kleur-primair-donker); text-decoration: none; }
+.kop-link:hover, .kop-link:focus-visible { text-decoration: underline; }
 
 /* Onder in het prijsblok: de compleet-gebruiksklaarprijs, met een streepje
    erboven omdat het een ander soort bedrag is dan de winkelprijs erboven. */

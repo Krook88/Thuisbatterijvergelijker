@@ -1449,6 +1449,21 @@ index = index.replace(
   `$1${gesorteerdeBatterijen.length}$2`,
 );
 
+/* De tellerregel stond in de HTML op "Laden…", boven een lijst die er al
+   helemaal stond. Wie javascript traag of niet krijgt, las dus "Laden…" bij
+   een compleet gevulde vergelijker. Hier komt het echte aantal in te staan,
+   met dezelfde zin die app.js er later van maakt, zodat er niets verspringt. */
+{
+  const sorteerKeuze = index.match(/<option value="[^"]*" selected>([^<]*)</);
+  if (sorteerKeuze) {
+    const noot = sorteerKeuze[1].charAt(0).toLowerCase() + sorteerKeuze[1].slice(1);
+    index = index.replace(
+      /(<span class="resultaten-telling" id="resultatenTelling">)[^<]*(<\/span>)/,
+      `$1${gesorteerdeBatterijen.length} van ${gesorteerdeBatterijen.length} thuisbatterijen, gesorteerd op ${noot}$2`,
+    );
+  }
+}
+
 writeFileSync(resolve(ROOT, "index.html"), index, "utf8");
 console.log(`index.html: ${gesorteerdeBatterijen.length} kaarten voorgerenderd, teller en ItemList bijgewerkt`);
 

@@ -248,11 +248,27 @@
      Hoofd-render en events
      ------------------------------------------------------------------ */
 
+
+  /* Waarop staat deze lijst gesorteerd?
+
+     De standaardvolgorde is prijs per eenheid, maar het bedrag dat groot en
+     vet op de regel staat is de winkelprijs. De kolom Prijs leest daardoor
+     1.869 - 1.948 - 1.250 - 1.950, onder een nummering die bij 1 begint: dat
+     ziet eruit als een kapotte sortering totdat je doorhebt dat er op het
+     kleine grijze getal eronder geordend wordt. Eén zin lost dat op, en hij
+     blijft vanzelf kloppen omdat hij het gekozen menu-item overneemt. */
+  function sorteerNoot() {
+    const keuze = el("sorteer");
+    const tekst = keuze && keuze.options[keuze.selectedIndex] && keuze.options[keuze.selectedIndex].text;
+    if (!tekst) return "";
+    return `, gesorteerd op ${tekst.charAt(0).toLowerCase()}${tekst.slice(1)}`;
+  }
+
   function render() {
     syncUrl();
     const lijst = gesorteerd(gefilterd());
     const verborgen = verborgenDoorOnbekendGeluid();
-    el("resultatenTelling").innerHTML = `${lijst.length} van ${state.pompen.length} warmtepompen`
+    el("resultatenTelling").innerHTML = `${lijst.length} van ${state.pompen.length} warmtepompen` + escapeHtml(sorteerNoot())
       + (verborgen ? `<small class="telling-noot">${verborgen} niet getoond: geluid nog niet vastgesteld</small>` : "");
 
     const doel = el("resultaten");

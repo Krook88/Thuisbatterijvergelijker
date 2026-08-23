@@ -788,6 +788,21 @@ if (index.includes(LD_BEGIN)) {
   index = index.replace("</head>", `  ${ldBlok}\n</head>`);
 }
 
+/* De tellerregel stond in de HTML op "Laden…", boven een lijst die er al
+   helemaal stond. Wie javascript traag of niet krijgt, las dus "Laden…" bij
+   een compleet gevulde vergelijker. Hier komt het echte aantal in te staan,
+   met dezelfde zin die app.js er later van maakt, zodat er niets verspringt. */
+{
+  const sorteerKeuze = index.match(/<option value="[^"]*" selected>([^<]*)</);
+  if (sorteerKeuze) {
+    const noot = sorteerKeuze[1].charAt(0).toLowerCase() + sorteerKeuze[1].slice(1);
+    index = index.replace(
+      /(<span class="resultaten-telling" id="resultatenTelling">)[^<]*(<\/span>)/,
+      `$1${gesorteerdePompen.length} van ${gesorteerdePompen.length} warmtepompen, gesorteerd op ${noot}$2`,
+    );
+  }
+}
+
 writeFileSync(join(ROOT, "index.html"), index, "utf8");
 console.log(`index.html: ${gesorteerdePompen.length} kaarten voorgerenderd en ItemList bijgewerkt`);
 

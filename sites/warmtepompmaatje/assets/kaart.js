@@ -227,9 +227,10 @@
         <span class="regel-bedrag cijfer">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>
         ${w.isde_indicatie_eur ? `<span class="regel-per cijfer">ISDE circa ${eurFmt.format(w.isde_indicatie_eur)}</span>` : ""}
         ${ouderdomHtml(w)}
+        ${beste && beste.url && beste.winkel ? `<span class="regel-winkel" title="Waar dit bedrag vandaan komt">${escapeHtml(beste.winkel)}</span>` : ""}
         ${beste && beste.url
-          ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijken</a>`
-          : `<a class="knop" href="pomp/${encodeURIComponent(w.id)}.html">Bekijken</a>`}
+          ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Naar de aanbieding van de ${escapeHtml(w.merk)} ${escapeHtml(w.model)}${beste.winkel ? ` bij ${escapeHtml(beste.winkel)}` : ""}, opent in een nieuw tabblad">Naar de winkel <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" /> <path d="M7 17 17 7" /></svg></a>`
+          : `<a class="knop knop-secundair" href="pomp/${encodeURIComponent(w.id)}.html" aria-label="Alle details van de ${escapeHtml(w.merk)} ${escapeHtml(w.model)}">Bekijk details</a>`}
       </div>
     </article>`;
   }
