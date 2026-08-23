@@ -307,7 +307,7 @@ function geluidTabel(lijst) {
         <td class="niet-afbreken">${w.geluid_db != null ? `<b>${w.geluid_db} dB(A)</b>` : "niet opgegeven"}</td>
         ${AFSTANDEN.map((m) => {
           const lp = geluidsdrukOp(w, m);
-          const leeg = heeftBuitenunit(w) ? "&mdash;" : `<small>geen buitenunit</small>`;
+          const leeg = heeftBuitenunit(w) ? "n.b." : `<small>geen buitenunit</small>`;
           return `<td class="niet-afbreken">${lp == null ? leeg : `${lp} dB(A)`}</td>`;
         }).join("\n        ")}
         <td>${esc(w.geluid_toelichting || "")}</td>
@@ -385,7 +385,7 @@ ${kop("", false)}
   <h1>Warmtepomp en geluid</h1>
   <p class="datum-stempel">Samengesteld uit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
-  <p>Geluid is de vraag waar de meeste twijfel zit voordat iemand een warmtepomp koopt, en terecht: het is de enige eigenschap met een harde wettelijke grens eraan. Alleen gaat die grens over iets anders dan het getal dat op het productblad staat, en dat verschil is precies waar het misgaat in bijna alles wat je erover leest.</p>
+  <p>Geluid is de vraag waar de meeste twijfel zit voordat iemand een warmtepomp koopt, en terecht. Het is de enige eigenschap met een harde wettelijke grens eraan, van 45 dB(A) overdag en 40 dB(A) 's nachts. Alleen gaat die grens over iets anders dan het getal dat op het productblad staat, en daar gaat het mis in bijna alles wat je erover leest.</p>
 
   <h2>De norm: 45 dB(A) overdag, 40 dB(A) 's nachts</h2>
   <p>Sinds 1 april 2021 geldt in Nederland een geluidseis voor de buitenunit van een warmtepomp of airco bij een woning. Die staat nu in het Besluit bouwwerken leefomgeving:</p>
@@ -393,7 +393,7 @@ ${kop("", false)}
     <li><b>45 dB(A)</b> tussen 07:00 en 19:00 uur;</li>
     <li><b>40 dB(A)</b> tussen 19:00 en 07:00 uur.</li>
   </ul>
-  <p>Beide gelden <b>op de erfgrens met de buren</b> &mdash; niet bij het apparaat en niet bij het slaapkamerraam van de buren. Blijf je daaronder, dan heb je in de regel geen vergunning nodig en kan de gemeente je niet op het geluid aanspreken. Sommige gemeenten hebben aanvullende beleidsregels over waar een unit mag hangen; dat verschilt per gemeente.</p>
+  <p>Beide gelden <b>op de erfgrens met de buren</b>, dus niet bij het apparaat en ook niet bij het slaapkamerraam van de buren. Blijf je onder die 45 en 40 dB(A), dan heb je in de regel geen vergunning nodig en kan de gemeente je niet op het geluid aanspreken. Sommige gemeenten hebben aanvullende beleidsregels over waar een unit mag hangen; dat verschilt per gemeente.</p>
 
   <h2>Waarom het getal op het label niet de norm is</h2>
   <p>Er zijn twee soorten decibellen in het spel, en ze verschillen makkelijk vijftien tot twintig punten:</p>
@@ -411,7 +411,7 @@ ${kop("", false)}
   <p>Staat de unit ${AFSTANDEN[1]} meter van de erfgrens, dan haalt ${haalt40OpDrie} van de ${gemeten.length} pompen waarvan ik het geluidsvermogen ken ook 's nachts de 40 dB(A). Dat is een schatting, geen toetsing: de officiële berekening is voorgeschreven in de Omgevingsregeling (artikel 5.59 en bijlage XVII) en houdt rekening met weerkaatsing tegen schuttingen en gevels. Die hoort de installateur te maken vóór de plaatsing. Vraag erom, en vraag hem op papier.</p>
 
   <h2>Hoe stil de pompen in mijn vergelijker zijn</h2>
-  <p>Gesorteerd van stil naar luid. De stilste buitenunit is die van de ${esc(stilste.merk)} ${esc(stilste.model)} met ${stilste.geluid_db} dB(A), de luidste die van de ${esc(luidste.merk)} ${esc(luidste.model)} met ${luidste.geluid_db} dB(A) &mdash; ${luidste.geluid_db - stilste.geluid_db} punten verschil, en dat hoor je.${binnen.length ? ` Onderaan staan ${binnen.length} ${binnen.length === 1 ? "pomp" : "pompen"} zonder buitenunit: daarvoor geldt de erfgrensnorm niet, en een omrekening naar afstand zegt er dus niets over.` : ""}</p>
+  <p>Gesorteerd van stil naar luid. De stilste buitenunit is die van de ${esc(stilste.merk)} ${esc(stilste.model)} met ${stilste.geluid_db} dB(A), de luidste die van de ${esc(luidste.merk)} ${esc(luidste.model)} met ${luidste.geluid_db} dB(A). Dat scheelt ${luidste.geluid_db - stilste.geluid_db} punten, en dat hoor je.${binnen.length ? ` Onderaan staan ${binnen.length} ${binnen.length === 1 ? "pomp" : "pompen"} zonder buitenunit: daarvoor geldt de erfgrensnorm niet, en een omrekening naar afstand zegt er dus niets over.` : ""}</p>
   ${geluidTabel(opGeluid)}
 
   <h2>Wat je eraan kunt doen</h2>
@@ -420,7 +420,7 @@ ${kop("", false)}
     <li><b>Gebruik de nachtstand.</b> Vrijwel elke pomp heeft er een; hij draait dan langzamer en levert wat minder vermogen. Bij de meeste modellen in de tabel hierboven staat dat in de toelichting.</li>
     <li><b>Richt hem niet op de erfgrens.</b> De ventilator blaast naar één kant. Die kant naar je eigen tuin draaien scheelt meer dan een omkasting.</li>
     <li><b>Een omkasting werkt, maar niet gratis.</b> Een goede akoestische omkasting haalt er 10 tot 15 dB af, maar knijpt ook de luchtstroom af en kost daarmee rendement. Overleg met de installateur; een verkeerd geplaatste kast maakt de pomp duurder in gebruik.</li>
-    <li><b>Geen buitenunit is ook een optie.</b> Een ventilatiewarmtepomp gebruikt je mechanische ventilatie als bron en heeft daarom geen unit buiten &mdash; en dus ook geen erfgrensnorm. Hij levert wel minder vermogen.</li>
+    <li><b>Geen buitenunit is ook een optie.</b> Een ventilatiewarmtepomp gebruikt je mechanische ventilatie als bron en heeft daarom geen unit buiten, en dus ook geen erfgrensnorm. Hij levert wel minder vermogen.</li>
   </ul>
 
   <h2>Verder lezen</h2>
@@ -548,7 +548,7 @@ ${kop("", false)}
   <h1>Monoblock of split?</h1>
   <p class="datum-stempel">Samengesteld uit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
-  <p class="intro">Dit is de eerste keuze nadat je besloten hebt dat je een warmtepomp wilt, en hij gaat niet over merken maar over waar de techniek zit. Bij een <b>monoblock</b> zit alles in de buitenunit en loopt er alleen water naar binnen. Bij een <b>split</b> staat er ook een unit binnen, met een koudemiddelleiding ertussen.</p>
+  <p class="intro">Dit is de eerste keuze nadat je besloten hebt dat je een warmtepomp wilt, en hij gaat over waar de techniek staat. Alle 30 pompen op deze site zijn lucht-water; het verschil zit in de opstelling. Bij een <b>monoblock</b> zit alles in de buitenunit en loopt er alleen water naar binnen. Bij een <b>split</b> staat er ook een unit binnen, met een koudemiddelleiding ertussen.</p>
 
   <h2>Het verschil in één tabel</h2>
   <div class="tabel-wrap">
@@ -573,7 +573,7 @@ ${kop("", false)}
   ${bouwvormTabel(opAanvoer)}
 
   <h2>Waarom hier niet per model "monoblock" of "split" staat</h2>
-  <p>Omdat dat geen eigenschap van een reeks is. De meeste series bestaan in beide uitvoeringen, en welke je krijgt hangt af van de samenstelling die je installateur kiest. Een kolom met dertig keer een aanname erin zou deze pagina niet beter maken maar onbetrouwbaar. Wat er wél staat &mdash; koudemiddel, aanvoertemperatuur, geluid &mdash; komt uit de datasheets, en daarmee kun je de vraag stellen die telt: <i>welke uitvoering biedt u aan, en waarom die?</i></p>
+  <p>Omdat dat geen eigenschap van een reeks is. De meeste series bestaan in beide uitvoeringen, en welke je krijgt hangt af van de samenstelling die je installateur kiest. Een kolom met 30 keer een aanname erin zou deze pagina onbetrouwbaar maken. Wat er wél staat (koudemiddel, aanvoertemperatuur, geluid) komt uit de datasheets, en daarmee kun je de vraag stellen die telt: <i>welke uitvoering biedt u aan, en waarom die?</i></p>
 
   <h2>Zo kies je</h2>
   <ul>

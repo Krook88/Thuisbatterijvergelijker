@@ -589,16 +589,16 @@ const OVERZICHTEN = [
     veld: "home_assistant",
     naam: "Home Assistant",
     anker: "home-assistant",
-    intro: "Home Assistant is het populairste gratis smart-home-platform voor wie zijn huis zelf wil automatiseren. Een thuisbatterij die je in Home Assistant kunt uitlezen en aansturen, kun je laten samenwerken met je zonnepanelen, dynamische stroomprijzen en de rest van je slimme huis. Maar de ondersteuning verschilt enorm per merk: van een officiële integratie die je in twee minuten koppelt tot helemaal niets.",
-    deelsUitleg: "Bij deze batterijen werkt de koppeling via een omweg: een community-integratie (HACS), een lokale API of Modbus. Dat werkt vaak prima, maar vraagt wat meer handigheid en kan na een firmware-update van de fabrikant haperen.",
+    intro: "Home Assistant is het populairste gratis smart-home-platform voor wie zijn huis zelf wil automatiseren. Een thuisbatterij die je in Home Assistant kunt uitlezen en aansturen, kun je laten samenwerken met je zonnepanelen, dynamische stroomprijzen en de rest van je slimme huis. De ondersteuning verschilt enorm per merk. Van de 41 batterijen hier hebben er 4 een officiële integratie, werken er 30 via een omweg en doen er 7 helemaal niets.",
+    deelsUitleg: "Bij deze 30 batterijen loopt de koppeling via een omweg, zoals een community-integratie (HACS), een lokale API of Modbus. Dat werkt vaak prima, maar vraagt wat meer handigheid en kan na een firmware-update van de fabrikant haperen.",
   },
   {
     bestand: "beste-thuisbatterij-homey.html",
     veld: "homey",
     naam: "Homey",
     anker: "homey",
-    intro: "Homey is het laagdrempelige smart-home-kastje waarmee je apparaten in huis laat samenwerken zonder te programmeren. Een thuisbatterij met een goede Homey-app kun je automatisch laten laden op goedkope uren en meenemen in je energie-overzicht. De ondersteuning verschilt per merk: sommige batterijen hebben een officiële app, andere werken alleen via een community-app of de Homey Energy Dongle.",
-    deelsUitleg: "Bij deze batterijen loopt de koppeling via een community-app, een extra kastje (zoals de Homey Energy Dongle) of een beperkte integratie. Vaak goed werkbaar, maar geen officiële ondersteuning van de fabrikant.",
+    intro: "Homey is het laagdrempelige smart-home-kastje waarmee je apparaten in huis laat samenwerken zonder te programmeren. Een thuisbatterij met een goede Homey-app kun je automatisch laten laden op goedkope uren en meenemen in je energie-overzicht. De ondersteuning verschilt per merk. Van de 41 batterijen hier hebben er 6 een officiële Homey-app, werken er 12 via een community-app of de Homey Energy Dongle, en doen er 23 niets.",
+    deelsUitleg: "Bij deze 12 batterijen loopt de koppeling via een community-app, een extra kastje (zoals de Homey Energy Dongle) of een beperkte integratie. Vaak goed werkbaar, maar zonder officiële ondersteuning van de fabrikant.",
   },
 ];
 
@@ -863,7 +863,7 @@ ${NAV_HTML}
   <h1>${esc(titel)}</h1>
   <p class="datum-stempel">Dagelijks automatisch bijgewerkt · laatst gecontroleerd op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
-  <p>Een stekkerbatterij steek je zelf in een gewoon stopcontact: geen installateur, geen ingreep in de meterkast, geen wachtlijst. Je komt hem ook tegen als <b>plug-and-play thuisbatterij</b>, als <b>balkonbatterij</b> of gewoon als <b>thuisbatterij met stekker</b> &mdash; vier namen voor hetzelfde apparaat.</p>
+  <p>Een stekkerbatterij steek je zelf in een gewoon stopcontact. Geen installateur, geen ingreep in de meterkast, geen wachtlijst. Van de 41 batterijen op deze site zijn er 23 zo aan te sluiten. Je komt hem ook tegen als <b>plug-and-play thuisbatterij</b>, als <b>balkonbatterij</b> of gewoon als <b>thuisbatterij met stekker</b>. Vier namen voor hetzelfde apparaat.</p>
 
   <p>Hieronder staan alle ${stekker.length} modellen uit mijn vergelijker die je zonder monteur aansluit, gesorteerd op prijs per kilowattuur. De prijzen worden dagelijks automatisch bij de winkels gecontroleerd.</p>
 
@@ -878,7 +878,7 @@ ${NAV_HTML}
   </ul>
 
   <h2>Stekker of installateur?</h2>
-  <p>De keuze gaat niet over prijs per kilowattuur &mdash; daar ontlopen de twee groepen elkaar minder dan je zou denken. Hij gaat over instapbedrag en over wat je ermee kunt.</p>
+  <p>De keuze gaat over het instapbedrag en over wat je ermee kunt. Een stekkerbatterij begint hier bij 669 euro, een systeem met installateur bij 1.625 euro. Op prijs per kilowattuur ontlopen de twee groepen elkaar minder dan je zou denken.</p>
   <ul>
     <li><b>Instappen is goedkoper.</b> De goedkoopste stekkerbatterij in mijn vergelijker kost ${eur(Math.min(...prijzen))}${restPrijzen.length ? `, tegenover ${eur(Math.min(...restPrijzen))} voor de goedkoopste batterij die een installateur plaatst` : ""}. Daar komt bij dat de installatie zelf niets kost.</li>
     <li><b>Groot worden ze niet.</b> De stekkermodellen gaan tot ${nl(Math.max(...caps))} kWh${restCaps.length ? `; de vaste batterijen lopen door tot ${nl(Math.max(...restCaps))} kWh` : ""}. Heb je een groot verbruik, een warmtepomp of een elektrische auto, dan loop je tegen die grens aan.</li>
@@ -1031,10 +1031,10 @@ ${NAV_HTML}
 
   <h2>Per capaciteit</h2>
   ${kostenTabel(rijen)}
-  <p class="datum-stempel">Prijs van het apparaat, incl. btw, bij de goedkoopste winkel die ik vind. Waar geen winkel is, staat de richtprijs van de fabrikant. De mediaan is het middelste model van die groep, niet het gemiddelde: één uitschieter trekt een gemiddelde scheef en die staan er in elke groep.</p>
+  <p class="datum-stempel">Prijs van het apparaat, incl. btw, bij de goedkoopste winkel die ik vind. Waar geen winkel is, staat de richtprijs van de fabrikant. De mediaan is het middelste model van die groep. Dat is bewust niet het gemiddelde, want één uitschieter trekt een gemiddelde scheef, en die staat er in elke groep; over alle 41 modellen loopt de prijs per kWh van 192 tot 1.098 euro.</p>
 
   <h2>Groter is niet goedkoper per kilowattuur</h2>
-  <p>Dat is de aanname achter bijna elk prijsoverzicht, en in mijn gegevens klopt hij niet. De mediaan per kWh ligt bij <b>${eur(perKwhStekker)}</b> voor een stekkerbatterij en bij <b>${eur(perKwhVast)}</b> voor een batterij die een installateur plaatst &mdash; en de grootste modellen zijn juist die tweede soort.</p>
+  <p>Dat is de aanname achter bijna elk prijsoverzicht, en in mijn gegevens klopt hij niet. De mediaan per kWh ligt bij <b>${eur(perKwhStekker)}</b> voor een stekkerbatterij en bij <b>${eur(perKwhVast)}</b> voor een batterij die een installateur plaatst, terwijl de grootste modellen juist van die tweede soort zijn.</p>
   <p>De prijs per kilowattuur volgt dus niet de maat maar de <b>soort</b>. Dat draait de volgorde van je keuze om: eerst bepalen hoe hij wordt aangesloten, dan pas hoe groot. Wat die twee soorten zijn, staat op <a href="/${STEKKER_BESTAND}">thuisbatterij met stekker</a>.</p>
 
   <h2>Wat er nog bij komt</h2>
@@ -1126,7 +1126,7 @@ ${NAV_HTML}
   <p class="intro">Het eerlijke antwoord is dat het niet aan het jaartal ligt. Een thuisbatterij verdient zichzelf terug uit het <i>verschil</i> tussen goedkope en dure uren, en dat verschil hangt af van je contract en je verbruik. Wie daar nu al genoeg van heeft, wint met wachten niets. Wie dat pas na 2027 krijgt, koopt nu iets dat een jaar stilligt.</p>
 
   <h2>Wat er echt verandert op 1 januari 2027</h2>
-  <p>De salderingsregeling stopt. Tot en met 31 december 2026 streep je teruggeleverde stroom nog weg tegen je verbruik; daarna krijg je er een terugleververgoeding voor die een stuk lager ligt dan wat je voor stroom betaalt. Daarmee wordt elke kilowattuur die je zélf gebruikt ineens veel meer waard &mdash; en dat is precies wat een batterij doet.</p>
+  <p>De salderingsregeling stopt. Tot en met 31 december 2026 streep je teruggeleverde stroom nog weg tegen je verbruik; daarna krijg je er een terugleververgoeding voor die een stuk lager ligt dan wat je voor stroom betaalt. Daarmee wordt elke kilowattuur die je zélf gebruikt ineens veel meer waard, en dat is wat een batterij doet.</p>
   <p><b>Een batterij wordt na 2027 dus nuttiger, niet goedkoper.</b> Dat is het hele punt, en het wordt vaak omgedraaid tot "koop nu het nog kan". Er verdwijnt niets wat je nu nog moet grijpen. De volledige uitleg staat op <a href="/regelgeving.html">regels en subsidies</a>.</p>
 
   <h2>Redenen om niet te wachten</h2>
