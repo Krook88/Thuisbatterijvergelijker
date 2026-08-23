@@ -1404,7 +1404,7 @@ const itemLijst = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Thuisbatterijen vergeleken",
-  description: "Alle vergeleken thuisbatterijen, gerangschikt op prijs per kWh opslag.",
+  description: "Alle vergeleken thuisbatterijen, gerangschikt op Koppel-score.",
   numberOfItems: gesorteerdeBatterijen.length,
   itemListElement: gesorteerdeBatterijen.map((b, i) => ({
     "@type": "ListItem",

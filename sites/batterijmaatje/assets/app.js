@@ -10,7 +10,7 @@
     batterijen: [],
     meta: {},
     weergave: "lijst", // of "kaarten" of "tabel"
-    sortering: "prijs-per-kwh",
+    sortering: "koppel-score",
     tabelSortKolom: null,
     tabelSortRichting: 1,
     vergelijkSelectie: [],
@@ -87,7 +87,7 @@
     if (f.zoek.trim()) p.set("zoek", f.zoek.trim());
     FILTER_KEYS.forEach((k) => { if (f[k] !== "alle") p.set(k, f[k]); });
     CHECK_KEYS.forEach(([k, kort]) => { if (f[k]) p.set(kort, "1"); });
-    if (state.sortering !== "prijs-per-kwh") p.set("sorteer", state.sortering);
+    if (state.sortering !== "koppel-score") p.set("sorteer", state.sortering);
     const qs = p.toString();
     history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
   }

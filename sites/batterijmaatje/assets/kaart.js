@@ -180,8 +180,17 @@
   // De volgorde waarin de vergelijker begint: beste prijs per kWh bovenaan.
   // De generator gebruikt dezelfde volgorde, zodat de voorgerenderde kaarten
   // gelijk staan aan wat de bezoeker ziet voordat hij iets aanraakt.
+  /* Dezelfde volgorde als app.js bij de standaardsortering, en dat moet ook:
+     wijkt de voorgerenderde lijst af, dan klapt hij om zodra javascript
+     binnen is en ziet een zoekmachine iets anders dan een mens.
+
+     Koppel-score eerst en prijs per kWh als het gelijkspel is. Op prijs per
+     kWh sorteren gaf een nummer 1 met score 2/6 onder een kop die belooft te
+     laten zien wat een batterij slim maakt; die twee spraken elkaar tegen. */
   function standaardVolgorde(lijst) {
-    return [...lijst].sort((a, b) => (Prijs.prijsPerKwh(a) || Infinity) - (Prijs.prijsPerKwh(b) || Infinity));
+    return [...lijst].sort((a, b) =>
+      koppelScore(b) - koppelScore(a) ||
+      (Prijs.prijsPerKwh(a) || Infinity) - (Prijs.prijsPerKwh(b) || Infinity));
   }
 
   /* De resultaatregel: dezelfde batterij, maar dan om kolommen te vergelijken
