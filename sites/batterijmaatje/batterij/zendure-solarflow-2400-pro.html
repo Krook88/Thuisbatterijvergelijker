@@ -50,7 +50,7 @@
 }
   </script>
   <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/style.css?v=20260823a">
+  <link rel="stylesheet" href="/assets/style.css?v=20260823b">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
 </head>
@@ -141,11 +141,28 @@
 
   <h2>Smart home en slim aansturen</h2>
   <p class="badge-rij"><span class="badge koppel-score koppel-laag" title="Punten voor Homey, Home Assistant en dynamisch contract"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /> <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg> Koppel-score 2/6</span> <span class="badge nee" title="Nee"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg> Homey</span> <span class="badge deels" title="Community-integraties via HACS (o.a. zenSDK, lokaal); ondersteuning van de 2400 Pro niet in detail geverifieerd"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 18a6 6 0 0 0 0-12v12z" /></svg> Home Assistant</span> <span class="badge deels" title="Ingebouwd energiemanagement (HEMS 2.0) met sturing op dynamische tarieven (fabrieksopgave)"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 18a6 6 0 0 0 0-12v12z" /></svg> Dynamisch contract</span></p>
-  <p class="datum-stempel">De <a href="/uitleg.html#koppel-score">Koppel-score</a> telt de ondersteuning voor Homey, Home Assistant en een dynamisch contract op: 2 punten per volledige, 1 per gedeeltelijke ondersteuning.</p>
+  <div class="koppel-uitsplitsing">
+      <b class="uitsplitsing-kop">Zo komt de Koppel-score op 2 van 6</b>
+      <ul class="uitsplitsing-lijst">
+      <li class="uitsplitsing-regel status-deels">
+        <span class="uitsplitsing-naam">Home Assistant</span>
+        <span class="uitsplitsing-punten"><b>1</b><span class="van">/2</span></span>
+        <span class="uitsplitsing-uitleg">Community-integraties via HACS (o.a. zenSDK, lokaal); ondersteuning van de 2400 Pro niet in detail geverifieerd</span>
+      </li>
+      <li class="uitsplitsing-regel status-nee">
+        <span class="uitsplitsing-naam">Homey</span>
+        <span class="uitsplitsing-punten"><b>0</b><span class="van">/2</span></span>
+        <span class="uitsplitsing-uitleg">Nee</span>
+      </li>
+      <li class="uitsplitsing-regel status-deels">
+        <span class="uitsplitsing-naam">Dynamisch contract</span>
+        <span class="uitsplitsing-punten"><b>1</b><span class="van">/2</span></span>
+        <span class="uitsplitsing-uitleg">Ingebouwd energiemanagement (HEMS 2.0) met sturing op dynamische tarieven (fabrieksopgave)</span>
+      </li>
+      </ul>
+      <p class="uitsplitsing-voet">Twee punten per volledige ondersteuning, één per gedeeltelijke, nul als het niet kan. Meer over de weging staat bij <a href="/uitleg.html#koppel-score">de uitleg</a>.</p>
+    </div>
   <ul>
-    <li><b>Homey:</b> Nee</li>
-    <li><b>Home Assistant:</b> Community-integraties via HACS (o.a. zenSDK, lokaal); ondersteuning van de 2400 Pro niet in detail geverifieerd</li>
-    <li><b>Dynamisch energiecontract:</b> Ingebouwd energiemanagement (HEMS 2.0) met sturing op dynamische tarieven (fabrieksopgave)</li>
     <li><b><a class="term-link" href="/uitleg.html#day-ahead-en-onbalans" title="Wat is de onbalansmarkt? Lees de uitleg">Onbalansmarkt</a>:</b> nog niet uitgezocht voor dit model.</li>
   </ul>
 
@@ -174,6 +191,6 @@
   </div>
 </footer>
 
-<script src="/assets/nav.js?v=20260823a" defer></script>
+<script src="/assets/nav.js?v=20260823b" defer></script>
 </body>
 </html>

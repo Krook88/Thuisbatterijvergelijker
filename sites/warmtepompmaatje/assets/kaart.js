@@ -120,6 +120,62 @@
      een chip, en drie sites die hetzelfde cijfer anders tonen is geen eenheid.
      De uitgebreide meter blijft wel op de pomppagina staan, waar de ruimte er
      is en het cijfer het onderwerp is. */
+
+  /* Waar dat cijfer vandaan komt.
+
+     De Koppel-score is het enige getal op deze site dat wij zelf bedenken, en
+     sinds de vergelijker er standaard op sorteert bepaalt hij ook de volgorde.
+     Een cijfer dat de volgorde bepaalt en dat niemand kan narekenen, is
+     precies waar een vergelijker zijn geloofwaardigheid verliest: dan is het
+     niet te onderscheiden van een cijfer dat zo gewogen is dat er uitkomt wat
+     lekker klikt.
+
+     Dus staat de optelsom er nu bij. Dezelfde drie onderdelen die de score
+     berekenen, met hun punten - één bron, geen tweede lijst die kan gaan
+     afwijken van de rekensom eronder. */
+  const KOPPEL_DELEN = [
+    { sleutel: "sturing", naam: "Slimme aansturing" },
+    { sleutel: "home_assistant", naam: "Home Assistant" },
+    { sleutel: "homey", naam: "Homey" },
+  ];
+
+  function koppelDelen(w) {
+    return KOPPEL_DELEN.map((d) => {
+      const oordeel = driewaardig(w[d.sleutel]);
+      return {
+        naam: d.naam,
+        status: oordeel.status,
+        tekst: oordeel.tekst,
+        punten: oordeel.status === "ja" ? 2 : oordeel.status === "deels" ? 1 : 0,
+      };
+    });
+  }
+
+  // Voor het title-attribuut op de regel: de hele som op één regel tekst.
+  function koppelSamenvatting(w) {
+    return koppelDelen(w).map((d) => `${d.naam} ${d.punten}/2`).join(", ");
+  }
+
+  /* De uitsplitsing zoals hij op de productpagina staat, waar de ruimte er is
+     en het cijfer het onderwerp is. In de lijst staat de korte vorm: drie
+     vakjes die de vorm van de score laten zien, met dezelfde som in de titel. */
+  function koppelUitsplitsingHtml(w) {
+    const delen = koppelDelen(w);
+    const totaal = delen.reduce((n, d) => n + d.punten, 0);
+    const regels = delen.map((d) => `<li class="uitsplitsing-regel status-${d.status}">
+        <span class="uitsplitsing-naam">${escapeHtml(d.naam)}</span>
+        <span class="uitsplitsing-punten"><b>${d.punten}</b><span class="van">/2</span></span>
+        <span class="uitsplitsing-uitleg">${escapeHtml(d.tekst)}</span>
+      </li>`).join("\n      ");
+    return `<div class="koppel-uitsplitsing">
+      <b class="uitsplitsing-kop">Zo komt de Koppel-score op ${totaal} van 6</b>
+      <ul class="uitsplitsing-lijst">
+      ${regels}
+      </ul>
+      <p class="uitsplitsing-voet">Twee punten per volledige ondersteuning, één per gedeeltelijke, nul als het niet kan. Meer over de weging staat bij <a href="/uitleg.html#koppel-score">de uitleg</a>.</p>
+    </div>`;
+  }
+
   function koppelScoreBadge(w) {
     const score = koppelScore(w);
     const niveau = score >= 5 ? "hoog" : score >= 3 ? "midden" : "laag";
@@ -221,7 +277,7 @@
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>${w.geluid_db ? w.geluid_db + " dB(A)" : "Onbekend"}</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>${score}<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:${Math.round((score / 6) * 100)}%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score ${score} van 6 — ${escapeHtml(koppelSamenvatting(w))}">${koppelDelen(w).map((d) => `<span class="regel-deel deel-${d.punten}"></span>`).join("")}</span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>
@@ -333,6 +389,9 @@
     koppelScore,
     koppelMeter,
     koppelScoreBadge,
+    koppelDelen,
+    koppelSamenvatting,
+    koppelUitsplitsingHtml,
     geluidStrook,
     variantenRegel,
     prijsLetOp,

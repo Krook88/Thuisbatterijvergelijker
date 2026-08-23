@@ -2,8 +2,8 @@
    Thuisbatterijvergelijker.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260823a");
-@import url("vergelijker.css?v=20260823a");
+@import url("maatlat.css?v=20260823b");
+@import url("vergelijker.css?v=20260823b");
 
 :root {
   --kleur-primair: #0f766e;
@@ -1786,3 +1786,90 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
    steunblok hoort en niet bij de navigatie eromheen. */
 .hoofdnav .nav-meer-paneel a.nav-steun { display: flex; align-items: center; gap: var(--ruimte-6); }
 .hoofdnav .nav-meer-paneel a.nav-steun .icoon { color: var(--kleur-accent-donker); }
+
+/* --------------------------------------------------------------------------
+   De aansluitkeuze boven de lijst
+
+   Van de 41 batterijen valt ruim de helft af zodra iemand weet of hij zelf een
+   stekker in het stopcontact steekt of een installateur laat komen. Dat filter
+   bestond al, maar zat weggeklapt achter "Filteren en sorteren" - en een
+   filter dat je moet uitklappen bestaat voor de meeste bezoekers niet. Deze
+   drie knoppen zijn dus geen extra filter maar hetzelfde filter, op de plek
+   waar de vraag gesteld wordt.
+   -------------------------------------------------------------------------- */
+.aansluitkeuze {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ruimte-10) var(--ruimte-14);
+  margin: var(--ruimte-20) 0 var(--ruimte-14);
+}
+.aansluitkeuze-vraag { font-weight: 700; font-size: var(--tekst-15); }
+.aansluitkeuze-knoppen { display: flex; flex-wrap: wrap; gap: var(--ruimte-6); }
+
+.aansluit-knop {
+  font: inherit;
+  font-size: var(--tekst-15);
+  font-weight: 600;
+  padding: var(--ruimte-6) var(--ruimte-14);
+  min-height: 36px;
+  border: 1.5px solid var(--kleur-rand);
+  border-radius: var(--radius-pil);
+  background: var(--kleur-wit);
+  color: var(--kleur-tekst);
+  cursor: pointer;
+}
+.aansluit-knop:hover { border-color: var(--kleur-primair); color: var(--kleur-primair-donker); }
+.aansluit-knop.actief {
+  background: var(--kleur-primair);
+  border-color: var(--kleur-primair);
+  color: var(--kleur-wit);
+}
+
+/* --------------------------------------------------------------------------
+   De Koppel-score, uitgesplitst op de productpagina
+
+   Het cijfer bepaalt sinds kort de volgorde van de hele vergelijker. Dan hoort
+   de optelsom erbij te staan, niet op een aparte uitlegpagina: een score die
+   de volgorde bepaalt en die niemand kan narekenen is niet te onderscheiden
+   van een score die zo gewogen is dat er uitkomt wat de maker wil.
+   -------------------------------------------------------------------------- */
+.koppel-uitsplitsing {
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius);
+  background: var(--kleur-wit);
+  padding: var(--ruimte-14) var(--ruimte-20);
+  margin: var(--ruimte-20) 0;
+}
+.uitsplitsing-kop { display: block; font-size: var(--tekst-17); }
+.uitsplitsing-lijst { list-style: none; margin: var(--ruimte-10) 0 0; padding: 0; }
+
+.uitsplitsing-regel {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 var(--ruimte-14);
+  padding: var(--ruimte-10) 0;
+  border-top: 1px solid var(--kleur-rand);
+}
+.uitsplitsing-naam { font-weight: 700; font-size: var(--tekst-15); }
+.uitsplitsing-punten { font-weight: 800; font-size: var(--tekst-15); text-align: right; white-space: nowrap; }
+.uitsplitsing-punten .van { font-weight: 600; color: var(--kleur-tekst-licht); }
+
+/* De uitleg loopt onder beide kolommen door: hij hoort bij de regel, niet bij
+   de naam, en op een telefoon is er geen ruimte om hem ernaast te zetten. */
+.uitsplitsing-uitleg {
+  grid-column: 1 / -1;
+  font-size: var(--tekst-15);
+  color: var(--kleur-tekst-licht);
+  line-height: 1.5;
+}
+
+/* Nul punten betekent niet "fout", maar het mag wel rustiger staan dan wat
+   wél meetelt. */
+.uitsplitsing-regel.status-nee .uitsplitsing-punten { color: var(--kleur-tekst-licht); }
+
+.uitsplitsing-voet {
+  margin: var(--ruimte-14) 0 0;
+  font-size: var(--tekst-15);
+  color: var(--kleur-tekst-licht);
+}

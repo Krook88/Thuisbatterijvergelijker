@@ -2,8 +2,8 @@
    Warmtepompmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260823a");
-@import url("vergelijker.css?v=20260823a");
+@import url("maatlat.css?v=20260823b");
+@import url("vergelijker.css?v=20260823b");
 
 :root {
   --kleur-primair: #c2410c;
@@ -1677,3 +1677,9 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
    steunblok hoort en niet bij de navigatie eromheen. */
 .hoofdnav .nav-meer-paneel a.nav-steun { display: flex; align-items: center; gap: var(--ruimte-6); }
 .hoofdnav .nav-meer-paneel a.nav-steun .icoon { color: var(--kleur-accent-donker); }
+
+/* De punten per onderdeel in het koppelblok op de pomppagina. De lijst stond
+   er al, alleen zonder de rekensom erin - en dan is de score wel uitgelegd
+   maar niet na te rekenen. */
+.koppel-blok .koppel-punten { font-weight: 800; white-space: nowrap; }
+.koppel-blok .koppel-punten .van { font-weight: 600; color: var(--kleur-tekst-licht); }
