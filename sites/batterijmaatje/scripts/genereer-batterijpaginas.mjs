@@ -571,6 +571,10 @@ ${NAV_HTML}
 
 ${VOET_HTML}
 
+<!-- dagmaat.js hertekent het blok "Past hij op een gemiddelde dag?" met het
+     jaarverbruik dat de bezoeker eerder invulde, en laat het veld daarin
+     werken. Het heeft geen ander bestand nodig. -->
+<script src="/assets/dagmaat.js?v=${ASSET_VERSIE}" defer></script>
 <script src="/assets/nav.js?v=${ASSET_VERSIE}" defer></script>
 </body>
 </html>

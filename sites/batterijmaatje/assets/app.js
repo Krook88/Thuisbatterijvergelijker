@@ -10,6 +10,7 @@
     batterijen: [],
     meta: {},
     weergave: "lijst", // of "kaarten" of "tabel"
+    verbruik: Dagmaat.lees(), // jaarverbruik voor de dagmaat, uit localStorage of de url
     sortering: "koppel-score",
     tabelSortKolom: null,
     tabelSortRichting: 1,
@@ -49,6 +50,7 @@
   const kaartHtml = (b) => Kaart.kaartHtml(b, {
     merkLogos: state.meta.merk_logos,
     geselecteerd: state.vergelijkSelectie.includes(b.id),
+    verbruik: state.verbruik,
   });
 
   // Alle prijsvergelijking loopt via assets/prijs.js, zodat de vergelijker, de
@@ -104,6 +106,7 @@
     zet("filterType", state.filters.type); zet("filterCapaciteit", state.filters.capaciteit);
     zet("filterMerk", state.filters.merk);
     zetAansluiting(state.filters.installatie);
+    zetVerbruik(state.verbruik, false);
     zet("sorteer", state.sortering);
     const vink = (id, w) => { const n = el(id); if (n) n.checked = w; };
     vink("checkHomey", state.filters.homey); vink("checkHA", state.filters.homeAssistant);
@@ -310,7 +313,7 @@
     if (!lijst.length) {
       doel.innerHTML = '<div class="leeg-melding">Geen batterijen gevonden met deze filters. Probeer een filter uit te zetten.</div>';
     } else if (state.weergave === "lijst") {
-      doel.innerHTML = Kaart.lijstHtml(lijst, { selectie: state.vergelijkSelectie });
+      doel.innerHTML = Kaart.lijstHtml(lijst, { selectie: state.vergelijkSelectie, verbruik: state.verbruik });
     } else if (state.weergave === "kaarten") {
       doel.innerHTML = `<div class="kaarten-grid">${lijst.map(kaartHtml).join("")}</div>`;
     } else {
@@ -329,6 +332,24 @@
     }
   }
 
+
+  /* Het jaarverbruik boven de lijst. Eén veld dat de dagmaat van alle 41
+     regels tegelijk verschuift, en dat onthouden wordt, zodat je het op een
+     productpagina niet opnieuw hoeft in te vullen. De tekst ernaast zegt wat
+     het getal betekent, want "2.900" alleen zegt niemand iets. */
+  function zetVerbruik(waarde, opnieuwTekenen) {
+    state.verbruik = Dagmaat.schrijf(waarde);
+    const veld = el("verbruikVeld");
+    if (veld && String(veld.value) !== String(state.verbruik)) veld.value = state.verbruik;
+    const noot = el("verbruikNoot");
+    if (noot) {
+      const dag = Dagmaat.dagbehoefteVan(state.verbruik).toFixed(1).replace(".", ",");
+      noot.textContent = state.verbruik === Dagmaat.VERBRUIK_STANDAARD
+        ? `gemiddeld huishouden, ${dag} kWh buiten de zonuren`
+        : `${dag} kWh buiten de zonuren, en dat is de baan achter elke capaciteit`;
+    }
+    if (opnieuwTekenen) render();
+  }
 
   /* De aansluitknoppen boven de lijst en de keuzelijst in het filterpaneel
      sturen hetzelfde filter aan. Ze moeten elkaar dus volgen, anders staat er
@@ -350,6 +371,14 @@
      ------------------------------------------------------------------ */
 
   function koppelEvents() {
+    const verbruikVeld = el("verbruikVeld");
+    if (verbruikVeld) {
+      verbruikVeld.addEventListener("change", () => zetVerbruik(verbruikVeld.value, true));
+      verbruikVeld.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") { e.preventDefault(); verbruikVeld.blur(); }
+      });
+    }
+
     ["filterType", "filterCapaciteit", "filterInstallatie", "filterMerk"].forEach((id) => {
       el(id).addEventListener("change", (e) => {
         const map = { filterType: "type", filterCapaciteit: "capaciteit", filterInstallatie: "installatie", filterMerk: "merk" };

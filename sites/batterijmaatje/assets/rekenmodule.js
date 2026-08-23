@@ -433,6 +433,21 @@
         el("inpBatterij").value = gekozen;
         kiesBatterij(gekozen);
       }
+
+      /* Wie op de vergelijker zijn jaarverbruik invulde, hoeft dat hier niet
+         opnieuw te doen. Het komt mee in de link (?verbruik=) en staat anders
+         nog in localStorage. Andersom geldt hetzelfde: wat je hier invult is
+         straks de baan van de dagmaat. */
+      if (typeof Dagmaat !== "undefined") {
+        const veld = el("inpVerbruik");
+        const uitUrl = params.get("verbruik");
+        const bekend = uitUrl ? Dagmaat.verbruikVan(uitUrl) : Dagmaat.lees();
+        if (veld && bekend !== Dagmaat.VERBRUIK_STANDAARD) {
+          veld.value = bekend;
+          bereken();
+        }
+        if (veld) veld.addEventListener("change", () => Dagmaat.schrijf(veld.value));
+      }
     } catch (err) {
       console.error("Batterijen konden niet geladen worden:", err);
     }
