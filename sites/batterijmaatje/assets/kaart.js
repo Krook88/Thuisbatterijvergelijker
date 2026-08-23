@@ -180,8 +180,17 @@
   // De volgorde waarin de vergelijker begint: beste prijs per kWh bovenaan.
   // De generator gebruikt dezelfde volgorde, zodat de voorgerenderde kaarten
   // gelijk staan aan wat de bezoeker ziet voordat hij iets aanraakt.
+  /* Dezelfde volgorde als app.js bij de standaardsortering, en dat moet ook:
+     wijkt de voorgerenderde lijst af, dan klapt hij om zodra javascript
+     binnen is en ziet een zoekmachine iets anders dan een mens.
+
+     Koppel-score eerst en prijs per kWh als het gelijkspel is. Op prijs per
+     kWh sorteren gaf een nummer 1 met score 2/6 onder een kop die belooft te
+     laten zien wat een batterij slim maakt; die twee spraken elkaar tegen. */
   function standaardVolgorde(lijst) {
-    return [...lijst].sort((a, b) => (Prijs.prijsPerKwh(a) || Infinity) - (Prijs.prijsPerKwh(b) || Infinity));
+    return [...lijst].sort((a, b) =>
+      koppelScore(b) - koppelScore(a) ||
+      (Prijs.prijsPerKwh(a) || Infinity) - (Prijs.prijsPerKwh(b) || Infinity));
   }
 
   /* De resultaatregel: dezelfde batterij, maar dan om kolommen te vergelijken
@@ -228,9 +237,10 @@
         <span class="regel-bedrag cijfer">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>
         ${perKwh ? `<span class="regel-per cijfer">${eurFmt.format(perKwh)} per kWh opslag</span>` : ""}
         ${ouderdomHtml(b)}
+        ${beste && beste.url && beste.winkel ? `<span class="regel-winkel" title="Waar dit bedrag vandaan komt">${escapeHtml(beste.winkel)}</span>` : ""}
         ${beste && beste.url
-          ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))}">Bekijken</a>`
-          : `<a class="knop" href="batterij/${encodeURIComponent(b.id)}.html" aria-label="Alle details van de ${escapeHtml(naamVan(b))}">Bekijken</a>`}
+          ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Naar de aanbieding van de ${escapeHtml(naamVan(b))}${beste.winkel ? ` bij ${escapeHtml(beste.winkel)}` : ""}, opent in een nieuw tabblad">Naar de winkel <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" /> <path d="M7 17 17 7" /></svg></a>`
+          : `<a class="knop knop-secundair" href="batterij/${encodeURIComponent(b.id)}.html" aria-label="Alle details van de ${escapeHtml(naamVan(b))}">Bekijk details</a>`}
       </div>
     </article>`;
   }

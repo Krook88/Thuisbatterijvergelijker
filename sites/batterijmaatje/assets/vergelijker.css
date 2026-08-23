@@ -359,13 +359,27 @@
    letterhoogte en niet de regel. De link zelf moet dus een blokje worden. */
 .regel-naam h3 { margin: var(--ruimte-2) 0 0; font-size: var(--tekst-19); line-height: 1.3; }
 
+/* De modelnaam is de enige route naar onze eigen pagina over dit product, en
+   hij zag er niet uit als een link: kleur van de tekst eromheen, geen streep,
+   en pas onderstreept bij hover. Op een telefoon bestaat hover niet, dus daar
+   was er geen enkel signaal - terwijl de knop ernaast wél opvalt en de site
+   uit leidt. Nu draagt de naam de linkkleur, zoals elke andere link hier. */
 .regel-naam .kop-link {
   display: inline-block;
   min-height: 24px;
-  color: inherit;
+  color: var(--kleur-primair-donker);
   text-decoration: none;
 }
-.regel-naam .kop-link:hover { text-decoration: underline; }
+.regel-naam .kop-link:hover,
+.regel-naam .kop-link:focus-visible { text-decoration: underline; }
+
+/* Waar de prijs vandaan komt. Een vergelijker die een bedrag toont zonder de
+   winkel erbij, vraagt vertrouwen zonder het te verdienen - en de bezoeker
+   weet pas waar hij heen ging nadat hij geklikt heeft. */
+.regel-winkel {
+  font-size: var(--tekst-12);
+  color: var(--kleur-tekst-licht);
+}
 .regel-vergelijk { margin-top: var(--ruimte-6); }
 
 .regel-waarde { font-size: var(--tekst-17); font-weight: 700; }
