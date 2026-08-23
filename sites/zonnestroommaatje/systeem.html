@@ -14,11 +14,11 @@
   <meta property="og:image" content="https://zonnestroommaatje.nl/assets/og-image.png">
   <meta property="og:site_name" content="Zonnestroommaatje.nl">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="assets/style.css?v=20260823g">
-  <script src="assets/iconen.js?v=20260823g" defer></script>
-  <script src="assets/prijs.js?v=20260823g" defer></script>
-  <script src="assets/systeem.js?v=20260823g" defer></script>
-  <script src="assets/nav.js?v=20260823g" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20260823h">
+  <script src="assets/iconen.js?v=20260823h" defer></script>
+  <script src="assets/prijs.js?v=20260823h" defer></script>
+  <script src="assets/systeem.js?v=20260823h" defer></script>
+  <script src="assets/nav.js?v=20260823h" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=1">
   <style>
@@ -138,7 +138,7 @@
         </select>
       </div>
 
-      <p class="hint deel-link"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg> De link in je adresbalk verandert mee: kopieer hem om deze combinatie te delen of te bewaren.</p>
+      <p class="hint deel-link"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg> De link in je adresbalk verandert mee, dus kopieer hem om deze combinatie te delen of te bewaren.</p>
     </form>
 
     <div id="resultaat" class="advies-paneel" aria-live="polite">
@@ -151,7 +151,7 @@
   <section class="content-pagina aansluitend">
     <h2 id="hoe-checken-wij">Hoe check ik of een combinatie klopt?</h2>
     <ul>
-      <li><b>Paneelvermogen per micro-omvormer of optimizer.</b> Elektronica per paneel heeft een maximum paneelvermogen: de Enphase IQ8HC is gespecificeerd tot 560 Wp per paneel, de APsystems DS3 tot circa 550 Wp per ingang en de SolarEdge S500-optimizer tot 500 Wp per paneel (bron: datasheets van <a href="https://enphase.com/en-gb/download/iq8mc-iq8ac-and-iq8hc-microinverters-data-sheet" target="_blank" rel="noopener">Enphase</a>, <a href="https://global.apsystems.com/document/apsystems-ds3-series-datasheet/" target="_blank" rel="noopener">APsystems</a> en <a href="https://www.solaredge.com/sites/default/files/se-power-optimizer-s-series-module-add-on-datasheet-eu.pdf" target="_blank" rel="noopener">SolarEdge</a>).</li>
+      <li><b>Paneelvermogen per micro-omvormer of optimizer.</b> Elektronica per paneel heeft een maximum paneelvermogen. De Enphase IQ8HC is gespecificeerd tot 560 Wp per paneel, de APsystems DS3 tot circa 550 Wp per ingang en de SolarEdge S500-optimizer tot 500 Wp per paneel (bron: datasheets van <a href="https://enphase.com/en-gb/download/iq8mc-iq8ac-and-iq8hc-microinverters-data-sheet" target="_blank" rel="noopener">Enphase</a>, <a href="https://global.apsystems.com/document/apsystems-ds3-series-datasheet/" target="_blank" rel="noopener">APsystems</a> en <a href="https://www.solaredge.com/sites/default/files/se-power-optimizer-s-series-module-add-on-datasheet-eu.pdf" target="_blank" rel="noopener">SolarEdge</a>).</li>
       <li><b>DC/AC-verhouding (overdimensionering).</b> Het paneelvermogen mag ruim boven het omvormervermogen liggen: 110 tot 130% is in de Benelux de gangbare vuistregel, omdat panelen hun piekvermogen zelden halen. Fabrikanten staan vaak meer toe (SolarEdge tot 135-155%, SMA nog ruimer), maar boven circa 135% waarschuw ik voor afgetopte opbrengst op zonnige dagen (bronnen: <a href="https://www.sma-benelux.com/kenniscentrum/tech-tips-voor-de-installatie/dimensioneren-van-een-zonnestroominstallatie" target="_blank" rel="noopener">SMA Benelux</a>, <a href="https://knowledge-center.solaredge.com/sites/kc/files/se_inverter_dc_oversizing_nl_0.pdf" target="_blank" rel="noopener">SolarEdge technical note</a>, <a href="https://www.solarconcept.nl/artikel/onder-en-overdimensioneren-omvormer" target="_blank" rel="noopener">Solar Concept</a>).</li>
       <li><b>1-fase of 3-fase.</b> Tot circa 5 kW omvormervermogen is 1-fase in Nederland gangbaar en accepteren netbeheerders de scheefbelasting; daarboven wordt verdeling over drie fasen de norm (bron: <a href="https://www.zonnefabriek.nl/kenniscentrum/een-een-fase-omvormer-in-een-drie-fasen-net-kan-dat/" target="_blank" rel="noopener">Zonnefabriek</a>, beleid faseverdeling Netbeheer Nederland).</li>
       <li><b>Schaduw, batterij en smart home.</b> Bij veel schaduw adviseer ik elektronica per paneel (micro of optimizer). Voor de batterij- en smart home-check gebruik ik dezelfde gegevens als de <a href="omvormers.html">omvormer-vergelijker</a> (Koppel-score).</li>

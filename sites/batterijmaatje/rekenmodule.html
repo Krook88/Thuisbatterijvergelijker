@@ -17,10 +17,10 @@
   <meta property="og:site_name" content="Batterijmaatje.nl">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/style.css?v=20260823g">
-  <script src="assets/prijs.js?v=20260823g" defer></script>
-  <script src="assets/rekenmodule.js?v=20260823g" defer></script>
-  <script src="assets/nav.js?v=20260823g" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20260823h">
+  <script src="assets/prijs.js?v=20260823h" defer></script>
+  <script src="assets/rekenmodule.js?v=20260823h" defer></script>
+  <script src="assets/nav.js?v=20260823h" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <style>
@@ -252,14 +252,14 @@
     <h2>Hoe rekent deze module?</h2>
     <p>Het model telt twee opbrengsten bij elkaar op, afhankelijk van je situatie, en trekt daar het eigen (standby-)verbruik van de batterij vanaf:</p>
     <ol>
-      <li><b>Opslag van eigen zonnestroom</b> (alleen met zonnepanelen): het overschot dat je nu terugleveren zou, gaat in de batterij en vervangt 's avonds inkoop. Elke opgeslagen kWh levert het verschil op tussen je stroomprijs (verminderd met het omzetverlies van de batterij) en de terugleververgoeding die je misloopt, plus bespaarde terugleverkosten. De opslag is begrensd door de batterijcapaciteit en het aantal dagen met zonneoverschot.</li>
-      <li><b>Slim laden en ontladen op uurprijzen</b> (alleen met een dynamisch contract): op dagen zonder zonneoverschot laadt de batterij op goedkope uren en dekt hij je verbruik op dure uren (of levert hij terug op piekmomenten). De winst per cyclus is het prijsverschil maal de bruikbare capaciteit, verminderd met het omzetverlies.</li>
+      <li><b>Opslag van eigen zonnestroom</b> (alleen met zonnepanelen), waarbij het overschot dat je nu zou terugleveren in de batterij gaat en vervangt 's avonds inkoop. Elke opgeslagen kWh levert het verschil op tussen je stroomprijs (verminderd met het omzetverlies van de batterij) en de terugleververgoeding die je misloopt, plus bespaarde terugleverkosten. De opslag is begrensd door de batterijcapaciteit en het aantal dagen met zonneoverschot.</li>
+      <li><b>Slim laden en ontladen op uurprijzen</b> (alleen met een dynamisch contract), waarbij de batterij op dagen zonder zonneoverschot laadt op goedkope uren en dekt hij je verbruik op dure uren (of levert hij terug op piekmomenten). De winst per cyclus is het prijsverschil maal de bruikbare capaciteit, verminderd met het omzetverlies.</li>
     </ol>
-    <p><b>Begrensd door je eigen verbruik.</b> Een batterij verdient alleen aan stroom die je huishouden ook echt opmaakt. Het model rekent daarom nooit met meer ontlading per dag dan wat je huishouden buiten de zonuren verbruikt (aanname: 70% van je jaarverbruik valt in de avond, nacht en vroege ochtend). Is de batterij groter dan dat, dan telt de extra capaciteit niet mee en krijg je een waarschuwing: een te grote accu kopen is een van de duurste beginnersfouten.</p>
+    <p><b>Begrensd door je eigen verbruik.</b> Een batterij verdient alleen aan stroom die je huishouden ook echt opmaakt. Het model rekent daarom nooit met meer ontlading per dag dan wat je huishouden buiten de zonuren verbruikt (aanname: 70% van je jaarverbruik valt in de avond, nacht en vroege ochtend). Is de batterij groter dan dat, dan telt de extra capaciteit niet mee en krijg je een waarschuwing, want een te grote accu kopen is een van de duurste beginnersfouten.</p>
     <p>De terugverdientijd is de investering gedeeld door de totale jaarlijkse opbrengst.</p>
 
     <h3 id="warmtepomp">Heb je een warmtepomp of elektrische auto?</h3>
-    <p>Een warmtepomp telt op twee manieren mee. Ten eerste via je jaarverbruik: vul dat in onder "Alle getallen bekijken of aanpassen" (standaard reken ik met 2.900 kWh, een gemiddeld huishouden; met warmtepomp is 6.000 tot 9.000 kWh gebruikelijk). Een hoger verbruik betekent dat een grotere batterij wél zinvol kan zijn. Ten tweede via een dynamisch contract: in de wintermaanden verbruik je veel stroom op de dure uren, precies wanneer de batterij op goedkope uren vooruit kan laden; verhoog daarvoor eventueel de handelscycli per dag naar 1,5 of 2. Controleer wel of het vermogen (kW) van de batterij groot genoeg is om de warmtepomp echt te dekken. Voor het opslaan van zonnestroom verandert er weinig: een warmtepomp draait vooral in de winter, wanneer er nauwelijks zonneoverschot is. Een elektrische auto laad je meestal slimmer rechtstreeks op goedkope of zonnige uren dan via de batterij; zie <a href="uitleg.html#wat-kun-je-ermee">wat kun je ermee</a>.</p>
+    <p>Een warmtepomp telt op twee manieren mee. Ten eerste via je jaarverbruik, dat je invult onder "Alle getallen bekijken of aanpassen" (standaard reken ik met 2.900 kWh, een gemiddeld huishouden; met warmtepomp is 6.000 tot 9.000 kWh gebruikelijk). Een hoger verbruik betekent dat een grotere batterij wél zinvol kan zijn. Ten tweede via een dynamisch contract, want in de wintermaanden verbruik je veel stroom op de dure uren, precies wanneer de batterij op goedkope uren vooruit kan laden; verhoog daarvoor eventueel de handelscycli per dag naar 1,5 of 2. Controleer wel of het vermogen (kW) van de batterij groot genoeg is om de warmtepomp echt te dekken. Voor het opslaan van zonnestroom verandert er weinig, want een warmtepomp draait vooral in de winter, wanneer er nauwelijks zonneoverschot is. Een elektrische auto laad je meestal slimmer rechtstreeks op goedkope of zonnige uren dan via de batterij; zie <a href="uitleg.html#wat-kun-je-ermee">wat kun je ermee</a>.</p>
 
     <p>Kom je een onbekend woord tegen (zoals kWh, dynamisch contract of terugleverkosten)? Alle termen staan uitgelegd in de <a href="uitleg.html#woordenlijst">woordenlijst</a>.</p>
 

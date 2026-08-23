@@ -4,7 +4,7 @@ Deze site verkoopt niets. Wat hij te bieden heeft is een oordeel over een
 aankoop van tweeduizend euro, en dat is alleen iets waard als de lezer het kan
 nakijken. Alles hieronder volgt daaruit.
 
-`npm run slop` bewaakt de zeven regels die te meten zijn. De rest is
+`npm run slop` bewaakt de acht regels die te meten zijn. De rest is
 mensenwerk, en dat is precies waarom ze hier staan opgeschreven.
 
 ## De regel waar de rest uit volgt
@@ -133,6 +133,38 @@ vallen.
 Loop je erop vast bij een alinea die echt geen getal hoort te dragen, dan is de
 uitweg om hem korter dan 25 woorden te maken, of om er de bron bij te zetten
 waar hij toch al op leunt.
+
+**8. De dubbele punt in het midden van een zin.** "De kale prijs zegt weinig:
+een batterij van 2.000 euro voor 2,7 kWh is per kWh duurder." Korte bewering,
+dubbele punt, uitleg. Dat is hetzelfde hengsel als "niet X, maar Y", alleen
+stiller: het laat een zin dieper klinken dan hij is, en het maakt elke alinea
+hetzelfde van ritme.
+
+Het viel op nadat een lezer de zin met de dubbele punt eruit pikte. Natellen
+gaf 124 van de 894 alineazinnen, één op de acht, en dat is geen toeval maar
+een gewoonte. Erger: dit document schreef die vorm zelf voor, als vervanging
+van het lange streepje.
+
+De uitweg is bijna altijd een komma, soms een "want" of "dus", soms een punt.
+
+| In plaats van | Schrijf |
+| --- | --- |
+| De kale prijs zegt weinig: een batterij van 2.000 euro is per kWh duurder | De kale prijs zegt weinig, want een batterij van 2.000 euro is per kWh duurder |
+| Wachten is een prima keuze: batterijprijzen zijn gedaald | Wachten is een prima keuze, want batterijprijzen zijn gedaald |
+| Een zonnepaneel is "dom": het levert stroom zodra er licht op valt | Een zonnepaneel is "dom", het levert stroom zodra er licht op valt |
+| De link verandert mee: kopieer hem om te delen | De link verandert mee, dus kopieer hem om te delen |
+
+Deze controle keurt niet per zin af, maar houdt een plafond aan. De dubbele
+punt is namelijk vaak wél het goede teken: "Prijsbeeld: circa € 3.500",
+"Drie dingen tellen mee: ...", "Het vermogen in wattpiek (Wp): wat het paneel
+maximaal kan leveren". Een etiket, een opsomming of een definitie. Het verschil
+met de tic zit in de zinsbouw ervoor en erna, en dat is met een patroon niet
+betrouwbaar te scheiden zonder halve pagina's ten onrechte af te keuren.
+
+Van de 124 zijn er 62 herschreven. De 62 die blijven staan zijn die etiketten
+en opsommingen, en dat getal staat als plafond in `scripts/slop.mjs`. Komt het
+erboven, dan valt de run. Wordt het minder, zet het plafond dan omlaag; dat is
+de bedoeling.
 
 ## Wat een script niet kan bewaken
 

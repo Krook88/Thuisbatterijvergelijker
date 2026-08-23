@@ -707,7 +707,7 @@ ${NAV_HTML}
 
   <h2>Zo kies je</h2>
   <ul>
-    <li><b>Wil je zekerheid?</b> Kies een batterij uit de eerste tabel: officiële ondersteuning blijft werken na updates en de fabrikant helpt bij problemen.</li>
+    <li><b>Wil je zekerheid?</b> Kies een batterij uit de eerste tabel, want officiële ondersteuning blijft werken na updates en de fabrikant helpt bij problemen.</li>
     <li><b>Ben je handig?</b> De tweede tabel biedt vaak meer batterij voor je geld; community-integraties werken meestal goed, maar zonder garantie.</li>
     <li><b>Twijfel je over de maat?</b> Doe de <a href="/advies.html">keuzehulp</a>: die rekent uit welke capaciteit bij je verbruik past.</li>
     <li><b>Wat is ${esc(cfg.naam)} eigenlijk?</b> Lees de eenvoudige uitleg in mijn <a href="/uitleg.html#${cfg.anker}">woordenlijst</a>.</li>
@@ -870,7 +870,7 @@ ${NAV_HTML}
   ${stekkerTabel(stekker)}
 
   <h2>Wat je ervoor terugkrijgt</h2>
-  <p>Deze ${stekker.length} batterijen lopen van ${nl(Math.min(...caps))} tot ${nl(Math.max(...caps))} kWh, met een laad- en ontlaadvermogen van ${nl(Math.min(...vermogens))} tot ${nl(Math.max(...vermogens))} kW. Ze zijn alle ${stekker.length} eenfasig: ze werken op één groep van je meterkast en kunnen dus niet je hele huis in één keer voeden.</p>
+  <p>Deze ${stekker.length} batterijen lopen van ${nl(Math.min(...caps))} tot ${nl(Math.max(...caps))} kWh, met een laad- en ontlaadvermogen van ${nl(Math.min(...vermogens))} tot ${nl(Math.max(...vermogens))} kW. Ze zijn alle ${stekker.length} eenfasig, dus ze werken op één groep van je meterkast en kunnen dus niet je hele huis in één keer voeden.</p>
   <ul>
     <li><b>Noodstroom is iets anders dan je denkt.</b> ${metNoodstroom} van de ${stekker.length} hebben een noodstroomfunctie, maar dat is bij vrijwel alle modellen een stopcontact op het apparaat zelf. Bij een stroomstoring blijft wat je daarin steekt werken; de rest van je huis niet. Een automatische overschakeling van de hele woning vraagt een batterij die een installateur plaatst.</li>
     <li><b>Buiten hangen mag niet zomaar.</b> ${buiten} van de ${stekker.length} hebben een IP65-behuizing of beter en kunnen daarmee tegen regen. De rest hoort binnen te staan.</li>
@@ -1035,7 +1035,7 @@ ${NAV_HTML}
 
   <h2>Groter is niet goedkoper per kilowattuur</h2>
   <p>Dat is de aanname achter bijna elk prijsoverzicht, en in mijn gegevens klopt hij niet. De mediaan per kWh ligt bij <b>${eur(perKwhStekker)}</b> voor een stekkerbatterij en bij <b>${eur(perKwhVast)}</b> voor een batterij die een installateur plaatst, terwijl de grootste modellen juist van die tweede soort zijn.</p>
-  <p>De prijs per kilowattuur volgt dus niet de maat maar de <b>soort</b>. Dat draait de volgorde van je keuze om: eerst bepalen hoe hij wordt aangesloten, dan pas hoe groot. Wat die twee soorten zijn, staat op <a href="/${STEKKER_BESTAND}">thuisbatterij met stekker</a>.</p>
+  <p>De prijs per kilowattuur volgt dus niet de maat maar de <b>soort</b>. Dat draait de volgorde van je keuze om, want je bepaalt eerst hoe hij wordt aangesloten en dan pas hoe groot. Wat die twee soorten zijn, staat op <a href="/${STEKKER_BESTAND}">thuisbatterij met stekker</a>.</p>
 
   <h2>Wat er nog bij komt</h2>
   <p>De bedragen hierboven zijn het apparaat. Gebruiksklaar is iets anders, en dat verschilt sterk per soort:</p>
@@ -1047,7 +1047,7 @@ ${NAV_HTML}
   </ul>
 
   <h2>Wat het je oplevert is een andere vraag</h2>
-  <p>Een goedkope batterij die niet bij je verbruik past, verdient zichzelf niet terug. De <a href="/rekenmodule.html">rekenmodule</a> rekent uit wat een batterij per jaar oplevert bij jouw verbruik en contract, en de <a href="/advies.html">keuzehulp</a> zoekt de maat erbij. Reken met beide voordat je op de prijs afgaat: het verschil tussen een vast en een dynamisch contract is voor de opbrengst groter dan het verschil tussen twee modellen.</p>
+  <p>Een goedkope batterij die niet bij je verbruik past, verdient zichzelf niet terug. De <a href="/rekenmodule.html">rekenmodule</a> rekent uit wat een batterij per jaar oplevert bij jouw verbruik en contract, en de <a href="/advies.html">keuzehulp</a> zoekt de maat erbij. Reken met beide voordat je op de prijs afgaat, want het verschil tussen een vast en een dynamisch contract is voor de opbrengst groter dan het verschil tussen twee modellen.</p>
 
   <div class="noot">Prijzen veranderen dagelijks. Deze pagina wordt automatisch bijgewerkt vanuit mijn <a href="/index.html">vergelijker</a>; de prijs op de website van de winkel is altijd leidend.</div>
 </main>
@@ -1153,7 +1153,7 @@ ${NAV_HTML}
   </ul>
 
   <h2>Reken het na in plaats van te gokken</h2>
-  <p>De <a href="/rekenmodule.html">rekenmodule</a> laat zien wat een batterij in jouw situatie per jaar oplevert, met of zonder zonnepanelen en bij een vast of dynamisch contract. Zet dezelfde som eens met en eens zonder saldering: het verschil tussen die twee uitkomsten is precies wat wachten je kost of oplevert. Dat is een concreter antwoord dan welk artikel dan ook kan geven, inclusief dit.</p>
+  <p>De <a href="/rekenmodule.html">rekenmodule</a> laat zien wat een batterij in jouw situatie per jaar oplevert, met of zonder zonnepanelen en bij een vast of dynamisch contract. Zet dezelfde som eens met en eens zonder saldering, want het verschil tussen die twee uitkomsten is precies wat wachten je kost of oplevert. Dat is een concreter antwoord dan welk artikel dan ook kan geven, inclusief dit.</p>
   <p>En wat het apparaat op dit moment kost, staat op <a href="/${KOSTEN_BESTAND}">wat kost een thuisbatterij</a>.</p>
 
   <div class="noot">Deze pagina beschrijft de regels zoals ze nu vastliggen, met de bronnen op <a href="/regelgeving.html">regels en subsidies</a>. Het is geen financieel advies en geen voorspelling.</div>

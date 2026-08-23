@@ -182,6 +182,30 @@ for (const [zin, hoortTeRaken] of STREEPJESPROEF) {
   }
 }
 
+/* De dubbele punt.
+
+   Toen een lezer de zin "Dat is geen afkeuring: dit is ook de goedkoopste"
+   aanwees, bleek bij natellen dat 124 van de 894 alineazinnen dezelfde vorm
+   hadden: korte bewering, dubbele punt, uitleg. Eén op de acht. Dat is
+   hetzelfde hengsel als "niet X, maar Y", alleen stiller: het laat een zin
+   dieper klinken dan hij is, en het maakt elke alinea hetzelfde van ritme.
+
+   Waarom dit geen harde controle is zoals de andere zeven: de dubbele punt is
+   vaak wél het goede teken. "Prijsbeeld: circa 3.500 euro", "Ik reken standaard
+   met: ...", "Tot en met 2026: ...". Dat is een etiket of een opsomming, en
+   daar is niets mis mee. Het verschil met de tic zit in de zinsbouw ervoor en
+   erna, en dat is met een regexp niet betrouwbaar te scheiden zonder halve
+   pagina's ten onrechte af te keuren.
+
+   Wat wél kan is een plafond. Van de 124 zijn er 62 herschreven met een komma,
+   een "want" of een punt. De 62 die blijven staan zijn etiketten ("Prijsbeeld:"),
+   opsommingen ("Drie dingen tellen mee:") en definities ("Het vermogen in
+   wattpiek (Wp): wat het paneel maximaal kan leveren"). Komt het getal boven de
+   62, dan is dat bijna zeker de tic die terugsluipt, en dan valt de run. Wordt
+   het er minder, dan mag dit getal omlaag; dat is de bedoeling. */
+const DUBBELE_PUNT = /[a-z0-9)"'’]: [a-z]/;
+const DUBBELE_PUNT_BUDGET = 62;
+
 const zonderRuis = (html) =>
   html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/g, " ");
 
@@ -227,6 +251,7 @@ const alleSites = readdirSync(SITES_MAP).filter((s) => statSync(join(SITES_MAP, 
 const teDoen = GEVRAAGD.length ? GEVRAAGD : alleSites;
 
 const gebreken = [];
+const dubbelePunten = [];
 const signalen = [];
 const zinPerSite = new Map(); // zin -> Set van sites
 
@@ -254,6 +279,17 @@ for (const site of teDoen) {
 
     for (const treffer of tekst.match(MEERVOUDSSTEM) || []) {
       gebreken.push({ waar, soort: "meervoudsstem", melding: `"${treffer}" - deze site spreekt als "ik"` });
+    }
+
+    /* Bronregels en tabellen tellen niet mee: daar is een dubbele punt een
+       etiket ("Bronnen:", "Merk: Daikin") en nooit de stijlfiguur. */
+    const romp = hoofdblok(html)
+      .replace(/<ul class="bron-lijst"[\s\S]*?<\/ul>|<p class="bron-lijst"[\s\S]*?<\/p>/g, " ")
+      .replace(/<table[\s\S]*?<\/table>/g, " ");
+    for (const blok of romp.match(/<p\b[^>]*>[\s\S]*?<\/p>|<li\b[^>]*>[\s\S]*?<\/li>/g) || []) {
+      for (const zin of zinnenIn(plat(blok))) {
+        if (zin.split(" ").length >= 6 && DUBBELE_PUNT.test(zin)) dubbelePunten.push(waar);
+      }
     }
 
     for (const zin of zinnenIn(tekst)) {
@@ -322,6 +358,24 @@ for (const soort of Object.keys(UITLEG)) {
 let gebrekenExtra = 0;
 const legeAlineas = signalen.reduce((n, s) => n + s.leeg, 0);
 const langeAlineas = signalen.reduce((n, s) => n + s.lang, 0);
+/* Het plafond op de dubbele punt. Geen lijst met treffers, want de meeste zijn
+   in orde; alleen het getal en waar het zit, zodat je ziet waar het oploopt. */
+if (teDoen.length === alleSites.length) {
+  const perPagina = {};
+  for (const waar of dubbelePunten) perPagina[waar] = (perPagina[waar] || 0) + 1;
+  if (dubbelePunten.length > DUBBELE_PUNT_BUDGET) {
+    console.error(`\nDubbele punt: ${dubbelePunten.length} in de lopende tekst, en het plafond staat op ${DUBBELE_PUNT_BUDGET}.`);
+    console.error("Een etiket of een opsomming mag; \"korte bewering: uitleg\" is de tic. Gebruik een komma,");
+    console.error("een \"want\" of een punt. De pagina's met de meeste:");
+    for (const [waar, n] of Object.entries(perPagina).sort((a, b) => b[1] - a[1]).slice(0, 5)) {
+      console.error(`   ${String(n).padStart(3)}   ${waar}`);
+    }
+    gebrekenExtra += dubbelePunten.length - DUBBELE_PUNT_BUDGET;
+  } else {
+    console.log(`\nDubbele punt: ${dubbelePunten.length} in de lopende tekst, plafond ${DUBBELE_PUNT_BUDGET}.`);
+  }
+}
+
 if (legeAlineas) {
   console.error(`\nClaimdichtheid: ${legeAlineas} van ${langeAlineas} alinea's van 25 woorden of meer`);
   console.error("bevat geen enkel getal en geen enkele verwijzing. Zet er een bedrag, een aantal,");
