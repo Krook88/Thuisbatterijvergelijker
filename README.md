@@ -48,8 +48,8 @@ uit `kern/` en leg in de commit vast waarom het niet langer gedeeld is.
 
 ## Controleren
 
-`npm run controle` draait de vier controles achter elkaar, en dat is precies
-wat CI ook doet:
+`npm run controle` draait de controles hieronder achter elkaar, en dat is
+precies wat CI ook doet:
 
 | Commando | Wat het bewaakt |
 | --- | --- |
@@ -59,6 +59,7 @@ wat CI ook doet:
 | `npm run workflows` | stappen die naar een stap in een ander blok verwijzen en zichzelf daardoor overslaan |
 | `npm run datums` | teksten die aan een voorbije datum hangen, en jaartallen in titels die achterlopen |
 | `npm run llms` | `llms.txt` loopt achter op het menu van de site |
+| `npm run slop` | tekst die vager is dan deze site wil zijn; de regels staan in `SCHRIJFWIJZE.md` |
 | `npm run keuring` | contrast, aanraakvlakken, tekstmaten en javascriptfouten op elke pagina van de drie sites, op 1280 en 390 pixels |
 | `npm run dode-regels` | declaraties die er wel staan maar overal worden overruled |
 
@@ -89,6 +90,34 @@ handwerk. Toen er zes pagina's bij kwamen, bleef die op de oude negen staan
 zonder dat iets dat liet zien. De controle vergelijkt hem met het hoofdmenu,
 want dat is precies de selectie die de site zelf belangrijk vindt; de
 productpagina's horen in de sitemap en niet in `llms.txt`.
+
+`npm run slop` bewaakt hetzelfde als de andere twee, maar dan aan de
+tekstkant. Lezers noemen sites als deze "AI-slop", en dat verwijt gaat zelden
+over lelijk en zelden over onjuist: het gaat over zinnen die alles raken en
+niets zeggen. De scherpste omschrijving die ervan rondgaat is die van
+slop-reacties op Reddit — ze prijzen in vage termen en er zit "niets in dat op
+iets specifieks reageert".
+
+Dat is meteen het tegengif. Een bewering met een bedrag, een datum of een
+winkelnaam erbij kán geen slop zijn, want die kun je nakijken, en daar heeft
+deze site zijn hele bestaansrecht van gemaakt. Vier dingen laten de run vallen:
+woorden die alleen toon toevoegen, "niet X maar Y" als stijlfiguur, een beroep
+op onderzoek zonder te zeggen welk, en een zin die ongemerkt op twee sites
+staat. Ze zijn zo gekozen dat ze bij invoering op nul stonden — alles wat ze
+melden is dus nieuw. Een controle die meteen honderd meldingen geeft, is een
+controle die je wegklikt.
+
+De vijfde is een signaal en laat niets vallen: hoeveel alinea's van 25 woorden
+of meer bevatten geen enkel getal en geen enkele verwijzing. Dat is een oordeel
+en geen fout — een alinea die een begrip uitlegt hoeft geen bedrag te bevatten
+— maar het is wel de eerlijkste maat voor "staat hier iets". Bij invoering: 64
+van 185.
+
+Bij het schrijven van die controle viel er meteen één zin door: "Experts
+adviseren bij een nieuwe warmtepomp te kiezen voor een model met Modbus of
+EEBUS." Welke experts stond er niet bij. Vervangen door het verschil zelf —
+SG-ready kent vier standen, Modbus en EEBUS geven ook temperaturen, vermogens
+en storingen door — en dat is korter én controleerbaar.
 
 `npm run dode-regels` vangt wat de keuring niet kan vangen. Het opschrift boven
 de hero stond op 12px in de merkkleur en rendeerde als 19px grijs, omdat
