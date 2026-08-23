@@ -683,9 +683,9 @@ ${kop("index", true)}
 
       <h2>Slim koppelen (Koppel-score ${score}/6)</h2>
       <dl class="koppel-blok">
-        <dt>${Iconen.svg(driewaardig(w.sturing).status === "ja" ? "ja" : driewaardig(w.sturing).status === "deels" ? "deels" : "nee")} Slimme aansturing</dt><dd>${esc(driewaardig(w.sturing).tekst)}</dd>
-        <dt>${Iconen.svg(driewaardig(w.home_assistant).status === "ja" ? "ja" : driewaardig(w.home_assistant).status === "deels" ? "deels" : "nee")} Home Assistant</dt><dd>${esc(driewaardig(w.home_assistant).tekst)}</dd>
-        <dt>${Iconen.svg(driewaardig(w.homey).status === "ja" ? "ja" : driewaardig(w.homey).status === "deels" ? "deels" : "nee")} Homey</dt><dd>${esc(driewaardig(w.homey).tekst)}</dd>
+        <dt>${Iconen.svg(driewaardig(w.sturing).status === "ja" ? "ja" : driewaardig(w.sturing).status === "deels" ? "deels" : "nee")} Slimme aansturing <span class="koppel-punten">${driewaardig(w.sturing).status === "ja" ? 2 : driewaardig(w.sturing).status === "deels" ? 1 : 0}<span class="van">/2</span></span></dt><dd>${esc(driewaardig(w.sturing).tekst)}</dd>
+        <dt>${Iconen.svg(driewaardig(w.home_assistant).status === "ja" ? "ja" : driewaardig(w.home_assistant).status === "deels" ? "deels" : "nee")} Home Assistant <span class="koppel-punten">${driewaardig(w.home_assistant).status === "ja" ? 2 : driewaardig(w.home_assistant).status === "deels" ? 1 : 0}<span class="van">/2</span></span></dt><dd>${esc(driewaardig(w.home_assistant).tekst)}</dd>
+        <dt>${Iconen.svg(driewaardig(w.homey).status === "ja" ? "ja" : driewaardig(w.homey).status === "deels" ? "deels" : "nee")} Homey <span class="koppel-punten">${driewaardig(w.homey).status === "ja" ? 2 : driewaardig(w.homey).status === "deels" ? 1 : 0}<span class="van">/2</span></span></dt><dd>${esc(driewaardig(w.homey).tekst)}</dd>
       </dl>
       <p class="hint los">Integraties veranderen per firmware- en appversie; controleer de actuele status vóór aankoop. <a href="../index.html#koppel-score">Zo werkt de Koppel-score ${Iconen.svg("pijl-rechts")}</a></p>
     </div>

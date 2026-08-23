@@ -96,12 +96,12 @@
   }
   </script>
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/style.css?v=20260823a">
-  <script src="assets/iconen.js?v=20260823a" defer></script>
-  <script src="assets/prijs.js?v=20260823a" defer></script>
-  <script src="assets/kaart.js?v=20260823a" defer></script>
-  <script src="assets/app.js?v=20260823a" defer></script>
-  <script src="assets/nav.js?v=20260823a" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20260823b">
+  <script src="assets/iconen.js?v=20260823b" defer></script>
+  <script src="assets/prijs.js?v=20260823b" defer></script>
+  <script src="assets/kaart.js?v=20260823b" defer></script>
+  <script src="assets/app.js?v=20260823b" defer></script>
+  <script src="assets/nav.js?v=20260823b" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <script type="application/ld+json" data-lijst>
@@ -514,6 +514,21 @@
     </div>
   </details>
 
+  <!-- De belangrijkste vraag staat boven de lijst en niet in het filterpaneel.
+       Van de 41 batterijen valt ruim de helft af zodra je weet of iemand zelf
+       een stekker in het stopcontact steekt of een installateur laat komen -
+       dat filter bestond al, maar zat weggeklapt achter "Filteren en
+       sorteren", en niemand klapt dat uit. Het blijft gelijklopen met de
+       keuzelijst daar; beide schrijven dezelfde state. -->
+  <div class="aansluitkeuze">
+    <span class="aansluitkeuze-vraag" id="aansluitkeuzeVraag">Wie sluit hem aan?</span>
+    <div class="aansluitkeuze-knoppen" role="group" aria-labelledby="aansluitkeuzeVraag">
+      <button type="button" class="aansluit-knop actief" data-installatie="alle" aria-pressed="true">Maakt niet uit</button>
+      <button type="button" class="aansluit-knop" data-installatie="zelf" aria-pressed="false">Zelf, in het stopcontact</button>
+      <button type="button" class="aansluit-knop" data-installatie="installateur" aria-pressed="false">Door een installateur</button>
+    </div>
+  </div>
+
   <div class="resultaten-balk">
     <span class="resultaten-telling" id="resultatenTelling">41 van 41 thuisbatterijen, gesorteerd op koppel-score (slimste eerst)</span>
     <label class="sorteer-keuze"><span>Sorteren op</span><select id="sorteer">
@@ -554,7 +569,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>6<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:100%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 6 van 6 — Home Assistant 2/2, Homey 2/2, Dynamisch contract 2/2"><span class="regel-deel deel-2"></span><span class="regel-deel deel-2"></span><span class="regel-deel deel-2"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.195</span>
@@ -578,7 +593,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>5<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:83%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 5 van 6 — Home Assistant 2/2, Homey 1/2, Dynamisch contract 2/2"><span class="regel-deel deel-2"></span><span class="regel-deel deel-1"></span><span class="regel-deel deel-2"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.625</span>
@@ -602,7 +617,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>5<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:83%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 5 van 6 — Home Assistant 2/2, Homey 1/2, Dynamisch contract 2/2"><span class="regel-deel deel-2"></span><span class="regel-deel deel-1"></span><span class="regel-deel deel-2"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 2.383</span>
@@ -626,7 +641,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>5<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:83%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 5 van 6 — Home Assistant 1/2, Homey 2/2, Dynamisch contract 2/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-2"></span><span class="regel-deel deel-2"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 3.550</span>
@@ -650,7 +665,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>5<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:83%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 5 van 6 — Home Assistant 2/2, Homey 2/2, Dynamisch contract 1/2"><span class="regel-deel deel-2"></span><span class="regel-deel deel-2"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">Op aanvraag</span>
@@ -674,7 +689,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>4<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:67%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 4 van 6 — Home Assistant 1/2, Homey 1/2, Dynamisch contract 2/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span><span class="regel-deel deel-2"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.950</span>
@@ -698,7 +713,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>4<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:67%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 4 van 6 — Home Assistant 1/2, Homey 1/2, Dynamisch contract 2/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span><span class="regel-deel deel-2"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.199</span>
@@ -722,7 +737,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>4<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:67%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 4 van 6 — Home Assistant 1/2, Homey 1/2, Dynamisch contract 2/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span><span class="regel-deel deel-2"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 4.566</span>
@@ -746,7 +761,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>4<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:67%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 4 van 6 — Home Assistant 1/2, Homey 2/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-2"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 5.508</span>
@@ -770,7 +785,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>4<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:67%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 4 van 6 — Home Assistant 1/2, Homey 2/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-2"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 6.200</span>
@@ -794,7 +809,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>4<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:67%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 4 van 6 — Home Assistant 1/2, Homey 2/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-2"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">Op aanvraag</span>
@@ -818,7 +833,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>3<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:50%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 3 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 2/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-2"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.948</span>
@@ -842,7 +857,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>3<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:50%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 3 van 6 — Home Assistant 1/2, Homey 1/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.299</span>
@@ -866,7 +881,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>3<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:50%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 3 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 2/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-2"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 2.359</span>
@@ -890,7 +905,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>3<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:50%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 3 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 2/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-2"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.599</span>
@@ -914,7 +929,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>3<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:50%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 3 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 2/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-2"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 669</span>
@@ -938,7 +953,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>3<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:50%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 3 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 2/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-2"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 2.899</span>
@@ -962,7 +977,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>3<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:50%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 3 van 6 — Home Assistant 1/2, Homey 1/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 700</span>
@@ -986,7 +1001,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>3<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:50%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 3 van 6 — Home Assistant 1/2, Homey 1/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 3.695</span>
@@ -1010,7 +1025,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>3<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:50%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 3 van 6 — Home Assistant 1/2, Homey 1/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.099</span>
@@ -1034,7 +1049,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>3<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:50%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 3 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 2/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-2"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.060</span>
@@ -1058,7 +1073,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>3<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:50%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 3 van 6 — Home Assistant 1/2, Homey 1/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 7.864</span>
@@ -1082,7 +1097,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>3<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:50%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 3 van 6 — Home Assistant 1/2, Homey 1/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 5.426</span>
@@ -1106,7 +1121,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>3<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:50%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 3 van 6 — Home Assistant 1/2, Homey 1/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">Op aanvraag</span>
@@ -1130,7 +1145,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>2<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:33%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 2 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.869</span>
@@ -1154,7 +1169,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>2<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:33%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 2 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.330</span>
@@ -1178,7 +1193,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>2<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:33%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 2 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 3.385</span>
@@ -1202,7 +1217,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>2<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:33%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 2 van 6 — Home Assistant 0/2, Homey 0/2, Dynamisch contract 2/2"><span class="regel-deel deel-0"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-2"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.449</span>
@@ -1226,7 +1241,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>2<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:33%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 2 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 5.113</span>
@@ -1250,7 +1265,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>2<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:33%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 2 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 795</span>
@@ -1274,7 +1289,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>2<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:33%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 2 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 850</span>
@@ -1298,7 +1313,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>2<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:33%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 2 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 7.400</span>
@@ -1322,7 +1337,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>2<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:33%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 2 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.339</span>
@@ -1346,7 +1361,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>2<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:33%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 2 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 5.990</span>
@@ -1370,7 +1385,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>2<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:33%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 2 van 6 — Home Assistant 0/2, Homey 0/2, Dynamisch contract 2/2"><span class="regel-deel deel-0"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-2"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 5.000</span>
@@ -1394,7 +1409,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>2<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:33%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 2 van 6 — Home Assistant 1/2, Homey 0/2, Dynamisch contract 1/2"><span class="regel-deel deel-1"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 9.000</span>
@@ -1418,7 +1433,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>1<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:17%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 1 van 6 — Home Assistant 0/2, Homey 0/2, Dynamisch contract 1/2"><span class="regel-deel deel-0"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.190</span>
@@ -1442,7 +1457,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>1<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:17%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 1 van 6 — Home Assistant 0/2, Homey 0/2, Dynamisch contract 1/2"><span class="regel-deel deel-0"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-1"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 2.499</span>
@@ -1466,7 +1481,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>0<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:0%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 0 van 6 — Home Assistant 0/2, Homey 0/2, Dynamisch contract 0/2"><span class="regel-deel deel-0"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-0"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.250</span>
@@ -1490,7 +1505,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>0<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:0%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 0 van 6 — Home Assistant 0/2, Homey 0/2, Dynamisch contract 0/2"><span class="regel-deel deel-0"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-0"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.274</span>
@@ -1514,7 +1529,7 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>0<span class="regel-van">/6</span>
-        <span class="regel-baan"><span class="regel-vul" style="width:0%"></span></span>
+        <span class="regel-baan regel-baan-delen" title="Koppel-score 0 van 6 — Home Assistant 0/2, Homey 0/2, Dynamisch contract 0/2"><span class="regel-deel deel-0"></span><span class="regel-deel deel-0"></span><span class="regel-deel deel-0"></span></span>
       </div>
       <div class="regel-slot">
         <span class="regel-bedrag cijfer">€ 1.999</span>

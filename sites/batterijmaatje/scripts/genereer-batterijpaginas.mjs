@@ -535,11 +535,8 @@ ${NAV_HTML}
 
   <h2>Smart home en slim aansturen</h2>
   <p class="badge-rij">${koppelScoreBadge(b)} ${badge("Homey", homey)} ${badge("Home Assistant", ha)} ${badge("Dynamisch contract", dyn)}</p>
-  <p class="datum-stempel">De <a href="/uitleg.html#koppel-score">Koppel-score</a> telt de ondersteuning voor Homey, Home Assistant en een dynamisch contract op: 2 punten per volledige, 1 per gedeeltelijke ondersteuning.</p>
+  ${Kaart.koppelUitsplitsingHtml(b)}
   <ul>
-    <li><b>Homey:</b> ${esc(homey.tekst)}</li>
-    <li><b>Home Assistant:</b> ${esc(ha.tekst)}</li>
-    <li><b>Dynamisch energiecontract:</b> ${esc(dyn.tekst)}</li>
     ${onbalansHtml(b)}
   </ul>
 

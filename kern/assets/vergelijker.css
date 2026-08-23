@@ -400,6 +400,32 @@
 
 .regel-vul { display: block; height: 100%; background: var(--kleur-primair); }
 
+/* Dezelfde balk, maar opgedeeld in de drie onderdelen waaruit de score is
+   opgebouwd. Eén doorlopende balk zegt alleen "vier van de zes"; drie vakjes
+   laten zien dat het er drie van twee zijn en welke daarvan het laat afweten.
+   Dat is precies de vraag die een bezoeker bij een zelfbedacht cijfer heeft.
+
+   Half gevuld is een verloop en geen tweede element: een halve punt is een
+   hoeveelheid binnen dat ene onderdeel, geen los ding ernaast. De namen en de
+   punten staan in het title-attribuut op de balk, en voluit op de
+   productpagina - kleur en vorm dragen hier nooit de hele boodschap. */
+.regel-baan-delen {
+  display: flex;
+  gap: 2px;
+  background: none;
+  overflow: visible;
+}
+.regel-deel {
+  flex: 1;
+  height: 5px;
+  border-radius: var(--radius-pil);
+  background: var(--kleur-rand);
+}
+.regel-deel.deel-1 {
+  background: linear-gradient(to right, var(--kleur-primair) 0 50%, var(--kleur-rand) 50% 100%);
+}
+.regel-deel.deel-2 { background: var(--kleur-primair); }
+
 .regel-slot { text-align: right; }
 .regel-bedrag { display: block; font-size: var(--tekst-22); font-weight: 800; letter-spacing: -0.02em; }
 .regel-per { display: block; font-size: var(--tekst-12); color: var(--kleur-tekst-licht); font-weight: 600; }

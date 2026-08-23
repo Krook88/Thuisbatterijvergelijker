@@ -102,7 +102,8 @@
     const zet = (id, w) => { const n = el(id); if (n) n.value = w; };
     zet("zoekVeld", state.filters.zoek);
     zet("filterType", state.filters.type); zet("filterCapaciteit", state.filters.capaciteit);
-    zet("filterInstallatie", state.filters.installatie); zet("filterMerk", state.filters.merk);
+    zet("filterMerk", state.filters.merk);
+    zetAansluiting(state.filters.installatie);
     zet("sorteer", state.sortering);
     const vink = (id, w) => { const n = el(id); if (n) n.checked = w; };
     vink("checkHomey", state.filters.homey); vink("checkHA", state.filters.homeAssistant);
@@ -328,6 +329,22 @@
     }
   }
 
+
+  /* De aansluitknoppen boven de lijst en de keuzelijst in het filterpaneel
+     sturen hetzelfde filter aan. Ze moeten elkaar dus volgen, anders staat er
+     ergens een keuze die niet meer klopt met wat je ziet. Eén functie zet
+     beide gelijk aan de state; wie er ook aan draait, hier komen ze samen. */
+  function zetAansluiting(waarde) {
+    state.filters.installatie = waarde;
+    const lijst = el("filterInstallatie");
+    if (lijst) lijst.value = waarde;
+    document.querySelectorAll(".aansluit-knop").forEach((knop) => {
+      const aan = knop.dataset.installatie === waarde;
+      knop.classList.toggle("actief", aan);
+      knop.setAttribute("aria-pressed", aan ? "true" : "false");
+    });
+  }
+
   /* ------------------------------------------------------------------
      Events
      ------------------------------------------------------------------ */
@@ -336,13 +353,18 @@
     ["filterType", "filterCapaciteit", "filterInstallatie", "filterMerk"].forEach((id) => {
       el(id).addEventListener("change", (e) => {
         const map = { filterType: "type", filterCapaciteit: "capaciteit", filterInstallatie: "installatie", filterMerk: "merk" };
-        state.filters[map[id]] = e.target.value;
+        if (map[id] === "installatie") zetAansluiting(e.target.value);
+        else state.filters[map[id]] = e.target.value;
         render();
       });
     });
 
     [["checkHomey", "homey"], ["checkHA", "homeAssistant"], ["checkDynamisch", "dynamisch"], ["checkOfficieel", "officieel"], ["checkNoodstroom", "noodstroom"], ["checkAanbieding", "aanbieding"]].forEach(([id, key]) => {
       el(id).addEventListener("change", (e) => { state.filters[key] = e.target.checked; officieelBijwerken(); render(); });
+    });
+
+    document.querySelectorAll(".aansluit-knop").forEach((knop) => {
+      knop.addEventListener("click", () => { zetAansluiting(knop.dataset.installatie); render(); });
     });
 
     el("sorteer").addEventListener("change", (e) => { state.sortering = e.target.value; render(); });
@@ -368,7 +390,7 @@
       state.filters = { zoek: "", type: "alle", capaciteit: "alle", installatie: "alle", merk: "alle", homey: false, homeAssistant: false, dynamisch: false, officieel: false, noodstroom: false, aanbieding: false };
       el("zoekVeld").value = "";
       el("filterType").value = "alle"; el("filterCapaciteit").value = "alle";
-      el("filterInstallatie").value = "alle"; el("filterMerk").value = "alle";
+      zetAansluiting("alle"); el("filterMerk").value = "alle";
       ["checkHomey", "checkHA", "checkDynamisch", "checkOfficieel", "checkNoodstroom", "checkAanbieding"].forEach((id) => { el(id).checked = false; });
       officieelBijwerken();
       render();
