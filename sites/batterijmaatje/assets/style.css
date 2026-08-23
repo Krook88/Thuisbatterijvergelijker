@@ -2,8 +2,8 @@
    Thuisbatterijvergelijker.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260823b");
-@import url("vergelijker.css?v=20260823b");
+@import url("maatlat.css?v=20260823c");
+@import url("vergelijker.css?v=20260823c");
 
 :root {
   --kleur-primair: #0f766e;
@@ -1193,7 +1193,6 @@ table.vergelijk-tabel {
   gap: var(--ruimte-10);
 }
 a.icoon-kaart { text-decoration: none; color: inherit; }
-.stap-uitleg { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
 
 #veelgestelde-vragen { margin: var(--ruimte-28) 0 var(--ruimte-56); }
 
@@ -1342,7 +1341,7 @@ details.faq-item p { margin-top: 0; }
   .filter-rij { gap: var(--ruimte-10); }
   .filter-groep select { min-width: 130px; }
   .hero { padding: var(--ruimte-28) 0 var(--ruimte-20); }
-  .hero p:not(.hero-opschrift) { font-size: var(--tekst-15); }
+  .hero p { font-size: var(--tekst-15); }
   .kaart-acties { flex-direction: column; }
 }
 
@@ -1384,17 +1383,6 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 
 /* Genummerde stappen: opgemaakte cijfers in plaats van keycap-emoji, die per
    platform anders worden getekend en niet te kleuren zijn. */
-.stap-nummer {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: var(--radius-pil);
-  background: var(--kleur-primair);
-  font-weight: 800;
-  line-height: 1;
-}
 /* Kleur en tekstgrootte staan hier niet meer: elk stapnummer op de site zit
    in .stappen, en de open cirkel in vergelijker.css overschrijft ze allebei.
    Ze stonden er dus wel, maar deden nergens iets. */

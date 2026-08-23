@@ -68,28 +68,6 @@
   padding: var(--ruimte-28) 0 var(--ruimte-20);
 }
 
-/* Het opschrift boven de kop. Klein, in de merkkleur, met een streepje ervoor
-   - dat streepje doet het werk waar eerst een verloop van 500 pixels voor
-   nodig was. */
-.hero-opschrift {
-  display: flex;
-  align-items: center;
-  gap: var(--ruimte-10);
-  margin: 0 0 var(--ruimte-10);
-  font-size: var(--tekst-12);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--kleur-primair);
-}
-
-.hero-opschrift::before {
-  content: "";
-  width: 22px;
-  height: 2px;
-  background: var(--kleur-primair);
-}
-
 .hero h1 {
   margin: 0 0 var(--ruimte-14);
   font-size: clamp(var(--tekst-28), 4.6vw, var(--tekst-46));
@@ -98,11 +76,7 @@
   max-width: 20ch;
 }
 
-/* Uitdrukkelijk niet het opschrift: sinds dat erbij kwam staan er twee
-   alinea's in de hero. ".hero p" was specifieker dan ".hero-opschrift" en won
-   dus van de regel erboven - het opschrift stond op alle drie de sites in
-   19px grijs in plaats van 12px in de merkkleur, hoofdletters en al. */
-.hero p:not(.hero-opschrift) {
+.hero p {
   margin: 0;
   max-width: 62ch;
   font-size: var(--tekst-19);
@@ -207,7 +181,7 @@
 
 @media (max-width: 700px) {
   .hero { padding: var(--ruimte-28) 0 var(--ruimte-20); }
-  .hero p:not(.hero-opschrift) { font-size: var(--tekst-17); }
+  .hero p { font-size: var(--tekst-17); }
   .hero-badges { margin-top: var(--ruimte-20); }
 
   /* Naast elkaar passen er op een telefoon geen drie; onder elkaar met een

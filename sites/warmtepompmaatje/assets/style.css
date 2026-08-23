@@ -2,8 +2,8 @@
    Warmtepompmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260823b");
-@import url("vergelijker.css?v=20260823b");
+@import url("maatlat.css?v=20260823c");
+@import url("vergelijker.css?v=20260823c");
 
 :root {
   --kleur-primair: #c2410c;
@@ -596,18 +596,6 @@ h1 .merk-logo { height: 28px; vertical-align: -4px; }
 
 /* Genummerde stappen: opgemaakte cijfers in plaats van keycap-emoji, die per
    platform anders worden getekend en niet te kleuren zijn. */
-.stap-nummer {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: var(--radius-pil);
-  background: var(--kleur-primair);
-  font-weight: 800;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
 /* Kleur en tekstgrootte staan hier niet meer: elk stapnummer op de site zit
    in .stappen, en de open cirkel in vergelijker.css overschrijft ze allebei. */
 /* Zonder kleur: .stappen .icoon-kaart b in vergelijker.css zet de inktkleur,
@@ -1278,7 +1266,7 @@ details.faq-item p { margin-top: 0; }
   .filter-rij { gap: var(--ruimte-10); }
   .filter-groep select { min-width: 130px; }
   .hero { padding: var(--ruimte-28) 0 var(--ruimte-20); }
-  .hero p:not(.hero-opschrift) { font-size: var(--tekst-15); }
+  .hero p { font-size: var(--tekst-15); }
   .kaart-acties { flex-direction: column; }
 }
 
@@ -1683,3 +1671,6 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
    maar niet na te rekenen. */
 .koppel-blok .koppel-punten { font-weight: 800; white-space: nowrap; }
 .koppel-blok .koppel-punten .van { font-weight: 600; color: var(--kleur-tekst-licht); }
+
+/* De ene zin die het stappenblok bevatte en die nergens anders stond. */
+.hero-naschrift { margin: var(--ruimte-20) 0 0; }

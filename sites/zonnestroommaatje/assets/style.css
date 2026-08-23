@@ -2,8 +2,8 @@
    Zonnepaneelmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260823b");
-@import url("vergelijker.css?v=20260823b");
+@import url("maatlat.css?v=20260823c");
+@import url("vergelijker.css?v=20260823c");
 
 :root {
   --kleur-primair: #0369a1;
@@ -131,16 +131,6 @@ a { color: var(--kleur-primair); }
 /* Stapnummers op de startpagina. Een cijfer blijft een cijfer: een icoon kan
    geen volgorde uitdrukken, en de genummerde emoji zag er op elk apparaat
    anders uit. */
-.stap-nummer {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.9em;
-  height: 1.9em;
-  border-radius: var(--radius-pil);
-  background: var(--kleur-primair-licht);
-  font-weight: 800;
-}
 /* Kleur en tekstgrootte staan hier niet meer: elk stapnummer op de site zit
    in .stappen, en de open cirkel in vergelijker.css overschrijft ze allebei. */
 
@@ -1109,7 +1099,7 @@ details.faq-item p { margin-top: 0; }
   .filter-rij { gap: var(--ruimte-10); }
   .filter-groep select { min-width: 130px; }
   .hero { padding: var(--ruimte-28) 0 var(--ruimte-20); }
-  .hero p:not(.hero-opschrift) { font-size: var(--tekst-15); }
+  .hero p { font-size: var(--tekst-15); }
   .kaart-acties { flex-direction: column; }
 }
 
@@ -1390,7 +1380,6 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   gap: var(--ruimte-10);
 }
 a.icoon-kaart { text-decoration: none; color: inherit; }
-.stap-uitleg { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
 
 #veelgestelde-vragen { margin: var(--ruimte-28) 0 var(--ruimte-56); }
 
@@ -1649,3 +1638,6 @@ a.icoon-kaart { text-decoration: none; color: inherit; }
    steunblok hoort en niet bij de navigatie eromheen. */
 .hoofdnav .nav-meer-paneel a.nav-steun { display: flex; align-items: center; gap: var(--ruimte-6); }
 .hoofdnav .nav-meer-paneel a.nav-steun .icoon { color: var(--kleur-accent-donker); }
+
+/* De ene zin die het stappenblok bevatte en die nergens anders stond. */
+.hero-naschrift { margin: var(--ruimte-20) 0 0; }
