@@ -96,12 +96,13 @@
   }
   </script>
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/style.css?v=20260823h">
-  <script src="assets/iconen.js?v=20260823h" defer></script>
-  <script src="assets/prijs.js?v=20260823h" defer></script>
-  <script src="assets/kaart.js?v=20260823h" defer></script>
-  <script src="assets/app.js?v=20260823h" defer></script>
-  <script src="assets/nav.js?v=20260823h" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20260823i">
+  <script src="assets/dagmaat.js?v=20260823i" defer></script>
+  <script src="assets/iconen.js?v=20260823i" defer></script>
+  <script src="assets/prijs.js?v=20260823i" defer></script>
+  <script src="assets/kaart.js?v=20260823i" defer></script>
+  <script src="assets/app.js?v=20260823i" defer></script>
+  <script src="assets/nav.js?v=20260823i" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <script type="application/ld+json" data-lijst>
@@ -508,6 +509,16 @@
     </div>
   </div>
 
+  <!-- Het jaarverbruik. Dit filtert niets weg; het verschuift de baan achter
+       elke capaciteit in de lijst, zodat de dagmaat over jouw huis gaat en niet
+       over een gemiddelde. Het onthoudt zichzelf, ook op de productpagina's. -->
+  <div class="verbruikkeuze">
+    <label class="verbruikkeuze-vraag" for="verbruikVeld">Wat verbruik je per jaar?</label>
+    <input type="number" id="verbruikVeld" inputmode="numeric" min="500" max="25000" step="100" value="2900">
+    <span class="verbruik-eenheid">kWh</span>
+    <span class="verbruik-noot" id="verbruikNoot">gemiddeld huishouden, 5,6 kWh buiten de zonuren</span>
+  </div>
+
   <div class="resultaten-balk">
     <span class="resultaten-telling" id="resultatenTelling">41 van 41 thuisbatterijen, gesorteerd op koppel-score (slimste eerst)</span>
     <label class="sorteer-keuze"><span>Sorteren op</span><select id="sorteer">
@@ -639,7 +650,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="victron-pylontech-3fase" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>14,4 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 13,0 kWh (geschat op 90% van de opgegeven 14,4 kWh). Dat is de hele dagbehoefte, met 7,4 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>14,4 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 13,0 kWh (geschat op 90% van de opgegeven 14,4 kWh). Dat is die hele dag, met 7,4 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>12 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -663,7 +674,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="marstek-venus-c-768" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>7,68 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 6,9 kWh (geschat op 90% van de opgegeven 7,7 kWh). Dat is de hele dagbehoefte, met 1,4 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>7,68 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 6,9 kWh (geschat op 90% van de opgegeven 7,7 kWh). Dat is die hele dag, met 1,4 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>2,5 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -711,7 +722,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="saj-h2-5k-s2-10kwh" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>10 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 9,0 kWh (geschat op 90% van de opgegeven 10,0 kWh). Dat is de hele dagbehoefte, met 3,4 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>10 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 9,0 kWh (geschat op 90% van de opgegeven 10,0 kWh). Dat is die hele dag, met 3,4 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>5 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -735,7 +746,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="huawei-luna2000-10" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>10 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 10,0 kWh (bruikbare capaciteit volgens de fabrikant). Dat is de hele dagbehoefte, met 4,4 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>10 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 10,0 kWh (bruikbare capaciteit volgens de fabrikant). Dat is die hele dag, met 4,4 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>5 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -759,7 +770,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="solaredge-home-battery-48v" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>9,2 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 9,2 kWh (bruikbare capaciteit volgens de fabrikant). Dat is de hele dagbehoefte, met 3,6 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>9,2 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 9,2 kWh (bruikbare capaciteit volgens de fabrikant). Dat is die hele dag, met 3,6 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>5 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -783,7 +794,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="growatt-apx-10" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>10 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 9,0 kWh (geschat op 90% van de opgegeven 10,0 kWh). Dat is de hele dagbehoefte, met 3,4 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>10 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 9,0 kWh (geschat op 90% van de opgegeven 10,0 kWh). Dat is die hele dag, met 3,4 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>Onbekend</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -807,7 +818,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="zendure-solarflow-3000-mix-ac" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>8 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 7,2 kWh (geschat op 90% van de opgegeven 8,0 kWh). Dat is de hele dagbehoefte, met 1,6 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>8 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 7,2 kWh (geschat op 90% van de opgegeven 8,0 kWh). Dat is die hele dag, met 1,6 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>3 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -855,7 +866,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="zendure-solarflow-4000-mix-ac" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>8 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 7,2 kWh (geschat op 90% van de opgegeven 8,0 kWh). Dat is de hele dagbehoefte, met 1,6 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>8 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 7,2 kWh (geschat op 90% van de opgegeven 8,0 kWh). Dat is die hele dag, met 1,6 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>4 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -927,7 +938,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="zendure-solarflow-4000-mix-pro" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>8 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 7,2 kWh (geschat op 90% van de opgegeven 8,0 kWh). Dat is de hele dagbehoefte, met 1,6 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>8 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 7,2 kWh (geschat op 90% van de opgegeven 8,0 kWh). Dat is die hele dag, met 1,6 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>4 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -975,7 +986,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="sungrow-sbr096" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>9,6 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 8,6 kWh (geschat op 90% van de opgegeven 9,6 kWh). Dat is de hele dagbehoefte, met 3,1 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>9,6 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 8,6 kWh (geschat op 90% van de opgegeven 9,6 kWh). Dat is die hele dag, met 3,1 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>6,6 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1047,7 +1058,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="sigenergy-sigenstor-8kwh" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>8,06 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 7,3 kWh (geschat op 90% van de opgegeven 8,1 kWh). Dat is de hele dagbehoefte, met 1,7 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>8,06 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 7,3 kWh (geschat op 90% van de opgegeven 8,1 kWh). Dat is die hele dag, met 1,7 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>8 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1095,7 +1106,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="byd-battery-box-hvm-11" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>11 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 11,0 kWh (bruikbare capaciteit volgens de fabrikant). Dat is de hele dagbehoefte, met 5,4 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>11 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 11,0 kWh (bruikbare capaciteit volgens de fabrikant). Dat is die hele dag, met 5,4 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>10 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1119,7 +1130,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="dyness-powerbox-g2" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>9,73 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 9,7 kWh (bruikbare capaciteit volgens de fabrikant). Dat is de hele dagbehoefte, met 4,2 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>9,73 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 9,7 kWh (bruikbare capaciteit volgens de fabrikant). Dat is die hele dag, met 4,2 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>5,12 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1167,7 +1178,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="fox-ess-ep11" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>10,36 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 9,3 kWh (geschat op 90% van de opgegeven 10,4 kWh). Dat is de hele dagbehoefte, met 3,8 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>10,36 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 9,3 kWh (geschat op 90% van de opgegeven 10,4 kWh). Dat is die hele dag, met 3,8 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>Onbekend</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1215,7 +1226,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="lg-enblock-flex-129" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>12,9 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 12,9 kWh (bruikbare capaciteit volgens de fabrikant). Dat is de hele dagbehoefte, met 7,3 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>12,9 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 12,9 kWh (bruikbare capaciteit volgens de fabrikant). Dat is die hele dag, met 7,3 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>Onbekend</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1287,7 +1298,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="tesla-powerwall-3" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>13,5 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 13,5 kWh (bruikbare capaciteit volgens de fabrikant). Dat is de hele dagbehoefte, met 7,9 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>13,5 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 13,5 kWh (bruikbare capaciteit volgens de fabrikant). Dat is die hele dag, met 7,9 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>5 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1335,7 +1346,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="zonneplan-nexus" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>10 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 9,0 kWh (geschat op 90% van de opgegeven 10,0 kWh). Dat is de hele dagbehoefte, met 3,4 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>10 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 9,0 kWh (geschat op 90% van de opgegeven 10,0 kWh). Dat is die hele dag, met 3,4 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>10 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1383,7 +1394,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="alphaess-smile-g3-t10" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>8,2 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 7,4 kWh (geschat op 90% van de opgegeven 8,2 kWh). Dat is de hele dagbehoefte, met 1,8 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>8,2 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 7,4 kWh (geschat op 90% van de opgegeven 8,2 kWh). Dat is die hele dag, met 1,8 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>10 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Installateur</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1431,7 +1442,7 @@
           <input type="checkbox" class="vergelijk-check" data-id="anker-solix-solarbank-max-ac" > vergelijk
         </label>
       </div>
-      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>7 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 7,0 kWh (bruikbare capaciteit volgens de fabrikant). Dat is de hele dagbehoefte, met 1,4 kWh over die een gemiddeld huishouden op een dag niet opmaakt."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
+      <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>7 kWh<span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 7,0 kWh (bruikbare capaciteit volgens de fabrikant). Dat is die hele dag, met 1,4 kWh over die er op zo&#39;n dag niet uit gaat."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span></span><span class="dagmaat-over"></span><span class="dagmaat-over"></span></span></div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>3,5 kW</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>Zelf</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">

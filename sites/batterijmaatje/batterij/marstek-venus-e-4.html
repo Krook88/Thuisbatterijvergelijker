@@ -60,7 +60,7 @@
 }
   </script>
   <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/style.css?v=20260823h">
+  <link rel="stylesheet" href="/assets/style.css?v=20260823i">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
 </head>
@@ -137,11 +137,11 @@
   <p class="datum-stempel">Onbekende term (zoals kWh of hybride)? Alle woorden staan uitgelegd in de <a href="/uitleg.html#woordenlijst">woordenlijst</a>.</p>
 
   <h2>Past hij op een gemiddelde dag?</h2>
-  <div class="dagmaat-uitleg">
+  <div class="dagmaat-uitleg" data-capaciteit="4.6" data-bevestigd="1" data-batterij="marstek-venus-e-4">
       <b class="dagmaat-kop">4,6 kWh tegenover een dagbehoefte van 5,6 kWh</b>
       <span class="dagmaat" title="Een huishouden van 2.900 kWh per jaar gebruikt zo&#39;n 5,6 kWh buiten de zonuren. Deze batterij levert 4,6 kWh (bruikbare capaciteit volgens de fabrikant). Dat dekt 83% van die 5,6 kWh."><span class="dagmaat-baan"><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-2"></span><span class="dagmaat-vak vak-1"></span><span class="dagmaat-vak vak-0"></span></span></span>
       <p>Een huishouden met 2.900 kWh per jaar gebruikt ongeveer 5,6 kWh buiten de zonuren, dus in de avond, de nacht en de vroege ochtend. Dat is wat een thuisbatterij op een gemiddelde dag kan opvangen. Deze batterij dekt daar 83% van. De rest koop je die avond gewoon in.</p>
-      <p class="dagmaat-voet">De fabrikant geeft 4,6 kWh op als bruikbare capaciteit. Andere aannames? Vul je eigen verbruik in bij de <a href="/rekenmodule.html?batterij=marstek-venus-e-4">terugverdientijd-berekening</a>.</p>
+      <p class="dagmaat-voet">De fabrikant geeft 4,6 kWh op als bruikbare capaciteit. <label class="dagmaat-invoer">Ander verbruik? <input type="number" inputmode="numeric" min="500" max="25000" step="100" value="2900" aria-label="Mijn stroomverbruik in kWh per jaar"> kWh per jaar</label>. Of reken alles door in de <a href="/rekenmodule.html?batterij=marstek-venus-e-4&verbruik=2900">terugverdientijd-berekening</a>.</p>
     </div>
 
   <h2>Koppeling met zonnepanelen</h2>
@@ -204,6 +204,10 @@
   </div>
 </footer>
 
-<script src="/assets/nav.js?v=20260823h" defer></script>
+<!-- dagmaat.js hertekent het blok "Past hij op een gemiddelde dag?" met het
+     jaarverbruik dat de bezoeker eerder invulde, en laat het veld daarin
+     werken. Het heeft geen ander bestand nodig. -->
+<script src="/assets/dagmaat.js?v=20260823i" defer></script>
+<script src="/assets/nav.js?v=20260823i" defer></script>
 </body>
 </html>

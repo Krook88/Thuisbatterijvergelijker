@@ -2,8 +2,8 @@
    Thuisbatterijvergelijker.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260823h");
-@import url("vergelijker.css?v=20260823h");
+@import url("maatlat.css?v=20260823i");
+@import url("vergelijker.css?v=20260823i");
 
 :root {
   --kleur-primair: #0f766e;
@@ -1829,6 +1829,59 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 }
 .aansluitkeuze-vraag { font-weight: 700; font-size: var(--tekst-15); }
 .aansluitkeuze-knoppen { display: flex; flex-wrap: wrap; gap: var(--ruimte-6); }
+
+/* Het jaarverbruik, direct onder de aansluitvraag. Dezelfde regelopbouw, want
+   het is dezelfde soort vraag: iets over jouw huis, niet over de batterij. Het
+   filtert alleen niets weg; het verschuift de baan van de dagmaat. */
+.verbruikkeuze {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--ruimte-6) var(--ruimte-10);
+  margin: 0 0 var(--ruimte-20);
+}
+.verbruikkeuze-vraag { font-weight: 700; font-size: var(--tekst-15); }
+.verbruikkeuze input {
+  font: inherit;
+  font-size: var(--tekst-15);
+  font-variant-numeric: tabular-nums;
+  width: 6.5em;
+  min-height: 44px;
+  padding: var(--ruimte-6) var(--ruimte-10);
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius-klein);
+  background: var(--kleur-wit);
+  color: var(--kleur-tekst);
+}
+.verbruik-eenheid { font-size: var(--tekst-15); }
+.verbruik-noot { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
+
+/* Hetzelfde veld, maar dan midden in een zin op de productpagina. Daar staat
+   het in de voetnoot onder de uitleg, zodat je het antwoord kunt bijstellen op
+   de plek waar je het leest. */
+/* inline-flex met een eigen hoogte: een label dat een invoerveld omsluit is
+   zelf ook aanraakbaar, en de keuring meet dan de labeldoos. Zonder dit is die
+   18 px hoog terwijl het veld erin 44 px is. */
+.dagmaat-invoer {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ruimte-4);
+  min-height: 44px;
+  white-space: nowrap;
+}
+.dagmaat-invoer input {
+  font: inherit;
+  font-size: var(--tekst-15);
+  font-variant-numeric: tabular-nums;
+  width: 5.5em;
+  min-height: 44px;
+  padding: var(--ruimte-4) var(--ruimte-6);
+  margin: 0 var(--ruimte-2);
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius-klein);
+  background: var(--kleur-wit);
+  color: var(--kleur-tekst);
+}
 
 .aansluit-knop {
   font: inherit;
