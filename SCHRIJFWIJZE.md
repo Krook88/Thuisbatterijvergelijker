@@ -4,7 +4,7 @@ Deze site verkoopt niets. Wat hij te bieden heeft is een oordeel over een
 aankoop van tweeduizend euro, en dat is alleen iets waard als de lezer het kan
 nakijken. Alles hieronder volgt daaruit.
 
-`npm run slop` bewaakt de zes regels die te meten zijn. De rest is
+`npm run slop` bewaakt de zeven regels die te meten zijn. De rest is
 mensenwerk, en dat is precies waarom ze hier staan opgeschreven.
 
 ## De regel waar de rest uit volgt
@@ -94,6 +94,14 @@ theoretische toevoeging: de uitsplitsing van de Koppel-score staat in een
 tooltip, en die stond 71 keer met een lang streepje in de vergelijker zonder
 dat iemand het zag.
 
+En hij leest het teken in alle spellingen waarin het voorkomt: `—`, maar ook
+`&mdash;`, `&#8212;` en `&#x2014;`. Dat gat kostte 55 streepjes. De controle
+gaf groen terwijl ze er stonden, omdat de regel die HTML-entiteiten opruimt
+vóór de controle draaide en het bewijs dus weghaalde. Een controle die iets
+mist is erger dan geen controle, want hij geeft groen en dan stop je met
+kijken. Daarom staan er nu proefzinnen in `scripts/slop.mjs` die bij elke run
+nagaan of de patronen nog raken wat ze horen te raken.
+
 **6. Dezelfde zin op meer dan één site.** Boilerplate mag identiek zijn: een
 privacyverklaring hoort niet drie keer anders geformuleerd te zijn, dus
 `privacy.html`, `contact.html`, `steun.html` en `404.html` doen niet mee. Voor
@@ -106,17 +114,25 @@ en leg in de commit uit waarom. Dat is de hele bedoeling van dat bestand: het
 verschil tussen een keuze en gemakzucht vastleggen op het moment dat je hem
 maakt.
 
-## Wat het script alleen meldt
+**7. Een lange alinea zonder één controleerbaar detail.** Hoeveel alinea's van
+25 woorden of meer bevatten geen enkel getal en geen enkele verwijzing? Dat is
+de eerlijkste maat die er is voor "staat hier iets".
 
-**Claimdichtheid.** Hoeveel alinea's van 25 woorden of meer bevatten geen enkel
-getal en geen enkele verwijzing? Dat is een oordeel en geen fout: een alinea
-die een begrip uitlegt hoeft geen bedrag te bevatten. Daarom laat het de run
-niet vallen.
+Dit was lang een signaal dat de run niet liet vallen, want bij invoering stond
+het op 64 van de 185 alinea's, met `uitleg.html` van batterijmaatje als
+zwakste pagina op 13 van de 22. Een controle die bij invoering 64 meldingen
+geeft, klik je weg.
 
-Maar het is wel de eerlijkste maat die er is voor "staat hier iets". Loopt het
-getal op, dan zakt de site weg richting algemeenheden. Op de dag dat dit
-geschreven werd stond het op 64 van 185, met `uitleg.html` van batterijmaatje
-als zwakste pagina: 13 van de 22.
+In augustus 2026 zijn die 64 stuk voor stuk nagelopen en van een bedrag, een
+aantal, een merknaam of een bron voorzien, bijna allemaal uit de eigen data van
+de site: 41 batterijen van 669 tot 9.000 euro, 14 panelen van 12 tot 52 cent
+per Wp, 30 warmtepompen van 48 tot 59 dB(A). De teller staat op nul, en daarmee
+voldoet deze controle aan dezelfde eis als de andere zes. Dus laat hij nu wél
+vallen.
+
+Loop je erop vast bij een alinea die echt geen getal hoort te dragen, dan is de
+uitweg om hem korter dan 25 woorden te maken, of om er de bron bij te zetten
+waar hij toch al op leunt.
 
 ## Wat een script niet kan bewaken
 

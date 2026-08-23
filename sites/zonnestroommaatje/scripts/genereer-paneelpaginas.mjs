@@ -513,7 +513,7 @@ const OVERZICHTEN = [
     bestand: "beste-glas-glas-zonnepanelen.html",
     titel: `Beste glas-glas zonnepanelen (${JAAR})`,
     metaDesc: "Glas-glas zonnepanelen vergeleken op prijs per Wp, garanties en rendement. Waarom glas-glas langer meegaat en wat het tegenwoordig kost.",
-    intro: "Bij een glas-glas paneel liggen de cellen tussen twee lagen glas in plaats van glas en kunststof folie. Dat beschermt beter tegen vocht en microscheurtjes, vertraagt veroudering en levert vaak langere garanties op. Sinds fabrikanten dun gehard glas gebruiken, is het verschil in prijs en gewicht met foliepanelen klein. Hieronder alle glas-glas panelen uit mijn vergelijker, gesorteerd op prijs per wattpiek.",
+    intro: "Bij een glas-glas paneel liggen de cellen tussen twee lagen glas in plaats van glas en kunststof folie. Dat beschermt beter tegen vocht en microscheurtjes, vertraagt veroudering en levert vaak langere garanties op. Sinds fabrikanten dun gehard glas gebruiken, is het verschil in prijs en gewicht met foliepanelen klein; 7 van de 14 panelen op deze site zijn glas-glas. Hieronder alle glas-glas panelen uit mijn vergelijker, gesorteerd op prijs per wattpiek.",
     selecteer: (lijst) => lijst.filter((p) => p.uitvoering === "glas-glas").sort((a, b) => (prijsPerWp(a) || Infinity) - (prijsPerWp(b) || Infinity)),
     voetnoot: "Lees ook de uitleg over glas-glas en glas-folie in mijn woordenlijst.",
   },
@@ -641,7 +641,7 @@ function nogZinPagina() {
   <h1>${esc(titel)}</h1>
   <p class="datum-stempel">Automatisch bijgewerkt vanuit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
-  <p class="intro"><b>Ja &mdash; maar de som verandert wel.</b> Op 1 januari 2027 stopt de salderingsregeling, en daarmee verdwijnt het wegstrepen van wat je teruglevert tegen wat je verbruikt. Panelen blijven zichzelf terugverdienen, alleen verschuift het rendement van <i>opwekken</i> naar <i>zelf gebruiken</i>. Wie daar iets aan doet, merkt er weinig van. Wie niets doet, ziet de opbrengst dalen.</p>
+  <p class="intro"><b>Ja, maar de som verandert wel.</b> Op 1 januari 2027 stopt de salderingsregeling, en daarmee verdwijnt het wegstrepen van wat je teruglevert tegen wat je verbruikt. Panelen blijven zichzelf terugverdienen, alleen verschuift het rendement van <i>opwekken</i> naar <i>zelf gebruiken</i>. Wie daar iets aan doet, merkt er weinig van. Wie niets doet, ziet de opbrengst dalen.</p>
 
   <h2>Wat er precies verandert</h2>
   <p>Tot en met 31 december 2026 mag je nog volledig salderen. Vanaf 1 januari 2027 krijg je voor teruggeleverde stroom een terugleververgoeding van je energieleverancier, en die is een stuk lager dan wat je voor stroom betaalt. Tot 2030 geldt als wettelijke ondergrens de helft van het kale leveringstarief. Daar kunnen bij veel leveranciers nog terugleverkosten vanaf. De regels zelf staan uitgebreider op <a href="/regelgeving.html">regels en subsidies</a>.</p>
@@ -671,7 +671,7 @@ function nogZinPagina() {
   <h2>Je hebt al panelen. Wat kun je nu doen?</h2>
   <ul>
     <li><b>Een batterij bijplaatsen kan op twee manieren.</b> Met een hybride omvormer wordt je omvormer vervangen en gaat de batterij aan de gelijkstroomkant; dat is efficiënter maar duurder en een ingreep. Met een stekkerbatterij of een AC-gekoppelde batterij blijft je bestaande omvormer gewoon hangen. Welke omvormers batterijklaar zijn, staat op <a href="/omvormers.html">omvormers vergelijken</a>.</li>
-    <li><b>Zet je omvormer op nulteruglevering.</b> Veel moderne omvormers kunnen de opwek terugregelen zodat er niets het net op gaat. Dat is zinnig als je leverancier per teruggeleverde kWh rekent, maar je gooit er wel opbrengst mee weg &mdash; doe het alleen als de terugleverkosten hoger zijn dan de vergoeding.</li>
+    <li><b>Zet je omvormer op nulteruglevering.</b> Veel moderne omvormers kunnen de opwek terugregelen zodat er niets het net op gaat. Dat is zinnig als je leverancier per teruggeleverde kWh rekent, maar je gooit er wel opbrengst mee weg. Doe het alleen als de terugleverkosten hoger zijn dan de vergoeding.</li>
     <li><b>Laat je panelen niet uitzetten.</b> Bij aanhoudend negatieve prijzen schakelen sommige omvormers uit. Dat is normaal en tijdelijk; het is geen reden om een installatie te verbouwen.</li>
     <li><b>Overdimensioneer niet alsnog.</b> Bijplaatsen "omdat het nu nog kan" loont zelden: na 2026 is elke kWh die je niet zelf gebruikt nog maar een fractie waard.</li>
   </ul>

@@ -26,8 +26,16 @@
  * dat iemand het net heeft toegevoegd. Een controle die bij invoering al
  * honderd meldingen geeft, is een controle die je wegklikt.
  *
- * De vijfde is een signaal en laat niets vallen. Claimdichtheid is een oordeel
- * en geen feit; daar hoort een mens naar te kijken, niet een foutcode.
+ * De vijfde was lang een signaal dat niets liet vallen. Bij invoering stond
+ * claimdichtheid op 64 van de 185 alinea's, en een controle die bij invoering
+ * al 64 meldingen geeft, klik je weg. In augustus 2026 zijn die 64 alinea's
+ * stuk voor stuk nagelopen en van een bedrag, een aantal, een merknaam of een
+ * bron voorzien. De teller staat op nul, en daarmee voldoet hij aan dezelfde
+ * eis als de andere vier: alles wat hij meldt is nieuw.
+ *
+ * Dus laat hij nu wél vallen. Loop je erop vast bij een alinea die echt geen
+ * getal hoort te dragen, dan is de uitweg om hem korter dan 25 woorden te
+ * maken of om er de bron bij te zetten waar hij toch al op leunt.
  *
  * Draaien:  npm run slop
  *           npm run slop -- batterijmaatje     voor één site
@@ -121,6 +129,7 @@ for (const [zin, hoortTeRaken] of PROEFZINNEN) {
   }
 }
 
+
 /* Beweren dat "onderzoeken aantonen" zonder te zeggen welke, is precies het
    patroon dat mensen als slop herkennen: het klinkt onderbouwd en is het niet.
    Deze site doet het goed - CE Delft, Berenschot en Milieu Centraal staan er
@@ -146,8 +155,32 @@ const MEERVOUDSSTEM = /\b(Wij|wij|We|we|ons|Ons|onze|Onze)\b/g;
 
    Wat er meestal voor in de plaats kan: een dubbele punt als het tweede deel
    het eerste uitlegt, haakjes als het een terzijde is, een puntkomma als het
-   twee zinnen zijn die bij elkaar horen, of gewoon een punt. */
-const KASTLIJNTJE = /—/g;
+   twee zinnen zijn die bij elkaar horen, of gewoon een punt.
+
+   Ook in HTML-notatie. Toen dit voor het eerst draaide gaf het nul en stonden
+   er nog 55 streepjes op de site, geschreven als &mdash;. Een controle die
+   alleen het letterlijke teken zoekt, geeft groen op precies de plek waar een
+   opmaaktaal het teken anders spelt. */
+const KASTLIJNTJE = /—|&mdash;|&#8212;|&#x2014;/gi;
+
+/* Zelfde proef voor het lange streepje, in alle vier de spellingen waarin het
+   op een pagina terecht kan komen. */
+const STREEPJESPROEF = [
+  ["Het gaat om de erfgrens — niet om het apparaat.", true],
+  ["Het gaat om de erfgrens &mdash; niet om het apparaat.", true],
+  ["Het gaat om de erfgrens &#8212; niet om het apparaat.", true],
+  ["Het gaat om de erfgrens &#x2014; niet om het apparaat.", true],
+  ["Een glas-glas paneel van 21,5 kg.", false],
+  ["Prijzen van 2.900 tot 9.500 euro.", false],
+];
+for (const [zin, hoortTeRaken] of STREEPJESPROEF) {
+  KASTLIJNTJE.lastIndex = 0;
+  const raakt = KASTLIJNTJE.test(zin);
+  if (raakt !== hoortTeRaken) {
+    console.error(`De streepjescontrole is stuk: "${zin}" ${raakt ? "wordt geraakt" : "komt erdoor"} en dat hoort niet.`);
+    process.exit(2);
+  }
+}
 
 const zonderRuis = (html) =>
   html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/g, " ");
@@ -160,7 +193,18 @@ const hoofdblok = (html) => {
     .replace(/<div class="regel-banner"[\s\S]*?<\/div>/g, " ");
 };
 
-const plat = (html) => html.replace(/<[^>]+>/g, " ").replace(/&[a-z]+;|&#\d+;/gi, " ").replace(/\s+/g, " ").trim();
+/* Let op de volgorde. Het lange streepje wordt eerst teruggezet naar het teken
+   zelf, en pas daarna gaan de overgebleven entiteiten eruit. Andersom, en dat
+   was hier het geval, wist deze regel het bewijs uit voordat de controle keek:
+   &mdash; werd een spatie, de streepjescontrole gaf groen, en er stonden er
+   nog 55 op de site. */
+const HERSTEL_STREEPJE = /&mdash;|&#8212;|&#x2014;/gi;
+const plat = (html) => html
+  .replace(/<[^>]+>/g, " ")
+  .replace(HERSTEL_STREEPJE, "—")
+  .replace(/&[a-z]+;|&#\d+;/gi, " ")
+  .replace(/\s+/g, " ")
+  .trim();
 
 /* Een tooltip is ook tekst die iemand leest, en die staat in een attribuut -
    dus buiten wat plat() overhoudt. Dat is geen theoretisch gat: de uitsplitsing
@@ -275,24 +319,28 @@ for (const soort of Object.keys(UITLEG)) {
   if (lijst.length > 20) console.error(`   ... en nog ${lijst.length - 20}`);
 }
 
+let gebrekenExtra = 0;
 const legeAlineas = signalen.reduce((n, s) => n + s.leeg, 0);
 const langeAlineas = signalen.reduce((n, s) => n + s.lang, 0);
-if (langeAlineas) {
-  console.log(`\nSignaal - claimdichtheid: ${legeAlineas} van ${langeAlineas} alinea's van 25 woorden of meer`);
-  console.log("bevat geen enkel getal en geen enkele verwijzing. Dit laat de run niet vallen;");
-  console.log("het is een oordeel, geen fout. De pagina's met de meeste:");
-  for (const s of signalen.filter((s) => s.leeg).sort((a, b) => b.leeg - a.leeg).slice(0, 5)) {
-    console.log(`   ${String(s.leeg).padStart(3)} van ${String(s.lang).padStart(3)}   ${s.waar}`);
+if (legeAlineas) {
+  console.error(`\nClaimdichtheid: ${legeAlineas} van ${langeAlineas} alinea's van 25 woorden of meer`);
+  console.error("bevat geen enkel getal en geen enkele verwijzing. Zet er een bedrag, een aantal,");
+  console.error("een merknaam of een bron bij, of maak de alinea korter dan 25 woorden.");
+  for (const s of signalen.filter((s) => s.leeg).sort((a, b) => b.leeg - a.leeg)) {
+    console.error(`   ${String(s.leeg).padStart(3)} van ${String(s.lang).padStart(3)}   ${s.waar}`);
   }
+  gebrekenExtra = legeAlineas;
+} else if (langeAlineas) {
+  console.log(`\nClaimdichtheid: alle ${langeAlineas} alinea's van 25 woorden of meer dragen een getal of een verwijzing.`);
 }
 
-if (gebreken.length) {
+if (gebreken.length || gebrekenExtra) {
   console.error(
-    `\n${gebreken.length} plek(ken) waar de tekst vager is dan deze site wil zijn.` +
+    `\n${gebreken.length + gebrekenExtra} plek(ken) waar de tekst vager is dan deze site wil zijn.` +
     "\nDe regels staan in SCHRIJFWIJZE.md.",
   );
   if (process.env.GITHUB_STEP_SUMMARY) {
-    appendFileSync(process.env.GITHUB_STEP_SUMMARY, `### Slop-controle: ${gebreken.length} bevinding(en)\n\nZie SCHRIJFWIJZE.md.\n\n`);
+    appendFileSync(process.env.GITHUB_STEP_SUMMARY, `### Slop-controle: ${gebreken.length + gebrekenExtra} bevinding(en)\n\nZie SCHRIJFWIJZE.md.\n\n`);
   }
   process.exit(1);
 }
