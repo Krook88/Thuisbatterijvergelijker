@@ -529,6 +529,9 @@ ${NAV_HTML}
   </div>
   <p class="datum-stempel">Onbekende term (zoals kWh of hybride)? Alle woorden staan uitgelegd in de <a href="/uitleg.html#woordenlijst">woordenlijst</a>.</p>
 
+  <h2>Past hij op een gemiddelde dag?</h2>
+  ${Kaart.dagmaatUitlegHtml(b)}
+
   <h2>Koppeling met zonnepanelen</h2>
   <p>${waardering(b.koppeling_gemak, 5)} <span class="waardering-uitleg">aansluitgemak op je bestaande zonnepanelen</span></p>
   <p>${esc(b.zonnepanelen_koppeling || "")}</p>

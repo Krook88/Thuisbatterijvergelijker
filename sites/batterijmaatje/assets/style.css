@@ -1857,6 +1857,87 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
    de volgorde bepaalt en die niemand kan narekenen is niet te onderscheiden
    van een score die zo gewogen is dat er uitkomt wat de maker wil.
    -------------------------------------------------------------------------- */
+/* -- De dagmaat -----------------------------------------------------------
+
+   Een capaciteit in kWh zegt niemand iets: 4,32 of 9,73, allebei "een
+   batterij", en groter lijkt beter. De dagmaat zet het getal af tegen wat een
+   gemiddeld huishouden op een dag buiten de zonuren opmaakt (5,6 kWh; de
+   rekensom staat in kaart.js en gebruikt dezelfde aannames als de
+   rekenmodule).
+
+   Waarom dit er níet uitziet als de Koppel-score-baan ernaast, terwijl het
+   allebei "een hoeveelheid binnen een maximum" is: twee identieke balkjes in
+   dezelfde regel die verschillende dingen meten, leest als opsmuk. De
+   Koppel-score is drie losse vakjes met lucht ertussen, want het zijn drie
+   losse onderdelen. De dagmaat is één doorlopende meter met een omlijning en
+   een nokje rechts: de vorm van een batterij, en er is maar één ding dat hier
+   volloopt.
+
+   Het nokje is grijs en gearceerd als de batterij groter is dan de dag die
+   hij moet dekken. Niet rood: voor wie een warmtepomp heeft of een auto laadt
+   is die ruimte wél zinvol, en dat weet deze pagina niet. Grijs zegt "hier
+   zit geen dekking meer in", niet "fout". */
+.dagmaat {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: var(--ruimte-4);
+}
+.dagmaat-baan {
+  display: flex;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+  max-width: 120px;
+  padding: 1px;
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius-mini);
+  background: var(--kleur-wit);
+}
+.dagmaat-vak {
+  flex: 1;
+  height: 7px;
+  background: var(--kleur-achtergrond);
+}
+.dagmaat-vak.vak-1 {
+  background: linear-gradient(to right, var(--kleur-primair) 0 50%, var(--kleur-achtergrond) 50% 100%);
+}
+.dagmaat-vak.vak-2 { background: var(--kleur-primair); }
+
+/* Het nokje van een batterij, maar dan als waarschuwing dat er capaciteit
+   voorbij de dagbehoefte steekt. */
+.dagmaat-over {
+  flex: 0 0 6px;
+  height: 7px;
+  border-radius: var(--radius-mini);
+  background: repeating-linear-gradient(
+    45deg,
+    var(--kleur-tekst-licht) 0 1px,
+    var(--kleur-wit) 1px 3px
+  );
+}
+
+/* De uitgeschreven vorm op de productpagina. Zelfde blok als de uitsplitsing
+   van de Koppel-score eronder: omlijnd, niet ingekleurd. */
+.dagmaat-uitleg {
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius);
+  padding: var(--ruimte-14) var(--ruimte-20);
+  margin: var(--ruimte-20) 0;
+}
+.dagmaat-kop { display: block; margin-bottom: var(--ruimte-10); }
+.dagmaat-uitleg .dagmaat { margin: 0 0 var(--ruimte-14); }
+.dagmaat-uitleg .dagmaat-baan { max-width: 260px; }
+.dagmaat-uitleg .dagmaat-vak,
+.dagmaat-uitleg .dagmaat-over { height: 12px; }
+.dagmaat-uitleg .dagmaat-over { flex-basis: 13px; }
+.dagmaat-uitleg p { margin: 0 0 var(--ruimte-6); }
+.dagmaat-uitleg .dagmaat-voet {
+  margin: 0;
+  font-size: var(--tekst-15);
+  color: var(--kleur-tekst-licht);
+}
+
 .koppel-uitsplitsing {
   border: 1px solid var(--kleur-rand);
   border-radius: var(--radius);
