@@ -1,0 +1,226 @@
+/**
+ * Slop-controle: schrijft deze site nog als een mens?
+ *
+ * Waarom dit bestaat
+ * ------------------
+ * Lezers noemen sites als deze "AI-slop". Dat verwijt gaat zelden over lelijk
+ * en zelden over onjuist. Het gaat over inhoud die overkomt als gemaakt zonder
+ * moeite: gladde zinnen die alles raken en niets zeggen. De scherpste
+ * omschrijving die ervan rondgaat is die van slop-reacties op Reddit - ze
+ * prijzen in vage termen en er zit "niets in dat op iets specifieks reageert".
+ *
+ * Dat laatste is de hele kern, en meteen het tegengif: een bewering met een
+ * bedrag, een datum, een winkelnaam of een bron erbij kán geen slop zijn, want
+ * die kun je nakijken. Deze site heeft daar zijn hele bestaansrecht van
+ * gemaakt. Dit script bewaakt dat het zo blijft.
+ *
+ * Waarom een script en geen goede voornemens: precies om dezelfde reden als
+ * llms-index.mjs. Toen er zes pagina's bijkwamen bleef llms.txt op de oude
+ * negen staan, zonder dat iets dat liet zien. Schrijfstijl verloopt net zo:
+ * niemand besluit ooit om vager te gaan schrijven, het zakt weg per alinea.
+ *
+ * Wat het wél en niet doet
+ * ------------------------
+ * Vier controles zijn hard en laten de run vallen. Ze zijn zo gekozen dat ze
+ * vandaag op nul staan: alles wat ze melden is dus nieuw, en nieuw betekent
+ * dat iemand het net heeft toegevoegd. Een controle die bij invoering al
+ * honderd meldingen geeft, is een controle die je wegklikt.
+ *
+ * De vijfde is een signaal en laat niets vallen. Claimdichtheid is een oordeel
+ * en geen feit; daar hoort een mens naar te kijken, niet een foutcode.
+ *
+ * Draaien:  npm run slop
+ *           npm run slop -- batterijmaatje     voor één site
+ */
+import { readFileSync, readdirSync, existsSync, statSync, appendFileSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const WORTEL = join(dirname(fileURLToPath(import.meta.url)), "..");
+const SITES_MAP = join(WORTEL, "sites");
+const GEVRAAGD = process.argv.slice(2).filter((a) => !a.startsWith("-"));
+
+/* Pagina's die met opzet op elke site hetzelfde zeggen. Een privacyverklaring
+   hoort niet drie keer anders geformuleerd te zijn; daar is variatie geen
+   eigenheid maar een risico. */
+const BOILERPLATE = new Set(["privacy.html", "contact.html", "steun.html", "404.html"]);
+
+/* Woorden die niets toevoegen behalve toon. Bewust kort gehouden en bewust
+   zonder gewone Nederlandse woorden als "cruciaal" of "essentieel": die zijn
+   soms precies het juiste woord, en een lijst die goede zinnen afkeurt wordt
+   genegeerd. Alles hieronder staat vandaag nul keer op de drie sites. */
+const VERBODEN = [
+  [/naadlo(o|z)\w*/gi, "zegt niets over wat er gebeurt"],
+  [/baanbrekend\w*/gi, "een oordeel zonder maat"],
+  [/revolutionair\w*/gi, "een oordeel zonder maat"],
+  [/game-?changer/gi, "vertaal het naar wat er verandert"],
+  [/state-of-the-art/gi, "noem het jaartal of de norm"],
+  [/ongeëvenaard\w*/gi, "onvergelijkbaar is niet te controleren"],
+  [/moeiteloos/gi, "zeg hoeveel stappen het kost"],
+  [/beste van beide werelden/gi, "noem de twee dingen"],
+  [/een schat aan/gi, "zeg hoeveel"],
+  [/talloze/gi, "zeg hoeveel"],
+  [/snel verander\w+ landschap/gi, "opening zonder inhoud"],
+  [/in deze tijd van/gi, "opening zonder inhoud"],
+  [/in de wereld van vandaag/gi, "opening zonder inhoud"],
+  [/laten we (eens )?duiken/gi, "opening zonder inhoud"],
+  [/niet meer weg te denken/gi, "zeg sinds wanneer, of hoeveel"],
+  [/de sleutel tot/gi, "noem de oorzaak"],
+  [/op maat gemaakte oplossing\w*/gi, "noem wat er op maat is"],
+  [/ontdek de wereld/gi, "opening zonder inhoud"],
+  [/ontgrendel\w*/gi, "marketingwerkwoord"],
+  [/ontketen\w*/gi, "marketingwerkwoord"],
+];
+
+/* "Het is niet X, het is Y" geldt als de meest herkende verklikker van
+   AI-tekst. In het Nederlands is de losse vorm ("Niet X, maar Y.") net zo
+   herkenbaar. Let op: alleen als stijlfiguur - een gewone zin waarin "niet" en
+   "maar" toevallig samen voorkomen wordt niet geraakt, want dat is doodgewoon
+   Nederlands en daar is niets mis mee. */
+const STIJLFIGUUR = [
+  /(?:^|(?<=[.!?]\s))Niet [^.!?]{3,80}, maar [^.!?]{3,80}[.!?]/g,
+  /Het is niet [^.!?]{3,60}, (?:het is|maar) [^.!?]{3,60}[.!?]/gi,
+];
+
+/* Beweren dat "onderzoeken aantonen" zonder te zeggen welke, is precies het
+   patroon dat mensen als slop herkennen: het klinkt onderbouwd en is het niet.
+   Deze site doet het goed - CE Delft, Berenschot en Milieu Centraal staan er
+   met naam bij - dus dit bewaakt een gewoonte die er al is. */
+const GENERALISATIE = /(onderzoek(en)? (toont|tonen) aan|studies (laten zien|tonen)|experts? (zeggen|stellen|adviseren)|het is algemeen bekend|men zegt|over het algemeen wordt aangenomen)/gi;
+
+const zonderRuis = (html) =>
+  html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/g, " ");
+
+const hoofdblok = (html) => {
+  const m = zonderRuis(html).match(/<main\b[^>]*>([\s\S]*?)<\/main>/);
+  if (!m) return "";
+  return m[1]
+    .replace(/<aside class="steun-blok"[\s\S]*?<\/aside>/g, " ")
+    .replace(/<div class="regel-banner"[\s\S]*?<\/div>/g, " ");
+};
+
+const plat = (html) => html.replace(/<[^>]+>/g, " ").replace(/&[a-z]+;|&#\d+;/gi, " ").replace(/\s+/g, " ").trim();
+const zinnenIn = (tekst) => tekst.split(/(?<=[.!?])\s+/).map((z) => z.trim()).filter(Boolean);
+
+function paginasVan(site) {
+  const map = join(SITES_MAP, site);
+  return readdirSync(map)
+    .filter((n) => n.endsWith(".html"))
+    .map((n) => ({ site, naam: n, pad: join(map, n) }));
+}
+
+const alleSites = readdirSync(SITES_MAP).filter((s) => statSync(join(SITES_MAP, s)).isDirectory());
+const teDoen = GEVRAAGD.length ? GEVRAAGD : alleSites;
+
+const gebreken = [];
+const signalen = [];
+const zinPerSite = new Map(); // zin -> Set van sites
+
+for (const site of teDoen) {
+  for (const { naam, pad } of paginasVan(site)) {
+    const html = readFileSync(pad, "utf8");
+    const tekst = plat(zonderRuis(html));
+    const waar = `${site}/${naam}`;
+
+    for (const [patroon, waarom] of VERBODEN) {
+      for (const treffer of tekst.match(patroon) || []) {
+        gebreken.push({ waar, soort: "woordenschat", melding: `"${treffer}" - ${waarom}` });
+      }
+    }
+
+    for (const patroon of STIJLFIGUUR) {
+      for (const treffer of tekst.match(patroon) || []) {
+        gebreken.push({ waar, soort: "stijlfiguur", melding: `${treffer.slice(0, 90)}` });
+      }
+    }
+
+    for (const zin of zinnenIn(tekst)) {
+      if (!GENERALISATIE.test(zin)) continue;
+      GENERALISATIE.lastIndex = 0;
+      // Een cijfer in dezelfde zin telt als bron genoeg: dan staat er een
+      // jaartal, een bedrag of een aantal bij, en is het na te lopen.
+      if (!/\d/.test(zin)) {
+        gebreken.push({ waar, soort: "generalisatie", melding: `${zin.slice(0, 100)}` });
+      }
+    }
+
+    if (!BOILERPLATE.has(naam)) {
+      for (const zin of zinnenIn(plat(hoofdblok(html)))) {
+        if (zin.length < 46 || zin.length > 240) continue;
+        if (!zinPerSite.has(zin)) zinPerSite.set(zin, new Set());
+        zinPerSite.get(zin).add(site);
+      }
+    }
+
+    // Signaal: lange alinea's zonder één getal en zonder één verwijzing.
+    const alineas = (hoofdblok(html).match(/<p\b[^>]*>[\s\S]*?<\/p>/g) || []);
+    let leeg = 0, lang = 0;
+    for (const alinea of alineas) {
+      const woorden = plat(alinea).split(" ").length;
+      if (woorden < 25) continue;
+      lang++;
+      if (!/\d/.test(plat(alinea)) && !/<a\s/.test(alinea)) leeg++;
+    }
+    if (lang) signalen.push({ waar, leeg, lang });
+  }
+}
+
+/* Zinnen die op meerdere sites letterlijk hetzelfde zijn. Sommige horen dat te
+   zijn - een uitspraak over onafhankelijkheid moet overal hetzelfde luiden -
+   dus die staan in een lijst die een mens bijhoudt. Wat er niet in staat is
+   nieuw, en nieuw is bijna altijd een zin die uit gemak is overgenomen. */
+const toegestaanPad = join(WORTEL, "scripts", "gedeelde-zinnen.json");
+const toegestaan = new Set(existsSync(toegestaanPad) ? JSON.parse(readFileSync(toegestaanPad, "utf8")) : []);
+if (teDoen.length === alleSites.length) {
+  for (const [zin, sites] of zinPerSite) {
+    if (sites.size < 2 || toegestaan.has(zin)) continue;
+    gebreken.push({ waar: [...sites].sort().join(" + "), soort: "zelfde zin", melding: zin.slice(0, 110) });
+  }
+}
+
+/* ------------------------------------------------------------------ */
+
+const UITLEG = {
+  woordenschat: "Woorden die toon toevoegen en verder niets.",
+  stijlfiguur: '"Niet X, maar Y" is de meest herkende vorm van AI-tekst. Schrijf de zin gewoon uit.',
+  generalisatie: "Een beroep op onderzoek zonder te zeggen welk onderzoek.",
+  "zelfde zin": "Staat letterlijk op meer dan één site. Hoort dat zo? Zet hem dan in scripts/gedeelde-zinnen.json, met een reden in de commit.",
+};
+
+for (const soort of Object.keys(UITLEG)) {
+  const lijst = gebreken.filter((g) => g.soort === soort);
+  if (!lijst.length) continue;
+  console.error(`\n${soort} (${lijst.length}) - ${UITLEG[soort]}`);
+  for (const g of lijst.slice(0, 20)) console.error(`   ${g.waar}: ${g.melding}`);
+  if (lijst.length > 20) console.error(`   ... en nog ${lijst.length - 20}`);
+}
+
+const legeAlineas = signalen.reduce((n, s) => n + s.leeg, 0);
+const langeAlineas = signalen.reduce((n, s) => n + s.lang, 0);
+if (langeAlineas) {
+  console.log(`\nSignaal - claimdichtheid: ${legeAlineas} van ${langeAlineas} alinea's van 25 woorden of meer`);
+  console.log("bevat geen enkel getal en geen enkele verwijzing. Dit laat de run niet vallen;");
+  console.log("het is een oordeel, geen fout. De pagina's met de meeste:");
+  for (const s of signalen.filter((s) => s.leeg).sort((a, b) => b.leeg - a.leeg).slice(0, 5)) {
+    console.log(`   ${String(s.leeg).padStart(3)} van ${String(s.lang).padStart(3)}   ${s.waar}`);
+  }
+}
+
+if (gebreken.length) {
+  console.error(
+    `\n${gebreken.length} plek(ken) waar de tekst vager is dan deze site wil zijn.` +
+    "\nDe regels staan in SCHRIJFWIJZE.md.",
+  );
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    appendFileSync(process.env.GITHUB_STEP_SUMMARY, `### Slop-controle: ${gebreken.length} bevinding(en)\n\nZie SCHRIJFWIJZE.md.\n\n`);
+  }
+  process.exit(1);
+}
+
+/* De laatste zin telt alleen wat er echt gekeken is. Draai je één site, dan is
+   de vergelijking tussen sites overgeslagen, en dan hoort hij daar ook niet
+   over op te scheppen - "niets gevonden" en "niets gekeken" horen er niet
+   hetzelfde uit te zien. */
+const alles = teDoen.length === alleSites.length;
+console.log(`\nDe tekst is scherp op ${teDoen.length} site(s): geen lege woordenschat, geen "niet X maar Y"`);
+console.log(`en geen beroep op onderzoek zonder bron${alles ? ", en geen zin die ongemerkt op twee sites staat" : " (de vergelijking tussen sites is overgeslagen)"}.`);

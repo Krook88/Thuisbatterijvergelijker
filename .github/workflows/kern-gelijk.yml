@@ -71,6 +71,12 @@ jobs:
       - name: llms.txt gelijk met het menu
         run: npm run llms
 
+      # Schrijfstijl verloopt zoals llms.txt verliep: niemand besluit ooit om
+      # vager te gaan schrijven, het zakt weg per alinea. De regels staan in
+      # SCHRIJFWIJZE.md; dit bewaakt de vier die te meten zijn.
+      - name: De tekst is nog scherp
+        run: npm run slop
+
   # De keuring start een echte browser en is daarom een aparte baan: hij duurt
   # langer dan de rest samen, en als hij valt wil je kunnen zien of de andere
   # controles wél doorkwamen.
