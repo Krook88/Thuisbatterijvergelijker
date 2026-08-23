@@ -95,7 +95,7 @@ productpagina's horen in de sitemap en niet in `llms.txt`.
 tekstkant. Lezers noemen sites als deze "AI-slop", en dat verwijt gaat zelden
 over lelijk en zelden over onjuist: het gaat over zinnen die alles raken en
 niets zeggen. De scherpste omschrijving die ervan rondgaat is die van
-slop-reacties op Reddit — ze prijzen in vage termen en er zit "niets in dat op
+slop-reacties op Reddit: ze prijzen in vage termen en er zit "niets in dat op
 iets specifieks reageert".
 
 Dat is meteen het tegengif. Een bewering met een bedrag, een datum of een
@@ -103,8 +103,9 @@ winkelnaam erbij kán geen slop zijn, want die kun je nakijken, en daar heeft
 deze site zijn hele bestaansrecht van gemaakt. Vier dingen laten de run vallen:
 woorden die alleen toon toevoegen, "niet X maar Y" als stijlfiguur, een beroep
 op onderzoek zonder te zeggen welk, en een zin die ongemerkt op twee sites
-staat, en sinds de stemwissel ook "wij" waar "ik" hoort. Ze zijn zo gekozen dat
-ze bij invoering op nul stonden — alles wat ze melden is dus nieuw. Een
+staat, sinds de stemwissel ook "wij" waar "ik" hoort, en sinds kort het lange
+streepje. Ze zijn zo gekozen dat ze bij invoering op nul stonden, dus alles wat
+ze melden is nieuw. Een
 controle die meteen honderd meldingen geeft, is een controle die je wegklikt.
 
 Die laatste hangt samen met wat er in augustus 2026 veranderde: de sites
@@ -116,15 +117,15 @@ makkelijk is: "wij tonen" is de standaardstem van elke vergelijkingssite.
 
 De vijfde is een signaal en laat niets vallen: hoeveel alinea's van 25 woorden
 of meer bevatten geen enkel getal en geen enkele verwijzing. Dat is een oordeel
-en geen fout — een alinea die een begrip uitlegt hoeft geen bedrag te bevatten
-— maar het is wel de eerlijkste maat voor "staat hier iets". Bij invoering: 64
-van 185.
+en geen fout, want een alinea die een begrip uitlegt hoeft geen bedrag te
+bevatten, maar het is wel de eerlijkste maat voor "staat hier iets". Bij
+invoering: 64 van 185.
 
 Bij het schrijven van die controle viel er meteen één zin door: "Experts
 adviseren bij een nieuwe warmtepomp te kiezen voor een model met Modbus of
-EEBUS." Welke experts stond er niet bij. Vervangen door het verschil zelf —
+EEBUS." Welke experts stond er niet bij. Vervangen door het verschil zelf:
 SG-ready kent vier standen, Modbus en EEBUS geven ook temperaturen, vermogens
-en storingen door — en dat is korter én controleerbaar.
+en storingen door. Dat is korter en controleerbaar.
 
 `npm run dode-regels` vangt wat de keuring niet kan vangen. Het opschrift boven
 de hero stond op 12px in de merkkleur en rendeerde als 19px grijs, omdat
@@ -171,13 +172,13 @@ pagina), een link in de voettekst, en een blok onderaan `index.html`,
 `advies.html`, `rekenmodule.html` en `over-ons.html`. Nederlandse bezoekers
 betalen met iDEAL, en daarvoor is een bunq.me-link gekozen: die is gratis,
 verloopt niet, kan zonder KvK-inschrijving en stuurt de bezoeker naar een
-betaalpagina in plaats van naar een betaalscript op onze site — dat scheelt een
-privacyverhaal.
+betaalpagina in plaats van naar een betaalscript op de site zelf, en dat
+scheelt een privacyverhaal.
 
 **De betaallink staat op één plek per site**: in `sites/<site>/steun.html`, in
 de enige `<a class="knop">` van het steunblok, met een commentaarregel ernaast.
 Alle drie de sites wijzen naar dezelfde link, want er is één maker. Verandert
-die link ooit, dan zijn het dus drie bestanden — en dat is te merken aan de
+die link ooit, dan zijn het dus drie bestanden, en dat is te merken aan de
 dagelijkse linkcontrole, die hem als externe link meeneemt.
 
 Wat er niet gebeurt: de vraag staat nergens bovenaan, en nergens tussen de

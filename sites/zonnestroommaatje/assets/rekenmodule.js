@@ -174,7 +174,7 @@
 
       const select = el("keuzePaneel");
       select.innerHTML = panelen.map((p) =>
-        `<option value="${escapeHtml(p.id)}">${escapeHtml(naamVan(p))} — ${p.vermogen_wp} Wp, ${eurFmt.format(p.richtprijs_eur || 0)}</option>`
+        `<option value="${escapeHtml(p.id)}">${escapeHtml(naamVan(p))} (${p.vermogen_wp} Wp, ${eurFmt.format(p.richtprijs_eur || 0)})</option>`
       ).join("");
 
       // Voorselectie via ?paneel=<id>&aantal=<n> (vanuit de vergelijker,

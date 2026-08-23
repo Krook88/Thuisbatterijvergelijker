@@ -4,8 +4,8 @@ Deze site verkoopt niets. Wat hij te bieden heeft is een oordeel over een
 aankoop van tweeduizend euro, en dat is alleen iets waard als de lezer het kan
 nakijken. Alles hieronder volgt daaruit.
 
-`npm run slop` bewaakt de vijf regels die te meten zijn. De rest is
-mensenwerk — en dat is precies waarom ze hier staan opgeschreven.
+`npm run slop` bewaakt de zes regels die te meten zijn. De rest is
+mensenwerk, en dat is precies waarom ze hier staan opgeschreven.
 
 ## De regel waar de rest uit volgt
 
@@ -53,21 +53,45 @@ dan staat er een jaartal of een bedrag bij en is het na te lopen.
 is van één maker en zegt "ik". "Wij" suggereert een redactie die er niet is, en
 dat is niet alleen een andere toon maar een onwaarheid.
 
-De terugval is makkelijk — "wij tonen" is de standaardstem van elke
-vergelijkingssite en van elk taalmodel — en daarom staat er een controle op.
+De terugval is makkelijk: "wij tonen" is de standaardstem van elke
+vergelijkingssite en van elk taalmodel. Daarom staat er een controle op.
 Twee dingen veranderden bewust niet mee: het commentaar in de code, want dat is
 de maker tegen zichzelf en geen tekst die iemand leest, en de bestandsnaam
 `over-ons.html`, want een URL die verspringt kost zoekverkeer. Alleen het
 menu-item en de voettekstlink heten nu "Over mij".
 
-**5. Dezelfde zin op meer dan één site.** Boilerplate mag identiek zijn — een
+**5. Het lange streepje.** Het teken dat je krijgt met alt+0151 en dat een
+zin openbreekt: `—`. Of het echt een verklikker van AI-tekst is, is
+betwist; het staat in boeken en journalistiek net zo goed, en het zegt eerder
+iets over geredigeerd schrijven dan over de schrijver. Maar het is wel het
+eerste waar lezers naar wijzen, en dat is hier reden genoeg. De zin wordt er
+nooit slechter van als je hem uitschrijft.
+
+Wat er meestal voor in de plaats kan:
+
+| Als het tweede deel | Gebruik |
+| --- | --- |
+| het eerste uitlegt | een dubbele punt |
+| een terzijde is | haakjes |
+| een zin op zichzelf is die erbij hoort | een puntkomma |
+| er los van staat | een punt |
+
+Het gewone koppelteken in samenstellingen (`glas-glas`, `all-electric`) en het
+kortere streepje in bereiken blijven gewoon staan; het gaat alleen om het lange.
+
+De controle leest ook `title`, `aria-label` en `alt` mee. Dat is geen
+theoretische toevoeging: de uitsplitsing van de Koppel-score staat in een
+tooltip, en die stond 71 keer met een lang streepje in de vergelijker zonder
+dat iemand het zag.
+
+**6. Dezelfde zin op meer dan één site.** Boilerplate mag identiek zijn: een
 privacyverklaring hoort niet drie keer anders geformuleerd te zijn, dus
 `privacy.html`, `contact.html`, `steun.html` en `404.html` doen niet mee. Voor
 de rest geldt: drie sites die dezelfde zin over drie verschillende producten
 schrijven, zijn één sjabloon met drie kleuren, en zo leest het ook.
 
-Hoort een zin er wél overal hetzelfde te staan — een uitspraak over
-onafhankelijkheid bijvoorbeeld — zet hem dan in `scripts/gedeelde-zinnen.json`
+Hoort een zin er wél overal hetzelfde te staan (een uitspraak over
+onafhankelijkheid bijvoorbeeld), zet hem dan in `scripts/gedeelde-zinnen.json`
 en leg in de commit uit waarom. Dat is de hele bedoeling van dat bestand: het
 verschil tussen een keuze en gemakzucht vastleggen op het moment dat je hem
 maakt.
@@ -75,7 +99,7 @@ maakt.
 ## Wat het script alleen meldt
 
 **Claimdichtheid.** Hoeveel alinea's van 25 woorden of meer bevatten geen enkel
-getal en geen enkele verwijzing? Dat is een oordeel en geen fout — een alinea
+getal en geen enkele verwijzing? Dat is een oordeel en geen fout: een alinea
 die een begrip uitlegt hoeft geen bedrag te bevatten. Daarom laat het de run
 niet vallen.
 

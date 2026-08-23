@@ -215,7 +215,7 @@
       const select = el("keuzePomp");
       select.innerHTML = pompen.map((w) => {
         const b = bestePrijs(w);
-        return `<option value="${escapeHtml(w.id)}">${escapeHtml(w.merk)} ${escapeHtml(w.model)} — ${w.type === "hybride" ? "hybride" : "all-electric"}, ${b ? eurFmt.format(vergelijkPrijs(b)) : "prijs onbekend"}</option>`;
+        return `<option value="${escapeHtml(w.id)}">${escapeHtml(w.merk)} ${escapeHtml(w.model)} (${w.type === "hybride" ? "hybride" : "all-electric"}, ${b ? eurFmt.format(vergelijkPrijs(b)) : "prijs onbekend"})</option>`;
       }).join("");
 
       // Voorselectie via ?pomp=<id> (vanuit de vergelijker en de keuzehulp)

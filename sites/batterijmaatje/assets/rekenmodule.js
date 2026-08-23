@@ -304,7 +304,7 @@
       return `<option value="${b.id}">${b.merk} ${b.model} (${eurFmt.format(inv.bedrag)}${inv.soort === "totaal" ? " gebruiksklaar" : ""})</option>`;
     });
     const grijs = zonderPrijs.map((b) => `<option value="" disabled>${b.merk} ${b.model} (prijs op aanvraag; vul zelf een offertebedrag in)</option>`);
-    sel.innerHTML = '<option value="">— Kies een batterij —</option>' + opties.join("") + grijs.join("");
+    sel.innerHTML = '<option value="">Kies een batterij…</option>' + opties.join("") + grijs.join("");
   }
 
   function kiesBatterij(id) {
@@ -351,7 +351,7 @@
     const vast = leveranciersData.leveranciers.filter((l) => l.contract === "vast-variabel");
     const dyn = leveranciersData.leveranciers.filter((l) => l.contract === "dynamisch");
     const optie = (l) => `<option value="${l.id}">${l.naam}</option>`;
-    sel.innerHTML = '<option value="">— Kies je leverancier (of sla over) —</option>' +
+    sel.innerHTML = '<option value="">Kies je leverancier (of sla over)…</option>' +
       `<optgroup label="Vast of variabel contract">${vast.map(optie).join("")}</optgroup>` +
       `<optgroup label="Dynamisch contract">${dyn.map(optie).join("")}</optgroup>`;
   }

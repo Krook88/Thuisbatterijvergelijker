@@ -99,6 +99,17 @@ const GENERALISATIE = /(onderzoek(en)? (toont|tonen) aan|studies (laten zien|ton
    dus alles wat hier opduikt is nieuw ingeslopen. */
 const MEERVOUDSSTEM = /\b(Wij|wij|We|we|ons|Ons|onze|Onze)\b/g;
 
+/* Het kastlijntje. Of dit echt een verklikker van AI-tekst is, is betwist -
+   het staat in boeken en journalistiek net zo goed, en het zegt eerder iets
+   over geredigeerd schrijven dan over de schrijver. Maar het is wel het eerste
+   waar lezers naar wijzen, en dat is hier genoeg reden: de zin wordt er nooit
+   slechter van als je hem uitschrijft.
+
+   Wat er meestal voor in de plaats kan: een dubbele punt als het tweede deel
+   het eerste uitlegt, haakjes als het een terzijde is, een puntkomma als het
+   twee zinnen zijn die bij elkaar horen, of gewoon een punt. */
+const KASTLIJNTJE = /—/g;
+
 const zonderRuis = (html) =>
   html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/g, " ");
 
@@ -111,6 +122,15 @@ const hoofdblok = (html) => {
 };
 
 const plat = (html) => html.replace(/<[^>]+>/g, " ").replace(/&[a-z]+;|&#\d+;/gi, " ").replace(/\s+/g, " ").trim();
+
+/* Een tooltip is ook tekst die iemand leest, en die staat in een attribuut -
+   dus buiten wat plat() overhoudt. Dat is geen theoretisch gat: de uitsplitsing
+   van de Koppel-score staat in een title, en die stond 71 keer met een lang
+   streepje in de vergelijker zonder dat deze controle er iets van zag. */
+const attribuutTekst = (html) =>
+  (html.match(/(?:title|aria-label|alt)="[^"]*"/g) || [])
+    .map((a) => a.slice(a.indexOf('"') + 1, -1))
+    .join(" ");
 const zinnenIn = (tekst) => tekst.split(/(?<=[.!?])\s+/).map((z) => z.trim()).filter(Boolean);
 
 function paginasVan(site) {
@@ -130,7 +150,7 @@ const zinPerSite = new Map(); // zin -> Set van sites
 for (const site of teDoen) {
   for (const { naam, pad } of paginasVan(site)) {
     const html = readFileSync(pad, "utf8");
-    const tekst = plat(zonderRuis(html));
+    const tekst = `${plat(zonderRuis(html))} ${attribuutTekst(zonderRuis(html))}`;
     const waar = `${site}/${naam}`;
 
     for (const [patroon, waarom] of VERBODEN) {
@@ -143,6 +163,10 @@ for (const site of teDoen) {
       for (const treffer of tekst.match(patroon) || []) {
         gebreken.push({ waar, soort: "stijlfiguur", melding: `${treffer.slice(0, 90)}` });
       }
+    }
+
+    for (const treffer of tekst.match(KASTLIJNTJE) || []) {
+      gebreken.push({ waar, soort: "kastlijntje", melding: `"${treffer}" - dubbele punt, haakjes, puntkomma of punt` });
     }
 
     for (const treffer of tekst.match(MEERVOUDSSTEM) || []) {
@@ -200,6 +224,7 @@ const UITLEG = {
   stijlfiguur: '"Niet X, maar Y" is de meest herkende vorm van AI-tekst. Schrijf de zin gewoon uit.',
   generalisatie: "Een beroep op onderzoek zonder te zeggen welk onderzoek.",
   meervoudsstem: 'De site is van één maker en spreekt als "ik". "Wij" suggereert een redactie die er niet is.',
+  kastlijntje: "Het lange streepje is het eerste waar lezers naar wijzen bij gegenereerde tekst. Schrijf de zin uit.",
   "zelfde zin": "Staat letterlijk op meer dan één site. Hoort dat zo? Zet hem dan in scripts/gedeelde-zinnen.json, met een reden in de commit.",
 };
 
