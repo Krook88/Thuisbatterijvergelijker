@@ -25,6 +25,24 @@
  * dezelfde run gecommit. Dat is met opzet: hij hoort bij de gegevens van die
  * site, hij is met de hand te lezen, en wie een punt wil "vergeten" haalt de
  * regel eruit.
+ *
+ * Eén punt is pas nieuws als het de volgende run ook nog opduikt. Dat scheelde
+ * op 27 augustus zes van de zeven meldingen. Om 16:41 stond zonnestroommaatje
+ * rood op vier omvormers bij Zonnige Winkel zonder leesbaar bedrag en op een
+ * 403 bij Stroomwinkel en bij WarmteBeheer; om 17:45 gaven alle zes gewoon
+ * weer een prijs. Alleen J en M Zonnepanelen hield stand. Winkels haperen -
+ * een trage pagina, een botfilter dat even aanslaat - en een melding die
+ * daarvan rood wordt meldt het weer, en de dag erna nog eens.
+ *
+ * Dus: de eerste keer dat een punt opduikt gaat het in de lijst en gebeurt er
+ * verder niets. Staat het er de volgende run nóg, dan is het nieuws en wordt
+ * de run rood. Is het dan weg, dan verdwijnt het stil - het is nooit gemeld,
+ * dus het hoeft ook niet opgelost te heten. Wachten kost hooguit een dag, en
+ * dat is de prijs voor een rood dat iets betekent.
+ *
+ * Punten uit een lijst van vóór deze regel hebben geen `bevestigd` en gelden
+ * als bevestigd. Anders zou de eerste run ze allemaal opnieuw als onbevestigd
+ * wegschrijven en de run erna alsnog in één klap als nieuws melden.
  */
 
 import { readFileSync, writeFileSync, existsSync, appendFileSync } from "node:fs";
@@ -63,7 +81,17 @@ export function sleutelVan(soort, item) {
   return [familieVan(soort), item.id, item.winkel || ""].join("|");
 }
 
-/** De lijst met wat we al weten, als sleutel => {sinds, soort, tekst}. */
+/**
+ * Staat dit punt al vast, of is het vandaag voor het eerst gezien?
+ *
+ * Ontbreekt het veld, dan is het bevestigd: die lijsten zijn geschreven vóór
+ * deze regel bestond, en hun punten stonden er toen al dagen in.
+ */
+export function isBevestigd(punt) {
+  return !punt || punt.bevestigd !== false;
+}
+
+/** De lijst met wat we al weten, als sleutel => {sinds, soort, tekst, bevestigd}. */
 export function leesBekend(pad) {
   if (!existsSync(pad)) return new Map();
   try {
@@ -82,6 +110,15 @@ export function leesBekend(pad) {
  *   huidig   [{soort, id, winkel, tekst}]
  *   bekend   uitkomst van leesBekend()
  *   vandaag  "2026-08-16"
+ *
+ * Vier uitkomsten in plaats van drie:
+ *
+ *   afwachten    vandaag voor het eerst gezien. Gaat in de lijst, maakt de run
+ *                niet rood, want winkels haperen.
+ *   nieuw        stond er de vorige run ook al: dit is het nieuws.
+ *   onveranderd  al bevestigd en nog steeds open. De werkvoorraad.
+ *   opgelost     was bevestigd en is weg. Goed nieuws, dus melden.
+ *   vervallen    was onbevestigd en is weg. Nooit gemeld, dus stil eraf.
  */
 export function vergelijk(huidig, bekend, vandaag) {
   const nu = new Map();
@@ -91,6 +128,7 @@ export function vergelijk(huidig, bekend, vandaag) {
     if (!nu.has(s)) nu.set(s, item);
   }
 
+  const afwachten = [];
   const nieuw = [];
   const onveranderd = [];
   const punten = {};
@@ -98,16 +136,22 @@ export function vergelijk(huidig, bekend, vandaag) {
   for (const [s, item] of nu) {
     const eerder = bekend.get(s);
     const sinds = eerder ? eerder.sinds : vandaag;
-    punten[s] = { sinds, soort: item.soort, tekst: item.tekst };
-    (eerder ? onveranderd : nieuw).push({ ...item, sinds });
+    // Vanaf de tweede keer staat het vast; alleen de allereerste keer niet.
+    const bevestigd = Boolean(eerder);
+    punten[s] = { sinds, soort: item.soort, tekst: item.tekst, bevestigd };
+    if (!eerder) afwachten.push({ ...item, sinds });
+    else if (isBevestigd(eerder)) onveranderd.push({ ...item, sinds });
+    else nieuw.push({ ...item, sinds });
   }
 
   const opgelost = [];
+  const vervallen = [];
   for (const [s, eerder] of bekend) {
-    if (!nu.has(s)) opgelost.push({ sleutel: s, ...eerder });
+    if (nu.has(s)) continue;
+    (isBevestigd(eerder) ? opgelost : vervallen).push({ sleutel: s, ...eerder });
   }
 
-  return { nieuw, opgelost, onveranderd, punten };
+  return { nieuw, opgelost, onveranderd, afwachten, vervallen, punten };
 }
 
 export function schrijfBekend(pad, punten, vandaag) {
@@ -134,19 +178,27 @@ export function dagenOpen(sinds, vandaag) {
  * melden dat er niets gemeten werd.
  */
 export function meldAandacht(site, uitkomst, vandaag) {
-  const { nieuw, opgelost, onveranderd } = uitkomst;
+  const { nieuw, opgelost, onveranderd, afwachten = [], vervallen = [] } = uitkomst;
   const totaal = nieuw.length + onveranderd.length;
 
   console.log(`\n${site}: ${nieuw.length} nieuw, ${opgelost.length} opgelost, ${totaal} open in totaal.`);
   for (const n of nieuw) console.log(`  + NIEUW  ${n.soort}: ${n.tekst}`);
   for (const o of opgelost) console.log(`  - opgelost  ${o.soort}: ${o.tekst}`);
+  if (afwachten.length) {
+    console.log(`  ${afwachten.length} vandaag voor het eerst gezien; nieuws zodra het er de volgende run nog is:`);
+    for (const a of afwachten) console.log(`    ? ${a.soort}: ${a.tekst}`);
+  }
+  if (vervallen.length) {
+    console.log(`  ${vervallen.length} kwam op en was weer weg voordat het nieuws werd:`);
+    for (const v of vervallen) console.log(`    . ${v.soort}: ${v.tekst}`);
+  }
   if (onveranderd.length) {
     const oudste = [...onveranderd].sort((a, b) => String(a.sinds).localeCompare(String(b.sinds)))[0];
     const dagen = dagenOpen(oudste.sinds, vandaag);
     console.log(`  ${onveranderd.length} al bekend, de oudste sinds ${oudste.sinds}${dagen === null ? "" : ` (${dagen} dagen)`}.`);
   }
 
-  if (process.env.GITHUB_STEP_SUMMARY && (nieuw.length || opgelost.length)) {
+  if (process.env.GITHUB_STEP_SUMMARY && (nieuw.length || opgelost.length || afwachten.length || vervallen.length)) {
     const regels = [`### ${site}: ${nieuw.length} nieuw, ${opgelost.length} opgelost`, ""];
     if (nieuw.length) {
       regels.push("**Nieuw sinds de vorige run.** Hier is vandaag iets veranderd:", "",
@@ -157,18 +209,28 @@ export function meldAandacht(site, uitkomst, vandaag) {
       regels.push("**Opgelost.**", "",
         ...opgelost.map((o) => `- ${o.soort}: ${o.tekst}`), "");
     }
+    if (afwachten.length) {
+      regels.push(`**${afwachten.length} vandaag voor het eerst gezien.** Nog geen alarm: staat het er de volgende run nog, dan wordt het gemeld.`, "",
+        ...afwachten.map((a) => `- ${a.soort}: ${a.tekst}`), "");
+    }
+    if (vervallen.length) {
+      regels.push(`**${vervallen.length} kwam op en was weer weg** voordat het nieuws werd. Winkelhik, geen werk.`, "",
+        ...vervallen.map((v) => `- ${v.soort}: ${v.tekst}`), "");
+    }
     regels.push(`Daarnaast staan er ${onveranderd.length} punten open die we al kenden; die staan in \`data/prijs-aandacht.json\`.`, "");
     appendFileSync(process.env.GITHUB_STEP_SUMMARY, regels.join("\n") + "\n");
   }
 
   if (process.env.GITHUB_OUTPUT) {
-    const kort = nieuw.length
+    const staart = afwachten.length ? `, ${afwachten.length} vandaag voor het eerst gezien` : "";
+    const kort = (nieuw.length
       ? `${nieuw.length} nieuw (${nieuw.map((n) => n.soort).filter((s, i, a) => a.indexOf(s) === i).join(", ")}), ${totaal} open in totaal`
-      : `niets nieuws, ${totaal} open in totaal`;
+      : `niets nieuws, ${totaal} open in totaal`) + staart;
     appendFileSync(process.env.GITHUB_OUTPUT, [
       `alarm=${nieuw.length ? "true" : "false"}`,
       `aandacht_nieuw=${nieuw.length}`,
       `aandacht_opgelost=${opgelost.length}`,
+      `aandacht_afwachten=${afwachten.length}`,
       `aandacht_totaal=${totaal}`,
       `aandacht_kort=${kort}`,
       "",
