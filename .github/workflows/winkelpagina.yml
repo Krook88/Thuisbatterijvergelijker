@@ -1,0 +1,56 @@
+name: Wat staat er op een winkelpagina
+
+# Met de hand te starten, voor als een prijs "te controleren" is en de vraag is
+# waarom. De lijst meldt "€6200 → €1495 (-76%)" en dat kan twee dingen zijn: de
+# winkel is gehalveerd, of het script leest de losse module op een pagina waar
+# ook het pakket staat. Dat verschil bepaalt of er een prijs moet veranderen of
+# een URL, en het is niet te zien zonder de pagina.
+#
+# Waarom hier en niet op je eigen machine: de ontwikkelomgeving komt niet bij
+# winkels. De egress-proxy laat alleen npm en pypi door, dus curl en fetch
+# krijgen daar een 403 van de proxy in plaats van een antwoord van de winkel.
+# Een runner komt er wel bij. Dezelfde reden waarom de prijsupdate een
+# droog-stand heeft.
+#
+# Schrijft niets weg, commit niets en duwt niets. Het antwoord staat in het
+# logboek en in de samenvatting van de run.
+
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: "Adressen, gescheiden door een spatie of een nieuwe regel"
+        required: true
+        type: string
+      naam:
+        description: "Productnaam om op te mikken (bijvoorbeeld: Marstek Venus E 4.0)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  kijken:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # Dezelfde terugval als de prijsupdate, en om dezelfde reden: winkels die
+      # een kaal verzoek weigeren of het bedrag pas in de browser invullen.
+      # Zonder deze stap draait het script gewoon door en zegt het erbij dat de
+      # browser er niet was - dat is iets anders dan "de winkel weigert".
+      - name: Browser klaarzetten
+        timeout-minutes: 10
+        continue-on-error: true
+        run: npm i --no-save playwright && npx playwright install chromium
+
+      - name: Pagina's uitlezen
+        env:
+          URLS: ${{ inputs.urls }}
+          NAAM: ${{ inputs.naam }}
+        run: npm run winkelpagina
