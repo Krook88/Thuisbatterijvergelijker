@@ -173,6 +173,14 @@ jobs:
       # om naar 0. Op zonnestroommaatje en warmtepompmaatje, waar het
       # prijsscript dit getal niet schrijft, werd de stap daardoor stilletjes
       # overgeslagen in plaats van te melden dat er niets gemeten werd.
+      #
+      # "Nieuw" betekent sinds 27 augustus: het stond er de vorige run ook al.
+      # Zonder die voorwaarde werd de run rood van winkels die haperen. Die
+      # ochtend gaf zonnestroommaatje zeven nieuwe punten; een uur later waren
+      # er zes weg - vier omvormers bij Zonnige Winkel en twee 403's - en hield
+      # alleen J en M Zonnepanelen stand. Zeven dagen op rij rood, en zes van
+      # de zeven meldingen van die dag waren een hik. Zie
+      # kern/scripts/prijs-aandacht.mjs.
       - name: Prijzen die aandacht vragen
         if: steps.keuze.outputs.doen == 'true'
         run: |
