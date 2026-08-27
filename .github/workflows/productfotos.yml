@@ -1,0 +1,106 @@
+name: Productfoto's ophalen
+
+# Met de hand te starten. Van de 85 productpagina's hebben er 58 geen
+# afbeelding, en zonder afbeelding toont Google geen productresultaat - de rest
+# van de markup is compleet en levert dan niets op. Dit haalt de foto op bij de
+# fabrikant, zet hem om naar webp en vult `afbeelding` en `afbeelding_bron`.
+#
+# Waarom hier en niet op je eigen machine: de ontwikkelomgeving komt niet bij
+# fabrikantsites. De egress-proxy laat alleen npm en pypi door, dus curl, fetch
+# en de beeldophaler krijgen daar een 403 van de proxy in plaats van een
+# antwoord. Een runner komt er wel bij.
+#
+# Duwt nooit naar de hoofdtak. Alles landt op een eigen tak, want een og:image
+# is bij de ene fabrikant een strakke productfoto en bij de andere een gezin op
+# de bank. Iemand moet ze zien voordat ze op 58 pagina's staan.
+
+on:
+  workflow_dispatch:
+    inputs:
+      site:
+        description: "Welke site"
+        required: true
+        type: choice
+        options: ["alle", "batterijmaatje", "zonnestroommaatje", "warmtepompmaatje"]
+        default: "alle"
+      alleen:
+        description: "Alleen deze product-id's, gescheiden door komma's (leeg = alles zonder foto)"
+        required: false
+        type: string
+      droog:
+        description: "Alleen kijken: tonen welke beelden gevonden worden, niets wegschrijven"
+        required: false
+        type: boolean
+        default: true
+      tak:
+        description: "Naam van de tak (het runnummer komt erachter)"
+        required: false
+        type: string
+        default: "claude/productfotos"
+
+permissions:
+  contents: write
+
+jobs:
+  fotos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # cwebp doet het omzetten én het schalen in één opdracht, en hij leest
+      # jpeg, png en webp. De rest van de repo heeft nul afhankelijkheden en
+      # dat blijft zo: dit is een pakket op de runner, niet in package.json.
+      - name: cwebp klaarzetten
+        run: |
+          if ! command -v cwebp >/dev/null; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq webp
+          fi
+          cwebp -version
+
+      # Dezelfde terugval als de prijsupdate: fabrikanten die een kaal verzoek
+      # weigeren of hun pagina pas in de browser opbouwen.
+      - name: Browser klaarzetten
+        timeout-minutes: 10
+        continue-on-error: true
+        run: npm i --no-save playwright && npx playwright install chromium
+
+      # De invoer gaat via de omgeving en niet rechtstreeks in de opdracht.
+      # Een ${{ }} in een run-blok wordt vóór de shell ingevuld, dus vrije
+      # tekst uit een invoerveld zou daar gewoon meedraaien als opdracht.
+      - name: Foto's ophalen
+        env:
+          SITE: ${{ inputs.site }}
+          ALLEEN: ${{ inputs.alleen }}
+          DROOG: ${{ inputs.droog }}
+        run: |
+          args=()
+          [ -n "$SITE" ] && [ "$SITE" != "alle" ] && args+=(--site "$SITE")
+          [ -n "$ALLEEN" ] && args+=(--alleen "$ALLEEN")
+          [ "$DROOG" = "true" ] && args+=(--droog)
+          npm run fotos -- "${args[@]}"
+
+      # Elke run zijn eigen tak. Eén vaste naam zou een tweede run de foto's van
+      # de eerste laten overschrijven, en dan is een force-push de enige uitweg
+      # naar iets wat misschien nog nagekeken moest worden.
+      - name: Wegschrijven naar een eigen tak
+        if: ${{ !inputs.droog }}
+        env:
+          TAK_BASIS: ${{ inputs.tak }}
+          RUNNUMMER: ${{ github.run_number }}
+        run: |
+          tak="${TAK_BASIS:-claude/productfotos}-${RUNNUMMER}"
+          git config user.name "fotobot"
+          git config user.email "actions@github.com"
+          git add -A "sites"
+          if git diff --cached --quiet; then
+            echo "Geen nieuwe foto's." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git checkout -b "$tak"
+          git commit -m "Productfoto's opgehaald bij de fabrikant $(date -u +%F)"
+          git push -u origin "$tak"
+          echo "Foto's staan op tak \`$tak\`. Kijk ze na voordat er iets live gaat." >> "$GITHUB_STEP_SUMMARY"
