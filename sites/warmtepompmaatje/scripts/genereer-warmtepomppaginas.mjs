@@ -41,6 +41,14 @@ const TITEL_MAX = 60;
 const OMSCHRIJVING_MAX = 155;
 const MERK_ACHTERVOEGSEL = " | Warmtepompmaatje";
 
+/* Merk plus model, tenzij het merk al vooraan in het model staat. Zonder deze
+   uitzondering heet de Quatt op elke plek "Quatt Quatt hybride (Duo mogelijk)":
+   in de titel, in de kop, in de omschrijving en in de productmarkup. De andere
+   twee sites deden dit al; hier stond het merk er twee keer los ingebakken. */
+const volledigeNaam = (w) =>
+  w.model.toLowerCase().startsWith(w.merk.toLowerCase()) ? w.model : `${w.merk} ${w.model}`;
+
+
 function titelMetMerk(kern) {
   return kern.length + MERK_ACHTERVOEGSEL.length <= TITEL_MAX ? kern + MERK_ACHTERVOEGSEL : kern;
 }
@@ -161,7 +169,7 @@ function houdbaarTot(datum) {
 }
 
 function productLd(w) {
-  const naam = `${w.merk} ${w.model}`;
+  const naam = volledigeNaam(w);
   const beste = bestePrijs(w);
   // Alleen aanbiedingen die het complete toestel dekken: een losse buitenunit
   // als "price" van dit product opvoeren zou in de zoekresultaten een bedrag
@@ -594,7 +602,7 @@ ${voet(false)}
 }
 
 function pompPagina(w) {
-  const naam = `${w.merk} ${w.model}`;
+  const naam = volledigeNaam(w);
   const beste = bestePrijs(w);
   const uitWinkel = !!(beste && !beste.is_richtprijs);
   const score = koppelScore(w);
