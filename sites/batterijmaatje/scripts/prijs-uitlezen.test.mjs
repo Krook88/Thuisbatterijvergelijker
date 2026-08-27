@@ -35,6 +35,7 @@ import {
   prijsUitPagina,
   toontExclBtw,
   controleerbaar,
+  bedragenMetContext,
 } from "./prijs-uitlezen.mjs";
 
 /* ------------------------------------------------------------------
@@ -307,4 +308,41 @@ test("zonder adres valt er niets te controleren", () => {
 test("een prijs die als handmatig is aangemerkt blijft handmatig, ook met een adres erbij", () => {
   // Een offerteprijs staat niet op de pagina waar hij vandaan komt.
   assert.equal(controleerbaar({ url: "https://zonneplan.nl/thuisbatterij", prijs_controle: "handmatig" }), false);
+});
+
+/* ------------------------------------------------------------------
+   Wat staat er eigenlijk op deze pagina
+   De diagnose achter "€6200 → €1495 (-76%)": prijsdaling of buurman?
+   ------------------------------------------------------------------ */
+
+test("elk bedrag komt terug met de tekst eromheen, op volgorde van de pagina", () => {
+  const uit = bedragenMetContext(OVERZICHTSPAGINA);
+  assert.deepEqual(uit.map((b) => b.prijs), [5990, 664, 664, 664]);
+  assert.match(uit[0].context, /zonneplan nexus/);
+  assert.match(uit[1].context, /thuisaccu klein/);
+});
+
+test("de context laat zien waar een bedrag bij hoort, ook als het het verkeerde is", () => {
+  // Dit is de hele reden dat deze functie er is: op een pagina met modules en
+  // pakketten moet een mens kunnen zien of 1.495 bij één module hoort.
+  const pagina = `
+    <h1>SolarEdge Home Battery 48V</h1><p>Pakket 9,2 kWh: € 6.200</p>
+    <h2>Losse module 4,6 kWh</h2><p>€ 1.495</p>`;
+  const uit = bedragenMetContext(pagina);
+  assert.deepEqual(uit.map((b) => b.prijs), [6200, 1495]);
+  assert.match(uit[1].context, /losse module 4,6 kwh/);
+});
+
+test("bedragen buiten de grenzen tellen niet mee", () => {
+  const uit = bedragenMetContext(`<p>€ 1.299</p><p>€ 12</p><p>€ 99.000</p>`);
+  assert.deepEqual(uit.map((b) => b.prijs), [1299]);
+});
+
+test("bedragen in een script tellen niet mee, net als bij de zichtbare tekst", () => {
+  const uit = bedragenMetContext(`<script>var p = "€ 4.999";</script><p>€ 1.299</p>`);
+  assert.deepEqual(uit.map((b) => b.prijs), [1299]);
+});
+
+test("een pagina zonder bedragen levert een lege lijst, geen fout", () => {
+  assert.deepEqual(bedragenMetContext("<p>Tijdelijk uitverkocht</p>"), []);
 });

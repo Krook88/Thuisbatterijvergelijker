@@ -622,6 +622,47 @@ export function prijsUitPagina(html, naam, opties = {}) {
 }
 
 /* ------------------------------------------------------------------
+   Wat staat er eigenlijk op deze pagina
+   ------------------------------------------------------------------ */
+
+/**
+ * Alle bedragen op een pagina, met de tekst eromheen.
+ *
+ * Waarom dit bestaat: prijsUitPagina geeft één bedrag en de weg waarlangs het
+ * gevonden is, en dat is precies genoeg om een prijs bij te werken en te
+ * weinig om een verschil te beoordelen. Bij zes aanbiedingen stond er wekenlang
+ * "€6200 → €1495 (-76%)" in de lijst, en de enige manier om te zien of dat een
+ * prijsdaling was of de buurman op een overzichtspagina, was de pagina zelf
+ * openen. Deze omgeving komt niet bij winkels; een GitHub-runner wel. Zie
+ * scripts/winkelpagina.mjs en de werkstroom eromheen.
+ *
+ * Bewust ruw: geen anker, geen keuze, geen oordeel. Elk bedrag dat er staat,
+ * op volgorde van de pagina, met genoeg tekst eromheen om te zien waar het bij
+ * hoort. Het oordeel is aan de lezer, want dat is nou juist wat er misgaat
+ * zodra een script het overneemt.
+ */
+export function bedragenMetContext(html, opties = {}) {
+  const { min = ONDERGRENS, max = BOVENGRENS, breedte = 70 } = opties;
+  const tekst = zichtbareTekst(html);
+  const gevonden = [];
+  // Dezelfde uitdrukking als prijsUitTekst: wat die route ziet, zie je hier.
+  const re = /(?:€|eur)\s*([\d.]{3,7}(?:,\d{2})?)/g;
+  let m;
+  while ((m = re.exec(tekst)) !== null) {
+    const prijs = parsePrijsWaarde(m[1]);
+    if (!prijs || prijs < min || prijs > max) continue;
+    const van = Math.max(0, m.index - breedte);
+    const tot = Math.min(tekst.length, m.index + m[0].length + breedte);
+    gevonden.push({
+      prijs,
+      positie: m.index,
+      context: tekst.slice(van, tot).replace(/\s+/g, " ").trim(),
+    });
+  }
+  return gevonden;
+}
+
+/* ------------------------------------------------------------------
    Wat een script überhaupt kan controleren
    ------------------------------------------------------------------ */
 

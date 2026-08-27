@@ -278,10 +278,18 @@ is, en geen ouderdomscontrole. In de workflow zag dat er hetzelfde uit als
 allebei; batterijmaatje heeft zijn eigen, uitgebreidere versie inline.
 
 `data/prijs-aandacht.json` houdt per site bij wat we al weten, met de datum
-waarop elk punt voor het eerst opdook. Alleen wat daar niet in staat is nieuws
-en maakt de run rood; wat eraf gaat wordt als opgelost gemeld; de rest is
-werkvoorraad en staat in het rapport. Wil je een punt vergeten, haal de regel
-uit dat bestand.
+waarop elk punt voor het eerst opdook. Wat eraf gaat wordt als opgelost gemeld;
+de rest is werkvoorraad en staat in het rapport. Wil je een punt vergeten, haal
+de regel uit dat bestand.
+
+Nieuws is niet hetzelfde als vandaag voor het eerst gezien. Een punt gaat bij
+de eerste keer in de lijst met `"bevestigd": false` en houdt niets tegen; staat
+het er de volgende run nog, dan is het nieuws en wordt de run rood; is het dan
+weg, dan verdwijnt het stil, want het is nooit gemeld. Dat scheelde op
+27 augustus zes van de zeven meldingen: om 16:41 stond zonnestroommaatje rood
+op vier omvormers bij Zonnige Winkel en op twee 403's, en om 17:45 gaven ze
+alle zes gewoon weer een prijs. Winkels haperen, en zonder die voorwaarde werd
+de run daar rood van — en de dag erna nog eens.
 
 Een prijs die van € 850 naar € 860 kruipt is geen nieuw punt — de sleutel is
 soort plus product plus winkel, zonder bedrag. Van "geweigerd" naar
@@ -303,3 +311,24 @@ Playwright staat niet in `package.json`; de workflow installeert hem in de
 prijsstap. Ontbreekt hij, dan gedraagt alles zich precies zoals eerst en zegt
 het rapport dat erbij — "de winkel weigert" en "we hebben het niet geprobeerd"
 zijn twee verschillende dingen, en alleen het eerste vraagt om actie.
+
+### Wat staat er op die pagina?
+
+Blijft een prijs op "te controleren" staan, dan is de melding zelf niet genoeg
+om te beslissen. "solaredge-home-battery-48v @ Thuisbatterij Nederland:
+€6200 → €1495 (-76%)" kan betekenen dat de winkel gehalveerd is, of dat het
+script de losse module van 4,6 kWh leest op een pagina waar ook het pakket van
+9,2 kWh staat. In het eerste geval moet er een prijs veranderen, in het tweede
+een URL.
+
+`npm run winkelpagina <url> --naam "..."` toont wat er op zo'n pagina staat:
+via welke weg hij binnenkwam, wat elke uitleesroute apart oplevert, en elk
+bedrag op de pagina met de tekst eromheen. Bewust zonder oordeel — het
+overnemen van dat oordeel door een script is precies wat die meldingen
+veroorzaakte.
+
+Draai hem niet hier maar via de werkstroom *Wat staat er op een winkelpagina*
+(met de hand te starten, adressen als invoer). De ontwikkelomgeving komt niet
+bij winkels: de egress-proxy laat alleen npm en pypi door, dus curl en fetch
+krijgen daar een 403 van de proxy in plaats van een antwoord van de winkel. Een
+runner komt er wel bij. Die werkstroom schrijft niets weg.
