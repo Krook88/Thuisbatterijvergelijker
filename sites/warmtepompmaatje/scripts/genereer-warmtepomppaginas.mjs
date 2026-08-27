@@ -41,6 +41,14 @@ const TITEL_MAX = 60;
 const OMSCHRIJVING_MAX = 155;
 const MERK_ACHTERVOEGSEL = " | Warmtepompmaatje";
 
+/* Merk plus model, tenzij het merk al vooraan in het model staat. Zonder deze
+   uitzondering heet de Quatt op elke plek "Quatt Quatt hybride (Duo mogelijk)":
+   in de titel, in de kop, in de omschrijving en in de productmarkup. De andere
+   twee sites deden dit al; hier stond het merk er twee keer los ingebakken. */
+const volledigeNaam = (w) =>
+  w.model.toLowerCase().startsWith(w.merk.toLowerCase()) ? w.model : `${w.merk} ${w.model}`;
+
+
 function titelMetMerk(kern) {
   return kern.length + MERK_ACHTERVOEGSEL.length <= TITEL_MAX ? kern + MERK_ACHTERVOEGSEL : kern;
 }
@@ -161,7 +169,7 @@ function houdbaarTot(datum) {
 }
 
 function productLd(w) {
-  const naam = `${w.merk} ${w.model}`;
+  const naam = volledigeNaam(w);
   const beste = bestePrijs(w);
   // Alleen aanbiedingen die het complete toestel dekken: een losse buitenunit
   // als "price" van dit product opvoeren zou in de zoekresultaten een bedrag
@@ -233,7 +241,7 @@ function voet(diepte) {
   <div class="container">
     <b>${Iconen.svg("warmte")} Warmtepompmaatje</b>
     <p>Onafhankelijke vergelijking van warmtepompen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen).</p>
-    <p><a href="${p}index.html">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}warmtepomp-geluid.html">Geluid</a> · <a href="${p}monoblock-of-split.html">Monoblock of split</a> · <a href="${p}over-ons.html">Over mij</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}steun.html">Steun deze site</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="${p}index.html">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}warmtepomp-geluid.html">Geluid</a> · <a href="${p}monoblock-of-split.html">Monoblock of split</a> · <a href="${p}index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="${p}over-ons.html">Over mij</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}steun.html">Steun deze site</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties zijn indicaties; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -594,7 +602,7 @@ ${voet(false)}
 }
 
 function pompPagina(w) {
-  const naam = `${w.merk} ${w.model}`;
+  const naam = volledigeNaam(w);
   const beste = bestePrijs(w);
   const uitWinkel = !!(beste && !beste.is_richtprijs);
   const score = koppelScore(w);

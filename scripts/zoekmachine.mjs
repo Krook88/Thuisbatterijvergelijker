@@ -62,10 +62,14 @@ for (const site of readdirSync(resolve(ROOT, "sites"))) {
   if (!existsSync(siteMap) || !statSync(siteMap).isDirectory()) continue;
   const meldingen = [];
   const paginas = htmlIn(siteMap).sort();
+  const noindex = new Set();
+  // Twee tellingen, geen meldingen. Zie de uitleg onder de lus.
+  const producten = { totaal: 0, zonderAfbeelding: [], zonderPrijs: [] };
 
   for (const f of paginas) {
     const h = readFileSync(join(siteMap, f), "utf8");
     const meld = (tekst) => meldingen.push(`  ${f}: ${tekst}`);
+    if (/<meta[^>]+name="robots"[^>]*content="[^"]*noindex/i.test(h)) noindex.add(f);
 
     const titel = pak(h, /<title>([\s\S]*?)<\/title>/i);
     const omschrijving = pak(h, /<meta name="description" content="([^"]*)"/i);
@@ -83,7 +87,11 @@ for (const site of readdirSync(resolve(ROOT, "sites"))) {
       let blok;
       try { blok = JSON.parse(m[1]); } catch (e) { meld(`JSON-LD niet te lezen: ${e.message.slice(0, 60)}`); continue; }
       for (const o of (Array.isArray(blok) ? blok : [blok])) {
-        if (o["@type"] !== "Product" || !o.offers) continue;
+        if (o["@type"] !== "Product") continue;
+        producten.totaal++;
+        if (!o.image) producten.zonderAfbeelding.push(o.name || f);
+        if (!o.offers) producten.zonderPrijs.push(o.name || f);
+        if (!o.offers) continue;
         const aanbod = o.offers;
         if (!aanbod.availability) meld(`Product zonder availability: ${o.name || "?"}`);
         // Ontbreekt de houdbaarheidsdatum, dan is de prijs zelf te oud: de
@@ -115,6 +123,16 @@ for (const site of readdirSync(resolve(ROOT, "sites"))) {
       const alsIndex = f === "index.html" ? "index.html" : f;
       if (!inSitemap.has(alsIndex)) meldingen.push(`  staat niet in de sitemap: ${f}`);
     }
+    // Een pagina op noindex die wél in de sitemap staat zegt twee dingen
+    // tegelijk: "kom hier kijken" en "neem me niet op". Google volgt de
+    // noindex en houdt de tegenspraak over. Zonnestroommaatje zette contact en
+    // privacy op noindex terwijl de andere twee sites diezelfde pagina's
+    // gewoon laten indexeren, en alle drie staan ze in de sitemap. Wat de
+    // keuze ook wordt: hij hoort op beide plekken hetzelfde te zijn.
+    for (const f of noindex) {
+      if (GEEN_INDEX.has(f)) continue;
+      if (inSitemap.has(f)) meldingen.push(`  staat op noindex maar wel in de sitemap: ${f}`);
+    }
   } else {
     meldingen.push("  geen sitemap.xml");
   }
@@ -123,6 +141,31 @@ for (const site of readdirSync(resolve(ROOT, "sites"))) {
   for (const r of meldingen.slice(0, 25)) console.log(r);
   if (meldingen.length > 25) console.log(`  ... en nog ${meldingen.length - 25}`);
   bevindingen += meldingen.length;
+
+  /* Twee signalen, en met opzet geen meldingen: ze laten de run niet vallen en
+     ze tellen niet mee in het aantal bevindingen. Wat eraan mankeert is namelijk
+     niet met een regel code te herstellen - er moet een foto komen of een winkel
+     - en een controle die meteen achtenvijftig regels afdrukt is er een die je
+     wegklikt. Dat staat in SCHRIJFWIJZE.md over de tekstcontrole en het geldt
+     hier net zo goed.
+
+     Waarom ze er dan staan: Google toont een productresultaat - de foto, de
+     prijs, de beschikbaarheid naast het blauwe linkje - alleen als de markup
+     een image heeft. Zonder afbeelding is de hele Product-markup op zo'n
+     pagina er wel, maar hij levert niets op. Dat is niet te zien aan de
+     pagina, want die werkt gewoon, en het is precies het soort scheefgroei dat
+     de rest van dit script ook bewaakt. Een getal dat elke run meeloopt maakt
+     het verschil tussen "we weten het" en "we komen er nog eens aan toe". */
+  if (producten.totaal) {
+    const deel = (lijst) => `${lijst.length} van de ${producten.totaal}`;
+    if (producten.zonderAfbeelding.length) {
+      console.log(`  signaal: ${deel(producten.zonderAfbeelding)} productpagina's hebben geen image in de markup en komen dus niet in aanmerking voor een productresultaat.`);
+      console.log(`           ${producten.zonderAfbeelding.slice(0, 3).join("; ")}${producten.zonderAfbeelding.length > 3 ? "; …" : ""}`);
+    }
+    if (producten.zonderPrijs.length) {
+      console.log(`  signaal: ${deel(producten.zonderPrijs)} productpagina's dragen geen offers, want er hoort geen winkelaanbieding bij - alleen een richtprijs.`);
+    }
+  }
 }
 
 console.log(bevindingen

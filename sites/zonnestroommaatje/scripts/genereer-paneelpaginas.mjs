@@ -413,8 +413,14 @@ function pagina(p) {
     `<tr><th>${esc(label)}</th><td>${waarde}</td></tr>`;
 
   return `${kop(
+    /* Paneelnamen zijn lang - "DMEGC DM450M10RT-B54HBT 450 Wp Full Black
+       (glas-glas)" is er in zijn eentje al 53 - en daardoor viel de ladder bij
+       elf van de veertien panelen door tot de kale naam. Een titel zonder
+       "prijs" erin mist precies het woord waarop iemand zoekt die dit paneel
+       al bij naam kent. Deze sport past bij dertien van de veertien. */
     [`${volledigeNaam(p)}: prijs, specificaties en garantie`,
      `${volledigeNaam(p)}: prijs en specificaties`,
+     `${volledigeNaam(p)}: prijs`,
      volledigeNaam(p)],
     metaDesc,
     `${SITE}/paneel/${esc(p.id)}.html`,
