@@ -635,10 +635,11 @@
       "product_url": "https://www.alphaess.nl/pages/smile-g3-thuisbatterij",
       "aanbiedingen": [
         {
-          "winkel": "Frank Energie (sets incl. aansturing)",
+          "winkel": "Frank Energie (sets incl. aansturing, 4.945 tot 14.895 euro excl. btw)",
           "prijs_eur": 9000,
           "url": "https://www.frankenergie.nl/nl/thuisbatterij/alphaess",
-          "datum": "2026-07-13"
+          "datum": "2026-07-13",
+          "prijs_controle": "handmatig"
         }
       ],
       "totaalprijs_van_eur": 10000,
@@ -838,9 +839,9 @@
       "vermogen_kw": 5,
       "type": "hybride",
       "fase": "3-fase",
-      "richtprijs_eur": 6200,
+      "richtprijs_eur": 2990,
       "prijs_omvat": "alleen batterijmodules (2x 4,6 kWh); Home Hub-omvormer (ca. 1.500 tot 2.500 euro) en installatie komen erbij",
-      "prijs_datum": "2026-07-13",
+      "prijs_datum": "2026-08-28",
       "prijs_bron": "Thuisbatterij Nederland",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Alleen te combineren met een SolarEdge Home Hub- of StorEdge-omvormer, DC-gekoppeld. Heb je panelen van een ander merk, dan moet de omvormer eruit. Let op: ook een oudere SolarEdge-omvormer zonder batterij-interface volstaat niet.",
@@ -855,10 +856,11 @@
       "product_url": "https://www.solaredge.com/nl/batterijen/thuisbatterij-48v",
       "aanbiedingen": [
         {
-          "winkel": "Thuisbatterij Nederland (per module 4,6 kWh: ca. 3.100 euro)",
-          "prijs_eur": 6200,
+          "winkel": "Thuisbatterij Nederland (per module 4,6 kWh: 1.495 euro)",
+          "prijs_eur": 2990,
           "url": "https://thuisbatterijnederland.nl/product/solaredge-home-46-kwh-48v/",
-          "datum": "2026-07-13"
+          "datum": "2026-08-28",
+          "prijs_controle": "handmatig"
         }
       ],
       "totaalprijs_van_eur": null,
@@ -1489,9 +1491,9 @@
       "vermogen_kw": 2.5,
       "type": "plug-in",
       "fase": "1-fase",
-      "richtprijs_eur": 1399,
+      "richtprijs_eur": 1990,
       "prijs_omvat": "incl. btw, stekkerklaar met ingebouwde omvormer; excl. installatie",
-      "prijs_datum": "2026-07-27",
+      "prijs_datum": "2026-08-28",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Een hybride plug-in: AC-gekoppeld én met 4 MPPT-ingangen, zodat je tot ongeveer 3.600 W aan panelen rechtstreeks kunt aansluiten.",
       "koppeling_gemak": 4,
@@ -1506,15 +1508,16 @@
       "aanbiedingen": [
         {
           "winkel": "MOVA (officieel)",
-          "prijs_eur": 1399,
+          "prijs_eur": 1990,
           "url": "https://www.mova.tech/products/lumegret-a4000-solar-power-system",
-          "datum": null
+          "datum": "2026-08-28"
         },
         {
-          "winkel": "Thuisbatterij.io",
+          "winkel": "Thuisbatterij.io (winkeloverzicht, geen productpagina)",
           "prijs_eur": 1190,
           "url": "https://thuisbatterij.io/shop/",
-          "datum": "2026-07-27"
+          "datum": "2026-07-27",
+          "prijs_controle": "handmatig"
         }
       ],
       "totaalprijs_van_eur": 1190,
@@ -1642,7 +1645,8 @@
           "winkel": "AH Voordeelshop",
           "prijs_eur": 1449,
           "url": "https://voordeelshop.ah.nl/smart-home/666/aeg-solarcube-plug-in-thuisbatterij/393975/aeg-solarcube-plug-in-thuisbatterij-48-kwh/393977/",
-          "datum": "2026-07-20"
+          "datum": "2026-07-20",
+          "niet_leverbaar": true
         }
       ],
       "totaalprijs_van_eur": 1449,

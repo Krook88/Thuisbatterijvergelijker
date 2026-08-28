@@ -114,7 +114,16 @@ for (const bestand of readdirSync(DATA).filter((f) => f.endsWith(".json"))) {
       // Heeft deze prijs überhaupt een adres waar een script hem kan
       // bevestigen? Zonder dat is stilstand geen storing maar een ontbrekende
       // bron, en dat vraagt om iets anders dan wachten tot het script hem haalt.
-      const soort = item.prijs_controle === "handmatig"
+      // De markering staat niet altijd op het product. update-prices.mjs kijkt
+      // ook naar de losse aanbieding, en dat moet hier hetzelfde zijn: staat
+      // elke aanbieding die nog telt op mensenwerk, dan bezoekt geen enkel
+      // script deze prijs meer. Zonder die tweede blik meldde de AlphaESS zich
+      // als "het prijsscript bezoekt de winkel wel maar krijgt er geen bedrag
+      // uit", terwijl het script daar met opzet vanaf blijft - Frank Energie
+      // verkoopt sets van 4.945 tot 14.895 euro en welke daarvan bij ons model
+      // hoort staat er niet bij. Dan ga je een storing zoeken die er niet is.
+      const alleenMensenwerk = teKoop.length > 0 && teKoop.every((a) => a.prijs_controle === "handmatig");
+      const soort = item.prijs_controle === "handmatig" || alleenMensenwerk
         ? "handmatig"
         : (item.aanbiedingen || []).some((a) => a && a.url) || typeof item.prijs_bron_url === "string"
           ? "adres"
