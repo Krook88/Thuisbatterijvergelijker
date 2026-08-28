@@ -15,7 +15,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { afbeeldingKandidaten, absoluut, naamDelen, naamScore, beeldScore, bronPaginas } from "./productfotos.mjs";
+import { afbeeldingKandidaten, absoluut, naamDelen, naamScore, beeldScore, bronPaginas, modelDelen, magStoppen, padVanAdres } from "./productfotos.mjs";
 
 const BASIS = "https://www.fabrikant.nl/product/pomp-x";
 
@@ -205,4 +205,56 @@ test("een gewone productnaam met ai erin blijft gewoon staan", () => {
   // "aiko" en "daikin" bevatten allebei de letters ai; die mogen niet sneuvelen.
   const html = `<meta property="og:image" content="https://x.nl/aiko-neostar-455-front.jpg">`;
   assert.equal(afbeeldingKandidaten(html, BASIS).length, 1);
+});
+
+test("het merk alleen is geen reden om te stoppen met zoeken", () => {
+  // Op bydbatterybox.com heet elk bestand naar BYD. Het merkwoord onderscheidt
+  // daar niets, dus het mag de zoektocht niet afsluiten voordat de winkels aan
+  // de beurt zijn geweest.
+  const modellen = modelDelen({ model: "BYD Battery-Box Premium HVM 11.0" });
+  assert.equal(magStoppen("https://www.bydbatterybox.com/BYD_los.png", modellen), false);
+  assert.equal(magStoppen("https://www.bydbatterybox.com/battery-box-premium-hvm.jpg", modellen), true);
+});
+
+test("een sfeerbeeld dat het model noemt sluit de zoektocht niet af", () => {
+  // "Vitocal-150-A-outdoor-unit-house-16-9.jpg" noemt het model vier keer en
+  // toont een gevel met een fiets ervoor. Kandidaat blijft hij, want misschien
+  // heeft geen enkele winkel iets beters; een reden om op te houden is hij niet.
+  const modellen = modelDelen({ model: "Vitocal 150-A" });
+  assert.equal(magStoppen("https://www.viessmann.nl/Vitocal-150-A-outdoor-unit-house-16-9.jpg", modellen), false);
+  assert.equal(magStoppen("https://www.viessmann.nl/Vitocal-150-A-packshot.jpg", modellen), true);
+});
+
+test("zonder modelwoorden stopt de zoektocht nooit vroeg", () => {
+  // Een product waarvan het model alleen uit cijfers of korte woorden bestaat
+  // levert geen enkel onderscheidend woord op. Dan is elke bron het bezoeken
+  // waard, want er is niets om op af te gaan.
+  assert.equal(magStoppen("https://winkel.nl/iets.jpg", modelDelen({ model: "E 3" })), false);
+});
+
+test("modelwoorden wegen dubbel in de rangschikking", () => {
+  // Het merk staat in elke bestandsnaam op het domein van de fabrikant, het
+  // model in maar één. Bij gelijke stand op de merkwoorden geeft het model
+  // daarom de doorslag.
+  const delen = naamDelen("NIBE S2125");
+  const modellen = modelDelen({ model: "S2125" });
+  const merkalleen = beeldScore("https://nibe.eu/nibe-produkter.jpg", delen, modellen);
+  const metModel = beeldScore("https://nibe.eu/nibe-s2125.jpg", delen, modellen);
+  assert.equal(metModel - merkalleen, 2);
+});
+
+test("een merkteken zonder achtergrond is geen product", () => {
+  const html = `<img src="/BYD_transparent.png" alt="">
+    <img src="/battery-box-premium-hvm.jpg" alt="HVM">`;
+  assert.deepEqual(afbeeldingKandidaten(html, BASIS).map((k) => k.url),
+    ["https://www.fabrikant.nl/battery-box-premium-hvm.jpg"]);
+});
+
+test("de domeinnaam telt niet mee als naamtreffer", () => {
+  // bydbatterybox.com bevat "battery", dus zonder deze regel scoorde élk adres
+  // op dat domein een treffer en woog het merkteken even zwaar als de foto.
+  const delen = naamDelen("BYD Battery-Box Premium");
+  assert.equal(naamScore("https://www.bydbatterybox.com/wp/iets.png", delen), 0);
+  assert.equal(naamScore("https://www.bydbatterybox.com/wp/battery-box.png", delen), 1);
+  assert.equal(padVanAdres("https://x.nl/map/foto.jpg?w=1200"), "/map/foto.jpg?w=1200");
 });
