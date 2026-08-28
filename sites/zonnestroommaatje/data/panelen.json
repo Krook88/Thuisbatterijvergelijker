@@ -38,7 +38,10 @@
           "url": "https://justsolar.store/products/aiko-455wp-neostar-2s-gen2-glas-glas-all-black",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/aiko-neostar-2p-455.webp",
+      "afbeelding_bron": "foto: AIKO",
+      "afbeelding_herkomst": "https://aikosolar.com/static/img/website-thumbnail.jpg"
     },
     {
       "id": "jinko-tiger-neo-440",
@@ -81,7 +84,10 @@
           "url": "https://www.stralendgroen.nl/en/product/jinko-solar-tiger-neo-all-black-n-type-440wp/",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/jinko-tiger-neo-440.webp",
+      "afbeelding_bron": "foto: Jinko Solar",
+      "afbeelding_herkomst": "https://jinkosolarcdn.shwebspace.com/themes/basicen/skin/images/fullimg.jpg"
     },
     {
       "id": "ja-solar-jam54d41-440",
@@ -186,7 +192,10 @@
           "url": "https://www.stralendgroen.nl/en/product/trina-solar-vertex-s-dual-glass-all-black-450wp/",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/trina-vertex-s-plus-450.webp",
+      "afbeelding_bron": "foto: Trina Solar",
+      "afbeelding_herkomst": "https://www-cdn.trinasolar.com/wwwstorage/sites/3/home_product1.jpg"
     },
     {
       "id": "dmegc-440-glas-glas",
@@ -223,7 +232,10 @@
           "url": "https://solarkopen.nl/products/dmegc-450wp-glas-glas-full-black-zonnepaneel",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/dmegc-440-glas-glas.webp",
+      "afbeelding_bron": "foto: DMEGC",
+      "afbeelding_herkomst": "https://www.dmegcsolar.com/static/en/images/nav.png"
     },
     {
       "id": "canadian-solar-tophiku6-435",
@@ -254,7 +266,10 @@
           "url": "https://offgridpowerstation.eu/product/canadian-solar-435wp-full-black-frame/",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/canadian-solar-tophiku6-435.webp",
+      "afbeelding_bron": "foto: Canadian Solar",
+      "afbeelding_herkomst": "https://static.csisolar.com/wp-content/themes/twentytwenty/assets/images/m1.png"
     },
     {
       "id": "rec-alpha-pure-2-420",
@@ -285,7 +300,10 @@
           "url": "https://zonnepaneelcentrum.nl/product/rec-alpha-pure-2-400-430-w/",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/rec-alpha-pure-2-420.webp",
+      "afbeelding_bron": "foto: REC",
+      "afbeelding_herkomst": "https://www.recgroup.com/sites/default/files/2024-05/Home_Installer_Locator.jpg"
     },
     {
       "id": "maxeon-6-440",
@@ -309,7 +327,10 @@
       "prijs_omvat": "prijs per paneel, 0% btw bij levering voor een woning, excl. omvormer en installatie",
       "product_url": "https://maxeon.com/",
       "opmerkingen": "Het absolute topsegment: IBC back-contact cellen op een koperen basisplaat en 40 jaar garantie op product én vermogen, de langste van de markt. Afwijkend (langwerpiger) formaat; laat de legplanning door een installateur controleren. Let op: alleen via erkende Maxeon-installateurs leverbaar.",
-      "aanbiedingen": []
+      "aanbiedingen": [],
+      "afbeelding": "assets/producten/maxeon-6-440.webp",
+      "afbeelding_bron": "foto: Maxeon (SunPower)",
+      "afbeelding_herkomst": "http://static1.squarespace.com/static/6740dc6b95218e0ecdaa68f6/t/67e71ae856da4c2a033af5df/1743198952695/Maxeon_Residential_Rooftop_Home_White.jpg?format=1500w"
     },
     {
       "id": "solarwatt-vision-am-425",
@@ -333,7 +354,10 @@
       "prijs_omvat": "prijs per paneel, 0% btw bij levering voor een woning, excl. omvormer en installatie",
       "product_url": "https://www.solarwatt.nl/",
       "opmerkingen": "Duitse kwaliteitsbouwer met 30 jaar garantie op product én vermogen. Robuust glas-glas paneel (2 mm glas aan beide zijden), daardoor wel enkele kilo's zwaarder dan de gemiddelde concurrent. Vooral leverbaar via installateurs, niet als los paneel bij webshops.",
-      "aanbiedingen": []
+      "aanbiedingen": [],
+      "afbeelding": "assets/producten/solarwatt-vision-am-425.webp",
+      "afbeelding_bron": "foto: Solarwatt",
+      "afbeelding_herkomst": "https://solarwatt.nl/wp-content/uploads/2025/01/vp-sw-panel-vision-300x300.png"
     },
     {
       "id": "denim-440-full-black",
