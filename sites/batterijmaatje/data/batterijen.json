@@ -961,7 +961,8 @@
       "totaalprijs_geschat_tot_eur": 7113,
       "afbeelding": "assets/producten/lg-enblock-flex-129.webp",
       "afbeelding_bron": "foto: LG Energy Solution",
-      "afbeelding_herkomst": "https://www.lgessbattery.com/en/lgenblock/images/sub/product/enblock_s_bg.jpg"
+      "afbeelding_herkomst": "https://www.lgessbattery.com/en/lgenblock/images/sub/product/enblock_s_bg.jpg",
+      "afbeelding_via": "https://www.lgessbattery.com/en/lgenblock/product.html"
     },
     {
       "id": "jackery-homepower-2000-ultra",
@@ -1108,8 +1109,9 @@
       "capaciteit_nominaal_kwh": 5.8,
       "capaciteit_soort": "bruikbaar",
       "afbeelding": "assets/producten/solax-triple-power-t58.webp",
-      "afbeelding_bron": "foto: SolaX",
-      "afbeelding_herkomst": "https://www.alma-solarshop.nl/4735-home_default/triple-power-batterij-58kwh-hoogspanning.jpg"
+      "afbeelding_bron": "foto: Alma Solar",
+      "afbeelding_herkomst": "https://www.alma-solarshop.nl/4735-home_default/triple-power-batterij-58kwh-hoogspanning.jpg",
+      "afbeelding_via": "https://www.alma-solarshop.nl/triple-power-batterij/1241-triple-power-batterij-58kwh-hoogspanning.html"
     },
     {
       "id": "dyness-powerbox-g2",
@@ -1702,7 +1704,8 @@
       "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel.",
       "afbeelding": "assets/producten/sunpura-s4800.webp",
       "afbeelding_bron": "foto: Sunpura",
-      "afbeelding_herkomst": "https://sunpuraenergy.nl/cdn/shop/files/S2400_All-In-One_-_front_view_-_3.png?v=1784618697&width=900"
+      "afbeelding_herkomst": "https://sunpuraenergy.nl/cdn/shop/files/S2400_All-In-One_-_front_view_-_3.png?v=1784618697&width=900",
+      "afbeelding_via": "https://sunpuraenergy.nl/en"
     },
     {
       "id": "marstek-venus-e-4",

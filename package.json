@@ -18,6 +18,7 @@
     "keuring": "node scripts/keuring.mjs",
     "slop": "node scripts/slop.mjs",
     "dode-regels": "node scripts/dode-regels.mjs",
+    "zoekmachine": "node scripts/zoekmachine.mjs",
     "winkelpagina": "node scripts/winkelpagina.mjs",
     "fotos": "node scripts/productfotos.mjs",
     "controle": "npm run kern:controleer && npm test && npm run modellen && npm run workflows && npm run datums && npm run llms && npm run slop && npm run keuring && npm run dode-regels"

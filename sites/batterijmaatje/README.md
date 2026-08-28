@@ -71,6 +71,18 @@ Bewaar bestanden als `.webp` in `assets/producten/`, ongeveer 900 pixels breed. 
 `afbeelding_bron` als de foto niet van jezelf is: die bronvermelding verschijnt klein in
 de hoek van de foto en hoort bij het tonen van andermans beeld.
 
+**Noem de partij bij wie je het beeld hebt gehaald, niet het merk op het apparaat.**
+Dat verschil is echt: van de foto's die er stonden kwamen er twaalf van een winkel
+terwijl er de merknaam onder stond - de SolaX van Alma Solar, de DMEGC van Stroomwinkel,
+de Qcells van Zonnefabriek. Op een site die zijn prijzen bij de winkel natelt is een
+bronvermelding die de verkeerde partij noemt precies het soort fout dat het vertrouwen
+kost, en het is bovendien de partij die dat beeld gemaakt of gelicentieerd heeft. De
+host van het beeld is daarvoor geen maatstaf: fabrikanten zetten hun foto's op
+`edge.sitecorecloud.io`, `a.storyblok.com` of een S3-emmer. `afbeelding_via` legt daarom
+de pagina vast waar het beeld vandaan komt.
+
+`npm run fotos` doet dit vullen zelf; de hoofd-README beschrijft hoe.
+
 ## Meten voor en na een wijziging
 
 Twee hulpmiddelen om een verbetering aantoonbaar te maken in plaats van

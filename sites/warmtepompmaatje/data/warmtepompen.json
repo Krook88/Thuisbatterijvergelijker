@@ -278,8 +278,9 @@
       "scop_conditie": "35",
       "vermogen_conditie": "Prated",
       "afbeelding": "assets/producten/vaillant-arotherm-plus.webp",
-      "afbeelding_bron": "foto: Vaillant",
-      "afbeelding_herkomst": "https://woonopstroom.nl/cdn/shop/files/productfoto_arothermplus_f6bc9e2e-c348-4cef-aa1c-6003504a05b3_1024x1024.jpg?v=1711375171"
+      "afbeelding_bron": "foto: Woon op Stroom",
+      "afbeelding_herkomst": "https://woonopstroom.nl/cdn/shop/files/productfoto_arothermplus_f6bc9e2e-c348-4cef-aa1c-6003504a05b3_1024x1024.jpg?v=1711375171",
+      "afbeelding_via": "https://woonopstroom.nl/products/vaillant-arotherm-plus-vwl-55-6-a-230v-5-4-kw"
     },
     {
       "id": "viessmann-vitocal-250a",
@@ -616,7 +617,8 @@
       "scop_conditie": "35",
       "afbeelding": "assets/producten/bosch-compress-5800i.webp",
       "afbeelding_bron": "foto: Bosch",
-      "afbeelding_herkomst": "https://www.nefit-bosch.nl/ocsmedia/optimized/770x99999/o546932v389_Compress_5800i_6800i_AW_v14.png"
+      "afbeelding_herkomst": "https://www.nefit-bosch.nl/ocsmedia/optimized/770x99999/o546932v389_Compress_5800i_6800i_AW_v14.png",
+      "afbeelding_via": "https://www.nefit-bosch.nl/ocs/compress-5800i-aw-21076799-p/"
     },
     {
       "id": "panasonic-aquarea-l",
@@ -731,7 +733,8 @@
       "scop_conditie": "35",
       "afbeelding": "assets/producten/lg-therma-v.webp",
       "afbeelding_bron": "foto: LG",
-      "afbeelding_herkomst": "https://www.lg.com/content/dam/channel/wcms/nl/images/warmtepomp/therma-v-r290-monobloc/lg-hvac-air-to-water-heat-pumps-therma-v-r290-monobloc-kv-thumb-m.png"
+      "afbeelding_herkomst": "https://www.lg.com/content/dam/channel/wcms/nl/images/warmtepomp/therma-v-r290-monobloc/lg-hvac-air-to-water-heat-pumps-therma-v-r290-monobloc-kv-thumb-m.png",
+      "afbeelding_via": "https://www.lg.com/nl/warmtepomp/therma-v-r290-monobloc/"
     },
     {
       "id": "samsung-ehs-mono-ht",
@@ -796,7 +799,7 @@
       "vermogen_conditie": "Prated",
       "scop_conditie": "35",
       "afbeelding": "assets/producten/samsung-ehs-mono-ht.webp",
-      "afbeelding_bron": "foto: Samsung",
+      "afbeelding_bron": "foto: Coen+",
       "afbeelding_herkomst": "https://www.coen-plus.nl/media/catalog/product/cache/6517c62f5899ad6aa0ba23ceb3eeff97/s/a/samsung_ehs1.jpg"
     },
     {
@@ -928,7 +931,8 @@
       "vermogen_conditie": "Prated",
       "afbeelding": "assets/producten/stiebel-wpl-a07.webp",
       "afbeelding_bron": "foto: Stiebel Eltron",
-      "afbeelding_herkomst": "https://www.stiebel-eltron.nl/content/dam/ste/products/article_picture/pic00009/pic00009953-00.png"
+      "afbeelding_herkomst": "https://www.stiebel-eltron.nl/content/dam/ste/products/article_picture/pic00009/pic00009953-00.png",
+      "afbeelding_via": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-a-05-07-hk-premium/wpl-a-07-hk-230-premium.html"
     },
     {
       "id": "wolf-cha-07",
@@ -1252,7 +1256,7 @@
       ],
       "vermogen_conditie": "Prated",
       "afbeelding": "assets/producten/atag-energion-m-hybrid.webp",
-      "afbeelding_bron": "foto: ATAG",
+      "afbeelding_bron": "foto: Coen+",
       "afbeelding_herkomst": "https://www.coen-plus.nl/media/catalog/product/cache/3380650127d143eec657262365bd2ea0/a/t/atag_energion_buiten_50_1_2.jpg"
     },
     {
@@ -1481,7 +1485,8 @@
       "vermogen_conditie": "Prated",
       "afbeelding": "assets/producten/atlantic-alfea-extensa.webp",
       "afbeelding_bron": "foto: Atlantic",
-      "afbeelding_herkomst": "https://atlanticclimate.nl/wp-content/uploads/sites/3/2021/04/Alfea-Extensa-R32-DUO.jpg"
+      "afbeelding_herkomst": "https://atlanticclimate.nl/wp-content/uploads/sites/3/2021/04/Alfea-Extensa-R32-DUO.jpg",
+      "afbeelding_via": "https://atlanticclimate.nl/product/alfea-warmtepompen-r32/"
     },
     {
       "id": "dewarmte-pomp-ao",
@@ -1643,8 +1648,9 @@
       "prijs_datum": "2026-08-27",
       "vermogen_conditie": "Prated",
       "afbeelding": "assets/producten/panasonic-aquarea-wxg.webp",
-      "afbeelding_bron": "foto: Panasonic",
-      "afbeelding_herkomst": "https://www.multi-import.nl/media/catalog/product/cache/6517c62f5899ad6aa0ba23ceb3eeff97/w/h/wh-wxg09me8_2_1.jpg"
+      "afbeelding_bron": "foto: Multi-Import",
+      "afbeelding_herkomst": "https://www.multi-import.nl/media/catalog/product/cache/6517c62f5899ad6aa0ba23ceb3eeff97/w/h/wh-wxg09me8_2_1.jpg",
+      "afbeelding_via": "https://www.multi-import.nl/wh-wxg12me8"
     },
     {
       "id": "stiebel-wpl-a13",
@@ -1704,7 +1710,8 @@
       "vermogen_conditie": "Prated",
       "afbeelding": "assets/producten/stiebel-wpl-a13.webp",
       "afbeelding_bron": "foto: Stiebel Eltron",
-      "afbeelding_herkomst": "https://www.stiebel-eltron.nl/content/dam/ste/products/article_picture/pic-0012/pic-00122339.png"
+      "afbeelding_herkomst": "https://www.stiebel-eltron.nl/content/dam/ste/products/article_picture/pic-0012/pic-00122339.png",
+      "afbeelding_via": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-a-trend/wpl-a-13-2-trend-hk-400.html"
     },
     {
       "id": "bosch-compress-5800i-12",
@@ -1758,7 +1765,8 @@
       "vermogen_conditie": "Prated",
       "afbeelding": "assets/producten/bosch-compress-5800i-12.webp",
       "afbeelding_bron": "foto: Bosch",
-      "afbeelding_herkomst": "https://www.nefit-bosch.nl/ocsmedia/optimized/1600x99999/o546932v389_Compress_5800i_6800i_AW_v14.webp"
+      "afbeelding_herkomst": "https://www.nefit-bosch.nl/ocsmedia/optimized/1600x99999/o546932v389_Compress_5800i_6800i_AW_v14.webp",
+      "afbeelding_via": "https://www.nefit-bosch.nl/producten/warmtepompen/de-compress-5800-awr-warmtepompen/"
     },
     {
       "id": "mitsubishi-ecodan-120",
