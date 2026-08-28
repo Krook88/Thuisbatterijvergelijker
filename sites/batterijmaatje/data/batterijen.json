@@ -827,7 +827,10 @@
       "buiten_toelichting": "buiten toegestaan volgens fabrikant, -10 tot 50 °C",
       "capaciteit_nominaal_kwh": 11.04,
       "capaciteit_soort": "bruikbaar",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "onbekend",
+      "afbeelding": "assets/producten/byd-battery-box-hvm-11.webp",
+      "afbeelding_bron": "foto: BYD",
+      "afbeelding_herkomst": "https://www.bydbatterybox.com/wp-content/uploads/2020/01/HV_small_yellow.jpg.png"
     },
     {
       "id": "solaredge-home-battery-48v",
@@ -1104,7 +1107,10 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "bedrijfstemperatuur vanaf 0 °C; buiten hangen in de winter is twijfelachtig",
       "capaciteit_nominaal_kwh": 5.8,
-      "capaciteit_soort": "bruikbaar"
+      "capaciteit_soort": "bruikbaar",
+      "afbeelding": "assets/producten/solax-triple-power-t58.webp",
+      "afbeelding_bron": "foto: SolaX",
+      "afbeelding_herkomst": "https://www.alma-solarshop.nl/4735-home_default/triple-power-batterij-58kwh-hoogspanning.jpg"
     },
     {
       "id": "dyness-powerbox-g2",
