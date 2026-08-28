@@ -74,6 +74,57 @@ const ALLEEN = (vlag("--alleen") || "").split(",").map((s) => s.trim()).filter(B
 
 const BEELDSOORTEN = /\.(jpe?g|png|webp)(\?|#|$)/i;
 
+/* Adressen die nooit het product zijn, hoe ze ook binnenkomen.
+ *
+ * Dit stond eerst alleen op de gewone <img>-tags, en dat was te weinig: juist
+ * de logo's kwamen binnen via og:image, waar het filter niet langs kwam. De
+ * eerste droge run over 70 producten koos daardoor nibe-logga-200.jpg voor de
+ * NIBE, logo-lg-100-44.jpg voor de LG en logo-square-letter.png voor de
+ * Samsung. Een fabrikant zet in og:image zijn merk, niet zijn product. */
+// Let op de scheidingstekens: het adres wordt eerst gedecodeerd, dus "%20"
+// is dan een spatie. Met [-_%20] stond die spatie er niet bij, en glipte
+// "social share weheat.jpg" er alsnog doorheen.
+const NOOIT = /logo|logga|icon|sprite|avatar|badge|placeholder|og[-_ ]?image|og[-_ ]?thumb|social[^a-z0-9]{0,3}share|share[^a-z0-9]{0,3}image|banner/i;
+
+/* Woorden uit de productnaam die op een bestandsnaam kunnen staan. Merk en
+ * model zonder de maten en de eenheden, want "10" en "kWh" staan overal. */
+export function naamDelen(naam) {
+  return String(naam || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .split(" ")
+    .filter((w) => w.length >= 4 && !/^\d+$/.test(w));
+}
+
+/* Hoeveel van die woorden in het adres terugkomen. Een bestandsnaam als
+ * "elga-ace-hybride-warmtepomp-remeha_1.png" noemt het product; een
+ * "Header_Desktop_1440x360.jpg" noemt het niet. Dat is het verschil tussen de
+ * foto van dit apparaat en de foto van de pagina waar hij op staat. */
+export function naamScore(url, delen) {
+  const kaal = decodeURIComponent(String(url)).toLowerCase();
+  return delen.filter((w) => kaal.includes(w)).length;
+}
+
+/* Twee woordenlijsten die de naam niet kan vervangen.
+ *
+ * Bij Itho stonden er twee beelden in de structured data die allebei "Vincent"
+ * heten: een campagne-illustratie en de echte packshot. De productnaam maakt
+ * daar geen verschil, de bestandsnaam wel. Deze woorden komen uit wat de eerste
+ * droge run over 70 fabrikantpagina's opleverde, niet uit een aanname:
+ * "03_Packshot_EHBX_3-4_FRONT.jpg" bij Daikin tegenover
+ * "wolf_ambiente_cha-monoblock.jpg" bij Wolf en "lifestyle-terrace" bij
+ * Viessmann. */
+const WIJST_OP_PRODUCT = /packshot|product|vooraanzicht|front|render/i;
+const WIJST_OP_SFEER = /campagne|campaign|illu|lifestyle|sfeer|ambiente|header|hero|promo|menu|academy|woningbouw/i;
+
+/** De volgorde waarin we kandidaten aanbieden. Hoger is waarschijnlijker. */
+export function beeldScore(url, delen) {
+  const kaal = decodeURIComponent(String(url)).toLowerCase();
+  return naamScore(url, delen)
+    + (WIJST_OP_PRODUCT.test(kaal) ? 1 : 0)
+    - (WIJST_OP_SFEER.test(kaal) ? 1 : 0);
+}
+
 /** Maakt een adres absoluut ten opzichte van de pagina waar het op stond. */
 export function absoluut(adres, basis) {
   // Een leeg adres lost met new URL op naar de pagina zelf, en dat is geen
@@ -91,14 +142,16 @@ export function absoluut(adres, basis) {
  * Alle beeldadressen die deze pagina aandraagt, met de weg waarlangs.
  * Geen oordeel over welke de goede is; dat blijft mensenwerk.
  */
-export function afbeeldingKandidaten(html, basis) {
+export function afbeeldingKandidaten(html, basis, naam = "") {
   const uit = [];
+  const delen = naamDelen(naam);
   const voegToe = (adres, hoe) => {
     const url = absoluut(String(adres || "").trim(), basis);
     if (!url || !/^https?:/i.test(url)) return;
     if (!BEELDSOORTEN.test(url)) return;
+    if (NOOIT.test(decodeURIComponent(url))) return;
     if (uit.some((k) => k.url === url)) return;
-    uit.push({ url, hoe });
+    uit.push({ url, hoe, score: beeldScore(url, delen) });
   };
 
   for (const m of String(html).matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)) {
@@ -128,16 +181,25 @@ export function afbeeldingKandidaten(html, basis) {
     if (href) voegToe(href[1], "link image_src");
   }
 
-  // Als laatste de gewone afbeeldingen op de pagina. Logo's en pictogrammen
-  // eruit: die halen het nooit, en ze staan wel altijd bovenaan.
+  // Als laatste de gewone afbeeldingen op de pagina. Hier kijkt het filter naar
+  // de hele tag en niet alleen naar het adres, want "alt=Logo Bosch" verraadt
+  // een logo dat toevallig een nietszeggende bestandsnaam heeft.
   for (const m of String(html).matchAll(/<img\s[^>]*>/gi)) {
     const src = /\ssrc=["']([^"']+)["']/i.exec(m[0]);
     if (!src) continue;
-    if (/logo|icon|sprite|avatar|badge|placeholder/i.test(m[0])) continue;
+    if (NOOIT.test(m[0])) continue;
     voegToe(src[1], "img op de pagina");
   }
 
-  return uit;
+  /* Een adres dat het product bij naam noemt gaat voor op de volgorde van de
+     wegen. Zonder dat won bij Itho de campagne-illustratie het van
+     "Vincent_Front_Schaduw_1200x1200px.jpg", die er vlak achter stond. Bij
+     gelijke stand blijft de oorspronkelijke volgorde staan, want structured
+     data wijst het product aan en og:image is de keuze van de fabrikant. */
+  return uit
+    .map((k, i) => ({ ...k, plek: i }))
+    .sort((a, b) => b.score - a.score || a.plek - b.plek)
+    .map(({ plek, ...k }) => k);
 }
 
 /* ------------------------------------------------------------------
@@ -205,14 +267,15 @@ async function main() {
         }
       }
 
-      const kandidaten = afbeeldingKandidaten(html, p.product_url);
+      const productNaam = `${p.merk || ""} ${p.model || ""} ${p.voorbeeld_variant || ""}`.trim();
+      const kandidaten = afbeeldingKandidaten(html, p.product_url, productNaam);
       if (!kandidaten.length) {
         console.log(`  x ${p.id}: geen bruikbaar beeld op ${p.product_url}`);
         mislukt++;
         continue;
       }
       const keuze = kandidaten[0];
-      console.log(`  ? ${p.id}: ${kandidaten.length} kandidaat(en), eerste via ${keuze.hoe}`);
+      console.log(`  ? ${p.id}: ${kandidaten.length} kandidaat(en), eerste via ${keuze.hoe} (naamtreffers ${keuze.score})`);
       console.log(`      ${keuze.url}`);
       for (const k of kandidaten.slice(1, 4)) console.log(`      (ook: ${k.hoe} ${k.url})`);
 
