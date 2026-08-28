@@ -165,7 +165,10 @@
           }
         ],
         "toelichting": "Handelt zelf op EPEX-uurprijzen en doet mee op de onbalansmarkt; kan daarnaast door Frank Energie aangestuurd worden."
-      }
+      },
+      "afbeelding": "assets/producten/sessy-5kwh.webp",
+      "afbeelding_bron": "foto: Sessy",
+      "afbeelding_herkomst": "https://www.sessy.nl/wp-content/uploads/2025/08/render-scaled.png"
     },
     {
       "id": "homewizard-plug-in-battery",
@@ -412,7 +415,10 @@
           }
         ],
         "toelichting": "Powerplay handelt op day-ahead en op de onbalansmarkt; je zit dan wel vast aan Zonneplan als leverancier."
-      }
+      },
+      "afbeelding": "assets/producten/zonneplan-nexus.webp",
+      "afbeelding_bron": "foto: Zonneplan",
+      "afbeelding_herkomst": "https://d2m3a8zzfvfhyv.cloudfront.net/images/battery/geregeld-door-zonneplan-1.jpg?format=auto&amp;width=3840"
     },
     {
       "id": "enphase-iq-battery-5p",
@@ -607,7 +613,10 @@
         "status": "nee",
         "via": [],
         "toelichting": "Ik vond geen Nederlandse partij die de Powerwall op de onbalansmarkt aanstuurt; de Tesla-app stuurt zelf alleen op variabele tarieven."
-      }
+      },
+      "afbeelding": "assets/producten/tesla-powerwall-3.webp",
+      "afbeelding_bron": "foto: Tesla",
+      "afbeelding_herkomst": "https://thuisbatterijnederland.nl/wp-content/uploads/2024/02/ChatGPT-Image-7-mei-2026-11_47_05-1.png"
     },
     {
       "id": "alphaess-smile-g3-t10",
@@ -662,7 +671,10 @@
           }
         ],
         "toelichting": "Frank Energie stuurt AlphaESS-batterijen automatisch aan op day-ahead en onbalansmarkt."
-      }
+      },
+      "afbeelding": "assets/producten/alphaess-smile-g3-t10.webp",
+      "afbeelding_bron": "foto: AlphaESS",
+      "afbeelding_herkomst": "http://www.alphaess.nl/cdn/shop/files/SMILE-G3-Thuisbatterij-AlphaLinX_tech_NL_Cover_aedcbe11-9b95-42cb-9540-782d4e36aaea.jpg?v=1763099234"
     },
     {
       "id": "fox-ess-ep11",
@@ -827,7 +839,10 @@
       "buiten_toelichting": "buiten toegestaan volgens fabrikant, -10 tot 50 °C",
       "capaciteit_nominaal_kwh": 11.04,
       "capaciteit_soort": "bruikbaar",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "onbekend",
+      "afbeelding": "assets/producten/byd-battery-box-hvm-11.webp",
+      "afbeelding_bron": "foto: BYD",
+      "afbeelding_herkomst": "https://www.bydbatterybox.com/wp-content/uploads/2019/12/BYD_transparent.png"
     },
     {
       "id": "solaredge-home-battery-48v",
@@ -1104,7 +1119,10 @@
       "ip_klasse": "IP65",
       "buiten_toelichting": "bedrijfstemperatuur vanaf 0 °C; buiten hangen in de winter is twijfelachtig",
       "capaciteit_nominaal_kwh": 5.8,
-      "capaciteit_soort": "bruikbaar"
+      "capaciteit_soort": "bruikbaar",
+      "afbeelding": "assets/producten/solax-triple-power-t58.webp",
+      "afbeelding_bron": "foto: SolaX",
+      "afbeelding_herkomst": "https://www.solaxpower.com/uploadfile/1/202604/1c3dcc14a8.png"
     },
     {
       "id": "dyness-powerbox-g2",
@@ -1222,7 +1240,10 @@
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "onbekend",
       "totaalprijs_geschat_van_eur": 5066,
-      "totaalprijs_geschat_tot_eur": 6566
+      "totaalprijs_geschat_tot_eur": 6566,
+      "afbeelding": "assets/producten/saj-h2-5k-s2-10kwh.webp",
+      "afbeelding_bron": "foto: SAJ",
+      "afbeelding_herkomst": "https://www.saj-electric.com/hubfs/2.0%20product%20residential/H2%20Series%E5%8D%96%E7%82%B9%E5%9B%BE%E7%BB%88%E6%9E%81%E7%89%88.png"
     },
     {
       "id": "duracell-dura5",
@@ -1343,7 +1364,10 @@
       "noodstroom_uitleg": "Noodstroomuitgang met omschakeling binnen ca. 10 ms (fabrieksopgave).",
       "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "continu",
-      "vermogen_bron": "Anker geeft 3.500 W laad- en ontlaadvermogen als rated waarde"
+      "vermogen_bron": "Anker geeft 3.500 W laad- en ontlaadvermogen als rated waarde",
+      "afbeelding": "assets/producten/anker-solix-solarbank-max-ac.webp",
+      "afbeelding_bron": "foto: Anker",
+      "afbeelding_herkomst": "https://cdn.shopify.com/s/files/1/0726/0736/7225/files/pc-18_3840x.png?v=1784260774"
     },
     {
       "id": "zendure-solarflow-3000-mix-ac",
@@ -1431,7 +1455,10 @@
       "buiten_toelichting": "fabrieksopgave (metalen behuizing); eisen voor buitenplaatsing niet geverifieerd",
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "continu",
-      "vermogen_bron": "Zendure geeft 4 kW bidirectioneel AC-vermogen; de PV-IN AC-ingang neemt daarnaast tot 5 kW van een bestaande omvormer aan"
+      "vermogen_bron": "Zendure geeft 4 kW bidirectioneel AC-vermogen; de PV-IN AC-ingang neemt daarnaast tot 5 kW van een bestaande omvormer aan",
+      "afbeelding": "assets/producten/zendure-solarflow-4000-mix-ac.webp",
+      "afbeelding_bron": "foto: Zendure",
+      "afbeelding_herkomst": "https://www.zendure.nl/cdn/shop/files/SolarFlow-800-Pro-2_304ea558-56cf-49b2-8e85-a86fc065f0db.jpg?v=1773907225&width=30"
     },
     {
       "id": "zendure-solarflow-4000-mix-pro",
@@ -1891,7 +1918,10 @@
       "capaciteit_soort": "bruikbaar",
       "capaciteit_nominaal_kwh": 2.88,
       "vermogen_conditie": "continu",
-      "vermogen_bron": "Zendure geeft 2400 W AC in beide richtingen als vermogen van de serie"
+      "vermogen_bron": "Zendure geeft 2400 W AC in beide richtingen als vermogen van de serie",
+      "afbeelding": "assets/producten/zendure-solarflow-2400-pro.webp",
+      "afbeelding_bron": "foto: Zendure",
+      "afbeelding_herkomst": "https://www.zendure.nl/cdn/shop/files/SolarFlow-800-Pro-2_304ea558-56cf-49b2-8e85-a86fc065f0db.jpg?v=1773907225&width=30"
     }
   ]
 }

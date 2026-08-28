@@ -103,7 +103,10 @@
       ],
       "prijs_datum": "2026-08-27",
       "isde_meldcode": "KA14853",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/daikin-altherma-hybrid.webp",
+      "afbeelding_bron": "foto: Daikin",
+      "afbeelding_herkomst": "https://www.daikin.nl/nl_nl/installateurs/productgroup/verwarming-en-warmtepompen/lucht-water-warmtepompen/hybrid-heatpump/daikin-altherma-h-hybrid/_jcr_content/image21.coreimg.jpeg/1773653123449/daikin-altherma-h-hybrid-daf-002.jpeg"
     },
     {
       "id": "quatt-hybrid",
@@ -192,7 +195,10 @@
       ],
       "isde_meldcode": "KA22154",
       "prijs_datum": "2026-08-27",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/intergas-xtend.webp",
+      "afbeelding_bron": "foto: Intergas",
+      "afbeelding_herkomst": "https://www.intergas-verwarming.nl/app/uploads/2025/07/Xtend_Eco_roset_LQ-scaled.png"
     },
     {
       "id": "vaillant-arotherm-plus",
@@ -276,7 +282,10 @@
         }
       ],
       "scop_conditie": "35",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/vaillant-arotherm-plus.webp",
+      "afbeelding_bron": "foto: Vaillant",
+      "afbeelding_herkomst": "https://woonopstroom.nl/cdn/shop/files/productfoto_arothermplus_f6bc9e2e-c348-4cef-aa1c-6003504a05b3_1024x1024.jpg?v=1711375171"
     },
     {
       "id": "viessmann-vitocal-250a",
@@ -345,7 +354,10 @@
         }
       ],
       "scop_conditie": "35",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/viessmann-vitocal-250a.webp",
+      "afbeelding_bron": "foto: Viessmann",
+      "afbeelding_herkomst": "https://www.viessmann.nl/content/dam/public-brands/master/products/heat-pump/vitocal-250-a/Header-vitocal-250-a-lifestyle-terrace-16-9-1920x1080px.png/_jcr_content/renditions/original.image_file.1200.630.0,36,1920,1044.file/Header-vitocal-250-a-lifestyle-terrace-16-9-1920x1080px.png"
     },
     {
       "id": "nibe-s2125",
@@ -413,7 +425,10 @@
       ],
       "prijs_datum": "2026-08-27",
       "vermogen_conditie": "Prated",
-      "scop_conditie": "35"
+      "scop_conditie": "35",
+      "afbeelding": "assets/producten/nibe-s2125.webp",
+      "afbeelding_bron": "foto: NIBE",
+      "afbeelding_herkomst": "https://www.nibe.eu/images/18.64628edd161676d596727/1517901894620/Produkter-926x470.jpg"
     },
     {
       "id": "mitsubishi-ecodan",
@@ -477,7 +492,10 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "onbekend"
+      "scop_conditie": "onbekend",
+      "afbeelding": "assets/producten/mitsubishi-ecodan.webp",
+      "afbeelding_bron": "foto: Mitsubishi Electric",
+      "afbeelding_herkomst": "https://alklima.nl/library/content/landers/propaan-r290/id/5372/ecodan_bediening.jpg?timestamp=1706699235"
     },
     {
       "id": "daikin-altherma-3",
@@ -540,7 +558,10 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "onbekend"
+      "scop_conditie": "onbekend",
+      "afbeelding": "assets/producten/daikin-altherma-3.webp",
+      "afbeelding_bron": "foto: Daikin",
+      "afbeelding_herkomst": "https://www.daikin.nl/adobe/dynamicmedia/deliver/dm-aid--95f729b6-afed-44fb-9e2f-b9d07a7e1569/daikin-altherma-3-hmt-3-4-2a.jpg?preferwebp=true&quality=90"
     },
     {
       "id": "bosch-compress-5800i",
@@ -791,7 +812,10 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "35"
+      "scop_conditie": "35",
+      "afbeelding": "assets/producten/samsung-ehs-mono-ht.webp",
+      "afbeelding_bron": "foto: Samsung",
+      "afbeelding_herkomst": "https://www.coen-plus.nl/media/catalog/product/cache/6517c62f5899ad6aa0ba23ceb3eeff97/s/a/samsung_ehs1.jpg"
     },
     {
       "id": "weheat-blackbird",
@@ -847,7 +871,10 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "onbekend"
+      "scop_conditie": "onbekend",
+      "afbeelding": "assets/producten/weheat-blackbird.webp",
+      "afbeelding_bron": "foto: Weheat",
+      "afbeelding_herkomst": "https://cdn.prod.website-files.com/67ed5695314f69c537693240/680a992ae6196a42fa131878_Weheat%20warmtepomp-flint.webp"
     },
     {
       "id": "stiebel-wpl-a07",
@@ -984,7 +1011,10 @@
         }
       ],
       "scop_conditie": "35",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/wolf-cha-07.webp",
+      "afbeelding_bron": "foto: Wolf",
+      "afbeelding_herkomst": "https://static1.wolfeu.website.svc.wolf.eu/public/thumbnail/editors/nl-nl/files/producten/warmtepompen/28112/image-thumb__28112__frontend-text-image-752x564/chc.-monoblock-200~-~media--36d9dbc4--query.webp"
     },
     {
       "id": "itho-amber-95",
@@ -1057,7 +1087,10 @@
         }
       ],
       "scop_conditie": "35",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/itho-amber-95.webp",
+      "afbeelding_bron": "foto: Itho Daalderop",
+      "afbeelding_herkomst": "https://s3.eu-central-1.wasabisys.com/eu-central-1-8d6bac1c72cb450786e8d4254c52be68/assets/files/0cb6e3584b0a9e2a16f58a629c258d07-26_0132_-_Amber_-_Nu_met_Service_Monitoring.jpg"
     },
     {
       "id": "inventum-ecolution-combi",
@@ -1180,7 +1213,10 @@
         }
       ],
       "scop_conditie": "35",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/gree-versati-iv-10.webp",
+      "afbeelding_bron": "foto: Gree",
+      "afbeelding_herkomst": "https://www.gree.nl/fileadmin/_processed_/c/6/csm_Versati_III_overzicht_schuin_707e298e84.jpg"
     },
     {
       "id": "atag-energion-m-hybrid",
@@ -1241,7 +1277,10 @@
           "meldcode": "KA21383"
         }
       ],
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/atag-energion-m-hybrid.webp",
+      "afbeelding_bron": "foto: ATAG",
+      "afbeelding_herkomst": "https://www.coen-plus.nl/media/catalog/product/cache/3380650127d143eec657262365bd2ea0/a/t/atag_energion_buiten_50_1_2.jpg"
     },
     {
       "id": "itho-vincent-v45-hybride",
@@ -1558,7 +1597,10 @@
           "meldcode": "KA28310"
         }
       ],
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/viessmann-vitocal-150a.webp",
+      "afbeelding_bron": "foto: Viessmann",
+      "afbeelding_herkomst": "https://www.viessmann.nl/content/dam/public-brands/master/products/heat-pump/vitocal-150-a/Vitocal-150-A-outdoor-unit-house-16-9.jpg/_jcr_content/renditions/original.image_file.1200.630.0,36,1920,1044.file/Vitocal-150-A-outdoor-unit-house-16-9.jpg"
     },
     {
       "id": "panasonic-aquarea-wxg",
@@ -1629,7 +1671,10 @@
         }
       ],
       "prijs_datum": "2026-08-27",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/panasonic-aquarea-wxg.webp",
+      "afbeelding_bron": "foto: Panasonic",
+      "afbeelding_herkomst": "https://www.multi-import.nl/media/catalog/product/cache/6517c62f5899ad6aa0ba23ceb3eeff97/w/h/wh-wxg09me8_2_1.jpg"
     },
     {
       "id": "stiebel-wpl-a13",
@@ -1790,7 +1835,10 @@
           "meldcode": "KA32008"
         }
       ],
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/mitsubishi-ecodan-120.webp",
+      "afbeelding_bron": "foto: Mitsubishi Electric",
+      "afbeelding_herkomst": "https://alklima.nl/library/content/landers/propaan-r290/id/5370/ecodan_nature.jpg?timestamp=1706696010"
     }
   ]
 }

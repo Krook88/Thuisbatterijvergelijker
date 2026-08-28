@@ -38,7 +38,10 @@
           "url": "https://justsolar.store/products/aiko-455wp-neostar-2s-gen2-glas-glas-all-black",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/aiko-neostar-2p-455.webp",
+      "afbeelding_bron": "foto: AIKO",
+      "afbeelding_herkomst": "https://aikosolar.com/static/img/website-thumbnail.jpg"
     },
     {
       "id": "jinko-tiger-neo-440",
@@ -81,7 +84,10 @@
           "url": "https://www.stralendgroen.nl/en/product/jinko-solar-tiger-neo-all-black-n-type-440wp/",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/jinko-tiger-neo-440.webp",
+      "afbeelding_bron": "foto: Jinko Solar",
+      "afbeelding_herkomst": "https://jinkosolarcdn.shwebspace.com/themes/basicen/skin/images/fullimg.jpg"
     },
     {
       "id": "ja-solar-jam54d41-440",
@@ -112,7 +118,10 @@
           "url": "https://solarkopen.nl/products/ja-solar-440wp-n-type-glas-glas-full-black-zonnepaneel",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/ja-solar-jam54d41-440.webp",
+      "afbeelding_bron": "foto: JA Solar",
+      "afbeelding_herkomst": "https://solarkopen.nl/cdn/shop/files/ca71645c5b889fab1f390b879baf_650x.png?v=1701446797"
     },
     {
       "id": "longi-himo-x6-440",
@@ -143,7 +152,10 @@
           "url": "https://www.stralendgroen.nl/en/product/longi-solar-hi-mo6-all-black-440wp/",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/longi-himo-x6-440.webp",
+      "afbeelding_bron": "foto: LONGi",
+      "afbeelding_herkomst": "https://www.stralendgroen.nl/wp-content/uploads/2023/10/LONGi-HiMo6-430wp.png"
     },
     {
       "id": "trina-vertex-s-plus-450",
@@ -226,7 +238,10 @@
           "url": "https://solarkopen.nl/products/dmegc-450wp-glas-glas-full-black-zonnepaneel",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/dmegc-440-glas-glas.webp",
+      "afbeelding_bron": "foto: DMEGC",
+      "afbeelding_herkomst": "https://www.dmegcsolar.com/static/en/images/nav.png"
     },
     {
       "id": "canadian-solar-tophiku6-435",
@@ -257,7 +272,10 @@
           "url": "https://offgridpowerstation.eu/product/canadian-solar-435wp-full-black-frame/",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/canadian-solar-tophiku6-435.webp",
+      "afbeelding_bron": "foto: Canadian Solar",
+      "afbeelding_herkomst": "https://static.csisolar.com/wp-content/themes/twentytwenty/assets/images/m1.png"
     },
     {
       "id": "rec-alpha-pure-2-420",
@@ -288,7 +306,10 @@
           "url": "https://zonnepaneelcentrum.nl/product/rec-alpha-pure-2-400-430-w/",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/rec-alpha-pure-2-420.webp",
+      "afbeelding_bron": "foto: REC",
+      "afbeelding_herkomst": "https://www.recgroup.com/sites/default/files/2024-05/Home_Installer_Locator.jpg"
     },
     {
       "id": "maxeon-6-440",
@@ -312,7 +333,10 @@
       "prijs_omvat": "prijs per paneel, 0% btw bij levering voor een woning, excl. omvormer en installatie",
       "product_url": "https://maxeon.com/",
       "opmerkingen": "Het absolute topsegment: IBC back-contact cellen op een koperen basisplaat en 40 jaar garantie op product én vermogen, de langste van de markt. Afwijkend (langwerpiger) formaat; laat de legplanning door een installateur controleren. Let op: alleen via erkende Maxeon-installateurs leverbaar.",
-      "aanbiedingen": []
+      "aanbiedingen": [],
+      "afbeelding": "assets/producten/maxeon-6-440.webp",
+      "afbeelding_bron": "foto: Maxeon (SunPower)",
+      "afbeelding_herkomst": "http://static1.squarespace.com/static/6740dc6b95218e0ecdaa68f6/t/67e71ae856da4c2a033af5df/1743198952695/Maxeon_Residential_Rooftop_Home_White.jpg?format=1500w"
     },
     {
       "id": "solarwatt-vision-am-425",
@@ -376,7 +400,10 @@
           "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1445/denim-n-type-440w-all-black-glas-glas-bifacial-zonnepaneel-u-n3-440-bbg-108h-1762x1134x30mm-0259w.html",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/denim-440-full-black.webp",
+      "afbeelding_bron": "foto: Denim",
+      "afbeelding_herkomst": "https://www.feenstra.com/shop/media/catalog/product/cache/1/image/800x/9df78eab33525d08d6e5fb8d27136e95/1/1/110466-1.png"
     },
     {
       "id": "astronergy-astro-n5s-440",
@@ -431,7 +458,10 @@
           "url": "https://www.zonnefabriek.nl/zonnepanelen/q-cells/q-tron-blk-m-g2-435/",
           "datum": null
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/qcells-qtron-430.webp",
+      "afbeelding_bron": "foto: Qcells",
+      "afbeelding_herkomst": "https://www.zonnefabriek.nl/assets/uploads/producten%20zonnepanelen/Q-cells/qcells-witruimte-2.png"
     },
     {
       "id": "ulica-440-full-black",

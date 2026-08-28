@@ -65,7 +65,10 @@
         "bron": "Enphase IQ8HC datasheet: aanbevolen paneelvermogen tot 560 Wp"
       },
       "panelen_per_eenheid": 1,
-      "systeem_toeslag_eur": 250
+      "systeem_toeslag_eur": 250,
+      "afbeelding": "assets/producten/enphase-iq8.webp",
+      "afbeelding_bron": "foto: Enphase",
+      "afbeelding_herkomst": "https://enphase.com/sites/default/files/styles/max_size_2800xauto_/public/2025-09/thumbnail%20%285%29.png?itok=EaOm2fR5"
     },
     {
       "id": "apsystems-ds3",
@@ -306,7 +309,10 @@
         "max_dc_ac": 1.35,
         "bron": "Fronius GEN24: Primo 3-6 kW (1-fase), Symo 6-10 kW (3-fase)"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/fronius-gen24.webp",
+      "afbeelding_bron": "foto: Fronius",
+      "afbeelding_herkomst": "https://www.fronius.com/-/media/international/se/q-r/reference-symo-big-iloilo-philippines-87.webp"
     },
     {
       "id": "goodwe-et",
@@ -360,7 +366,10 @@
         "bron": "GoodWe ET-serie: 5-15 kW, 3-fase"
       },
       "panelen_per_eenheid": null,
-      "prijs_datum": "2026-08-26"
+      "prijs_datum": "2026-08-26",
+      "afbeelding": "assets/producten/goodwe-et.webp",
+      "afbeelding_bron": "foto: GoodWe",
+      "afbeelding_herkomst": "https://nl.goodwe.com/Public/Uploads/uploadfile8/images/20211215/dwic01.png"
     },
     {
       "id": "huawei-sun2000",
@@ -501,7 +510,10 @@
         "max_dc_ac": 1.35,
         "bron": "Growatt MIN TL-XH: 2,5-6 kW, 1-fase"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/growatt-min-xh.webp",
+      "afbeelding_bron": "foto: Growatt",
+      "afbeelding_herkomst": "https://www.stralendgroen.nl/wp-content/uploads/2024/10/vooraanzicht-Growatt-MIN-XH-omvormer.png"
     },
     {
       "id": "solis-s6-hybride",
@@ -628,7 +640,10 @@
         "max_dc_ac": 1.35,
         "bron": "Sungrow SH-serie: 3,6-10 kW (RS 1-fase, RT 3-fase)"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/sungrow-sh.webp",
+      "afbeelding_bron": "foto: Sungrow",
+      "afbeelding_herkomst": "https://www.coen-plus.nl/media/catalog/product/cache/6517c62f5899ad6aa0ba23ceb3eeff97/s/u/sungrow_sh60rt_1.jpg"
     },
     {
       "id": "deye-sg04lp1",
@@ -684,7 +699,10 @@
         "max_dc_ac": 1.35,
         "bron": "Deye SG04LP1: 3,6-12 kW, 1-fase"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/deye-sg04lp1.webp",
+      "afbeelding_bron": "foto: Deye",
+      "afbeelding_herkomst": "https://www.deyeinverter.com/template/en/images/en.jpg"
     },
     {
       "id": "victron-multiplus2",
@@ -730,7 +748,10 @@
         "voorbeeld_ac_kw": 4,
         "bron": "Victron MultiPlus-II 48/5000: 4.000 W continu; panelen via aparte MPPT-laadregelaars (ontwerp door specialist)"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/victron-multiplus2.webp",
+      "afbeelding_bron": "foto: Victron Energy",
+      "afbeelding_herkomst": "https://www.victronenergy.nl/_next/static/media/header-globallink-narrow.9b825586.jpg"
     }
   ]
 }
