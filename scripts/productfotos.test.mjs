@@ -15,7 +15,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { afbeeldingKandidaten, absoluut, naamDelen, naamScore, beeldScore } from "./productfotos.mjs";
+import { afbeeldingKandidaten, absoluut, naamDelen, naamScore, beeldScore, bronPaginas } from "./productfotos.mjs";
 
 const BASIS = "https://www.fabrikant.nl/product/pomp-x";
 
@@ -159,4 +159,33 @@ test("beeldScore beloont een packshot en straft een sfeerbeeld", () => {
   assert.equal(beeldScore("https://x.nl/03_Packshot_EHBX_3-4_FRONT.jpg", delen), 1);
   assert.equal(beeldScore("https://x.nl/daikin-altherma-lifestyle-terrace.jpg", delen), 1);
   assert.equal(beeldScore("https://x.nl/daikin-altherma-packshot-front.jpg", delen), 3);
+});
+
+/* ------------------------------------------------------------------
+   Waar we mogen kijken
+   ------------------------------------------------------------------ */
+
+test("de fabrikant eerst, daarna de winkels die het verkopen", () => {
+  const p = { product_url: "https://fab.nl/x", aanbiedingen: [
+    { url: "https://winkel-a.nl/p", winkel: "Winkel A" },
+    { url: "https://winkel-b.nl/p", winkel: "Winkel B" }] };
+  assert.deepEqual(bronPaginas(p).map((b) => b.naam), ["de fabrikant", "Winkel A", "Winkel B"]);
+});
+
+test("een artikel dat de winkel niet meer voert doet niet mee", () => {
+  // Daar staat het product niet meer op de pagina, dus daar valt niets te halen.
+  const p = { aanbiedingen: [
+    { url: "https://weg.nl/p", winkel: "Weg", niet_leverbaar: true },
+    { url: "https://er.nl/p", winkel: "Er" }] };
+  assert.deepEqual(bronPaginas(p).map((b) => b.naam), ["Er"]);
+});
+
+test("hetzelfde adres twee keer telt één keer", () => {
+  const p = { product_url: "https://fab.nl/x", aanbiedingen: [{ url: "https://fab.nl/x", winkel: "Dubbel" }] };
+  assert.equal(bronPaginas(p).length, 1);
+});
+
+test("zonder enig adres valt er niets te bezoeken", () => {
+  assert.deepEqual(bronPaginas({}), []);
+  assert.deepEqual(bronPaginas({ aanbiedingen: [{ winkel: "Zonder URL" }] }), []);
 });

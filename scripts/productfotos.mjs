@@ -1,5 +1,5 @@
 /**
- * Productfoto's ophalen bij de fabrikant.
+ * Productfoto's ophalen bij de fabrikant en bij de winkels die het verkopen.
  *
  * Waarom dit bestaat: van de 85 productpagina's op de drie sites hebben er 58
  * geen afbeelding, en zonder afbeelding toont Google geen productresultaat. De
@@ -202,6 +202,31 @@ export function afbeeldingKandidaten(html, basis, naam = "") {
     .map(({ plek, ...k }) => k);
 }
 
+/* Waar we mogen kijken, op volgorde.
+ *
+ * Eerst de fabrikant, want die toont zijn eigen product. Daarna de winkels die
+ * het verkopen, en dat is vaak de betere bron: een webshop heeft een strakke
+ * productfoto nodig om iets te verkopen, waar een fabrikantpagina een
+ * merkverhaal vertelt. Van de 51 producten die na de eerste ronde nog zonder
+ * foto zaten hebben er 42 minstens één winkel-URL, en die adressen bezoeken we
+ * toch al elke dag voor de prijzen.
+ *
+ * Aanbiedingen die de winkel niet meer voert doen niet mee: daar staat het
+ * artikel niet meer op de pagina. */
+export function bronPaginas(p) {
+  const uit = [];
+  const voegToe = (url, naam) => {
+    if (!url || !/^https?:/i.test(url)) return;
+    if (uit.some((b) => b.url === url)) return;
+    uit.push({ url, naam });
+  };
+  voegToe(p.product_url, "de fabrikant");
+  for (const a of p.aanbiedingen || []) {
+    if (a && !a.niet_leverbaar) voegToe(a.url, a.winkel || "een winkel");
+  }
+  return uit;
+}
+
 /* ------------------------------------------------------------------
    Omzetten naar webp
    ------------------------------------------------------------------ */
@@ -249,35 +274,46 @@ async function main() {
     for (const p of producten) {
       if (p.afbeelding) continue;
       if (ALLEEN.length && !ALLEEN.includes(p.id)) continue;
-      if (!p.product_url) {
-        console.log(`  - ${p.id}: geen product_url, hier valt niets te halen`);
+
+      const bronnen = bronPaginas(p);
+      if (!bronnen.length) {
+        console.log(`  - ${p.id}: geen adres om te bezoeken`);
         overgeslagen++;
         continue;
       }
 
-      let html;
-      try {
-        html = await haalPagina(p.product_url);
-      } catch (err) {
-        html = await haalMetBrowser(p.product_url).catch(() => null);
-        if (!html) {
-          console.log(`  x ${p.id}: pagina niet op te halen (${err.message})`);
-          mislukt++;
-          continue;
-        }
-      }
-
       const productNaam = `${p.merk || ""} ${p.model || ""} ${p.voorbeeld_variant || ""}`.trim();
-      const kandidaten = afbeeldingKandidaten(html, p.product_url, productNaam);
+      let kandidaten = [];
+      let bezocht = 0;
+      let laatsteFout = null;
+      for (const bron of bronnen) {
+        let html;
+        try {
+          html = await haalPagina(bron.url);
+        } catch (err) {
+          html = await haalMetBrowser(bron.url).catch(() => null);
+          if (!html) { laatsteFout = err.message; continue; }
+        }
+        bezocht++;
+        const gevonden = afbeeldingKandidaten(html, bron.url, productNaam)
+          .map((k) => ({ ...k, bron: bron.naam }));
+        kandidaten = kandidaten.concat(gevonden);
+        // Een treffer op de productnaam is goed genoeg om te stoppen. Zonder
+        // die grens bezoeken we voor elk product vier winkels, en dan duurt de
+        // ronde langer dan de dagelijkse prijsrun.
+        if (gevonden.some((k) => k.score > 0)) break;
+      }
+      kandidaten.sort((a, b) => b.score - a.score);
+
       if (!kandidaten.length) {
-        console.log(`  x ${p.id}: geen bruikbaar beeld op ${p.product_url}`);
+        console.log(`  x ${p.id}: geen bruikbaar beeld op ${bezocht} van de ${bronnen.length} pagina(s)${laatsteFout ? ` (laatste fout: ${laatsteFout})` : ""}`);
         mislukt++;
         continue;
       }
       const keuze = kandidaten[0];
-      console.log(`  ? ${p.id}: ${kandidaten.length} kandidaat(en), eerste via ${keuze.hoe} (naamtreffers ${keuze.score})`);
+      console.log(`  ? ${p.id}: ${kandidaten.length} kandidaat(en) van ${bezocht} pagina(s), eerste via ${keuze.hoe} bij ${keuze.bron} (naamtreffers ${keuze.score})`);
       console.log(`      ${keuze.url}`);
-      for (const k of kandidaten.slice(1, 4)) console.log(`      (ook: ${k.hoe} ${k.url})`);
+      for (const k of kandidaten.slice(1, 4)) console.log(`      (ook: ${k.hoe} bij ${k.bron} ${k.url})`);
 
       if (DROOG) { opgehaald++; continue; }
 
