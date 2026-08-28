@@ -86,6 +86,16 @@ const BEELDSOORTEN = /\.(jpe?g|png|webp)(\?|#|$)/i;
 // "social share weheat.jpg" er alsnog doorheen.
 const NOOIT = /logo|logga|icon|sprite|avatar|badge|placeholder|og[-_ ]?image|og[-_ ]?thumb|social[^a-z0-9]{0,3}share|share[^a-z0-9]{0,3}image|banner/i;
 
+/* Beeld dat een machine heeft verzonnen.
+ *
+ * Thuisbatterij Nederland zette bij de Tesla Powerwall 3 een bestand met de
+ * naam ChatGPT-Image-7-mei-2026-11_47_05-1.png. Op een contactvel ziet dat
+ * eruit als een keurige productfoto, en dat is precies het probleem: het is
+ * geen foto van dit apparaat maar een tekening van iets wat erop lijkt. Een
+ * site die zijn prijzen bij de winkel natelt, kan geen verzonnen product tonen.
+ * De bestandsnaam is het enige wat het verraadt. */
+const VERZONNEN = /chatgpt|dall[-_ ]?e|midjourney|stable[-_ ]?diffusion|ai[-_ ]?generated|generated[-_ ]?image|firefly/i;
+
 /* Woorden uit de productnaam die op een bestandsnaam kunnen staan. Merk en
  * model zonder de maten en de eenheden, want "10" en "kWh" staan overal. */
 export function naamDelen(naam) {
@@ -149,7 +159,8 @@ export function afbeeldingKandidaten(html, basis, naam = "") {
     const url = absoluut(String(adres || "").trim(), basis);
     if (!url || !/^https?:/i.test(url)) return;
     if (!BEELDSOORTEN.test(url)) return;
-    if (NOOIT.test(decodeURIComponent(url))) return;
+    const leesbaar = decodeURIComponent(url);
+    if (NOOIT.test(leesbaar) || VERZONNEN.test(leesbaar)) return;
     if (uit.some((k) => k.url === url)) return;
     uit.push({ url, hoe, score: beeldScore(url, delen) });
   };

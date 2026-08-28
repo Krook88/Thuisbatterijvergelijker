@@ -112,7 +112,10 @@
           "url": "https://solarkopen.nl/products/ja-solar-440wp-n-type-glas-glas-full-black-zonnepaneel",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/ja-solar-jam54d41-440.webp",
+      "afbeelding_bron": "foto: JA Solar",
+      "afbeelding_herkomst": "https://solarkopen.nl/cdn/shop/files/ca71645c5b889fab1f390b879baf_650x.png?v=1701446797"
     },
     {
       "id": "longi-himo-x6-440",
@@ -143,7 +146,10 @@
           "url": "https://www.stralendgroen.nl/en/product/longi-solar-hi-mo6-all-black-440wp/",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/longi-himo-x6-440.webp",
+      "afbeelding_bron": "foto: LONGi",
+      "afbeelding_herkomst": "https://www.stralendgroen.nl/wp-content/uploads/2023/10/LONGi-HiMo6-430wp.png"
     },
     {
       "id": "trina-vertex-s-plus-450",
@@ -376,7 +382,10 @@
           "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1445/denim-n-type-440w-all-black-glas-glas-bifacial-zonnepaneel-u-n3-440-bbg-108h-1762x1134x30mm-0259w.html",
           "datum": "2026-08-27"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/denim-440-full-black.webp",
+      "afbeelding_bron": "foto: Denim",
+      "afbeelding_herkomst": "https://www.feenstra.com/shop/media/catalog/product/cache/1/image/800x/9df78eab33525d08d6e5fb8d27136e95/1/1/110466-1.png"
     },
     {
       "id": "astronergy-astro-n5s-440",
@@ -431,7 +440,10 @@
           "url": "https://www.zonnefabriek.nl/zonnepanelen/q-cells/q-tron-blk-m-g2-435/",
           "datum": null
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/qcells-qtron-430.webp",
+      "afbeelding_bron": "foto: Qcells",
+      "afbeelding_herkomst": "https://www.zonnefabriek.nl/assets/uploads/producten%20zonnepanelen/Q-cells/qcells-witruimte-2.png"
     },
     {
       "id": "ulica-440-full-black",

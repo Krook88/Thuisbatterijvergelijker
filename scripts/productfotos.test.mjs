@@ -189,3 +189,20 @@ test("zonder enig adres valt er niets te bezoeken", () => {
   assert.deepEqual(bronPaginas({}), []);
   assert.deepEqual(bronPaginas({ aanbiedingen: [{ winkel: "Zonder URL" }] }), []);
 });
+
+test("beeld dat een machine verzonnen heeft telt niet mee", () => {
+  // Thuisbatterij Nederland zette dit bestand bij de Tesla Powerwall 3. Op een
+  // contactvel ziet het eruit als een nette productfoto; de bestandsnaam is het
+  // enige wat verraadt dat het apparaat erop niet bestaat.
+  const echt = "https://thuisbatterijnederland.nl/wp-content/uploads/2024/02/ChatGPT-Image-7-mei-2026-11_47_05-1.png";
+  assert.deepEqual(afbeeldingKandidaten(`<meta property="og:image" content="${echt}">`, BASIS), []);
+  for (const naam of ["midjourney-powerwall.jpg", "dall-e-render.png", "ai-generated-pomp.jpg"]) {
+    assert.deepEqual(afbeeldingKandidaten(`<meta property="og:image" content="https://x.nl/${naam}">`, BASIS), [], naam);
+  }
+});
+
+test("een gewone productnaam met ai erin blijft gewoon staan", () => {
+  // "aiko" en "daikin" bevatten allebei de letters ai; die mogen niet sneuvelen.
+  const html = `<meta property="og:image" content="https://x.nl/aiko-neostar-455-front.jpg">`;
+  assert.equal(afbeeldingKandidaten(html, BASIS).length, 1);
+});

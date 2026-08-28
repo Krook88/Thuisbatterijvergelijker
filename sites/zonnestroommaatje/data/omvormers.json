@@ -501,7 +501,10 @@
         "max_dc_ac": 1.35,
         "bron": "Growatt MIN TL-XH: 2,5-6 kW, 1-fase"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/growatt-min-xh.webp",
+      "afbeelding_bron": "foto: Growatt",
+      "afbeelding_herkomst": "https://www.stralendgroen.nl/wp-content/uploads/2024/10/vooraanzicht-Growatt-MIN-XH-omvormer.png"
     },
     {
       "id": "solis-s6-hybride",
@@ -628,7 +631,10 @@
         "max_dc_ac": 1.35,
         "bron": "Sungrow SH-serie: 3,6-10 kW (RS 1-fase, RT 3-fase)"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/sungrow-sh.webp",
+      "afbeelding_bron": "foto: Sungrow",
+      "afbeelding_herkomst": "https://www.coen-plus.nl/media/catalog/product/cache/6517c62f5899ad6aa0ba23ceb3eeff97/s/u/sungrow_sh60rt_1.jpg"
     },
     {
       "id": "deye-sg04lp1",
