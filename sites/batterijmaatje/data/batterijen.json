@@ -607,7 +607,10 @@
         "status": "nee",
         "via": [],
         "toelichting": "Ik vond geen Nederlandse partij die de Powerwall op de onbalansmarkt aanstuurt; de Tesla-app stuurt zelf alleen op variabele tarieven."
-      }
+      },
+      "afbeelding": "assets/producten/tesla-powerwall-3.webp",
+      "afbeelding_bron": "foto: Tesla",
+      "afbeelding_herkomst": "https://beterduurzaam.nl/wp-content/uploads/2026/06/tesla_charger_bg.png"
     },
     {
       "id": "alphaess-smile-g3-t10",
@@ -827,7 +830,10 @@
       "buiten_toelichting": "buiten toegestaan volgens fabrikant, -10 tot 50 °C",
       "capaciteit_nominaal_kwh": 11.04,
       "capaciteit_soort": "bruikbaar",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "onbekend",
+      "afbeelding": "assets/producten/byd-battery-box-hvm-11.webp",
+      "afbeelding_bron": "foto: BYD",
+      "afbeelding_herkomst": "https://www.bydbatterybox.com/wp-content/uploads/2019/12/BYD_transparent.png"
     },
     {
       "id": "solaredge-home-battery-48v",

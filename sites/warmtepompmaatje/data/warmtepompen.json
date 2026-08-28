@@ -416,7 +416,10 @@
       ],
       "prijs_datum": "2026-08-27",
       "vermogen_conditie": "Prated",
-      "scop_conditie": "35"
+      "scop_conditie": "35",
+      "afbeelding": "assets/producten/nibe-s2125.webp",
+      "afbeelding_bron": "foto: NIBE",
+      "afbeelding_herkomst": "https://www.nibe.eu/images/18.64628edd161676d596727/1517901894620/Produkter-926x470.jpg"
     },
     {
       "id": "mitsubishi-ecodan",
@@ -480,7 +483,10 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "onbekend"
+      "scop_conditie": "onbekend",
+      "afbeelding": "assets/producten/mitsubishi-ecodan.webp",
+      "afbeelding_bron": "foto: Mitsubishi Electric",
+      "afbeelding_herkomst": "https://alklima.nl/library/content/landers/propaan-r290/id/5372/ecodan_bediening.jpg?timestamp=1706699235"
     },
     {
       "id": "daikin-altherma-3",
@@ -1063,7 +1069,10 @@
         }
       ],
       "scop_conditie": "35",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/itho-amber-95.webp",
+      "afbeelding_bron": "foto: Itho Daalderop",
+      "afbeelding_herkomst": "https://s3.eu-central-1.wasabisys.com/eu-central-1-8d6bac1c72cb450786e8d4254c52be68/assets/files/0cb6e3584b0a9e2a16f58a629c258d07-26_0132_-_Amber_-_Nu_met_Service_Monitoring.jpg"
     },
     {
       "id": "inventum-ecolution-combi",
@@ -1567,7 +1576,10 @@
           "meldcode": "KA28310"
         }
       ],
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/viessmann-vitocal-150a.webp",
+      "afbeelding_bron": "foto: Viessmann",
+      "afbeelding_herkomst": "https://www.viessmann.nl/content/dam/public-brands/master/products/heat-pump/vitocal-150-a/Vitocal-150-A-outdoor-unit-house-16-9.jpg/_jcr_content/renditions/original.image_file.1200.630.0,36,1920,1044.file/Vitocal-150-A-outdoor-unit-house-16-9.jpg"
     },
     {
       "id": "panasonic-aquarea-wxg",
