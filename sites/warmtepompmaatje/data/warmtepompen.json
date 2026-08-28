@@ -1063,7 +1063,10 @@
         }
       ],
       "scop_conditie": "35",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/itho-amber-95.webp",
+      "afbeelding_bron": "foto: Itho Daalderop",
+      "afbeelding_herkomst": "https://s3.eu-central-1.wasabisys.com/eu-central-1-8d6bac1c72cb450786e8d4254c52be68/assets/files/2376bc49cd1f26b8608fce8d8cedb6a8-Amber_Buitendeel_65-95-Binnendeel_I-WPV_200L_WPV-H_240L_CCW_schaduw_600x400px.jpg"
     },
     {
       "id": "inventum-ecolution-combi",
