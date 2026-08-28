@@ -264,6 +264,7 @@ function productLd(p) {
     "@context": "https://schema.org",
     "@type": "Product",
     "name": `${volledigeNaam(p)}`,
+    ...(p.afbeelding ? { "image": /^https?:/i.test(p.afbeelding) ? p.afbeelding : `${SITE}/${p.afbeelding.replace(/^\//, "")}` } : {}),
     "brand": { "@type": "Brand", "name": p.merk },
     "description": `${volledigeNaam(p)}: zonnepaneel van ${p.vermogen_wp} Wp met ${nl(p.rendement_pct)}% rendement. ${p.opmerkingen || ""}`.slice(0, 300),
     "url": `${SITE}/paneel/${p.id}.html`,
@@ -435,7 +436,12 @@ function pagina(p) {
       <h1>${merkLogoHtml(p.merk)}${esc(volledigeNaam(p))}</h1>
       <p class="intro">${esc(celtypeLabel(p))} zonnepaneel van ${p.vermogen_wp} Wp, ${esc(p.uitvoering)}${p.full_black ? ", full black" : ""}${p.bifaciaal ? ", bifaciaal" : ""}. Prijzen laatst gecontroleerd op ${esc(datumNL(p.prijs_datum || data.laatst_bijgewerkt))}.</p>
     </div>
-    ${typeIllustratie(p.celtype)}
+    ${p.afbeelding
+      ? `<div class="kaart-foto paneel-foto-groot">
+      <img src="/${esc(p.afbeelding.replace(/^\//, ""))}" alt="${esc(volledigeNaam(p))}" loading="lazy" decoding="async" width="900" height="600">
+      ${p.afbeelding_bron ? `<span class="foto-bron">${esc(p.afbeelding_bron)}</span>` : ""}
+    </div>`
+      : typeIllustratie(p.celtype)}
   </div>
 
   <div class="info-kader">

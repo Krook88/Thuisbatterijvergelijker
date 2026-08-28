@@ -123,7 +123,10 @@
         "bron": "APsystems DS3 datasheet: 300-660 Wp+ aanbevolen, tot 550 Wp per ingang gangbaar"
       },
       "panelen_per_eenheid": 2,
-      "systeem_toeslag_eur": 150
+      "systeem_toeslag_eur": 150,
+      "afbeelding": "assets/producten/apsystems-ds3.webp",
+      "afbeelding_bron": "foto: APsystems",
+      "afbeelding_herkomst": "https://emea.apsystems.com/wp-content/uploads/2022/06/APsystems-microinverter-QT2-DS3.png"
     },
     {
       "id": "solaredge-home-wave",
@@ -242,7 +245,10 @@
         "max_dc_ac": 1.5,
         "bron": "SMA: hybride 5-10 kW; SMA staat ruime overdimensionering toe"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/sma-tripower-smart-energy.webp",
+      "afbeelding_bron": "foto: SMA",
+      "afbeelding_herkomst": "https://www.sma.de/fileadmin/_processed_/9/c/csm_Sunny-Tripower-Smart-Energy_1200x630_689f3fe5f5.jpg"
     },
     {
       "id": "fronius-gen24",
@@ -423,7 +429,10 @@
         "max_dc_ac": 1.35,
         "bron": "Huawei SUN2000 L1: 2-6 kW, 1-fase"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/huawei-sun2000.webp",
+      "afbeelding_bron": "foto: Huawei",
+      "afbeelding_herkomst": "https://solar.huawei.com/-/media/SolarV4/images/Professionals/AllProducts/Solution2/SmartPVController/Smart-PV-Controller-5.png"
     },
     {
       "id": "growatt-min-xh",
@@ -492,7 +501,10 @@
         "max_dc_ac": 1.35,
         "bron": "Growatt MIN TL-XH: 2,5-6 kW, 1-fase"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/growatt-min-xh.webp",
+      "afbeelding_bron": "foto: Growatt",
+      "afbeelding_herkomst": "https://www.stralendgroen.nl/wp-content/uploads/2024/10/vooraanzicht-Growatt-MIN-XH-omvormer.png"
     },
     {
       "id": "solis-s6-hybride",
@@ -553,7 +565,10 @@
         "max_dc_ac": 1.35,
         "bron": "Solis S6 hybride: 3-10 kW in 1- en 3-fase varianten"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/solis-s6-hybride.webp",
+      "afbeelding_bron": "foto: Solis",
+      "afbeelding_herkomst": "https://cmsdata.solisinverters.com/uploads/image/20230209/LU5Eelv7W2J8efw6kPyELQvEuIgQhUzAliRIXcpp.png"
     },
     {
       "id": "sungrow-sh",
@@ -616,7 +631,10 @@
         "max_dc_ac": 1.35,
         "bron": "Sungrow SH-serie: 3,6-10 kW (RS 1-fase, RT 3-fase)"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/sungrow-sh.webp",
+      "afbeelding_bron": "foto: Sungrow",
+      "afbeelding_herkomst": "https://www.coen-plus.nl/media/catalog/product/cache/6517c62f5899ad6aa0ba23ceb3eeff97/s/u/sungrow_sh60rt_1.jpg"
     },
     {
       "id": "deye-sg04lp1",

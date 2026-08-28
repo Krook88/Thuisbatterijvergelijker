@@ -15,7 +15,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { afbeeldingKandidaten, absoluut } from "./productfotos.mjs";
+import { afbeeldingKandidaten, absoluut, naamDelen, naamScore, beeldScore, bronPaginas } from "./productfotos.mjs";
 
 const BASIS = "https://www.fabrikant.nl/product/pomp-x";
 
@@ -89,5 +89,120 @@ test("kapotte structured data laat de rest staan", () => {
   const html = `
     <script type="application/ld+json">{ dit is geen json </script>
     <meta property="og:image" content="https://www.fabrikant.nl/x.jpg">`;
+  assert.equal(afbeeldingKandidaten(html, BASIS).length, 1);
+});
+
+/* ------------------------------------------------------------------
+   Wat de eerste droge run over 70 producten liet zien
+   ------------------------------------------------------------------ */
+
+test("een logo in og:image telt niet mee, ook al staat het vooraan", () => {
+  // Precies wat er misging: het filter stond alleen op de <img>-tags, en juist
+  // de logo's kwamen binnen via og:image. Dit zijn de drie echte gevallen.
+  for (const logo of [
+    "https://www.nibe.eu/images/18.5f2a48/nibe-logga-200.jpg",
+    "https://www.lg.com/content/dam/lge/common/logo/logo-lg-100-44.jpg",
+    "https://www.samsung.com/etc/resources/images/logo-square-letter.png",
+    "https://www.gree.nl/typo3conf/ext/site_template/Resources/Public/img/og-Image.jpg",
+  ]) {
+    const html = `<meta property="og:image" content="${logo}">`;
+    assert.deepEqual(afbeeldingKandidaten(html, BASIS), [], logo);
+  }
+});
+
+test("een sociale deelkaart is geen productfoto", () => {
+  const html = `<meta property="og:image" content="https://cdn.prod.website-files.com/67e/social%20share%20weheat.jpg">`;
+  assert.deepEqual(afbeeldingKandidaten(html, BASIS), []);
+});
+
+test("het adres dat het product bij naam noemt gaat voor", () => {
+  // Bij Itho stond de campagne-illustratie vóór de echte packshot.
+  const html = `
+    <script type="application/ld+json">
+    {"@type":"Product","image":[
+      "https://ithodaalderop.compano.com/ITH%20ILLU%20Campagne%20Vincent%20los%20FC_1200x1200.jpg",
+      "https://ithodaalderop.compano.com/03-00659_Vincent_Front_Schaduw_1200x1200px.jpg"]}
+    </script>`;
+  const k = afbeeldingKandidaten(html, BASIS, "Itho Daalderop Vincent V45 hybride");
+  assert.match(k[0].url, /Vincent_Front_Schaduw/);
+});
+
+test("zonder naamtreffers blijft de volgorde van de wegen staan", () => {
+  const html = `
+    <meta property="og:image" content="https://www.fabrikant.nl/b.jpg">
+    <script type="application/ld+json">{"@type":"Product","image":"https://www.fabrikant.nl/a.jpg"}</script>`;
+  const k = afbeeldingKandidaten(html, BASIS, "Merk Model");
+  assert.equal(k[0].hoe, "structured data");
+});
+
+test("naamDelen laat maten en losse getallen liggen", () => {
+  assert.deepEqual(naamDelen("Remeha Elga Ace 10 kWh"), ["remeha", "elga"]);
+  assert.deepEqual(naamDelen(""), []);
+});
+
+test("naamScore telt hoeveel woorden er in het adres staan", () => {
+  const delen = naamDelen("Atlantic Alfea Extensa");
+  assert.equal(naamScore("https://x.nl/Alfea-Extensa-R32-DUO.jpg", delen), 2);
+  assert.equal(naamScore("https://x.nl/Header_Desktop_1440x360.jpg", delen), 0);
+});
+
+test("een packshot wint van een sfeerbeeld met dezelfde naam erin", () => {
+  const html = `<script type="application/ld+json">{"@type":"Product","image":[
+    "https://x.nl/ITH%20ILLU%20Campagne%20Vincent%20los%20FC.jpg",
+    "https://x.nl/03-00659_Vincent_Front_Schaduw.jpg"]}</script>`;
+  const k = afbeeldingKandidaten(html, BASIS, "Itho Daalderop Vincent V45 hybride");
+  assert.match(k[0].url, /Vincent_Front_Schaduw/);
+});
+
+test("beeldScore beloont een packshot en straft een sfeerbeeld", () => {
+  const delen = naamDelen("Daikin Altherma");
+  assert.equal(beeldScore("https://x.nl/03_Packshot_EHBX_3-4_FRONT.jpg", delen), 1);
+  assert.equal(beeldScore("https://x.nl/daikin-altherma-lifestyle-terrace.jpg", delen), 1);
+  assert.equal(beeldScore("https://x.nl/daikin-altherma-packshot-front.jpg", delen), 3);
+});
+
+/* ------------------------------------------------------------------
+   Waar we mogen kijken
+   ------------------------------------------------------------------ */
+
+test("de fabrikant eerst, daarna de winkels die het verkopen", () => {
+  const p = { product_url: "https://fab.nl/x", aanbiedingen: [
+    { url: "https://winkel-a.nl/p", winkel: "Winkel A" },
+    { url: "https://winkel-b.nl/p", winkel: "Winkel B" }] };
+  assert.deepEqual(bronPaginas(p).map((b) => b.naam), ["de fabrikant", "Winkel A", "Winkel B"]);
+});
+
+test("een artikel dat de winkel niet meer voert doet niet mee", () => {
+  // Daar staat het product niet meer op de pagina, dus daar valt niets te halen.
+  const p = { aanbiedingen: [
+    { url: "https://weg.nl/p", winkel: "Weg", niet_leverbaar: true },
+    { url: "https://er.nl/p", winkel: "Er" }] };
+  assert.deepEqual(bronPaginas(p).map((b) => b.naam), ["Er"]);
+});
+
+test("hetzelfde adres twee keer telt één keer", () => {
+  const p = { product_url: "https://fab.nl/x", aanbiedingen: [{ url: "https://fab.nl/x", winkel: "Dubbel" }] };
+  assert.equal(bronPaginas(p).length, 1);
+});
+
+test("zonder enig adres valt er niets te bezoeken", () => {
+  assert.deepEqual(bronPaginas({}), []);
+  assert.deepEqual(bronPaginas({ aanbiedingen: [{ winkel: "Zonder URL" }] }), []);
+});
+
+test("beeld dat een machine verzonnen heeft telt niet mee", () => {
+  // Thuisbatterij Nederland zette dit bestand bij de Tesla Powerwall 3. Op een
+  // contactvel ziet het eruit als een nette productfoto; de bestandsnaam is het
+  // enige wat verraadt dat het apparaat erop niet bestaat.
+  const echt = "https://thuisbatterijnederland.nl/wp-content/uploads/2024/02/ChatGPT-Image-7-mei-2026-11_47_05-1.png";
+  assert.deepEqual(afbeeldingKandidaten(`<meta property="og:image" content="${echt}">`, BASIS), []);
+  for (const naam of ["midjourney-powerwall.jpg", "dall-e-render.png", "ai-generated-pomp.jpg"]) {
+    assert.deepEqual(afbeeldingKandidaten(`<meta property="og:image" content="https://x.nl/${naam}">`, BASIS), [], naam);
+  }
+});
+
+test("een gewone productnaam met ai erin blijft gewoon staan", () => {
+  // "aiko" en "daikin" bevatten allebei de letters ai; die mogen niet sneuvelen.
+  const html = `<meta property="og:image" content="https://x.nl/aiko-neostar-455-front.jpg">`;
   assert.equal(afbeeldingKandidaten(html, BASIS).length, 1);
 });

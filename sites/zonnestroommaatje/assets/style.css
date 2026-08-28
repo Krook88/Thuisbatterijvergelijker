@@ -2,8 +2,8 @@
    Zonnepaneelmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260823i");
-@import url("vergelijker.css?v=20260823i");
+@import url("maatlat.css?v=20260828a");
+@import url("vergelijker.css?v=20260828a");
 
 :root {
   --kleur-primair: #0369a1;
@@ -1676,3 +1676,43 @@ a.icoon-kaart { text-decoration: none; color: inherit; }
 
 /* De ene zin die het stappenblok bevatte en die nergens anders stond. */
 .hero-naschrift { margin: var(--ruimte-20) 0 0; }
+
+/* Productfoto van de fabrikant. Dezelfde vorm als op batterijmaatje: het beeld
+   wordt ingepast en niet bijgesneden, zodat een staand paneel en een liggende
+   omvormer naast elkaar in de pas lopen. De bronvermelding hoort erbij zodra je
+   andermans foto toont. */
+.kaart-foto {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--kleur-achtergrond);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.kaart-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: var(--ruimte-14);
+}
+
+.kaart-foto .foto-bron {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  font-size: var(--tekst-12);
+  color: var(--kleur-tekst-licht);
+  background: rgba(255, 255, 255, 0.82);
+  padding: var(--ruimte-2) var(--ruimte-6);
+  border-radius: var(--radius-pil);
+}
+
+/* Op een detailpagina mag de foto groter, want daar is hij het onderwerp. */
+.paneel-foto-groot {
+  aspect-ratio: 3 / 2;
+  max-width: 520px;
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius);
+}

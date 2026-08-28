@@ -26,6 +26,7 @@
   "category": "All-electric warmtepomp",
   "description": "DeWarmte Pomp AO: all-electric warmtepomp van 6 kW, SCOP 4,9. Koppel-score 0/6.",
   "url": "https://warmtepompmaatje.nl/pomp/dewarmte-pomp-ao.html",
+  "image": "https://warmtepompmaatje.nl/assets/producten/dewarmte-pomp-ao.webp",
   "offers": {
     "@type": "Offer",
     "price": 3400,
@@ -57,9 +58,9 @@
   ]
 }
   </script>
-  <link rel="stylesheet" href="../assets/style.css?v=20260823i">
-  <script src="../assets/iconen.js?v=20260823i" defer></script>
-  <script src="../assets/nav.js?v=20260823i" defer></script>
+  <link rel="stylesheet" href="../assets/style.css?v=20260828a">
+  <script src="../assets/iconen.js?v=20260828a" defer></script>
+  <script src="../assets/nav.js?v=20260828a" defer></script>
   <link rel="icon" href="../assets/favicon.svg?v=1" type="image/svg+xml">
   <style>
     .product-indeling { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; margin: 20px 0 40px; }
@@ -74,6 +75,14 @@
     .breadcrumb { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); margin: 16px 0 0; }
     .koppel-blok dt { font-weight: 700; margin-top: 10px; }
     .koppel-blok dd { margin: 2px 0 0; font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
+
+    /* Productfoto van de fabrikant. Dezelfde vorm als op batterijmaatje: het
+       beeld wordt ingepast en niet bijgesneden, zodat een platte buitenunit en
+       een hoge kast naast elkaar in de pas lopen. De bronvermelding hoort erbij
+       zodra je andermans foto toont. */
+    .kaart-foto { position: relative; aspect-ratio: 3 / 2; max-width: 520px; background: var(--kleur-achtergrond); border: 1px solid var(--kleur-rand); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .kaart-foto img { width: 100%; height: 100%; object-fit: contain; padding: var(--ruimte-14); }
+    .kaart-foto .foto-bron { position: absolute; right: 8px; bottom: 6px; font-size: var(--tekst-12); color: var(--kleur-tekst-licht); background: rgba(255, 255, 255, 0.82); padding: var(--ruimte-2) var(--ruimte-6); border-radius: var(--radius-pil); }
   </style>
 </head>
 <body>
@@ -109,6 +118,10 @@
 <main class="container">
   <p class="breadcrumb"><a href="../index.html">Warmtepompen</a> › DeWarmte Pomp AO</p>
   <h1 class="pomp-titel">DeWarmte Pomp AO</h1>
+  <div class="kaart-foto">
+    <img src="../assets/producten/dewarmte-pomp-ao.webp" alt="DeWarmte Pomp AO" loading="lazy" decoding="async" width="900" height="600">
+    <span class="foto-bron">foto: DeWarmte</span>
+  </div>
   <p class="pomp-ondertitel">All-electric warmtepomp (vervangt de cv-ketel volledig) · prijzen voor: Pomp AO (2 tot 8 kW)</p>
   <div class="koppel-meter koppel-meter-groot op-pagina">
     <div class="koppel-meter-kop">
