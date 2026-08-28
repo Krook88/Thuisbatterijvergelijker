@@ -827,10 +827,7 @@
       "buiten_toelichting": "buiten toegestaan volgens fabrikant, -10 tot 50 °C",
       "capaciteit_nominaal_kwh": 11.04,
       "capaciteit_soort": "bruikbaar",
-      "vermogen_conditie": "onbekend",
-      "afbeelding": "assets/producten/byd-battery-box-hvm-11.webp",
-      "afbeelding_bron": "foto: BYD",
-      "afbeelding_herkomst": "https://www.bydbatterybox.com/wp-content/uploads/2020/01/HV_small_yellow.jpg.png"
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "solaredge-home-battery-48v",
