@@ -65,10 +65,7 @@
         "bron": "Enphase IQ8HC datasheet: aanbevolen paneelvermogen tot 560 Wp"
       },
       "panelen_per_eenheid": 1,
-      "systeem_toeslag_eur": 250,
-      "afbeelding": "assets/producten/enphase-iq8.webp",
-      "afbeelding_bron": "foto: Enphase",
-      "afbeelding_herkomst": "https://enphase.com/sites/default/files/styles/max_size_2800xauto_/public/2025-09/thumbnail%20%285%29.png?itok=EaOm2fR5"
+      "systeem_toeslag_eur": 250
     },
     {
       "id": "apsystems-ds3",
@@ -309,10 +306,7 @@
         "max_dc_ac": 1.35,
         "bron": "Fronius GEN24: Primo 3-6 kW (1-fase), Symo 6-10 kW (3-fase)"
       },
-      "panelen_per_eenheid": null,
-      "afbeelding": "assets/producten/fronius-gen24.webp",
-      "afbeelding_bron": "foto: Fronius",
-      "afbeelding_herkomst": "https://www.fronius.com/-/media/international/se/q-r/reference-symo-big-iloilo-philippines-87.webp"
+      "panelen_per_eenheid": null
     },
     {
       "id": "goodwe-et",
@@ -366,10 +360,7 @@
         "bron": "GoodWe ET-serie: 5-15 kW, 3-fase"
       },
       "panelen_per_eenheid": null,
-      "prijs_datum": "2026-08-26",
-      "afbeelding": "assets/producten/goodwe-et.webp",
-      "afbeelding_bron": "foto: GoodWe",
-      "afbeelding_herkomst": "https://nl.goodwe.com/Public/Uploads/uploadfile8/images/20211215/dwic01.png"
+      "prijs_datum": "2026-08-26"
     },
     {
       "id": "huawei-sun2000",
@@ -693,10 +684,7 @@
         "max_dc_ac": 1.35,
         "bron": "Deye SG04LP1: 3,6-12 kW, 1-fase"
       },
-      "panelen_per_eenheid": null,
-      "afbeelding": "assets/producten/deye-sg04lp1.webp",
-      "afbeelding_bron": "foto: Deye",
-      "afbeelding_herkomst": "https://www.deyeinverter.com/template/en/images/en.jpg"
+      "panelen_per_eenheid": null
     },
     {
       "id": "victron-multiplus2",
@@ -742,10 +730,7 @@
         "voorbeeld_ac_kw": 4,
         "bron": "Victron MultiPlus-II 48/5000: 4.000 W continu; panelen via aparte MPPT-laadregelaars (ontwerp door specialist)"
       },
-      "panelen_per_eenheid": null,
-      "afbeelding": "assets/producten/victron-multiplus2.webp",
-      "afbeelding_bron": "foto: Victron Energy",
-      "afbeelding_herkomst": "https://www.victronenergy.nl/_next/static/media/header-globallink-narrow.9b825586.jpg"
+      "panelen_per_eenheid": null
     }
   ]
 }

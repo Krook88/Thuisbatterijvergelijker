@@ -168,8 +168,22 @@ function houdbaarTot(datum) {
   return tot > new Date().toISOString().slice(0, 10) ? tot : null;
 }
 
+/* De foto op de pagina en in de markup horen bij elkaar. Structured data mag
+   niets beloven wat een bezoeker niet ziet, dus staan ze allebei aan of allebei
+   uit. */
+function fotoBlok(w, naam) {
+  if (!w.afbeelding) return "";
+  return `<div class="kaart-foto">
+    <img src="../${esc(w.afbeelding.replace(/^\//, ""))}" alt="${esc(naam)}" loading="lazy" decoding="async" width="900" height="600">
+    ${w.afbeelding_bron ? `<span class="foto-bron">${esc(w.afbeelding_bron)}</span>` : ""}
+  </div>`;
+}
+
 function productLd(w) {
   const naam = volledigeNaam(w);
+  const beeld = w.afbeelding
+    ? (/^https?:/i.test(w.afbeelding) ? w.afbeelding : `${SITE}/${w.afbeelding.replace(/^\//, "")}`)
+    : null;
   const beste = bestePrijs(w);
   // Alleen aanbiedingen die het complete toestel dekken: een losse buitenunit
   // als "price" van dit product opvoeren zou in de zoekresultaten een bedrag
@@ -184,6 +198,7 @@ function productLd(w) {
     "category": w.type === "hybride" ? "Hybride warmtepomp" : "All-electric warmtepomp",
     "description": `${naam}: ${w.type === "hybride" ? "hybride" : "all-electric"} warmtepomp${w.vermogen_kw ? ` van ${String(w.vermogen_kw).replace(".", ",")} kW` : ""}${w.scop ? `, SCOP ${String(w.scop).replace(".", ",")}` : ""}. Koppel-score ${koppelScore(w)}/6.`.slice(0, 300),
     "url": `${SITE}/pomp/${w.id}.html`,
+    ...(beeld ? { "image": beeld } : {}),
   };
   if (aanbiedingen.length === 1) {
     ld.offers = { "@type": "Offer", "price": vergelijkPrijs(aanbiedingen[0]), "priceCurrency": "EUR", "url": aanbiedingen[0].affiliate_url || aanbiedingen[0].url, "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", ...(houdbaarTot(w.prijs_datum) ? { "priceValidUntil": houdbaarTot(w.prijs_datum) } : {}) };
@@ -643,6 +658,14 @@ function pompPagina(w) {
     .breadcrumb { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); margin: 16px 0 0; }
     .koppel-blok dt { font-weight: 700; margin-top: 10px; }
     .koppel-blok dd { margin: 2px 0 0; font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
+
+    /* Productfoto van de fabrikant. Dezelfde vorm als op batterijmaatje: het
+       beeld wordt ingepast en niet bijgesneden, zodat een platte buitenunit en
+       een hoge kast naast elkaar in de pas lopen. De bronvermelding hoort erbij
+       zodra je andermans foto toont. */
+    .kaart-foto { position: relative; aspect-ratio: 3 / 2; max-width: 520px; background: var(--kleur-achtergrond); border: 1px solid var(--kleur-rand); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .kaart-foto img { width: 100%; height: 100%; object-fit: contain; padding: var(--ruimte-14); }
+    .kaart-foto .foto-bron { position: absolute; right: 8px; bottom: 6px; font-size: var(--tekst-12); color: var(--kleur-tekst-licht); background: rgba(255, 255, 255, 0.82); padding: var(--ruimte-2) var(--ruimte-6); border-radius: var(--radius-pil); }
   </style>
 </head>
 <body>
@@ -652,6 +675,7 @@ ${kop("index", true)}
 <main class="container">
   <p class="breadcrumb"><a href="../index.html">Warmtepompen</a> › ${esc(naam)}</p>
   <h1 class="pomp-titel">${esc(naam)}</h1>
+  ${fotoBlok(w, naam)}
   <p class="pomp-ondertitel">${w.type === "hybride" ? "Hybride warmtepomp (werkt samen met je cv-ketel)" : "All-electric warmtepomp (vervangt de cv-ketel volledig)"}${w.voorbeeld_variant ? ` · prijzen voor: ${esc(w.voorbeeld_variant)}` : ""}</p>
   <div class="koppel-meter koppel-meter-groot op-pagina">
     <div class="koppel-meter-kop">
