@@ -1,35 +1,41 @@
 {
-  "bijgewerkt": "2026-08-27",
+  "bijgewerkt": "2026-08-28",
   "punten": {
     "te controleren|inventum-ecolution-combi|JCB Ventilatie": {
       "sinds": "2026-08-17",
       "soort": "te controleren",
-      "tekst": "inventum-ecolution-combi @ JCB Ventilatie: €4843 is 167% van de richtprijs (€2900) - controleer of deze prijs hetzelfde dekt; klopt het verschil, zet dan \"omvat\" op deze aanbieding (https://www.jcbventilatiestore.nl/products/inventum-ecolution-combi-50-ventilatiewarmtepomp-50-liter)"
+      "tekst": "inventum-ecolution-combi @ JCB Ventilatie: €4843 is 167% van de richtprijs (€2900) - controleer of deze prijs hetzelfde dekt; klopt het verschil, zet dan \"omvat\" op deze aanbieding (https://www.jcbventilatiestore.nl/products/inventum-ecolution-combi-50-ventilatiewarmtepomp-50-liter)",
+      "bevestigd": true
     },
     "verouderd|bosch-compress-5800i|Woonwijzerwinkel": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "bosch-compress-5800i @ Woonwijzerwinkel: €7500 (nooit bevestigd)"
+      "tekst": "bosch-compress-5800i @ Woonwijzerwinkel: €7500 (nooit bevestigd)",
+      "bevestigd": true
     },
     "verouderd|gree-versati-iv-10|MaxiCool": {
       "sinds": "2026-08-20",
       "soort": "verouderd",
-      "tekst": "gree-versati-iv-10 @ MaxiCool: €4850 (28 dagen)"
+      "tekst": "gree-versati-iv-10 @ MaxiCool: €4850 (29 dagen)",
+      "bevestigd": true
     },
     "verouderd|weheat-blackbird|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "weheat-blackbird @ richtprijs: €7000 (nooit bevestigd)"
+      "tekst": "weheat-blackbird @ richtprijs: €7000 (nooit bevestigd)",
+      "bevestigd": true
     },
     "zonder prijs|gree-versati-iv-10|MaxiCool": {
       "sinds": "2026-08-21",
       "soort": "geweigerd",
-      "tekst": "gree-versati-iv-10 @ MaxiCool: HTTP 403"
+      "tekst": "gree-versati-iv-10 @ MaxiCool: HTTP 403",
+      "bevestigd": true
     },
     "zonder prijs|weheat-blackbird|Weheat": {
       "sinds": "2026-08-21",
       "soort": "zonder bedrag",
-      "tekst": "weheat-blackbird @ Weheat: geen leesbaar bedrag"
+      "tekst": "weheat-blackbird @ Weheat: geen leesbaar bedrag",
+      "bevestigd": true
     }
   }
 }
