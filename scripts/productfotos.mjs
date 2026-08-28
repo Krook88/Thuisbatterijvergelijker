@@ -32,7 +32,7 @@
  * door.
  */
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync, rmSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
@@ -228,9 +228,11 @@ export function afbeeldingKandidaten(html, basis, naam = "", modellen = []) {
     }
   }
 
-  const meta = (naam, hoe) => {
+  // Let op de eigen parameternaam: `naam` hierbuiten is de productnaam, en die
+  // wil je hier niet per ongeluk overschaduwen met "og:image".
+  const meta = (eigenschap, hoe) => {
     for (const m of String(html).matchAll(
-      new RegExp(`<meta[^>]+(?:property|name)=["']${naam}["'][^>]*>`, "gi"))) {
+      new RegExp(`<meta[^>]+(?:property|name)=["']${eigenschap}["'][^>]*>`, "gi"))) {
       const inhoud = /content=["']([^"']+)["']/i.exec(m[0]);
       if (inhoud) voegToe(inhoud[1], hoe);
     }
@@ -277,31 +279,56 @@ export function afbeeldingKandidaten(html, basis, naam = "", modellen = []) {
  * artikel niet meer op de pagina. */
 export function bronPaginas(p) {
   const uit = [];
-  const voegToe = (url, naam) => {
+  const voegToe = (url, naam, vanFabrikant) => {
     if (!url || !/^https?:/i.test(url)) return;
     if (uit.some((b) => b.url === url)) return;
-    uit.push({ url, naam });
+    uit.push({ url, naam, vanFabrikant });
   };
-  voegToe(p.product_url, "de fabrikant");
+  voegToe(p.product_url, "de fabrikant", true);
   for (const a of p.aanbiedingen || []) {
-    if (a && !a.niet_leverbaar) voegToe(a.url, a.winkel || "een winkel");
+    if (a && !a.niet_leverbaar) voegToe(a.url, a.winkel || "een winkel", false);
   }
   return uit;
+}
+
+/* Wie er onder de foto komt te staan.
+ *
+ * Dit stond op `foto: ${p.merk}`, ongeacht waar het bestand vandaan kwam, en
+ * dat was bij twaalf van de foto's onwaar: de SolaX komt van Alma Solar, de
+ * DMEGC van Stroomwinkel, de Qcells van Zonnefabriek. Op een site die zijn
+ * prijzen bij de winkel natelt is een bronvermelding die de verkeerde partij
+ * noemt precies het soort fout dat het vertrouwen kost, en het is ook de
+ * partij die het beeld gemaakt of gelicentieerd heeft.
+ *
+ * De pagina waar we het beeld vonden is het enige harde gegeven; de host van
+ * het beeld zelf zegt niets, want fabrikanten zetten hun foto's op
+ * edge.sitecorecloud.io, a.storyblok.com of een S3-emmer. */
+export function bronVermelding(product, keuze) {
+  if (keuze.vanFabrikant) return `foto: ${product.merk || "fabrikant"}`;
+  // De winkelnaam draagt in de gegevens vaak een toelichting tussen haakjes
+  // ("Frank Energie (sets incl. aansturing)"). Onder een foto hoort de naam.
+  return `foto: ${String(keuze.bron || "de winkel").replace(/\s*\(.*$/, "").trim()}`;
 }
 
 /* ------------------------------------------------------------------
    Omzetten naar webp
    ------------------------------------------------------------------ */
 
+// cwebp doet het omzetten én het schalen in één opdracht en leest jpeg, png en
+// webp. Staat hij er niet, dan valt er niets om te zetten: de werkstroom heeft
+// een stap die hem installeert.
 function omzetter() {
-  for (const naam of ["cwebp"]) {
-    try {
-      execFileSync(naam, ["-version"], { stdio: "ignore" });
-      return naam;
-    } catch { /* volgende */ }
+  try {
+    execFileSync("cwebp", ["-version"], { stdio: "ignore" });
+    return "cwebp";
+  } catch {
+    return null;
   }
-  return null;
 }
+
+// Ruim boven wat een productfoto ooit weegt (de grootste die we ophaalden is
+// 1,4 MB), en ruim onder wat een runner zonder morren in het geheugen trekt.
+const MAX_DOWNLOAD = 20 * 1024 * 1024;
 
 async function haalBeeld(url) {
   const res = await fetch(url, {
@@ -309,7 +336,14 @@ async function haalBeeld(url) {
     headers: { "User-Agent": "Mozilla/5.0 ThuisbatterijVergelijker-fotocheck/1.0", "Accept": "image/*" },
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return Buffer.from(await res.arrayBuffer());
+  // Deze adressen komen van vreemde servers en de maatcontrole verderop komt
+  // pas ná het omzetten. Zonder deze grens trekt één verkeerd adres - een
+  // video, een zip met de verkeerde extensie - eerst alles in het geheugen.
+  const gemeld = Number(res.headers.get("content-length"));
+  if (gemeld > MAX_DOWNLOAD) throw new Error(`${Math.round(gemeld / 1024 / 1024)} MB is te groot`);
+  const rauw = Buffer.from(await res.arrayBuffer());
+  if (rauw.length > MAX_DOWNLOAD) throw new Error(`${Math.round(rauw.length / 1024 / 1024)} MB is te groot`);
+  return rauw;
 }
 
 /* ------------------------------------------------------------------ */
@@ -323,6 +357,7 @@ async function main() {
   console.log(`Omzetter: ${werktuig || "geen (droge run)"}\n`);
 
   let opgehaald = 0, overgeslagen = 0, mislukt = 0;
+  const gezocht = [];
 
   for (const { site, bestand, sleutel } of SITES) {
     if (ALLEEN_SITE && site !== ALLEEN_SITE) continue;
@@ -333,6 +368,9 @@ async function main() {
     let gewijzigd = false;
 
     console.log(`=== ${site}/${sleutel}`);
+    // Een typefout in --alleen leverde eerst "0 opgehaald" op en verder niets,
+    // en dan zoek je de fout bij de winkel in plaats van bij je eigen invoer.
+    gezocht.push(...producten.map((x) => x.id));
     for (const p of producten) {
       if (p.afbeelding) continue;
       if (ALLEEN.length && !ALLEEN.includes(p.id)) continue;
@@ -359,7 +397,7 @@ async function main() {
         }
         bezocht++;
         const gevonden = afbeeldingKandidaten(html, bron.url, productNaam, modellen)
-          .map((k) => ({ ...k, bron: bron.naam }));
+          .map((k) => ({ ...k, bron: bron.naam, vanFabrikant: bron.vanFabrikant, paginaUrl: bron.url }));
         kandidaten = kandidaten.concat(gevonden);
         // Een beeld dat het model noemt en geen sfeerbeeld is, is goed genoeg
         // om te stoppen. Zonder die grens bezoeken we voor elk product vier
@@ -374,7 +412,7 @@ async function main() {
         continue;
       }
       const keuze = kandidaten[0];
-      console.log(`  ? ${p.id}: ${kandidaten.length} kandidaat(en) van ${bezocht} pagina(s), eerste via ${keuze.hoe} bij ${keuze.bron} (naamtreffers ${keuze.score})`);
+      console.log(`  ? ${p.id}: ${kandidaten.length} kandidaat(en) van ${bezocht} pagina(s), eerste via ${keuze.hoe} bij ${keuze.bron} (score ${keuze.score})`);
       console.log(`      ${keuze.url}`);
       for (const k of kandidaten.slice(1, 4)) console.log(`      (ook: ${k.hoe} bij ${k.bron} ${k.url})`);
 
@@ -388,6 +426,7 @@ async function main() {
         mkdirSync(map, { recursive: true });
         const doel = join(map, `${p.id}.webp`);
         execFileSync(werktuig, ["-quiet", "-q", String(KWALITEIT), "-resize", String(BREEDTE), "0", tijdelijk, "-o", doel]);
+        rmSync(tijdelijk, { force: true });
         const grootte = readFileSync(doel).length;
         if (!grootte || grootte > MAX_BYTES) {
           console.log(`      omgezet bestand is ${Math.round(grootte / 1024)} kB, dat is niet in orde; overgeslagen`);
@@ -395,8 +434,9 @@ async function main() {
           continue;
         }
         p.afbeelding = `assets/producten/${p.id}.webp`;
-        p.afbeelding_bron = `foto: ${p.merk || "fabrikant"}`;
+        p.afbeelding_bron = bronVermelding(p, keuze);
         p.afbeelding_herkomst = keuze.url;
+        p.afbeelding_via = keuze.paginaUrl;
         gewijzigd = true;
         opgehaald++;
         console.log(`      ✓ ${Math.round(grootte / 1024)} kB weggeschreven naar ${p.afbeelding}`);
@@ -413,6 +453,10 @@ async function main() {
   }
 
   await sluitBrowser();
+  // Met --site is "niet gezien" ook gewoon "staat op een andere site", en dan
+  // is een waarschuwing misleidend.
+  const onbekend = ALLEEN_SITE ? [] : ALLEEN.filter((id) => !gezocht.includes(id));
+  if (onbekend.length) console.log(`\nLet op: ${onbekend.join(", ")} komt niet voor in de gegevens.`);
   console.log(`\n${opgehaald} opgehaald, ${overgeslagen} overgeslagen, ${mislukt} niet gelukt.`);
   console.log("Kijk de foto's na voordat er iets live gaat; een sfeerbeeld is geen productfoto.");
 }

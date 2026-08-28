@@ -8,8 +8,8 @@ Drie onafhankelijke vergelijkingssites in één repository:
 | `sites/zonnestroommaatje` | zonnestroommaatje.nl | zonnepanelen en omvormers |
 | `sites/warmtepompmaatje` | warmtepompmaatje.nl | warmtepompen |
 
-Elke site is statisch: geen build-stap, geen framework. In elke sitemap staat
-een eigen `README.md` met de details van die site.
+Elke site is statisch: geen build-stap, geen framework. In de map van elke site
+staat een eigen `README.md` met de details van die site.
 
 ## Waarom één repository
 
@@ -62,6 +62,22 @@ precies wat CI ook doet:
 | `npm run slop` | tekst die vager is dan deze site wil zijn; de regels staan in `SCHRIJFWIJZE.md` |
 | `npm run keuring` | contrast, aanraakvlakken, tekstmaten en javascriptfouten op elke pagina van de drie sites, op 1280 en 390 pixels |
 | `npm run dode-regels` | declaraties die er wel staan maar overal worden overruled |
+
+Eén controle staat er met opzet *niet* bij. `npm run zoekmachine` kijkt wat een
+zoekmachine van de sites te zien krijgt - titellengte, canonical, geldige
+JSON-LD, `availability` en `priceValidUntil` in de offers, en of de sitemap en
+de pagina's elkaar dekken. Die hoort niet in de ketting omdat een deel van zijn
+meldingen niet met code op te lossen is: "geen prijs in het zoekresultaat, de
+prijs is te oud" gaat weg door een prijs na te kijken, niet door iets te
+programmeren. In de ketting zou hij binnen een week permanent rood staan, en
+dat is precies wat dit bestand verderop over andere controles zegt. Draai hem
+als je aan de vindbaarheid werkt; `--streng` geeft een foutcode terug.
+
+Hij drukt onderaan ook twee getallen af die geen melding zijn: hoeveel
+productpagina's geen `image` in de markup hebben, en hoeveel er geen `offers`
+dragen. Google toont een productresultaat - foto, prijs, beschikbaarheid naast
+het blauwe linkje - alleen als allebei er staan. Dat is niet aan de pagina te
+zien, want die werkt gewoon.
 
 `npm run workflows` kwam uit een eigen misser. Een stap die de dagelijkse
 prijsrun rood moest laten worden bij verouderde prijzen belandde onderaan het
@@ -321,7 +337,7 @@ script de losse module van 4,6 kWh leest op een pagina waar ook het pakket van
 9,2 kWh staat. In het eerste geval moet er een prijs veranderen, in het tweede
 een URL.
 
-`npm run winkelpagina <url> --naam "..."` toont wat er op zo'n pagina staat:
+`npm run winkelpagina -- <url> --naam "..."` toont wat er op zo'n pagina staat:
 via welke weg hij binnenkwam, wat elke uitleesroute apart oplevert, en elk
 bedrag op de pagina met de tekst eromheen. Bewust zonder oordeel — het
 overnemen van dat oordeel door een script is precies wat die meldingen
@@ -332,3 +348,71 @@ Draai hem niet hier maar via de werkstroom *Wat staat er op een winkelpagina*
 bij winkels: de egress-proxy laat alleen npm en pypi door, dus curl en fetch
 krijgen daar een 403 van de proxy in plaats van een antwoord van de winkel. Een
 runner komt er wel bij. Die werkstroom schrijft niets weg.
+
+**Geef de productnaam mee.** Zonder `--naam` draait elke route zonder
+ankerwoorden, en dan lijkt het alsof het script niets kan lezen terwijl het in
+de echte run wél iets leest. Dat is één keer misgegaan: bij Frank Energie
+meldde de diagnose "geen prijs" langs alle zes de routes, en met de naam erbij
+kwam de zichtbare-tekstroute gewoon met € 4.945.
+
+### Een prijs die mensenwerk blijft
+
+Twee velden op een aanbieding zeggen tegen de dagelijkse ronde wat ze ermee aan
+moet. Ze staan naast elkaar omdat ze makkelijk verward worden.
+
+| veld | betekenis | wat de ronde doet |
+| --- | --- | --- |
+| `"prijs_controle": "handmatig"` | de winkel toont wel een bedrag, maar niet ons bedrag | bezoekt de pagina nog wel (zodat een dode link opvalt) en schrijft de prijs nooit over |
+| `"niet_leverbaar": true` | de winkel voert het artikel niet meer | de aanbieding telt niet mee in de prijs, de markup en de foto-zoektocht; de URL blijft staan zodat de markering vanzelf afvalt als het artikel terugkomt |
+
+`handmatig` is voor een pagina waar het bedrag wel staat maar niet bij ons
+product hoort. Thuisbatterij Nederland verkoopt de SolarEdge per module, dus de
+metatag van de 4,6 kWh-pagina staat op € 1.495 terwijl wij de 9,2 kWh van
+€ 2.990 tonen - zonder deze markering schrijft de ronde elke ochtend de halve
+accu terug. Frank Energie zet acht bedragen bij dezelfde SMILE G3-T10, van
+€ 4.945 tot € 14.895, en welke daarvan onze 8,2 kWh is staat er niet bij.
+
+Zet het op de aanbieding en niet op het product, tenzij het hele product
+mensenwerk is (een offerteprijs, een schatting). `verse-data.mjs` rekent een
+product als mensenwerk zodra elke aanbieding die nog meetelt zo gemarkeerd
+staat, net als `update-prices.mjs` al deed.
+
+## Productfoto's ophalen
+
+Zonder `image` in de markup toont Google geen productresultaat, en dat gold
+voor 58 van de 85 productpagina's. `npm run fotos` haalt een foto op bij de
+fabrikant en daarna bij elke winkel die het artikel voert, zet hem om naar webp
+van 900 pixels breed en vult `afbeelding`, `afbeelding_bron`,
+`afbeelding_herkomst` (het beeldadres) en `afbeelding_via` (de pagina waar we
+het vonden).
+
+`afbeelding_via` is er later bij gekomen. Van de 59 foto's die er al stonden
+zijn er 21 met terugwerkende kracht ingevuld - daar is de host van het beeld
+precies die van een pagina die het script voor dat product bezoekt, dus dat
+staat vast. Bij 11 kan dat niet (het beeld staat op een CDN) en 27 zijn met de
+hand toegevoegd en hebben ook geen `afbeelding_herkomst`. Die zijn leeg
+gelaten; een veld dat zegt waar iets vandaan komt is waardeloos zodra je er
+gokken in zet.
+
+```
+npm run fotos -- --droog                 tonen wat hij zou kiezen, niets schrijven
+npm run fotos -- --site warmtepompmaatje  één site
+npm run fotos -- --alleen nibe-s2125     één of meer product-id's
+```
+
+Ook dit draait op een runner (werkstroom *Productfoto's ophalen*), en om
+dezelfde reden. Hij commit naar een eigen tak met het runnummer erachter, nooit
+naar de hoofdtak, want **het script kiest niet welke foto goed genoeg is**. Dat
+blijft mensenwerk, en dat is geen formaliteit: van 33 kandidaten in de laatste
+ronde overleefden er drie het nakijken. De rest was een hand op een thermostaat,
+een gevel met een fiets ervoor, een energielabel, of - vaker - de foto van een
+ánder model dan wij tonen. Het adres verraadt dat: `aiko-445wp-abc-n-type` bij
+een paneel van 455 Wp, `chc.-monoblock` bij een Wolf CHA-07.
+
+Wat het script wél zelf beslist ligt vast in `scripts/productfotos.test.mjs`:
+welke adressen kandidaat zijn, in welke volgorde, en wanneer hij mag ophouden
+met zoeken. Die laatste grens is de belangrijkste. Het merk telt niet mee, want
+op het domein van de fabrikant staat dat in élke bestandsnaam - `BYD_transparent.png`
+won daardoor van de echte productfoto's die eronder stonden. Alleen het model
+onderscheidt, en een sfeerbeeld sluit de zoektocht nooit af, ook al noemt het
+adres het model vier keer.

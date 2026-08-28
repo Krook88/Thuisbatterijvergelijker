@@ -15,7 +15,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { afbeeldingKandidaten, absoluut, naamDelen, naamScore, beeldScore, bronPaginas, modelDelen, magStoppen, padVanAdres } from "./productfotos.mjs";
+import { afbeeldingKandidaten, absoluut, naamDelen, naamScore, beeldScore, bronPaginas, modelDelen, magStoppen, padVanAdres, bronVermelding } from "./productfotos.mjs";
 
 const BASIS = "https://www.fabrikant.nl/product/pomp-x";
 
@@ -257,4 +257,26 @@ test("de domeinnaam telt niet mee als naamtreffer", () => {
   assert.equal(naamScore("https://www.bydbatterybox.com/wp/iets.png", delen), 0);
   assert.equal(naamScore("https://www.bydbatterybox.com/wp/battery-box.png", delen), 1);
   assert.equal(padVanAdres("https://x.nl/map/foto.jpg?w=1200"), "/map/foto.jpg?w=1200");
+});
+
+test("de bronvermelding noemt de winkel als het beeld van de winkel komt", () => {
+  // Dit stond op de merknaam ongeacht de herkomst, en dat was bij twaalf foto's
+  // onwaar: de SolaX komt van Alma Solar, de DMEGC van Stroomwinkel.
+  const p = { merk: "SolaX" };
+  assert.equal(bronVermelding(p, { vanFabrikant: true, bron: "de fabrikant" }), "foto: SolaX");
+  assert.equal(bronVermelding(p, { vanFabrikant: false, bron: "Alma Solar" }), "foto: Alma Solar");
+});
+
+test("een toelichting tussen haakjes hoort niet onder de foto", () => {
+  assert.equal(
+    bronVermelding({ merk: "AlphaESS" }, { vanFabrikant: false, bron: "Frank Energie (sets incl. aansturing)" }),
+    "foto: Frank Energie");
+});
+
+test("bronPaginas zegt erbij of een adres van de fabrikant is", () => {
+  const bronnen = bronPaginas({
+    product_url: "https://fabrikant.nl/pomp",
+    aanbiedingen: [{ url: "https://winkel.nl/pomp", winkel: "Winkel" }],
+  });
+  assert.deepEqual(bronnen.map((b) => b.vanFabrikant), [true, false]);
 });
