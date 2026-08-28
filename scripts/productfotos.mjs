@@ -84,7 +84,7 @@ const BEELDSOORTEN = /\.(jpe?g|png|webp)(\?|#|$)/i;
 // Let op de scheidingstekens: het adres wordt eerst gedecodeerd, dus "%20"
 // is dan een spatie. Met [-_%20] stond die spatie er niet bij, en glipte
 // "social share weheat.jpg" er alsnog doorheen.
-const NOOIT = /logo|logga|icon|sprite|avatar|badge|placeholder|og[-_ ]?image|og[-_ ]?thumb|social[^a-z0-9]{0,3}share|share[^a-z0-9]{0,3}image|banner/i;
+const NOOIT = /logo|logga|icon|sprite|avatar|badge|placeholder|transparent|og[-_ ]?image|og[-_ ]?thumb|social[^a-z0-9]{0,3}share|share[^a-z0-9]{0,3}image|banner/i;
 
 /* Beeld dat een machine heeft verzonnen.
  *
@@ -106,13 +106,43 @@ export function naamDelen(naam) {
     .filter((w) => w.length >= 4 && !/^\d+$/.test(w));
 }
 
+/* Het merk zegt op de site van de fabrikant helemaal niets.
+ *
+ * Op bydbatterybox.com heet elk bestand naar BYD, dus "BYD_transparent.png" -
+ * het merkteken - scoorde een naamtreffer en won van de echte productfoto's die
+ * eronder stonden. Hetzelfde bij NIBE, waar "Produkter-926x470.jpg" het haalde,
+ * en bij Mitsubishi, waar "ecodan_bediening.jpg" (een hand op een thermostaat)
+ * boven kwam. Alleen het model onderscheidt het ene beeld van het andere; het
+ * merk is op dat domein een constante.
+ *
+ * Daarom houdt dit de modelwoorden apart. Ze wegen dubbel in de rangschikking,
+ * en verderop beslissen ze of we bij deze bron mogen ophouden met zoeken. */
+export function modelDelen(product) {
+  return naamDelen(`${product.model || ""} ${product.voorbeeld_variant || ""}`);
+}
+
 /* Hoeveel van die woorden in het adres terugkomen. Een bestandsnaam als
  * "elga-ace-hybride-warmtepomp-remeha_1.png" noemt het product; een
  * "Header_Desktop_1440x360.jpg" noemt het niet. Dat is het verschil tussen de
  * foto van dit apparaat en de foto van de pagina waar hij op staat. */
 export function naamScore(url, delen) {
+  return delen.filter((w) => padVanAdres(url).includes(w)).length;
+}
+
+/* Het pad zonder de domeinnaam, want die is bij één bron een constante.
+ *
+ * bydbatterybox.com bevat "battery", dus élk adres op dat domein scoorde een
+ * treffer op de BYD Battery-Box - het merkteken net zo goed als de productfoto.
+ * Hetzelfde geldt voor thuisbatterij.io en zonnepanelen-shop.nl. Wat het ene
+ * beeld van het andere onderscheidt staat in het pad, niet in de host. */
+export function padVanAdres(url) {
   const kaal = decodeURIComponent(String(url)).toLowerCase();
-  return delen.filter((w) => kaal.includes(w)).length;
+  try {
+    const u = new URL(kaal);
+    return u.pathname + u.search;
+  } catch {
+    return kaal;
+  }
 }
 
 /* Twee woordenlijsten die de naam niet kan vervangen.
@@ -125,14 +155,35 @@ export function naamScore(url, delen) {
  * "wolf_ambiente_cha-monoblock.jpg" bij Wolf en "lifestyle-terrace" bij
  * Viessmann. */
 const WIJST_OP_PRODUCT = /packshot|product|vooraanzicht|front|render/i;
-const WIJST_OP_SFEER = /campagne|campaign|illu|lifestyle|sfeer|ambiente|header|hero|promo|menu|academy|woningbouw/i;
+const WIJST_OP_SFEER = /campagne|campaign|illu|lifestyle|sfeer|ambiente|header|hero|promo|menu|academy|woningbouw|house|huis|wonen|woning|tuin|garden|interieur|bediening|landingspagina|brochure|monitoring|sustainability|investment/i;
 
 /** De volgorde waarin we kandidaten aanbieden. Hoger is waarschijnlijker. */
-export function beeldScore(url, delen) {
-  const kaal = decodeURIComponent(String(url)).toLowerCase();
+export function beeldScore(url, delen, modellen = []) {
+  const kaal = padVanAdres(url);
   return naamScore(url, delen)
+    + naamScore(url, modellen)
     + (WIJST_OP_PRODUCT.test(kaal) ? 1 : 0)
     - (WIJST_OP_SFEER.test(kaal) ? 1 : 0);
+}
+
+/* Mag dit beeld de zoektocht afsluiten?
+ *
+ * Zonder deze grens hield het script op zodra iets een punt scoorde, en dat
+ * gebeurde bij alle zes de producten die ik hierboven noem al op de eerste
+ * pagina - bij de fabrikant, waar het merk in elke bestandsnaam staat. De
+ * winkels erachter, die een strakke productfoto nodig hebben om iets te
+ * verkopen, kwamen daardoor nooit aan de beurt.
+ *
+ * Er zijn nu twee eisen. Het adres moet het model noemen, want dat is het enige
+ * woord dat dit apparaat van de rest van de catalogus onderscheidt. En het mag
+ * geen sfeerbeeld zijn: "Vitocal-150-A-outdoor-unit-house-16-9.jpg" noemt het
+ * model vier keer en toont een gevel met een fiets ervoor. Zo'n beeld blijft
+ * wel een kandidaat, voor het geval geen enkele winkel iets beters heeft; het
+ * is alleen geen reden om te stoppen met kijken. */
+export function magStoppen(url, modellen) {
+  if (!modellen.length) return false;
+  if (!naamScore(url, modellen)) return false;
+  return !WIJST_OP_SFEER.test(padVanAdres(url));
 }
 
 /** Maakt een adres absoluut ten opzichte van de pagina waar het op stond. */
@@ -152,7 +203,7 @@ export function absoluut(adres, basis) {
  * Alle beeldadressen die deze pagina aandraagt, met de weg waarlangs.
  * Geen oordeel over welke de goede is; dat blijft mensenwerk.
  */
-export function afbeeldingKandidaten(html, basis, naam = "") {
+export function afbeeldingKandidaten(html, basis, naam = "", modellen = []) {
   const uit = [];
   const delen = naamDelen(naam);
   const voegToe = (adres, hoe) => {
@@ -162,7 +213,7 @@ export function afbeeldingKandidaten(html, basis, naam = "") {
     const leesbaar = decodeURIComponent(url);
     if (NOOIT.test(leesbaar) || VERZONNEN.test(leesbaar)) return;
     if (uit.some((k) => k.url === url)) return;
-    uit.push({ url, hoe, score: beeldScore(url, delen) });
+    uit.push({ url, hoe, score: beeldScore(url, delen, modellen), stopper: magStoppen(url, modellen) });
   };
 
   for (const m of String(html).matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)) {
@@ -294,6 +345,7 @@ async function main() {
       }
 
       const productNaam = `${p.merk || ""} ${p.model || ""} ${p.voorbeeld_variant || ""}`.trim();
+      const modellen = modelDelen(p);
       let kandidaten = [];
       let bezocht = 0;
       let laatsteFout = null;
@@ -306,13 +358,13 @@ async function main() {
           if (!html) { laatsteFout = err.message; continue; }
         }
         bezocht++;
-        const gevonden = afbeeldingKandidaten(html, bron.url, productNaam)
+        const gevonden = afbeeldingKandidaten(html, bron.url, productNaam, modellen)
           .map((k) => ({ ...k, bron: bron.naam }));
         kandidaten = kandidaten.concat(gevonden);
-        // Een treffer op de productnaam is goed genoeg om te stoppen. Zonder
-        // die grens bezoeken we voor elk product vier winkels, en dan duurt de
-        // ronde langer dan de dagelijkse prijsrun.
-        if (gevonden.some((k) => k.score > 0)) break;
+        // Een beeld dat het model noemt en geen sfeerbeeld is, is goed genoeg
+        // om te stoppen. Zonder die grens bezoeken we voor elk product vier
+        // winkels, en dan duurt de ronde langer dan de dagelijkse prijsrun.
+        if (gevonden.some((k) => k.stopper)) break;
       }
       kandidaten.sort((a, b) => b.score - a.score);
 
