@@ -12,6 +12,7 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
+import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
 
 // Dezelfde prijslogica en iconen als de browser gebruikt, zodat een
 // batterijpagina nooit een ander bedrag of ander icoon toont dan de vergelijker.
@@ -242,32 +243,6 @@ function typeIllustratie(type) {
 
 /* ------------------------------------------------------------------ */
 
-// Google laat een prijs weg zodra priceValidUntil verstreken is, en toont geen
-// beschikbaarheid als availability ontbreekt. Beide stonden er niet, terwijl de
-// prijs in het zoekresultaat juist is waar deze site het van moet hebben.
-//
-// De houdbaarheidsdatum is dertig dagen na de laatste prijscontrole. De
-// workflow draait dagelijks, dus in de praktijk schuift die elke dag mee; valt
-// de update een tijd uit, dan verloopt de vermelding vanzelf in plaats van een
-// oude prijs te blijven beloven.
-function houdbaarTot(datum) {
-  // Zonder prijsdatum weten we niet hoe vers het bedrag is, en dan is
-  // "geldig tot over dertig dagen" een belofte die nergens op steunt. Er stond
-  // hier new Date() als terugval, waardoor die datum elke dag een dag opschoof:
-  // het bestand veranderde dagelijks zonder dat er iets aan de pagina veranderde,
-  // en Google kreeg een houdbaarheidsdatum voor een prijs die nooit bevestigd is.
-  if (!datum) return null;
-  const vanaf = new Date(datum);
-  if (Number.isNaN(vanaf.getTime())) return null;
-  vanaf.setDate(vanaf.getDate() + 30);
-  const tot = vanaf.toISOString().slice(0, 10);
-  // Een datum die al verstreken is publiceren is erger dan er geen zetten:
-  // Google negeert de prijs dan actief. Dat gebeurt zodra een winkel niet meer
-  // door het prijsscript bereikt wordt en de datum blijft staan - bij
-  // batterijmaatje gold dat voor twaalf producten. Die staleness hoort in het
-  // rapport van verse-data.mjs thuis, niet in de markup.
-  return tot > new Date().toISOString().slice(0, 10) ? tot : null;
-}
 
 function productLd(b) {
   // Prijs.geldigeAanbiedingen en niet een eigen filter: dat sluit ook de
