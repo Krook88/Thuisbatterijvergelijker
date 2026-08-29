@@ -10,6 +10,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
+import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
 
 // Dezelfde icoonset als de browser gebruikt, zodat een pomppagina nooit een
 // ander icoon toont dan de vergelijker.
@@ -145,28 +146,6 @@ function variantenBlok(w) {
   </div>`;
 }
 
-// Google laat een prijs weg zodra priceValidUntil verstreken is. Dertig dagen
-// na de laatste prijscontrole: de workflow draait dagelijks, dus die datum
-// schuift mee; valt de update uit, dan verloopt de vermelding vanzelf in plaats
-// van een oude prijs te blijven beloven.
-function houdbaarTot(datum) {
-  // Zonder prijsdatum weten we niet hoe vers het bedrag is, en dan is
-  // "geldig tot over dertig dagen" een belofte die nergens op steunt. Er stond
-  // hier new Date() als terugval, waardoor die datum elke dag een dag opschoof:
-  // het bestand veranderde dagelijks zonder dat er iets aan de pagina veranderde,
-  // en Google kreeg een houdbaarheidsdatum voor een prijs die nooit bevestigd is.
-  if (!datum) return null;
-  const vanaf = new Date(datum);
-  if (Number.isNaN(vanaf.getTime())) return null;
-  vanaf.setDate(vanaf.getDate() + 30);
-  const tot = vanaf.toISOString().slice(0, 10);
-  // Een datum die al verstreken is publiceren is erger dan er geen zetten:
-  // Google negeert de prijs dan actief. Dat gebeurt zodra een winkel niet meer
-  // door het prijsscript bereikt wordt en de datum blijft staan - bij
-  // batterijmaatje gold dat voor twaalf producten. Die staleness hoort in het
-  // rapport van verse-data.mjs thuis, niet in de markup.
-  return tot > new Date().toISOString().slice(0, 10) ? tot : null;
-}
 
 /* De foto op de pagina en in de markup horen bij elkaar. Structured data mag
    niets beloven wat een bezoeker niet ziet, dus staan ze allebei aan of allebei

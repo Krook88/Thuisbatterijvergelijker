@@ -42,6 +42,14 @@ site, en een batterij rekent in kWh waar een paneel in wattpiek rekent. De kern
 groeit per stap, en elke stap begint met vaststellen dat de bestanden echt
 hetzelfde kunnen zijn.
 
+Dat geldt ook voor losse functies. `houdbaarTot` - de regel dat een prijs dertig
+dagen meegaat in het zoekresultaat - stond woord voor woord in alle drie de
+generatoren en staat sinds kort in `kern/scripts/prijs-houdbaarheid.mjs`. De
+titelhulpjes die ernaast stonden (`titelMetMerk`, `besteTitel`) zijn met opzet
+blijven staan: die lezen `TITEL_MAX` en het merkachtervoegsel van hun eigen
+site, en dan kost delen meer dan het oplevert. Tien regels kopiëren is goedkoper
+dan tien regels met drie parameters.
+
 Wijzig je iets aan een gedeeld bestand, doe dat dan in `kern/` en draai
 `npm run kern:verdeel`. Hoort een wijziging bij één site, haal dat bestand dan
 uit `kern/` en leg in de commit vast waarom het niet langer gedeeld is.
@@ -78,6 +86,14 @@ productpagina's geen `image` in de markup hebben, en hoeveel er geen `offers`
 dragen. Google toont een productresultaat - foto, prijs, beschikbaarheid naast
 het blauwe linkje - alleen als allebei er staan. Dat is niet aan de pagina te
 zien, want die werkt gewoon.
+
+`npm test` draait meer proeven dan er staan: de vier testbestanden uit `kern/`
+worden naar elke site gekopieerd en dus vier keer uitgevoerd, wat van de 431
+proeven er 328 een echo maakt. Dat is geen slordigheid maar de prijs van een
+keuze die ergens anders zijn nut heeft: de dagelijkse prijsrun draait per site
+`npm test` in de map van díé site, vóórdat hij prijzen wegschrijft. Daar wil je
+de bestanden toetsen die dat script straks importeert, en niet een kopie
+elders. Het kost zeven seconden.
 
 `npm run workflows` kwam uit een eigen misser. Een stap die de dagelijkse
 prijsrun rood moest laten worden bij verouderde prijzen belandde onderaan het
