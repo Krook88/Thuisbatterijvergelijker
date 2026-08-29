@@ -103,6 +103,11 @@ jobs:
       # mensenwerk, want een verkeerd toegevoegd model krijgt een pagina en een
       # plek in de vergelijking zonder dat iemand de specificaties heeft gezien.
       # Faalt nooit de run: dit is een signaal, geen bewaking.
+      # Heette hier `npm run modellen`, net als de stap in kern-gelijk.yml die
+      # iets heel anders doet: die toetst of we modelnamen goed herkennen, deze
+      # zoekt bij winkels naar modellen die we nog niet hebben. Twee keer
+      # dezelfde opdracht in hetzelfde bestand, één keer in een sitemap en één
+      # keer erbuiten.
       - name: Nieuwe modellen zoeken
         if: steps.keuze.outputs.doen == 'true'
         continue-on-error: true
@@ -110,7 +115,7 @@ jobs:
         env:
           BOL_CLIENT_ID: ${{ secrets.BOL_CLIENT_ID }}
           BOL_CLIENT_SECRET: ${{ secrets.BOL_CLIENT_SECRET }}
-        run: npm run modellen
+        run: npm run nieuwe-modellen
 
       # Van zestien batterijen ligt niet vast of het getal in vermogen_kw het
       # continue vermogen is, een piek, of de 800 W die op een gedeelde groep is

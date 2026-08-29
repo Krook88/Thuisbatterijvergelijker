@@ -71,15 +71,17 @@ precies wat CI ook doet:
 | `npm run keuring` | contrast, aanraakvlakken, tekstmaten en javascriptfouten op elke pagina van de drie sites, op 1280 en 390 pixels |
 | `npm run dode-regels` | declaraties die er wel staan maar overal worden overruled |
 
-Eén controle staat er met opzet *niet* bij. `npm run zoekmachine` kijkt wat een
+Eén controle staat er met opzet niet bij de ketting, maar draait wel elke dag
+mee in `update-prijzen.yml` als melding. `npm run zoekmachine` kijkt wat een
 zoekmachine van de sites te zien krijgt - titellengte, canonical, geldige
 JSON-LD, `availability` en `priceValidUntil` in de offers, en of de sitemap en
 de pagina's elkaar dekken. Die hoort niet in de ketting omdat een deel van zijn
 meldingen niet met code op te lossen is: "geen prijs in het zoekresultaat, de
 prijs is te oud" gaat weg door een prijs na te kijken, niet door iets te
 programmeren. In de ketting zou hij binnen een week permanent rood staan, en
-dat is precies wat dit bestand verderop over andere controles zegt. Draai hem
-als je aan de vindbaarheid werkt; `--streng` geeft een foutcode terug.
+dat is precies wat dit bestand verderop over andere controles zegt. In de
+dagelijkse workflow staat hij daarom op `continue-on-error`. Draai hem met de
+hand als je aan de vindbaarheid werkt; `--streng` geeft een foutcode terug.
 
 Hij drukt onderaan ook twee getallen af die geen melding zijn: hoeveel
 productpagina's geen `image` in de markup hebben, en hoeveel er geen `offers`
@@ -269,6 +271,36 @@ prijsupdate → Run workflow**.
 De secrets `BOL_CLIENT_ID` en `BOL_CLIENT_SECRET` staan op repositoryniveau en
 gelden dus voor alle drie. Ontbreken ze, dan slaat het prijsscript bol over en
 blijft de oude prijs staan.
+
+### Wat er verder elke dag meeloopt
+
+Vier scripts draaien mee in `update-prijzen.yml` zonder de run te laten vallen.
+Ze staan niet in `npm run controle`, want ze gaan over gegevens en niet over
+code: wat ze melden los je op door iets na te kijken, niet door iets te
+programmeren.
+
+| script | wat het meldt |
+| --- | --- |
+| `scripts/zoekmachine.mjs` | titels, canonicals, JSON-LD en de sitemap; hierboven uitgelegd |
+| `scripts/datumteksten.mjs` | teksten die aan een voorbije datum hangen |
+| `scripts/vergelijkbaar.mjs` | een getal dat de gegevens in komt zonder dat vastligt wát het is |
+| `scripts/controleer-links.mjs --zonder-winkels` | links die nergens heen gaan, minus de winkels - die heeft het prijsscript net gehad |
+| `sites/<site>/scripts/nieuwe-modellen.mjs` | modellen bij winkels die wij nog niet hebben (`npm run nieuwe-modellen` in de map van de site) |
+
+`vergelijkbaar.mjs` verdient een toelichting, want hij bewaakt de duurste fout
+die deze sites kunnen maken. Vijf keer is hier een getal vergeleken met een getal
+dat iets anders betekende: btw tegenover geen btw, bruto tegenover bruikbare
+capaciteit, apparaat tegenover compleet geïnstalleerd, milde dag tegenover koude
+dag, stuksprijs tegenover systeemprijs. Elke keer viel het pas op toen iemand het
+toevallig zag. Deze week kwam daar een zesde bij die hij niet kón zien: de
+SolarEdge stond op 6.200 euro voor twee modules terwijl de winkel-URL naar één
+module wees. Dat is dezelfde soort fout, maar tussen twee bronnen in plaats van
+binnen één kolom.
+
+`nieuwe-modellen` heette tot voor kort `npm run modellen`, precies zoals de stap
+in `kern-gelijk.yml` die iets heel anders doet - die toetst of we modelnamen goed
+herkennen. Twee keer dezelfde opdracht in dezelfde workflow, één keer in een
+sitemap en één keer erbuiten. Nu heet alleen de wortelversie nog `modellen`.
 
 ### Wanneer een prijs stilstaat
 
