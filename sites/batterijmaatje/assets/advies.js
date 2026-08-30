@@ -5,11 +5,11 @@
    - Met zonnepanelen: je slaat het dagelijkse zomeroverschot op, maar meer
      opslaan dan je 's avonds en 's nachts verbruikt is zinloos.
        dagoverschot_zomer  = (opwek x (1 - direct eigen verbruik)) / 365 x 1,5
-       avondnachtverbruik  = jaarverbruik / 365 x 0,6
+       avondnachtverbruik  = jaarverbruik / 365 x 0,7 (Rekenkern.AANDEEL_BUITEN_ZON)
        advies              = min(dagoverschot_zomer, avondnachtverbruik), bandbreedte +/- 25%
    - Zonder zonnepanelen, met dynamisch contract: je verschuift het deel van
      je dagverbruik dat flexibel is naar goedkope uren.
-       advies = jaarverbruik / 365 x 0,6, bandbreedte +/- 25%
+       advies = jaarverbruik / 365 x 0,7, bandbreedte +/- 25%
    - Zonder zonnepanelen en zonder dynamisch contract: een batterij kan dan
      vrijwel niets verdienen; dat zeggen we eerlijk.
 
@@ -24,6 +24,20 @@
   const el = (id) => document.getElementById(id);
   const eurFmt = new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
   const jaarFmt = new Intl.NumberFormat("nl-NL", { maximumFractionDigits: 1 });
+
+  /* Welk deel van het jaarverbruik valt buiten de zonuren? Alleen dat deel kan
+     een batterij bedienen, en het bepaalt hier de geadviseerde accugrootte.
+
+     Dit stond op 0,6 terwijl rekenkern.js en dagmaat.js allebei 0,7 aanhouden -
+     dagmaat.js met de comment "idem rekenmodule" erbij. Zolang dat losse
+     pagina's waren viel het niemand op. Sinds de keuzehulp zijn antwoorden
+     doorgeeft aan de rekenmodule en er hier een terugverdientijd op de kaart
+     staat, staan beide getallen onder elkaar: een advies van 3 kWh naast een
+     som die aanneemt dat je er 3,5 kwijt kunt.
+
+     Eén bron dus, en dat is de kern die de terugverdientijd ook rekent. De
+     terugval is er alleen voor het geval rekenkern.js niet geladen is. */
+  const BUITEN_ZONUREN = typeof Rekenkern !== "undefined" ? Rekenkern.AANDEEL_BUITEN_ZON : 0.7;
   const kwhFmt = new Intl.NumberFormat("nl-NL", { maximumFractionDigits: 1 });
 
   let batterijen = [];
@@ -137,7 +151,7 @@
     const opwek = heeftPv ? getal("advOpwek", 3500) : 0;
     const dynamisch = el("advContract").value === "dynamisch";
 
-    const avondNacht = (jaarverbruik / 365) * 0.6;
+    const avondNacht = (jaarverbruik / 365) * BUITEN_ZONUREN;
     const piekKw = avondPiekKw();
 
     if (heeftPv) {
