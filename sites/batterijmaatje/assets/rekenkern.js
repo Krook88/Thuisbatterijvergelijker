@@ -50,6 +50,38 @@
   // optimistischer dan een gemiddelde dag op de day-ahead-markt rechtvaardigt.
   const SPREAD_GRENS = 0.15;
 
+  // Gelijk aan Prijs.BTW_FACTOR; rekenkern.test.mjs bewaakt dat ze niet
+  // uiteenlopen. Hier apart gedefinieerd omdat deze kern verder niets nodig
+  // heeft en zo los te testen blijft.
+  const BTW_FACTOR = 1.21;
+
+  /* Alle bedragen op deze site zijn incl. btw, en dat blijft de standaard: een
+     particulier betaalt nu eenmaal btw. Maar regelgeving.html beschrijft twee
+     routes waarlangs je die 21% niet of niet blijvend betaalt, en dat is de
+     grootste knop aan de hele som - op een systeem van 5.990 euro gaat het om
+     1.040 euro. De module die er een bedrag aan hangt, hoorde daarover niet te
+     zwijgen terwijl de regelgevingspagina het uitlegt.
+
+       incl  je betaalt 21% btw en houdt dat (losse aankoop, het gewone geval)
+       nul   nultarief, als de batterij gelijktijdig met zonnepanelen als een
+             levering wordt geinstalleerd
+       terug je vraagt de btw terug als btw-ondernemer, wat kan als je
+             aantoonbaar handelt via een dynamisch contract
+
+     De laatste twee komen op hetzelfde netto bedrag uit; het verschil zit in
+     de voorwaarden en in het feit dat je bij "terug" eerst voorschiet. Dat
+     verschil hoort in de tekst thuis, niet in de som. */
+  const BTW_ROUTES = ["incl", "nul", "terug"];
+
+  // Hoeveel uur duurt de avondpiek waarin de batterij zijn stroom kwijt moet?
+  // Grofweg 17 tot 21 uur. Een batterij met weinig vermogen krijgt er in dat
+  // venster minder doorheen dan zijn capaciteit suggereert.
+  const PIEKUREN = 4;
+
+  // Boven dit aantal aaneengesloten laaduren val je buiten de paar echt
+  // goedkope nachturen en loopt de gemiddelde laadprijs op.
+  const LAADUREN_GRENS = 4;
+
   const STANDAARD = {
     heeftPv: true,
     contract: "vast",
@@ -71,6 +103,9 @@
     standbyWatt: 10,
     jaarVerbruik: 2900,
     degradatiePct: 2,
+    btwRoute: "incl",
+    // null = onbekend vermogen, dan begrenst de kern er niet op
+    vermogenKw: null,
   };
 
   /* ------------------------------------------------------------------
@@ -121,6 +156,13 @@
     const teGroot = bruikbareCap > 0 && i.jaarVerbruik > 0 &&
       bruikbareCap * rendement > maxOntladingPerDag * 1.15;
 
+    /* De ingevoerde investering is altijd incl. btw (zie prijs.js). Bij het
+       nultarief of een geslaagde teruggave betaal je die 21% niet, dus telt
+       alleen het bedrag exclusief mee in de terugverdientijd. */
+    const btwRoute = BTW_ROUTES.includes(i.btwRoute) ? i.btwRoute : "incl";
+    const netInvestering = btwRoute === "incl" ? i.investering : i.investering / BTW_FACTOR;
+    const btwVoordeel = i.investering - netInvestering;
+
     /* 1. Zelfverbruik-opslag */
     let overschot = 0, opslagJaar = 0, opbrengstZelf = 0, waardePerKwh = 0;
     if (heeftPv && bruikbareCap > 0 && i.zonDagen > 0) {
@@ -141,6 +183,13 @@
       // cyclus, dan leverde "2 cycli per dag" twee keer een volle dagbehoefte
       // aan een huishouden dat er maar één opmaakt.
       ontladenPerDag = Math.min(bruikbareCap * rendement * i.cycliPerDag, maxOntladingPerDag);
+      /* Derde grens, naast de capaciteit en het huishoudverbruik: het vermogen.
+         Een batterij van 0,8 kW krijgt er in de vier uur avondpiek hooguit
+         3,2 kWh doorheen, hoeveel er ook in zit. Dit veld stond in de
+         gegevens van alle 41 modellen en werd nergens gebruikt. */
+      if (i.vermogenKw > 0) {
+        ontladenPerDag = Math.min(ontladenPerDag, i.vermogenKw * PIEKUREN);
+      }
       geladenPerDag = rendement > 0 ? ontladenPerDag / rendement : 0;
       winstPerDag = ontladenPerDag * i.ontlaadwaarde - geladenPerDag * i.laadprijs;
       opbrengstArb = Math.max(0, arbDagen * winstPerDag);
@@ -155,8 +204,18 @@
 
     const spread = i.ontlaadwaarde - i.laadprijs;
 
+    // Hoeveel uur aaneengesloten laden vraagt dit per dag? Boven een uur of
+    // vier zijn de goedkoopste nachturen op en klopt de laadprijs niet meer.
+    const laaduren = i.vermogenKw > 0 && geladenPerDag > 0 ? geladenPerDag / i.vermogenKw : 0;
+    const vermogenKnelt = i.vermogenKw > 0 && i.contract === "dynamisch" &&
+      bruikbareCap * rendement * i.cycliPerDag > i.vermogenKw * PIEKUREN + 1e-9 &&
+      maxOntladingPerDag > i.vermogenKw * PIEKUREN;
+
     return {
       invoer: i,
+      btwRoute, netInvestering, btwVoordeel,
+      laaduren, vermogenKnelt,
+      laadurenKnelt: laaduren > LAADUREN_GRENS,
       bruikbareCap, maxOntladingPerDag, ruimtePerDag, teGroot,
       overschot, opslagJaar, opbrengstZelf, waardePerKwh,
       arbDagen, ontladenPerDag, geladenPerDag, winstPerDag, opbrengstArb,
@@ -164,7 +223,7 @@
       totaal,
       spread,
       spreadOptimistisch: i.contract === "dynamisch" && spread > SPREAD_GRENS,
-      terugverdientijd: terugverdientijd(totaal, i.investering, i.degradatiePct / 100),
+      terugverdientijd: terugverdientijd(totaal, netInvestering, i.degradatiePct / 100),
       geleverdPerJaar: opslagJaar * rendement + arbDagen * ontladenPerDag,
     };
   }
@@ -245,6 +304,10 @@
     AANDEEL_BUITEN_ZON,
     HANDELSDAGEN_ZONDER_PV,
     SPREAD_GRENS,
+    BTW_FACTOR,
+    BTW_ROUTES,
+    PIEKUREN,
+    LAADUREN_GRENS,
     STANDAARD,
     MARGES,
     opgevangenPerDag,

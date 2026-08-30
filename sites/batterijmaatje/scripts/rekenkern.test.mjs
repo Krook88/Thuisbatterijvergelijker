@@ -311,3 +311,98 @@ test("het rekenvoorbeeld op rekenmodule.html komt uit deze kern", () => {
   assert.equal(rond(Rekenkern.besparingNa(r.totaal, 0.02, 10)), 1993);
   assert.equal(rond(Rekenkern.besparingNa(r.totaal, 0.02, 15)), 2848);
 });
+
+/* ------------------------------------------------------------------
+   Btw-routes
+
+   regelgeving.html beschrijft drie situaties; de module kende er een. Op een
+   systeem van 5.990 euro scheelt dat 1.040 euro, de grootste knop aan de hele
+   som.
+   ------------------------------------------------------------------ */
+
+test("het nultarief en de teruggave rekenen met het bedrag exclusief btw", () => {
+  const incl = Rekenkern.bereken({ ...VOORBEELD, btwRoute: "incl" });
+  const nul = Rekenkern.bereken({ ...VOORBEELD, btwRoute: "nul" });
+  const terug = Rekenkern.bereken({ ...VOORBEELD, btwRoute: "terug" });
+  assert.equal(incl.netInvestering, 1299);
+  assert.equal(rond(nul.netInvestering), rond(1299 / Rekenkern.BTW_FACTOR));
+  // Beide routes komen op hetzelfde netto bedrag uit; het verschil zit in de
+  // voorwaarden, en dat hoort in de tekst en niet in de som.
+  assert.equal(nul.netInvestering, terug.netInvestering);
+  assert.ok(nul.terugverdientijd < incl.terugverdientijd);
+});
+
+test("de btw-factor loopt gelijk met prijs.js", () => {
+  // Twee bestanden die allebei 1,21 hardcoderen, lopen ooit uiteen.
+  const Prijs = require("../assets/prijs.js");
+  assert.equal(Rekenkern.BTW_FACTOR, Prijs.BTW_FACTOR);
+});
+
+test("een onbekende btw-route valt terug op het veilige geval", () => {
+  // Veilig = de bezoeker betaalt gewoon btw. Een typefout in een gedeelde URL
+  // mag de terugverdientijd niet gunstiger maken dan hij is.
+  for (const rommel of ["", "gratis", null, undefined, "NUL", 0]) {
+    const r = Rekenkern.bereken({ ...VOORBEELD, btwRoute: rommel });
+    assert.equal(r.btwRoute, "incl", `${JSON.stringify(rommel)} werd niet afgevangen`);
+    assert.equal(r.netInvestering, 1299);
+  }
+});
+
+test("het btw-voordeel is precies het btw-deel van de prijs", () => {
+  const r = Rekenkern.bereken({ ...VOORBEELD, investering: 5990, btwRoute: "nul" });
+  assert.equal(Math.round(r.btwVoordeel), Math.round(5990 * 21 / 121));
+});
+
+/* ------------------------------------------------------------------
+   Vermogen
+
+   vermogen_kw stond in de gegevens van alle 41 modellen en werd nergens
+   gebruikt, terwijl het bij de goedkope plug-ins de echte grens is.
+   ------------------------------------------------------------------ */
+
+test("een laag vermogen begrenst wat er per dag doorheen gaat", () => {
+  const zonder = Rekenkern.bereken({ ...VOORBEELD, vermogenKw: null });
+  const zwak = Rekenkern.bereken({ ...VOORBEELD, vermogenKw: 0.8 });
+  assert.ok(zwak.ontladenPerDag <= 0.8 * Rekenkern.PIEKUREN + 1e-9);
+  assert.ok(zwak.ontladenPerDag < zonder.ontladenPerDag);
+  assert.equal(zwak.vermogenKnelt, true);
+  assert.ok(zwak.totaal < zonder.totaal, "minder vermogen mag nooit meer opleveren");
+});
+
+test("een ruim vermogen verandert niets", () => {
+  const ruim = Rekenkern.bereken({ ...VOORBEELD, vermogenKw: 5 });
+  const zonder = Rekenkern.bereken({ ...VOORBEELD, vermogenKw: null });
+  assert.equal(rond(ruim.totaal, 4), rond(zonder.totaal, 4));
+  assert.equal(ruim.vermogenKnelt, false);
+});
+
+test("de benodigde laaduren worden gemeld als ze de goedkope uren voorbijlopen", () => {
+  const traag = Rekenkern.bereken({ ...VOORBEELD, capaciteit: 6.3, bruikbaarPct: 100, vermogenKw: 0.8 });
+  assert.ok(traag.laaduren > 0);
+  assert.equal(traag.laadurenKnelt, traag.laaduren > Rekenkern.LAADUREN_GRENS);
+});
+
+test("het vermogen uit de gegevens is bruikbaar voor de kern", () => {
+  // Een lege string of een tekstje zou de begrenzing stilletjes uitschakelen.
+  for (const b of batterijen) {
+    if (b.vermogen_kw == null) continue;
+    assert.equal(typeof b.vermogen_kw, "number", `${b.id} heeft een niet-numeriek vermogen`);
+    assert.ok(b.vermogen_kw > 0, `${b.id} heeft vermogen ${b.vermogen_kw}`);
+  }
+});
+
+/* ------------------------------------------------------------------
+   Twee batterijen in dezelfde situatie
+   ------------------------------------------------------------------ */
+
+test("alleen het apparaat verschilt als je twee batterijen vergelijkt", () => {
+  // De vergelijking is alleen eerlijk als het huishouden en de prijzen gelijk
+  // blijven; anders vergelijk je twee verschillende sommen.
+  const situatie = { ...VOORBEELD, jaarVerbruik: 4200, stroomprijs: 0.34 };
+  const klein = Rekenkern.bereken({ ...situatie, capaciteit: 2.7, investering: 1230 });
+  const groot = Rekenkern.bereken({ ...situatie, capaciteit: 10, investering: 5990 });
+  assert.equal(klein.invoer.jaarVerbruik, groot.invoer.jaarVerbruik);
+  assert.equal(klein.invoer.stroomprijs, groot.invoer.stroomprijs);
+  assert.ok(klein.terugverdientijd < groot.terugverdientijd,
+    "de goedkope plug-in verdient zich hier sneller terug dan het dure systeem");
+});

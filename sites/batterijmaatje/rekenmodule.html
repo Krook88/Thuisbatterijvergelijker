@@ -90,13 +90,18 @@
 
     <form id="rekenformulier" class="reken-paneel" onsubmit="return false;">
 
-      <p class="stappen-intro">Drie keuzes en het resultaat rekent direct mee, op een groot scherm hiernaast en op een telefoon onder het formulier. Voor alle prijzen reken ik alvast met Nederlandse gemiddelden, zoals 2.900 kWh verbruik per jaar en 350 kWh opbrengst per zonnepaneel. Aanpassen kan, maar hoeft niet. De uitkomst is bewust een <b>bereik</b> en geen enkel getal, want dezelfde batterij komt op vier of op twaalf jaar uit, afhankelijk van aannames die niemand vooraf kent.</p>
+      <p class="stappen-intro">Vier keuzes en het resultaat rekent direct mee, op een groot scherm hiernaast en op een telefoon onder het formulier. Voor alle prijzen reken ik alvast met Nederlandse gemiddelden, zoals 2.900 kWh verbruik per jaar en 350 kWh opbrengst per zonnepaneel. Aanpassen kan, maar hoeft niet. De uitkomst is bewust een <b>bereik</b> en geen enkel getal, want dezelfde batterij komt op vier of op twaalf jaar uit, afhankelijk van aannames die niemand vooraf kent.</p>
 
       <h2>1. Kies een batterij</h2>
       <div class="veld">
         <label for="inpBatterij">Batterij uit de vergelijker</label>
         <select id="inpBatterij"></select>
         <span class="hint" id="batterijHint">De prijs en capaciteit worden automatisch ingevuld.</span>
+      </div>
+      <div class="veld">
+        <label for="inpBatterij2">Vergelijken met (optioneel)</label>
+        <select id="inpBatterij2"></select>
+        <span class="hint" id="batterij2Hint">Kies er eventueel een tweede om ze naast elkaar te zien.</span>
       </div>
 
       <h2>2. Heb je zonnepanelen?</h2>
@@ -129,6 +134,17 @@
         <label for="inpLeverancier">Wie is je energieleverancier? (optioneel)</label>
         <select id="inpLeverancier"></select>
         <span class="hint" id="leverancierHint">Dan vul ik de terugleverkosten alvast voor je in; zelf opzoeken hoeft niet.</span>
+      </div>
+
+      <h2>4. Hoe zit het met de btw?</h2>
+      <div class="veld">
+        <label for="inpBtw">Btw op de aanschaf</label>
+        <select id="inpBtw">
+          <option value="incl">Ik betaal 21% btw (losse aankoop)</option>
+          <option value="nul">Nultarief: samen met zonnepanelen als één levering</option>
+          <option value="terug">Ik vraag de btw terug als btw-ondernemer</option>
+        </select>
+        <span class="hint">Op een losse batterij geldt 21%. Bij gelijktijdige levering met zonnepanelen kan het nultarief gelden, en wie aantoonbaar handelt kan de btw terugvragen; dat scheelt een vijfde van de investering. <a href="regelgeving.html#btw">Wat er precies geldt</a></span>
       </div>
 
       <details class="geavanceerd">
@@ -176,7 +192,7 @@
         </div>
         <div class="veld">
           <label for="inpTerugleverkosten">Terugleverkosten (€ per teruggeleverde kWh)</label>
-          <input type="number" id="inpTerugleverkosten" value="0.12" min="0" step="0.01">
+          <input type="number" id="inpTerugleverkosten" value="0.13" min="0" step="0.01">
           <span class="hint">Wordt ingevuld op basis van je contracttype (dynamisch rekent doorgaans niets, vast of variabel gemiddeld € 0,12) en van je leverancierskeuze hierboven. Je eigen contract is leidend; vul 0 in als je leverancier ze niet rekent</span>
         </div>
 

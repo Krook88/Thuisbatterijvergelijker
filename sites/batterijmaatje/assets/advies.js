@@ -69,6 +69,28 @@
     return Number.isFinite(v) ? v : fallback;
   }
 
+  /* De keuzehulp vraagt negen dingen uit en gaf er tot nu toe één door: de
+     batterij-id. Wie hier zorgvuldig invulde dat hij een dynamisch contract en
+     6.000 kWh verbruik heeft, landde in een rekenmodule die uitging van een
+     vast contract en 2.900 kWh, en mocht alles opnieuw typen. De sleutels
+     hieronder zijn dezelfde als die de rekenmodule in zijn adresbalk zet. */
+  function rekenmoduleLink(b) {
+    const params = new URLSearchParams({ batterij: b.id });
+    const verbruik = el("advVerbruik").value;
+    const pv = el("advPv").value;
+    const contract = el("advContract").value;
+    if (verbruik) params.set("verbruik", verbruik);
+    if (pv) params.set("pv", pv);
+    if (contract) params.set("contract", contract);
+    if (pv === "ja") {
+      const panelen = el("advPanelen").value;
+      const opwek = el("advOpwek").value;
+      if (panelen) params.set("panelen", panelen);
+      if (opwek) params.set("opwek", opwek);
+    }
+    return `rekenmodule.html?${params.toString()}`;
+  }
+
   function escapeHtml(str) {
     return String(str == null ? "" : str)
       .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
@@ -344,7 +366,7 @@
           ${b.prijs_omvat ? `<div class="koppelgemak"><span class="uitleg">Winkelprijs dekt: ${escapeHtml(b.prijs_omvat)}</span></div>` : ""}
           <div class="kaart-acties advies-acties">
             ${prijs && prijs.url ? `<a class="knop" href="${escapeHtml(prijs.affiliate_url || prijs.url)}" target="_blank" rel="noopener${prijs.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>` : ""}
-            <a class="knop knop-secundair" href="rekenmodule.html?batterij=${encodeURIComponent(b.id)}" aria-label="Bereken de terugverdientijd van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">Terugverdientijd</a>
+            <a class="knop knop-secundair" href="${escapeHtml(rekenmoduleLink(b))}" aria-label="Bereken de terugverdientijd van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">Terugverdientijd</a>
           </div>
         </article>`).join("") + "</div>";
     }

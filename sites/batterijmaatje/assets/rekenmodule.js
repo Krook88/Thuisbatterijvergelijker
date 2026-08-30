@@ -21,6 +21,13 @@
 
   let batterijen = [];
   let leveranciersData = null;
+  let gekozenBatterij = null;
+  let tweedeBatterij = null;
+  /* De parameters waarmee de pagina geopend werd, één keer vastgelegd. Nodig
+     omdat schrijfUrl() de adresbalk al bijwerkt zodra de eerste berekening
+     draait: wie daarna nog location.search leest, ziet de gedeelde link niet
+     meer maar de zojuist weggeschreven versie. */
+  let beginParams = null;
   // Heeft de bezoeker de terugleverkosten zelf aangeraakt? Zo ja, dan laat de
   // module dat veld met rust bij een contractwissel.
   let terugleverkostenAangeraakt = false;
@@ -65,7 +72,95 @@
 
   function pasTerugleverkostenAan() {
     if (terugleverkostenAangeraakt) return;
-    el("inpTerugleverkosten").value = standaardTerugleverkosten(el("inpContract").value);
+    const waarde = String(standaardTerugleverkosten(el("inpContract").value));
+    el("inpTerugleverkosten").value = waarde;
+    /* Dit is nu de geldende standaard voor dit contracttype, en die hangt aan
+       leveranciers.json en niet aan het value-attribuut in de HTML. Zonder
+       deze regel zou schrijfUrl() een bedrag dat toevallig gelijk is aan het
+       HTML-attribuut weglaten uit de link, waarna de ontvanger de mediaan
+       ingevuld kreeg in plaats van het gedeelde bedrag. */
+    standaardWaarden.inpTerugleverkosten = waarde;
+  }
+
+  /* ------------------------------------------------------------------
+     De berekening in de adresbalk
+
+     Wie een kwartier aan de getallen zit te sleutelen, moet dat resultaat
+     kunnen bewaren, mailen of in een forumpost zetten. Tot nu toe droeg de URL
+     alleen ?batterij= en ?verbruik=, dus was elke aangepaste som weg zodra je
+     het tabblad sloot. Dezelfde sleutels laten de keuzehulp zijn antwoorden
+     doorgeven, zodat je ze daar niet voor niets invult.
+
+     Alleen waarden die van de standaard afwijken komen in de URL; anders
+     groeit hij bij elke toetsaanslag dicht met getallen die niets toevoegen.
+     ------------------------------------------------------------------ */
+  const URL_VELDEN = {
+    batterij: "inpBatterij", batterij2: "inpBatterij2", pv: "inpPv",
+    panelen: "inpPanelen", contract: "inpContract", leverancier: "inpLeverancier",
+    btw: "inpBtw", inv: "inpInvestering", cap: "inpCapaciteit", opwek: "inpOpwek",
+    eigen: "inpEigenVerbruik", prijs: "inpStroomprijs", terug: "inpTeruglever",
+    tlk: "inpTerugleverkosten", laad: "inpLaadprijs", ontlaad: "inpOntlaadwaarde",
+    bruikbaar: "inpBruikbaar", rend: "inpRendement", zon: "inpZonDagen",
+    mis: "inpMismatch", cycli: "inpCycli", onbalans: "inpOnbalans",
+    verbruik: "inpVerbruik", standby: "inpStandby", degr: "inpDegradatie",
+  };
+
+  // De waarden zoals de pagina ze zelf meelevert. Wat daaraan gelijk is, hoeft
+  // niet in de URL: dat leest de volgende bezoeker toch al zo.
+  const standaardWaarden = {};
+
+  function onthoudStandaardWaarden() {
+    for (const id of Object.values(URL_VELDEN)) {
+      const veld = el(id);
+      if (veld) standaardWaarden[id] = veld.value;
+    }
+  }
+
+  function schrijfUrl() {
+    const params = new URLSearchParams();
+    for (const [sleutel, id] of Object.entries(URL_VELDEN)) {
+      const veld = el(id);
+      if (!veld || veld.value === "" || veld.value === standaardWaarden[id]) continue;
+      params.set(sleutel, veld.value);
+    }
+    const vraag = params.toString();
+    try {
+      history.replaceState(null, "", vraag ? `?${vraag}` : location.pathname);
+    } catch (err) {
+      // Een pagina die vanaf file:// wordt geopend mag de URL niet herschrijven.
+      // Dat is geen reden om de rekenmodule te laten struikelen.
+    }
+  }
+
+  /* Leest de URL en zet de velden. Geeft terug of er iets gezet is, zodat de
+     aanroeper weet of hij de standaardwaarden nog moet aanvullen. */
+  function leesUrl(params) {
+    let gezet = false;
+    for (const [sleutel, id] of Object.entries(URL_VELDEN)) {
+      if (!params.has(sleutel)) continue;
+      const veld = el(id);
+      if (!veld) continue;
+      const waarde = params.get(sleutel);
+      // Een select mag alleen een waarde krijgen die hij ook echt kent.
+      if (veld.tagName === "SELECT" && !Array.from(veld.options).some((o) => o.value === waarde)) continue;
+      veld.value = waarde;
+      gezet = true;
+      if (id === "inpTerugleverkosten") terugleverkostenAangeraakt = true;
+    }
+    return gezet;
+  }
+
+  async function kopieerLink() {
+    const knop = el("deelKnop");
+    if (!knop) return;
+    try {
+      await navigator.clipboard.writeText(location.href);
+      knop.textContent = "Link gekopieerd";
+    } catch (err) {
+      // Zonder klembordrechten is de link nog steeds uit de adresbalk te halen.
+      knop.textContent = "Kopieer hem uit de adresbalk";
+    }
+    setTimeout(() => { knop.textContent = "Kopieer link naar deze berekening"; }, 2500);
   }
 
   /* ------------------------------------------------------------------
@@ -95,12 +190,33 @@
       standbyWatt: getal("inpStandby", 10),
       jaarVerbruik: getal("inpVerbruik", 2900),
       degradatiePct: getal("inpDegradatie", 2),
+      btwRoute: el("inpBtw") ? el("inpBtw").value : "incl",
+      // Het vermogen komt uit de gegevens, niet uit een veld: het is een
+      // eigenschap van de batterij, geen keuze van de bezoeker.
+      vermogenKw: gekozenBatterij ? gekozenBatterij.vermogen_kw : null,
     };
+  }
+
+  /* Dezelfde situatie, maar dan met een andere batterij erin. Zo vergelijkt de
+     tweede kolom appels met appels: alleen het apparaat verschilt, het
+     huishouden en de prijzen blijven staan. */
+  function invoerMetBatterij(basis, b) {
+    const inv = investeringVoor(b);
+    return Object.assign({}, basis, {
+      capaciteit: b.capaciteit_kwh || 0,
+      investering: inv ? inv.bedrag : 0,
+      bruikbaarPct: Prijs.capaciteitBevestigd(b) ? 100 : 90,
+      vermogenKw: b.vermogen_kw || null,
+    });
   }
 
   function bereken() {
     const i = invoer();
-    toonResultaat(Rekenkern.bereken(i), Rekenkern.bandbreedte(i));
+    const tweede = tweedeBatterij
+      ? { batterij: tweedeBatterij, resultaat: Rekenkern.bereken(invoerMetBatterij(i, tweedeBatterij)) }
+      : null;
+    toonResultaat(Rekenkern.bereken(i), Rekenkern.bandbreedte(i), tweede);
+    schrijfUrl();
   }
 
   /* ------------------------------------------------------------------
@@ -164,7 +280,7 @@
      Resultaat tonen
      ------------------------------------------------------------------ */
 
-  function toonResultaat(r, band) {
+  function toonResultaat(r, band, tweede) {
     const doel = el("resultaat");
     const i = r.invoer;
 
@@ -224,6 +340,33 @@
     if (i.contract === "vast" && !i.heeftPv) {
       waarschuwingen.push("Zonder zonnepanelen en zonder dynamisch contract kan een thuisbatterij vrijwel niets verdienen: er valt niets op te slaan en geen prijsverschil te benutten.");
     }
+    /* De garantie zegt niets over de opbrengst, maar wel over het risico dat
+       je die 15 jaar haalt. De HomeWizard heeft 2 jaar garantie en kost 1.230
+       euro; een verlooptabel tot 15 jaar zonder die kanttekening wekt een
+       zekerheid die er niet is. */
+    const garantie = gekozenBatterij ? gekozenBatterij.garantie_jaar : null;
+    if (typeof garantie === "number" && r.terugverdientijd != null && garantie < 15) {
+      const voorbij = r.terugverdientijd > garantie;
+      const zin = `De fabrieksgarantie op deze batterij is <b>${numFmt.format(garantie)} jaar</b>, terwijl de tabel hierboven tot 15 jaar doorrekent. ` +
+        (voorbij
+          ? `De terugverdientijd van ${jaarFmt.format(r.terugverdientijd)} jaar valt daar buiten: gaat de batterij eerder stuk, dan verdien je hem niet terug.`
+          : "Wat je daarna bespaart, hangt ervan af dat het apparaat het houdt.");
+      (voorbij ? waarschuwingen : kanttekeningen).push(zin);
+    }
+
+    if (r.vermogenKnelt) {
+      waarschuwingen.push(`<b>Het vermogen begrenst deze batterij, niet de capaciteit.</b> Met ${eenDec.format(i.vermogenKw)} kW krijg je er in de vier uur avondpiek hooguit ${eenDec.format(i.vermogenKw * Rekenkern.PIEKUREN)} kWh doorheen, ook al zit er meer in. De berekening rekent met die grens; een batterij met meer vermogen zou hier meer verdienen.`);
+    }
+    if (r.laadurenKnelt) {
+      kanttekeningen.push(`Op ${eenDec.format(i.vermogenKw)} kW duurt het laden ${eenDec.format(r.laaduren)} uur per dag. Zoveel aaneengesloten goedkope uren heeft een nacht zelden, dus de werkelijke laadprijs ligt waarschijnlijk hoger dan de ${eur2Fmt.format(i.laadprijs)} waarmee hier gerekend wordt.`);
+    }
+
+    if (i.btwRoute !== "incl") {
+      kanttekeningen.push(i.btwRoute === "nul"
+        ? `Er is gerekend met het btw-nultarief, dus met ${eurFmt.format(r.netInvestering)} in plaats van ${eurFmt.format(i.investering)}. Dat tarief geldt alleen als de batterij gelijktijdig met zonnepanelen als één levering wordt geïnstalleerd; los gekocht betaal je 21%. Zie <a href="regelgeving.html">Regels &amp; subsidies</a>.`
+        : `Er is gerekend alsof je de btw terugkrijgt, dus met ${eurFmt.format(r.netInvestering)} in plaats van ${eurFmt.format(i.investering)}. Dat kan als je aantoonbaar handelt via een dynamisch contract en als btw-ondernemer wordt aangemerkt. De regels luisteren nauw, je schiet het bedrag eerst voor, en het is geen gelopen race. Zie <a href="regelgeving.html">Regels &amp; subsidies</a>.`);
+    }
+
     if (r.spreadOptimistisch) {
       waarschuwingen.push(`<b>Het ingevulde prijsverschil is optimistisch.</b> Laden voor ${eur2Fmt.format(i.laadprijs)} en ontladen tegen ${eur2Fmt.format(i.ontlaadwaarde)} betekent ${eur2Fmt.format(r.spread)} verschil per kWh, elke dag van het jaar. Beide bedragen zijn incl. belastingen en die zijn aan weerskanten gelijk, dus dat verschil is puur marktspread. Op een gemiddelde dag is die kleiner; verlaag de ontlaadwaarde of verhoog de laadprijs voor een realistischer beeld.`);
     }
@@ -272,12 +415,64 @@
         </tbody>
       </table>
       </div>` : ""}
+      ${vergelijkBlok(r, tweede)}
       ${waarschuwingen.map((w) => `<div class="waarschuwing-kader" style="margin: var(--ruimte-10) 0;">${w}</div>`).join("")}
       ${kanttekeningen.length ? `<details class="kanttekeningen">
         <summary>Kanttekeningen bij deze berekening (${kanttekeningen.length})</summary>
         <ul>${kanttekeningen.map((k) => `<li>${k}</li>`).join("")}</ul>
       </details>` : ""}
+      <p style="margin: var(--ruimte-14) 0 0;"><button type="button" id="deelKnop" class="knop knop-secundair" style="font-size:var(--tekst-15);">Kopieer link naar deze berekening</button></p>
     `;
+    const deel = el("deelKnop");
+    if (deel) deel.addEventListener("click", kopieerLink);
+  }
+
+  /* ------------------------------------------------------------------
+     Twee batterijen naast elkaar
+
+     De site heeft vergelijkingspagina's ("A vs B"), maar die linkten naar twee
+     losse rekenmodules. De vraag waar het bezoekers om gaat - welke van deze
+     twee verdient zich in mijn situatie sneller terug - was daarmee alleen te
+     beantwoorden met twee tabbladen ernaast.
+     ------------------------------------------------------------------ */
+
+  function vergelijkBlok(r, tweede) {
+    if (!tweede || !tweede.resultaat.bruikbareCap || !tweede.resultaat.invoer.investering) return "";
+    const a = r, b = tweede.resultaat;
+    const naamA = gekozenBatterij ? `${gekozenBatterij.merk} ${gekozenBatterij.model}` : "Jouw invoer";
+    const naamB = `${tweede.batterij.merk} ${tweede.batterij.model}`;
+    const tijd = (x) => x.terugverdientijd == null ? "verdient zich niet terug" : `${jaarFmt.format(x.terugverdientijd)} jaar`;
+    // De winnaar is de kortste terugverdientijd. Twee gevallen hebben er geen:
+    // als geen van beide zich terugverdient, en als ze zo dicht bij elkaar
+    // liggen dat het verschil niets betekent. Die twee vragen om een ander
+    // slotzin, want "ze ontlopen elkaar nauwelijks" is misleidend als het
+    // antwoord eigenlijk "allebei niet doen" is.
+    const beide = a.terugverdientijd != null && b.terugverdientijd != null;
+    const geenVanBeide = a.terugverdientijd == null && b.terugverdientijd == null;
+    const verschil = beide ? Math.abs(a.terugverdientijd - b.terugverdientijd) : null;
+    const winnaar = geenVanBeide ? null
+      : !beide ? (a.terugverdientijd != null ? naamA : naamB)
+      : verschil < 0.1 ? null : (a.terugverdientijd < b.terugverdientijd ? naamA : naamB);
+    const rij = (label, va, vb) => `<tr><td>${label}</td><td style="text-align:right;">${va}</td><td style="text-align:right;">${vb}</td></tr>`;
+    return `
+      <h3 style="font-size:var(--tekst-19);margin: var(--ruimte-20) 0 var(--ruimte-6);">Naast elkaar in jouw situatie</h3>
+      <div style="overflow-x:auto;">
+      <table class="vergelijk-tabel" style="min-width:0;">
+        <thead><tr><th></th><th style="text-align:right;">${naamA}</th><th style="text-align:right;">${naamB}</th></tr></thead>
+        <tbody>
+          ${rij("Capaciteit", `${eenDec.format(a.invoer.capaciteit)} kWh`, `${eenDec.format(b.invoer.capaciteit)} kWh`)}
+          ${rij("Investering", eurFmt.format(a.netInvestering), eurFmt.format(b.netInvestering))}
+          ${rij("Opbrengst per jaar", eurFmt.format(a.totaal), eurFmt.format(b.totaal))}
+          ${rij("Bespaard na 10 jaar", eurFmt.format(Rekenkern.besparingNa(a.totaal, a.invoer.degradatiePct / 100, 10)), eurFmt.format(Rekenkern.besparingNa(b.totaal, b.invoer.degradatiePct / 100, 10)))}
+          <tr><td style="font-weight:800;">Terugverdientijd</td><td style="text-align:right;font-weight:800;">${tijd(a)}</td><td style="text-align:right;font-weight:800;">${tijd(b)}</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="datum-stempel">${winnaar
+        ? `In deze situatie verdient de <b>${winnaar}</b> zich het snelst terug. Bij een ander verbruik of contract kan dat omslaan.`
+        : geenVanBeide
+          ? "In deze situatie verdient geen van beide zich terug. Kijk of het contracttype of de prijzen kloppen voordat je op dit verschil afgaat."
+          : "Deze twee ontlopen elkaar nauwelijks; laat de keuze dan afhangen van garantie, vermogen en aansluitgemak."}</p>`;
   }
 
   /* ------------------------------------------------------------------
@@ -303,11 +498,27 @@
     });
     const grijs = zonderPrijs.map((b) => `<option value="" disabled>${b.merk} ${b.model} (prijs op aanvraag; vul zelf een offertebedrag in)</option>`);
     sel.innerHTML = '<option value="">Kies een batterij…</option>' + opties.join("") + grijs.join("");
+    const sel2 = el("inpBatterij2");
+    if (sel2) {
+      sel2.innerHTML = '<option value="">Geen tweede batterij…</option>' + opties.join("");
+    }
+  }
+
+  function kiesTweedeBatterij(id) {
+    tweedeBatterij = batterijen.find((x) => x.id === id) || null;
+    const hint = el("batterij2Hint");
+    if (hint) {
+      hint.textContent = tweedeBatterij
+        ? `${tweedeBatterij.merk} ${tweedeBatterij.model} wordt in dezelfde situatie doorgerekend; alleen het apparaat verschilt.`
+        : "Kies er eventueel een tweede om ze naast elkaar te zien.";
+    }
+    bereken();
   }
 
   function kiesBatterij(id) {
     const b = batterijen.find((x) => x.id === id);
-    if (!b) return;
+    if (!b) { gekozenBatterij = null; return; }
+    gekozenBatterij = b;
     const inv = investeringVoor(b);
     el("inpCapaciteit").value = b.capaciteit_kwh;
     el("inpInvestering").value = inv ? inv.bedrag : "";
@@ -462,18 +673,30 @@
   }
 
   async function init() {
+    onthoudStandaardWaarden();
+    beginParams = new URLSearchParams(location.search);
     try {
       const res = await fetch("data/batterijen.json", { cache: "no-cache" });
       const data = await res.json();
       batterijen = data.batterijen || [];
       vulBatterijKeuze();
 
-      const params = new URLSearchParams(location.search);
+      const params = beginParams;
+
+      /* Eerst de hele berekening uit de URL terugzetten, dan pas de batterij
+         kiezen. Andersom overschrijft kiesBatterij() de investering en de
+         capaciteit die iemand juist met de hand had aangepast en gedeeld. */
       const gekozen = params.get("batterij");
       if (gekozen && batterijen.some((b) => b.id === gekozen)) {
         el("inpBatterij").value = gekozen;
         kiesBatterij(gekozen);
       }
+      const tweede = params.get("batterij2");
+      if (tweede && batterijen.some((b) => b.id === tweede)) {
+        el("inpBatterij2").value = tweede;
+        kiesTweedeBatterij(tweede);
+      }
+      leesUrl(params);
 
       /* Wie op de vergelijker zijn jaarverbruik invulde, hoeft dat hier niet
          opnieuw te doen. Het komt mee in de link (?verbruik=) en staat anders
@@ -498,6 +721,17 @@
       leveranciersData = await resL.json();
       vulLeveranciers();
       toonLeveranciersTabel();
+      /* De leverancierslijst wordt pas hier gevuld, ná leesUrl(). Een gedeelde
+         link met ?leverancier= viel daardoor stil op de grond: leesUrl slaat
+         een select-waarde over die nog niet bestaat. Hier alsnog zetten, maar
+         zonder kiesLeverancier() aan te roepen - die zou het contract en de
+         terugleverkosten opnieuw invullen en juist de waarden overschrijven
+         die in de gedeelde link staan. */
+      const uitUrl = beginParams.get("leverancier");
+      const sel = el("inpLeverancier");
+      if (uitUrl && sel && Array.from(sel.options).some((o) => o.value === uitUrl)) {
+        sel.value = uitUrl;
+      }
       pasTerugleverkostenAan();
     } catch (err) {
       console.error("Leverancierstarieven konden niet geladen worden:", err);
@@ -505,7 +739,8 @@
       if (doel) doel.innerHTML = '<p class="datum-stempel">De tarieventabel kon niet worden geladen.</p>';
     }
 
-    el("inpBatterij").addEventListener("change", (e) => kiesBatterij(e.target.value));
+    el("inpBatterij").addEventListener("change", (e) => { kiesBatterij(e.target.value); });
+    if (el("inpBatterij2")) el("inpBatterij2").addEventListener("change", (e) => kiesTweedeBatterij(e.target.value));
     el("inpLeverancier").addEventListener("change", kiesLeverancier);
     el("inpPanelen").addEventListener("input", panelenNaarOpwek);
     el("inpPv").addEventListener("change", togglePvVelden);
