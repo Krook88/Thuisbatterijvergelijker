@@ -35,6 +35,39 @@
   var paneel = null;
   var laatsteTekst = "";
   var inBeeld = false;
+  /* Heeft de bezoeker al iets ingevuld?
+
+     Zonder deze grens stond er bij het openen van de keuzehulp al "Jouw advies:
+     Venus E 3.0" in beeld, terwijl er nog geen enkele vraag beantwoord was. Dat
+     is een aanname in de vorm van een antwoord: het ziet eruit alsof het over
+     jou gaat, terwijl elke bezoeker hetzelfde te zien kreeg. Precies waar
+     dagmaat.js al voor waarschuwt.
+
+     Het past ook niet bij waar deze balk voor is. Hij bestaat omdat je op een
+     telefoon niet ziet dat het advies drie schermen lager meebeweegt als je
+     iets verandert. Zolang je nog niets veranderd hebt, valt er ook niets te
+     missen. */
+  var aangeraakt = false;
+
+  /* De keuzehulpen heten niet overal hetzelfde (adviesFormulier op
+     batterijmaatje, adviesformulier op de zustersites), dus koppelen we niet
+     aan een id maar luisteren we mee op het document. Dat is dezelfde keuze als
+     bij het uitlezen van het paneel: de balk zoekt het zelf uit in plaats van
+     dat drie keuzehulpen een afspraak moeten nakomen die er ooit eentje vergeet. */
+  function volgEersteInvoer() {
+    function raak(e) {
+      var t = e.target;
+      if (!t || !t.tagName) return;
+      var soort = t.tagName.toLowerCase();
+      if (soort !== "input" && soort !== "select" && soort !== "textarea") return;
+      aangeraakt = true;
+      document.removeEventListener("input", raak, true);
+      document.removeEventListener("change", raak, true);
+      toon();
+    }
+    document.addEventListener("input", raak, true);
+    document.addEventListener("change", raak, true);
+  }
 
   function smal() {
     return global.matchMedia && global.matchMedia(BREEDTE).matches;
@@ -79,7 +112,7 @@
 
   function toon() {
     if (!balk) return;
-    var nodig = !!laatsteTekst && smal() && !inBeeld;
+    var nodig = aangeraakt && !!laatsteTekst && smal() && !inBeeld;
     balk.hidden = !nodig;
     document.body.classList.toggle("heeft-advies-balk", nodig);
   }
@@ -103,6 +136,7 @@
 
   function start() {
     if (!maak()) return;
+    volgEersteInvoer();
     zet(lees());
     if ("MutationObserver" in global) {
       new MutationObserver(function () { zet(lees()); })
