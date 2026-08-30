@@ -1,26 +1,11 @@
 /* ==========================================================================
-   Rekenmodule terugverdientijd thuisbatterij
-   Eenvoudig, transparant jaarmodel. Alle aannames zijn instelbaar en worden
-   onder het resultaat getoond. Bewust conservatief; geen verkooppraatje.
+   Rekenmodule terugverdientijd thuisbatterij - schermlaag
 
-   Model in het kort (per jaar, situatie vanaf 2027, dus zonder saldering):
-
-   1. Zelfverbruik-opslag (alleen met zonnepanelen)
-      overschot        = jaaropwek x (1 - direct eigen verbruik)
-      opslag           = min(overschot, bruikbare capaciteit x zonnedagen) x mismatchfactor
-      opbrengst        = opslag x (stroomprijs x rendement - terugleververgoeding + terugleverkosten per kWh)
-      Toelichting: elke opgeslagen kWh vervangt inkoop (x rendement wegens
-      omzetverlies), kost je de misgelopen terugleververgoeding en scheelt
-      terugleverkosten.
-
-   2. Handel op uurprijzen (alleen met dynamisch contract)
-      dagen            = dagen zonder zonneoverschot (met PV) of vrijwel alle dagen (zonder PV)
-      winst per cyclus = bruikbare capaciteit x (ontlaadwaarde x rendement - laadprijs)
-      opbrengst        = dagen x cycli per dag x winst per cyclus
-      Toelichting: 's nachts of op goedkope uren laden, op dure (avond)uren
-      je eigen verbruik dekken of terugleveren.
-
-   3. Terugverdientijd = investering / totale jaarlijkse opbrengst
+   De rekensom zelf staat in assets/rekenkern.js en wordt getest door
+   scripts/rekenkern.test.mjs. Dit bestand doet alleen het scherm: velden
+   uitlezen, de kern aanroepen en de uitkomst tonen. Die scheiding is er omdat
+   de wiskunde die hier eerst tussen de DOM-code stond door niets werd getest,
+   en er daardoor fouten in konden blijven zitten die niemand zag.
    ========================================================================== */
 
 (function () {
@@ -35,6 +20,10 @@
   const eenDec = new Intl.NumberFormat("nl-NL", { maximumFractionDigits: 1 });
 
   let batterijen = [];
+  let leveranciersData = null;
+  // Heeft de bezoeker de terugleverkosten zelf aangeraakt? Zo ja, dan laat de
+  // module dat veld met rust bij een contractwissel.
+  let terugleverkostenAangeraakt = false;
 
   // De investering waarmee gerekend wordt is de vergelijkprijs incl. btw: een
   // particulier betaalt nu eenmaal btw, dus rekenen met een prijs excl. btw
@@ -44,83 +33,74 @@
   }
 
   function getal(id, fallback) {
-    const v = parseFloat(String(el(id).value).replace(",", "."));
+    const veld = el(id);
+    if (!veld) return fallback;
+    const v = parseFloat(String(veld.value).replace(",", "."));
     // Negatieve invoer (bijv. verbruik -500) zou onzinnige uitkomsten geven
     return Number.isFinite(v) ? Math.max(0, v) : fallback;
   }
 
   /* ------------------------------------------------------------------
-     Berekening
+     Terugleverkosten horen bij het contract
+
+     Leveranciers met een dynamisch contract rekenen geen terugleverkosten;
+     leveranciers met een vast of variabel contract wel, en fors. Eén vaste
+     standaardwaarde van 0,02 hoorde dus bij niemand. Het bedrag hieronder is
+     de mediaan uit data/leveranciers.json, zodat het meebeweegt als die tabel
+     wordt bijgewerkt.
+     ------------------------------------------------------------------ */
+  const TERUGLEVERKOSTEN_VAST_TERUGVAL = 0.12;
+
+  function standaardTerugleverkosten(contract) {
+    if (contract === "dynamisch") return 0;
+    const lijst = (leveranciersData?.leveranciers || [])
+      .filter((l) => l.contract === "vast-variabel" && typeof l.terugleverkosten_per_kwh_indicatie === "number")
+      .map((l) => l.terugleverkosten_per_kwh_indicatie)
+      .sort((a, b) => a - b);
+    if (!lijst.length) return TERUGLEVERKOSTEN_VAST_TERUGVAL;
+    const m = Math.floor(lijst.length / 2);
+    const mediaan = lijst.length % 2 ? lijst[m] : (lijst[m - 1] + lijst[m]) / 2;
+    return Math.round(mediaan * 100) / 100;
+  }
+
+  function pasTerugleverkostenAan() {
+    if (terugleverkostenAangeraakt) return;
+    el("inpTerugleverkosten").value = standaardTerugleverkosten(el("inpContract").value);
+  }
+
+  /* ------------------------------------------------------------------
+     Invoer verzamelen en doorrekenen
      ------------------------------------------------------------------ */
 
-  function bereken() {
+  function invoer() {
     const heeftPv = el("inpPv").value === "ja";
-    const contract = el("inpContract").value; // "vast" | "dynamisch"
+    return {
+      heeftPv,
+      contract: el("inpContract").value,
+      opwek: heeftPv ? getal("inpOpwek", 3500) : 0,
+      eigenVerbruikPct: getal("inpEigenVerbruik", 30),
+      stroomprijs: getal("inpStroomprijs", 0.30),
+      terugleverVergoeding: getal("inpTeruglever", 0.05),
+      terugleverKosten: getal("inpTerugleverkosten", 0.12),
+      laadprijs: getal("inpLaadprijs", 0.15),
+      ontlaadwaarde: getal("inpOntlaadwaarde", 0.30),
+      investering: getal("inpInvestering", 0),
+      capaciteit: getal("inpCapaciteit", 0),
+      bruikbaarPct: getal("inpBruikbaar", 90),
+      rendement: getal("inpRendement", 90),
+      zonDagen: getal("inpZonDagen", 220),
+      mismatch: getal("inpMismatch", 90),
+      cycliPerDag: getal("inpCycli", 1),
+      extraOnbalans: getal("inpOnbalans", 0),
+      standbyWatt: getal("inpStandby", 10),
+      jaarVerbruik: getal("inpVerbruik", 2900),
+      degradatiePct: getal("inpDegradatie", 2),
+    };
+  }
 
-    const opwek = heeftPv ? getal("inpOpwek", 3500) : 0;
-    const eigenVerbruikPct = getal("inpEigenVerbruik", 30) / 100;
-
-    const stroomprijs = getal("inpStroomprijs", 0.30);
-    const terugleverVergoeding = getal("inpTeruglever", 0.05);
-    const terugleverKosten = getal("inpTerugleverkosten", 0.02);
-    const laadprijs = getal("inpLaadprijs", 0.15);
-    const ontlaadwaarde = getal("inpOntlaadwaarde", 0.32);
-
-    const investering = getal("inpInvestering", 0);
-    const capaciteit = getal("inpCapaciteit", 0);
-    const bruikbaarPct = getal("inpBruikbaar", 90) / 100;
-    const rendement = getal("inpRendement", 90) / 100;
-    const zonDagen = getal("inpZonDagen", 220);
-    const mismatch = getal("inpMismatch", 85) / 100;
-    const cycliPerDag = getal("inpCycli", 1);
-    const extraOnbalans = getal("inpOnbalans", 0);
-    const standbyWatt = getal("inpStandby", 10);
-    const jaarVerbruik = getal("inpVerbruik", 2900);
-
-    const bruikbareCap = capaciteit * bruikbaarPct;
-    // Wat kan het huishouden per dag zinvol uit de batterij opmaken?
-    // Aanname: ~70% van het verbruik valt buiten de zonuren (avond, nacht,
-    // vroege ochtend). Een batterij groter dan dat levert per extra kWh
-    // vrijwel niets op: hij raakt zijn stroom niet kwijt.
-    const maxZinvolPerDag = (jaarVerbruik / 365) * 0.7;
-    const effectieveCap = Math.min(bruikbareCap, maxZinvolPerDag);
-    const teGroot = bruikbareCap > 0 && jaarVerbruik > 0 && bruikbareCap > maxZinvolPerDag * 1.15;
-
-    // 1. Zelfverbruik-opslag (alleen met PV)
-    let overschot = 0, opslagJaar = 0, opbrengstZelf = 0;
-    if (heeftPv && bruikbareCap > 0) {
-      overschot = opwek * (1 - eigenVerbruikPct);
-      opslagJaar = Math.min(overschot, effectieveCap * zonDagen) * mismatch;
-      const waardePerKwh = stroomprijs * rendement - terugleverVergoeding + terugleverKosten;
-      opbrengstZelf = Math.max(0, opslagJaar * waardePerKwh);
-    }
-
-    // 2. Handel op uurprijzen (alleen dynamisch contract)
-    let arbDagen = 0, opbrengstArb = 0, winstPerCyclus = 0;
-    if (contract === "dynamisch" && bruikbareCap > 0) {
-      arbDagen = heeftPv ? Math.max(0, 365 - zonDagen) : 350;
-      // Ook hier begrensd op wat het huishouden per dag kan opmaken: de
-      // ontlaadwaarde is immers gebaseerd op vermeden inkoop, niet op verkoop.
-      winstPerCyclus = effectieveCap * (ontlaadwaarde * rendement - laadprijs);
-      opbrengstArb = Math.max(0, arbDagen * cycliPerDag * winstPerCyclus);
-    }
-
-    // 3. Eigen (standby-)verbruik van de batterij: loopt 24 uur per dag door,
-    // dus tegen de gewone (gemiddelde) stroomprijs, niet de goedkope laadprijs
-    const standbyKwh = standbyWatt * 8760 / 1000;
-    const kostenStandby = standbyKwh * stroomprijs;
-
-    const totaal = opbrengstZelf + opbrengstArb + extraOnbalans - kostenStandby;
-    const terugverdientijd = totaal > 0 && investering > 0 ? investering / totaal : null;
-
-    toonResultaat({
-      heeftPv, contract, investering, bruikbareCap,
-      overschot, opslagJaar, opbrengstZelf,
-      arbDagen, cycliPerDag, winstPerCyclus, opbrengstArb,
-      extraOnbalans, standbyWatt, standbyKwh, kostenStandby, totaal, terugverdientijd,
-      jaarVerbruik, maxZinvolPerDag, effectieveCap, teGroot,
-      stroomprijs, terugleverVergoeding, laadprijs, ontlaadwaarde, rendement,
-    });
+  function bereken() {
+    const i = invoer();
+    toonResultaat(Rekenkern.bereken(i), Rekenkern.bandbreedte(i));
   }
 
   /* ------------------------------------------------------------------
@@ -129,11 +109,12 @@
      teal #0d9488 (opbrengst), amber #d97706 (investering)
      ------------------------------------------------------------------ */
 
-  function terugverdienGrafiek(investering, jaarOpbrengst, terugverdientijd) {
+  function terugverdienGrafiek(investering, jaarOpbrengst, degradatie, terugverdientijd) {
     const H = Math.min(30, Math.max(15, Math.ceil(terugverdientijd) + 3)); // horizon in jaren
     const W = 640, HGT = 300, mL = 78, mR = 24, mT = 18, mB = 40;
     const pw = W - mL - mR, ph = HGT - mT - mB;
-    const yMax = Math.max(investering, jaarOpbrengst * H) * 1.06;
+    const cum = (j) => Rekenkern.besparingNa(jaarOpbrengst, degradatie, j);
+    const yMax = Math.max(investering, cum(H)) * 1.06;
     const x = (jaar) => mL + (jaar / H) * pw;
     const y = (eur) => mT + ph - (eur / yMax) * ph;
 
@@ -150,12 +131,13 @@
       xlabels += `<text x="${x(j)}" y="${HGT - 14}" text-anchor="middle" font-size="11" fill="#6b7280">${j}</text>`;
     }
 
-    // Opbrengstlijn met hoverpunten per jaar
+    // Opbrengstlijn met hoverpunten per jaar. De lijn buigt licht af: de
+    // batterij levert in jaar tien minder dan in jaar één.
     let pad = `M ${x(0)} ${y(0)}`;
     let punten = "";
     for (let j = 1; j <= H; j++) {
-      pad += ` L ${x(j)} ${y(jaarOpbrengst * j)}`;
-      punten += `<circle cx="${x(j)}" cy="${y(jaarOpbrengst * j)}" r="9" fill="transparent"><title>Na ${j} jaar: ${eurFmt.format(jaarOpbrengst * j)} bespaard (saldo ${eurFmt.format(jaarOpbrengst * j - investering)})</title></circle>`;
+      pad += ` L ${x(j)} ${y(cum(j))}`;
+      punten += `<circle cx="${x(j)}" cy="${y(cum(j))}" r="9" fill="transparent"><title>Na ${j} jaar: ${eurFmt.format(cum(j))} bespaard (saldo ${eurFmt.format(cum(j) - investering)})</title></circle>`;
     }
 
     // Terugverdienpunt
@@ -182,12 +164,13 @@
      Resultaat tonen
      ------------------------------------------------------------------ */
 
-  function toonResultaat(r) {
+  function toonResultaat(r, band) {
     const doel = el("resultaat");
+    const i = r.invoer;
 
-    if (!r.investering || !r.bruikbareCap) {
+    if (!i.investering || !r.bruikbareCap) {
       // Benoem wat er precies ontbreekt, in plaats van altijd naar stap 1 te wijzen
-      const melding = r.bruikbareCap && !r.investering
+      const melding = r.bruikbareCap && !i.investering
         ? 'Er is een batterij gekozen, maar de <b>investering (€)</b> ontbreekt nog. Open "Alle getallen bekijken of aanpassen" en vul daar een bedrag in (bijvoorbeeld je offerteprijs).'
         : 'Kies bij stap 1 een batterij uit de lijst; het resultaat verschijnt hier direct. Wil je liever met eigen bedragen rekenen? Open dan "Alle getallen bekijken of aanpassen" en vul de investering en capaciteit zelf in.';
       doel.innerHTML = `<p class="datum-stempel">${melding}</p>`;
@@ -196,17 +179,17 @@
 
     const bedragCel = (v) => `<td style="text-align:right;font-weight:700;">${eurFmt.format(v)}</td>`;
     const regels = [];
-    if (r.heeftPv) {
+    if (i.heeftPv) {
       regels.push(`<tr><td>Opslag van eigen zonnestroom (ca. ${numFmt.format(r.opslagJaar)} kWh per jaar)</td>${bedragCel(r.opbrengstZelf)}</tr>`);
     }
-    if (r.contract === "dynamisch") {
-      regels.push(`<tr><td>Slim laden en ontladen op uurprijzen (${numFmt.format(r.arbDagen)} dagen, ${eur2Fmt.format(r.winstPerCyclus)} per cyclus)</td>${bedragCel(r.opbrengstArb)}</tr>`);
+    if (i.contract === "dynamisch") {
+      regels.push(`<tr><td>Slim laden en ontladen op uurprijzen (${numFmt.format(r.arbDagen)} dagen, ${eenDec.format(r.ontladenPerDag)} kWh per dag, ${eur2Fmt.format(r.winstPerDag)} per dag)</td>${bedragCel(r.opbrengstArb)}</tr>`);
     }
-    if (r.extraOnbalans > 0) {
-      regels.push(`<tr><td>Opgegeven extra opbrengst (bijv. onbalansmarkt via aggregator)</td>${bedragCel(r.extraOnbalans)}</tr>`);
+    if (i.extraOnbalans > 0) {
+      regels.push(`<tr><td>Opgegeven extra opbrengst (bijv. onbalansmarkt via aggregator)</td>${bedragCel(i.extraOnbalans)}</tr>`);
     }
     if (r.kostenStandby > 0) {
-      regels.push(`<tr><td>Eigen stroomverbruik van de batterij (standby, ${numFmt.format(r.standbyWatt)} W ≈ ${numFmt.format(r.standbyKwh)} kWh per jaar)</td><td style="text-align:right;font-weight:700;color:var(--kleur-rood);">− ${eurFmt.format(r.kostenStandby)}</td></tr>`);
+      regels.push(`<tr><td>Eigen stroomverbruik van de batterij (standby, ${numFmt.format(i.standbyWatt)} W ≈ ${numFmt.format(r.standbyKwh)} kWh per jaar)</td><td style="text-align:right;font-weight:700;color:var(--kleur-rood);">− ${eurFmt.format(r.kostenStandby)}</td></tr>`);
     }
 
     let oordeel = "";
@@ -221,22 +204,33 @@
     } else {
       const t = r.terugverdientijd;
       const kleur = t <= 8 ? "var(--kleur-groen)" : t <= 15 ? "var(--kleur-accent)" : "var(--kleur-rood)";
-      oordeel = `<div style="font-size:var(--tekst-28);font-weight:800;color:${kleur};">${jaarFmt.format(t)} jaar</div>
-        <div class="datum-stempel">terugverdientijd bij een jaarlijkse opbrengst van ${eurFmt.format(r.totaal)}</div>`;
+      // Bewust een bereik en geen enkel getal: dezelfde batterij komt op 4 of
+      // op 12 jaar uit, afhankelijk van aannames die niemand vooraf kent. Eén
+      // getal met een decimaal doet alsof die onzekerheid er niet is.
+      const bereik = band.laag != null
+        ? (band.hoog != null
+            ? `${jaarFmt.format(band.laag)} tot ${jaarFmt.format(band.hoog)} jaar`
+            : `vanaf ${jaarFmt.format(band.laag)} jaar`)
+        : `${jaarFmt.format(t)} jaar`;
+      oordeel = `<div style="font-size:var(--tekst-28);font-weight:800;color:${kleur};">${bereik}</div>
+        <div class="datum-stempel">terugverdientijd, met ${eurFmt.format(r.totaal)} opbrengst per jaar (middenscenario ${jaarFmt.format(t)} jaar)</div>`;
       if (t > 15) waarschuwingen.push('De berekende terugverdientijd is langer dan de levensduur die vaak wordt aangehouden (10 tot 15 jaar). Met deze invoer verdient de batterij zichzelf waarschijnlijk niet terug. Lees ook: <a href="uitleg.html#waarom-toch">is een thuisbatterij het waard bij een lange terugverdientijd?</a>');
       else if (t > 10) waarschuwingen.push('De terugverdientijd nadert de verwachte levensduur van de batterij (10 tot 15 jaar). Reken jezelf niet rijk en vergelijk meerdere scenario\'s. Lees ook: <a href="uitleg.html#waarom-toch">is een thuisbatterij het waard bij een lange terugverdientijd?</a>');
     }
 
     if (r.teGroot) {
-      waarschuwingen.push(`<b>Deze batterij is waarschijnlijk te groot voor je verbruik.</b> Met ${numFmt.format(r.jaarVerbruik)} kWh per jaar maakt je huishouden buiten de zonuren maar zo'n ${eenDec.format(r.maxZinvolPerDag)} kWh per dag op, terwijl de batterij ${eenDec.format(r.bruikbareCap)} kWh bruikbaar heeft. De berekening telt daarom alleen de zinvol te gebruiken ${eenDec.format(r.effectieveCap)} kWh mee; een kleinere (goedkopere) batterij geeft vaak een kortere terugverdientijd.`);
+      waarschuwingen.push(`<b>Deze batterij is waarschijnlijk te groot voor je verbruik.</b> Met ${numFmt.format(i.jaarVerbruik)} kWh per jaar maakt je huishouden buiten de zonuren maar zo'n ${eenDec.format(r.maxOntladingPerDag)} kWh per dag op, terwijl deze batterij er ${eenDec.format(r.bruikbareCap)} kWh in kwijt kan. De berekening telt daarom alleen mee wat je er echt uit haalt; een kleinere (goedkopere) batterij geeft vaak een kortere terugverdientijd.`);
     }
-    if (r.contract === "vast" && !r.heeftPv) {
+    if (i.contract === "vast" && !i.heeftPv) {
       waarschuwingen.push("Zonder zonnepanelen en zonder dynamisch contract kan een thuisbatterij vrijwel niets verdienen: er valt niets op te slaan en geen prijsverschil te benutten.");
     }
-    if (r.contract === "dynamisch" && r.opbrengstArb > 0) {
+    if (r.spreadOptimistisch) {
+      waarschuwingen.push(`<b>Het ingevulde prijsverschil is optimistisch.</b> Laden voor ${eur2Fmt.format(i.laadprijs)} en ontladen tegen ${eur2Fmt.format(i.ontlaadwaarde)} betekent ${eur2Fmt.format(r.spread)} verschil per kWh, elke dag van het jaar. Beide bedragen zijn incl. belastingen en die zijn aan weerskanten gelijk, dus dat verschil is puur marktspread. Op een gemiddelde dag is die kleiner; verlaag de ontlaadwaarde of verhoog de laadprijs voor een realistischer beeld.`);
+    }
+    if (i.contract === "dynamisch" && r.opbrengstArb > 0) {
       kanttekeningen.push("De opbrengst uit handel op uurprijzen is een schatting op basis van een vast gemiddeld prijsverschil; werkelijke spreads wisselen per dag en seizoen, en over stroom uit het net betaal je energiebelasting.");
     }
-    if (r.extraOnbalans > 0) {
+    if (i.extraOnbalans > 0) {
       kanttekeningen.push("Opbrengsten uit de onbalansmarkt zijn de afgelopen jaren gedaald en bieden geen garantie; TenneT waarschuwt daar expliciet voor.");
     }
     // Deze zin hangt aan de kalender: vanaf 1 januari 2027 is "geldt nog" niet
@@ -244,14 +238,18 @@
     kanttekeningen.push(new Date() < new Date("2027-01-01")
       ? "Tot en met 31 december 2026 geldt de salderingsregeling nog; deze berekening gaat uit van de situatie daarna."
       : "De salderingsregeling is per 1 januari 2027 vervallen; deze berekening gaat uit van de situatie zonder saldering.");
-    kanttekeningen.push("Het model rekent niet met batterijdegradatie, rente of stijgende/dalende energieprijzen; zie de toelichting onderaan voor alle aannames.");
+    kanttekeningen.push(`Het getoonde bereik komt van dezelfde som met een ongunstige en een gunstige set aannames (stroomprijs, prijsverschil, rendement en standby-verbruik). Het middenscenario is niet waarschijnlijker dan de randen.`);
+    kanttekeningen.push(`De berekening rekent met ${eenDec.format(i.degradatiePct)}% capaciteitsverlies per jaar, maar niet met rente of met stijgende of dalende energieprijzen; zie de toelichting onderaan voor alle aannames.`);
 
     const grafiek = r.terugverdientijd != null && r.terugverdientijd <= 27
-      ? terugverdienGrafiek(r.investering, r.totaal, r.terugverdientijd)
+      ? terugverdienGrafiek(i.investering, r.totaal, i.degradatiePct / 100, r.terugverdientijd)
       : "";
 
-    const saldoRij = (jaar) =>
-      `<tr><td>Na ${jaar} jaar</td><td style="text-align:right;">${eurFmt.format(r.totaal * jaar)}</td><td style="text-align:right;font-weight:700;color:${r.totaal * jaar - r.investering >= 0 ? "var(--kleur-groen)" : "var(--kleur-rood)"};">${eurFmt.format(r.totaal * jaar - r.investering)}</td></tr>`;
+    const saldoRij = (jaar) => {
+      const bespaard = Rekenkern.besparingNa(r.totaal, i.degradatiePct / 100, jaar);
+      const saldo = bespaard - i.investering;
+      return `<tr><td>Na ${jaar} jaar</td><td style="text-align:right;">${eurFmt.format(bespaard)}</td><td style="text-align:right;font-weight:700;color:${saldo >= 0 ? "var(--kleur-groen)" : "var(--kleur-rood)"};">${eurFmt.format(saldo)}</td></tr>`;
+    };
 
     doel.innerHTML = `
       <div style="text-align:center;padding: var(--ruimte-10) 0 var(--ruimte-20);">${oordeel}</div>
@@ -313,6 +311,14 @@
     const inv = investeringVoor(b);
     el("inpCapaciteit").value = b.capaciteit_kwh;
     el("inpInvestering").value = inv ? inv.bedrag : "";
+
+    /* Het bruikbare deel hangt af van wat het capaciteitsgetal betekent. Staat
+       er al de bruikbare capaciteit, dan is er niets meer af te halen: de vaste
+       90% haalde er dan een tweede keer 10% af bij de 17 modellen waarvoor dat
+       is vastgesteld. Bij een bruto opgave hoort die correctie er juist wel. */
+    const bevestigd = Prijs.capaciteitBevestigd(b);
+    el("inpBruikbaar").value = bevestigd ? 100 : 90;
+
     const hint = el("batterijHint");
     const delen = [];
     if (inv && inv.soort === "totaal") {
@@ -322,12 +328,14 @@
     }
     // De besparing wordt gerekend over de capaciteit hierboven, en die betekent
     // niet bij elke batterij hetzelfde: bij een bruto opgave haal je er minder
-    // uit dan er staat, en valt de besparing dus lager uit dan hier berekend.
-    // De vergelijker en de keuzehulp tonen dat al met een label; zonder deze
-    // regel zou juist de pagina die er een bedrag aan hangt erover zwijgen.
+    // uit dan er staat. De vergelijker en de keuzehulp tonen dat al met een
+    // label; zonder deze regel zou juist de pagina die er een bedrag aan hangt
+    // erover zwijgen.
     const capToelichting = Prijs.capaciteitToelichting(b);
     if (capToelichting) {
-      delen.push(`Over de capaciteit van ${String(b.capaciteit_kwh).replace(".", ",")} kWh: ${capToelichting}. Haal je er minder uit, dan valt de besparing lager uit dan hieronder staat.`);
+      delen.push(`Over de capaciteit van ${String(b.capaciteit_kwh).replace(".", ",")} kWh: ${capToelichting}. De berekening houdt daarom 90% aan als bruikbaar deel; haal je er minder uit, dan valt de besparing lager uit.`);
+    } else {
+      delen.push(`De ${String(b.capaciteit_kwh).replace(".", ",")} kWh hierboven is de bruikbare capaciteit, dus die telt volledig mee.`);
     }
     hint.textContent = delen.join(" ");
     bereken();
@@ -339,11 +347,9 @@
   }
 
   /* ------------------------------------------------------------------
-     Leveranciers: terugleverkosten automatisch invullen + tarieventabel
+     Leveranciers: contract en terugleverkosten automatisch invullen
      (bron: data/leveranciers.json, maandelijks gecontroleerd)
      ------------------------------------------------------------------ */
-
-  let leveranciersData = null;
 
   function vulLeveranciers() {
     const sel = el("inpLeverancier");
@@ -360,18 +366,33 @@
     const hint = el("leverancierHint");
     const l = (leveranciersData?.leveranciers || []).find((x) => x.id === el("inpLeverancier").value);
     if (!l) {
-      hint.textContent = "Dan vul ik de terugleverkosten alvast voor je in; zelf opzoeken hoeft niet.";
+      hint.textContent = "Dan vul ik het contracttype en de terugleverkosten alvast voor je in; zelf opzoeken hoeft niet.";
       bereken();
       return;
     }
+
+    /* Het contract volgt de leverancier in béide richtingen.
+
+       Hier zat de ergste fout van de module. Alleen een dynamische leverancier
+       zette het contract om; wie een vaste leverancier koos hield het
+       standaard ingestelde "dynamisch" staan én kreeg diens hoge
+       terugleverkosten erbij. Uitkomst: de handelsopbrengst die hij nooit kan
+       verdienen plus het volledige terugleverkosten-voordeel, waardoor de
+       terugverdientijd juist kórter werd (4,8 naar 3,6 jaar) in plaats van
+       langer. Precies de bezoeker die er het slechtst voorstaat kreeg zo het
+       mooiste getal te zien. */
+    const past = l.contract === "dynamisch" ? "dynamisch" : "vast";
+    if (el("inpContract").value !== past) {
+      el("inpContract").value = past;
+      toggleContractVelden({ stil: true });
+    }
     if (l.terugleverkosten_per_kwh_indicatie != null) {
       el("inpTerugleverkosten").value = l.terugleverkosten_per_kwh_indicatie;
+      // Een leverancierskeuze is een expliciete keuze; een latere
+      // contractwissel mag dit bedrag niet zomaar overschrijven.
+      terugleverkostenAangeraakt = true;
     }
-    if (l.contract === "dynamisch" && el("inpContract").value !== "dynamisch") {
-      el("inpContract").value = "dynamisch";
-      toggleContractVelden();
-    }
-    hint.textContent = `Ingevuld: ${l.terugleverkosten_omschrijving}. ` +
+    hint.textContent = `Ingevuld: ${past === "dynamisch" ? "dynamisch contract" : "vast of variabel contract"}, ${l.terugleverkosten_omschrijving}. ` +
       (l.kanttekening ? l.kanttekening + " " : "") +
       `(peildatum ${l.peildatum}; indicatie, je contract is leidend)`;
     bereken();
@@ -414,10 +435,30 @@
     bereken();
   }
 
-  function toggleContractVelden() {
+  /* Een leverancier en een contracttype die elkaar tegenspreken, bestaan niet.
+     Wisselt de bezoeker het contract terwijl er een leverancier staat die dat
+     niet levert, dan vervalt die keuze. Zonder dit blijft "Vattenfall" staan
+     bij een dynamisch contract, mét diens terugleverkosten van 0,12 - met de
+     hand precies de combinatie die de kiezer eerst automatisch maakte. */
+  function vergeetLeverancierBijWissel() {
+    const sel = el("inpLeverancier");
+    if (!sel || !sel.value) return;
+    const l = (leveranciersData?.leveranciers || []).find((x) => x.id === sel.value);
+    if (!l) return;
+    const past = l.contract === "dynamisch" ? "dynamisch" : "vast";
+    if (past === el("inpContract").value) return;
+    sel.value = "";
+    terugleverkostenAangeraakt = false;
+    el("leverancierHint").textContent =
+      `${l.naam} levert geen ${el("inpContract").value === "dynamisch" ? "dynamisch" : "vast of variabel"} contract, dus die keuze is vervallen. Kies eventueel opnieuw je leverancier.`;
+  }
+
+  function toggleContractVelden(opties) {
     const dyn = el("inpContract").value === "dynamisch";
     el("dynVelden").style.display = dyn ? "" : "none";
-    bereken();
+    if (!opties || !opties.stil) vergeetLeverancierBijWissel();
+    pasTerugleverkostenAan();
+    if (!opties || !opties.stil) bereken();
   }
 
   async function init() {
@@ -457,6 +498,7 @@
       leveranciersData = await resL.json();
       vulLeveranciers();
       toonLeveranciersTabel();
+      pasTerugleverkostenAan();
     } catch (err) {
       console.error("Leverancierstarieven konden niet geladen worden:", err);
       const doel = el("leveranciersTabel");
@@ -467,13 +509,14 @@
     el("inpLeverancier").addEventListener("change", kiesLeverancier);
     el("inpPanelen").addEventListener("input", panelenNaarOpwek);
     el("inpPv").addEventListener("change", togglePvVelden);
-    el("inpContract").addEventListener("change", toggleContractVelden);
+    el("inpContract").addEventListener("change", () => toggleContractVelden());
+    el("inpTerugleverkosten").addEventListener("input", () => { terugleverkostenAangeraakt = true; });
     document.querySelectorAll("#rekenformulier input, #rekenformulier select").forEach((inp) => {
       inp.addEventListener("input", bereken);
     });
 
     togglePvVelden();
-    toggleContractVelden();
+    toggleContractVelden({ stil: true });
     bereken();
   }
 

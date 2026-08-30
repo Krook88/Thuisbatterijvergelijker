@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="assets/style.css?v=20260828a">
   <script src="assets/dagmaat.js?v=20260828a" defer></script>
   <script src="assets/prijs.js?v=20260828a" defer></script>
+  <script src="assets/rekenkern.js?v=20260828a" defer></script>
   <script src="assets/rekenmodule.js?v=20260828a" defer></script>
   <script src="assets/nav.js?v=20260828a" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
@@ -89,7 +90,7 @@
 
     <form id="rekenformulier" class="reken-paneel" onsubmit="return false;">
 
-      <p class="stappen-intro">Drie keuzes en het resultaat rekent direct mee, op een groot scherm hiernaast en op een telefoon onder het formulier. Voor alle prijzen reken ik alvast met Nederlandse gemiddelden, zoals 2.900 kWh verbruik per jaar en 350 kWh opbrengst per zonnepaneel. Aanpassen kan, maar hoeft niet.</p>
+      <p class="stappen-intro">Drie keuzes en het resultaat rekent direct mee, op een groot scherm hiernaast en op een telefoon onder het formulier. Voor alle prijzen reken ik alvast met Nederlandse gemiddelden, zoals 2.900 kWh verbruik per jaar en 350 kWh opbrengst per zonnepaneel. Aanpassen kan, maar hoeft niet. De uitkomst is bewust een <b>bereik</b> en geen enkel getal, want dezelfde batterij komt op vier of op twaalf jaar uit, afhankelijk van aannames die niemand vooraf kent.</p>
 
       <h2>1. Kies een batterij</h2>
       <div class="veld">
@@ -119,8 +120,8 @@
       <div class="veld">
         <label for="inpContract">Energiecontract</label>
         <select id="inpContract">
-          <option value="dynamisch">Dynamisch: prijs per uur (bijv. Tibber, Frank Energie, Zonneplan)</option>
           <option value="vast">Vast of variabel tarief, of weet ik niet</option>
+          <option value="dynamisch">Dynamisch: prijs per uur (bijv. Tibber, Frank Energie, Zonneplan)</option>
         </select>
         <span class="hint">Met een dynamisch contract kan de batterij extra verdienen door goedkoop te laden. <a href="uitleg.html#vast-of-dynamisch">Zie het verschil in één grafiek</a></span>
       </div>
@@ -132,7 +133,7 @@
 
       <details class="geavanceerd">
         <summary>Alle getallen bekijken of aanpassen (optioneel)</summary>
-        <p class="hint">Ik reken standaard met: stroomprijs € 0,30 per kWh, terugleververgoeding € 0,05, terugleverkosten € 0,02, en bij een dynamisch contract laden voor € 0,15 en ontladen ter waarde van € 0,32. Wijkt jouw situatie af? Pas het hier aan; het resultaat rekent direct mee.</p>
+        <p class="hint">Ik reken standaard met: stroomprijs € 0,30 per kWh, terugleververgoeding € 0,05, terugleverkosten € 0,12 bij een vast of variabel contract (en € 0 bij een dynamisch contract), en bij een dynamisch contract laden voor € 0,15 en ontladen ter waarde van € 0,30. Wijkt jouw situatie af? Pas het hier aan; het resultaat rekent direct mee.</p>
 
         <div class="veld-rij">
           <div class="veld">
@@ -175,8 +176,8 @@
         </div>
         <div class="veld">
           <label for="inpTerugleverkosten">Terugleverkosten (€ per teruggeleverde kWh)</label>
-          <input type="number" id="inpTerugleverkosten" value="0.02" min="0" step="0.01">
-          <span class="hint">Staat in je contract; vul 0 in als je leverancier ze niet rekent</span>
+          <input type="number" id="inpTerugleverkosten" value="0.12" min="0" step="0.01">
+          <span class="hint">Wordt ingevuld op basis van je contracttype (dynamisch rekent doorgaans niets, vast of variabel gemiddeld € 0,12) en van je leverancierskeuze hierboven. Je eigen contract is leidend; vul 0 in als je leverancier ze niet rekent</span>
         </div>
 
         <div id="dynVelden">
@@ -188,7 +189,7 @@
             </div>
             <div class="veld">
               <label for="inpOntlaadwaarde">Waarde per kWh op dure uren (€ per kWh)</label>
-              <input type="number" id="inpOntlaadwaarde" value="0.32" min="0" step="0.01">
+              <input type="number" id="inpOntlaadwaarde" value="0.30" min="0" step="0.01">
               <span class="hint">Vermeden inkoop op avondpiek, of terugleveropbrengst op piekuren</span>
             </div>
           </div>
@@ -211,8 +212,8 @@
           </div>
           <div class="veld">
             <label for="inpMismatch">Benuttingsfactor zonneopslag (%)</label>
-            <input type="number" id="inpMismatch" value="85" min="50" max="100" step="5">
-            <span class="hint">Correctie omdat overschot en batterijruimte niet altijd samenvallen</span>
+            <input type="number" id="inpMismatch" value="90" min="50" max="100" step="5">
+            <span class="hint">Restverlies door timing binnen de dag. De grote oorzaak (het ene dagoverschot is het andere niet) zit nu in het model zelf, dus deze correctie mag kleiner zijn dan voorheen</span>
           </div>
         </div>
         <div class="veld-rij">
@@ -238,6 +239,14 @@
             <span class="hint">De elektronica verbruikt zelf continu stroom, typisch 5 tot 20 W; wordt als kostenpost meegerekend</span>
           </div>
         </div>
+        <div class="veld-rij">
+          <div class="veld">
+            <label for="inpDegradatie">Capaciteitsverlies per jaar (%)</label>
+            <input type="number" id="inpDegradatie" value="2" min="0" max="10" step="0.5">
+            <span class="hint">Een batterij levert in jaar tien minder dan in jaar één; 1,5 tot 3% per jaar is gebruikelijk. Telt mee in de terugverdientijd en in de verlooptabel</span>
+          </div>
+          <div class="veld"></div>
+        </div>
       </details>
 
     </form>
@@ -253,11 +262,11 @@
     <h2>Hoe rekent deze module?</h2>
     <p>Het model telt twee opbrengsten bij elkaar op, afhankelijk van je situatie, en trekt daar het eigen (standby-)verbruik van de batterij vanaf:</p>
     <ol>
-      <li><b>Opslag van eigen zonnestroom</b> (alleen met zonnepanelen), waarbij het overschot dat je nu zou terugleveren in de batterij gaat en vervangt 's avonds inkoop. Elke opgeslagen kWh levert het verschil op tussen je stroomprijs (verminderd met het omzetverlies van de batterij) en de terugleververgoeding die je misloopt, plus bespaarde terugleverkosten. De opslag is begrensd door de batterijcapaciteit en het aantal dagen met zonneoverschot.</li>
-      <li><b>Slim laden en ontladen op uurprijzen</b> (alleen met een dynamisch contract), waarbij de batterij op dagen zonder zonneoverschot laadt op goedkope uren en dekt hij je verbruik op dure uren (of levert hij terug op piekmomenten). De winst per cyclus is het prijsverschil maal de bruikbare capaciteit, verminderd met het omzetverlies.</li>
+      <li><b>Opslag van eigen zonnestroom</b> (alleen met zonnepanelen), waarbij het overschot dat je nu zou terugleveren in de batterij gaat en vervangt 's avonds inkoop. Elke opgeslagen kWh levert het verschil op tussen je stroomprijs (verminderd met het omzetverlies van de batterij) en de terugleververgoeding die je misloopt, plus bespaarde terugleverkosten. Hoeveel je er werkelijk in kwijt kunt hangt af van de spreiding over het jaar. Op een grijze dag in maart raakt de batterij niet vol, in juni loopt hij over. Het model rekent daarom met een verdeling van het dagoverschot rond het gemiddelde, niet met het jaargemiddelde zelf. Meer panelen leveren daardoor wel meer op, maar met steeds kleinere stappen.</li>
+      <li><b>Slim laden en ontladen op uurprijzen</b> (alleen met een dynamisch contract), waarbij de batterij op dagen zonder zonneoverschot laadt op goedkope uren en dekt hij je verbruik op dure uren (of levert hij terug op piekmomenten). De winst is het prijsverschil maal wat er die dag doorheen gaat, verminderd met het omzetverlies. Draai je meer dan één cyclus per dag, dan geldt de begrenzing hieronder over alle cycli samen, dus twee cycli leveren alleen meer op als je huishouden die stroom ook echt opmaakt.</li>
     </ol>
     <p><b>Begrensd door je eigen verbruik.</b> Een batterij verdient alleen aan stroom die je huishouden ook echt opmaakt. Het model rekent daarom nooit met meer ontlading per dag dan wat je huishouden buiten de zonuren verbruikt (aanname: 70% van je jaarverbruik valt in de avond, nacht en vroege ochtend). Is de batterij groter dan dat, dan telt de extra capaciteit niet mee en krijg je een waarschuwing, want een te grote accu kopen is een van de duurste beginnersfouten.</p>
-    <p>De terugverdientijd is de investering gedeeld door de totale jaarlijkse opbrengst.</p>
+    <p><b>De terugverdientijd</b> volgt uit de opgetelde besparing, waarbij de opbrengst elk jaar iets daalt doordat de batterij capaciteit verliest (standaard 2% per jaar). Daarnaast rekent de module dezelfde som nog twee keer door: één keer met een ongunstige en één keer met een gunstige set aannames voor stroomprijs, prijsverschil, rendement en standby-verbruik. Die twee vormen het bereik dat bovenaan staat. Het middenscenario is niet waarschijnlijker dan de randen, en juist daarom staat het er klein bij.</p>
 
     <h3 id="warmtepomp">Heb je een warmtepomp of elektrische auto?</h3>
     <p>Een warmtepomp telt op twee manieren mee. Ten eerste via je jaarverbruik, dat je invult onder "Alle getallen bekijken of aanpassen" (standaard reken ik met 2.900 kWh, een gemiddeld huishouden; met warmtepomp is 6.000 tot 9.000 kWh gebruikelijk). Een hoger verbruik betekent dat een grotere batterij wél zinvol kan zijn. Ten tweede via een dynamisch contract, want in de wintermaanden verbruik je veel stroom op de dure uren, precies wanneer de batterij op goedkope uren vooruit kan laden; verhoog daarvoor eventueel de handelscycli per dag naar 1,5 of 2. Controleer wel of het vermogen (kW) van de batterij groot genoeg is om de warmtepomp echt te dekken. Voor het opslaan van zonnestroom verandert er weinig, want een warmtepomp draait vooral in de winter, wanneer er nauwelijks zonneoverschot is. Een elektrische auto laad je meestal slimmer rechtstreeks op goedkope of zonnige uren dan via de batterij; zie <a href="uitleg.html#wat-kun-je-ermee">wat kun je ermee</a>.</p>
@@ -269,29 +278,31 @@
     </div>
 
     <h2>Rekenvoorbeeld: gezin met zonnepanelen en een plug-in batterij</h2>
-    <p>Stel: een gezin verbruikt 2.900 kWh stroom per jaar, heeft 10 zonnepanelen (opwek 3.500 kWh per jaar, waarvan 30% direct zelf gebruikt), een dynamisch energiecontract, en koopt een Marstek Venus E van 5,12 kWh voor € 1.299. Die batterij past bij dit verbruik (het gezin maakt de inhoud elke avond en nacht op); bij een veel grotere batterij zou het model de opbrengst begrenzen en waarschuwen. Met de standaardprijzen van deze module ziet de rekensom er zo uit:</p>
+    <p>Stel: een gezin verbruikt 2.900 kWh stroom per jaar, heeft 10 zonnepanelen (opwek 3.500 kWh per jaar, waarvan 30% direct zelf gebruikt), een dynamisch energiecontract, en koopt een Marstek Venus E van 4,6 kWh voor € 1.299. Die batterij past bij dit verbruik (het gezin maakt de inhoud elke avond en nacht op); bij een veel grotere batterij zou het model de opbrengst begrenzen en waarschuwen. Met de standaardwaarden van deze module ziet de rekensom er zo uit:</p>
     <div class="schuifbaar">
     <table class="vergelijk-tabel compact">
       <thead><tr><th>Onderdeel</th><th class="bedrag">Per jaar</th></tr></thead>
       <tbody>
-        <tr><td>Eigen zonnestroom opslaan in plaats van terugleveren (ca. 860 kWh, het verschil tussen stroomprijs en terugleververgoeding)</td><td class="bedrag uitkomst">≈ € 207</td></tr>
-        <tr><td>Slim laden en ontladen op uurprijzen in de maanden zonder zonneoverschot (ca. 145 dagen)</td><td class="bedrag uitkomst">≈ € 92</td></tr>
+        <tr><td>Eigen zonnestroom opslaan in plaats van terugleveren (ca. 746 kWh, het verschil tussen stroomprijs en terugleververgoeding)</td><td class="bedrag uitkomst">≈ € 164</td></tr>
+        <tr><td>Slim laden en ontladen op uurprijzen in de maanden zonder zonneoverschot (ca. 145 dagen, 4,1 kWh per dag)</td><td class="bedrag uitkomst">≈ € 80</td></tr>
         <tr><td>Eigen stroomverbruik van de batterij (standby, ca. 10 W ≈ 88 kWh per jaar)</td><td class="bedrag uitkomst">≈ − € 26</td></tr>
-        <tr class="totaal-rij"><td>Totale besparing</td><td class="bedrag">≈ € 273</td></tr>
+        <tr class="totaal-rij"><td>Totale besparing</td><td class="bedrag">≈ € 218</td></tr>
       </tbody>
     </table>
     </div>
+    <p>Daarmee komt de terugverdientijd op <b>ongeveer 4 tot 16 jaar</b>, met 6,3 jaar als middenscenario. Die spreiding is geen slordigheid, want hij komt uit dezelfde som met een ongunstige en een gunstige set aannames, en laat zien hoeveel de uitkomst afhangt van dingen die je vooraf niet weet. CE Delft kwam voor Vereniging Eigen Huis uit op 6,5 tot 22 jaar en Berenschot op 4 tot 12 jaar.</p>
+    <p>De verlooptabel rekent met 2% capaciteitsverlies per jaar, dus de besparing wordt elk jaar iets kleiner:</p>
     <div class="schuifbaar los">
     <table class="vergelijk-tabel compact">
-      <thead><tr><th>Verloop</th><th class="bedrag">Bespaard</th><th class="bedrag">Saldo (bespaard minus € 1.299)</th></tr></thead>
+      <thead><tr><th>Verloop (middenscenario)</th><th class="bedrag">Bespaard</th><th class="bedrag">Saldo (bespaard minus € 1.299)</th></tr></thead>
       <tbody>
-        <tr><td>Na 4,8 jaar</td><td class="bedrag">≈ € 1.299</td><td class="bedrag uitkomst">€ 0, <b>terugverdiend</b></td></tr>
-        <tr><td>Na 10 jaar</td><td class="bedrag">≈ € 2.730</td><td class="bedrag uitkomst winst">≈ + € 1.431</td></tr>
-        <tr><td>Na 15 jaar</td><td class="bedrag">≈ € 4.095</td><td class="bedrag uitkomst winst">≈ + € 2.796</td></tr>
+        <tr><td>Na 5 jaar</td><td class="bedrag">≈ € 1.047</td><td class="bedrag uitkomst">≈ − € 252</td></tr>
+        <tr><td>Na 10 jaar</td><td class="bedrag">≈ € 1.993</td><td class="bedrag uitkomst winst">≈ + € 694</td></tr>
+        <tr><td>Na 15 jaar</td><td class="bedrag">≈ € 2.848</td><td class="bedrag uitkomst winst">≈ + € 1.549</td></tr>
       </tbody>
     </table>
     </div>
-    <p>Let wel: dit is een voorbeeld met gemiddelde aannames, geen belofte. Een groter gezin, een andere batterij of een vast contract geeft een heel andere uitkomst. <a href="rekenmodule.html?batterij=marstek-venus-e-3">Open dit voorbeeld in de rekenmodule</a> en pas de getallen aan naar jouw situatie; de grafiek en tabellen rekenen direct mee.</p>
+    <p>Let wel: dit is een voorbeeld met gemiddelde aannames, geen belofte. Een groter gezin, een andere batterij of een vast contract geeft een heel andere uitkomst. <a href="rekenmodule.html?batterij=marstek-venus-e-3">Open dit voorbeeld in de rekenmodule</a> en pas de getallen aan naar jouw situatie; de grafiek en tabellen rekenen direct mee. Zet het contract daarbij op dynamisch, want de module gaat er standaard van uit dat je een vast of variabel tarief hebt.</p>
 
     <h2 id="leveranciers">Terugleverkosten en vergoedingen per leverancier</h2>
     <p>Zodat je het niet zelf hoeft op te zoeken, staat hieronder wat de grootste leveranciers op dit moment rekenen voor teruggeleverde zonnestroom. Gemiddeld ging het in oktober 2025 om zo'n 300 euro per huishouden per jaar. Kies je leverancier hierboven in het formulier, dan vul ik het passende bedrag automatisch in.</p>
