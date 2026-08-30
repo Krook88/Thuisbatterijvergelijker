@@ -23,6 +23,7 @@
 
   const el = (id) => document.getElementById(id);
   const eurFmt = new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
+  const jaarFmt = new Intl.NumberFormat("nl-NL", { maximumFractionDigits: 1 });
   const kwhFmt = new Intl.NumberFormat("nl-NL", { maximumFractionDigits: 1 });
 
   let batterijen = [];
@@ -162,28 +163,40 @@
     const noodstroom = el("advNoodstroom").checked;
     const budget = getal("advBudget", 0);
 
-    const redenenAfgevallen = [];
+    /* Waarom viel er iets af?
+
+       Deze lijst bestond al, werd netjes teruggegeven en werd nergens gelezen.
+       Daardoor liep een bezoeker die alles wegfilterde tegen een doodlopend
+       eind: wel een maatadvies, geen enkele batterij, en de mededeling "van de
+       0 batterijen die bij jouw antwoorden passen". Dat overkomt altijd
+       dezelfde combinatie - een eenpersoonshuishouden dat een installateur wil
+       en 2.500 euro te besteden heeft - en dat kan ook niet, want van de 18
+       systemen die een installateur plaatst kost de goedkoopste 3.500 euro.
+       Nu telt hij per antwoord hoeveel er op afvallen, zodat de uitkomst kan
+       zeggen welk antwoord je moet loslaten in plaats van niets. */
+    const afval = {};
+    const valAf = (sleutel) => { afval[sleutel] = (afval[sleutel] || 0) + 1; return false; };
 
     const kandidaten = batterijen.filter((b) => {
       const prijs = bestePrijs(b);
       if (!b.capaciteit_kwh) return false;
 
       // Fase: bij een 1-fase aansluiting vallen 3-fase-only systemen af
-      if (fase === "1" && b.fase === "3-fase") return false;
+      if (fase === "1" && b.fase === "3-fase") return valAf("fase");
 
       // Installatievoorkeur
-      if (installatie === "zelf" && b.installatie !== "zelf") return false;
-      if (installatie === "installateur" && b.installatie !== "installateur") return false;
+      if (installatie === "zelf" && b.installatie !== "zelf") return valAf("installatie");
+      if (installatie === "installateur" && b.installatie !== "installateur") return valAf("installatie");
 
       // Smart home-eisen
-      if (homey && driewaardig(b.homey) === "nee") return false;
-      if (ha && driewaardig(b.home_assistant) === "nee") return false;
+      if (homey && driewaardig(b.homey) === "nee") return valAf("homey");
+      if (ha && driewaardig(b.home_assistant) === "nee") return valAf("ha");
 
       // Noodstroom: alleen batterijen waarvan bevestigd is dat het kan
-      if (noodstroom && !["ja", "deels"].includes(vierwaardig(b.noodstroom))) return false;
+      if (noodstroom && !["ja", "deels"].includes(vierwaardig(b.noodstroom))) return valAf("noodstroom");
 
       // Dynamisch contract als dat het (enige) verdienmodel is
-      if (maat.basis === "dynamisch" && driewaardig(b.dynamisch_contract) === "nee") return false;
+      if (maat.basis === "dynamisch" && driewaardig(b.dynamisch_contract) === "nee") return valAf("dynamisch");
 
       // Budget op wat de bezoeker werkelijk kwijt is, niet op de kale
       // apparaatprijs. Dat scheelt: de SolaX T-BAT kost 1.625 euro als toestel
@@ -194,16 +207,23 @@
       // hem weg te gooien: negen van de eenenveertig hebben dat bedrag nog
       // niet, en die stilzwijgend laten afvallen is erger dan ze tonen met de
       // melding dat het bedrag onbekend is (dat doet waaromTekst).
+      //
+      // En op de bovenkant van de range, niet de onderkant. Een systeem dat
+      // "3.400 tot 4.200 euro" kost, hoort niet te verschijnen bij een budget
+      // van 3.500: je weet dan al dat het waarschijnlijk niet uitkomt. Alleen
+      // de onderkant toetsen is dezelfde soort optimistische afronding als
+      // rekenen met een prijs excl. btw.
       if (budget > 0) {
-        const compleet = typeof b.totaalprijs_van_eur === "number" ? b.totaalprijs_van_eur : null;
-        if (compleet !== null && compleet > budget) return false;
+        const onder = typeof b.totaalprijs_van_eur === "number" ? b.totaalprijs_van_eur : null;
+        const boven = typeof b.totaalprijs_tot_eur === "number" ? b.totaalprijs_tot_eur : onder;
+        if (boven !== null && boven > budget) return valAf("budget");
       }
 
       // Capaciteit: past binnen ruime marge rond het advies,
       // of is modulair uitbreidbaar tot binnen de bandbreedte
       const past = b.capaciteit_kwh >= maat.laag * BAND_ONDER && b.capaciteit_kwh <= maat.hoog * BAND_BOVEN;
       const uitbreidbaar = b.uitbreidbaar_tot_kwh && b.capaciteit_kwh <= maat.hoog && b.uitbreidbaar_tot_kwh >= maat.laag;
-      if (!past && !uitbreidbaar) return false;
+      if (!past && !uitbreidbaar) return valAf("maat");
 
       return true;
     });
@@ -282,12 +302,51 @@
       }
     }
 
-    return { top: gekozen, totaal: kandidaten.length, redenenAfgevallen };
+    return { top: gekozen, totaal: kandidaten.length, afval };
   }
 
   /* ------------------------------------------------------------------
      Rendering
      ------------------------------------------------------------------ */
+
+  /* Wat levert deze batterij op?
+
+     De keuzehulp adviseerde een maat en drie modellen, maar noemde nergens een
+     bedrag of een termijn - terwijl dat de vraag is waarmee mensen hier zitten.
+     De som komt uit assets/rekenkern.js, dezelfde kern als de rekenmodule
+     gebruikt, zodat de twee pagina's niet elk hun eigen antwoord geven. De
+     keuzehulp vraagt alles al uit wat die kern nodig heeft.
+
+     Bewust een bereik en geen enkel getal, om dezelfde reden als daar: de
+     uitkomst hangt af van aannames die niemand vooraf kent. */
+  function terugverdienRegel(b) {
+    if (typeof Rekenkern === "undefined") return "";
+    const investering = typeof b.totaalprijs_van_eur === "number"
+      ? b.totaalprijs_van_eur
+      : (bestePrijs(b) ? Prijs.vergelijkPrijs(bestePrijs(b)) : 0);
+    if (!investering || !b.capaciteit_kwh) return "";
+
+    const heeftPv = el("advPv").value === "ja";
+    const invoer = {
+      heeftPv,
+      contract: el("advContract").value === "dynamisch" ? "dynamisch" : "vast",
+      opwek: heeftPv ? getal("advOpwek", 3500) : 0,
+      jaarVerbruik: getal("advVerbruik", 2900),
+      capaciteit: b.capaciteit_kwh,
+      bruikbaarPct: Prijs.capaciteitBevestigd(b) ? 100 : 90,
+      vermogenKw: b.vermogen_kw || null,
+      investering,
+    };
+    const band = Rekenkern.bandbreedte(invoer);
+    const r = band.verwacht;
+    if (r.totaal <= 0 || r.terugverdientijd == null) {
+      return '<div class="koppelgemak"><span class="uitleg"><b>Terugverdientijd:</b> met deze antwoorden levert hij per saldo niets op. <a href="rekenmodule.html?batterij=' + encodeURIComponent(b.id) + '">Reken het zelf na</a>.</span></div>';
+    }
+    const bereik = band.hoog != null
+      ? `${jaarFmt.format(band.laag)} tot ${jaarFmt.format(band.hoog)} jaar`
+      : `vanaf ${jaarFmt.format(band.laag)} jaar`;
+    return `<div class="koppelgemak"><span class="uitleg"><b>Terugverdientijd:</b> ${bereik}, bij ongeveer ${eurFmt.format(r.totaal)} per jaar. Indicatie op basis van je antwoorden; <a href="${escapeHtml(rekenmoduleLink(b))}">pas de aannames aan</a>.</span></div>`;
+  }
 
   function waaromTekst(b, maat) {
     const redenen = [];
@@ -319,6 +378,43 @@
     return redenen.slice(0, 4).join(", ");
   }
 
+  /* Geen enkele batterij over: zeg welk antwoord dat deed
+
+     Zonder dit stond er "van de 0 batterijen die bij jouw antwoorden passen",
+     en verder niets. De bezoeker weet dan wel dat het niet lukt, maar niet wat
+     hij eraan kan doen - terwijl het meestal aan één antwoord ligt dat hij
+     zonder bezwaar wat ruimer kan zetten. */
+  const AFVAL_UITLEG = {
+    budget: ["je budget", "verhoog het bedrag of laat het leeg"],
+    installatie: ["je keuze voor wie het plaatst", 'kies "maakt niet uit"'],
+    maat: ["de geadviseerde accugrootte", "daar is op dit moment geen model voor in de vergelijking"],
+    noodstroom: ["de eis van noodstroom", "vink die uit als het geen harde eis is"],
+    fase: ["je 1-fase aansluiting", "controleer of dat klopt"],
+    homey: ["de eis van Homey-ondersteuning", "vink die uit als het geen harde eis is"],
+    ha: ["de eis van Home Assistant", "vink die uit als het geen harde eis is"],
+    dynamisch: ["de eis dat hij met een dynamisch contract overweg kan", "die hoort bij je contractkeuze"],
+  };
+
+  function geenTreffers(afval) {
+    // De grootste veroorzaker eerst: dat is het antwoord waaraan draaien het
+    // meeste oplevert.
+    const gesorteerd = Object.entries(afval || {})
+      .filter(([sleutel]) => AFVAL_UITLEG[sleutel])
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 2);
+    const zinnen = gesorteerd.map(([sleutel, aantal]) => {
+      const [wat, wat_dan] = AFVAL_UITLEG[sleutel];
+      return `<li><b>${escapeHtml(wat)}</b> liet ${aantal} ${aantal === 1 ? "model" : "modellen"} afvallen — ${escapeHtml(wat_dan)}</li>`;
+    });
+    return `
+      <h2 class="advies-kop">Geen batterij die aan al je antwoorden voldoet</h2>
+      <div class="waarschuwing-kader">
+        <p>Het maatadvies hierboven klopt, maar er staat op dit moment geen model in de vergelijking dat aan álle voorwaarden voldoet. Meestal ligt dat aan één antwoord:</p>
+        <ul>${zinnen.join("") || "<li>de combinatie van je antwoorden is te smal</li>"}</ul>
+        <p>Pas er één aan en het advies verschijnt direct. Of <a href="index.html">bekijk alle batterijen in de vergelijker</a> en filter daar zelf.</p>
+      </div>`;
+  }
+
   function render() {
     const doel = el("adviesResultaat");
 
@@ -333,7 +429,7 @@
       return;
     }
 
-    const { top, totaal } = match(maat);
+    const { top, totaal, afval } = match(maat);
 
     const maatUitleg = maat.basis === "pv"
       ? `Gebaseerd op je zomerse zonnestroom-overschot (ca. ${kwhFmt.format(maat.dagOverschotZomer)} kWh per dag) en je avond- en nachtverbruik (ca. ${kwhFmt.format(maat.avondNacht)} kWh per dag): meer opslaan dan je 's avonds gebruikt heeft geen zin.`
@@ -360,6 +456,7 @@
             <div class="spec"><span class="spec-label">Installatie</span><span class="spec-waarde">${b.installatie === "zelf" ? "Zelf" : "Installateur"}</span></div>
           </div>
           <div class="koppelgemak"><span class="uitleg"><b>Waarom deze past:</b> ${escapeHtml(waaromTekst(b, maat))}.</span></div>
+          ${terugverdienRegel(b)}
           <div class="koppelgemak"><span class="uitleg">Compleet gebruiksklaar (indicatie): <b>${b.totaalprijs_van_eur ? eurFmt.format(b.totaalprijs_van_eur) + (b.totaalprijs_tot_eur ? " tot " + eurFmt.format(b.totaalprijs_tot_eur) : "") : "niet vastgesteld"}</b>${b.totaalprijs_van_eur ? "" : (b.totaalprijs_geschat_van_eur
             ? `<br><small>Schatting: ${eurFmt.format(b.totaalprijs_geschat_van_eur)} tot ${eurFmt.format(b.totaalprijs_geschat_tot_eur)} - het toestel plus ${eurFmt.format(500)} tot ${eurFmt.format(2000)} installatie. Van dit systeem heb ik geen complete prijs uit een bron, dus telt hij niet mee in de vergelijking op prijs per kWh.</small>`
             : `<br><small>Ik heb voor dit systeem geen prijs inclusief installatie gevonden.</small>`)}</span></div>
@@ -385,8 +482,9 @@
       ${heeftPv ? `<div class="waarschuwing-kader">${new Date() < new Date("2027-01-01")
         ? "Let op: tot en met 31 december 2026 geldt de salderingsregeling nog, waardoor opslaan van eigen zonnestroom financieel weinig oplevert. Dit advies kijkt naar de situatie daarna."
         : "De salderingsregeling is per 1 januari 2027 vervallen: eigen zonnestroom opslaan levert nu wél op, want teruggeleverde stroom brengt nog maar een paar cent per kWh op."}</div>` : ""}
+      ${totaal === 0 ? geenTreffers(afval) : `
       <h2 class="advies-kop">Drie kanten van de keuze</h2>
-      <p class="advies-kop-uitleg">Van de ${totaal} batterijen die bij jouw antwoorden passen, toon ik niet de beste drie maar de beste op drie verschillende vragen. Dat scheelt: een ranglijst levert vrijwel altijd drie vergelijkbare buren op, terwijl deze drie elk iets anders goed doen.</p>
+      <p class="advies-kop-uitleg">Van de ${totaal} batterijen die bij jouw antwoorden passen, toon ik niet de beste drie maar de beste op drie verschillende vragen. Dat scheelt: een ranglijst levert vrijwel altijd drie vergelijkbare buren op, terwijl deze drie elk iets anders goed doen.</p>`}
       ${kaarten}
       <p class="advies-naar-vergelijker"><a href="index.html">Bekijk alle batterijen in de vergelijker</a></p>
     `;
