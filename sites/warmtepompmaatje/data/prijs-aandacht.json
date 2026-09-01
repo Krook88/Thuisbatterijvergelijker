@@ -1,6 +1,30 @@
 {
-  "bijgewerkt": "2026-08-31",
+  "bijgewerkt": "2026-09-01",
   "punten": {
+    "onbereikbaar|intergas-xtend|123Klimaatshop": {
+      "sinds": "2026-09-01",
+      "soort": "onbereikbaar",
+      "tekst": "intergas-xtend @ 123Klimaatshop: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|nibe-s2125|123Klimaatshop": {
+      "sinds": "2026-09-01",
+      "soort": "onbereikbaar",
+      "tekst": "nibe-s2125 @ 123Klimaatshop: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|panasonic-aquarea-l|123Klimaatshop": {
+      "sinds": "2026-09-01",
+      "soort": "onbereikbaar",
+      "tekst": "panasonic-aquarea-l @ 123Klimaatshop: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|remeha-elga-ace|123Klimaatshop": {
+      "sinds": "2026-09-01",
+      "soort": "onbereikbaar",
+      "tekst": "remeha-elga-ace @ 123Klimaatshop: fetch failed",
+      "bevestigd": false
+    },
     "te controleren|inventum-ecolution-combi|JCB Ventilatie": {
       "sinds": "2026-08-17",
       "soort": "te controleren",
@@ -16,7 +40,7 @@
     "verouderd|gree-versati-iv-10|MaxiCool": {
       "sinds": "2026-08-20",
       "soort": "verouderd",
-      "tekst": "gree-versati-iv-10 @ MaxiCool: €4850 (32 dagen)",
+      "tekst": "gree-versati-iv-10 @ MaxiCool: €4850 (33 dagen)",
       "bevestigd": true
     },
     "verouderd|weheat-blackbird|richtprijs": {
