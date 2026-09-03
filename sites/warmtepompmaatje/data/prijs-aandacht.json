@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-09-02",
+  "bijgewerkt": "2026-09-03",
   "punten": {
     "te controleren|inventum-ecolution-combi|JCB Ventilatie": {
       "sinds": "2026-08-17",
@@ -16,7 +16,7 @@
     "verouderd|gree-versati-iv-10|MaxiCool": {
       "sinds": "2026-08-20",
       "soort": "verouderd",
-      "tekst": "gree-versati-iv-10 @ MaxiCool: €4850 (34 dagen)",
+      "tekst": "gree-versati-iv-10 @ MaxiCool: €4850 (35 dagen)",
       "bevestigd": true
     },
     "verouderd|weheat-blackbird|richtprijs": {
@@ -29,7 +29,7 @@
       "sinds": "2026-09-02",
       "soort": "geweigerd",
       "tekst": "daikin-altherma-3 @ KliMate: HTTP 403",
-      "bevestigd": false
+      "bevestigd": true
     },
     "zonder prijs|gree-versati-iv-10|MaxiCool": {
       "sinds": "2026-08-21",
