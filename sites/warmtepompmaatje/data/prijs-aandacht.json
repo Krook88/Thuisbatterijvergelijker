@@ -1,6 +1,30 @@
 {
-  "bijgewerkt": "2026-09-22",
+  "bijgewerkt": "2026-09-23",
   "punten": {
+    "onbereikbaar|intergas-xtend|123Klimaatshop": {
+      "sinds": "2026-09-23",
+      "soort": "onbereikbaar",
+      "tekst": "intergas-xtend @ 123Klimaatshop: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|nibe-s2125|123Klimaatshop": {
+      "sinds": "2026-09-23",
+      "soort": "onbereikbaar",
+      "tekst": "nibe-s2125 @ 123Klimaatshop: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|panasonic-aquarea-l|123Klimaatshop": {
+      "sinds": "2026-09-23",
+      "soort": "onbereikbaar",
+      "tekst": "panasonic-aquarea-l @ 123Klimaatshop: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|remeha-elga-ace|123Klimaatshop": {
+      "sinds": "2026-09-23",
+      "soort": "onbereikbaar",
+      "tekst": "remeha-elga-ace @ 123Klimaatshop: fetch failed",
+      "bevestigd": false
+    },
     "onbereikbaar|stiebel-wpl-a07|Boilermarkt": {
       "sinds": "2026-09-15",
       "soort": "onbereikbaar",
@@ -22,13 +46,13 @@
     "verouderd|daikin-altherma-3|KliMate": {
       "sinds": "2026-09-22",
       "soort": "verouderd",
-      "tekst": "daikin-altherma-3 @ KliMate: €5414 (21 dagen)",
-      "bevestigd": false
+      "tekst": "daikin-altherma-3 @ KliMate: €5414 (22 dagen)",
+      "bevestigd": true
     },
     "verouderd|gree-versati-iv-10|MaxiCool": {
       "sinds": "2026-08-20",
       "soort": "verouderd",
-      "tekst": "gree-versati-iv-10 @ MaxiCool: €4850 (54 dagen)",
+      "tekst": "gree-versati-iv-10 @ MaxiCool: €4850 (55 dagen)",
       "bevestigd": true
     },
     "verouderd|weheat-blackbird|richtprijs": {
