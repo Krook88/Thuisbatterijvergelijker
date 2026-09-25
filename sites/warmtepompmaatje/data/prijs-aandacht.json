@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-09-24",
+  "bijgewerkt": "2026-09-25",
   "punten": {
     "onbereikbaar|stiebel-wpl-a07|Boilermarkt": {
       "sinds": "2026-09-15",
@@ -22,13 +22,13 @@
     "verouderd|daikin-altherma-3|KliMate": {
       "sinds": "2026-09-22",
       "soort": "verouderd",
-      "tekst": "daikin-altherma-3 @ KliMate: €5414 (23 dagen)",
+      "tekst": "daikin-altherma-3 @ KliMate: €5414 (24 dagen)",
       "bevestigd": true
     },
     "verouderd|gree-versati-iv-10|MaxiCool": {
       "sinds": "2026-08-20",
       "soort": "verouderd",
-      "tekst": "gree-versati-iv-10 @ MaxiCool: €4850 (56 dagen)",
+      "tekst": "gree-versati-iv-10 @ MaxiCool: €4850 (57 dagen)",
       "bevestigd": true
     },
     "verouderd|weheat-blackbird|richtprijs": {
