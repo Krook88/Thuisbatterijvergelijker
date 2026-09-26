@@ -596,6 +596,16 @@
       "lijkt_op": "bluetti-balco-500",
       "maat_uit_titel": "2.7648 kwh",
       "eerst_gezien": "2026-09-21"
+    },
+    {
+      "titel": "Zendure Solarflow 2400 AC",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000237435912/",
+      "ean": "6976552195942",
+      "prijs_eur": null,
+      "lijkt_op": "zendure-solarflow-2400-pro",
+      "maat_uit_titel": null,
+      "eerst_gezien": "2026-09-26"
     }
   ]
 }
