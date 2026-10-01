@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-09-30",
+  "bijgewerkt": "2026-10-01",
   "punten": {
     "onbereikbaar|canadian-solar-tophiku6-435|Off Grid Power Station": {
       "sinds": "2026-09-08",
@@ -34,13 +34,13 @@
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (71 dagen)",
+      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (72 dagen)",
       "bevestigd": true
     },
     "verouderd|canadian-solar-tophiku6-435|Off Grid Power Station": {
       "sinds": "2026-09-28",
       "soort": "verouderd",
-      "tekst": "canadian-solar-tophiku6-435 @ Off Grid Power Station: €119 (23 dagen)",
+      "tekst": "canadian-solar-tophiku6-435 @ Off Grid Power Station: €119 (24 dagen)",
       "bevestigd": true
     },
     "verouderd|denim-440-full-black|Feenstra": {
@@ -52,7 +52,7 @@
     "verouderd|deye-sg04lp1|Eigen Stroom Opslaan": {
       "sinds": "2026-09-17",
       "soort": "verouderd",
-      "tekst": "deye-sg04lp1 @ Eigen Stroom Opslaan: €1295 (34 dagen)",
+      "tekst": "deye-sg04lp1 @ Eigen Stroom Opslaan: €1295 (35 dagen)",
       "bevestigd": true
     },
     "verouderd|dmegc-440-glas-glas|Stroomwinkel": {
@@ -64,7 +64,7 @@
     "verouderd|growatt-min-xh|Winkelman Zonnepanelen": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "growatt-min-xh @ Winkelman Zonnepanelen: €546 (67 dagen)",
+      "tekst": "growatt-min-xh @ Winkelman Zonnepanelen: €546 (68 dagen)",
       "bevestigd": true
     },
     "verouderd|jinko-tiger-neo-440|GroothandelSolar": {
@@ -76,7 +76,7 @@
     "verouderd|maxeon-6-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "maxeon-6-440 @ richtprijs: €230 (71 dagen)",
+      "tekst": "maxeon-6-440 @ richtprijs: €230 (72 dagen)",
       "bevestigd": true
     },
     "verouderd|qcells-qtron-430|Zonnefabriek": {
@@ -106,7 +106,7 @@
     "verouderd|solarwatt-vision-am-425|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "solarwatt-vision-am-425 @ richtprijs: €140 (71 dagen)",
+      "tekst": "solarwatt-vision-am-425 @ richtprijs: €140 (72 dagen)",
       "bevestigd": true
     },
     "verouderd|solis-s6-hybride|VDH Power": {
@@ -124,7 +124,7 @@
     "verouderd|ulica-440-full-black|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "ulica-440-full-black @ richtprijs: €55 (71 dagen)",
+      "tekst": "ulica-440-full-black @ richtprijs: €55 (72 dagen)",
       "bevestigd": true
     },
     "zonder prijs|denim-440-full-black|Feenstra": {
