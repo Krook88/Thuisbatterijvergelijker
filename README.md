@@ -303,6 +303,56 @@ programmeren.
 | `scripts/vergelijkbaar.mjs` | een getal dat de gegevens in komt zonder dat vastligt wát het is |
 | `scripts/controleer-links.mjs --zonder-winkels` | links die nergens heen gaan, minus de winkels - die heeft het prijsscript net gehad |
 | `sites/<site>/scripts/nieuwe-modellen.mjs` | modellen bij winkels die wij nog niet hebben (`npm run nieuwe-modellen` in de map van de site) |
+| `scripts/bronnen-nakijken.mjs` | getallen die hun eigen bronpagina tegenspreken; hieronder uitgelegd |
+
+### Staan onze getallen nog op de pagina waar ze vandaan komen?
+
+`npm run bronnen` houdt elk na te kijken getal tegen de fabrikantpagina waar het
+vandaan komt. Dat is iets anders dan wat er al draaide: `controleer-links.mjs`
+kijkt of een `product_url` nog *bestaat*, en `verse-data.mjs` of de prijzen vers
+zijn. Of de *inhoud* achter die URL nog klopt met wat wij publiceren, controleerde
+niemand.
+
+Dat is de duurste onzichtbare fout die hier nog over was. Een fabrikant kan de
+URL houden en de SCOP herzien. En de zes Stiebel WPL-maten zijn met de hand uit
+een logboek overgenomen — zulke getallen horen controleerbaar te blijven, want ze
+zijn precies waarvoor iemand deze site gebruikt. Nu gaat het om 199 waarden
+(SCOP, geluid, aanvoertemperatuur, koudemiddel, garantie, capaciteit) over 99
+productpagina's bij 63 fabrikanten.
+
+Hij ankert elk getal aan een woord dat erbij hoort — "scop",
+"geluidsniveau", "aanvoertemperatuur" — en kijkt alleen in die zin of onze waarde
+er staat. Een getal los zoeken werkt niet: "57" staat op elke pagina wel ergens,
+en dan bevestigt de controle alles en betekent hij niets. Dat levert vier
+uitkomsten op, en juist het verschil ertussen is de hele waarde:
+
+| uitkomst | wat het betekent |
+| --- | --- |
+| bevestigd | het ankerwoord staat op de pagina en onze waarde staat erbij |
+| **afwijkend** | de pagina praat over de SCOP en noemt een ánder getal dan wij — hier moet iemand naar kijken |
+| geen bron | het ankerwoord staat er niet; de pagina zet die specificatie niet in tekst (een tabblad via javascript, of een pdf) |
+| geen productpagina | `product_url` noemt het product niet, meestal een homepage |
+
+Die laatste twee zijn geen fouten, en dat onderscheid is niet cosmetisch. Zonder
+de poort "noemt deze pagina het product eigenlijk?" zou elke regel waarvan
+`product_url` naar een homepage wijst — `solar.huawei.com/nl/`,
+`victronenergy.nl` — een afwijking melden, want "garantie" staat in elk menu en
+ons getal staat er nergens bij. Dan loopt de lijst binnen een week vol met
+pagina's die het goed doen, en een lijst die nooit leeg raakt leest niemand meer.
+Precies de reden waarom `zoekmachine.mjs` buiten de ketting staat.
+
+Draai hem niet hier maar via de werkstroom *Bronnen nakijken* (wekelijks op
+zondag, en met de hand te starten). De ontwikkelomgeving komt niet bij
+fabrikanten; `npm run bronnen -- --tellen` laat wél zien wát hij zou nakijken,
+zonder iets op te halen. Wekelijks en niet dagelijks omdat 99 pagina's bij 63
+fabrikanten ophalen die getallen niet sneller laat veranderen.
+
+Het vergelijken zelf staat apart in `scripts/bron-vergelijken.mjs`, met proeven
+op echte zinnen uit het logboek van de Stiebel-run. Dat is geen formaliteit: een
+vergelijking die te makkelijk "bevestigd" zegt maakt de hele controle waardeloos,
+en dat is aan de uitvoer niet te zien — die is dan juist mooi groen. Die proef
+vond ook meteen een fout, namelijk dat onze 4,5 de 4,50 van de pagina niet
+terugvond.
 
 `vergelijkbaar.mjs` verdient een toelichting, want hij bewaakt de duurste fout
 die deze sites kunnen maken. Vijf keer is hier een getal vergeleken met een getal
