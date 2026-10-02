@@ -105,15 +105,56 @@ for (const site of TE_DOEN) {
   //              leeft: aantal keer dat wegnemen verschil maakte }
   const boek = new Map();
 
+  /* Declaraties waarvan we al gezien hebben dat ze ergens winnen.
+   *
+   * Het oordeel verderop is `overruled === raakt`: alleen wat op élke pagina en
+   * élke breedte verliest wordt gemeld. Eén keer winnen sluit een declaratie
+   * dus definitief uit, en dan is verder meten verspilling - en niet zo'n
+   * beetje ook. Elke meting zet `!important` op de regel, leest de uitkomst
+   * terug en zet hem weer terug; dat zijn twee volledige stijlherberekeningen
+   * van het hele document per declaratie per pagina.
+   *
+   * Op zichzelf scheelt dat een vijfde van de looptijd (300 naar 247 seconden
+   * gemeten over de drie sites); het grootste deel zat in het laden van de
+   * pagina's, en dat lost de lus hieronder op. Wat er in de melding komt
+   * verandert er niet van. Een dode declaratie wint nergens, wordt dus nooit
+   * overgeslagen, en houdt zijn volledige telling "(op N pagina/breedte)";
+   * `boek.size` klopt ook nog, want een declaratie staat in het boek vanaf de
+   * eerste pagina waar hij voorkomt. */
+  const leeft = new Set();
+
   const breedtes = breedtesVan(root);
   for (const [, pad] of paginasVan(root)) {
     if (!existsSync(join(root, pad))) continue;
+    /* Eén pagina, zeven breedtes.
+     *
+     * Hier stond een `browser.newPage()` per breedte, en dus zeven keer laden
+     * van dezelfde pagina: 238 laadbeurten voor de drie sites, waarvan er 204
+     * hetzelfde document opnieuw ophaalden. Een mediaquery reageert gewoon op
+     * `setViewportSize`, daar is geen nieuw document voor nodig.
+     *
+     * Dat mag alleen omdat de meting hieronder zijn eigen rommel opruimt: elke
+     * declaratie die even `!important` krijgt, wordt meteen daarna op zijn
+     * oorspronkelijke voorrang teruggezet. Zou dat niet kloppen, dan sleepte de
+     * ene breedte zijn wijzigingen mee naar de volgende - en dan meet je je
+     * eigen vorige meting.
+     *
+     * Samen met de overslag hierboven: 300 seconden voor de drie sites, nu 110,
+     * met woord voor woord dezelfde uitkomst (329, 263 en 303 declaraties, alle
+     * drie schoon). Nagemeten door een regel toe te voegen die gegarandeerd
+     * verliest - `body { color: rgb(1, 2, 3) }` onderaan de stylesheet - en te
+     * kijken of hij nog gemeld wordt. Dat werd hij, op 70 pagina/breedte, wat
+     * ook klopt met tien pagina's maal zeven breedtes. */
+    const page = await browser.newPage({ viewport: { width: breedtes[0], height: 900 } });
+    await page.goto(`http://127.0.0.1:${poort}${pad}`, { waitUntil: "networkidle" });
     for (const breed of breedtes) {
-      const page = await browser.newPage({ viewport: { width: breed, height: 900 } });
-      await page.goto(`http://127.0.0.1:${poort}${pad}`, { waitUntil: "networkidle" });
+      await page.setViewportSize({ width: breed, height: 900 });
+      // Even laten zetten: een mediaquery herberekent direct, maar lettertypen
+      // en lui geladen beelden hebben een tel nodig voordat de layout stilstaat.
       await page.waitForTimeout(300);
 
-      const uit = await page.evaluate((props) => {
+      const uit = await page.evaluate(([props, alGezien]) => {
+        const overslaan = new Set(alGezien);
         // Toestand-pseudo's en pseudo-elementen kun je niet los meten; die
         // slaan we over in plaats van er een slag naar te slaan.
         const ONMEETBAAR = /::|:hover|:focus|:active|:visited|:target|:disabled|:checked|:placeholder|:required|:invalid|:valid|:in-range|:indeterminate|:default|:autofill/;
@@ -153,6 +194,9 @@ for (const site of TE_DOEN) {
           for (const prop of props) {
             const waarde = regel.style.getPropertyValue(prop);
             if (!waarde) continue;
+            const sleutel = `${kies} { ${prop}: ${waarde} }${media ? `   @media ${media}` : ""}`;
+            // Deze won elders al; meten kan het oordeel niet meer veranderen.
+            if (overslaan.has(sleutel)) continue;
             const voorrang = regel.style.getPropertyPriority(prop);
 
             /* Niet: "verandert er iets als ik hem weghaal" - dan meld je ook
@@ -173,7 +217,7 @@ for (const site of TE_DOEN) {
                iets. */
             const overruled = voor.length > 0 && voor.every((v, i) => v !== na[i]);
             resultaat.push({
-              sleutel: `${kies} { ${prop}: ${waarde} }${media ? `   @media ${media}` : ""}`,
+              sleutel,
               overruled,
               werd: voor[0],
               bedoeld: na[0],
@@ -181,16 +225,17 @@ for (const site of TE_DOEN) {
           }
         }
         return resultaat;
-      }, LETTEN_OP);
+      }, [LETTEN_OP, [...leeft]]);
 
       for (const r of uit) {
         const b = boek.get(r.sleutel) || { raakt: 0, overruled: 0, werd: r.werd, bedoeld: r.bedoeld };
         b.raakt++;
         if (r.overruled) { b.overruled++; b.werd = r.werd; b.bedoeld = r.bedoeld; }
+        else leeft.add(r.sleutel);
         boek.set(r.sleutel, b);
       }
-      await page.close();
     }
+    await page.close();
   }
   srv.close();
 

@@ -126,7 +126,8 @@
       "systeem_toeslag_eur": 150,
       "afbeelding": "assets/producten/apsystems-ds3.webp",
       "afbeelding_bron": "foto: APsystems",
-      "afbeelding_herkomst": "https://emea.apsystems.com/wp-content/uploads/2022/06/APsystems-microinverter-QT2-DS3.png"
+      "afbeelding_herkomst": "https://emea.apsystems.com/wp-content/uploads/2022/06/APsystems-microinverter-QT2-DS3.png",
+      "afbeelding_via": "https://emea.apsystems.com/nl/"
     },
     {
       "id": "solaredge-home-wave",
@@ -248,7 +249,8 @@
       "panelen_per_eenheid": null,
       "afbeelding": "assets/producten/sma-tripower-smart-energy.webp",
       "afbeelding_bron": "foto: SMA",
-      "afbeelding_herkomst": "https://www.sma.de/fileadmin/_processed_/9/c/csm_Sunny-Tripower-Smart-Energy_1200x630_689f3fe5f5.jpg"
+      "afbeelding_herkomst": "https://www.sma.de/fileadmin/_processed_/9/c/csm_Sunny-Tripower-Smart-Energy_1200x630_689f3fe5f5.jpg",
+      "afbeelding_via": "https://www.sma.de/en/products/hybrid-inverters/sunny-tripower-smart-energy"
     },
     {
       "id": "fronius-gen24",
@@ -432,7 +434,8 @@
       "panelen_per_eenheid": null,
       "afbeelding": "assets/producten/huawei-sun2000.webp",
       "afbeelding_bron": "foto: Huawei",
-      "afbeelding_herkomst": "https://solar.huawei.com/-/media/SolarV4/images/Professionals/AllProducts/Solution2/SmartPVController/Smart-PV-Controller-5.png"
+      "afbeelding_herkomst": "https://solar.huawei.com/-/media/SolarV4/images/Professionals/AllProducts/Solution2/SmartPVController/Smart-PV-Controller-5.png",
+      "afbeelding_via": "https://solar.huawei.com/nl"
     },
     {
       "id": "growatt-min-xh",
@@ -503,8 +506,9 @@
       },
       "panelen_per_eenheid": null,
       "afbeelding": "assets/producten/growatt-min-xh.webp",
-      "afbeelding_bron": "foto: Growatt",
-      "afbeelding_herkomst": "https://www.stralendgroen.nl/wp-content/uploads/2024/10/vooraanzicht-Growatt-MIN-XH-omvormer.png"
+      "afbeelding_bron": "foto: Stralend Groen",
+      "afbeelding_herkomst": "https://www.stralendgroen.nl/wp-content/uploads/2024/10/vooraanzicht-Growatt-MIN-XH-omvormer.png",
+      "afbeelding_via": "https://www.stralendgroen.nl/en/product/growatt-min-5000tl-xh-hybrid/"
     },
     {
       "id": "solis-s6-hybride",
@@ -633,7 +637,7 @@
       },
       "panelen_per_eenheid": null,
       "afbeelding": "assets/producten/sungrow-sh.webp",
-      "afbeelding_bron": "foto: Sungrow",
+      "afbeelding_bron": "foto: Coen+",
       "afbeelding_herkomst": "https://www.coen-plus.nl/media/catalog/product/cache/6517c62f5899ad6aa0ba23ceb3eeff97/s/u/sungrow_sh60rt_1.jpg"
     },
     {
