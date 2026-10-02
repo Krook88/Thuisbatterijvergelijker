@@ -700,7 +700,12 @@ ${kop("index", true)}
         ${specRij("Type", w.type === "hybride" ? "Hybride (naast de cv-ketel)" : "All-electric (van het gas af)")}
         ${specRij("Vermogen", w.vermogen_kw ? `${String(w.vermogen_kw).replace(".", ",")} kW${Condities.labelHtml("vermogen", w)}` : null)}
         ${specRij("Rendement (SCOP)", scopRij(w))}
-        ${specRij("Geluid buitenunit", w.geluid_db ? `${w.geluid_db} dB(A)${w.geluid_toelichting ? ` <small>(${esc(w.geluid_toelichting)})</small>` : ""}` : null)}
+        ${/* Het label hing vast op "buitenunit", en dat klopt niet voor een
+              pomp die helemaal binnen staat: de Inventum Ecolution Combi en de
+              Stiebel WPL ICS classic hebben er geen. Die kregen een
+              geluidswaarde onder een kopje over een onderdeel dat ze niet
+              hebben, en dat leest als een waarde op de erfgrens. */ ""}
+        ${specRij(heeftBuitenunit(w) ? "Geluid buitenunit" : "Geluid toestel", w.geluid_db ? `${w.geluid_db} dB(A)${w.geluid_toelichting ? ` <small>(${esc(w.geluid_toelichting)})</small>` : ""}` : null)}
         ${specRij("Koudemiddel", w.koudemiddel ? esc(w.koudemiddel) : null)}
         ${specRij("Warm tapwater", typeof w.tapwater === "string" ? esc(w.tapwater) : d3html(w.tapwater))}
         ${specRij("Maximale aanvoertemperatuur", w.max_aanvoer_c ? `${w.max_aanvoer_c} °C` : null)}
