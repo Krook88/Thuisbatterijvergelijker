@@ -257,8 +257,25 @@ door te bedenken wat het zou kunnen zijn.
 ## Publiceren
 
 Elke site heeft een eigen Vercel-project met **Root Directory** op zijn map in
-`sites/`. Een push publiceert de sites waar iets aan veranderd is; Vercel
-bepaalt dat zelf aan de hand van de gewijzigde paden.
+`sites/`:
+
+| Vercel-project | Root Directory | domein |
+| --- | --- | --- |
+| `batterijmaatje` | `sites/batterijmaatje` | batterijmaatje.nl |
+| `zonnestroommaatje` | `sites/zonnestroommaatje` | zonnestroommaatje.nl |
+| `warmtepompmaatje` | `sites/warmtepompmaatje` | warmtepompmaatje.nl |
+
+De eerste twee heetten tot 2 oktober 2026 nog `thuisbatterijvergelijker` en
+`zonnemaatje`, namen van vóór de rebranding. Dat las in het dashboard alsof er
+sites waren samengevoegd. De automatisch gegenereerde `*.vercel.app`-adressen
+houden hun oude naam; die zijn hernoemen niet waard, want er wijst niets naar.
+
+Hier stond dat een push alleen de sites publiceert waar iets aan veranderd is.
+Dat klopt niet: op 2 oktober maakten twee prijsruns zes publicaties aan, dus
+alle drie de projecten bouwen bij elke push. Voor statische sites zonder
+build-stap kost dat weinig, en het staat hier zodat de volgende die het opmerkt
+niet gaat zoeken naar een storing. Wil je het wel zo hebben, dan is
+*Ignored Build Step* per project de knop ervoor.
 
 ## Dagelijkse prijsupdate
 

@@ -255,6 +255,12 @@ node scripts/controleer-links.mjs --zonder-winkels  wat de workflow doet
 
 ## 7. Zustersites
 
-Kopieer `vercel.json` ongewijzigd naar `Krook88/Zonnemaatje` en `Krook88/Warmtepompmaatje`
-en doorloop stap 1 en 2 per repository met het bijbehorende domein
-(`zonnestroommaatje.nl`, `warmtepompmaatje.nl`).
+De drie sites staan inmiddels in één repository, elk met een eigen
+Vercel-project dat via **Root Directory** naar zijn map in `sites/` wijst. Er
+zijn dus geen losse repositories `Krook88/Zonnemaatje` en
+`Krook88/Warmtepompmaatje` meer; `vercel.json` staat per site in zijn eigen map
+en komt mee met die Root Directory.
+
+De projecten heten sinds 2 oktober 2026 naar hun site - `batterijmaatje`,
+`zonnestroommaatje`, `warmtepompmaatje` - in plaats van naar het domein waar ze
+ooit mee begonnen.
