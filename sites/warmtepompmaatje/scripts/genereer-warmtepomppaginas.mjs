@@ -550,7 +550,7 @@ ${kop("", false)}
   <h1>Monoblock of split?</h1>
   <p class="datum-stempel">Samengesteld uit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
-  <p class="intro">Dit is de eerste keuze nadat je besloten hebt dat je een warmtepomp wilt, en hij gaat over waar de techniek staat. Alle 30 pompen op deze site zijn lucht-water; het verschil zit in de opstelling. Bij een <b>monoblock</b> zit alles in de buitenunit en loopt er alleen water naar binnen. Bij een <b>split</b> staat er ook een unit binnen, met een koudemiddelleiding ertussen.</p>
+  <p class="intro">Dit is de eerste keuze nadat je besloten hebt dat je een warmtepomp wilt, en hij gaat over waar de techniek staat. Alle ${pompen.length} pompen op deze site zijn lucht-water; het verschil zit in de opstelling. Bij een <b>monoblock</b> zit alles in de buitenunit en loopt er alleen water naar binnen. Bij een <b>split</b> staat er ook een unit binnen, met een koudemiddelleiding ertussen.</p>
 
   <h2>Het verschil in één tabel</h2>
   <div class="tabel-wrap">

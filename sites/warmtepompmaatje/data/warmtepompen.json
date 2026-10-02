@@ -1717,6 +1717,115 @@
       "afbeelding_via": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-a-trend/wpl-a-13-2-trend-hk-400.html"
     },
     {
+      "merk": "Stiebel Eltron",
+      "type": "all-electric",
+      "koudemiddel": "R410A (GWP 2088)",
+      "max_aanvoer_c": 60,
+      "tapwater": "via een aparte boiler; Stiebel levert de serie ook als 'classic compact set' met binnenunit en boiler erbij",
+      "richtprijs_eur": null,
+      "prijs_toelichting": "alleen de warmtepomp, excl. installatie en boiler. Geen Nederlandse winkel met een opvraagbare prijs: Boilermarkt voert de serie wel, maar weigert geautomatiseerde verzoeken.",
+      "prijs_controle": "handmatig",
+      "sturing": {
+        "status": "deels",
+        "tekst": "Volgens de productpagina optioneel in het thuisnetwerk te integreren; dat loopt bij Stiebel via de aparte ISG-gateway, net als bij de WPL-A."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "De officiële integratie (stiebel_eltron) praat Modbus met de ISG-gateway. Die gateway is een los toestel en staat niet op de productpagina van deze serie, dus reken erop dat je hem erbij koopt."
+      },
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen app, en geen community-oplossing die ik voor deze serie heb kunnen vinden."
+      },
+      "app": "Stiebel Eltron ISG web (via de ISG-gateway)",
+      "scop_conditie": "35",
+      "vermogen_conditie": "Prated",
+      "scop_toelichting": "labelwaarde bij 35 °C aanvoer volgens EN 14825, opgave van de fabrikant",
+      "id": "stiebel-wpl-acs-classic",
+      "model": "WPL ACS classic",
+      "voorbeeld_variant": "WPL 13 ACS classic (monoblock buitenopstelling, 6 kW)",
+      "vermogen_kw": 6,
+      "scop": 4.5,
+      "geluid_db": 57,
+      "geluid_toelichting": "geluidsniveau buitenunit volgens EN 12102; de 07 en 09 zitten op 52 dB(A)",
+      "isde_indicatie_eur": 2575,
+      "isde_meldcode": "KA13063",
+      "product_url": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-acs-classic/wpl-13-acs-classic.html",
+      "opmerkingen": "De goedkope instap van Stiebel, en dat is precies wat deze serie is: invertergestuurd, buiten te plaatsen, tot 60 °C aanvoer. Het zwakke punt staat er wel bij: R410A heeft een broeikaseffect van 2088 keer CO2, waar de propaanpompen op deze site op 3 zitten. Lekt er koudemiddel, dan is dat een flink verschil, en de Europese afbouw van R410A betekent dat nieuw koudemiddel voor onderhoud in de loop der jaren duurder wordt. Stiebel heeft met de WPL-A een propaanserie die hoger aanvoert; die staat hier ook. De SCOP loopt niet netjes met de maat op: de 13 haalt 4,50 en de 17 zelfs 4,61, terwijl de 09 op 4,15 blijft. Nachtmodus (\"silent mode\") zit erin. De 17 is de enige met een opgegeven SCOP bij 55 °C: 3,29.",
+      "varianten": [
+        {
+          "vermogen_kw": 3,
+          "isde_eur": 1700,
+          "meldcode": "KA13061"
+        },
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 1925,
+          "meldcode": "KA13062"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA13063"
+        },
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA13072"
+        }
+      ]
+    },
+    {
+      "merk": "Stiebel Eltron",
+      "type": "all-electric",
+      "koudemiddel": "R410A (GWP 2088)",
+      "max_aanvoer_c": 60,
+      "tapwater": "via een aparte boiler; Stiebel levert de serie ook als 'classic compact set' met binnenunit en boiler erbij",
+      "richtprijs_eur": null,
+      "prijs_toelichting": "alleen de warmtepomp, excl. installatie en boiler. Geen Nederlandse winkel met een opvraagbare prijs: Boilermarkt voert de serie wel, maar weigert geautomatiseerde verzoeken.",
+      "prijs_controle": "handmatig",
+      "sturing": {
+        "status": "deels",
+        "tekst": "Volgens de productpagina optioneel in het thuisnetwerk te integreren; dat loopt bij Stiebel via de aparte ISG-gateway, net als bij de WPL-A."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "De officiële integratie (stiebel_eltron) praat Modbus met de ISG-gateway. Die gateway is een los toestel en staat niet op de productpagina van deze serie, dus reken erop dat je hem erbij koopt."
+      },
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen app, en geen community-oplossing die ik voor deze serie heb kunnen vinden."
+      },
+      "app": "Stiebel Eltron ISG web (via de ISG-gateway)",
+      "scop_conditie": "35",
+      "vermogen_conditie": "Prated",
+      "scop_toelichting": "labelwaarde bij 35 °C aanvoer volgens EN 14825, opgave van de fabrikant",
+      "id": "stiebel-wpl-ics-classic",
+      "model": "WPL ICS classic",
+      "voorbeeld_variant": "WPL 09 ICS classic (binnenopstelling, 4 kW)",
+      "vermogen_kw": 4,
+      "scop": 4.525,
+      "geluid_db": 45,
+      "geluid_toelichting": "geluidsniveau volgens EN 12102; het toestel staat binnen, dus buiten hoor je vooral de luchtgeleiding",
+      "isde_indicatie_eur": 2125,
+      "isde_meldcode": "KA09916",
+      "product_url": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-ics-classic/wpl-09-ics-classic.html",
+      "opmerkingen": "Dezelfde techniek als de WPL ACS classic, maar het hele toestel staat binnen: buiten zie je alleen de luchtroosters. Daarmee is dit een van de weinige antwoorden voor een rijtjeshuis waar de buren vlak naast je buitenunit zouden zitten - 45 dB(A) voor de 09 is de laagste waarde in deze vergelijking. Dat kost binnen wel ruimte: 173 kg en een kast ter grootte van een flinke koelkast, plus twee luchtkanalen door de muur. Hier geldt hetzelfde voorbehoud als bij de ACS: R410A, broeikaseffect 2088 keer CO2, en dat koudemiddel wordt in Europa afgebouwd. De 17 is met 51 dB(A) en 175 kg de grotere broer.",
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA09916"
+        },
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 2825,
+          "meldcode": "KA09917"
+        }
+      ],
+      "buitenunit": false
+    },
+    {
       "id": "bosch-compress-5800i-12",
       "merk": "Bosch",
       "model": "Compress 5800i AW 12",
