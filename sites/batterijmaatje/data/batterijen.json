@@ -1049,7 +1049,8 @@
           "winkel": "Warmteservice",
           "prijs_eur": 2383,
           "url": "https://www.warmteservice.nl/Duurzaam/Thuisbatterij/GoodWe-Lynx-Home-(U-serie)-thuisbatterij-lithium/p/09601000",
-          "datum": null
+          "datum": null,
+          "prijs_controle": "handmatig"
         }
       ],
       "totaalprijs_van_eur": null,

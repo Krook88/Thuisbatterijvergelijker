@@ -236,6 +236,23 @@ const paneelById = Object.fromEntries(data.panelen.map((p) => [p.id, p]));
 const volledigeNaam = (p) => p.model.toLowerCase().startsWith(p.merk.toLowerCase()) ? p.model : `${p.merk} ${p.model}`;
 
 
+/* Winkels die dit artikel nog voeren.
+ *
+ * Hier stond `p.aanbiedingen` onverkort, en dat betekende dat een winkel die
+ * het artikel niet meer verkoopt gewoon onder "Verkrijgbaar bij" bleef staan,
+ * met een werkende link erbij. Bij de AEG SolarCube wees die naar een pagina
+ * van AH die doorverwijst naar de homepage; bij de Canadian Solar naar een 404.
+ * De markup eronder klopte wel - die gebruikt Prijs.geldigeAanbiedingen - dus
+ * de pagina sprak zichzelf tegen: geen aanbieding in de structured data, wel
+ * een winkel in de lijst.
+ *
+ * Niet Prijs.geldigeAanbiedingen gebruiken: die eist ook een bedrag, en een
+ * winkel zonder bedrag is hier wel degelijk een adres waar je terecht kunt.
+ * Die krijgt "(prijsindicatie; klik voor de actuele prijs)" mee. */
+function teKoop(product) {
+  return (product.aanbiedingen || []).filter((a) => a && !Prijs.nietLeverbaar(a));
+}
+
 function productLd(p) {
   // Prijs.geldigeAanbiedingen en niet een eigen filter: dat sluit ook de
   // aanbiedingen uit die de winkel niet meer voert.
@@ -465,11 +482,11 @@ function pagina(p) {
 
   ${p.opmerkingen ? `<h2>Goed om te weten</h2><p>${esc(p.opmerkingen)}</p>` : ""}
 
-  ${(p.aanbiedingen || []).length ? `<h2>Verkrijgbaar bij</h2>
+  ${teKoop(p).length ? `<h2>Verkrijgbaar bij</h2>
   <ul>
-    ${p.aanbiedingen.map((a) => `<li><a href="${esc(a.affiliate_url || a.url)}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">${esc(a.winkel)}</a>: <b>${eur(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""} <span class="datum-stempel">${a.datum ? `(gecontroleerd ${esc(datumNL(a.datum))})` : "(prijsindicatie; klik voor de actuele prijs)"}</span></li>`).join("\n    ")}
+    ${teKoop(p).map((a) => `<li><a href="${esc(a.affiliate_url || a.url)}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">${esc(a.winkel)}</a>: <b>${eur(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""} <span class="datum-stempel">${a.datum ? `(gecontroleerd ${esc(datumNL(a.datum))})` : "(prijsindicatie; klik voor de actuele prijs)"}</span></li>`).join("\n    ")}
   </ul>
-  <p class="datum-stempel">De prijs op de website van de winkel is altijd leidend.${(p.aanbiedingen || []).some((a) => a.affiliate_url) ? " Sommige links zijn commissielinks: koop je via die link, dan ontvang ik een kleine vergoeding van de winkel. Dit kost jou niets en beïnvloedt mijn scores en volgorde niet." : ""}</p>` : ""}
+  <p class="datum-stempel">De prijs op de website van de winkel is altijd leidend.${teKoop(p).some((a) => a.affiliate_url) ? " Sommige links zijn commissielinks: koop je via die link, dan ontvang ik een kleine vergoeding van de winkel. Dit kost jou niets en beïnvloedt mijn scores en volgorde niet." : ""}</p>` : ""}
 
   ${VERGELIJKINGEN.filter((v) => v.a === p.id || v.b === p.id).length ? `<h2>Vergelijk met alternatieven</h2>
   <ul>
