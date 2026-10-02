@@ -842,7 +842,7 @@
       "fase": "3-fase",
       "richtprijs_eur": 2990,
       "prijs_omvat": "alleen batterijmodules (2x 4,6 kWh); Home Hub-omvormer (ca. 1.500 tot 2.500 euro) en installatie komen erbij",
-      "prijs_datum": "2026-08-28",
+      "prijs_datum": "2026-10-02",
       "prijs_bron": "Thuisbatterij Nederland",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Alleen te combineren met een SolarEdge Home Hub- of StorEdge-omvormer, DC-gekoppeld. Heb je panelen van een ander merk, dan moet de omvormer eruit. Let op: ook een oudere SolarEdge-omvormer zonder batterij-interface volstaat niet.",
@@ -860,7 +860,7 @@
           "winkel": "Thuisbatterij Nederland (per module 4,6 kWh: 1.495 euro)",
           "prijs_eur": 2990,
           "url": "https://thuisbatterijnederland.nl/product/solaredge-home-46-kwh-48v/",
-          "datum": "2026-08-28",
+          "datum": "2026-10-02",
           "prijs_controle": "handmatig"
         }
       ],
