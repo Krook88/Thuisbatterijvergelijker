@@ -420,6 +420,18 @@ de echte run wél iets leest. Dat is één keer misgegaan: bij Frank Energie
 meldde de diagnose "geen prijs" langs alle zes de routes, en met de naam erbij
 kwam de zichtbare-tekstroute gewoon met € 4.945.
 
+**En hij kan meer dan bedragen.** Met `--zoek "scop,dB(A),aanvoertemperatuur"`
+toont hij elk stuk zichtbare tekst waar een van die woorden in staat, met de
+zin eromheen. Dat is voor de andere vraag die deze omgeving niet kan
+beantwoorden: bij het opnemen van een nieuw model gaat het niet over de prijs
+maar over de SCOP, het geluidsvermogen en de maximale aanvoertemperatuur, en
+die staan in gewone zinnen op de fabrikantpagina. Voorheen moest dat met de
+hand uit een datasheet komen.
+
+Het kiest nog steeds niets. Een script dat zelf "SCOP 4,8" uit een zin vist,
+vist er vroeg of laat de SCOP van het verkeerde model uit - precies de fout
+waar `REDACTIE.md` een hoofdstuk over heeft.
+
 ### Een prijs die mensenwerk blijft
 
 Twee velden op een aanbieding zeggen tegen de dagelijkse ronde wat ze ermee aan

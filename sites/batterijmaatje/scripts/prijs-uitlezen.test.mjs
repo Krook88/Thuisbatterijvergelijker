@@ -36,6 +36,7 @@ import {
   toontExclBtw,
   controleerbaar,
   bedragenMetContext,
+  tekstMetContext,
 } from "./prijs-uitlezen.mjs";
 
 /* ------------------------------------------------------------------
@@ -345,4 +346,39 @@ test("bedragen in een script tellen niet mee, net als bij de zichtbare tekst", (
 
 test("een pagina zonder bedragen levert een lege lijst, geen fout", () => {
   assert.deepEqual(bedragenMetContext("<p>Tijdelijk uitverkocht</p>"), []);
+});
+
+test("tekstMetContext toont de zin waar een gezocht woord in staat", () => {
+  // Voor het opnemen van een nieuw model: de SCOP en het geluidsvermogen staan
+  // in gewone zinnen op de fabrikantpagina, niet in een prijsveld.
+  const html = `<p>De WPL 09 haalt een SCOP van 4,2 bij 35 graden aanvoer.</p>
+    <p>Het geluidsvermogen bedraagt 54 dB(A).</p>`;
+  const uit = tekstMetContext(html, ["scop", "dB(A)"]);
+  assert.equal(uit.length, 2);
+  assert.match(uit[0].context, /scop van 4,2 bij 35 graden/);
+  assert.match(uit[1].context, /54 db\(a\)/);
+});
+
+test("een woord dat er niet staat levert niets op", () => {
+  assert.deepEqual(tekstMetContext("<p>niets bijzonders</p>", ["scop"]), []);
+});
+
+test("scripts en stijl tellen niet mee, net als bij de bedragen", () => {
+  // Anders vind je het woord in een json-blok dat de bezoeker nooit ziet.
+  const html = `<script>var scop = 9.9;</script><p>SCOP 4,2 volgens het label.</p>`;
+  const uit = tekstMetContext(html, ["scop"]);
+  assert.equal(uit.length, 1);
+  assert.match(uit[0].context, /4,2 volgens het label/);
+});
+
+test("meer treffers van hetzelfde woord worden begrensd", () => {
+  const html = "<p>" + "scop ".repeat(40) + "</p>";
+  assert.ok(tekstMetContext(html, ["scop"], { maxPerWoord: 3 }).length <= 3);
+});
+
+test("de treffers staan op volgorde van de pagina", () => {
+  const html = `<p>eerst het geluid: 54 dB(A).</p><p>daarna de scop: 4,2.</p>`;
+  const uit = tekstMetContext(html, ["scop", "dB(A)"]);
+  assert.equal(uit[0].woord, "db(a)");
+  assert.equal(uit[1].woord, "scop");
 });

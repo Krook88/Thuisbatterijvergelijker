@@ -12,6 +12,12 @@ name: Wat staat er op een winkelpagina
 # Een runner komt er wel bij. Dezelfde reden waarom de prijsupdate een
 # droog-stand heeft.
 #
+# Met `zoek` doet hij er nog iets bij: elk stuk zichtbare tekst waar een van de
+# opgegeven woorden in staat, met de zin eromheen. Dat is voor de andere vraag
+# die deze omgeving niet kan beantwoorden - wat is de SCOP van deze pomp, hoeveel
+# dB(A) maakt de buitenunit - want die getallen staan op de fabrikantpagina en
+# niet in een prijsveld. Voorheen moest dat met de hand uit een datasheet komen.
+#
 # Schrijft niets weg, commit niets en duwt niets. Het antwoord staat in het
 # logboek en in de samenvatting van de run.
 
@@ -24,6 +30,10 @@ on:
         type: string
       naam:
         description: "Productnaam om op te mikken (bijvoorbeeld: Marstek Venus E 4.0)"
+        required: false
+        type: string
+      zoek:
+        description: "Woorden om naast de bedragen op te zoeken, met komma's (bijvoorbeeld: scop,dB(A),aanvoertemperatuur)"
         required: false
         type: string
 
@@ -53,4 +63,5 @@ jobs:
         env:
           URLS: ${{ inputs.urls }}
           NAAM: ${{ inputs.naam }}
+          ZOEK: ${{ inputs.zoek }}
         run: npm run winkelpagina

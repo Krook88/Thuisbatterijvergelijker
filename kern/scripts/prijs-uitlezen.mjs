@@ -662,6 +662,50 @@ export function bedragenMetContext(html, opties = {}) {
   return gevonden;
 }
 
+/**
+ * Elk stukje zichtbare tekst waar een van de gezochte woorden in staat, met de
+ * tekst eromheen.
+ *
+ * Waarom dit naast bedragenMetContext bestaat: dat laatste kijkt alleen naar
+ * euro's, en dat is precies wat je nodig hebt zolang de vraag over prijzen
+ * gaat. Bij het opnemen van een nieuw model gaat de vraag over iets anders -
+ * wat is de SCOP, hoeveel dB(A) maakt de buitenunit, tot hoeveel graden levert
+ * hij aan - en die getallen staan in gewone zinnen op de fabrikantpagina.
+ *
+ * De ontwikkelomgeving komt daar niet bij (de egress-proxy laat alleen npm en
+ * pypi door), dus dit draait op een runner, net als de prijsdiagnose. En net
+ * als daar geeft het geen oordeel: het toont wat er staat, en een mens leest
+ * het. Een script dat zelf "SCOP 4,8" uit een zin vist, vist er vroeg of laat
+ * de SCOP van het verkeerde model uit.
+ */
+export function tekstMetContext(html, woorden, opties = {}) {
+  const { breedte = 90, maxPerWoord = 6 } = opties;
+  const tekst = zichtbareTekst(html);
+  const uit = [];
+  for (const woord of woorden) {
+    const naald = String(woord || "").toLowerCase().trim();
+    if (!naald) continue;
+    let i = tekst.indexOf(naald);
+    let n = 0;
+    while (i >= 0 && n < maxPerWoord) {
+      const van = Math.max(0, i - breedte);
+      const tot = Math.min(tekst.length, i + naald.length + breedte);
+      const context = tekst.slice(van, tot).replace(/\s+/g, " ").trim();
+      // Twee treffers vlak naast elkaar leveren bijna dezelfde regel op, dus
+      // die slaan we over. Wel op woord én context: staan "scop" en "dB(A)" in
+      // dezelfde zin, dan is dat twee keer nieuws en niet één keer. Zonder dat
+      // onderscheid liet het ene zoekwoord het andere verdwijnen zodra ze
+      // dicht genoeg bij elkaar stonden.
+      if (!uit.some((r) => r.woord === naald && r.context === context)) {
+        uit.push({ woord: naald, positie: i, context });
+      }
+      n++;
+      i = tekst.indexOf(naald, i + naald.length);
+    }
+  }
+  return uit.sort((a, b) => a.positie - b.positie);
+}
+
 /* ------------------------------------------------------------------
    Wat een script überhaupt kan controleren
    ------------------------------------------------------------------ */

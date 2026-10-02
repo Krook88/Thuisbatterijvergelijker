@@ -40,6 +40,7 @@ import {
   prijsUitPagina,
   toontExclBtw,
   bedragenMetContext,
+  tekstMetContext,
 } from "../kern/scripts/prijs-uitlezen.mjs";
 import { appendFileSync } from "node:fs";
 
@@ -50,12 +51,24 @@ const MAX_BEDRAGEN = 60;
 
 const args = process.argv.slice(2);
 const naamIndex = args.findIndex((a) => a === "--naam");
+const zoekIndex = args.findIndex((a) => a === "--zoek");
+const zoekWaardeIndex = zoekIndex >= 0 ? zoekIndex + 1 : -1;
+/* Woorden om naast de bedragen op te zoeken, gescheiden door komma's.
+ *
+ * Hiervoor kon dit script alleen euro's laten zien, en dat is genoeg zolang de
+ * vraag over prijzen gaat. Bij het opnemen van een nieuw model gaat de vraag
+ * over SCOP, geluidsvermogen en aanvoertemperatuur, en die staan in gewone
+ * zinnen op de fabrikantpagina. Zonder dit moest iemand die specificaties met
+ * de hand overtypen uit een datasheet; nu haalt de runner de zin op en leest
+ * een mens hem na. Het script kiest nog steeds niets. */
+const ZOEK = String((zoekIndex >= 0 ? args[zoekWaardeIndex] : process.env.ZOEK) || "")
+  .split(",").map((w) => w.trim()).filter(Boolean);
 // Zonder --naam is naamIndex -1, en dan wijst naamIndex + 1 naar 0: het eerste
 // argument, meestal de enige URL. Vandaar apart, en niet als "de volgende".
 const naamWaardeIndex = naamIndex >= 0 ? naamIndex + 1 : -1;
 const NAAM = (naamIndex >= 0 ? args[naamWaardeIndex] : process.env.NAAM) || "";
 const urls = [
-  ...args.filter((a, i) => i !== naamIndex && i !== naamWaardeIndex && !a.startsWith("--")),
+  ...args.filter((a, i) => ![naamIndex, naamWaardeIndex, zoekIndex, zoekWaardeIndex].includes(i) && !a.startsWith("--")),
   // Uit de werkstroom komen ze als één tekstveld met een adres per regel.
   ...String(process.env.URLS || "").split(/[\s,]+/),
 ].map((u) => u.trim()).filter((u) => /^https?:\/\//.test(u));
@@ -63,6 +76,7 @@ const urls = [
 if (!urls.length) {
   console.error("Geef minstens één adres mee, of zet URLS in de omgeving.");
   console.error('  node scripts/winkelpagina.mjs https://winkel.nl/product --naam "Marstek Venus E 4.0"');
+  console.error('  node scripts/winkelpagina.mjs https://fabrikant.nl/pomp --zoek "scop,dB(A),aanvoertemperatuur"');
   process.exit(2);
 }
 
@@ -147,6 +161,13 @@ for (const url of urls) {
   }
   if (bedragen.length > MAX_BEDRAGEN) {
     console.log(`    (nog ${bedragen.length - MAX_BEDRAGEN} bedrag(en) niet getoond)`);
+  }
+
+  if (ZOEK.length) {
+    const treffers = tekstMetContext(uit.html, ZOEK);
+    console.log(`  ${treffers.length} treffer(s) op ${ZOEK.join(", ")}:`);
+    for (const t of treffers) console.log(`    ${t.woord.padEnd(14)} ...${t.context}...`);
+    if (!treffers.length) console.log("    (geen van die woorden staat in de zichtbare tekst)");
   }
 
   samenvatting.push([
