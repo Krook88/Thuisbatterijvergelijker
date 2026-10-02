@@ -595,6 +595,33 @@ ${voet(false)}
 `;
 }
 
+/* Wat er in de rij "Rendement (SCOP)" komt te staan.
+ *
+ * Zonder SCOP viel deze rij terug op `scop_toelichting`, en dat veld is bij de
+ * dertien pompen zonder getal geen toelichting op het rendement maar een
+ * omschrijving van het product. Op de Vitocal 150-A stond onder "Rendement
+ * (SCOP)" dus letterlijk "de toegankelijkere lijn naast de Vitocal 250-A,
+ * gericht op grotere woningen". Dat zegt niets over rendement en ziet er wél
+ * uit als een antwoord - erger dan een lege rij, want de bezoeker leest het als
+ * het getal dat hij zocht.
+ *
+ * Nu staat er eerst dat het getal er niet is. De toelichting mag er daarna
+ * achter, want soms zegt die wel iets: bij de Yutaki M staat er een reeks
+ * ("SCOP 3,9 tot 4,6 bij 35 graden aanvoer") en die is het waard om te tonen,
+ * alleen niet als vervanging van het ene vergelijkbare getal dat ontbreekt.
+ *
+ * Zeven van de dertien zijn hybrides, waar één SCOP ook inhoudelijk weinig
+ * betekent omdat de verhouding gas/elektra de uitkomst bepaalt. Die zouden een
+ * eigen formulering verdienen; dat is nog niet gedaan. */
+function scopRij(w) {
+  if (w.scop) {
+    return `${String(w.scop).replace(".", ",")}${Condities.labelHtml("scop", w)}`
+      + (w.scop_toelichting ? ` <small>(${esc(w.scop_toelichting)})</small>` : "");
+  }
+  const staart = w.scop_toelichting ? ` <small>(${esc(w.scop_toelichting)})</small>` : "";
+  return `<span class="hint">niet als één getal opgegeven</span>${staart}`;
+}
+
 function pompPagina(w) {
   const naam = volledigeNaam(w);
   const beste = bestePrijs(w);
@@ -672,7 +699,7 @@ ${kop("index", true)}
       <table class="spec-tabel">
         ${specRij("Type", w.type === "hybride" ? "Hybride (naast de cv-ketel)" : "All-electric (van het gas af)")}
         ${specRij("Vermogen", w.vermogen_kw ? `${String(w.vermogen_kw).replace(".", ",")} kW${Condities.labelHtml("vermogen", w)}` : null)}
-        ${specRij("Rendement (SCOP)", w.scop ? `${String(w.scop).replace(".", ",")}${Condities.labelHtml("scop", w)}${w.scop_toelichting ? ` <small>(${esc(w.scop_toelichting)})</small>` : ""}` : (w.scop_toelichting ? esc(w.scop_toelichting) : null))}
+        ${specRij("Rendement (SCOP)", scopRij(w))}
         ${specRij("Geluid buitenunit", w.geluid_db ? `${w.geluid_db} dB(A)${w.geluid_toelichting ? ` <small>(${esc(w.geluid_toelichting)})</small>` : ""}` : null)}
         ${specRij("Koudemiddel", w.koudemiddel ? esc(w.koudemiddel) : null)}
         ${specRij("Warm tapwater", typeof w.tapwater === "string" ? esc(w.tapwater) : d3html(w.tapwater))}

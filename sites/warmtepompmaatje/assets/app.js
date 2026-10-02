@@ -134,12 +134,17 @@
   function gesorteerd(lijst) {
     const kopie = [...lijst];
     const prijsVan = (w) => { const b = vergelijkPrijs(bestePrijs(w)); return b == null ? Infinity : b; };
+    const scopBekend = (w) => typeof w.scop === "number";
     switch (state.sortering) {
       case "prijs-oplopend": kopie.sort((a, b) => prijsVan(a) - prijsVan(b)); break;
       case "subsidie": kopie.sort((a, b) => (b.isde_indicatie_eur || 0) - (a.isde_indicatie_eur || 0)); break;
       // Onbekend onderaan, maar als onbekend en niet als "luid".
       case "geluid": kopie.sort((a, b) => (geluidBekend(a) && geluidBekend(b) ? a.geluid_db - b.geluid_db : geluidBekend(a) ? -1 : geluidBekend(b) ? 1 : 0)); break;
-      case "rendement": kopie.sort((a, b) => (b.scop || 0) - (a.scop || 0)); break;
+      // Zelfde reden als bij geluid hierboven: dertien van de dertig pompen
+      // hebben geen SCOP, en met `|| 0` zakten die naar de bodem alsof ze een
+      // rendement van nul hebben. Een pomp waarvan de fabrikant het getal niet
+      // publiceert is niet de slechtste van de lijst; hij is onbekend.
+      case "rendement": kopie.sort((a, b) => (scopBekend(a) && scopBekend(b) ? b.scop - a.scop : scopBekend(a) ? -1 : scopBekend(b) ? 1 : 0)); break;
       case "koppel-score": kopie.sort((a, b) => koppelScore(b) - koppelScore(a) || prijsVan(a) - prijsVan(b)); break;
     }
     return kopie;
