@@ -225,13 +225,15 @@
           "winkel": "Memodo",
           "prijs_eur": 1750,
           "url": "https://www.memodo.nl/omvormers/sma/7179/sma-hybride-sunny-tripower-5.0-smart-energy",
-          "datum": null
+          "datum": null,
+          "niet_leverbaar": true
         },
         {
           "winkel": "Volt-shop",
           "prijs_eur": 1800,
           "url": "https://volt-shop.nl/product/sma-sunny-tripower-5-0-wifi-smart-energy-hybride-omvormer/",
-          "datum": null
+          "datum": null,
+          "niet_leverbaar": true
         }
       ],
       "samensteller": {
@@ -478,7 +480,8 @@
           "winkel": "Winkelman Zonnepanelen",
           "prijs_eur": 546,
           "url": "https://www.winkelman-zonnepanelen.nl/growatt-min-5000tl-xh-1-fase-omvormer-hybride.html",
-          "datum": "2026-07-25"
+          "datum": "2026-07-25",
+          "niet_leverbaar": true
         },
         {
           "winkel": "WarmteBeheer",
@@ -676,7 +679,8 @@
           "prijs_eur": 1295,
           "url": "https://eigenstroomopslaan.nl/product/deye-inverter-sun-5k-sg03-lp1eu/",
           "datum": "2026-08-27",
-          "btw_inbegrepen": false
+          "btw_inbegrepen": false,
+          "niet_leverbaar": true
         }
       ],
       "prijs_datum": "2026-08-27",

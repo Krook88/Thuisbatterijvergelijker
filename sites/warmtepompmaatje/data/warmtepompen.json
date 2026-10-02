@@ -522,7 +522,8 @@
           "winkel": "KliMate",
           "url": "https://www.klimate.nl/daikin-altherma-3-r-w-lucht-water-warmtepomp-split-unit-6-kw.html",
           "prijs_eur": 5414,
-          "datum": "2026-09-01"
+          "datum": "2026-09-01",
+          "prijs_controle": "handmatig"
         }
       ],
       "prijs_datum": "2026-09-01",
@@ -893,7 +894,8 @@
           "winkel": "Boilermarkt",
           "prijs_eur": 7950,
           "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-WPL-A-07-HK-230-Premium-lucht-water-warmtepomp-6-87-kW/",
-          "datum": "2026-09-14"
+          "datum": "2026-09-14",
+          "niet_leverbaar": true
         },
         {
           "winkel": "Wasco",
@@ -1159,7 +1161,8 @@
           "winkel": "MaxiCool",
           "prijs_eur": 4850,
           "url": "https://www.maxicool.nl/nl_NL/p/tosot-by-gree-versati-iv-monobloc-warmtepomp-400v-r32-10-kw/28816/",
-          "datum": "2026-07-30"
+          "datum": "2026-07-30",
+          "prijs_controle": "handmatig"
         }
       ],
       "prijs_datum": "2026-10-02",

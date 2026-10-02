@@ -267,7 +267,8 @@
           "winkel": "Off Grid Power Station",
           "prijs_eur": 119,
           "url": "https://offgridpowerstation.eu/product/canadian-solar-435wp-full-black-frame/",
-          "datum": "2026-09-07"
+          "datum": "2026-09-07",
+          "niet_leverbaar": true
         }
       ]
     },
