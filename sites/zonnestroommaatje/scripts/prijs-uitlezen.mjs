@@ -725,3 +725,58 @@ export function controleerbaar(bron) {
   if (bron.prijs_controle === "handmatig") return false;
   return typeof (bron.url || bron.prijs_bron_url) === "string";
 }
+
+/**
+ * De links op een pagina, met de linktekst erbij.
+ *
+ * Waarom dit erbij hoort. tekstMetContext haalde de WPL ACS Classic-familie
+ * netjes van de Stiebel-categoriepagina - "wpl 07 acs classic compact set 1.1"
+ * tot en met de 17 - maar daarmee had ik de namen en niet de adressen, en de
+ * specificaties staan op de productpagina's. Het alternatief was adressen
+ * raden, en dat kostte eerst een 404 op een verzonnen pad en daarna twee
+ * runs op een pagina die wel 200 teruggaf maar de familie-introductie bleek:
+ * Stiebel stuurt bij een onbekend pad geen 404 maar een vangnetpagina, dus aan
+ * de statuscode zie je niet of je goed zat. Raden is hier dus niet alleen
+ * duur, het is ook niet te controleren.
+ *
+ * Met de links erbij is het één run: lees de categoriepagina, pak de adressen
+ * die bij de namen horen, lees die. Dat is precies het pad dat een mens met een
+ * browser zou lopen.
+ *
+ * Relatieve adressen worden tegen `basis` opgelost, want een categoriepagina
+ * linkt vrijwel nooit absoluut. Lukt dat niet, dan valt de link weg in plaats
+ * van als half adres in het logboek te belanden.
+ */
+export function linksMetTekst(html, patroon = "", opties = {}) {
+  const { max = 80 } = opties;
+  const { basis } = opties;
+  const naald = String(patroon || "").toLowerCase().trim();
+  const uit = [];
+  const gezien = new Set();
+  const re = /<a\b[^>]*\bhref\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)[^>]*>([\s\S]*?)<\/a>/gi;
+  let m;
+  while ((m = re.exec(String(html))) !== null && uit.length < max) {
+    const ruw = m[1].replace(/^['"]|['"]$/g, "").trim();
+    // Ankers en javascript:-links wijzen niet naar een andere pagina.
+    if (!ruw || /^(#|javascript:|mailto:|tel:)/i.test(ruw)) continue;
+    let url = ruw;
+    if (basis) {
+      try {
+        url = new URL(ruw, basis).toString();
+      } catch {
+        continue;
+      }
+    } else if (!/^https?:\/\//i.test(ruw)) {
+      continue;
+    }
+    const tekst = m[2].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    // Het patroon mag op het adres of op de linktekst slaan. Een menu noemt het
+    // model vaak alleen in de tekst, en een adres bevat de naam soms juist
+    // terwijl de link een plaatje is en dus geen tekst heeft.
+    if (naald && !url.toLowerCase().includes(naald) && !tekst.toLowerCase().includes(naald)) continue;
+    if (gezien.has(url)) continue;
+    gezien.add(url);
+    uit.push({ url, tekst });
+  }
+  return uit;
+}

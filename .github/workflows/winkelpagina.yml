@@ -18,6 +18,14 @@ name: Wat staat er op een winkelpagina
 # dB(A) maakt de buitenunit - want die getallen staan op de fabrikantpagina en
 # niet in een prijsveld. Voorheen moest dat met de hand uit een datasheet komen.
 #
+# Met `links` toont hij de adressen op de pagina waar een stuk tekst in staat.
+# Dat is voor de stap ervoor: `zoek` haalde de hele WPL ACS Classic-familie van
+# de Stiebel-categoriepagina, maar dat zijn namen en geen adressen, en de
+# specificaties staan een pagina verder. Adressen raden werkt hier niet - Stiebel
+# stuurt bij een onbekend pad geen 404 maar een vangnetpagina, dus aan de
+# statuscode zie je niet of je goed zat. Nu is het één run: categoriepagina
+# lezen, adressen eruit, die lezen.
+#
 # Schrijft niets weg, commit niets en duwt niets. Het antwoord staat in het
 # logboek en in de samenvatting van de run.
 
@@ -34,6 +42,10 @@ on:
         type: string
       zoek:
         description: "Woorden om naast de bedragen op te zoeken, met komma's (bijvoorbeeld: scop,dB(A),aanvoertemperatuur)"
+        required: false
+        type: string
+      links:
+        description: "Toon de links op de pagina waar dit stuk tekst in staat (bijvoorbeeld: acs-classic)"
         required: false
         type: string
 
@@ -64,4 +76,5 @@ jobs:
           URLS: ${{ inputs.urls }}
           NAAM: ${{ inputs.naam }}
           ZOEK: ${{ inputs.zoek }}
+          LINKS: ${{ inputs.links }}
         run: npm run winkelpagina

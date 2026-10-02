@@ -24,6 +24,7 @@
  * Schrijft niets weg en raakt geen enkel gegevensbestand aan.
  *
  *   node scripts/winkelpagina.mjs <url> [<url>...] [--naam "Marstek Venus E 4.0"]
+ *                                  [--zoek "scop,dB(A)"] [--links "acs-classic"]
  */
 
 import {
@@ -41,6 +42,7 @@ import {
   toontExclBtw,
   bedragenMetContext,
   tekstMetContext,
+  linksMetTekst,
 } from "../kern/scripts/prijs-uitlezen.mjs";
 import { appendFileSync } from "node:fs";
 
@@ -50,9 +52,27 @@ import { appendFileSync } from "node:fs";
 const MAX_BEDRAGEN = 60;
 
 const args = process.argv.slice(2);
-const naamIndex = args.findIndex((a) => a === "--naam");
-const zoekIndex = args.findIndex((a) => a === "--zoek");
-const zoekWaardeIndex = zoekIndex >= 0 ? zoekIndex + 1 : -1;
+
+/* Een vlag met zijn waarde uit de argumenten halen, en beide weghalen zodat wat
+   overblijft de adressen zijn.
+ *
+ * Hier stond een rij losse indexen (naamIndex, zoekIndex, zoekWaardeIndex) en
+ * een filter dat ze allemaal moest uitsluiten. Dat werkte, maar bij elke nieuwe
+ * vlag moest die lijst mee groeien, en vergeet je er een, dan komt de waarde
+ * van die vlag als adres in de lijst terecht - stil, want een niet-adres valt
+ * er daarna toch weer uit. Eén plek die het afhandelt kan dat niet vergeten. */
+function vlag(naam, omgeving) {
+  const i = args.indexOf(`--${naam}`);
+  // Zonder de vlag is i -1, en dan wijst i + 1 naar het eerste argument: meestal
+  // de enige URL. Vandaar de vraag apart, en niet "de volgende".
+  if (i < 0) return process.env[omgeving] || "";
+  const waarde = args[i + 1] || "";
+  args.splice(i, waarde.startsWith("--") ? 1 : 2);
+  return waarde.startsWith("--") ? "" : waarde;
+}
+
+const NAAM = vlag("naam", "NAAM");
+
 /* Woorden om naast de bedragen op te zoeken, gescheiden door komma's.
  *
  * Hiervoor kon dit script alleen euro's laten zien, en dat is genoeg zolang de
@@ -61,14 +81,22 @@ const zoekWaardeIndex = zoekIndex >= 0 ? zoekIndex + 1 : -1;
  * zinnen op de fabrikantpagina. Zonder dit moest iemand die specificaties met
  * de hand overtypen uit een datasheet; nu haalt de runner de zin op en leest
  * een mens hem na. Het script kiest nog steeds niets. */
-const ZOEK = String((zoekIndex >= 0 ? args[zoekWaardeIndex] : process.env.ZOEK) || "")
-  .split(",").map((w) => w.trim()).filter(Boolean);
-// Zonder --naam is naamIndex -1, en dan wijst naamIndex + 1 naar 0: het eerste
-// argument, meestal de enige URL. Vandaar apart, en niet als "de volgende".
-const naamWaardeIndex = naamIndex >= 0 ? naamIndex + 1 : -1;
-const NAAM = (naamIndex >= 0 ? args[naamWaardeIndex] : process.env.NAAM) || "";
+const ZOEK = vlag("zoek", "ZOEK").split(",").map((w) => w.trim()).filter(Boolean);
+
+/* Welke links het logboek moet tonen, als stuk tekst dat in het adres of in de
+   linktekst voorkomt.
+ *
+ * Waarom dit erbij hoort: --zoek haalde de hele WPL ACS Classic-familie van de
+ * Stiebel-categoriepagina, maar dat leverde namen op en geen adressen, en de
+ * specificaties staan een pagina verder. Adressen raden kostte eerst een 404 op
+ * een verzonnen pad en daarna twee runs op een vangnetpagina die wel 200
+ * teruggaf - Stiebel stuurt bij een onbekend pad geen 404 - dus aan de
+ * statuscode zie je niet eens of je goed zat. Met de links erbij is het één
+ * run: categoriepagina lezen, adressen eruit, die lezen. */
+const LINKS = vlag("links", "LINKS");
+
 const urls = [
-  ...args.filter((a, i) => ![naamIndex, naamWaardeIndex, zoekIndex, zoekWaardeIndex].includes(i) && !a.startsWith("--")),
+  ...args.filter((a) => !a.startsWith("--")),
   // Uit de werkstroom komen ze als één tekstveld met een adres per regel.
   ...String(process.env.URLS || "").split(/[\s,]+/),
 ].map((u) => u.trim()).filter((u) => /^https?:\/\//.test(u));
@@ -77,6 +105,7 @@ if (!urls.length) {
   console.error("Geef minstens één adres mee, of zet URLS in de omgeving.");
   console.error('  node scripts/winkelpagina.mjs https://winkel.nl/product --naam "Marstek Venus E 4.0"');
   console.error('  node scripts/winkelpagina.mjs https://fabrikant.nl/pomp --zoek "scop,dB(A),aanvoertemperatuur"');
+  console.error('  node scripts/winkelpagina.mjs https://fabrikant.nl/pompen --links "acs-classic"');
   process.exit(2);
 }
 
@@ -161,6 +190,13 @@ for (const url of urls) {
   }
   if (bedragen.length > MAX_BEDRAGEN) {
     console.log(`    (nog ${bedragen.length - MAX_BEDRAGEN} bedrag(en) niet getoond)`);
+  }
+
+  if (LINKS) {
+    const links = linksMetTekst(uit.html, LINKS, { basis: url });
+    console.log(`  ${links.length} link(s) met "${LINKS}" erin:`);
+    for (const l of links) console.log(`    ${l.url}\n      ${l.tekst || "(geen linktekst)"}`);
+    if (!links.length) console.log("    (geen link met dat stuk tekst erin)");
   }
 
   if (ZOEK.length) {

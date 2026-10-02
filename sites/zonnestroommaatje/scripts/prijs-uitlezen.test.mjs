@@ -37,6 +37,7 @@ import {
   controleerbaar,
   bedragenMetContext,
   tekstMetContext,
+  linksMetTekst,
 } from "./prijs-uitlezen.mjs";
 
 /* ------------------------------------------------------------------
@@ -381,4 +382,55 @@ test("de treffers staan op volgorde van de pagina", () => {
   const uit = tekstMetContext(html, ["scop", "dB(A)"]);
   assert.equal(uit[0].woord, "db(a)");
   assert.equal(uit[1].woord, "scop");
+});
+
+/* ------------------------------------------------------------------
+   linksMetTekst
+   ------------------------------------------------------------------ */
+
+const CATEGORIE = `
+  <nav><a href="#top">Naar boven</a><a href="javascript:void(0)">Menu</a></nav>
+  <ul>
+    <li><a href="/nl/producten/wpl-07-acs-classic.html">WPL 07 ACS Classic Compact Set 1.1</a></li>
+    <li><a href='/nl/producten/wpl-09-acs-classic.html'>WPL 09 ACS <b>Classic</b> Compact Set 1.1</a></li>
+    <li><a href="https://www.elders.nl/wpl-13">WPL 13 elders</a></li>
+    <li><a href="/nl/producten/wpl-07-acs-classic.html">nog een keer dezelfde</a></li>
+    <li><a href="/nl/service/garantie.html">Garantie</a></li>
+  </ul>`;
+
+const BASIS = "https://www.stiebel-eltron.nl/nl/producten/lucht-water-warmtepompen.html";
+
+test("relatieve adressen worden tegen de basis opgelost", () => {
+  const links = linksMetTekst(CATEGORIE, "wpl-09", { basis: BASIS });
+  assert.equal(links.length, 1);
+  assert.equal(links[0].url, "https://www.stiebel-eltron.nl/nl/producten/wpl-09-acs-classic.html");
+});
+
+test("de linktekst komt zonder opmaak terug", () => {
+  // <b>Classic</b> middenin de tekst mag geen tags in het logboek opleveren.
+  const links = linksMetTekst(CATEGORIE, "wpl-09", { basis: BASIS });
+  assert.equal(links[0].tekst, "WPL 09 ACS Classic Compact Set 1.1");
+});
+
+test("het patroon slaat op het adres of op de linktekst", () => {
+  // "elders" staat alleen in het adres, "Garantie" alleen in de tekst.
+  assert.equal(linksMetTekst(CATEGORIE, "elders", { basis: BASIS }).length, 1);
+  assert.equal(linksMetTekst(CATEGORIE, "garantie", { basis: BASIS }).length, 1);
+});
+
+test("ankers, javascript en mailto wijzen niet naar een pagina", () => {
+  const alles = linksMetTekst(CATEGORIE, "", { basis: BASIS });
+  assert.ok(!alles.some((l) => /#top|javascript:/i.test(l.url)));
+});
+
+test("hetzelfde adres komt één keer terug", () => {
+  // De 07 staat twee keer in de lijst, met verschillende linktekst.
+  const links = linksMetTekst(CATEGORIE, "wpl-07", { basis: BASIS });
+  assert.equal(links.length, 1);
+});
+
+test("zonder basis blijven alleen absolute adressen over", () => {
+  // Anders staat er "/nl/producten/..." in het logboek, en daar kun je niets mee.
+  const links = linksMetTekst(CATEGORIE, "wpl");
+  assert.deepEqual(links.map((l) => l.url), ["https://www.elders.nl/wpl-13"]);
 });
