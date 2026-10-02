@@ -434,3 +434,10 @@ test("zonder basis blijven alleen absolute adressen over", () => {
   const links = linksMetTekst(CATEGORIE, "wpl");
   assert.deepEqual(links.map((l) => l.url), ["https://www.elders.nl/wpl-13"]);
 });
+
+test("entiteiten in de linktekst worden opgelost", () => {
+  // Stiebel schrijft "4,06&nbsp;kW WPL 09 ACS classic" in de linktekst.
+  const html = '<a href="/p/wpl-09.html">4,06&nbsp;kW WPL 09 ACS classic</a>';
+  const links = linksMetTekst(html, "wpl-09", { basis: "https://x.nl/a/b.html" });
+  assert.equal(links[0].tekst, "4,06 kW WPL 09 ACS classic");
+});

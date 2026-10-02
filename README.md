@@ -432,6 +432,27 @@ Het kiest nog steeds niets. Een script dat zelf "SCOP 4,8" uit een zin vist,
 vist er vroeg of laat de SCOP van het verkeerde model uit - precies de fout
 waar `REDACTIE.md` een hoofdstuk over heeft.
 
+**En met `--links "acs-classic"` toont hij de adressen op de pagina** waar dat
+stuk tekst in het adres of in de linktekst staat, relatief adres opgelost tegen
+de pagina zelf. Dat is de stap vóór `--zoek`: die laatste gaf op de
+Stiebel-categoriepagina netjes de hele WPL ACS classic-familie, maar dat zijn
+namen en geen adressen, en de specificaties staan een pagina verder.
+
+Raden werkt daar niet. Een verzonnen pad gaf eerst een 404, en daarna bleek dat
+Stiebel bij een onbekend adres helemaal geen 404 stuurt maar een vangnetpagina:
+twee volgende gokken kwamen met een nette 200 terug, met de familie-introductie
+erop in plaats van specificaties. Aan de statuscode zie je dus niet of je goed
+zat, en dan is raden niet alleen duur maar ook niet te controleren. Met de links
+erbij is het één run: categoriepagina lezen, adressen eruit, die lezen. Dat is
+het pad dat een mens met een browser ook zou lopen, en zo kwamen de SCOP, het
+geluidsvermogen en het koudemiddel van alle zes WPL-maten in één keer binnen.
+
+**Twee winkels weigeren een runner,** en dat scheelt van een storing: Boilermarkt
+geeft HTTP 500 op elk adres dat ik probeerde, bol.com geeft 403. Dat is geen
+kapot script en ook geen verlopen URL. Voor bol betekent het dat de
+kandidatenlijst van batterijmaatje - die vrijwel helemaal uit bol-adressen
+bestaat - niet via deze werkstroom na te kijken is.
+
 ### Een prijs die mensenwerk blijft
 
 Twee velden op een aanbieding zeggen tegen de dagelijkse ronde wat ze ermee aan

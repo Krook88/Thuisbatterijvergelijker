@@ -769,7 +769,14 @@ export function linksMetTekst(html, patroon = "", opties = {}) {
     } else if (!/^https?:\/\//i.test(ruw)) {
       continue;
     }
-    const tekst = m[2].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    // Entiteiten eerst, net als in zichtbareTekst: Stiebel schrijft "4,06&nbsp;kW"
+    // in de linktekst, en onopgelost staat dat zo in het logboek.
+    const tekst = m[2]
+      .replace(/<[^>]+>/g, " ")
+      .replace(/&nbsp;|&#160;/gi, " ")
+      .replace(/&amp;/gi, "&")
+      .replace(/\s+/g, " ")
+      .trim();
     // Het patroon mag op het adres of op de linktekst slaan. Een menu noemt het
     // model vaak alleen in de tekst, en een adres bevat de naam soms juist
     // terwijl de link een plaatje is en dus geen tekst heeft.
