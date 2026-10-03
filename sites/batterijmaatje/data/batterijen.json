@@ -24,7 +24,7 @@
       "app": "Marstek app",
       "garantie_jaar": 10,
       "cycli": 6000,
-      "opmerkingen": "Het werkpaard onder de plug-ins: hij handelt zelf op dynamische prijzen, heeft een back-up stopcontact (2,5 kW off-grid) en staat met LiFePO4-cellen en IP65 ook buiten droog. Wil je meer opslag, dan kost een set van 3 units (15,36 kWh) circa 3.799 euro. Wacht je liever op de opvolger: de Venus E 4.0 staat sinds medio juli in pre-order, met levering rond begin augustus 2026 (zie het aparte item). De 3.0 blijft voorlopig gewoon leverbaar.",
+      "opmerkingen": "Hij handelt zelf op dynamische prijzen, heeft een back-up stopcontact (2,5 kW off-grid) en staat met LiFePO4-cellen en IP65 ook buiten droog. Wil je meer opslag, dan kost een set van 3 units (15,36 kWh) circa 3.799 euro. De opvolger, de Venus E 4.0, is sinds juli 2026 te bestellen, met levering in december 2026 volgens Marstek.nl (zie het aparte item). De 3.0 kun je nu gewoon kopen en hebben.",
       "product_url": "https://www.marstek.nl/marstek-venus-e-3-0-thuisbatterij/",
       "aanbiedingen": [
         {
@@ -131,7 +131,7 @@
       "app": "Sessy app",
       "garantie_jaar": 10,
       "cycli": 6000,
-      "opmerkingen": "Nederlands fabrikaat, gebouwd door Charged B.V. in Enschede. Hij handelt zelf op EPEX-uurprijzen en doet mee op de onbalansmarkt, en laat zich ook aansturen via Frank Energie Slim Handelen. De garantie is opgesplitst: 10 jaar op de batterij, 5 jaar op de omvormer. Inmiddels is er de Sessy 2.0, die stiller is en beter koelt, en een 10 kWh-uitvoering (adviesprijs 5.500 euro incl. btw, zonder installatie). Heb je noodstroom nodig, dan is het wachten op de aangekondigde Sessy Plus (15 kWh), met eerste leveringen vanaf oktober 2026. Sessy geeft 5 kWh op als bruikbare opslagcapaciteit.",
+      "opmerkingen": "Nederlands fabrikaat, gebouwd door Charged B.V. in Enschede. Hij handelt zelf op EPEX-uurprijzen en doet mee op de onbalansmarkt, en laat zich ook aansturen via Frank Energie Slim Handelen. De garantie is opgesplitst: 10 jaar op de batterij, 5 jaar op de omvormer. Inmiddels is er de Sessy 2.0, die stiller is en beter koelt, en een 10 kWh-uitvoering (adviesprijs 5.500 euro incl. btw, zonder installatie). Heb je noodstroom nodig, dan is het wachten op de Sessy Plus (15 kWh, adviesprijs 9.400 euro incl. btw); die stond op 3 oktober 2026 nog in de voorverkoop. Sessy geeft 5 kWh op als bruikbare opslagcapaciteit.",
       "product_url": "https://www.sessy.nl/sessy-5-kwh/",
       "aanbiedingen": [
         {
@@ -1776,7 +1776,7 @@
       "app": "Marstek app",
       "garantie_jaar": null,
       "cycli": "meer dan 10.000 (fabrieksopgave)",
-      "opmerkingen": "Nog in pre-order: dit is de opvolger van de Venus E 3.0, sinds medio juli 2026 te bestellen. De eerste leveringen worden rond begin augustus verwacht, al noemen sommige winkels september of later. Hij laadt en ontlaadt met 3 kW en gebruikt 314 Ah-cellen. Omdat het model zo nieuw is, staan garantie, IP-klasse, noodstroom en Homey- of Home Assistant-ondersteuning hier nog open. De community-integraties voor de Venus-serie werken mogelijk ook op de 4.0, maar dat was in juli 2026 nog niet bevestigd.",
+      "opmerkingen": "De opvolger van de Venus E 3.0, sinds juli 2026 te bestellen maar nog niet te krijgen. Eerst werd begin augustus genoemd; op 3 oktober 2026 meldde Marstek.nl begin december. Reken dus op pre-order met levering in december 2026, en kijk bij de winkel of dat nog klopt. Hij laadt en ontlaadt met 3 kW en gebruikt 314 Ah-cellen. Omdat het model zo nieuw is, staan garantie, IP-klasse, noodstroom en Homey- of Home Assistant-ondersteuning hier nog open. De community-integraties voor de Venus-serie werken mogelijk ook op de 4.0, maar dat was in juli 2026 nog niet bevestigd.",
       "product_url": "https://www.marstek.nl/product/marstek-venus-e-4-0-plug-charge-thuisbatterij/",
       "aanbiedingen": [
         {
@@ -1789,7 +1789,7 @@
       ],
       "totaalprijs_van_eur": 1274,
       "totaalprijs_tot_eur": 1699,
-      "totaalprijs_toelichting": "pre-order; stekkerklaar, zelf te installeren; laagste prijs is zonder P1-meter",
+      "totaalprijs_toelichting": "pre-order, levering in december 2026 volgens Marstek.nl; stekkerklaar, zelf te installeren; laagste prijs is zonder P1-meter",
       "noodstroom": null,
       "noodstroom_uitleg": "Nog niet vastgesteld voor dit model; de Venus E 3.0 heeft een noodstroom-stopcontact.",
       "afbeelding": "assets/producten/marstek-venus-e-4.webp",

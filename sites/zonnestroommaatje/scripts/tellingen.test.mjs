@@ -19,6 +19,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
+
+const zonderTags = (html) => html.replace(/<[^>]+>/g, "");
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -48,7 +50,9 @@ for (const woord of Object.keys(VERWACHT)) {
   test(`elk genoemd totaal ${woord} klopt met de gegevens`, () => {
     const fout = [];
     for (const [pagina, html] of alles) {
-      for (const [heel, getal, gevonden] of html.matchAll(GEHEEL)) {
+      // Zonder tags: in "de 14 <b>panelen</b> zelf" hield de <b> het getal
+      // buiten beeld, en zo stond er 14 bij 17 panelen.
+      for (const [heel, getal, gevonden] of zonderTags(html).matchAll(GEHEEL)) {
         if (gevonden !== woord) continue;
         if (Number(getal) !== VERWACHT[woord]()) fout.push(`${pagina}: "${heel}"`);
       }
@@ -86,4 +90,12 @@ test("elk paneel heeft de velden die de Zeker-score en de dakscore nodig hebben"
     }
   }
   assert.deepEqual(fout, [], `deze velden bepalen een score en mogen niet leeg zijn:\n  ${fout.join("\n  ")}`);
+});
+
+test("de teller in de hero staat op het werkelijke aantal", () => {
+  // Zelfde gat als bij warmtepompmaatje: de tag tussen getal en woord hield
+  // de teller buiten de proef hierboven, en er stond 14 bij 17 panelen.
+  const teller = lees("index.html").match(/<b id="tellerPanelen">(\d+)<\/b>/);
+  assert.ok(teller, "de teller staat niet meer in index.html; dan klopt de generator niet meer");
+  assert.equal(Number(teller[1]), panelen.length);
 });

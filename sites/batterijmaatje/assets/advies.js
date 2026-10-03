@@ -387,7 +387,7 @@
       }
     }
     if (b.installatie === "zelf") redenen.push("zelf aan te sluiten zonder installateur");
-    if ((b.koppeling_gemak || 0) >= 4) redenen.push("koppelt makkelijk aan bestaande zonnepanelen");
+    if ((b.koppeling_gemak || 0) >= 4) redenen.push("sluit makkelijk aan op bestaande zonnepanelen");
     if (driewaardig(b.dynamisch_contract) !== "nee" && maat.dynamisch) redenen.push("geschikt voor je dynamische contract");
     return redenen.slice(0, 4).join(", ");
   }

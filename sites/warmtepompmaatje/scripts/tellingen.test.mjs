@@ -26,6 +26,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
+
+const zonderTags = (html) => html.replace(/<[^>]+>/g, "");
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -56,7 +58,9 @@ for (const woord of CLAIMS) {
   test(`elk genoemd totaal ${woord} klopt met de gegevens`, () => {
     const fout = [];
     for (const [pagina, html] of alleTekst) {
-      for (const [heel, getal, gevonden] of html.matchAll(GEHEEL)) {
+      // Zonder tags: in "de 14 <b>panelen</b> zelf" hield de <b> het getal
+      // buiten beeld, en zo stond er 14 bij 17 panelen.
+      for (const [heel, getal, gevonden] of zonderTags(html).matchAll(GEHEEL)) {
         if (gevonden !== woord) continue;
         if (Number(getal) !== pompen.length) fout.push(`${pagina}: "${heel}"`);
       }
@@ -149,4 +153,13 @@ test("de ISDE-indicatie in de tekst dekt de werkelijke spreiding", () => {
   const getal = (s) => Number(s.replace(/\./g, ""));
   assert.equal(getal(zin[1]), Math.min(...bedragen));
   assert.equal(getal(zin[2]), Math.max(...bedragen));
+});
+
+test("de teller in de hero staat op het werkelijke aantal", () => {
+  // De proef hierboven zoekt "32 warmtepompen", maar de teller staat als
+  // <b id="tellerPompen">30</b> warmtepompen in de HTML, en de tag ertussen
+  // hield hem buiten beeld. Zo stond er 30 bij 32 pompen.
+  const teller = lees("index.html").match(/<b id="tellerPompen">(\d+)<\/b>/);
+  assert.ok(teller, "de teller staat niet meer in index.html; dan klopt de generator niet meer");
+  assert.equal(Number(teller[1]), pompen.length);
 });

@@ -886,6 +886,15 @@ index = index.replace(
   `$1${datumNL(data.laatst_bijgewerkt || VANDAAG)}$2`,
 );
 
+/* De teller in de hero stond in de HTML op 30 terwijl er 32 in de data
+   staan. app.js zet hem in de browser goed, dus op het scherm viel het niet op,
+   maar een zoekmachine en wie zonder javascript leest zag het oude getal.
+   Batterijmaatje telde hem al mee in de generator; hier nu ook. */
+index = index.replace(
+  /(<b id="tellerPompen">)\d+(<\/b>)/,
+  `$1${pompen.length}$2`,
+);
+
 writeFileSync(join(ROOT, "index.html"), index, "utf8");
 console.log(`index.html: ${gesorteerdePompen.length} kaarten voorgerenderd en ItemList bijgewerkt`);
 

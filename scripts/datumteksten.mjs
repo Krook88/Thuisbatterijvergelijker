@@ -25,7 +25,9 @@
  *      Die worden alleen gemeld, want een jaartal als grens van een wet hoort
  *      juist vast te staan - het is de vermelding die mee moet bewegen, niet
  *      het feit.
- *   3. Een jaartal in een <title> of <h1> dat achterloopt op de kalender.
+ *   3. Een verwachting waarvan het moment voorbij is ("eerste leveringen rond
+ *      begin augustus 2026", gelezen in oktober). Zie verwachtingen.mjs.
+ *   4. Een jaartal in een <title> of <h1> dat achterloopt op de kalender.
  *      "Beste thuisbatterij (2026)" nodigt uit tot klikken zolang het 2026 is
  *      en is op 1 januari juist een reden om niet te klikken. De generatoren
  *      halen dat jaartal inmiddels uit de kalender, dus die rollen vanzelf om
@@ -42,6 +44,7 @@
 import { readFileSync, readdirSync, statSync, appendFileSync } from "node:fs";
 import { resolve, dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { verlopenVerwachtingen } from "./verwachtingen.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const STRENG = process.argv.includes("--streng");
@@ -118,6 +121,10 @@ for (const site of readdirSync(resolve(ROOT, "sites"))) {
       else if (overDagen < 180) { binnenkort++; meldingen.push(["verloopt", overDagen, pad, m[0]]); }
     }
     if (/\.html$/.test(pad)) {
+      for (const v of verlopenVerwachtingen(inhoud, NU)) {
+        verlopen++;
+        meldingen.push(["VERWACHTING VOORBIJ", Math.round((v.tot - NU) / 86400000), pad, v.zin]);
+      }
       for (const k of verouderdeKoppen(inhoud)) {
         oudeKoppen++;
         meldingen.push([`OUD JAARTAL in <${k.tag}>`, null, pad, `${k.tekst}  (${k.jaar}, we zijn ${HUIDIG_JAAR})`]);

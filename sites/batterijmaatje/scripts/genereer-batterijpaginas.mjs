@@ -91,6 +91,11 @@ const noodstroomTelling = (() => {
   };
   const uit = { totaal: lijst.length, ja: 0, deels: 0, nee: 0, onbekend: 0 };
   for (const b of lijst) uit[stand(b.noodstroom)] += 1;
+  // De zin noemt vier groepen en een totaal. Telt een status buiten die vier
+  // mee, dan klopt de optelling op de pagina niet meer, en dat rekent een
+  // lezer na: zo stond er "14 en 17, bij 8 onbekend" bij 42 batterijen.
+  const som = uit.ja + uit.deels + uit.nee + uit.onbekend;
+  if (som !== uit.totaal) throw new Error(`noodstroom telt ${som} van ${uit.totaal}: onbekende status in de data`);
   return uit;
 })();
 
@@ -564,7 +569,7 @@ ${NAV_HTML}
        algemeen, maar niet voor deze lijst - en dan hoort hij hier niet te
        staan. Nu telt de alinea wat er werkelijk in de gegevens staat, zodat
        hij niet stil kan verouderen. -->
-  <p class="datum-stempel">Goed om te weten: volledig zelfvoorzienend (van het net af) is in Nederland vrijwel nooit haalbaar vanwege de lage winteropbrengst van zonnepanelen. Noodstroom betekent iets anders, namelijk dat een deel van je huis blijft werken tijdens een storing. Van de ${noodstroomTelling.totaal} batterijen hier kunnen er ${noodstroomTelling.ja} dat uit zichzelf en ${noodstroomTelling.deels} alleen met extra hardware erbij; bij ${noodstroomTelling.onbekend} heb ik het niet kunnen vaststellen.</p>
+  <p class="datum-stempel">Volledig zelfvoorzienend (van het net af) is in Nederland vrijwel nooit haalbaar, want zonnepanelen leveren in de winter te weinig. Noodstroom is iets anders: een deel van je huis blijft werken tijdens een storing. Van de ${noodstroomTelling.totaal} batterijen hier kunnen er ${noodstroomTelling.ja} dat uit zichzelf, ${noodstroomTelling.deels} alleen met extra hardware erbij en ${noodstroomTelling.nee} helemaal niet; bij ${noodstroomTelling.onbekend} heb ik het niet kunnen vaststellen.</p>
 
   ${b.opmerkingen ? `<h2>Goed om te weten</h2><p>${esc(b.opmerkingen)}</p>` : ""}
 
@@ -582,7 +587,7 @@ ${NAV_HTML}
     }).join("\n    ")}
   </ul>` : ""}
 
-  <p>Twijfel je of deze batterij bij je past? Doe de <a href="/advies.html">keuzehulp</a> voor een maatadvies, of <a href="/index.html">vergelijk alle thuisbatterijen</a> op prijs, capaciteit en koppelgemak.</p>
+  <p>Twijfel je of deze batterij bij je past? Doe de <a href="/advies.html">keuzehulp</a> voor een maatadvies, of <a href="/index.html">vergelijk alle thuisbatterijen</a> op prijs, capaciteit en aansluitgemak.</p>
 
   ${b.product_url ? `<p>Meer informatie: <a href="${esc(b.product_url)}" target="_blank" rel="noopener">officiële productpagina van ${esc(b.merk)}</a>.</p>` : ""}
 

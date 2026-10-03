@@ -22,6 +22,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
+
+const zonderTags = (html) => html.replace(/<[^>]+>/g, "");
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -57,7 +59,9 @@ for (const { woord, verwacht } of CLAIMS) {
     const patroon = new RegExp(`(\\d+)\\s+${woord}`, "g");
     const fout = [];
     for (const pagina of paginas) {
-      for (const [, getal] of lees(pagina).matchAll(patroon)) {
+      // Zonder tags: in "de 14 <b>panelen</b> zelf" hield de <b> het getal
+      // buiten beeld, en zo stond er 14 bij 17 panelen.
+      for (const [, getal] of zonderTags(lees(pagina)).matchAll(patroon)) {
         if (Number(getal) !== verwacht()) fout.push(`${pagina}: ${getal} ${woord}`);
       }
     }
