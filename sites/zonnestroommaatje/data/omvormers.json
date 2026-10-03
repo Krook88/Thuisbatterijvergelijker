@@ -65,7 +65,11 @@
         "bron": "Enphase IQ8HC datasheet: aanbevolen paneelvermogen tot 560 Wp"
       },
       "panelen_per_eenheid": 1,
-      "systeem_toeslag_eur": 250
+      "systeem_toeslag_eur": 250,
+      "afbeelding": "assets/producten/enphase-iq8.webp",
+      "afbeelding_bron": "foto: Winkelman Zonnepanelen",
+      "afbeelding_herkomst": "https://cdn.webshopapp.com/shops/307138/files/444527210/300x250x2/enphase-enphase-iq8-hc-micro-omvormer.jpg",
+      "afbeelding_via": "https://www.winkelman-zonnepanelen.nl/enphase-iq8-hc-micro-omvormer.html"
     },
     {
       "id": "apsystems-ds3",
@@ -310,7 +314,11 @@
         "max_dc_ac": 1.35,
         "bron": "Fronius GEN24: Primo 3-6 kW (1-fase), Symo 6-10 kW (3-fase)"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/fronius-gen24.webp",
+      "afbeelding_bron": "foto: Fronius",
+      "afbeelding_herkomst": "https://www.fronius.com/-/media/international/se/q-r/reference-symo-big-iloilo-philippines-87.webp?ih=500&amp;iw=500&amp;c=0&amp;q=60",
+      "afbeelding_via": "https://www.fronius.com/nl-nl/netherlands"
     },
     {
       "id": "goodwe-et",
@@ -364,7 +372,11 @@
         "bron": "GoodWe ET-serie: 5-15 kW, 3-fase"
       },
       "panelen_per_eenheid": null,
-      "prijs_datum": "2026-10-02"
+      "prijs_datum": "2026-10-02",
+      "afbeelding": "assets/producten/goodwe-et.webp",
+      "afbeelding_bron": "foto: GoodWe",
+      "afbeelding_herkomst": "https://nl.goodwe.com/Public/Uploads/uploadfile8/images/20260920/1920x950px.png",
+      "afbeelding_via": "https://nl.goodwe.com/"
     },
     {
       "id": "huawei-sun2000",
@@ -698,7 +710,11 @@
         "max_dc_ac": 1.35,
         "bron": "Deye SG04LP1: 3,6-12 kW, 1-fase"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/deye-sg04lp1.webp",
+      "afbeelding_bron": "foto: Deye",
+      "afbeelding_herkomst": "https://www.deyeinverter.com/deyeinverter/2026/05/18/5400x2200mm-tNbn.jpg",
+      "afbeelding_via": "https://www.deyeinverter.com/"
     },
     {
       "id": "victron-multiplus2",
@@ -744,7 +760,11 @@
         "voorbeeld_ac_kw": 4,
         "bron": "Victron MultiPlus-II 48/5000: 4.000 W continu; panelen via aparte MPPT-laadregelaars (ontwerp door specialist)"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/victron-multiplus2.webp",
+      "afbeelding_bron": "foto: Acculaders.nl",
+      "afbeelding_herkomst": "https://cdn.webshopapp.com/shops/74363/files/461396841/victron-multiplus-ii-48-5000-70-50-230v.jpg",
+      "afbeelding_via": "https://www.acculaders.nl/victron-multiplus-ii-48-5000-70-50-230v.html"
     }
   ]
 }
