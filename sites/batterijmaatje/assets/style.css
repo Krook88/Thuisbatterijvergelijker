@@ -2202,3 +2202,60 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
   border-radius: 0;
   padding: var(--ruimte-4) 0 var(--ruimte-4) var(--ruimte-14);
 }
+
+/* Foto en kenmerken in de regel. Na het weghalen van pillen en icoontjes was
+   de lijst een bord met cijfers in twee kleuren. Wat er nu bij komt, draagt
+   elk iets: de foto laat zien wat voor ding het is, en een kenmerk staat er
+   alleen als het iets zegt over de keuze. */
+.regel-naam { display: flex; gap: var(--ruimte-14); align-items: flex-start; }
+.regel-naam-tekst { min-width: 0; }
+.regel-foto {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 66px;
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius-mini);
+  background: var(--kleur-wit);
+  overflow: hidden;
+}
+.regel-foto img { width: 100%; height: 100%; object-fit: contain; }
+.regel-foto.leeg { background: var(--kleur-achtergrond); }
+
+.regel-onder { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruimte-4) var(--ruimte-10); margin-top: var(--ruimte-4); }
+.regel-kenmerken { display: inline-flex; flex-wrap: wrap; gap: var(--ruimte-4); }
+.kenmerk {
+  padding: 1px var(--ruimte-6);
+  border-radius: var(--radius-mini);
+  font-size: var(--tekst-12);
+  font-weight: 600;
+}
+.kenmerk-kan { background: var(--kleur-groen-licht); color: var(--kleur-groen-donker); }
+.kenmerk-actie { background: var(--kleur-accent-licht); color: #92400e; }
+.kenmerk-prijs { background: var(--kleur-primair-licht); color: var(--kleur-primair-donker); }
+
+/* Met de foto erbij werd de naamkolom te smal: namen liepen over drie of
+   vier regels. De vier feitkolommen hebben aan minder genoeg. */
+@media (min-width: 761px) {
+  .resultaat-regel {
+    grid-template-columns: 34px minmax(0, 3fr) repeat(3, minmax(0, 0.8fr)) minmax(0, 1fr) minmax(0, 1.3fr);
+  }
+}
+
+/* Tussenkop per Koppel-score. */
+.regel-groep {
+  display: flex;
+  align-items: baseline;
+  gap: var(--ruimte-10);
+  padding: var(--ruimte-10) var(--ruimte-14);
+  background: var(--kleur-primair-licht);
+  border-bottom: 1px solid var(--kleur-rand);
+  color: var(--kleur-primair-donker);
+  font-size: var(--tekst-15);
+}
+.regel-groep span { color: var(--kleur-tekst-licht); }
+@media (max-width: 760px) {
+  .regel-groep { margin: var(--ruimte-14) 0 var(--ruimte-6); background: none; border: 0; padding: 0; }
+}

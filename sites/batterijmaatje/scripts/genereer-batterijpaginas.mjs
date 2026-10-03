@@ -1429,7 +1429,7 @@ const gesorteerdeBatterijen = Kaart.standaardVolgorde(data.batterijen);
 // komt te staan. Zet je hier kaarten neer terwijl de browser meteen daarna
 // regels tekent, dan ziet de bezoeker het beeld een keer omklappen en krijgt
 // een zoekmachine iets anders te zien dan een mens.
-const kaarten = Kaart.lijstHtml(gesorteerdeBatterijen, { merkLogos: data.merk_logos });
+const kaarten = Kaart.lijstHtml(gesorteerdeBatterijen, { merkLogos: data.merk_logos, groepeer: true });
 
 // ItemList vertelt de zoekmachine dat dit een gerangschikte lijst producten is
 // en welke pagina bij elk item hoort.

@@ -284,6 +284,28 @@
 
      Dezelfde volgorde als op de zustersites: plek, model, drie feiten, score,
      prijs. Alleen de kolomnamen verschillen per site. */
+  /* Een kleine foto voor in de regel. Zonder foto's was de lijst een bord vol
+     cijfers in twee kleuren: elk product zag er hetzelfde uit tot je de naam
+     las. Een plaatje laat je in een oogopslag een stekkerbatterij van een
+     kast aan de muur onderscheiden. Zonder foto blijft het vakje staan, zodat
+     de namen onder elkaar blijven beginnen. */
+  function regelFoto(b) {
+    if (!b.afbeelding) return `<span class="regel-foto leeg" aria-hidden="true"></span>`;
+    return `<span class="regel-foto"><img src="${escapeHtml(b.afbeelding)}" alt="" loading="lazy" decoding="async" width="88" height="66"></span>`;
+  }
+
+  /* Hooguit een paar kenmerken die iets zeggen over de keuze, en elk met een
+     eigen kleur omdat ze iets anders betekenen: groen is iets wat hij kan,
+     amber is iets van de winkel op dit moment. Geen versiering: staat er
+     niets bijzonders, dan staat er niets. */
+  function regelKenmerken(b, o) {
+    const uit = [];
+    if (o.goedkoopstPerKwh && o.goedkoopstPerKwh === b.id) uit.push(`<span class="kenmerk kenmerk-prijs">laagste prijs per kWh</span>`);
+    if (Prijs.heeftKorting(b)) uit.push(`<span class="kenmerk kenmerk-actie">aanbieding</span>`);
+    if (vierwaardig(b.noodstroom).status === "ja") uit.push(`<span class="kenmerk kenmerk-kan" title="${escapeHtml(b.noodstroom_uitleg || "Kan noodstroom leveren bij een stroomstoring")}">noodstroom</span>`);
+    return uit.length ? `<span class="regel-kenmerken">${uit.join("")}</span>` : "";
+  }
+
   function regelHtml(b, opties, plek) {
     const o = opties || {};
     const beste = Prijs.beste(b);
@@ -300,10 +322,16 @@
     <article class="resultaat-regel" data-id="${escapeHtml(b.id)}">
       <span class="regel-plek cijfer">${plek}</span>
       <div class="regel-naam">
+        ${regelFoto(b)}
+        <div class="regel-naam-tekst">
         <h3><a class="kop-link" href="batterij/${encodeURIComponent(b.id)}.html">${b.model.toLowerCase().startsWith(b.merk.toLowerCase()) ? "" : `<span class="regel-merk">${escapeHtml(b.merk)}</span> `}${escapeHtml(b.model)}</a></h3>
+        <div class="regel-onder">
+        ${regelKenmerken(b, o)}
         <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
           <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(b.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
         </label>
+        </div>
+        </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>${capaciteit}${dagmaatHtml(b, o.verbruik)}</div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>${b.vermogen_kw ? String(b.vermogen_kw).replace(".", ",") + " kW" : "Onbekend"}</div>
@@ -336,7 +364,34 @@
       <div class="resultaat-regel regel-kop" aria-hidden="true">
         <span></span>${koppen.map((k) => `<span>${k}</span>`).join("")}
       </div>
-      ${lijst.map((b, i) => regelHtml(b, opties, i + 1)).join("")}
+      ${(() => {
+        // Welke batterij in deze lijst het goedkoopst opslaat. Over de lijst
+        // zoals hij nu gefilterd is, zodat het label klopt met wat je ziet.
+        let laagste = null;
+        for (const b of lijst) {
+          const p = Prijs.prijsPerKwh(b);
+          if (p && (!laagste || p < laagste.p)) laagste = { id: b.id, p };
+        }
+        const o = { ...(opties || {}), goedkoopstPerKwh: laagste && laagste.id };
+        // Bij de standaardvolgorde (Koppel-score) een tussenkop per score.
+        // Zonder die koppen was het één doorlopend bord van 42 regels; met
+        // ze zie je waar de 5'en ophouden en de 4'en beginnen, en hoeveel
+        // er in elke groep zitten. Bij een andere sortering hebben groepen
+        // geen betekenis, dan blijft het één lijst.
+        let vorige = null;
+        return lijst.map((b, i) => {
+          let kop = "";
+          if (o.groepeer) {
+            const score = koppelScore(b);
+            if (score !== vorige) {
+              const aantal = lijst.filter((x) => koppelScore(x) === score).length;
+              kop = `<div class="regel-groep"><b>Koppel-score ${score} van 6</b> <span>${aantal} ${aantal === 1 ? "batterij" : "batterijen"}</span></div>`;
+              vorige = score;
+            }
+          }
+          return kop + regelHtml(b, o, i + 1);
+        }).join("");
+      })()}
     </div>`;
   }
 
