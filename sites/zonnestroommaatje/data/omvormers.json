@@ -237,7 +237,8 @@
           "prijs_eur": 1800,
           "url": "https://volt-shop.nl/product/sma-sunny-tripower-5-0-wifi-smart-energy-hybride-omvormer/",
           "datum": null,
-          "niet_leverbaar": true
+          "niet_leverbaar": true,
+          "niet_leverbaar_reden": "Productpagina geeft HTTP 404, ook met een browser. Driemaal vastgesteld: 17 augustus, 3 oktober in de dagelijkse run en 3 oktober apart nagekeken."
         }
       ],
       "samensteller": {
@@ -485,7 +486,8 @@
           "prijs_eur": 546,
           "url": "https://www.winkelman-zonnepanelen.nl/growatt-min-5000tl-xh-1-fase-omvormer-hybride.html",
           "datum": "2026-07-25",
-          "niet_leverbaar": true
+          "niet_leverbaar": true,
+          "niet_leverbaar_reden": "Productpagina geeft HTTP 404, ook met een browser. Driemaal vastgesteld: 17 augustus, 3 oktober in de dagelijkse run en 3 oktober apart nagekeken."
         },
         {
           "winkel": "WarmteBeheer",

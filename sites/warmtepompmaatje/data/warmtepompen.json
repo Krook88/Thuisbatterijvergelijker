@@ -1114,7 +1114,8 @@
           "winkel": "JCB Ventilatie",
           "prijs_eur": 4843,
           "url": "https://www.jcbventilatiestore.nl/products/inventum-ecolution-combi-50-ventilatiewarmtepomp-50-liter",
-          "datum": "2026-10-02"
+          "datum": "2026-10-03",
+          "omvat": "de complete Ecolution Combi 50 met boilervat van 50 liter; de richtprijs van 2.900 euro hiernaast dekt alleen het toestel"
         }
       ],
       "prijs_datum": "2026-10-02",
@@ -1281,7 +1282,7 @@
       "voorbeeld_variant": "Vincent V45-Hybride 4,5 kW (binnenopstelling)",
       "vermogen_kw": 4,
       "scop_toelichting": "binnenopgestelde warmtepomp op propaan; werkt samen met de bestaande cv-ketel",
-      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; de unit staat binnen, waardoor de labelwaarde anders uitpakt dan bij een buitenunit",
+      "geluid_toelichting": "Geluidsvermogen (LwA) volgens EN 12102 bij 0/35 °C, uit de specificatietabel bij Aircozonderstek. Het toestel staat binnen, dus dit is geen buitenunit-waarde en een omrekening naar de erfgrens zegt hier niets.",
       "koudemiddel": "R290",
       "tapwater": "via de cv-ketel",
       "prijs_toelichting": "los toestel voor binnenopstelling, excl. installatie; werkt samen met de cv-ketel. De 4,5 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 4 kW volgens de ISDE-meldcodelijst.",
@@ -1313,7 +1314,9 @@
       "vermogen_conditie": "Prated",
       "afbeelding": "assets/producten/itho-vincent-v45-hybride.webp",
       "afbeelding_bron": "foto: Itho Daalderop",
-      "afbeelding_herkomst": "https://ithodaalderop.compano.com/Data/Environments/000001/Attachment/Bijlage/A02_Warmtepompen/A02_02_Lucht/A02_02_06_Vincent/A02_02_06_01_Vincent/B01_01_PPI/03-00659_Vincent_Front_Schaduw_1200x1200px.jpg"
+      "afbeelding_herkomst": "https://ithodaalderop.compano.com/Data/Environments/000001/Attachment/Bijlage/A02_Warmtepompen/A02_02_Lucht/A02_02_06_Vincent/A02_02_06_01_Vincent/B01_01_PPI/03-00659_Vincent_Front_Schaduw_1200x1200px.jpg",
+      "geluid_db": 55,
+      "max_aanvoer_c": 60
     },
     {
       "id": "toshiba-estia-r290",
@@ -1601,7 +1604,7 @@
       "voorbeeld_variant": "WH-WXG12ME8 (12 kW, bi-bloc)",
       "vermogen_kw": 12,
       "scop_toelichting": "de zwaardere bi-bloc naast de L-generatie, voor woningen met een hogere warmtevraag",
-      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld",
+      "geluid_toelichting": "Geluidsvermogen van de buitenunit volgens de specificatietabel van Multi-Import bij de WH-WXG12ME8.",
       "koudemiddel": "R290 (natuurlijk)",
       "tapwater": "via een aparte boiler of hydromodule",
       "isde_indicatie_eur": 3925,
@@ -1666,7 +1669,9 @@
       "afbeelding": "assets/producten/panasonic-aquarea-wxg.webp",
       "afbeelding_bron": "foto: Multi-Import",
       "afbeelding_herkomst": "https://www.multi-import.nl/media/catalog/product/cache/6517c62f5899ad6aa0ba23ceb3eeff97/w/h/wh-wxg09me8_2_1.jpg",
-      "afbeelding_via": "https://www.multi-import.nl/wh-wxg12me8"
+      "afbeelding_via": "https://www.multi-import.nl/wh-wxg12me8",
+      "geluid_db": 53,
+      "max_aanvoer_c": 75
     },
     {
       "id": "stiebel-wpl-a13",
@@ -1854,7 +1859,7 @@
       "voorbeeld_variant": "Compress 5800i AW 12 OR-T (12 kW, driefase)",
       "vermogen_kw": 12,
       "scop_toelichting": "driefase-uitvoering van de 5800i-reeks voor grotere woningen",
-      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld voor deze maat; de 5 kW-uitvoering staat op 51 dB(A)",
+      "geluid_toelichting": "Maximaal geluidsvermogensniveau overdag volgens de specificatietabel bij Aircozonderstek; in nachtmodus 46 dB(A). De 28,5 en 42 dB(A) die dezelfde pagina noemt zijn geluidsdruk op 3 respectievelijk 1 meter en niet vergelijkbaar met de labelwaarde die hier staat.",
       "koudemiddel": "R290 (natuurlijk)",
       "tapwater": "via een aparte boiler",
       "max_aanvoer_c": 75,
@@ -1899,7 +1904,8 @@
       "afbeelding": "assets/producten/bosch-compress-5800i-12.webp",
       "afbeelding_bron": "foto: Bosch",
       "afbeelding_herkomst": "https://www.nefit-bosch.nl/ocsmedia/optimized/1600x99999/o546932v389_Compress_5800i_6800i_AW_v14.webp",
-      "afbeelding_via": "https://www.nefit-bosch.nl/producten/warmtepompen/de-compress-5800-awr-warmtepompen/"
+      "afbeelding_via": "https://www.nefit-bosch.nl/producten/warmtepompen/de-compress-5800-awr-warmtepompen/",
+      "geluid_db": 60
     },
     {
       "id": "mitsubishi-ecodan-120",

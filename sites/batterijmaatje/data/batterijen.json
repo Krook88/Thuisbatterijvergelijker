@@ -866,8 +866,9 @@
           "winkel": "Thuisbatterij Nederland (per module 4,6 kWh: 1.495 euro)",
           "prijs_eur": 2990,
           "url": "https://thuisbatterijnederland.nl/product/solaredge-home-46-kwh-48v/",
-          "datum": "2026-10-02",
-          "prijs_controle": "handmatig"
+          "datum": "2026-10-03",
+          "prijs_controle": "handmatig",
+          "prijs_controle_reden": "De winkelpagina gaat over de losse module van 4,6 kWh en zet 1.495 euro in de kop; onze 9,2 kWh staat verderop in dezelfde opsomming (4,6: 1.495 / 9,2: 2.990 / 13,8: 4.485 / 18,4: 5.980 / 23: 7.475). De automaat pakt de kop en stelt daarom elke dag 1.495 voor."
         }
       ],
       "totaalprijs_van_eur": null,
@@ -1554,7 +1555,7 @@
           "winkel": "MOVA (officieel)",
           "prijs_eur": 1990,
           "url": "https://www.mova.tech/products/lumegret-a4000-solar-power-system",
-          "datum": "2026-08-28"
+          "datum": "2026-10-03"
         },
         {
           "winkel": "Thuisbatterij.io (winkeloverzicht, geen productpagina)",
@@ -1765,7 +1766,7 @@
       "richtprijs_eur": 1699,
       "prijs_bron": "adviesprijs incl. P1-meter (vakmedia/winkels, juli 2026)",
       "prijs_omvat": "incl. btw en P1-meter, zelf te installeren; laagste winkelprijs is exclusief P1-meter",
-      "prijs_datum": "2026-07-27",
+      "prijs_datum": "2026-10-03",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Net als de Venus E 3.0 werkt hij met elk bestaand zonnepanelensysteem: een P1-meter ziet je overschot en de batterij laadt daarop, via het stopcontact.",
       "koppeling_gemak": 5,
@@ -1780,10 +1781,10 @@
       "aanbiedingen": [
         {
           "winkel": "Marstek.nl (officieel, excl. P1-meter)",
-          "omvat": "excl. P1-meter",
-          "prijs_eur": 1274,
+          "omvat": "vanafprijs; Marstek toont voor dit model een prijsklasse van 1.674 tot 4.999 euro incl. btw, afhankelijk van de gekozen capaciteit",
+          "prijs_eur": 1674,
           "url": "https://www.marstek.nl/product/marstek-venus-e-4-0-plug-charge-thuisbatterij/",
-          "datum": "2026-07-27"
+          "datum": "2026-10-03"
         }
       ],
       "totaalprijs_van_eur": 1274,

@@ -482,7 +482,8 @@
           "prijs_eur": 119,
           "url": "https://offgridpowerstation.eu/product/canadian-solar-435wp-full-black-frame/",
           "datum": "2026-09-07",
-          "niet_leverbaar": true
+          "niet_leverbaar": true,
+          "niet_leverbaar_reden": "Productpagina geeft HTTP 404, ook met een browser. Driemaal vastgesteld: 17 augustus, 3 oktober in de dagelijkse run en 3 oktober apart nagekeken."
         }
       ]
     },
