@@ -455,6 +455,10 @@
       },
       "app": "MELCloud",
       "garantie_jaar": 5,
+      "afbeelding": "assets/producten/mitsubishi-ecodan.webp",
+      "afbeelding_bron": "foto: Mitsubishi Electric",
+      "afbeelding_herkomst": "https://alklima.nl/library/content/landers/propaan-r290/id/5375/PUZ-WZ60VAA_Front_935x800.jpg?timestamp=1706705309",
+      "afbeelding_via": "https://alklima.nl/ecodan",
       "opmerkingen": "Ook 6 van de 6 op koppelbaarheid, want hij is officieel ondersteund in Home Assistant én Homey, met open aansturing erbij. Draait op propaan, kan 70 graden aanvoeren en heeft een van de breedste installateursnetwerken van Nederland - handig als er over tien jaar iets stukgaat.",
       "product_url": "https://alklima.nl/ecodan",
       "aanbiedingen": [
