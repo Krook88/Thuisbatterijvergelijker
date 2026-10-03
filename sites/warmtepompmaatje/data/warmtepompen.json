@@ -1441,9 +1441,9 @@
       "type": "all-electric",
       "voorbeeld_variant": "Alfea Extensa A.I./S 6 R32",
       "vermogen_kw": 5,
-      "scop": 4.65,
-      "scop_toelichting": "SCOP 4,65 bij 35 graden aanvoer en 4,46 bij hogere temperatuur, energielabel A+++",
-      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; Atlantic noemt 33 dB(A), maar dat is geluidsdruk op afstand",
+      "scop": 4.46,
+      "scop_toelichting": "SCOP 4,46 bij 35 °C aanvoer en 3,21 bij 55 °C, uit de typetabel van Atlantic voor de Alfea Extensa A.I. 6. Hier stond eerder 4,65; dat is de COP bij +7/+35 van ditzelfde model en geen seizoensrendement.",
+      "geluid_toelichting": "Geluidsvermogen buitenunit volgens de typetabel van Atlantic, gemeten conform EN 12102. In nachtverlaging 55 dB(A). De 33 dB(A) die Atlantic elders noemt is geluidsdruk op afstand en niet vergelijkbaar met de labelwaarde die hier staat.",
       "koudemiddel": "R32",
       "tapwater": "via de DUO-uitvoering met ingebouwde boiler",
       "isde_indicatie_eur": 2350,
@@ -1499,7 +1499,8 @@
       "afbeelding": "assets/producten/atlantic-alfea-extensa.webp",
       "afbeelding_bron": "foto: Atlantic",
       "afbeelding_herkomst": "https://atlanticclimate.nl/wp-content/uploads/sites/3/2021/04/Alfea-Extensa-R32-DUO.jpg",
-      "afbeelding_via": "https://atlanticclimate.nl/product/alfea-warmtepompen-r32/"
+      "afbeelding_via": "https://atlanticclimate.nl/product/alfea-warmtepompen-r32/",
+      "geluid_db": 60
     },
     {
       "id": "dewarmte-pomp-ao",
