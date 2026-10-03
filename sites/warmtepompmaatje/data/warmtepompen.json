@@ -1314,7 +1314,7 @@
       "vermogen_kw": 5,
       "scop": 4.8,
       "scop_toelichting": "SCOP tot 4,8 bij lage aanvoertemperatuur, energielabel A+++; leverbaar van 4 tot 16 kW. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.",
-      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; Toshiba publiceert 30 dB(A) in stille modus op 5 meter, en dat is geluidsdruk op afstand - niet vergelijkbaar met de labelwaarde in deze kolom",
+      "geluid_toelichting": "geluidsvermogen niet vastgesteld; de distributeur noemt 30 dB(A) voor de buitenunit in nachtmodus en 29 dB(A) voor de binnenunit, zonder meetafstand of norm - dat is iets anders dan de labelwaarde volgens EN 12102 waarop deze kolom vergelijkt",
       "koudemiddel": "R290 (natuurlijk)",
       "tapwater": "via de binnenunit met boiler",
       "isde_indicatie_eur": 2350,
@@ -1331,7 +1331,7 @@
         "status": "onbekend",
         "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
       },
-      "opmerkingen": "Bi-bloc op propaan: het koudemiddel blijft buiten, binnen loopt alleen water. Dat scheelt in de installatie-eisen. Toshiba noemt deze reeks een van de stilste van de markt, maar die claim gaat over geluidsdruk op een paar meter afstand en niet over de labelwaarde waarop ik vergelijk - vandaar dat het geluidsveld hier leeg staat.",
+      "opmerkingen": "Bi-bloc op propaan: het koudemiddel blijft buiten, binnen loopt alleen water. Dat scheelt in de installatie-eisen, want een F-gassencertificaat is niet nodig. Toshiba noemt deze reeks een van de stilste van de markt, en de distributeur geeft 30 dB(A) in nachtmodus, maar zonder meetafstand of norm valt dat niet naast de labelwaarden in deze vergelijking te leggen - vandaar dat het geluidsveld leeg staat in plaats van gevuld met een getal dat anders meet.",
       "product_url": "https://www.toshiba-aircondition.com/en/heat-pumps/estia/bi-bloc-r290",
       "aanbiedingen": [
         {

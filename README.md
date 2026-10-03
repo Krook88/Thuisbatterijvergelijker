@@ -581,6 +581,23 @@ kapot script en ook geen verlopen URL. Voor bol betekent het dat de
 kandidatenlijst van batterijmaatje - die vrijwel helemaal uit bol-adressen
 bestaat - niet via deze werkstroom na te kijken is.
 
+**Twee andere doodlopende wegen, zodat niemand ze nog eens inloopt.** Een
+fabrikant die zijn specificatietabel in een javascript-tab zet levert nul
+treffers op, hoe goed je zoekwoorden ook zijn: bij
+`toshiba-aircondition.com` staat niets van SCOP, geluid of aanvoertemperatuur in
+de zichtbare tekst, en `--links` geeft daar alleen navigatie terug. En een
+distributeur kan per unit een eigen pagina hebben die tóch dezelfde tekst
+toont: de drie Intercool-pagina's voor de Toshiba-buitendelen van 5, 12 en de
+binnenunit gaven woord voor woord hetzelfde verhaal, inclusief "de binnenunit
+produceert slechts 29 dB(A)". Dat lijkt een specificatie per model en is het
+niet.
+
+Dat laatste is het gevaarlijke geval, want er komt wél een getal uit. "30 dB(A)
+in nachtmodus" is geen geluidsvermogen volgens EN 12102, en dat naast de
+labelwaarden in de vergelijking zetten is precies de fout waar
+`vergelijkbaar.mjs` voor bestaat. Een leeg veld met een uitleg erbij is dan
+beter dan een gevuld veld dat iets anders meet.
+
 ### Een prijs die mensenwerk blijft
 
 Twee velden op een aanbieding zeggen tegen de dagelijkse ronde wat ze ermee aan
