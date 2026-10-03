@@ -176,6 +176,25 @@ Kijk wel naar het formaat. Onze lijst staat vol panelen van 1762 mm; de Jinko
 470 Wp is 1903 mm en de Denim 490 Wp 1909 mm. Dat past niet vanzelf op een dak
 dat op die kleinere maat is ingedeeld, dus dat hoort in de tekst te staan.
 
+### Vermogensbehoud na 25 jaar: afleiden mag, raden niet
+
+Winkels en datasheets geven meestal het eindpunt van de garantie ("87,4% na 30
+jaar") en niet de tussenstand na 25 jaar. Dat veld, `vermogen_behoud_25j_pct`,
+bepaalt wel de Zeker-score — en die rekent met `|| 0`, dus een leeg veld kost een
+paneel stil twee punten en zet het onterecht onderaan.
+
+Afleiden is hier toegestaan, want de garantiecurve is lineair na 1% verlies in
+het eerste jaar. Met die aanname komt de afleiding uit het eindpunt bij 13 van de
+14 panelen die er stonden exact op het opgeslagen cijfer uit; alleen de Maxeon
+wijkt af, en die publiceert zijn 25-jaarcijfer zelf. Reken het dus terug:
+
+    per jaar = ((100 − 1) − eindpercentage) ÷ (garantiejaren − 1)
+    na 25 jaar = 100 − 1 − 24 × per jaar
+
+Wat niet mag is het getal van een ander model uit dezelfde serie overnemen, of
+een rond getal invullen omdat het veld leeg oogt. Klopt de afleiding niet met wat
+de fabrikant zelf publiceert, dan geldt de fabrikant.
+
 ## Wat we niet opnemen
 
 - Draagbare powerstations, kampeeraccu's en noodstroomkoffers. Die staan vol in

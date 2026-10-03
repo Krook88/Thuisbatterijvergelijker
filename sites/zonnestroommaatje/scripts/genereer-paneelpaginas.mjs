@@ -523,7 +523,9 @@ const OVERZICHTEN = [
     bestand: "beste-glas-glas-zonnepanelen.html",
     titel: `Beste glas-glas zonnepanelen (${JAAR})`,
     metaDesc: "Glas-glas zonnepanelen vergeleken op prijs per Wp, garanties en rendement. Waarom glas-glas langer meegaat en wat het tegenwoordig kost.",
-    intro: "Bij een glas-glas paneel liggen de cellen tussen twee lagen glas in plaats van glas en kunststof folie. Dat beschermt beter tegen vocht en microscheurtjes, vertraagt veroudering en levert vaak langere garanties op. Sinds fabrikanten dun gehard glas gebruiken, is het verschil in prijs en gewicht met foliepanelen klein; 7 van de 14 panelen op deze site zijn glas-glas. Hieronder alle glas-glas panelen uit mijn vergelijker, gesorteerd op prijs per wattpiek.",
+    // Geteld in plaats van opgeschreven: hier stond "7 van de 14", en dat klopte
+    // tot er een paneel bij kwam.
+    intro: `Bij een glas-glas paneel liggen de cellen tussen twee lagen glas in plaats van glas en kunststof folie. Dat beschermt beter tegen vocht en microscheurtjes, vertraagt veroudering en levert vaak langere garanties op. Sinds fabrikanten dun gehard glas gebruiken, is het verschil in prijs en gewicht met foliepanelen klein; ${data.panelen.filter((p) => p.uitvoering === "glas-glas").length} van de ${data.panelen.length} panelen op deze site zijn glas-glas. Hieronder alle glas-glas panelen uit mijn vergelijker, gesorteerd op prijs per wattpiek.`,
     selecteer: (lijst) => lijst.filter((p) => p.uitvoering === "glas-glas").sort((a, b) => (prijsPerWp(a) || Infinity) - (prijsPerWp(b) || Infinity)),
     voetnoot: "Lees ook de uitleg over glas-glas en glas-folie in mijn woordenlijst.",
   },
