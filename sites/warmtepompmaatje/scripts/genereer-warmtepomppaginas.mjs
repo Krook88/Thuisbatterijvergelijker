@@ -754,6 +754,14 @@ ${kop("index", true)}
     ${variantenBlok(w)}
     <h2>Over de ${esc(naam)}</h2>
     <p>${esc(w.omschrijving || `${naam} is een ${w.type === "hybride" ? "hybride warmtepomp die samenwerkt met je cv-ketel: de pomp doet het gros van de verwarming, de ketel vangt piekkou en warm water op" : "all-electric warmtepomp die de cv-ketel volledig vervangt, inclusief warm tapwater via een boilervat"}.`)}</p>
+    ${/* De eigen aantekening bij deze pomp. Die stond tot oktober 2026 alleen
+          in warmtepompen.json en op de kaart in de vergelijker; de pagina waar
+          een bezoeker vanuit Google op binnenkomt, had hem niet. Daardoor was
+          de enige zin op 32 van de 32 pomppagina's de sjabloonzin hierboven,
+          25 keer dezelfde en 7 keer dezelfde. Batterijmaatje en
+          Zonnestroommaatje tonen dit blok al op elke productpagina. */
+    w.opmerkingen ? `<h2>Goed om te weten</h2>
+    <p>${esc(w.opmerkingen)}</p>` : ""}
     <p>Twijfel je nog over het type of het merk? Doe de <a href="../advies.html">keuzehulp</a>, of zet deze pomp naast twee andere in de <a href="../index.html">vergelijker</a> (vink "vergelijk" aan op maximaal drie kaarten).</p>
   </section>
 </main>
