@@ -15,7 +15,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { afbeeldingKandidaten, grootsteUitSrcset, absoluut, naamDelen, naamScore, beeldScore, bronPaginas, modelDelen, magStoppen, padVanAdres, bronVermelding } from "./productfotos.mjs";
+import { afbeeldingKandidaten, grootsteUitSrcset, absoluut, naamDelen, naamScore, beeldScore, bronPaginas, modelDelen, magStoppen, padVanAdres, bronVermelding, leesBeeldkeuze } from "./productfotos.mjs";
 
 const BASIS = "https://www.fabrikant.nl/product/pomp-x";
 
@@ -342,4 +342,52 @@ test("het filter blijft gelden voor lazy-attributen", () => {
 test("een lazy adres en hetzelfde src-adres leveren één kandidaat", () => {
   const html = `<img src="/media/foto.jpg" data-src="/media/foto.jpg">`;
   assert.equal(afbeeldingKandidaten(html, BASIS).length, 1);
+});
+
+/* --beeld: de keuze van een mens uitlezen.
+ *
+ * De eerste versie knipte op elke komma en viel om op het eerste echte adres
+ * dat erin ging: het pad van de Viessmann Vitocal 150-A bevat "0,36,1920,1044".
+ * Dat werd vier stukken, waarvan het eerste een geldig ogend maar afgekapt
+ * adres was - en dat haalt dus een beeld op dat er niet is, of erger, een
+ * ander beeld. Deze proeven staan er zodat dat niet terugkomt. */
+test("leesBeeldkeuze: twee paren achter elkaar", () => {
+  assert.deepEqual(leesBeeldkeuze("a=https://x.nl/1.png,b=https://y.nl/2.jpg"), [
+    ["a", "https://x.nl/1.png"],
+    ["b", "https://y.nl/2.jpg"],
+  ]);
+});
+
+test("leesBeeldkeuze: komma's in het adres zelf blijven staan", () => {
+  const adres = "https://www.viessmann.nl/a.jpg/_jcr_content/renditions/original.image_file.1200.630.0,36,1920,1044.file/b.jpg";
+  assert.deepEqual(leesBeeldkeuze(`viessmann-vitocal-150a=${adres}`), [["viessmann-vitocal-150a", adres]]);
+});
+
+test("leesBeeldkeuze: een komma-adres gevolgd door een volgend paar", () => {
+  const adres = "https://x.nl/p/1.200.630.0,36,1920.file/b.jpg";
+  assert.deepEqual(leesBeeldkeuze(`a=${adres},b=https://y.nl/2.jpg`), [
+    ["a", adres],
+    ["b", "https://y.nl/2.jpg"],
+  ]);
+});
+
+test("leesBeeldkeuze: regeleindes mogen ook", () => {
+  assert.deepEqual(leesBeeldkeuze("a=https://x.nl/1.png\nb=https://y.nl/2.jpg"), [
+    ["a", "https://x.nl/1.png"],
+    ["b", "https://y.nl/2.jpg"],
+  ]);
+});
+
+test("leesBeeldkeuze: zoekvraag met & blijft heel", () => {
+  assert.deepEqual(leesBeeldkeuze("a=https://x.nl/q?v=1&w=2,b=https://y.nl/2.jpg"), [
+    ["a", "https://x.nl/q?v=1&w=2"],
+    ["b", "https://y.nl/2.jpg"],
+  ]);
+});
+
+test("leesBeeldkeuze: leeg en onzin leveren niets op", () => {
+  assert.deepEqual(leesBeeldkeuze(""), []);
+  assert.deepEqual(leesBeeldkeuze(null), []);
+  assert.deepEqual(leesBeeldkeuze("onzin"), []);
+  assert.deepEqual(leesBeeldkeuze("a=ftp://x.nl/1.png"), []);
 });

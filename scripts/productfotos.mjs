@@ -80,17 +80,29 @@ const ALLEEN = (vlag("--alleen") || "").split(",").map((s) => s.trim()).filter(B
  * NOOIT en VERZONNEN heen gekomen. De bronvermelding wordt bepaald door te
  * kijken welke van de bekende bronpagina's bij het adres hoort, zodat er geen
  * verkeerde naam onder de foto komt. */
-const BEELD = new Map(
-  (vlag("--beeld") || "")
-    .split(",")
-    .map((deel) => deel.trim())
-    .filter(Boolean)
-    .map((deel) => {
-      const i = deel.indexOf("=");
-      return i < 0 ? null : [deel.slice(0, i).trim(), deel.slice(i + 1).trim()];
-    })
-    .filter((paar) => paar && paar[0] && /^https?:/i.test(paar[1])),
-);
+export function leesBeeldkeuze(tekst) {
+  /* Niet knippen op elke komma. De eerste versie deed dat wel, en viel meteen
+     om op het eerste echte adres dat ik erin zette: de Viessmann Vitocal 150-A
+     staat bij de fabrikant onder een pad met "0,36,1920,1044" erin. Dat werd
+     vier stukken, waarvan het eerste een geldig ogend maar afgekapt adres was.
+     Een scheidingsteken dat in de gegevens zelf voorkomt, is geen
+     scheidingsteken.
+
+     Wat wel werkt: knippen op de plek waar een nieuw paar begint, en dat is te
+     herkennen aan "id=http". Alles daartussen hoort bij het adres, komma's en
+     al. Regeleindes mogen ook, want in het invoerveld van de werkstroom typ je
+     ze makkelijker dan komma's. */
+  const uit = [];
+  const re = /(^|[,\n\r])\s*([a-z0-9][a-z0-9._-]*)\s*=\s*(https?:\/\/[^\n\r]*?)(?=\s*(?:[,\n\r]\s*[a-z0-9][a-z0-9._-]*\s*=\s*https?:\/\/|$))/gi;
+  let m;
+  while ((m = re.exec(String(tekst || ""))) !== null) {
+    const adres = m[3].trim().replace(/,+$/, "");
+    if (adres) uit.push([m[2].trim(), adres]);
+  }
+  return uit;
+}
+
+const BEELD = new Map(leesBeeldkeuze(vlag("--beeld")));
 
 /* ------------------------------------------------------------------
    Kandidaten uit een pagina halen
