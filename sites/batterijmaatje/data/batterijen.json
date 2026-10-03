@@ -165,7 +165,11 @@
           }
         ],
         "toelichting": "Handelt zelf op EPEX-uurprijzen en doet mee op de onbalansmarkt; kan daarnaast door Frank Energie aangestuurd worden."
-      }
+      },
+      "afbeelding": "assets/producten/sessy-5kwh.webp",
+      "afbeelding_bron": "foto: Sessy",
+      "afbeelding_herkomst": "https://www.sessy.nl/wp-content/uploads/2026/02/5kwh-iso.186-scaled.png",
+      "afbeelding_via": "https://www.sessy.nl/sessy-5-kwh/"
     },
     {
       "id": "homewizard-plug-in-battery",

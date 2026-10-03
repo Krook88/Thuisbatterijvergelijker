@@ -96,8 +96,19 @@ export function leesBeeldkeuze(tekst) {
   const re = /(^|[,\n\r])\s*([a-z0-9][a-z0-9._-]*)\s*=\s*(https?:\/\/[^\n\r]*?)(?=\s*(?:[,\n\r]\s*[a-z0-9][a-z0-9._-]*\s*=\s*https?:\/\/|$))/gi;
   let m;
   while ((m = re.exec(String(tekst || ""))) !== null) {
-    const adres = m[3].trim().replace(/,+$/, "");
-    if (adres) uit.push([m[2].trim(), adres]);
+    const heel = m[3].trim().replace(/,+$/, "");
+    /* Achter een | mag de pagina staan waar het beeld vandaan komt. Dat is
+       niet uit het beeldadres af te leiden, en het bepaalt wel wiens naam er
+       onder de foto komt: de Victron MultiPlus-II werd gevonden bij
+       Acculaders.nl, maar het bestand staat op cdn.webshopapp.com. Zonder dit
+       viel de bron terug op de eerste bekende bronpagina - de fabrikant - en
+       stond er "foto: Victron Energy" onder een foto van de winkel. Een site
+       die zijn prijzen bij de winkel natelt kan zich geen bronvermelding
+       veroorloven die de verkeerde partij noemt. */
+    const streep = heel.indexOf("|");
+    const adres = streep < 0 ? heel : heel.slice(0, streep).trim();
+    const pagina = streep < 0 ? "" : heel.slice(streep + 1).trim();
+    if (adres) uit.push([m[2].trim(), pagina ? { url: adres, pagina } : adres]);
   }
   return uit;
 }
@@ -513,12 +524,16 @@ async function main() {
       /* Handmatige keuze: niet zoeken, wel de juiste bron eronder zetten. */
       const handmatig = BEELD.get(p.id);
       if (handmatig) {
+        const beeldUrl = typeof handmatig === "string" ? handmatig : handmatig.url;
+        const paginaHint = typeof handmatig === "string" ? "" : handmatig.pagina;
         const host = (u) => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch { return ""; } };
-        const hoort = bronnen.find((b) => host(b.url) === host(handmatig))
-          || bronnen.find((b) => host(handmatig).endsWith(host(b.url).split(".").slice(-2).join(".")))
+        const bijHost = (u) => bronnen.find((b) => host(b.url) === host(u))
+          || bronnen.find((b) => host(u).endsWith(host(b.url).split(".").slice(-2).join(".")));
+        const hoort = (paginaHint && (bijHost(paginaHint) || { url: paginaHint, naam: host(paginaHint), vanFabrikant: false }))
+          || bijHost(beeldUrl)
           || bronnen[0];
         const keuze = {
-          url: handmatig,
+          url: beeldUrl,
           hoe: "met de hand gekozen",
           bron: hoort ? hoort.naam : "de fabrikant",
           vanFabrikant: hoort ? hoort.vanFabrikant : true,

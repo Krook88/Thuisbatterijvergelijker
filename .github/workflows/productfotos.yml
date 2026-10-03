@@ -15,7 +15,10 @@ name: Productfoto's ophalen
 # precies omdat een mens ernaar hoort te kijken - maar zonder dit veld kon die
 # mens er niets mee en pakte de echte run altijd nummer één. Bij de Sessy was
 # dat nps-score.png terwijl de productfoto op plek twee stond. Zet hier een
-# adres uit zo'n lijst neer en dat wordt het.
+# adres uit zo'n lijst neer en dat wordt het. Komt het beeld van een cdn, zet
+# dan achter een | de pagina waar je het vond: daar hangt de bronvermelding aan.
+# De foto van de Victron MultiPlus-II staat op cdn.webshopapp.com maar komt van
+# Acculaders.nl, en zonder die hint kwam de naam van de fabrikant eronder.
 #
 # Duwt nooit naar de hoofdtak. Alles landt op een eigen tak, want een og:image
 # is bij de ene fabrikant een strakke productfoto en bij de andere een gezin op
@@ -40,7 +43,7 @@ on:
         type: boolean
         default: true
       beeld:
-        description: "Zelf gekozen beeld uit een eerdere droge run: id=adres, met komma's ertussen"
+        description: "Zelf gekozen beeld uit een eerdere droge run: id=adres of id=adres|winkelpagina, gescheiden door komma's of regels"
         required: false
         type: string
       tak:

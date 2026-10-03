@@ -391,3 +391,14 @@ test("leesBeeldkeuze: leeg en onzin leveren niets op", () => {
   assert.deepEqual(leesBeeldkeuze("onzin"), []);
   assert.deepEqual(leesBeeldkeuze("a=ftp://x.nl/1.png"), []);
 });
+
+test("leesBeeldkeuze: achter een | staat de pagina waar het beeld vandaan komt", () => {
+  assert.deepEqual(
+    leesBeeldkeuze("victron-multiplus2=https://cdn.webshopapp.com/shops/74363/files/1.jpg|https://www.acculaders.nl/p.html"),
+    [["victron-multiplus2", { url: "https://cdn.webshopapp.com/shops/74363/files/1.jpg", pagina: "https://www.acculaders.nl/p.html" }]],
+  );
+});
+
+test("leesBeeldkeuze: zonder | blijft het een kaal adres", () => {
+  assert.deepEqual(leesBeeldkeuze("a=https://x.nl/1.png"), [["a", "https://x.nl/1.png"]]);
+});
