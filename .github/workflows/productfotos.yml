@@ -10,6 +10,13 @@ name: Productfoto's ophalen
 # en de beeldophaler krijgen daar een 403 van de proxy in plaats van een
 # antwoord. Een runner komt er wel bij.
 #
+# Met `beeld` kies je zelf welk beeld het wordt: id=adres, met komma's ertussen.
+# De droge run toont per product de beste kandidaat plus drie alternatieven,
+# precies omdat een mens ernaar hoort te kijken - maar zonder dit veld kon die
+# mens er niets mee en pakte de echte run altijd nummer één. Bij de Sessy was
+# dat nps-score.png terwijl de productfoto op plek twee stond. Zet hier een
+# adres uit zo'n lijst neer en dat wordt het.
+#
 # Duwt nooit naar de hoofdtak. Alles landt op een eigen tak, want een og:image
 # is bij de ene fabrikant een strakke productfoto en bij de andere een gezin op
 # de bank. Iemand moet ze zien voordat ze op 58 pagina's staan.
@@ -32,6 +39,10 @@ on:
         required: false
         type: boolean
         default: true
+      beeld:
+        description: "Zelf gekozen beeld uit een eerdere droge run: id=adres, met komma's ertussen"
+        required: false
+        type: string
       tak:
         description: "Naam van de tak (het runnummer komt erachter)"
         required: false
@@ -76,12 +87,25 @@ jobs:
           SITE: ${{ inputs.site }}
           ALLEEN: ${{ inputs.alleen }}
           DROOG: ${{ inputs.droog }}
+          BEELD: ${{ inputs.beeld }}
         run: |
           args=()
           [ -n "$SITE" ] && [ "$SITE" != "alle" ] && args+=(--site "$SITE")
           [ -n "$ALLEEN" ] && args+=(--alleen "$ALLEEN")
+          [ -n "$BEELD" ] && args+=(--beeld "$BEELD")
           [ "$DROOG" = "true" ] && args+=(--droog)
           npm run fotos -- "${args[@]}"
+
+      # Een verse foto heeft de witruimte van de winkel waar hij vandaan komt:
+      # bij de een staat het product klein in het midden, bij de ander tot aan
+      # de rand. In dezelfde tegel naast elkaar ziet dat eruit als bij elkaar
+      # geraapt. Dit snijdt de vlakke rand weg en zet er een vaste marge omheen,
+      # zodat een nieuwe foto meteen dezelfde maat heeft als de rest.
+      - name: Foto's op één maat brengen
+        if: ${{ !inputs.droog }}
+        run: |
+          python3 -m pip install --quiet --disable-pip-version-check pillow
+          python3 scripts/foto-bijsnijden.py
 
       # Elke run zijn eigen tak. Eén vaste naam zou een tweede run de foto's van
       # de eerste laten overschrijven, en dan is een force-push de enige uitweg

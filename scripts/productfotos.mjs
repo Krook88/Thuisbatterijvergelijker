@@ -26,6 +26,7 @@
  * heeft.
  *
  *   node scripts/productfotos.mjs [--site <naam>] [--alleen id,id] [--droog]
+ *                                  [--beeld id=adres,id=adres]
  *
  * Draaien doe je het via de werkstroom "Productfoto's ophalen": deze omgeving
  * komt niet bij fabrikantsites, want de egress-proxy laat alleen npm en pypi
@@ -63,6 +64,33 @@ const vlag = (naam) => {
 const DROOG = argv.includes("--droog");
 const ALLEEN_SITE = vlag("--site");
 const ALLEEN = (vlag("--alleen") || "").split(",").map((s) => s.trim()).filter(Boolean);
+
+/* Met de hand gekozen beeld: --beeld id=adres,id=adres
+ *
+ * Waarom dit erbij moest. De droge run toont per product de beste kandidaat én
+ * drie alternatieven, precies omdat een mens ernaar hoort te kijken. Maar
+ * daarna kon diezelfde mens er niets mee: de echte run pakte altijd nummer
+ * één. Bij de Sessy was dat nps-score.png en stond de productfoto op plek twee;
+ * bij de SolarEdge was het een installatieplaatje terwijl 48V-product-new.jpg
+ * er gewoon tussen stond. "Een mens kijkt ernaar" werkt alleen als die mens
+ * ook kan kiezen.
+ *
+ * Het adres komt dus uit de lijst van een eerdere droge run en niet uit de
+ * lucht: wat hier staat is door het script zelf op die pagina gevonden en door
+ * NOOIT en VERZONNEN heen gekomen. De bronvermelding wordt bepaald door te
+ * kijken welke van de bekende bronpagina's bij het adres hoort, zodat er geen
+ * verkeerde naam onder de foto komt. */
+const BEELD = new Map(
+  (vlag("--beeld") || "")
+    .split(",")
+    .map((deel) => deel.trim())
+    .filter(Boolean)
+    .map((deel) => {
+      const i = deel.indexOf("=");
+      return i < 0 ? null : [deel.slice(0, i).trim(), deel.slice(i + 1).trim()];
+    })
+    .filter((paar) => paar && paar[0] && /^https?:/i.test(paar[1])),
+);
 
 /* ------------------------------------------------------------------
    Kandidaten uit een pagina halen
@@ -371,6 +399,38 @@ export function bronVermelding(product, keuze) {
   return `foto: ${String(keuze.bron || "de winkel").replace(/\s*\(.*$/, "").trim()}`;
 }
 
+/* Ophalen, omzetten en de vier velden invullen. Eén plek, want de gewone weg
+   en de handmatige keuze doen hierna precies hetzelfde. */
+let gereedschap;
+async function bewaarBeeld(p, site, keuze) {
+  try {
+    gereedschap = gereedschap || omzetter();
+    const rauw = await haalBeeld(keuze.url);
+    const tijdelijk = join(tmpdir(), `foto-${p.id}`);
+    writeFileSync(tijdelijk, rauw);
+    const map = join(ROOT, "sites", site, "assets", "producten");
+    mkdirSync(map, { recursive: true });
+    const doel = join(map, `${p.id}.webp`);
+    execFileSync(gereedschap, ["-quiet", "-q", String(KWALITEIT), "-resize", String(BREEDTE), "0", tijdelijk, "-o", doel]);
+    rmSync(tijdelijk, { force: true });
+    const grootte = readFileSync(doel).length;
+    if (!grootte || grootte > MAX_BYTES) {
+      console.log(`      omgezet bestand is ${Math.round(grootte / 1024)} kB, dat is niet in orde; overgeslagen`);
+      rmSync(doel, { force: true });
+      return false;
+    }
+    p.afbeelding = `assets/producten/${p.id}.webp`;
+    p.afbeelding_bron = bronVermelding(p, keuze);
+    p.afbeelding_herkomst = keuze.url;
+    p.afbeelding_via = keuze.paginaUrl;
+    console.log(`      ✓ ${Math.round(grootte / 1024)} kB weggeschreven naar ${p.afbeelding}`);
+    return true;
+  } catch (err) {
+    console.log(`      beeld niet op te halen of om te zetten: ${err.message}`);
+    return false;
+  }
+}
+
 /* ------------------------------------------------------------------
    Omzetten naar webp
    ------------------------------------------------------------------ */
@@ -437,6 +497,29 @@ async function main() {
       if (ALLEEN.length && !ALLEEN.includes(p.id)) continue;
 
       const bronnen = bronPaginas(p);
+
+      /* Handmatige keuze: niet zoeken, wel de juiste bron eronder zetten. */
+      const handmatig = BEELD.get(p.id);
+      if (handmatig) {
+        const host = (u) => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch { return ""; } };
+        const hoort = bronnen.find((b) => host(b.url) === host(handmatig))
+          || bronnen.find((b) => host(handmatig).endsWith(host(b.url).split(".").slice(-2).join(".")))
+          || bronnen[0];
+        const keuze = {
+          url: handmatig,
+          hoe: "met de hand gekozen",
+          bron: hoort ? hoort.naam : "de fabrikant",
+          vanFabrikant: hoort ? hoort.vanFabrikant : true,
+          paginaUrl: hoort ? hoort.url : p.product_url || "",
+          score: null,
+        };
+        console.log(`  = ${p.id}: met de hand gekozen, bron ${keuze.bron}`);
+        console.log(`      ${keuze.url}`);
+        if (DROOG) { opgehaald++; continue; }
+        if (await bewaarBeeld(p, site, keuze)) { gewijzigd = true; opgehaald++; } else { mislukt++; }
+        continue;
+      }
+
       if (!bronnen.length) {
         console.log(`  - ${p.id}: geen adres om te bezoeken`);
         overgeslagen++;
@@ -479,32 +562,7 @@ async function main() {
 
       if (DROOG) { opgehaald++; continue; }
 
-      try {
-        const rauw = await haalBeeld(keuze.url);
-        const tijdelijk = join(tmpdir(), `foto-${p.id}`);
-        writeFileSync(tijdelijk, rauw);
-        const map = join(ROOT, "sites", site, "assets", "producten");
-        mkdirSync(map, { recursive: true });
-        const doel = join(map, `${p.id}.webp`);
-        execFileSync(werktuig, ["-quiet", "-q", String(KWALITEIT), "-resize", String(BREEDTE), "0", tijdelijk, "-o", doel]);
-        rmSync(tijdelijk, { force: true });
-        const grootte = readFileSync(doel).length;
-        if (!grootte || grootte > MAX_BYTES) {
-          console.log(`      omgezet bestand is ${Math.round(grootte / 1024)} kB, dat is niet in orde; overgeslagen`);
-          mislukt++;
-          continue;
-        }
-        p.afbeelding = `assets/producten/${p.id}.webp`;
-        p.afbeelding_bron = bronVermelding(p, keuze);
-        p.afbeelding_herkomst = keuze.url;
-        p.afbeelding_via = keuze.paginaUrl;
-        gewijzigd = true;
-        opgehaald++;
-        console.log(`      ✓ ${Math.round(grootte / 1024)} kB weggeschreven naar ${p.afbeelding}`);
-      } catch (err) {
-        console.log(`      beeld niet op te halen of om te zetten: ${err.message}`);
-        mislukt++;
-      }
+      if (await bewaarBeeld(p, site, keuze)) { gewijzigd = true; opgehaald++; } else { mislukt++; }
     }
 
     if (gewijzigd && !DROOG) {
