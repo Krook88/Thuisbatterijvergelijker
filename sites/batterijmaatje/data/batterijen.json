@@ -419,7 +419,11 @@
           }
         ],
         "toelichting": "Powerplay handelt op day-ahead en op de onbalansmarkt; je zit dan wel vast aan Zonneplan als leverancier."
-      }
+      },
+      "afbeelding": "assets/producten/zonneplan-nexus.webp",
+      "afbeelding_bron": "foto: Zonneplan",
+      "afbeelding_herkomst": "https://d2m3a8zzfvfhyv.cloudfront.net/images/battery/nexus-in-garage-1.jpg?format=auto&width=1920&quality=90",
+      "afbeelding_via": "https://www.zonneplan.nl/thuisbatterij"
     },
     {
       "id": "enphase-iq-battery-5p",
@@ -670,7 +674,11 @@
           }
         ],
         "toelichting": "Frank Energie stuurt AlphaESS-batterijen automatisch aan op day-ahead en onbalansmarkt."
-      }
+      },
+      "afbeelding": "assets/producten/alphaess-smile-g3-t10.webp",
+      "afbeelding_bron": "foto: AlphaESS",
+      "afbeelding_herkomst": "https://www.alphaess.nl/cdn/shop/files/G3_tier1.jpg?v=1763522732&width=1500",
+      "afbeelding_via": "https://www.alphaess.nl/pages/smile-g3-thuisbatterij"
     },
     {
       "id": "fox-ess-ep11",
@@ -962,7 +970,11 @@
       "buiten_toelichting": "binnen en buiten",
       "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "continu",
-      "vermogen_bron": "2 modules van 3,5 kW; een stapel van drie komt op 10,5 kW"
+      "vermogen_bron": "2 modules van 3,5 kW; een stapel van drie komt op 10,5 kW",
+      "afbeelding": "assets/producten/huawei-luna2000-s1.webp",
+      "afbeelding_bron": "foto: Huawei",
+      "afbeelding_herkomst": "https://solar.huawei.com/admin/asset/v1/pro/view/83edde1a92a94a33ab98eb70fe8eb7aa.png",
+      "afbeelding_via": "https://solar.huawei.com/nl/"
     },
     {
       "id": "lg-enblock-flex-129",
@@ -1393,7 +1405,11 @@
       "noodstroom_uitleg": "Noodstroomuitgang met omschakeling binnen ca. 10 ms (fabrieksopgave).",
       "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "continu",
-      "vermogen_bron": "Anker geeft 3.500 W laad- en ontlaadvermogen als rated waarde"
+      "vermogen_bron": "Anker geeft 3.500 W laad- en ontlaadvermogen als rated waarde",
+      "afbeelding": "assets/producten/anker-solix-solarbank-max-ac.webp",
+      "afbeelding_bron": "foto: Anker",
+      "afbeelding_herkomst": "https://cdn.shopify.com/s/files/1/0726/0736/7225/files/780x1320-17_780x.png?v=1784641999",
+      "afbeelding_via": "https://www.ankersolix.com/nl/plug-and-play-thuisbatterij/thuisbatterij-a17e2"
     },
     {
       "id": "zendure-solarflow-3000-mix-ac",
