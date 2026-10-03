@@ -14,7 +14,7 @@
       "prijs_toelichting": "per micro-omvormer, per paneel; plus IQ Gateway (circa € 250) per systeem",
       "batterij": {
         "status": "ja",
-        "tekst": "Eigen ecosysteem: Enphase IQ Battery (AC-gekoppeld) koppelt naadloos; batterijen van andere merken kunnen alleen los via de meterkast (P1) naast het systeem."
+        "tekst": "Eigen ecosysteem: Enphase IQ Battery (AC-gekoppeld) koppelt zonder extra hardware; batterijen van andere merken kunnen alleen los via de meterkast (P1) naast het systeem."
       },
       "home_assistant": {
         "status": "ja",

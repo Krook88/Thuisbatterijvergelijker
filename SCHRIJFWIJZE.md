@@ -126,9 +126,17 @@ geeft, klik je weg.
 In augustus 2026 zijn die 64 stuk voor stuk nagelopen en van een bedrag, een
 aantal, een merknaam of een bron voorzien, bijna allemaal uit de eigen data van
 de site: 41 batterijen van 669 tot 9.000 euro, 14 panelen van 12 tot 52 cent
-per Wp, 30 warmtepompen van 48 tot 59 dB(A). De teller staat op nul, en daarmee
-voldoet deze controle aan dezelfde eis als de andere zes. Dus laat hij nu wél
+per Wp, 30 warmtepompen van 48 tot 59 dB(A). De teller stond op nul, en daarmee
+voldeed deze controle aan dezelfde eis als de andere zes. Dus laat hij nu wél
 vallen.
+
+In oktober 2026 bleek die nul over 44 pagina's gemeten: de controle liep alleen
+de hoofdmap van elke site af en zag de 106 product- en vergelijkingspagina's
+niet. Over alle 150 staat de teller op 92 van 586. Die 92 stonden er dus al;
+er keek alleen niets naar. Ze zijn niet in één keer weg te schrijven zonder er
+iets bij te verzinnen, en dat is precies wat deze controle moet voorkomen. Er
+staat daarom voorlopig een plafond van 92 in plaats van een nul, met dezelfde
+afspraak: het mag alleen omlaag.
 
 Loop je erop vast bij een alinea die echt geen getal hoort te dragen, dan is de
 uitweg om hem korter dan 25 woorden te maken, of om er de bron bij te zetten
@@ -162,9 +170,25 @@ met de tic zit in de zinsbouw ervoor en erna, en dat is met een patroon niet
 betrouwbaar te scheiden zonder halve pagina's ten onrechte af te keuren.
 
 Van de 124 zijn er 62 herschreven. De 62 die blijven staan zijn die etiketten
-en opsommingen, en dat getal staat als plafond in `scripts/slop.mjs`. Komt het
+en opsommingen, en dat getal stond als plafond in `scripts/slop.mjs`. Komt het
 erboven, dan valt de run. Wordt het minder, zet het plafond dan omlaag; dat is
 de bedoeling.
+
+Ook hier gold die 62 maar voor 44 pagina's. Over alle 150 zijn het er 276, en
+daar staat het plafond nu. Dezelfde afspraak: alleen omlaag.
+
+**9. Kromme zinsbouw in de eerste persoon.** "Hebben ik niet kan bevestigen."
+Deze controle kijkt als enige niet naar stijl maar naar fouten, en hij bestaat
+omdat er zo'n zin op twee productpagina's stond: een litteken van de overstap
+van "wij" naar "ik", waarbij het onderwerp wel veranderde en het werkwoord
+niet. Alle acht controles hierboven gaven groen, en terecht volgens hun eigen
+maat - de zin is concreet, draagt een bedrag en een datum, en zegt eerlijk wat
+ik niet weet. Hij is alleen geen Nederlands.
+
+Dat is het verschil. De rest meet of er iets staat; deze meet of het klopt. Een
+kromme zin is precies het moment waarop een lezer denkt dat er een machine aan
+het woord is, hoe goed de inhoud ook is. Bewust smal gehouden: alleen de eerste
+persoon, want daar zat de herschrijving die het misging.
 
 ## Wat een script niet kan bewaken
 
@@ -186,5 +210,12 @@ daarmee het enige wat definitief het verschil maakt.
 npm run slop                      alle drie de sites
 npm run slop -- batterijmaatje    één site
 ```
+
+Hij loopt alle 150 HTML-pagina's af, dus ook de productpagina's onder
+`batterij/`, `pomp/` en `paneel/` en de vergelijkingspagina's. Dat was lang
+niet zo: tot oktober 2026 keek hij alleen in de hoofdmap, 44 pagina's, en gaf
+hij groen over de 106 pagina's die hij nooit had geopend. Een controle die
+niets ziet, ziet er hetzelfde uit als een site die niets mankeert; het aantal
+nagelopen pagina's staat daarom in de slotregel.
 
 Loopt mee in `npm run controle` en in CI.

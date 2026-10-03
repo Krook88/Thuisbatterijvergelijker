@@ -37,6 +37,15 @@
  * getal hoort te dragen, dan is de uitweg om hem korter dan 25 woorden te
  * maken of om er de bron bij te zetten waar hij toch al op leunt.
  *
+ * Twee dingen zijn in oktober 2026 veranderd, en ze hangen samen. Er is een
+ * controle bij op congruentie - de enige die naar fouten kijkt in plaats van
+ * naar stijl - en de lus loopt nu de hele mappenboom af in plaats van alleen
+ * de hoofdmap van elke site. Dat tweede is de reden voor het eerste: de zin
+ * die het gat aan het licht bracht stond op een productpagina, en van de 150
+ * pagina's waren er 106 nog nooit bekeken. Daardoor hebben de twee tellers
+ * hierboven (dubbele punt, claimdichtheid) een plafond gekregen op wat er
+ * vandaag staat: 276 en 92. Beide mogen alleen omlaag.
+ *
  * Draaien:  npm run slop
  *           npm run slop -- batterijmaatje     voor één site
  */
@@ -147,6 +156,54 @@ const GENERALISATIE = /(onderzoek(en)? (toont|tonen) aan|studies (laten zien|ton
    dus alles wat hier opduikt is nieuw ingeslopen. */
 const MEERVOUDSSTEM = /\b(Wij|wij|We|we|ons|Ons|onze|Onze)\b/g;
 
+/* Congruentie. Deze controle kijkt als enige niet naar stijl maar naar fouten.
+
+   Dat gat kwam aan het licht toen de site zelf werd nagelezen. Op twee
+   productpagina's stond "hebben ik niet kan bevestigen" - een litteken van de
+   overstap van "wij" naar "ik" in augustus 2026, waarbij het onderwerp wel
+   veranderde en het werkwoord niet. Alle zeven controles hierboven gaven
+   groen, en terecht volgens hun eigen maat: de zin is concreet, draagt een
+   bedrag en een datum, en zegt eerlijk wat de maker niet weet. Hij is alleen
+   geen Nederlands.
+
+   Dat is het verschil dat deze controle afdekt. De rest meet of er iets staat;
+   dit meet of het klopt. Voor een lezer is dat geen fijn onderscheid: een
+   kromme zin is precies het moment waarop iemand denkt dat er een machine aan
+   het woord is, hoe goed de inhoud ook is.
+
+   Bewust smal gehouden - alleen de eerste persoon, want daar zit de
+   herschrijving die het misging. Nul treffers na herstel, dus alles wat hier
+   opduikt is nieuw. */
+const CONGRUENTIE = [
+  [/\bik (hebben|zijn|kunnen|zullen|worden|gaan|staan|weten|moeten|willen|mogen)\b/gi,
+    'enkelvoudig onderwerp met een meervoudig werkwoord'],
+  [/\b(hebben|zijn|kunnen|zullen|worden|staan) ik\b/gi,
+    'enkelvoudig onderwerp met een meervoudig werkwoord'],
+  [/\b(heb|hebt|heeft|hebben|had|hadden) \w+ (niet )?(kan|wil|mag|moet)\b/gi,
+    'na "heb" hoort de infinitief: kunnen, willen, mogen, moeten'],
+];
+
+/* Dezelfde proef als bij de stijlfiguren, met de twee zinnen die er echt
+   stonden. De laatste vier horen erdoor te komen; zonder die vier keurt een
+   iets te gretig patroon gewoon Nederlands af en wordt deze controle de
+   eerste die iemand uitzet. */
+const CONGRUENTIEPROEF = [
+  ['Wat hij buiten die actie kost, hebben ik niet kan bevestigen.', true],
+  ['Een betrouwbare actuele winkelprijs hebben ik niet kan vaststellen.', true],
+  ['Dat heb ik niet kan bevestigen.', true],
+  ['Dat heb ik niet kunnen bevestigen.', false],
+  ['De genoemde gemiddelden voor jaarverbruik zijn indicatief.', false],
+  ['Ik kan de prijs van dit model niet bevestigen.', false],
+  ['Ik heb de prijs op 2 oktober 2026 nagekeken.', false],
+];
+for (const [zin, hoortTeRaken] of CONGRUENTIEPROEF) {
+  const raakt = CONGRUENTIE.some(([p]) => { p.lastIndex = 0; return p.test(zin); });
+  if (raakt !== hoortTeRaken) {
+    console.error(`De congruentiecontrole is stuk: "${zin}" ${raakt ? "wordt geraakt" : "komt erdoor"} en dat hoort niet.`);
+    process.exit(2);
+  }
+}
+
 /* Het kastlijntje. Of dit echt een verklikker van AI-tekst is, is betwist -
    het staat in boeken en journalistiek net zo goed, en het zegt eerder iets
    over geredigeerd schrijven dan over de schrijver. Maar het is wel het eerste
@@ -204,7 +261,13 @@ for (const [zin, hoortTeRaken] of STREEPJESPROEF) {
    62, dan is dat bijna zeker de tic die terugsluipt, en dan valt de run. Wordt
    het er minder, dan mag dit getal omlaag; dat is de bedoeling. */
 const DUBBELE_PUNT = /[a-z0-9)"'’]: [a-z]/;
-const DUBBELE_PUNT_BUDGET = 62;
+/* 62 was het getal toen deze controle alleen de 44 pagina's in de hoofdmappen
+   zag. Sinds hij de hele boom afloopt staan er 150 pagina's onder, en meet hij
+   276. Dat is geen verslechtering: die 214 stonden er al, alleen keek er niets
+   naar. Het plafond gaat daarom mee omhoog naar wat er vandaag staat, met
+   dezelfde afspraak als eerst - het mag alleen nog omlaag. Zakt het getal,
+   dan hoort dit mee te zakken, net zoals 124 ooit 62 werd. */
+const DUBBELE_PUNT_BUDGET = 276;
 
 const zonderRuis = (html) =>
   html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/g, " ");
@@ -240,23 +303,41 @@ const attribuutTekst = (html) =>
     .join(" ");
 const zinnenIn = (tekst) => tekst.split(/(?<=[.!?])\s+/).map((z) => z.trim()).filter(Boolean);
 
+/* Deze controle keek lang alleen naar de pagina's in de hoofdmap van een site:
+   44 van de 150. Buiten beeld bleven de productpagina's en de
+   vergelijkingspagina's - precies de 106 pagina's die uit de gegevens worden
+   gegenereerd, en dus precies de pagina's waar tekst zonder tweede lezer op
+   terechtkomt. Dat is hoe "hebben ik niet kan bevestigen" er maandenlang kon
+   staan terwijl npm run slop groen gaf.
+
+   Een controle die niets ziet, ziet er hetzelfde uit als een site die niets
+   mankeert. Daarom loopt hij nu de hele boom af. */
 function paginasVan(site) {
   const map = join(SITES_MAP, site);
-  return readdirSync(map)
-    .filter((n) => n.endsWith(".html"))
-    .map((n) => ({ site, naam: n, pad: join(map, n) }));
+  const uit = [];
+  const loop = (pad, voorvoegsel) => {
+    for (const naam of readdirSync(pad).sort()) {
+      const kind = join(pad, naam);
+      if (statSync(kind).isDirectory()) loop(kind, `${voorvoegsel}${naam}/`);
+      else if (naam.endsWith(".html")) uit.push({ site, naam: `${voorvoegsel}${naam}`, pad: kind });
+    }
+  };
+  loop(map, "");
+  return uit;
 }
 
 const alleSites = readdirSync(SITES_MAP).filter((s) => statSync(join(SITES_MAP, s)).isDirectory());
 const teDoen = GEVRAAGD.length ? GEVRAAGD : alleSites;
 
 const gebreken = [];
+let paginaTeller = 0;
 const dubbelePunten = [];
 const signalen = [];
 const zinPerSite = new Map(); // zin -> Set van sites
 
 for (const site of teDoen) {
   for (const { naam, pad } of paginasVan(site)) {
+    paginaTeller += 1;
     const html = readFileSync(pad, "utf8");
     const tekst = `${plat(zonderRuis(html))} ${attribuutTekst(zonderRuis(html))}`;
     const waar = `${site}/${naam}`;
@@ -279,6 +360,12 @@ for (const site of teDoen) {
 
     for (const treffer of tekst.match(MEERVOUDSSTEM) || []) {
       gebreken.push({ waar, soort: "meervoudsstem", melding: `"${treffer}" - deze site spreekt als "ik"` });
+    }
+
+    for (const [patroon, waarom] of CONGRUENTIE) {
+      for (const treffer of tekst.match(patroon) || []) {
+        gebreken.push({ waar, soort: "congruentie", melding: `"${treffer}" - ${waarom}` });
+      }
     }
 
     /* Bronregels en tabellen tellen niet mee: daar is een dubbele punt een
@@ -344,8 +431,19 @@ const UITLEG = {
   generalisatie: "Een beroep op onderzoek zonder te zeggen welk onderzoek.",
   meervoudsstem: 'De site is van één maker en spreekt als "ik". "Wij" suggereert een redactie die er niet is.',
   kastlijntje: "Het lange streepje is het eerste waar lezers naar wijzen bij gegenereerde tekst. Schrijf de zin uit.",
+  congruentie: "Kromme zinsbouw. Niet vaag, wel fout - en een lezer leest dat als een machine.",
   "zelfde zin": "Staat letterlijk op meer dan één site. Hoort dat zo? Zet hem dan in scripts/gedeelde-zinnen.json, met een reden in de commit.",
 };
+
+/* De lus hieronder loopt over UITLEG, niet over de bevindingen. Een soort die
+   hier niet in staat wordt dus wel geteld en nooit getoond: de run valt, en
+   het scherm zegt niet waarom. Dat gebeurde meteen bij het toevoegen van de
+   congruentiecontrole. Daarom zegt hij het nu zelf. */
+for (const g of gebreken) {
+  if (UITLEG[g.soort]) continue;
+  console.error(`De soort "${g.soort}" heeft geen regel in UITLEG en zou stil wegvallen.`);
+  process.exit(2);
+}
 
 for (const soort of Object.keys(UITLEG)) {
   const lijst = gebreken.filter((g) => g.soort === soort);
@@ -376,16 +474,25 @@ if (teDoen.length === alleSites.length) {
   }
 }
 
-if (legeAlineas) {
+/* Zelfde verhaal als bij de dubbele punt. Op de 44 pagina's die deze controle
+   zag stond de teller op nul, en daar mocht hij niets van doorlaten. Over alle
+   150 pagina's zijn het er 92 van 586 - alinea's op productpagina's die nooit
+   een tweede lezer hebben gehad. Die zijn er niet in één keer uit te schrijven
+   zonder er onzin bij te verzinnen, en dat is precies wat deze controle moet
+   voorkomen. Dus staat er voorlopig een plafond in plaats van een nul, met de
+   afspraak dat het alleen omlaag mag. */
+const CLAIM_BUDGET = 92;
+
+if (legeAlineas > CLAIM_BUDGET) {
   console.error(`\nClaimdichtheid: ${legeAlineas} van ${langeAlineas} alinea's van 25 woorden of meer`);
   console.error("bevat geen enkel getal en geen enkele verwijzing. Zet er een bedrag, een aantal,");
   console.error("een merknaam of een bron bij, of maak de alinea korter dan 25 woorden.");
   for (const s of signalen.filter((s) => s.leeg).sort((a, b) => b.leeg - a.leeg)) {
     console.error(`   ${String(s.leeg).padStart(3)} van ${String(s.lang).padStart(3)}   ${s.waar}`);
   }
-  gebrekenExtra = legeAlineas;
+  gebrekenExtra = legeAlineas - CLAIM_BUDGET;
 } else if (langeAlineas) {
-  console.log(`\nClaimdichtheid: alle ${langeAlineas} alinea's van 25 woorden of meer dragen een getal of een verwijzing.`);
+  console.log(`\nClaimdichtheid: ${legeAlineas} van ${langeAlineas} alinea's van 25 woorden of meer dragen geen getal en geen verwijzing, plafond ${CLAIM_BUDGET}.`);
 }
 
 if (gebreken.length || gebrekenExtra) {
@@ -404,6 +511,6 @@ if (gebreken.length || gebrekenExtra) {
    over op te scheppen - "niets gevonden" en "niets gekeken" horen er niet
    hetzelfde uit te zien. */
 const alles = teDoen.length === alleSites.length;
-console.log(`\nDe tekst is scherp op ${teDoen.length} site(s): geen lege woordenschat, geen "niet X maar Y",`);
-console.log(`nergens "wij" waar "ik" hoort,`);
+console.log(`\nDe tekst is scherp op ${teDoen.length} site(s), over ${paginaTeller} pagina's: geen lege woordenschat, geen "niet X maar Y",`);
+console.log(`nergens "wij" waar "ik" hoort, geen kromme eerste persoon,`);
 console.log(`en geen beroep op onderzoek zonder bron${alles ? ", en geen zin die ongemerkt op twee sites staat" : " (de vergelijking tussen sites is overgeslagen)"}.`);

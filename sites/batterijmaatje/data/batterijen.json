@@ -83,7 +83,7 @@
       "app": "Marstek app",
       "garantie_jaar": 10,
       "cycli": 6000,
-      "opmerkingen": "Op dit moment de scherpste prijs per kWh in de lijst, dankzij een aanbieding bij Marstek.nl. Wat hij buiten die actie kost, hebben ik niet kan bevestigen. De 1.950 euro is op 27 juli 2026 via meerdere bronnen opnieuw nagekeken. Kom je ergens 1.274 euro tegen: dat hoort bij de Venus E 4.0 zonder P1-meter, een ander model.",
+      "opmerkingen": "Op dit moment de scherpste prijs per kWh in de lijst, dankzij een aanbieding bij Marstek.nl. Wat hij buiten die actie kost, heb ik niet kunnen bevestigen. De 1.950 euro is op 27 juli 2026 via meerdere bronnen opnieuw nagekeken. Kom je ergens 1.274 euro tegen: dat hoort bij de Venus E 4.0 zonder P1-meter, een ander model.",
       "product_url": "https://www.marstek.nl/product/marstek-venus-c-1-0-plug-charge-thuisbatterij-7-68-kwh-incl-p1-meter/",
       "aanbiedingen": [
         {
@@ -536,8 +536,8 @@
       ],
       "totaalprijs_van_eur": 7864,
       "totaalprijs_toelichting": "het aanbod van Frank Energie is compleet geinstalleerd: 6.499 euro excl. btw, oftewel 7.864 incl. btw. Hier stond eerder 6.500 tot 8.000 - dat eerste getal was het bedrag excl. btw van datzelfde aanbod, waardoor de complete prijs lager leek dan het toestel alleen. Een bovengrens heb ik niet uit een bron; die is daarom weggelaten in plaats van geschat.",
-      "noodstroom": "Alleen met de optionele Sigen Energy Gateway (ca. 2.000 euro): schakelt de hele woning vrijwel naadloos om naar de batterij, tot ca. 10 kW.",
-      "noodstroom_uitleg": "Alleen met de optionele Sigen Energy Gateway (ca. 2.000 euro): schakelt de hele woning vrijwel naadloos om naar de batterij, tot ca. 10 kW.",
+      "noodstroom": "Alleen met de optionele Sigen Energy Gateway (ca. 2.000 euro): schakelt de hele woning over naar de batterij, tot ca. 10 kW.",
+      "noodstroom_uitleg": "Alleen met de optionele Sigen Energy Gateway (ca. 2.000 euro): schakelt de hele woning over naar de batterij, tot ca. 10 kW.",
       "ip_klasse": "IP66",
       "buiten_toelichting": "binnen en buiten, zonder extra overkapping",
       "afbeelding": "assets/producten/sigenergy-sigenstor-8kwh.webp",
@@ -726,7 +726,7 @@
       "app": "Growatt ShinePhone",
       "garantie_jaar": 10,
       "cycli": null,
-      "opmerkingen": "Kobaltvrije LiFePO4-cellen, IP66 en een modulaire opbouw van 2 tot 6 modules van 5 kWh per stack. Het vermogen bepaalt de gekoppelde XH-omvormer, tot ongeveer 10 kW. Een betrouwbare actuele winkelprijs hebben ik niet kan vaststellen, dus voor dit model loopt de weg via een offerte.",
+      "opmerkingen": "Kobaltvrije LiFePO4-cellen, IP66 en een modulaire opbouw van 2 tot 6 modules van 5 kWh per stack. Het vermogen bepaalt de gekoppelde XH-omvormer, tot ongeveer 10 kW. Een betrouwbare actuele winkelprijs heb ik niet kunnen vaststellen, dus voor dit model loopt de weg via een offerte.",
       "product_url": "https://nl.growatt.com/products/apx-hv-batterij",
       "aanbiedingen": [],
       "totaalprijs_van_eur": 3500,
