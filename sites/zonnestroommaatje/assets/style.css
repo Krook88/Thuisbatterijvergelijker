@@ -1045,7 +1045,23 @@ table.vergelijk-tabel {
    Contentpagina's (regelgeving)
    -------------------------------------------------------------------------- */
 
-.content-pagina { max-width: 820px; margin: 0 auto; padding: var(--ruimte-40) var(--ruimte-20) 60px; }
+/* De leeskolom staat links uitgelijnd met de rest van de site, niet in het
+   midden van het scherm.
+
+   Hij was 820px breed en gecentreerd. Op 1280px begon de tekst daardoor op
+   x=250, terwijl het logo in de balk erboven op x=60 staat en de vergelijker,
+   de keuzehulp en de rekenmodule dat ook doen. Wie van de vergelijker naar een
+   productpagina klikt, ziet de linkerrand 190 pixels verspringen - en de kop
+   staat dan niet meer onder het logo maar ergens in het midden.
+
+   De leesmaat blijft precies hetzelfde: het blok is nu zo breed als .container
+   en de kinderen houden hun 780px. Er verschuift dus niets aan de regellengte,
+   alleen aan waar de kolom begint. */
+.content-pagina { max-width: 1200px; margin: 0 auto; padding: var(--ruimte-40) var(--ruimte-20) 60px; }
+.content-pagina > * { max-width: 780px; }
+/* Zit het blok al in een .container (de pomppagina's), dan zou de padding
+   dubbel tellen en de kolom 20px verder naar rechts zetten dan de rest. */
+.container > .content-pagina { max-width: none; padding-left: 0; padding-right: 0; }
 .content-pagina h1 { font-size: var(--tekst-36); line-height: 1.25; }
 .content-pagina h2 { margin-top: 2.2em; color: var(--kleur-primair-donker); }
 .content-pagina .intro { font-size: var(--tekst-17); color: var(--kleur-tekst-licht); }
@@ -1425,7 +1441,10 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 
 /* Overzichts- en duelpagina's zijn leesteksten met één brede tabel erin: te
    smal voor .container, te breed voor .content-pagina. */
-.container.leespagina { max-width: 900px; }
+/* Zelfde verhaal als bij .content-pagina: breedte van de pagina, leesmaat van
+   een tekst. Was 900px gecentreerd, dus linkerrand op x=210. */
+.container.leespagina { max-width: 1200px; }
+.container.leespagina > * { max-width: 860px; }
 .leespagina > .datum-stempel:first-child { margin-top: var(--ruimte-20); }
 
 
@@ -1756,10 +1775,19 @@ a.icoon-kaart { text-decoration: none; color: inherit; }
    wordt ingepast en niet bijgesneden, zodat een staand paneel en een liggende
    omvormer naast elkaar in de pas lopen. De bronvermelding hoort erbij zodra je
    andermans foto toont. */
+/* Wit, niet crème. Bij het nameten bleek 36 van de 66 foto's zelf een witte
+   achtergrond te hebben, en op een crème tegel levert dat een zichtbare witte
+   rechthoek midden in de kaart - alsof de foto er los op geplakt is. De 20
+   foto's met een doorzichtige achtergrond pakken de tegelkleur juist over, dus
+   die zijn met wit net zo goed af. Zo valt 56 van de 66 naadloos samen met zijn
+   tegel, waar dat er eerst 20 waren.
+
+   Het lege kader houdt wel zijn crème achtergrond: dat hoort te lezen als een
+   plek waar niets staat, niet als een foto die niet laadt. */
 .kaart-foto {
   position: relative;
   aspect-ratio: 4 / 3;
-  background: var(--kleur-achtergrond);
+  background: var(--kleur-wit);
   display: flex;
   align-items: center;
   justify-content: center;

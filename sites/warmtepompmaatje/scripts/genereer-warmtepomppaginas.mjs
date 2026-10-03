@@ -672,7 +672,7 @@ function pompPagina(w) {
        beeld wordt ingepast en niet bijgesneden, zodat een platte buitenunit en
        een hoge kast naast elkaar in de pas lopen. De bronvermelding hoort erbij
        zodra je andermans foto toont. */
-    .kaart-foto { position: relative; aspect-ratio: 3 / 2; max-width: 520px; background: var(--kleur-achtergrond); border: 1px solid var(--kleur-rand); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .kaart-foto { position: relative; aspect-ratio: 3 / 2; max-width: 520px; background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; overflow: hidden; }
     .kaart-foto img { width: 100%; height: 100%; object-fit: contain; padding: var(--ruimte-14); }
     .kaart-foto .foto-bron { position: absolute; right: 8px; bottom: 6px; font-size: var(--tekst-12); color: var(--kleur-tekst-licht); background: rgba(255, 255, 255, 0.82); padding: var(--ruimte-2) var(--ruimte-6); border-radius: var(--radius-pil); }
   </style>
@@ -738,7 +738,7 @@ ${kop("index", true)}
 
     <div class="product-paneel">
       <h2 class="kop-aansluitend">Prijs</h2>
-      <div class="prijs-groot">${beste ? eur(vergelijkPrijs(beste)) : "Prijs op aanvraag"}</div>
+      <div class="prijs-groot${beste ? "" : " prijs-onbekend"}">${beste ? eur(vergelijkPrijs(beste)) : "Prijs op aanvraag"}</div>
       <p class="hint prijs-hint">${uitWinkel ? `laagste prijs, bij ${esc(beste.winkel)}` : "richtprijs (indicatie), exclusief installatie"}${w.prijs_toelichting ? `<br>${esc(w.prijs_toelichting)}` : ""}${Prijs.prijsToelichting(beste) ? `<br>${esc(Prijs.prijsToelichting(beste))}` : ""}</p>
       ${aanbiedingen.length ? `<ul class="winkel-lijst">${aanbiedingen.map((a) => `<li><span class="winkel-naam">${esc(a.winkel)}${Prijs.prijsToelichting(a) ? `<br><small class="hint">${esc(Prijs.prijsToelichting(a))}</small>` : ""}</span><span class="winkel-bedrag"><b>${eur(vergelijkPrijs(a))}</b> <a href="${esc(a.affiliate_url || a.url)}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul>` : ""}
       ${w.prijs_datum ? `<p class="datum-stempel onder-lijst-strak">Prijzen gecontroleerd: ${esc(datumNL(w.prijs_datum))}. Zonder controledatum is de prijs een indicatie.</p>` : ""}

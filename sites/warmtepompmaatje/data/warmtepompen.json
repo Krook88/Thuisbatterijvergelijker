@@ -731,11 +731,7 @@
       "prijs_datum": "2026-10-02",
       "isde_meldcode": "KA29289",
       "vermogen_conditie": "Prated",
-      "scop_conditie": "35",
-      "afbeelding": "assets/producten/lg-therma-v.webp",
-      "afbeelding_bron": "foto: LG",
-      "afbeelding_herkomst": "https://www.lg.com/content/dam/channel/wcms/nl/images/warmtepomp/therma-v-r290-monobloc/lg-hvac-air-to-water-heat-pumps-therma-v-r290-monobloc-kv-thumb-m.png",
-      "afbeelding_via": "https://www.lg.com/nl/warmtepomp/therma-v-r290-monobloc/"
+      "scop_conditie": "35"
     },
     {
       "id": "samsung-ehs-mono-ht",

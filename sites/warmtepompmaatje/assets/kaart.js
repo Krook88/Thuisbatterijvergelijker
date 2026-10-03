@@ -280,7 +280,7 @@
         <span class="regel-baan regel-baan-delen" title="Koppel-score ${score} van 6: ${escapeHtml(koppelSamenvatting(w))}">${koppelDelen(w).map((d) => `<span class="regel-deel deel-${d.punten}"></span>`).join("")}</span>
       </div>
       <div class="regel-slot">
-        <span class="regel-bedrag cijfer">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>
+        <span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>
         ${w.isde_indicatie_eur ? `<span class="regel-per cijfer">ISDE circa ${eurFmt.format(w.isde_indicatie_eur)}</span>` : ""}
         ${ouderdomHtml(w)}
         ${beste && beste.url && beste.winkel ? `<span class="regel-winkel" title="Waar dit bedrag vandaan komt">${escapeHtml(beste.winkel)}</span>` : ""}
@@ -354,7 +354,7 @@
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
-          <div class="prijs">${beste ? eurFmt.format(vergelijkPrijs(beste)) : "Prijs op aanvraag"}</div>
+          <div class="prijs${beste ? "" : " prijs-onbekend"}">${beste ? eurFmt.format(vergelijkPrijs(beste)) : "Prijs op aanvraag"}</div>
           ${beste ? `<div class="prijs-winkel">${uitWinkel ? "bij " + escapeHtml(beste.winkel) : beste.winkel}</div>` : ""}
           ${w.voorbeeld_variant ? `<div class="prijs-per-kwh">prijs voor: ${escapeHtml(w.voorbeeld_variant)}</div>` : ""}
           ${ouderdomHtml(w)}

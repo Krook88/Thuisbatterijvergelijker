@@ -1214,7 +1214,23 @@ table.vergelijk-tabel {
    Contentpagina's (regelgeving)
    -------------------------------------------------------------------------- */
 
-.content-pagina { max-width: 820px; margin: 0 auto; padding: var(--ruimte-40) var(--ruimte-20) 60px; }
+/* De leeskolom staat links uitgelijnd met de rest van de site, niet in het
+   midden van het scherm.
+
+   Hij was 820px breed en gecentreerd. Op 1280px begon de tekst daardoor op
+   x=250, terwijl het logo in de balk erboven op x=60 staat en de vergelijker,
+   de keuzehulp en de rekenmodule dat ook doen. Wie van de vergelijker naar een
+   productpagina klikt, ziet de linkerrand 190 pixels verspringen - en de kop
+   staat dan niet meer onder het logo maar ergens in het midden.
+
+   De leesmaat blijft precies hetzelfde: het blok is nu zo breed als .container
+   en de kinderen houden hun 780px. Er verschuift dus niets aan de regellengte,
+   alleen aan waar de kolom begint. */
+.content-pagina { max-width: 1200px; margin: 0 auto; padding: var(--ruimte-40) var(--ruimte-20) 60px; }
+.content-pagina > * { max-width: 780px; }
+/* Zit het blok al in een .container (de pomppagina's), dan zou de padding
+   dubbel tellen en de kolom 20px verder naar rechts zetten dan de rest. */
+.container > .content-pagina { max-width: none; padding-left: 0; padding-right: 0; }
 .content-pagina h1 { font-size: var(--tekst-36); line-height: 1.25; }
 .content-pagina h2 { margin-top: 2.2em; color: var(--kleur-primair-donker); }
 .content-pagina .intro { font-size: var(--tekst-17); color: var(--kleur-tekst-licht); }

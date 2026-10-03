@@ -657,3 +657,37 @@ th a.term-link,
   display: inline-block;
   min-height: 24px;
 }
+
+/* ==========================================================================
+   Een prijs die er niet is, schreeuwt niet
+   ==========================================================================
+   "Prijs op aanvraag" stond in dezelfde 28px/800 als een echt bedrag, en omdat
+   het drie woorden zijn in plaats van zes tekens was het meteen ook het
+   breedste op de kaart. Het product dat je het minst kan vertellen, trok zo
+   de meeste aandacht in de rij - en in de lijstweergave gold hetzelfde voor
+   "Op aanvraag" naast de bedragen van de buren.
+
+   Het is geen ruis die weg moet: dat een prijs ontbreekt is echte informatie,
+   en het staat er bewust. Maar het hoort de rangorde van de pagina niet om te
+   draaien. Daarom een maat kleiner, normaal gewicht en de rustige tekstkleur,
+   zodat het leest als een mededeling in plaats van als een aanbieding.
+
+   Let op de selector. style.css haalt dit bestand binnen met @import bovenaan
+   en zet zijn eigen regels daaronder, dus bij gelijke specificiteit wint
+   style.css altijd. ".prijs.prijs-onbekend" is net zo zwaar als
+   ".prijs-blok .prijs" en deed daardoor niets; de klasse stond wel in de HTML
+   en de 28px bleef staan. Vandaar de derde klasse. */
+.prijs-blok .prijs.prijs-onbekend,
+.prijs-groot.prijs-onbekend {
+  font-size: var(--tekst-19);
+  font-weight: 600;
+  color: var(--kleur-tekst-licht);
+  letter-spacing: 0;
+}
+
+.regel-bedrag.bedrag-onbekend {
+  font-size: var(--tekst-15);
+  font-weight: 600;
+  color: var(--kleur-tekst-licht);
+  letter-spacing: 0;
+}
