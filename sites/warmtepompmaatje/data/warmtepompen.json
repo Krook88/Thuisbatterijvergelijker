@@ -349,7 +349,11 @@
         }
       ],
       "scop_conditie": "35",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/viessmann-vitocal-250a.webp",
+      "afbeelding_bron": "foto: Gewoon Gasvrij",
+      "afbeelding_herkomst": "https://www.gewoongasvrij.nl/wp-content/uploads/viessmann-warmtepomp-set-vitocal-250a4-8-1.webp",
+      "afbeelding_via": "https://www.gewoongasvrij.nl/product/viessmann-vitocal-warmtepomp-250a-251-a06-230v-4-8-kw/"
     },
     {
       "id": "nibe-s2125",

@@ -748,7 +748,11 @@
         "voorbeeld_ac_kw": 4,
         "bron": "Victron MultiPlus-II 48/5000: 4.000 W continu; panelen via aparte MPPT-laadregelaars (ontwerp door specialist)"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/victron-multiplus2.webp",
+      "afbeelding_bron": "foto: Victron Energy",
+      "afbeelding_herkomst": "https://cdn.webshopapp.com/shops/74363/files/461396841/victron-multiplus-ii-48-5000-70-50-230v.jpg",
+      "afbeelding_via": "https://www.victronenergy.nl/"
     }
   ]
 }
