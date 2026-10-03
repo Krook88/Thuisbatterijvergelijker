@@ -379,7 +379,11 @@
       });
     }
 
+    // De keuzelijst "Wie sluit hem aan" is uit het filterpaneel gehaald: de
+    // knoppen boven de lijst deden hetzelfde, en twee bedieningen voor één
+    // filter is er één te veel. Wie hem terugzet, hoeft hier niets te doen.
     ["filterType", "filterCapaciteit", "filterInstallatie", "filterMerk"].forEach((id) => {
+      if (!el(id)) return;
       el(id).addEventListener("change", (e) => {
         const map = { filterType: "type", filterCapaciteit: "capaciteit", filterInstallatie: "installatie", filterMerk: "merk" };
         if (map[id] === "installatie") zetAansluiting(e.target.value);

@@ -135,20 +135,12 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
 
 .icoon-groot { width: 1.5em; height: 1.5em; vertical-align: -0.3em; }
 
-/* Sectiekoppen krijgen een klein amber accentstreepje voor herkenbaarheid */
+/* Sectiekoppen hadden een amber streepje eronder. Dat is het herkenbaarste
+   onderdeel van het standaardsjabloon, en het voegt niets toe: een kop is
+   aan zijn grootte al te herkennen. */
 main h2 {
   font-weight: 800;
-  color: var(--kleur-primair-donker);
-}
-main > h2::after,
-main section > h2::after {
-  content: "";
-  display: block;
-  width: 44px;
-  height: 4px;
-  border-radius: var(--radius-pil);
-  background: var(--kleur-accent);
-  margin-top: var(--ruimte-6);
+  color: var(--kleur-tekst);
 }
 
 a { color: var(--kleur-primair); }
@@ -330,7 +322,8 @@ a { color: var(--kleur-primair); }
 }
 
 .hoofdnav a:hover { background: var(--kleur-achtergrond); color: var(--kleur-tekst); }
-.hoofdnav a.actief { background: var(--kleur-primair-licht); color: var(--kleur-primair-donker); }
+/* De huidige pagina onderstreept; een gekleurd blokje erachter was de pil van het sjabloon. */
+.hoofdnav a.actief { color: var(--kleur-tekst); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
 
 /* Uitklapmenu "Meer" in de hoofdnavigatie (werkt zonder JavaScript, ook op touch) */
 .hoofdnav { position: relative; }
@@ -434,10 +427,9 @@ a { color: var(--kleur-primair); }
 .weergave-knoppen { display: flex; gap: var(--ruimte-6); align-items: center; }
 
 .weergave-knoppen button {
-  padding: var(--ruimte-6) var(--ruimte-14);
-  border: 1px solid var(--kleur-rand);
-  background: var(--kleur-wit);
-  border-radius: var(--radius-klein);
+  padding: var(--ruimte-6);
+  border: 0;
+  background: none;
   cursor: pointer;
   font-size: var(--tekst-15);
   font-weight: 600;
@@ -445,9 +437,10 @@ a { color: var(--kleur-primair); }
 }
 
 .weergave-knoppen button.actief {
-  background: var(--kleur-primair);
-  border-color: var(--kleur-primair);
-  color: var(--kleur-wit);
+  color: var(--kleur-tekst);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
 }
 
 /* --------------------------------------------------------------------------
@@ -493,7 +486,7 @@ a { color: var(--kleur-primair); }
   gap: var(--ruimte-10);
 }
 
-.kaart-kop .merk { font-size: var(--tekst-12); font-weight: 600; color: var(--kleur-tekst-licht); text-transform: uppercase; letter-spacing: 0.06em; }
+.kaart-kop .merk { font-size: var(--tekst-15); font-weight: 600; color: var(--kleur-tekst-licht); }
 .kaart-kop h3 { margin: var(--ruimte-2) 0 0; font-size: var(--tekst-22); font-weight: 800; line-height: 1.25; letter-spacing: -0.015em; }
 
 .aanbieding-vlag {
@@ -816,14 +809,11 @@ details.lees-meer[open] summary::after { content: " ▴"; }
    die iets anders betekenen dan ze lijken, en dit bedrag klopt gewoon, het is
    alleen ouder. #92400e op deze amber haalt 4,5:1 bij 12 pixels. */
 .prijs-ouderdom {
-  display: inline-block;
+  display: block;
   margin-top: var(--ruimte-4);
-  padding: var(--ruimte-2) var(--ruimte-6);
-  border-radius: var(--radius-pil);
-  background: var(--kleur-accent-licht);
   color: #92400e;
   font-size: var(--tekst-12);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 /* Uitleg wanneer het getoonde bedrag afwijkt van wat de winkel toont: een
@@ -910,7 +900,7 @@ details.lees-meer[open] summary::after { content: " ▴"; }
   margin: 0 var(--ruimte-20) var(--ruimte-20);
 }
 
-.kaart-details dt { font-weight: 700; margin-top: var(--ruimte-6); font-size: var(--tekst-12); color: var(--kleur-tekst-licht); text-transform: uppercase; }
+.kaart-details dt { font-weight: 700; margin-top: var(--ruimte-6); font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
 .kaart-details dd { margin: var(--ruimte-2) 0 0; }
 .kaart-details .prijs-gecontroleerd { margin-top: var(--ruimte-6); }
 
@@ -975,8 +965,6 @@ table.vergelijk-tabel {
   background: var(--kleur-achtergrond);
   border-bottom: 2px solid var(--kleur-rand);
   font-size: var(--tekst-12);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   color: var(--kleur-tekst-licht);
   cursor: pointer;
   user-select: none;
@@ -1233,7 +1221,6 @@ table.vergelijk-tabel {
 .uitkomst-label {
   font-size: var(--tekst-15);
   font-weight: 700;
-  text-transform: uppercase;
   color: var(--kleur-tekst-licht);
 }
 .uitkomst-getal { font-size: var(--tekst-28); font-weight: 800; color: var(--kleur-primair-donker); }
@@ -2143,4 +2130,75 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   margin: var(--ruimte-14) 0 0;
   font-size: var(--tekst-15);
   color: var(--kleur-tekst-licht);
+}
+
+/* ==========================================================================
+   Rustiger (proef op batterijmaatje)
+
+   De site zag eruit als het standaardsjabloon van 2025: zachte schaduwen,
+   alles in een afgerond kader, pillen, een icoontje voor elke knop en kleine
+   labels in hoofdletters. Netjes, maar je herkent het sjabloon voor je de
+   inhoud leest. Hier gaat het terug naar wat een prijsoverzicht nodig heeft:
+   dunne lijnen, weinig afronding, gewone labels, en kleur alleen waar hij
+   iets betekent.
+   ========================================================================== */
+
+:root {
+  /* Eén kleine ronding voor alles. De maatlat had er vier (4, 10, 16 en een
+     pil van 999); juist die grote rondingen en pillen maakten het sjabloon. */
+  --radius: 4px;
+  --radius-klein: 4px;
+  --radius-pil: 4px;
+  --radius-mini: 4px;
+  --schaduw: none;
+  --schaduw-hover: none;
+}
+
+/* Labels in gewone letters. De hoofdletters stonden in kern en staan nu per
+   site; hier blijven ze weg. */
+.regel-kop,
+.filter-groep > label,
+.filter-groep .filter-label {
+  font-size: var(--tekst-15);
+  font-weight: 600;
+}
+
+/* Merk en model als één naam: "Marstek Venus E 3.0", niet een kopje erboven. */
+.regel-merk { display: inline; }
+
+/* Vergelijken: een vinkje met een woord, geen pil. */
+.regel-vergelijk {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ruimte-4);
+  font-size: var(--tekst-15);
+  color: var(--kleur-tekst-licht);
+  cursor: pointer;
+}
+
+/* De prijs is de link. */
+a.regel-bedrag { color: var(--kleur-primair-donker); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a.regel-bedrag:hover { text-decoration-thickness: 2px; }
+.regel-winkel { display: block; }
+.regel-details { display: inline-block; min-height: 24px; line-height: 24px; font-size: var(--tekst-15); }
+
+/* Filters: gewone vinkjes naast elkaar. */
+.checkbox-groep { gap: var(--ruimte-4) var(--ruimte-20); }
+.checkbox-groep label {
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-weight: 500;
+  color: var(--kleur-tekst);
+}
+.checkbox-groep label:has(input:checked) { background: none; font-weight: 600; color: var(--kleur-tekst); }
+
+/* De saldering: een regel tekst met een vet begin, geen gele waarschuwing. */
+.regel-banner {
+  background: none;
+  border: 0;
+  border-left: 3px solid var(--kleur-accent);
+  border-radius: 0;
+  padding: var(--ruimte-4) 0 var(--ruimte-4) var(--ruimte-14);
 }

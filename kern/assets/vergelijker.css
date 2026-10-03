@@ -299,10 +299,6 @@
   padding-bottom: var(--ruimte-10);
   background: var(--kleur-achtergrond);
   border-bottom: 1px solid var(--kleur-rand-hard, var(--kleur-rand));
-  font-size: var(--tekst-12);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: var(--kleur-tekst-licht);
 }
 
@@ -315,14 +311,9 @@
   text-align: center;
 }
 
-.regel-merk {
-  display: block;
-  font-size: var(--tekst-12);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--kleur-tekst-licht);
-}
+/* Hoe het merk eruitziet (los kopje in hoofdletters, of gewoon voor de
+   modelnaam) verschilt per site en staat in de eigen style.css. */
+.regel-merk { display: block; }
 
 /* 19 px tekst op regelafstand 1,2 geeft een link van 23 px hoog: net een
    pixel onder de 24 die WCAG 2.5.8 vraagt. Een productnaam is geen link in
@@ -427,8 +418,6 @@
     grid-column: 1 / -1;
     text-align: left;
     font-size: var(--tekst-12);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
   }
 
   .regel-plek::before { content: "Nr. "; }
@@ -443,8 +432,6 @@
     display: block;
     font-size: var(--tekst-12);
     font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     color: var(--kleur-tekst-licht);
   }
 
@@ -509,10 +496,6 @@
 
 .filter-groep > label,
 .filter-groep .filter-label {
-  font-size: var(--tekst-12);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   color: var(--kleur-tekst-licht);
 }
 
@@ -558,8 +541,6 @@
   border-radius: var(--radius-klein);
   background: var(--kleur-wit);
   font-size: var(--tekst-15);
-  font-weight: 600;
-  color: var(--kleur-tekst-licht);
   cursor: pointer;
 }
 

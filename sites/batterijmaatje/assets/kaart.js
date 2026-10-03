@@ -300,9 +300,8 @@
     <article class="resultaat-regel" data-id="${escapeHtml(b.id)}">
       <span class="regel-plek cijfer">${plek}</span>
       <div class="regel-naam">
-        <span class="regel-merk">${escapeHtml(b.merk)}</span>
-        <h3><a class="kop-link" href="batterij/${encodeURIComponent(b.id)}.html">${escapeHtml(b.model)}</a></h3>
-        <label class="badge regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <h3><a class="kop-link" href="batterij/${encodeURIComponent(b.id)}.html">${b.model.toLowerCase().startsWith(b.merk.toLowerCase()) ? "" : `<span class="regel-merk">${escapeHtml(b.merk)}</span> `}${escapeHtml(b.model)}</a></h3>
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
           <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(b.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
         </label>
       </div>
@@ -314,13 +313,17 @@
         <span class="regel-baan regel-baan-delen" title="Koppel-score ${score} van 6: ${escapeHtml(koppelSamenvatting(b))}">${koppelDelen(b).map((d) => `<span class="regel-deel deel-${d.punten}"></span>`).join("")}</span>
       </div>
       <div class="regel-slot">
-        <span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>
+        ${/* De prijs is zelf de link naar de winkel. Eerst stond hier onder elke
+              regel een gevulde knop "Naar de winkel", 42 keer onder elkaar: dat
+              las als een verkooppagina, en het bedrag was er niet beter
+              vindbaar door. Een prijsoverzicht linkt het bedrag. */ ""}
+        ${beste && beste.url && vergelijk !== null
+          ? `<a class="regel-bedrag cijfer" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="${escapeHtml(eurFmt.format(vergelijk))} bij ${escapeHtml(beste.winkel || "de winkel")}: naar de aanbieding van de ${escapeHtml(naamVan(b))}, opent in een nieuw tabblad">${eurFmt.format(vergelijk)}</a>`
+          : `<span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>`}
         ${perKwh ? `<span class="regel-per cijfer">${eurFmt.format(perKwh)} per kWh opslag</span>` : ""}
+        ${beste && beste.url && beste.winkel ? `<span class="regel-winkel">bij ${escapeHtml(beste.winkel)}</span>` : ""}
         ${ouderdomHtml(b)}
-        ${beste && beste.url && beste.winkel ? `<span class="regel-winkel" title="Waar dit bedrag vandaan komt">${escapeHtml(beste.winkel)}</span>` : ""}
-        ${beste && beste.url
-          ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Naar de aanbieding van de ${escapeHtml(naamVan(b))}${beste.winkel ? ` bij ${escapeHtml(beste.winkel)}` : ""}, opent in een nieuw tabblad">Naar de winkel <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" /> <path d="M7 17 17 7" /></svg></a>`
-          : `<a class="knop knop-secundair" href="batterij/${encodeURIComponent(b.id)}.html" aria-label="Alle details van de ${escapeHtml(naamVan(b))}">Bekijk details</a>`}
+        ${beste && beste.url ? "" : `<a class="regel-details" href="batterij/${encodeURIComponent(b.id)}.html" aria-label="Alle details van de ${escapeHtml(naamVan(b))}">details</a>`}
       </div>
     </article>`;
   }

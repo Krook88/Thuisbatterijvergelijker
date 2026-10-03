@@ -1819,3 +1819,47 @@ a.icoon-kaart { text-decoration: none; color: inherit; }
   border: 1px solid var(--kleur-rand);
   border-radius: var(--radius);
 }
+
+/* ==========================================================================
+   Labels in hoofdletters
+
+   Stonden in kern/assets/vergelijker.css. Batterijmaatje probeert een
+   rustiger vorm zonder hoofdletters en zonder kader om elk vinkje; tot die
+   keuze voor alle drie de sites valt, staat de oude vorm hier per site.
+   ========================================================================== */
+
+.regel-kop {
+  font-size: var(--tekst-12);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.regel-merk {
+  font-size: var(--tekst-12);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--kleur-tekst-licht);
+}
+
+.filter-groep > label,
+.filter-groep .filter-label {
+  font-size: var(--tekst-12);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.checkbox-groep label {
+  font-weight: 600;
+  color: var(--kleur-tekst-licht);
+}
+
+@media (max-width: 760px) {
+  .regel-plek,
+  .regel-label {
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
