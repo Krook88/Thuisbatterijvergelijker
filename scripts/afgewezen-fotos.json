@@ -1,0 +1,41 @@
+{
+  "toelichting": "Beeldadressen die zijn bekeken en afgekeurd. productfotos.mjs laat ze staan maar kiest ze nooit, zodat dezelfde afgekeurde foto niet elke ronde opnieuw bovenaan komt. Zet er de reden bij; dat is het enige wat een volgende lezer verder helpt.",
+  "afgewezen": [
+    {
+      "url": "https://www.bydbatterybox.com/wp-content/uploads/2020/01/HV_small_yellow.jpg.png",
+      "waarom": "het juiste product, maar op een felgele achtergrond die vloekt met de rest van de pagina"
+    },
+    {
+      "url": "https://www.gewoongasvrij.nl/wp-content/uploads/viessmann-warmtepomp-set-vitocal-250a4-8-1.webp",
+      "waarom": "de winkel heeft keurmerken en 'v.a. € 3000,- subsidie' in het beeld gebrand; mijn eigen gegevens zeggen € 2.575 voor dit toestel"
+    },
+    {
+      "url": "https://www.123klimaatshop.nl/wp-content/uploads/2022/01/NIBE-S2125-8-Lucht-water-warmtepomp-60-tot-80-kW-Exclusief-binnen-unit.jpg",
+      "waarom": "'SUBSIDIE MOGELIJK' en een merklogo in het beeld gebrand"
+    },
+    {
+      "url": "https://www.solar-nu-webshop.nl/data/upload/Shop/images/big_2609aikotds480w-495wnlsolarnunl-02-1.png",
+      "waarom": "een omslag van een datasheet, geen foto van het paneel"
+    },
+    {
+      "url": "https://www.daikin.nl/adobe/dynamicmedia/deliver/dm-aid--95f729b6-afed-44fb-9e2f-b9d07a7e1569/daikin-altherma-3-hmt-3-4-2a.jpg",
+      "waarom": "twee mensen met een tablet voor de binnenunit; sfeerbeeld"
+    },
+    {
+      "url": "https://www.daikin.nl/nl_nl/installateurs/productgroup/verwarming-en-warmtepompen/lucht-water-warmtepompen/hybrid-heatpump/daikin-altherma-h-hybrid/_jcr_content/image21.coreimg.jpeg/1773653123449/daikin-altherma-h-hybrid-daf-002.jpeg",
+      "waarom": "een deuropening met de unit klein in beeld; het toestel is er wel, de foto gaat er niet over"
+    },
+    {
+      "url": "https://www.lg.com/content/dam/channel/wcms/nl/images/warmtepomp/therma-v-r290-monobloc/lg-hvac-air-to-water-heat-pumps-therma-v-r290-monobloc-kv-thumb-d.png",
+      "waarom": "zwart apparaat op een zwarte achtergrond; het product is nauwelijks te zien"
+    },
+    {
+      "url": "https://www.viessmann.nl/content/dam/public-brands/master/products/heat-pump/vitocal-150-a/Vitocal-150-A-outdoor-unit-house-16-9.jpg/_jcr_content/renditions/original.image_file.1200.630.0,36,1920,1044.file/Vitocal-150-A-outdoor-unit-house-16-9.jpg",
+      "waarom": "een gevel met een fiets ervoor; de warmtepomp is een klein donker blokje rechts"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/67ed5695314f69c537693240/680a5821105683a40f9c4153_Blackbird-outside.webp",
+      "waarom": "hoofden op de voorgrond en een pergola; het toestel is nauwelijks te vinden"
+    }
+  ]
+}

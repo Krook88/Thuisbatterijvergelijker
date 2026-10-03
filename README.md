@@ -662,10 +662,46 @@ gelaten; een veld dat zegt waar iets vandaan komt is waardeloos zodra je er
 gokken in zet.
 
 ```
-npm run fotos -- --droog                 tonen wat hij zou kiezen, niets schrijven
+npm run fotos -- --droog                  tonen wat hij zou kiezen, niets schrijven
 npm run fotos -- --site warmtepompmaatje  één site
-npm run fotos -- --alleen nibe-s2125     één of meer product-id's
+npm run fotos -- --alleen nibe-s2125      één of meer product-id's
+npm run fotos -- --beeld id=adres         dit beeld, niet dat van het script
 ```
+
+Over die laatste. De droge run toont per product de beste kandidaat én drie
+alternatieven, precies omdat er een mens naar hoort te kijken. Maar die mens
+kon er niets mee: de echte run pakte altijd nummer één. In de ronde van oktober
+2026 koos het script voor de Sessy `nps-score.png` terwijl de productfoto op
+plek twee stond, en voor de SolarEdge een installatieplaatje terwijl
+`48V-product-new.jpg` er gewoon tussen stond. Met `--beeld` kies je zelf uit die
+lijst; het adres is dan nog steeds door het script zelf gevonden en al langs de
+filters gekomen.
+
+Staat het beeld op een cdn, zet er dan `|` achter met de pagina waar je het
+vond. Daar hangt namelijk de bronvermelding aan, en zonder die hint gaat het
+mis: de foto van de Victron MultiPlus-II staat op `cdn.webshopapp.com` en komt
+van Acculaders.nl, maar het script viel terug op de eerste bekende bronpagina
+en zette er "foto: Victron Energy" onder.
+
+### Op één maat brengen
+
+`python3 scripts/foto-bijsnijden.py` snijdt de vlakke rand om het product weg en
+zet er een vaste marge van 6% omheen. Dat is geen opsmuk. De foto's komen van
+twintig bronnen en bij het nameten besloeg het product bij de Gree Versati 14%
+van het beeld en bij de EcoFlow Stream AC Pro 100%, terwijl ze in de
+kaartweergave in dezelfde tegel naast elkaar staan - de een als postzegel, de
+ander tot aan de rand. Na het bijsnijden zit alles tussen 70% en 80%. De
+verhouding blijft zoals hij is, zodat een breed paneel breed blijft en een hoge
+kast hoog.
+
+Foto's zonder vlakke rand blijven ongemoeid: dat zijn de tien die op locatie
+zijn gemaakt, en daar is geen achtergrond om weg te snijden. De tegel eronder is
+wit en niet crème, want 36 van de 66 foto's hebben zelf een witte achtergrond en
+lieten daardoor een zichtbare rechthoek in de kaart achter.
+
+De stap draait mee in de werkstroom, dus een verse foto heeft meteen dezelfde
+maat als de rest. Pillow staat niet in `package.json` - het is gereedschap op de
+runner, net als cwebp.
 
 Ook dit draait op een runner (werkstroom *Productfoto's ophalen*), en om
 dezelfde reden. Hij commit naar een eigen tak met het runnummer erachter, nooit
@@ -675,6 +711,26 @@ ronde overleefden er drie het nakijken. De rest was een hand op een thermostaat,
 een gevel met een fiets ervoor, een energielabel, of - vaker - de foto van een
 ánder model dan wij tonen. Het adres verraadt dat: `aiko-445wp-abc-n-type` bij
 een paneel van 455 Wp, `chc.-monoblock` bij een Wolf CHA-07.
+
+### Wat is afgekeurd, en waarom
+
+`scripts/afgewezen-fotos.json` houdt bij welke beelden al eens zijn bekeken en
+afgewezen. Zonder dat geheugen komen ze de volgende ronde weer bovenaan, want
+voor het script zien ze er nog steeds uit als de beste kandidaat. In de ronde
+van oktober 2026 overleefden van de twaalf voorstellen er drie het nakijken: de
+rest was een omslag van een datasheet (Aiko), twee mensen met een tablet
+(Daikin Altherma 3), een gevel met een fiets ervoor (Viessmann 150-A), een zwart
+apparaat op een zwarte achtergrond (LG Therma V), of een winkelbeeld met
+"SUBSIDIE MOGELIJK" erin gebrand (NIBE, Viessmann 250-A).
+
+Die laatste categorie is de vervelendste. Het is een echte foto van het echte
+product, en er staat een bedrag in dat niet klopt met mijn eigen gegevens: bij
+de Viessmann 250-A "v.a. € 3000,- subsidie" tegenover de € 2.575 die hier staat.
+Een site die zijn bedragen laat natellen kan geen plaatje tonen dat iets anders
+belooft.
+
+Elke regel draagt een reden, en een proef bewaakt dat: "afgekeurd" zonder waarom
+nodigt uit om het over een maand nog eens te proberen.
 
 Wat het script wél zelf beslist ligt vast in `scripts/productfotos.test.mjs`:
 welke adressen kandidaat zijn, in welke volgorde, en wanneer hij mag ophouden

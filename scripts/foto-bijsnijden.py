@@ -84,6 +84,15 @@ def verwerk(pad):
     product = im.crop(vak)
     pw, ph = product.size
     rand = round(max(pw, ph) * MARGE)
+
+    # Al goed? Dan niet aanraken. Webp is lossy, dus elke keer opnieuw
+    # wegschrijven kost beeldkwaliteit zonder dat er iets verandert; bij de
+    # tweede run op dezelfde foto's werd elk bestand een paar honderd bytes
+    # kleiner en elke pixel een beetje zachter. Een script dat op een
+    # ongewijzigde invoer een gewijzigde uitvoer geeft, is niet af.
+    marges = (vak[0], vak[1], im.size[0] - vak[2], im.size[1] - vak[3])
+    if all(abs(m - rand) <= 2 for m in marges):
+        return "al goed", None
     doek = Image.new("RGBA", (pw + 2 * rand, ph + 2 * rand),
                      (0, 0, 0, 0) if soort == "transparant" else (*kleur, 255))
     doek.paste(product, (rand, rand), product)

@@ -192,7 +192,11 @@
       ],
       "isde_meldcode": "KA22154",
       "prijs_datum": "2026-10-02",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/intergas-xtend.webp",
+      "afbeelding_bron": "foto: Intergas",
+      "afbeelding_herkomst": "https://www.intergas-verwarming.nl/app/uploads/2026/06/24-009-eco-5kw-v001-pev-250827-rangle-noshadow-opague-1024x1024.png",
+      "afbeelding_via": "https://www.intergas-verwarming.nl/consument/producten/xtend/"
     },
     {
       "id": "vaillant-arotherm-plus",

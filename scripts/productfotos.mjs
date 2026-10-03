@@ -147,6 +147,25 @@ const NOOIT = /logo|logga|icon|sprite|avatar|badge|placeholder|transparent|og[-_
  * De bestandsnaam is het enige wat het verraadt. */
 const VERZONNEN = /chatgpt|dall[-_ ]?e|midjourney|stable[-_ ]?diffusion|ai[-_ ]?generated|generated[-_ ]?image|firefly/i;
 
+/* Beeld dat al eens is bekeken en afgekeurd.
+ *
+ * Het script kiest niet welke foto goed genoeg is; dat doet een mens, en in de
+ * ronde van oktober 2026 overleefden van de acht voorstellen er zeven het
+ * nakijken niet. Een datasheet-omslag bij de Aiko, een gevel met een fiets bij
+ * de Viessmann 150-A, "SUBSIDIE MOGELIJK" in het beeld gebrand bij de NIBE.
+ * Zonder geheugen komen die er de volgende ronde weer bovenuit, want voor het
+ * script zien ze er nog steeds uit als de beste kandidaat.
+ *
+ * Dit is dus geen filter op kenmerken maar een lijst van beslissingen, met de
+ * reden erbij. Die reden is het enige wat een volgende lezer verder helpt:
+ * "afgekeurd" zonder waarom nodigt uit om het nog eens te proberen. */
+const afgewezenPad = join(ROOT, "scripts", "afgewezen-fotos.json");
+export const AFGEWEZEN = new Set(
+  existsSync(afgewezenPad)
+    ? (JSON.parse(readFileSync(afgewezenPad, "utf8")).afgewezen || []).map((a) => a.url)
+    : [],
+);
+
 /* Woorden uit de productnaam die op een bestandsnaam kunnen staan. Merk en
  * model zonder de maten en de eenheden, want "10" en "kWh" staan overal. */
 export function naamDelen(naam) {
@@ -574,6 +593,11 @@ async function main() {
         // om te stoppen. Zonder die grens bezoeken we voor elk product vier
         // winkels, en dan duurt de ronde langer dan de dagelijkse prijsrun.
         if (gevonden.some((k) => k.stopper)) break;
+      }
+      const voorFilter = kandidaten.length;
+      kandidaten = kandidaten.filter((k) => !AFGEWEZEN.has(k.url));
+      if (voorFilter !== kandidaten.length) {
+        console.log(`      (${voorFilter - kandidaten.length} eerder afgekeurd, overgeslagen)`);
       }
       kandidaten.sort((a, b) => b.score - a.score);
 

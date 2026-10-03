@@ -15,7 +15,8 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { afbeeldingKandidaten, grootsteUitSrcset, absoluut, naamDelen, naamScore, beeldScore, bronPaginas, modelDelen, magStoppen, padVanAdres, bronVermelding, leesBeeldkeuze } from "./productfotos.mjs";
+import { readFileSync } from "node:fs";
+import { afbeeldingKandidaten, grootsteUitSrcset, absoluut, naamDelen, naamScore, beeldScore, bronPaginas, modelDelen, magStoppen, padVanAdres, bronVermelding, leesBeeldkeuze, AFGEWEZEN } from "./productfotos.mjs";
 
 const BASIS = "https://www.fabrikant.nl/product/pomp-x";
 
@@ -401,4 +402,19 @@ test("leesBeeldkeuze: achter een | staat de pagina waar het beeld vandaan komt",
 
 test("leesBeeldkeuze: zonder | blijft het een kaal adres", () => {
   assert.deepEqual(leesBeeldkeuze("a=https://x.nl/1.png"), [["a", "https://x.nl/1.png"]]);
+});
+
+/* De lijst met afgekeurde foto's. Niet de inhoud ervan - die verandert elke
+ * ronde - maar dat hij geladen wordt en dat elke regel een reden draagt. Een
+ * afwijzing zonder waarom nodigt uit om hem over een maand nog eens te
+ * proberen, en dan is de lijst zijn doel voorbij. */
+test("afgewezen-fotos.json: elke regel heeft een adres en een reden", () => {
+  const pad = new URL("./afgewezen-fotos.json", import.meta.url);
+  const lijst = JSON.parse(readFileSync(pad, "utf8")).afgewezen;
+  assert.ok(lijst.length > 0, "de lijst is leeg");
+  for (const regel of lijst) {
+    assert.match(regel.url, /^https?:\/\//, `geen geldig adres: ${JSON.stringify(regel)}`);
+    assert.ok(regel.waarom && regel.waarom.length > 15, `geen bruikbare reden bij ${regel.url}`);
+    assert.ok(AFGEWEZEN.has(regel.url), `${regel.url} zit niet in de set die het script gebruikt`);
+  }
 });
