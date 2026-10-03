@@ -172,6 +172,28 @@
 
      Dezelfde volgorde als op de zustersites: plek, model, drie feiten, score,
      prijs. Alleen de kolomnamen verschillen. */
+  /* Een kleine foto voor in de regel: zonder foto's was de lijst een bord
+     cijfers in twee kleuren. Zonder foto blijft het vakje staan, zodat de
+     namen onder elkaar blijven beginnen. */
+  function regelFoto(x) {
+    if (!x.afbeelding) return `<span class="regel-foto leeg" aria-hidden="true"></span>`;
+    return `<span class="regel-foto"><img src="${escapeHtml(x.afbeelding)}" alt="" loading="lazy" decoding="async" width="88" height="66"></span>`;
+  }
+
+  /* Hooguit een paar kenmerken, elk met een kleur die iets betekent: groen
+     is iets wat het paneel is of heeft, amber iets van de winkel op dit
+     moment, de huiskleur een plek in deze lijst. */
+  function regelKenmerken(p, o) {
+    const uit = [];
+    if (o.goedkoopste && o.goedkoopste === p.id) uit.push(`<span class="kenmerk kenmerk-prijs">laagste prijs per Wp</span>`);
+    if (heeftKorting(p)) uit.push(`<span class="kenmerk kenmerk-actie">aanbieding</span>`);
+    // Glas-glas staat al in de kolom Uitvoering, en 25 jaar productgarantie
+    // heeft bijna elk paneel hier. Een kenmerk dat overal staat zegt niets;
+    // alleen een garantie boven die gewoonte valt op.
+    if ((p.garantie_product_jaar || 0) > 25) uit.push(`<span class="kenmerk kenmerk-kan" title="${p.garantie_product_jaar} jaar productgarantie">${p.garantie_product_jaar} jaar garantie</span>`);
+    return uit.length ? `<span class="regel-kenmerken">${uit.join("")}</span>` : "";
+  }
+
   function regelHtml(p, opties, plek) {
     const o = opties || {};
     const beste = bestePrijs(p);
@@ -183,11 +205,16 @@
     <article class="resultaat-regel" data-id="${escapeHtml(p.id)}">
       <span class="regel-plek cijfer">${plek}</span>
       <div class="regel-naam">
-        <span class="regel-merk">${escapeHtml(p.merk)}</span>
-        <h3><a class="kop-link" href="paneel/${encodeURIComponent(p.id)}.html">${escapeHtml(p.model)}</a></h3>
-        <label class="badge regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        ${regelFoto(p)}
+        <div class="regel-naam-tekst">
+        <h3><a class="kop-link" href="paneel/${encodeURIComponent(p.id)}.html">${p.model.toLowerCase().startsWith(p.merk.toLowerCase()) ? "" : `<span class="regel-merk">${escapeHtml(p.merk)}</span> `}${escapeHtml(p.model)}</a></h3>
+        <div class="regel-onder">
+        ${regelKenmerken(p, o)}
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
           <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(p.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
         </label>
+        </div>
+        </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>${p.vermogen_wp ? p.vermogen_wp + " Wp" : "Onbekend"}</div>
       <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">Rendement</span>${p.rendement_pct ? String(p.rendement_pct).replace(".", ",") + " %" : "Onbekend"}</div>
@@ -197,13 +224,13 @@
         <span class="regel-baan"><span class="regel-vul" style="width:${Math.round((score / 6) * 100)}%"></span></span>
       </div>
       <div class="regel-slot">
-        <span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>
+        ${beste && beste.url && vergelijk !== null
+          ? `<a class="regel-bedrag cijfer" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="${escapeHtml(eurFmt.format(vergelijk))} bij ${escapeHtml(beste.winkel || "de winkel")}: naar de aanbieding van het ${escapeHtml(naamVan(p))}, opent in een nieuw tabblad">${eurFmt.format(vergelijk)}</a>`
+          : `<span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>`}
         ${prijsPerWp(p) ? `<span class="regel-per cijfer">${new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", minimumFractionDigits: 2 }).format(prijsPerWp(p))} per Wp</span>` : ""}
+        ${beste && beste.url && beste.winkel ? `<span class="regel-winkel">${/^richtprijs/i.test(beste.winkel) ? "" : "bij "}${escapeHtml(beste.winkel)}</span>` : ""}
         ${ouderdomHtml(p)}
-        ${beste && beste.url && beste.winkel ? `<span class="regel-winkel" title="Waar dit bedrag vandaan komt">${escapeHtml(beste.winkel)}</span>` : ""}
-        ${beste && beste.url
-          ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Naar de aanbieding van het ${escapeHtml(naamVan(p))}${beste.winkel ? ` bij ${escapeHtml(beste.winkel)}` : ""}, opent in een nieuw tabblad">Naar de winkel <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" /> <path d="M7 17 17 7" /></svg></a>`
-          : `<a class="knop knop-secundair" href="paneel/${encodeURIComponent(p.id)}.html" aria-label="Alle details van het ${escapeHtml(naamVan(p))}">Bekijk details</a>`}
+        ${beste && beste.url ? "" : `<a class="regel-details" href="paneel/${encodeURIComponent(p.id)}.html" aria-label="Alle details van het ${escapeHtml(naamVan(p))}">details</a>`}
       </div>
     </article>`;
   }
@@ -212,11 +239,34 @@
      lijst staat en niet bij elk product. */
   function lijstHtml(lijst, opties) {
     const koppen = ["Model", "Vermogen", "Rendement", "Uitvoering", "Zeker-score", "Prijs"];
+    // Welke in deze lijst het goedkoopst is, over de lijst zoals hij nu
+    // gefilterd is, zodat het kenmerk klopt met wat je ziet.
+    let laagste = null;
+    for (const x of lijst) {
+      const p = prijsPerWp(x);
+      if (p && (!laagste || p < laagste.p)) laagste = { id: x.id, p };
+    }
+    const o = { ...(opties || {}), goedkoopste: laagste && laagste.id };
+    // Bij de sortering op de score een tussenkop per score; bij een andere
+    // sortering hebben groepen geen betekenis en blijft het een lijst.
+    let vorige = null;
+    const regels = lijst.map((x, i) => {
+      let kop = "";
+      if (o.groepeer) {
+        const score = zekerScore(x);
+        if (score !== vorige) {
+          const aantal = lijst.filter((y) => zekerScore(y) === score).length;
+          kop = `<div class="regel-groep"><b>${o.groepNaam || "Score"} ${score} van 6</b> <span>${aantal} ${aantal === 1 ? "paneel" : "panelen"}</span></div>`;
+          vorige = score;
+        }
+      }
+      return kop + regelHtml(x, o, i + 1);
+    }).join("");
     return `<div class="resultaat-lijst">
       <div class="resultaat-regel regel-kop" aria-hidden="true">
         <span></span>${koppen.map((k) => `<span>${k}</span>`).join("")}
       </div>
-      ${lijst.map((x, i) => regelHtml(x, opties, i + 1)).join("")}
+      ${regels}
     </div>`;
   }
 

@@ -283,7 +283,9 @@
 
 .resultaat-regel {
   display: grid;
-  grid-template-columns: 34px minmax(0, 2.1fr) repeat(3, minmax(0, 0.9fr)) minmax(0, 1.1fr) minmax(0, 1.5fr);
+  /* De naamkolom is breed omdat er een foto naast de naam staat; zonder die
+     ruimte liepen namen over drie of vier regels. */
+  grid-template-columns: 34px minmax(0, 3fr) repeat(3, minmax(0, 0.8fr)) minmax(0, 1fr) minmax(0, 1.3fr);
   gap: var(--ruimte-14);
   align-items: center;
   padding: var(--ruimte-14);
@@ -299,6 +301,8 @@
   padding-bottom: var(--ruimte-10);
   background: var(--kleur-achtergrond);
   border-bottom: 1px solid var(--kleur-rand-hard, var(--kleur-rand));
+  font-size: var(--tekst-15);
+  font-weight: 600;
   color: var(--kleur-tekst-licht);
 }
 
@@ -311,9 +315,9 @@
   text-align: center;
 }
 
-/* Hoe het merk eruitziet (los kopje in hoofdletters, of gewoon voor de
-   modelnaam) verschilt per site en staat in de eigen style.css. */
-.regel-merk { display: block; }
+/* Merk en model als één naam ("Marstek Venus E 3.0"). Het merk stond als
+   kopje in hoofdletters boven de naam, en dat is een vorm uit het sjabloon. */
+.regel-merk { display: inline; }
 
 /* 19 px tekst op regelafstand 1,2 geeft een link van 23 px hoog: net een
    pixel onder de 24 die WCAG 2.5.8 vraagt. Een productnaam is geen link in
@@ -342,10 +346,20 @@
    winkel erbij, vraagt vertrouwen zonder het te verdienen - en de bezoeker
    weet pas waar hij heen ging nadat hij geklikt heeft. */
 .regel-winkel {
+  display: block;
   font-size: var(--tekst-12);
   color: var(--kleur-tekst-licht);
 }
-.regel-vergelijk { margin-top: var(--ruimte-6); }
+
+/* Vergelijken: een vinkje met een woord, geen pil. */
+.regel-vergelijk {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ruimte-4);
+  font-size: var(--tekst-15);
+  color: var(--kleur-tekst-licht);
+  cursor: pointer;
+}
 
 .regel-waarde { font-size: var(--tekst-17); font-weight: 700; }
 .regel-van { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); font-weight: 600; }
@@ -365,36 +379,76 @@
 
 .regel-vul { display: block; height: 100%; background: var(--kleur-primair); }
 
-/* Dezelfde balk, maar opgedeeld in de drie onderdelen waaruit de score is
-   opgebouwd. Eén doorlopende balk zegt alleen "vier van de zes"; drie vakjes
-   laten zien dat het er drie van twee zijn en welke daarvan het laat afweten.
-   Dat is precies de vraag die een bezoeker bij een zelfbedacht cijfer heeft.
-
-   Half gevuld is een verloop en geen tweede element: een halve punt is een
-   hoeveelheid binnen dat ene onderdeel, geen los ding ernaast. De namen en de
-   punten staan in het title-attribuut op de balk, en voluit op de
-   productpagina - kleur en vorm dragen hier nooit de hele boodschap. */
-.regel-baan-delen {
-  display: flex;
-  gap: 2px;
-  background: none;
-  overflow: visible;
-}
-.regel-deel {
-  flex: 1;
-  height: 5px;
-  border-radius: var(--radius-pil);
-  background: var(--kleur-rand);
-}
-.regel-deel.deel-1 {
-  background: linear-gradient(to right, var(--kleur-primair) 0 50%, var(--kleur-rand) 50% 100%);
-}
-.regel-deel.deel-2 { background: var(--kleur-primair); }
-
 .regel-slot { text-align: right; }
 .regel-bedrag { display: block; font-size: var(--tekst-22); font-weight: 800; letter-spacing: -0.02em; }
 .regel-per { display: block; font-size: var(--tekst-12); color: var(--kleur-tekst-licht); font-weight: 600; }
-.regel-slot .knop { margin-top: var(--ruimte-6); padding: var(--ruimte-6) var(--ruimte-14); }
+/* De prijs is de link naar de winkel. Onder elke regel stond een gevulde
+   knop "Naar de winkel", tientallen keren onder elkaar: dat las als een
+   verkooppagina. Een prijsoverzicht linkt het bedrag. */
+a.regel-bedrag { color: var(--kleur-primair-donker); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a.regel-bedrag:hover { text-decoration-thickness: 2px; }
+.regel-details { display: inline-block; min-height: 24px; line-height: 24px; font-size: var(--tekst-15); }
+
+/* Foto en kenmerken in de regel. Zonder foto's en zonder pillen was de lijst
+   een bord met cijfers in twee kleuren. Wat erbij komt draagt elk iets: de
+   foto laat zien wat voor ding het is, en een kenmerk staat er alleen als
+   het iets zegt over de keuze. */
+.regel-naam { display: flex; gap: var(--ruimte-14); align-items: flex-start; }
+.regel-naam-tekst { min-width: 0; }
+.regel-foto {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 66px;
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius-mini);
+  background: var(--kleur-wit);
+  overflow: hidden;
+}
+.regel-foto img { width: 100%; height: 100%; object-fit: contain; }
+.regel-foto.leeg { background: var(--kleur-achtergrond); }
+
+.regel-onder { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruimte-4) var(--ruimte-10); margin-top: var(--ruimte-4); }
+.regel-kenmerken { display: inline-flex; flex-wrap: wrap; gap: var(--ruimte-4); }
+.kenmerk {
+  padding: 1px var(--ruimte-6);
+  border-radius: var(--radius-mini);
+  font-size: var(--tekst-12);
+  font-weight: 600;
+}
+/* Elke kleur betekent iets: groen is iets wat het apparaat kan, amber iets
+   van de winkel op dit moment, de huiskleur een plek in deze lijst. */
+.kenmerk-kan { background: var(--kleur-groen-licht); color: var(--kleur-groen-donker); }
+.kenmerk-actie { background: var(--kleur-accent-licht); color: #92400e; }
+.kenmerk-prijs { background: var(--kleur-primair-licht); color: var(--kleur-primair-donker); }
+
+/* Tussenkop per score, bij de sortering op die score. */
+.regel-groep {
+  display: flex;
+  align-items: baseline;
+  gap: var(--ruimte-10);
+  padding: var(--ruimte-10) var(--ruimte-14);
+  background: var(--kleur-primair-licht);
+  border-bottom: 1px solid var(--kleur-rand);
+  color: var(--kleur-primair-donker);
+  font-size: var(--tekst-15);
+}
+.regel-groep span { color: var(--kleur-tekst-licht); }
+
+/* De Koppel-score uitgesplitst: drie onderdelen met naam. Drie streepjes
+   zonder namen zeiden niet welk streepje Homey was, en een leeg vak in het
+   midden las als een weergavefout. */
+.koppel-delen { list-style: none; margin: var(--ruimte-4) 0 0; padding: 0; font-size: var(--tekst-12); font-weight: 600; line-height: 1.5; }
+.koppel-deel { display: flex; align-items: center; gap: var(--ruimte-4); white-space: nowrap; }
+.koppel-deel .icoon { width: 1.1em; height: 1.1em; }
+/* Groen en niet de huiskleur: op warmtepompmaatje is die oranje, en dan
+   waren volledig en deels nauwelijks uit elkaar te houden. */
+.koppel-deel.deel-2 { color: var(--kleur-groen-donker); }
+.koppel-deel.deel-1 { color: #92400e; }
+.koppel-deel.deel-0 { color: var(--kleur-tekst-licht); }
+.koppel-deel.deel-0 span:first-of-type { text-decoration: line-through; text-decoration-color: var(--kleur-rand); }
 
 /* -- Op de telefoon --------------------------------------------------------
    Zeven kolommen passen niet. De regel kantelt naar een kaart met de vier
@@ -445,7 +499,7 @@
     padding-top: var(--ruimte-10);
   }
 
-  .regel-slot .knop { grid-row: 1 / 3; grid-column: 2; margin: 0; min-height: 44px; }
+  .regel-groep { margin: var(--ruimte-14) 0 var(--ruimte-6); background: none; border: 0; padding: 0; }
 }
 
 /* ==========================================================================
@@ -496,6 +550,8 @@
 
 .filter-groep > label,
 .filter-groep .filter-label {
+  font-size: var(--tekst-15);
+  font-weight: 600;
   color: var(--kleur-tekst-licht);
 }
 
@@ -527,31 +583,24 @@
 .filter-rij.tweede .filter-groep { flex: 1; flex-direction: row; align-items: flex-start; gap: var(--ruimte-10); }
 .filter-rij.tweede .filter-label { flex: none; padding-top: 12px; }
 
-.checkbox-groep { display: flex; flex-wrap: wrap; gap: var(--ruimte-6); flex: 1; }
+.checkbox-groep { display: flex; flex-wrap: wrap; gap: var(--ruimte-4) var(--ruimte-20); flex: 1; }
 
 /* Zelfde rechthoek en ronding als een keuzelijst. Het waren grijsgevulde
    pillen naast rechthoekige velden: twee vormentalen in een paneel. */
+/* Gewone vinkjes naast elkaar. Elk vinkje had een eigen kader, en zes
+   kaders op een rij is drukte zonder betekenis. */
 .checkbox-groep label {
   display: inline-flex;
   align-items: center;
   gap: var(--ruimte-6);
-  min-height: 40px;
-  padding: var(--ruimte-4) var(--ruimte-10);
-  border: 1px solid var(--kleur-rand);
-  border-radius: var(--radius-klein);
-  background: var(--kleur-wit);
+  min-height: 32px;
   font-size: var(--tekst-15);
+  font-weight: 500;
+  color: var(--kleur-tekst);
   cursor: pointer;
 }
 
-/* Aan is de merkkleur, niet een grijstint: zo zie je in een oogopslag welk
-   filter er nog aanstaat. */
-.checkbox-groep label:has(input:checked) {
-  border-color: var(--kleur-primair);
-  background: var(--kleur-primair-licht);
-  color: var(--kleur-primair-donker);
-  font-weight: 700;
-}
+.checkbox-groep label:has(input:checked) { font-weight: 600; }
 
 .checkbox-groep input { accent-color: var(--kleur-primair); width: 16px; height: 16px; }
 

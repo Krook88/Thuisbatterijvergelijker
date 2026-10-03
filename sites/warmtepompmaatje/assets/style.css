@@ -19,13 +19,18 @@
   --kleur-wit: #ffffff;
   --kleur-rand: #e7e1d3;
   --kleur-groen: #16a34a;
+  /* Donkerder groen voor tekst op een lichte ondergrond: #16a34a haalt op
+     het papierwit maar 2,97:1 en WCAG 1.4.3 (AA) vraagt 4,5:1. */
+  --kleur-groen-donker: #15803d;
   --kleur-groen-licht: #dcfce7;
   --kleur-rood: #dc2626;
   --kleur-rood-licht: #fee2e2;
   --kleur-blauw: #2563eb;
   --kleur-blauw-licht: #dbeafe;
-  --schaduw: 0 1px 2px rgba(38, 33, 20, 0.06), 0 6px 18px rgba(38, 33, 20, 0.07);
-  --schaduw-hover: 0 4px 10px rgba(38, 33, 20, 0.08), 0 16px 36px rgba(38, 33, 20, 0.14);
+  /* Geen zachte schaduwen meer: een dunne lijn scheidt genoeg, en een
+     zwevende kaart is een vorm uit het sjabloon. */
+  --schaduw: none;
+  --schaduw-hover: none;
   --font-basis: "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   /* Tabelcijfers: bedragen onder elkaar houden dezelfde breedte, zodat een
      kolom met prijzen niet gaat dansen bij het sorteren. */
@@ -156,20 +161,12 @@ h1 { font-weight: 800; letter-spacing: -0.025em; }
 h2 { font-weight: 800; letter-spacing: -0.02em; }
 h3 { font-weight: 700; letter-spacing: -0.01em; }
 
-/* Sectiekoppen krijgen een klein amber accentstreepje voor herkenbaarheid */
+/* Sectiekoppen hadden een amber streepje eronder. Dat is het herkenbaarste
+   onderdeel van het standaardsjabloon, en het voegt niets toe: een kop is
+   aan zijn grootte al te herkennen. */
 main h2 {
   font-weight: 800;
-  color: var(--kleur-primair-donker);
-}
-main > h2::after,
-main section > h2::after {
-  content: "";
-  display: block;
-  width: 44px;
-  height: 4px;
-  border-radius: var(--radius-pil);
-  background: var(--kleur-accent);
-  margin-top: var(--ruimte-6);
+  color: var(--kleur-tekst);
 }
 
 a { color: var(--kleur-primair); }
@@ -322,7 +319,8 @@ a { color: var(--kleur-primair); }
 }
 
 .hoofdnav a:hover { background: var(--kleur-achtergrond); color: var(--kleur-tekst); }
-.hoofdnav a.actief { background: var(--kleur-primair-licht); color: var(--kleur-primair-donker); }
+/* De huidige pagina onderstreept; een gekleurd blokje erachter was de pil van het sjabloon. */
+.hoofdnav a.actief { color: var(--kleur-tekst); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
 
 /* Uitklapmenu "Meer" in de hoofdnavigatie (werkt zonder JavaScript, ook op touch) */
 /* Het paneel wordt aan de navigatie verankerd (niet aan de knop), zodat het bij
@@ -367,11 +365,11 @@ a { color: var(--kleur-primair); }
    Infobalk regelgeving
    -------------------------------------------------------------------------- */
 
+/* Een regel tekst met een vet begin en een streep ervoor. Het was een geel
+   kader met een icoon, en dat schreeuwt harder dan het bericht. */
 .regel-banner {
-  background: var(--kleur-accent-licht);
-  border: 1px solid #fcd34d;
-  border-radius: var(--radius);
-  padding: var(--ruimte-14) var(--ruimte-20);
+  border-left: 3px solid var(--kleur-accent);
+  padding: var(--ruimte-4) 0 var(--ruimte-4) var(--ruimte-14);
   margin: var(--ruimte-20) 0 var(--ruimte-6);
   display: flex;
   gap: var(--ruimte-10);
@@ -436,10 +434,9 @@ a { color: var(--kleur-primair); }
 .weergave-knoppen { display: flex; gap: var(--ruimte-6); align-items: center; }
 
 .weergave-knoppen button {
-  padding: var(--ruimte-6) var(--ruimte-14);
-  border: 1px solid var(--kleur-rand);
-  background: var(--kleur-wit);
-  border-radius: var(--radius-klein);
+  padding: var(--ruimte-6);
+  border: 0;
+  background: none;
   cursor: pointer;
   font-size: var(--tekst-15);
   font-weight: 600;
@@ -447,9 +444,10 @@ a { color: var(--kleur-primair); }
 }
 
 .weergave-knoppen button.actief {
-  background: var(--kleur-primair);
-  border-color: var(--kleur-primair);
-  color: var(--kleur-wit);
+  color: var(--kleur-tekst);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
 }
 
 /* --------------------------------------------------------------------------
@@ -500,7 +498,7 @@ a { color: var(--kleur-primair); }
   flex-wrap: wrap;
 }
 
-.kaart-kop .merk { font-size: var(--tekst-15); font-weight: 700; color: var(--kleur-primair); text-transform: uppercase; letter-spacing: 0.05em; }
+.kaart-kop .merk { font-size: var(--tekst-15); font-weight: 700; color: var(--kleur-primair); }
 .kaart-kop h3 { margin: var(--ruimte-2) 0 0; font-size: var(--tekst-19); line-height: 1.3; }
 
 .aanbieding-vlag {
@@ -551,7 +549,7 @@ a.term-link:hover { color: var(--kleur-primair); }
 }
 
 .spec { display: flex; flex-direction: column; }
-.spec .spec-label { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+.spec .spec-label { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); font-weight: 600; }
 .spec .spec-waarde { font-weight: 600; }
 
 .kaart-badges {
@@ -751,8 +749,6 @@ details.lees-meer[open] summary::after { content: " ▴"; }
   gap: var(--ruimte-6);
   font-size: var(--tekst-12);
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
   color: var(--kleur-tekst-licht);
 }
 .koppel-meter-label .icoon { color: var(--kleur-primair); }
@@ -846,14 +842,11 @@ details.lees-meer[open] summary::after { content: " ▴"; }
    die iets anders betekenen dan ze lijken, en dit bedrag klopt gewoon, het is
    alleen ouder. #92400e op deze amber haalt 4,5:1 bij 12 pixels. */
 .prijs-ouderdom {
-  display: inline-block;
+  display: block;
   margin-top: var(--ruimte-4);
-  padding: var(--ruimte-2) var(--ruimte-6);
-  border-radius: var(--radius-pil);
-  background: var(--kleur-accent-licht);
   color: #92400e;
   font-size: var(--tekst-12);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 /* Uitleg wanneer het getoonde bedrag afwijkt van wat de winkel toont: een
@@ -1016,7 +1009,7 @@ details.lees-meer[open] summary::after { content: " ▴"; }
   margin: 0 var(--ruimte-20) var(--ruimte-20);
 }
 
-.kaart-details dt { font-weight: 700; margin-top: var(--ruimte-6); font-size: var(--tekst-12); color: var(--kleur-tekst-licht); text-transform: uppercase; }
+.kaart-details dt { font-weight: 700; margin-top: var(--ruimte-6); font-size: var(--tekst-12); color: var(--kleur-tekst-licht); }
 .kaart-details dd { margin: var(--ruimte-2) 0 0; }
 .kaart-details .winkel-lijst { list-style: none; padding: 0; margin: var(--ruimte-4) 0 0; }
 .kaart-details .winkel-lijst li { display: flex; justify-content: space-between; gap: var(--ruimte-10); padding: var(--ruimte-4) 0; border-bottom: 1px dotted var(--kleur-rand); }
@@ -1059,8 +1052,6 @@ table.vergelijk-tabel {
   background: var(--kleur-achtergrond);
   border-bottom: 2px solid var(--kleur-rand);
   font-size: var(--tekst-12);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   color: var(--kleur-tekst-licht);
   cursor: pointer;
   user-select: none;
@@ -1787,46 +1778,3 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 /* De ene zin die het stappenblok bevatte en die nergens anders stond. */
 .hero-naschrift { margin: var(--ruimte-20) 0 0; }
 
-/* ==========================================================================
-   Labels in hoofdletters
-
-   Stonden in kern/assets/vergelijker.css. Batterijmaatje probeert een
-   rustiger vorm zonder hoofdletters en zonder kader om elk vinkje; tot die
-   keuze voor alle drie de sites valt, staat de oude vorm hier per site.
-   ========================================================================== */
-
-.regel-kop {
-  font-size: var(--tekst-12);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.regel-merk {
-  font-size: var(--tekst-12);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--kleur-tekst-licht);
-}
-
-.filter-groep > label,
-.filter-groep .filter-label {
-  font-size: var(--tekst-12);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.checkbox-groep label {
-  font-weight: 600;
-  color: var(--kleur-tekst-licht);
-}
-
-@media (max-width: 760px) {
-  .regel-plek,
-  .regel-label {
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-}

@@ -27,8 +27,10 @@
   --kleur-rood-licht: #fee2e2;
   --kleur-blauw: #2563eb;
   --kleur-blauw-licht: #dbeafe;
-  --schaduw: 0 1px 2px rgba(38, 33, 20, 0.06), 0 6px 18px rgba(38, 33, 20, 0.07);
-  --schaduw-hover: 0 4px 10px rgba(38, 33, 20, 0.08), 0 16px 36px rgba(38, 33, 20, 0.14);
+  /* Geen zachte schaduwen meer: een dunne lijn scheidt genoeg, en een
+     zwevende kaart is een vorm uit het sjabloon. */
+  --schaduw: none;
+  --schaduw-hover: none;
   --font-basis: "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   /* Tabelcijfers: bedragen onder elkaar houden dezelfde breedte, zodat een
      kolom met prijzen niet gaat dansen. */
@@ -366,11 +368,12 @@ a { color: var(--kleur-primair); }
    Infobalk regelgeving
    -------------------------------------------------------------------------- */
 
+/* Een regel tekst met een vet begin en een streep ervoor. Het was een geel
+   kader met een waarschuwingsdriehoek, en dat schreeuwt harder dan het
+   bericht: dit is uitleg, geen storing. */
 .regel-banner {
-  background: var(--kleur-accent-licht);
-  border: 1px solid #fcd34d;
-  border-radius: var(--radius);
-  padding: var(--ruimte-14) var(--ruimte-20);
+  border-left: 3px solid var(--kleur-accent);
+  padding: var(--ruimte-4) 0 var(--ruimte-4) var(--ruimte-14);
   margin: var(--ruimte-20) 0 var(--ruimte-6);
   display: flex;
   gap: var(--ruimte-10);
@@ -2132,139 +2135,4 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   color: var(--kleur-tekst-licht);
 }
 
-/* ==========================================================================
-   Rustiger (proef op batterijmaatje)
-
-   De site zag eruit als het standaardsjabloon van 2025: zachte schaduwen,
-   alles in een afgerond kader, pillen, een icoontje voor elke knop en kleine
-   labels in hoofdletters. Netjes, maar je herkent het sjabloon voor je de
-   inhoud leest. Hier gaat het terug naar wat een prijsoverzicht nodig heeft:
-   dunne lijnen, weinig afronding, gewone labels, en kleur alleen waar hij
-   iets betekent.
-   ========================================================================== */
-
-:root {
-  /* Eén kleine ronding voor alles. De maatlat had er vier (4, 10, 16 en een
-     pil van 999); juist die grote rondingen en pillen maakten het sjabloon. */
-  --radius: 4px;
-  --radius-klein: 4px;
-  --radius-pil: 4px;
-  --radius-mini: 4px;
-  --schaduw: none;
-  --schaduw-hover: none;
-}
-
-/* Labels in gewone letters. De hoofdletters stonden in kern en staan nu per
-   site; hier blijven ze weg. */
-.regel-kop,
-.filter-groep > label,
-.filter-groep .filter-label {
-  font-size: var(--tekst-15);
-  font-weight: 600;
-}
-
-/* Merk en model als één naam: "Marstek Venus E 3.0", niet een kopje erboven. */
-.regel-merk { display: inline; }
-
-/* Vergelijken: een vinkje met een woord, geen pil. */
-.regel-vergelijk {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--ruimte-4);
-  font-size: var(--tekst-15);
-  color: var(--kleur-tekst-licht);
-  cursor: pointer;
-}
-
-/* De prijs is de link. */
-a.regel-bedrag { color: var(--kleur-primair-donker); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-a.regel-bedrag:hover { text-decoration-thickness: 2px; }
-.regel-winkel { display: block; }
-.regel-details { display: inline-block; min-height: 24px; line-height: 24px; font-size: var(--tekst-15); }
-
-/* Filters: gewone vinkjes naast elkaar. */
-.checkbox-groep { gap: var(--ruimte-4) var(--ruimte-20); }
-.checkbox-groep label {
-  min-height: 32px;
-  padding: 0;
-  border: 0;
-  background: none;
-  font-weight: 500;
-  color: var(--kleur-tekst);
-}
-.checkbox-groep label:has(input:checked) { background: none; font-weight: 600; color: var(--kleur-tekst); }
-
-/* De saldering: een regel tekst met een vet begin, geen gele waarschuwing. */
-.regel-banner {
-  background: none;
-  border: 0;
-  border-left: 3px solid var(--kleur-accent);
-  border-radius: 0;
-  padding: var(--ruimte-4) 0 var(--ruimte-4) var(--ruimte-14);
-}
-
-/* Foto en kenmerken in de regel. Na het weghalen van pillen en icoontjes was
-   de lijst een bord met cijfers in twee kleuren. Wat er nu bij komt, draagt
-   elk iets: de foto laat zien wat voor ding het is, en een kenmerk staat er
-   alleen als het iets zegt over de keuze. */
-.regel-naam { display: flex; gap: var(--ruimte-14); align-items: flex-start; }
-.regel-naam-tekst { min-width: 0; }
-.regel-foto {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 88px;
-  height: 66px;
-  border: 1px solid var(--kleur-rand);
-  border-radius: var(--radius-mini);
-  background: var(--kleur-wit);
-  overflow: hidden;
-}
-.regel-foto img { width: 100%; height: 100%; object-fit: contain; }
-.regel-foto.leeg { background: var(--kleur-achtergrond); }
-
-.regel-onder { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruimte-4) var(--ruimte-10); margin-top: var(--ruimte-4); }
-.regel-kenmerken { display: inline-flex; flex-wrap: wrap; gap: var(--ruimte-4); }
-.kenmerk {
-  padding: 1px var(--ruimte-6);
-  border-radius: var(--radius-mini);
-  font-size: var(--tekst-12);
-  font-weight: 600;
-}
-.kenmerk-kan { background: var(--kleur-groen-licht); color: var(--kleur-groen-donker); }
-.kenmerk-actie { background: var(--kleur-accent-licht); color: #92400e; }
-.kenmerk-prijs { background: var(--kleur-primair-licht); color: var(--kleur-primair-donker); }
-
-/* Met de foto erbij werd de naamkolom te smal: namen liepen over drie of
-   vier regels. De vier feitkolommen hebben aan minder genoeg. */
-@media (min-width: 761px) {
-  .resultaat-regel {
-    grid-template-columns: 34px minmax(0, 3fr) repeat(3, minmax(0, 0.8fr)) minmax(0, 1fr) minmax(0, 1.3fr);
-  }
-}
-
-/* Tussenkop per Koppel-score. */
-.regel-groep {
-  display: flex;
-  align-items: baseline;
-  gap: var(--ruimte-10);
-  padding: var(--ruimte-10) var(--ruimte-14);
-  background: var(--kleur-primair-licht);
-  border-bottom: 1px solid var(--kleur-rand);
-  color: var(--kleur-primair-donker);
-  font-size: var(--tekst-15);
-}
-.regel-groep span { color: var(--kleur-tekst-licht); }
-@media (max-width: 760px) {
-  .regel-groep { margin: var(--ruimte-14) 0 var(--ruimte-6); background: none; border: 0; padding: 0; }
-}
-
-/* De Koppel-score uitgesplitst in de regel: drie onderdelen met naam. */
-.koppel-delen { list-style: none; margin: var(--ruimte-4) 0 0; padding: 0; font-size: var(--tekst-12); font-weight: 600; line-height: 1.5; }
-.koppel-deel { display: flex; align-items: center; gap: var(--ruimte-4); white-space: nowrap; }
-.koppel-deel .icoon { width: 1.1em; height: 1.1em; }
-.koppel-deel.deel-2 { color: var(--kleur-primair-donker); }
-.koppel-deel.deel-1 { color: #92400e; }
-.koppel-deel.deel-0 { color: var(--kleur-tekst-licht); }
-.koppel-deel.deel-0 span:first-of-type { text-decoration: line-through; text-decoration-color: var(--kleur-rand); }
+.dagmaat-label { display: block; margin-top: var(--ruimte-2); font-size: var(--tekst-12); font-weight: 600; color: var(--kleur-tekst-licht); }

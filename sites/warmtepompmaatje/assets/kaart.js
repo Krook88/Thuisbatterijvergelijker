@@ -255,6 +255,29 @@
 
      Dezelfde volgorde als op de zustersites: plek, model, drie feiten, score,
      prijs. Alleen de kolomnamen verschillen. */
+  /* Een kleine foto voor in de regel: zonder foto's was de lijst een bord
+     cijfers in twee kleuren. Zonder foto blijft het vakje staan, zodat de
+     namen onder elkaar blijven beginnen. */
+  const naamVan = (w) => (w.model.toLowerCase().startsWith(w.merk.toLowerCase()) ? w.model : `${w.merk} ${w.model}`);
+
+  function regelFoto(x) {
+    if (!x.afbeelding) return `<span class="regel-foto leeg" aria-hidden="true"></span>`;
+    return `<span class="regel-foto"><img src="${escapeHtml(x.afbeelding)}" alt="" loading="lazy" decoding="async" width="88" height="66"></span>`;
+  }
+
+  /* Hooguit een paar kenmerken, elk met een kleur die iets betekent: groen
+     is iets wat de pomp kan, amber iets van de winkel op dit moment. */
+  function regelKenmerken(w, o) {
+    const uit = [];
+    if (o.goedkoopste && o.goedkoopste === w.id) uit.push(`<span class="kenmerk kenmerk-prijs">laagste prijs</span>`);
+    if (Prijs.heeftKorting && Prijs.heeftKorting(w)) uit.push(`<span class="kenmerk kenmerk-actie">aanbieding</span>`);
+    // Koudemiddel en geluid staan al in hun eigen kolom. Een kenmerk "propaan"
+    // stond daardoor bij twintig pompen naast de kolom met R290 erin; alleen
+    // wat de kolom niet zegt, komt hier: welke het stilst is in deze lijst.
+    if (o.stilste && o.stilste === w.id) uit.push(`<span class="kenmerk kenmerk-kan" title="Geluidsvermogen ${w.geluid_db} dB(A), het laagste in deze lijst">stilste</span>`);
+    return uit.length ? `<span class="regel-kenmerken">${uit.join("")}</span>` : "";
+  }
+
   function regelHtml(w, opties, plek) {
     const o = opties || {};
     const beste = bestePrijs(w);
@@ -266,27 +289,32 @@
     <article class="resultaat-regel" data-id="${escapeHtml(w.id)}">
       <span class="regel-plek cijfer">${plek}</span>
       <div class="regel-naam">
-        <span class="regel-merk">${escapeHtml(w.merk)}</span>
-        <h3><a class="kop-link" href="pomp/${encodeURIComponent(w.id)}.html">${escapeHtml(w.model)}</a></h3>
-        <label class="badge regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        ${regelFoto(w)}
+        <div class="regel-naam-tekst">
+        <h3><a class="kop-link" href="pomp/${encodeURIComponent(w.id)}.html">${w.model.toLowerCase().startsWith(w.merk.toLowerCase()) ? "" : `<span class="regel-merk">${escapeHtml(w.merk)}</span> `}${escapeHtml(w.model)}</a></h3>
+        <div class="regel-onder">
+        ${regelKenmerken(w, o)}
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
           <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(w.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
         </label>
+        </div>
+        </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>${w.vermogen_kw ? String(w.vermogen_kw).replace(".", ",") + " kW" : "Onbekend"}</div>
-      <div class="regel-waarde cijfer" data-naam="Koudemiddel"><span class="regel-label">Koudemiddel</span>${escapeHtml(w.koudemiddel || "Onbekend")}</div>
+      <div class="regel-waarde cijfer" data-naam="Koudemiddel"><span class="regel-label">Koudemiddel</span><span title="${escapeHtml(w.koudemiddel || "")}">${escapeHtml((w.koudemiddel || "Onbekend").split(/[\s(]/)[0])}</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>${w.geluid_db ? w.geluid_db + " dB(A)" : "Onbekend"}</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>${score}<span class="regel-van">/6</span>
-        <span class="regel-baan regel-baan-delen" title="Koppel-score ${score} van 6: ${escapeHtml(koppelSamenvatting(w))}">${koppelDelen(w).map((d) => `<span class="regel-deel deel-${d.punten}"></span>`).join("")}</span>
+        <ul class="koppel-delen">${koppelDelen(w).map((d) => `<li class="koppel-deel deel-${d.punten}" title="${escapeHtml(d.naam)}: ${escapeHtml(d.tekst)}">${Iconen.svg({ ja: "ja", deels: "deels", nee: "nee" }[d.status] || "nee")}<span>${escapeHtml(d.naam)}</span><span class="visueel-verborgen"> ${d.status === "ja" ? "volledig" : d.status === "deels" ? "deels" : "niet"}</span></li>`).join("")}</ul>
       </div>
       <div class="regel-slot">
-        <span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>
+        ${beste && beste.url && vergelijk !== null
+          ? `<a class="regel-bedrag cijfer" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="${escapeHtml(eurFmt.format(vergelijk))} bij ${escapeHtml(beste.winkel || "de winkel")}: naar de aanbieding van de ${escapeHtml(naamVan(w))}, opent in een nieuw tabblad">${eurFmt.format(vergelijk)}</a>`
+          : `<span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>`}
         ${w.isde_indicatie_eur ? `<span class="regel-per cijfer">ISDE circa ${eurFmt.format(w.isde_indicatie_eur)}</span>` : ""}
+        ${beste && beste.url && beste.winkel ? `<span class="regel-winkel">${/^richtprijs/i.test(beste.winkel) ? "" : "bij "}${escapeHtml(beste.winkel)}</span>` : ""}
         ${ouderdomHtml(w)}
-        ${beste && beste.url && beste.winkel ? `<span class="regel-winkel" title="Waar dit bedrag vandaan komt">${escapeHtml(beste.winkel)}</span>` : ""}
-        ${beste && beste.url
-          ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Naar de aanbieding van de ${escapeHtml(w.merk)} ${escapeHtml(w.model)}${beste.winkel ? ` bij ${escapeHtml(beste.winkel)}` : ""}, opent in een nieuw tabblad">Naar de winkel <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" /> <path d="M7 17 17 7" /></svg></a>`
-          : `<a class="knop knop-secundair" href="pomp/${encodeURIComponent(w.id)}.html" aria-label="Alle details van de ${escapeHtml(w.merk)} ${escapeHtml(w.model)}">Bekijk details</a>`}
+        ${beste && beste.url ? "" : `<a class="regel-details" href="pomp/${encodeURIComponent(w.id)}.html" aria-label="Alle details van de ${escapeHtml(naamVan(w))}">details</a>`}
       </div>
     </article>`;
   }
@@ -295,11 +323,36 @@
      lijst staat en niet bij elk product. */
   function lijstHtml(lijst, opties) {
     const koppen = ["Model", "Vermogen", "Koudemiddel", "Geluid", "Koppel-score", "Prijs"];
+    // Welke in deze lijst het goedkoopst is, over de lijst zoals hij nu
+    // gefilterd is, zodat het kenmerk klopt met wat je ziet.
+    let laagste = null;
+    for (const x of lijst) {
+      const p = ((w) => Prijs.vergelijkPrijs(bestePrijs(w)))(x);
+      if (p && (!laagste || p < laagste.p)) laagste = { id: x.id, p };
+    }
+    let stilste = null;
+    for (const x of lijst) if (x.geluid_db && (!stilste || x.geluid_db < stilste.db)) stilste = { id: x.id, db: x.geluid_db };
+    const o = { ...(opties || {}), goedkoopste: laagste && laagste.id, stilste: stilste && stilste.id };
+    // Bij de sortering op de score een tussenkop per score; bij een andere
+    // sortering hebben groepen geen betekenis en blijft het een lijst.
+    let vorige = null;
+    const regels = lijst.map((x, i) => {
+      let kop = "";
+      if (o.groepeer) {
+        const score = koppelScore(x);
+        if (score !== vorige) {
+          const aantal = lijst.filter((y) => koppelScore(y) === score).length;
+          kop = `<div class="regel-groep"><b>${o.groepNaam || "Score"} ${score} van 6</b> <span>${aantal} ${aantal === 1 ? "pomp" : "pompen"}</span></div>`;
+          vorige = score;
+        }
+      }
+      return kop + regelHtml(x, o, i + 1);
+    }).join("");
     return `<div class="resultaat-lijst">
       <div class="resultaat-regel regel-kop" aria-hidden="true">
         <span></span>${koppen.map((k) => `<span>${k}</span>`).join("")}
       </div>
-      ${lijst.map((x, i) => regelHtml(x, opties, i + 1)).join("")}
+      ${regels}
     </div>`;
   }
 

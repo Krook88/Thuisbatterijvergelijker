@@ -814,7 +814,7 @@ const gesorteerdePompen = Kaart.standaardVolgorde(data.warmtepompen);
 // komt te staan. Zet je hier kaarten neer terwijl de browser meteen daarna
 // regels tekent, dan ziet de bezoeker het beeld een keer omklappen en krijgt
 // een zoekmachine iets anders te zien dan een mens.
-const kaarten = Kaart.lijstHtml(gesorteerdePompen, { pompen: data.warmtepompen });
+const kaarten = Kaart.lijstHtml(gesorteerdePompen, { pompen: data.warmtepompen, groepeer: true, groepNaam: "Koppel-score" });
 
 const itemLijst = {
   "@context": "https://schema.org",

@@ -201,7 +201,16 @@
     id: b.id,
   });
 
-  const dagmaatHtml = (b, verbruik) => Dagmaat.baanHtml(dagmaatMaat(b), verbruik);
+  /* Het balkje stond er zonder woorden bij, en dan is het een raadsel: is
+     dat de lading, de kwaliteit, de levensduur? Er staat nu bij wat het is:
+     hoeveel van een gemiddelde dag buiten de zonuren de batterij opvangt. */
+  function dagmaatLabel(b, verbruik) {
+    const d = Dagmaat.bereken(dagmaatMaat(b), verbruik);
+    if (!d) return "";
+    const tekst = d.over > 0 ? "dekt een hele dag" : `dekt ${Math.round(d.deel * 100)}% van een dag`;
+    return `<span class="dagmaat-label">${tekst}</span>`;
+  }
+  const dagmaatHtml = (b, verbruik) => Dagmaat.baanHtml(dagmaatMaat(b), verbruik) + dagmaatLabel(b, verbruik);
 
   function dagmaatUitlegHtml(b, verbruik) {
     const maat = dagmaatMaat(b);
@@ -353,7 +362,7 @@
           ? `<a class="regel-bedrag cijfer" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="${escapeHtml(eurFmt.format(vergelijk))} bij ${escapeHtml(beste.winkel || "de winkel")}: naar de aanbieding van de ${escapeHtml(naamVan(b))}, opent in een nieuw tabblad">${eurFmt.format(vergelijk)}</a>`
           : `<span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>`}
         ${perKwh ? `<span class="regel-per cijfer">${eurFmt.format(perKwh)} per kWh opslag</span>` : ""}
-        ${beste && beste.url && beste.winkel ? `<span class="regel-winkel">bij ${escapeHtml(beste.winkel)}</span>` : ""}
+        ${beste && beste.url && beste.winkel ? `<span class="regel-winkel">${/^richtprijs/i.test(beste.winkel) ? "" : "bij "}${escapeHtml(beste.winkel)}</span>` : ""}
         ${ouderdomHtml(b)}
         ${beste && beste.url ? "" : `<a class="regel-details" href="batterij/${encodeURIComponent(b.id)}.html" aria-label="Alle details van de ${escapeHtml(naamVan(b))}">details</a>`}
       </div>

@@ -138,11 +138,15 @@
      was hier een tijdlang de standaardvorm voor knoppen, invoervelden,
      menulinks en etiketten door elkaar; dan zegt de vorm niets meer. De
      verdeling hieronder is de afspraak, en de keuring rekent erop. */
+  /* Oktober 2026: alle vier op 4 px. Juist de grote rondingen en de pil
+     maakten dat de sites op het standaardsjabloon leken. De namen blijven,
+     zodat een ding nog steeds zegt wat het is, en een site die het anders
+     wil, zet hier één waarde om. */
   --radius-mini: 4px;    /* vinkje, streepje, staafje, voortgangsbalk */
-  --radius-klein: 10px;  /* iets waar je op klikt of in typt: knop, invoerveld,
+  --radius-klein: 4px;   /* iets waar je op klikt of in typt: knop, invoerveld,
                             keuzelijst, menulink */
-  --radius: 16px;        /* iets wat inhoud omsluit: kaart, paneel, kader */
-  --radius-pil: 999px;   /* een etiket dat je alleen leest (badge, score,
+  --radius: 4px;         /* iets wat inhoud omsluit: kaart, paneel, kader */
+  --radius-pil: 4px;     /* een etiket dat je alleen leest (badge, score,
                             meetbalk), en verder niets */
 }
 

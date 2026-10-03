@@ -54,7 +54,10 @@ const TYPES = {
   ".jpg": "image/jpeg", ".svg": "image/svg+xml", ".woff2": "font/woff2", ".ico": "image/x-icon",
 };
 const LADDER_TEKST = [12, 15, 17, 19, 22, 28, 36, 46];
-const LADDER_ROND = ["0px", "4px", "10px", "16px", "999px", "50%"];
+// Sinds oktober 2026 een ronding: 4 px (zie kern/assets/maatlat.css). 10, 16
+// en de pil van 999 px staan er niet meer in, zodat een losse waarde die het
+// sjabloon terugbrengt hier opvalt.
+const LADDER_ROND = ["0px", "4px", "50%"];
 const BREEDTES = [1280, 390];
 
 const browser = await chromium.launch(START);

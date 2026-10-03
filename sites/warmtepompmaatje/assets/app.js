@@ -280,7 +280,7 @@
     if (!lijst.length) {
       doel.innerHTML = '<div class="leeg-melding">Geen warmtepompen gevonden met deze filters. Probeer een filter uit te zetten.</div>';
     } else if (state.weergave === "lijst") {
-      doel.innerHTML = Kaart.lijstHtml(lijst, { selectie: state.vergelijkSelectie });
+      doel.innerHTML = Kaart.lijstHtml(lijst, { selectie: state.vergelijkSelectie, groepeer: state.sortering === "koppel-score", groepNaam: "Koppel-score" });
     } else if (state.weergave === "kaarten") {
       doel.innerHTML = `<div class="kaarten-grid">${lijst.map(kaartHtml).join("")}</div>`;
     } else {
