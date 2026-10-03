@@ -65,7 +65,11 @@
         "bron": "Enphase IQ8HC datasheet: aanbevolen paneelvermogen tot 560 Wp"
       },
       "panelen_per_eenheid": 1,
-      "systeem_toeslag_eur": 250
+      "systeem_toeslag_eur": 250,
+      "afbeelding": "assets/producten/enphase-iq8.webp",
+      "afbeelding_bron": "foto: Winkelman Zonnepanelen",
+      "afbeelding_herkomst": "https://cdn.webshopapp.com/shops/307138/files/444527210/300x250x2/enphase-enphase-iq8-hc-micro-omvormer.jpg",
+      "afbeelding_via": "https://www.winkelman-zonnepanelen.nl/enphase-iq8-hc-micro-omvormer.html"
     },
     {
       "id": "apsystems-ds3",

@@ -996,7 +996,11 @@
         }
       ],
       "scop_conditie": "35",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/wolf-cha-07.webp",
+      "afbeelding_bron": "foto: Wolf",
+      "afbeelding_herkomst": "https://static1.wolfeu.website.svc.wolf.eu/public/thumbnail/editors/nl-nl/files/producten/warmtepompen/28112/image-thumb__28112__frontend-text-image-752x564/chc.-monoblock-200~-~media--36d9dbc4--query.webp",
+      "afbeelding_via": "https://www.wolf.eu/monobloc-cha"
     },
     {
       "id": "itho-amber-95",
@@ -1196,7 +1200,11 @@
         }
       ],
       "scop_conditie": "35",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/gree-versati-iv-10.webp",
+      "afbeelding_bron": "foto: Gree",
+      "afbeelding_herkomst": "https://www.gree.nl/fileadmin/_processed_/9/1/csm_Gree_versati_Split_warmtepompen_d7630a7938.jpg",
+      "afbeelding_via": "https://www.gree.nl/gree-versati-warmtepompen"
     },
     {
       "id": "atag-energion-m-hybrid",
@@ -1773,7 +1781,11 @@
           "isde_eur": 3025,
           "meldcode": "KA13072"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/stiebel-wpl-acs-classic.webp",
+      "afbeelding_bron": "foto: Stiebel Eltron",
+      "afbeelding_herkomst": "https://www.stiebel-eltron.nl/content/dam/ste/products/article_picture/pic00006/pic00006444-00.png",
+      "afbeelding_via": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-acs-classic/wpl-13-acs-classic.html"
     },
     {
       "merk": "Stiebel Eltron",
@@ -1823,7 +1835,11 @@
           "meldcode": "KA09917"
         }
       ],
-      "buitenunit": false
+      "buitenunit": false,
+      "afbeelding": "assets/producten/stiebel-wpl-ics-classic.webp",
+      "afbeelding_bron": "foto: Stiebel Eltron",
+      "afbeelding_herkomst": "https://www.stiebel-eltron.nl/content/dam/ste/products/article_picture/pic00006/pic00006520-00.png",
+      "afbeelding_via": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-ics-classic/wpl-09-ics-classic.html"
     },
     {
       "id": "bosch-compress-5800i-12",

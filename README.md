@@ -598,6 +598,30 @@ labelwaarden in de vergelijking zetten is precies de fout waar
 `vergelijkbaar.mjs` voor bestaat. Een leeg veld met een uitleg erbij is dan
 beter dan een gevuld veld dat iets anders meet.
 
+### Productfoto's: eerst de blinde vlek, dan het contactvel
+
+De foto-automaat leek uitgeput — een verse run over 85 producten gaf dezelfde 31
+kandidaten die in augustus al waren afgekeurd. De oorzaak was niet dat die
+pagina's geen foto hadden, maar dat `productfotos.mjs` alleen `src=` las. Een
+winkel die lazy laadt zet daar een 1×1 placeholder en het echte adres in
+`data-src`; die placeholder ging er terecht uit en wat overbleef was de
+decoratie. Sinds hij ook `data-src` en verwanten leest, plus `srcset` (grootste
+variant) en `<source>` binnen een `<picture>`, komen er wél kandidaten uit
+pagina's die eerder niets gaven.
+
+**Kijk ze daarna met je ogen na, en niet op bestandsnaam.** Van 38 opgehaalde
+beelden waren er 7 bruikbaar. De rest was sfeerbeeld (een hand op een
+thermostaat, twee mannen met een tablet, een huis waar het apparaat net niet op
+staat), bannertekst ("Next Era, Next Level", "NIEUW", een subsidiebadge), een
+winkellogo dat door het filter glipte, of twee keer het verkéérde product — de
+"Huawei LUNA2000-S1" bleek een SUN2000-omvormer en geen batterijstapel.
+
+Dat nakijken gaat het snelst met een contactvel: zet de nieuwe `.webp`-bestanden
+in een rasterpagina met hun id eronder, maak er één schermafdruk van en bekijk
+die. Dertig beelden beoordeel je zo in één blik, en de twijfelgevallen vergroot
+je daarna. Op bestandsnaam alleen had ik de SUN2000 en het serieplaatje van SAJ
+allebei doorgelaten.
+
 ### Een prijs die mensenwerk blijft
 
 Twee velden op een aanbieding zeggen tegen de dagelijkse ronde wat ze ermee aan

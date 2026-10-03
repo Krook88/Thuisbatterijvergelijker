@@ -63,7 +63,11 @@
           "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1526/ja-solar-jam54d40lb-465w-bifacial-double-glass-half-cut-black-frame-jam54d40-465lb--1762-x-1134-x-30-nm-0217w.html",
           "datum": "2026-10-03"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/ja-solar-jam54d40-465.webp",
+      "afbeelding_bron": "foto: Solar-NU",
+      "afbeelding_herkomst": "https://www.solar-nu-webshop.nl/data/upload/Shop/images/big_ja-solarjam54d40-465lb--zwart-wit.png",
+      "afbeelding_via": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1526/ja-solar-jam54d40lb-465w-bifacial-double-glass-half-cut-black-frame-jam54d40-465lb--1762-x-1134-x-30-nm-0217w.html"
     },
     {
       "id": "aiko-neostar-2p-455",
@@ -100,7 +104,11 @@
           "url": "https://justsolar.store/products/aiko-455wp-neostar-2s-gen2-glas-glas-all-black",
           "datum": "2026-10-02"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/aiko-neostar-2p-455.webp",
+      "afbeelding_bron": "foto: GroothandelSolar",
+      "afbeelding_herkomst": "https://static.groothandelsolar.com/shop/media/cache/sylius_shop_product_large_webp/product-images/aiko-445wp-abc-n-type-glas-glas-all-black/scherm-afbeelding-2024-01-03-om-15-00-57.png",
+      "afbeelding_via": "https://www.groothandelsolar.com/zonnepanelen-kopen/aiko-solar-zonnepaneel/aiko-455wp-gen2-glas-glas-all-black"
     },
     {
       "id": "jinko-tiger-neo-455",
