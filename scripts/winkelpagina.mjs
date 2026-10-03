@@ -94,6 +94,13 @@ const ZOEK = vlag("zoek", "ZOEK").split(",").map((w) => w.trim()).filter(Boolean
  * statuscode zie je niet eens of je goed zat. Met de links erbij is het één
  * run: categoriepagina lezen, adressen eruit, die lezen. */
 const LINKS = vlag("links", "LINKS");
+/* Kort: alleen titel, treffers en links, zonder de prijsdiagnose per route.
+   Dit script is gaandeweg ook het gereedschap geworden voor alles wat geen
+   prijs is - garantietermijnen, geluidsvermogen, de juiste productpagina bij
+   een fabrikant - en dan is de diagnose per route alleen ruis: zestien regels
+   per pagina die niets met de vraag te maken hebben, bij twaalf pagina's het
+   grootste deel van het logboek. */
+const KORT = args.includes("--kort") || /^(1|true|ja)$/i.test(process.env.KORT || "");
 
 const urls = [
   ...args.filter((a) => !a.startsWith("--")),
@@ -172,12 +179,12 @@ for (const url of urls) {
     continue;
   }
 
-  const routes = perRoute(uit.html);
-  const gekozen = prijsUitPagina(uit.html, NAAM);
-  const bedragen = bedragenMetContext(uit.html);
-
   console.log(`  opgehaald via: ${uit.via}`);
   console.log(`  titel: ${titelVan(uit.html)}`);
+  const routes = KORT ? [] : perRoute(uit.html);
+  const gekozen = KORT ? { prijs: null } : prijsUitPagina(uit.html, NAAM);
+  const bedragen = KORT ? [] : bedragenMetContext(uit.html);
+  if (!KORT) {
   console.log(`  btw volgens de pagina: ${toontExclBtw(uit.html) ? "excl." : "geen aanwijzing (dus incl.)"}`);
   console.log(`  het script kiest: ${gekozen.prijs ? `€${gekozen.prijs} via ${gekozen.hoe}` : "geen prijs"}`);
   console.log("  per route:");
@@ -190,6 +197,7 @@ for (const url of urls) {
   }
   if (bedragen.length > MAX_BEDRAGEN) {
     console.log(`    (nog ${bedragen.length - MAX_BEDRAGEN} bedrag(en) niet getoond)`);
+  }
   }
 
   if (LINKS) {

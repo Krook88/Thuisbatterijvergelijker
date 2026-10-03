@@ -48,6 +48,11 @@ on:
         description: "Toon de links op de pagina waar dit stuk tekst in staat (bijvoorbeeld: acs-classic)"
         required: false
         type: string
+      kort:
+        description: "Alleen titel, treffers en links tonen, zonder de prijsdiagnose per route"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -77,4 +82,5 @@ jobs:
           NAAM: ${{ inputs.naam }}
           ZOEK: ${{ inputs.zoek }}
           LINKS: ${{ inputs.links }}
+          KORT: ${{ inputs.kort }}
         run: npm run winkelpagina
