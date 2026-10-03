@@ -480,8 +480,14 @@ if (teDoen.length === alleSites.length) {
    een tweede lezer hebben gehad. Die zijn er niet in één keer uit te schrijven
    zonder er onzin bij te verzinnen, en dat is precies wat deze controle moet
    voorkomen. Dus staat er voorlopig een plafond in plaats van een nul, met de
-   afspraak dat het alleen omlaag mag. */
-const CLAIM_BUDGET = 92;
+   afspraak dat het alleen omlaag mag.
+
+   Dat ging sneller dan gedacht. 74 van die 92 waren twee gegenereerde alinea's
+   die op élke productpagina staan - één keer schrijven, 74 keer opgelost. De
+   ene telt nu hoeveel batterijen noodstroom kunnen; bij de andere bleek de
+   tekst de pagina tegen te spreken. Daarna nog het vermogen in de gegenereerde
+   zin onder "Over de ...", en drie paneelteksten. Van 92 naar 10. */
+const CLAIM_BUDGET = 10;
 
 if (legeAlineas > CLAIM_BUDGET) {
   console.error(`\nClaimdichtheid: ${legeAlineas} van ${langeAlineas} alinea's van 25 woorden of meer`);

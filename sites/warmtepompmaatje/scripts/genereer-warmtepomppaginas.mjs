@@ -717,7 +717,14 @@ ${kop("index", true)}
 
       <div class="blok los">
         <b>Wat je nodig hebt voor je ISDE-aanvraag</b>
-        <p class="onder-kop">De ISDE-subsidie loopt per goedgekeurd apparaat, elk met een eigen meldcode. Ik vermeld die meldcode bewust niet: RVO werkt de lijst regelmatig bij en één model heeft vaak meerdere codes per vermogensvariant. Zoek de juiste meldcode op met deze gegevens van deze warmtepomp:</p>
+        <!-- Deze alinea zei "ik vermeld die meldcode bewust niet", terwijl hij
+             vier regels hoger in de spectabel gewoon staat - bij alle 32 pompen.
+             De pagina sprak zichzelf dus tegen, en de lezer die het natelde had
+             gelijk. Wat er wel klopte is de waarschuwing erachter: 25 van de 32
+             hebben meer dan één meldcode, één per vermogensvariant, en RVO werkt
+             die lijst bij. Dat staat er nu, met de meldcode erbij in plaats van
+             zonder. -->
+        <p class="onder-kop">De ISDE-subsidie loopt per goedgekeurd apparaat, elk met een eigen meldcode. De code hierboven (${esc(w.isde_meldcode || "nog niet vastgesteld")}) hoort bij ${w.voorbeeld_variant ? esc(w.voorbeeld_variant) : `de ${esc(naam)} van ${w.vermogen_kw} kW`}${(w.varianten || []).length > 1 ? `; dit model heeft ${w.varianten.length} vermogensvarianten en elke variant heeft een eigen code` : ""}. Controleer hem voor je aanvraag bij RVO, want die lijst wordt bijgewerkt. Zoek op met deze gegevens:</p>
         <ul class="onder-lijst">
           <li><b>Merk:</b> ${esc(w.merk)}</li>
           <li><b>Model:</b> ${esc(w.model)}</li>
@@ -753,7 +760,7 @@ ${kop("index", true)}
   <section class="content-pagina aansluitend">
     ${variantenBlok(w)}
     <h2>Over de ${esc(naam)}</h2>
-    <p>${esc(w.omschrijving || `${naam} is een ${w.type === "hybride" ? "hybride warmtepomp die samenwerkt met je cv-ketel: de pomp doet het gros van de verwarming, de ketel vangt piekkou en warm water op" : "all-electric warmtepomp die de cv-ketel volledig vervangt, inclusief warm tapwater via een boilervat"}.`)}</p>
+    <p>${esc(w.omschrijving || `${naam} is een ${w.type === "hybride" ? `hybride warmtepomp van ${w.vermogen_kw} kW die samenwerkt met je cv-ketel: de pomp doet het gros van de verwarming, de ketel vangt piekkou en warm water op` : `all-electric warmtepomp van ${w.vermogen_kw} kW die de cv-ketel volledig vervangt, inclusief warm tapwater via een boilervat`}.`)}</p>
     ${/* De eigen aantekening bij deze pomp. Die stond tot oktober 2026 alleen
           in warmtepompen.json en op de kaart in de vergelijker; de pagina waar
           een bezoeker vanuit Google op binnenkomt, had hem niet. Daardoor was

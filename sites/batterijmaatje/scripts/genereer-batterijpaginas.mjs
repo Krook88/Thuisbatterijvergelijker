@@ -76,6 +76,24 @@ const ASSET_VERSIE = assetVersie();
 
 const data = JSON.parse(readFileSync(resolve(ROOT, "data/batterijen.json"), "utf8"));
 
+/* Hoeveel batterijen noodstroom kunnen, geteld zoals de kaart het toont.
+   Staat hier en niet als vast getal in de tekst, want een hand-geschreven
+   aantal in een gegenereerde alinea veroudert stil - dat is op deze site al
+   drie keer gebeurd ("30 pompen", "14 panelen", "7 van de 14 glas-glas"). */
+const noodstroomTelling = (() => {
+  const lijst = data.batterijen || [];
+  const stand = (v) => {
+    if (v === undefined || v === null) return "onbekend";
+    if (v === true) return "ja";
+    if (v === false) return "nee";
+    if (typeof v === "object") return v.status || "deels";
+    return String(v).trim() ? "deels" : "nee";
+  };
+  const uit = { totaal: lijst.length, ja: 0, deels: 0, nee: 0, onbekend: 0 };
+  for (const b of lijst) uit[stand(b.noodstroom)] += 1;
+  return uit;
+})();
+
 /* De stand van de pagina's vóór dit script ze overschrijft. Daarmee kan de
    sitemap straks zeggen welke pagina's echt veranderd zijn, in plaats van elke
    dag alles als vers te melden. Zie kern/scripts/sitemap-datum.mjs. */
@@ -538,7 +556,15 @@ ${NAV_HTML}
 
   <h2>Noodstroom en zelfvoorzienendheid</h2>
   <p><b><a class="term-link" href="/uitleg.html#noodstroom" title="Wat is noodstroom? Lees de uitleg">Noodstroom</a> bij stroomuitval:</b> ${nood.status === "ja" ? "Ja. " : nood.status === "nee" ? "Nee. " : nood.status === "onbekend" ? "Onbekend. " : ""}${esc(b.noodstroom_uitleg || nood.tekst)}</p>
-  <p class="datum-stempel">Goed om te weten: volledig zelfvoorzienend (van het net af) is in Nederland vrijwel nooit haalbaar vanwege de lage winteropbrengst van zonnepanelen. Noodstroom betekent dat (een deel van) je huis blijft werken tijdens een storing; veel plug-in batterijen vallen dan juist uit omdat ze met het net meedraaien.</p>
+  <!-- Deze alinea stond op alle 42 productpagina's en droeg geen enkel getal.
+       Erger: de staart ervan ("veel plug-in batterijen vallen dan juist uit")
+       werd door de eigen gegevens niet gedragen. Van de 23 batterijen die je
+       zelf in het stopcontact steekt staan er 11 op "ja" voor noodstroom en
+       maar 2 op "nee". Een vuistregel die klopt voor de techniek in het
+       algemeen, maar niet voor deze lijst - en dan hoort hij hier niet te
+       staan. Nu telt de alinea wat er werkelijk in de gegevens staat, zodat
+       hij niet stil kan verouderen. -->
+  <p class="datum-stempel">Goed om te weten: volledig zelfvoorzienend (van het net af) is in Nederland vrijwel nooit haalbaar vanwege de lage winteropbrengst van zonnepanelen. Noodstroom betekent iets anders, namelijk dat een deel van je huis blijft werken tijdens een storing. Van de ${noodstroomTelling.totaal} batterijen hier kunnen er ${noodstroomTelling.ja} dat uit zichzelf en ${noodstroomTelling.deels} alleen met extra hardware erbij; bij ${noodstroomTelling.onbekend} heb ik het niet kunnen vaststellen.</p>
 
   ${b.opmerkingen ? `<h2>Goed om te weten</h2><p>${esc(b.opmerkingen)}</p>` : ""}
 

@@ -1540,7 +1540,9 @@
       "prijs_datum": "2026-10-02",
       "afbeelding": "assets/producten/dewarmte-pomp-ao.webp",
       "afbeelding_bron": "foto: DeWarmte",
-      "afbeelding_herkomst": "https://a.storyblok.com/f/258866/616x341/ca9e934488/pomp-ao-atmos-12.png"
+      "afbeelding_herkomst": "https://a.storyblok.com/f/258866/616x341/ca9e934488/pomp-ao-atmos-12.png",
+      "garantie_jaar": 2,
+      "garantie_toelichting": "Twee jaar productgarantie, door DeWarmte zelf op dewarmte.nl genoemd als wat je er altijd bij krijgt, plus storingshulp op afstand. Uitbreiding is tegen betaling mogelijk."
     },
     {
       "id": "viessmann-vitocal-150a",
