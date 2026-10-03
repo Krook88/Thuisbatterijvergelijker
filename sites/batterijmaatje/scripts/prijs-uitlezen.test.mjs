@@ -477,3 +477,20 @@ test("prijsUitPagina kiest het prijsveld niet op een pagina zonder bedragen", ()
     <script>window.__DATA__ = {"price": 849};</script></body></html>`;
   assert.equal(prijsUitPagina(jsPagina, "Indevolt SolidFlex 3000").prijs, null);
 });
+
+test("meerdere naalden met | geven de links die op een van de naalden passen", () => {
+  const links = linksMetTekst(CATEGORIE, "wpl-09|garantie", { basis: BASIS });
+  assert.deepEqual(
+    links.map((l) => l.url),
+    [
+      "https://www.stiebel-eltron.nl/nl/producten/wpl-09-acs-classic.html",
+      "https://www.stiebel-eltron.nl/nl/service/garantie.html",
+    ],
+  );
+});
+
+test("een lege naald tussen de strepen vangt niet ineens alles", () => {
+  // "wpl-09||" mag niet als "elke link" gelezen worden.
+  const links = linksMetTekst(CATEGORIE, "wpl-09||", { basis: BASIS });
+  assert.equal(links.length, 1);
+});

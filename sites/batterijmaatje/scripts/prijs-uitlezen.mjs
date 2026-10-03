@@ -798,7 +798,12 @@ export function controleerbaar(bron) {
 export function linksMetTekst(html, patroon = "", opties = {}) {
   const { max = 80 } = opties;
   const { basis } = opties;
-  const naald = String(patroon || "").toLowerCase().trim();
+  /* Meerdere naalden mogen, gescheiden door |. Bij het zoeken naar winkels
+     voor 28 producten tegelijk was één naald per run te weinig: met een brede
+     naald ("/product") kwam elke menulink van de winkel mee en werd het
+     logboek 800 regels, met een smalle ("zendure") moest er per merk een
+     aparte run. Nu kan het in één keer: "wpl-a-13|acs-classic|ics-classic". */
+  const naalden = String(patroon || "").toLowerCase().split("|").map((n) => n.trim()).filter(Boolean);
   const uit = [];
   const gezien = new Set();
   const re = /<a\b[^>]*\bhref\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)[^>]*>([\s\S]*?)<\/a>/gi;
@@ -828,7 +833,7 @@ export function linksMetTekst(html, patroon = "", opties = {}) {
     // Het patroon mag op het adres of op de linktekst slaan. Een menu noemt het
     // model vaak alleen in de tekst, en een adres bevat de naam soms juist
     // terwijl de link een plaatje is en dus geen tekst heeft.
-    if (naald && !url.toLowerCase().includes(naald) && !tekst.toLowerCase().includes(naald)) continue;
+    if (naalden.length && !naalden.some((n) => url.toLowerCase().includes(n) || tekst.toLowerCase().includes(n))) continue;
     if (gezien.has(url)) continue;
     gezien.add(url);
     uit.push({ url, tekst });

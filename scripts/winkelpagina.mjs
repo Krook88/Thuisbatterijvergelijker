@@ -44,7 +44,10 @@ import {
   tekstMetContext,
   linksMetTekst,
 } from "../kern/scripts/prijs-uitlezen.mjs";
-import { appendFileSync } from "node:fs";
+import { appendFileSync, writeFileSync, rmSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 
 /* Hoeveel bedragen we tonen. Een overzichtspagina met veertig producten is
    precies het geval waarvoor dit script bestaat, dus de grens ligt ruim; maar
@@ -150,7 +153,48 @@ function titelVan(html) {
  * niet, dan een echte browser; komt er wel HTML maar geen bedrag uit, dan ook.
  * Anders diagnosticeer je iets anders dan wat er 's nachts gebeurt.
  */
+/**
+ * Een pdf als tekst.
+ *
+ * Waarom: bij het zoeken naar garantietermijnen van twaalf warmtepompmerken
+ * bleken er zeven hun voorwaarden alleen als pdf te publiceren - Inventum,
+ * Gree, Atlantic, Nefit Bosch, Panasonic. De pagina ernaartoe zegt dan
+ * "Download de garantievoorwaarden", en daar houdt een HTML-lezer op. Een pdf
+ * door fetch().text() halen levert gecomprimeerde binaire rommel op, en daar
+ * vindt tekstMetContext niets in, zonder dat iets zegt waarom.
+ *
+ * pdftotext (poppler) doet het echte werk; de werkstroom zet het klaar. Staat
+ * het er niet, dan zegt dit dat ook, in plaats van stil niets te vinden. De
+ * tekst gaat in een <pre> zodat de rest van dit script er niets van merkt.
+ */
+const LIJKT_PDF = /\.pdf(?:[?#]|$)|\/download\//i;
+async function haalPdf(url) {
+  const res = await fetch(url, { redirect: "follow", headers: { "User-Agent": "Mozilla/5.0 (maatje-sites; winkelpagina)" } });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const soort = res.headers.get("content-type") || "";
+  if (!/pdf/i.test(soort)) return null; // toch geen pdf: gewoon als pagina behandelen
+  const pad = join(tmpdir(), `winkelpagina-${Date.now()}.pdf`);
+  writeFileSync(pad, Buffer.from(await res.arrayBuffer()));
+  try {
+    const tekst = execFileSync("pdftotext", ["-layout", pad, "-"], { encoding: "utf8", maxBuffer: 32 * 1024 * 1024 });
+    const veilig = tekst.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    return `<html><head><title>pdf: ${url.split("/").pop().split("?")[0]}</title></head><body><pre>${veilig}</pre></body></html>`;
+  } catch (err) {
+    throw new Error(err.code === "ENOENT" ? "pdf, maar pdftotext ontbreekt op deze machine" : `pdf niet te lezen: ${err.message}`);
+  } finally {
+    rmSync(pad, { force: true });
+  }
+}
+
 async function haal(url) {
+  if (LIJKT_PDF.test(url)) {
+    try {
+      const html = await haalPdf(url);
+      if (html) return { html, via: "pdf, uitgelezen met pdftotext" };
+    } catch (err) {
+      return { fout: err.message };
+    }
+  }
   try {
     const html = await haalPagina(url);
     if (prijsUitPagina(html, NAAM).prijs) return { html, via: "gewoon verzoek" };

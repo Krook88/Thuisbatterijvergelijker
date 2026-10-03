@@ -76,6 +76,13 @@ jobs:
         continue-on-error: true
         run: npm i --no-save playwright && npx playwright install chromium
 
+      # Voor pdf's: garantievoorwaarden en datasheets staan vaak alleen als pdf
+      # online, en die leest het script met pdftotext. Een pakket op de runner,
+      # niet in package.json, net als cwebp in de fotowerkstroom.
+      - name: pdftotext klaarzetten
+        continue-on-error: true
+        run: command -v pdftotext >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils)
+
       - name: Pagina's uitlezen
         env:
           URLS: ${{ inputs.urls }}
