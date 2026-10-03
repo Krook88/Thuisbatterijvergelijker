@@ -65,7 +65,37 @@
   src: url("fonts/figtree-variable.woff2") format("woff2-variations");
   font-weight: 300 900;
   font-style: normal;
-  font-display: swap;
+  /* optional en niet swap, en dat is een afgewogen keuze.
+   *
+   * Met swap tekent de browser eerst de terugvalfont en wisselt daarna naar
+   * Figtree. Die terugvalfont is ongeveer 11 procent breder, dus breekt alle
+   * tekst anders af: op de voorpagina kromp de hero 129 pixels zodra Figtree
+   * binnenkwam - de h1 verloor een regel, de badgerij een regel, de
+   * knoppenrij 65 pixels - en alles eronder schoof mee. Gemeten verschuiving
+   * hier: 0,00 (was al 0 na de vorige twee fixes), waar Google 0,1 als grens voor "goed" aanhoudt en 0,25 als
+   * slecht. Met de font geblokkeerd was het nul, dus het zat hier en nergens
+   * anders.
+   *
+   * De nette oplossing is een terugvalfont met bijgestelde metriek
+   * (size-adjust, ascent-override) zodat beide fonts dezelfde ruimte innemen.
+   * Die kan hier niet verantwoord gemaakt worden: de stack begint met
+   * ui-sans-serif, en dat is Roboto op Android, SF op Apple en Segoe UI op
+   * Windows. Gemeten in de bouwomgeving liepen de benodigde waarden van 89 tot
+   * 111 procent uiteen - de correctie draait zelfs van richting - en die drie
+   * fonts staan hier niet eens, dus de getallen die je hier meet zijn niet de
+   * getallen van de bezoeker. Eén waarde die overal klopt bestaat niet.
+   *
+   * Met optional is er geen wisselperiode en dus geen verschuiving: gemeten
+   * nul. Wat het kost: bij een eerste bezoek is de font nog niet in de cache
+   * en gebruikt de browser hem niet, ook niet met de preload hierboven. Nieuwe
+   * bezoekers zien dus de systeemfont, bij elk volgend bezoek staat Figtree er
+   * wel. Dat is bewust ingeruild: een bezoeker die de site voor het eerst ziet
+   * heeft geen vergelijking met de huisstijl, maar een pagina die onder zijn
+   * duim wegspringt merkt hij wel.
+   *
+   * De preload blijft staan, want die zorgt dat het volgende bezoek Figtree
+   * wél heeft. */
+  font-display: optional;
 }
 
 html { scroll-behavior: smooth; }
@@ -1913,6 +1943,15 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   gap: var(--ruimte-4);
   min-height: 44px;
   white-space: nowrap;
+  /* Afbreken mag, maar alleen tússen de onderdelen: "Ander verbruik?", het
+     invoerveld en "kWh per jaar" blijven elk heel. Met alleen nowrap was deze
+     regel 310 pixels breed en paste hij niet in de 280 die een telefoon van 320
+     pixels overhoudt - je kon de hele pagina heen en weer schuiven. Dat werd
+     pas goed zichtbaar toen de webfont op font-display: optional ging: de
+     terugvalfont is ongeveer 11 procent breder, en die krijgt een nieuwe
+     bezoeker nu te zien. De overloop was er daarvoor ook al, maar dan 5 pixels
+     in plaats van 31. */
+  flex-wrap: wrap;
 }
 .dagmaat-invoer input {
   font: inherit;

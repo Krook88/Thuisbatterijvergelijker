@@ -26,12 +26,19 @@
  * allebei: eerst de terugvalfont, dan Figtree. Een kop die alleen met Figtree
  * past, springt bij elke eerste bezoek.
  *
+ * En sinds kort kijkt hij er één ding bij: horizontale overloop op smalle
+ * telefoons. Dat is dezelfde vraag in een ander jasje - past de opmaak in de
+ * ruimte die er is - en niets ving het. Twee keer gevonden: de sorteerkeuze in
+ * de resultatenbalk, en "Ander verbruik? … kWh per jaar" op de
+ * productpagina's. Beide lieten je de hele pagina horizontaal schuiven, en
+ * beide ontglipten de keuring: die meet 390 pixels, en op 390 paste het nog.
+ *
  * Draaien: npm run menubreedte        (of: node scripts/menubreedte.mjs)
  *          npm run menubreedte -- batterijmaatje     voor één site
  */
 
 import { createServer } from "node:http";
-import { readFileSync, existsSync, appendFileSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync, appendFileSync } from "node:fs";
 import { join, extname, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -44,10 +51,26 @@ const TE_DOEN = GEVRAAGD.length ? GEVRAAGD : ALLE;
    speling voor afrondingen bij een niet-hele devicePixelRatio. */
 const EEN_REGEL_MAX = 66;
 
-/* Waar we meten. Onder de 768 hoort de menuknop te staan en is wikkelen
+/* Waar we de kop meten. Onder de 768 hoort de menuknop te staan en is wikkelen
    onmogelijk; daarboven is elke breedte een kandidaat. 1600 omdat de container
    daarboven niet meer meegroeit. */
 const BREEDTES = [768, 820, 880, 940, 1000, 1080, 1140, 1200, 1280, 1366, 1440, 1600];
+
+/* En waar we op horizontale overloop letten: de smalle telefoons.
+ *
+ * Dit hoort erbij omdat het dezelfde fout is in een ander jasje - past de
+ * opmaak in de ruimte die er is - en omdat niets het ving. Twee keer gevonden:
+ * de sorteerkeuze in de resultatenbalk stak 21 tot 56 pixels buiten de pagina
+ * (een <select> krimpt niet onder zijn langste optie zolang min-width op auto
+ * staat), en op de productpagina's deed "Ander verbruik? … kWh per jaar"
+ * hetzelfde met white-space: nowrap. In beide gevallen kon je de hele pagina
+ * horizontaal heen en weer schuiven, en in beide gevallen keek de bestaande
+ * keuring er langs: die meet 390 pixels, en op 390 paste het nog.
+ *
+ * Alleen met de terugvalfont, want dat is de brede stand: die is ongeveer 11
+ * procent breder dan Figtree, en sinds font-display: optional is het ook wat
+ * een nieuwe bezoeker werkelijk ziet. Wat daar past, past met Figtree ook. */
+const SMAL = [320, 360, 390];
 
 let chromium;
 try {
@@ -92,6 +115,61 @@ for (const site of TE_DOEN) {
   const srv = server(basis);
   await new Promise((r) => srv.listen(0, "127.0.0.1", r));
   const poort = srv.address().port;
+
+  /* Eerst de smalle schermen op overloop, op de voorpagina én op een
+     productpagina. Die laatste staat in geen enkele paginas.json, en juist daar
+     zat de tweede vondst. */
+  const smalPaginas = ["index.html"];
+  for (const map of ["batterij", "pomp", "paneel"]) {
+    try {
+      const eerste = readdirSync(join(basis, map)).filter((f) => f.endsWith(".html")).sort()[0];
+      if (eerste) smalPaginas.push(`${map}/${eerste}`);
+    } catch { /* die map heeft deze site niet */ }
+  }
+
+  for (const pagina of smalPaginas) {
+    for (const breed of SMAL) {
+      const page = await browser.newPage({ viewport: { width: breed, height: 800 } });
+      await page.route("**/*.woff2", (r) => r.abort());
+      const antwoord = await page.goto(`http://127.0.0.1:${poort}/${pagina}`, { waitUntil: "networkidle" });
+      if (!antwoord || antwoord.status() !== 200) {
+        await page.close();
+        bevindingen.push({ site, breed, font: "terugvalfont", melding: `${pagina} gaf status ${antwoord && antwoord.status()}` });
+        continue;
+      }
+      await page.waitForTimeout(80);
+      const over = await page.evaluate(() => {
+        const doc = document.documentElement;
+        const uit = doc.scrollWidth - doc.clientWidth;
+        if (uit <= 1) return { uit, wie: [] };
+        /* Welk element steekt eruit. Een element in een vak met overflow-x:
+           auto telt niet mee: dat wordt netjes geclipt en mag in zijn eigen
+           schuifruimte breder zijn. Zonder die uitzondering wijst dit elke
+           brede tabel aan en kijk je langs de echte oorzaak heen - dat kostte
+           mij een omweg. */
+        const wie = [];
+        for (const el of document.querySelectorAll("body *")) {
+          const r = el.getBoundingClientRect();
+          if (r.width === 0 || r.right <= doc.clientWidth + 1) continue;
+          if ([...el.children].some((k) => k.getBoundingClientRect().right > doc.clientWidth + 1)) continue;
+          let schuift = false;
+          for (let o = el.parentElement; o && o !== document.body; o = o.parentElement) {
+            if (/auto|scroll|hidden/.test(getComputedStyle(o).overflowX)) { schuift = true; break; }
+          }
+          if (schuift) continue;
+          wie.push(`${el.tagName.toLowerCase()}${el.className ? "." + String(el.className).split(" ")[0] : ""}`);
+        }
+        return { uit, wie: [...new Set(wie)].slice(0, 3) };
+      });
+      await page.close();
+      if (over.uit > 1) {
+        bevindingen.push({
+          site, breed, font: "terugvalfont",
+          melding: `${over.uit}px horizontale overloop op ${pagina}` + (over.wie.length ? ` (${over.wie.join(", ")})` : ""),
+        });
+      }
+    }
+  }
 
   const regels = [];
   for (const breed of BREEDTES) {
@@ -157,12 +235,31 @@ if (process.env.GITHUB_STEP_SUMMARY && bevindingen.length) {
 }
 
 if (bevindingen.length) {
-  console.error(
-    `\n${bevindingen.length} bevinding(en). Een kop van twee regels duwt de inhoud omlaag en` +
-    `\nspringt terug zodra de webfont binnenkomt. Twee wegen: een menu-item onder` +
-    `\n"Meer ▾" zetten, of de inklapgrens in de style.css van die site omhoog.`,
-  );
+  // Twee soorten bevinding, met twee verschillende vervolgen. Eén melding voor
+  // beide stuurt de lezer de verkeerde kant op.
+  const kop = bevindingen.filter((b) => b.melding.includes("één regel") || b.melding.includes("meer dan"));
+  const overloop = bevindingen.filter((b) => b.melding.includes("overloop"));
+  console.error(`\n${bevindingen.length} bevinding(en).`);
+  if (kop.length) {
+    console.error(
+      `\n${kop.length}x een kop van meer dan één regel. Die duwt de inhoud omlaag en springt` +
+      `\nterug zodra de webfont binnenkomt. Twee wegen: een menu-item onder "Meer ▾"` +
+      `\nzetten, of de inklapgrens in de style.css van die site omhoog.`,
+    );
+  }
+  if (overloop.length) {
+    console.error(
+      `\n${overloop.length}x iets dat buiten de pagina steekt, dus horizontaal schuiven op een` +
+      `\ntelefoon. Het element staat erbij. Meestal krimpt het niet omdat min-width op` +
+      `\nauto staat (flex) of omdat white-space op nowrap staat.`,
+    );
+  }
+  const rest = bevindingen.length - kop.length - overloop.length;
+  if (rest > 0) console.error(`\nEn ${rest} andere melding(en); die staan hierboven.`);
   process.exit(1);
 }
 
-console.log(`\nDe kop blijft één regel: ${TE_DOEN.length} site(s), ${BREEDTES.length} breedtes, met en zonder webfont.`);
+console.log(
+  `\nDe kop blijft één regel en niets steekt eruit: ${TE_DOEN.length} site(s), ` +
+  `${BREEDTES.length} breedtes met en zonder webfont, plus ${SMAL.join("/")} px op de terugvalfont.`,
+);

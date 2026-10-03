@@ -69,7 +69,7 @@ precies wat CI ook doet:
 | `npm run llms` | `llms.txt` loopt achter op het menu van de site |
 | `npm run slop` | tekst die vager is dan deze site wil zijn; de regels staan in `SCHRIJFWIJZE.md` |
 | `npm run keuring` | contrast, aanraakvlakken, tekstmaten en javascriptfouten op elke pagina van de drie sites, op 1280 en 390 pixels |
-| `npm run menubreedte` | de kop wikkelt niet naar twee regels, op elke breedte en met én zonder webfont |
+| `npm run menubreedte` | de kop wikkelt niet naar twee regels, en niets steekt buiten de pagina op 320 tot 390 pixels |
 | `npm run dode-regels` | declaraties die er wel staan maar overal worden overruled |
 
 ### Waarom de kop een eigen controle heeft
@@ -121,10 +121,33 @@ De generator schrijft hem nu voor, met de opmaak aan beide kanten nagerekend
 (`toLocaleDateString` met day/month/year tegen `Intl` met `dateStyle: "long"`,
 allebei "2 oktober 2026"), zodat app.js er daarna precies hetzelfde in zet.
 
-**En de webfont.** Wat er na die twee nog overblijft is de wissel van de
-terugvalfont naar Figtree, die de hero-tekst anders laat afbreken: 0,25 op
-warmtepompmaatje en 0,45 op zonnestroommaatje. Met de font geblokkeerd is het op
-alle drie de sites nul, dus daar zit het. Nog niet opgelost.
+**En de webfont, met een afruil.** Wat er na die twee nog overbleef was de
+wissel van de terugvalfont naar Figtree. Die terugvalfont is ongeveer 11 procent
+breder, dus brak alle tekst anders af: de hero kromp 129 pixels zodra Figtree
+binnenkwam — de h1 een regel, de badgerij een regel, de knoppenrij 65 pixels — en
+alles eronder schoof mee. 0,25 op warmtepompmaatje, 0,45 op zonnestroommaatje.
+
+De nette oplossing is een terugvalfont met bijgestelde metriek (`size-adjust`,
+`ascent-override`), en die kan hier niet verantwoord gemaakt worden. De stack
+begint met `ui-sans-serif`: dat is Roboto op Android, SF op Apple en Segoe UI op
+Windows. Gemeten in de bouwomgeving liepen de benodigde waarden van 89 tot 111
+procent uiteen — de correctie draait zelfs van richting — en die drie fonts staan
+hier niet eens geïnstalleerd, dus wat je hier meet is niet wat de bezoeker heeft.
+Eén waarde die overal klopt bestaat niet.
+
+Daarom staat `font-display` nu op `optional`: geen wisselperiode, dus geen
+verschuiving. Gemeten nul op alle drie de sites. Wat het kost: bij een eerste
+bezoek is de font nog niet in de cache en gebruikt de browser hem niet, ook niet
+met de preload. Nieuwe bezoekers zien dus de systeemfont; elk volgend bezoek
+staat Figtree er wel. Bewust ingeruild — wie de site voor het eerst ziet heeft
+geen vergelijking met de huisstijl, maar een pagina die onder zijn duim
+wegspringt merkt hij wel.
+
+Die keuze had één gevolg dat eerst niet zichtbaar was: de bredere terugvalfont is
+nu wat een nieuwe bezoeker werkelijk krijgt, en daarmee ging de overloop op een
+telefoon van 320 pixels van 5 naar 31 pixels (`.dagmaat-invoer` met
+`white-space: nowrap`). Opgelost met `flex-wrap`, en `npm run menubreedte` meet
+die smalle breedtes nu mee — op de terugvalfont, want dat is de brede stand.
 
 Eén controle staat er met opzet niet bij de ketting, maar draait wel elke dag
 mee in `update-prijzen.yml` als melding. `npm run zoekmachine` kijkt wat een

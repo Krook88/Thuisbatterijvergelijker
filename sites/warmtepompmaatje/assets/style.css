@@ -62,7 +62,37 @@
   src: url("fonts/figtree-variable.woff2") format("woff2-variations");
   font-weight: 300 900;
   font-style: normal;
-  font-display: swap;
+  /* optional en niet swap, en dat is een afgewogen keuze.
+   *
+   * Met swap tekent de browser eerst de terugvalfont en wisselt daarna naar
+   * Figtree. Die terugvalfont is ongeveer 11 procent breder, dus breekt alle
+   * tekst anders af: op de voorpagina kromp de hero 129 pixels zodra Figtree
+   * binnenkwam - de h1 verloor een regel, de badgerij een regel, de
+   * knoppenrij 65 pixels - en alles eronder schoof mee. Gemeten verschuiving
+   * hier: 0,25, waar Google 0,1 als grens voor "goed" aanhoudt en 0,25 als
+   * slecht. Met de font geblokkeerd was het nul, dus het zat hier en nergens
+   * anders.
+   *
+   * De nette oplossing is een terugvalfont met bijgestelde metriek
+   * (size-adjust, ascent-override) zodat beide fonts dezelfde ruimte innemen.
+   * Die kan hier niet verantwoord gemaakt worden: de stack begint met
+   * ui-sans-serif, en dat is Roboto op Android, SF op Apple en Segoe UI op
+   * Windows. Gemeten in de bouwomgeving liepen de benodigde waarden van 89 tot
+   * 111 procent uiteen - de correctie draait zelfs van richting - en die drie
+   * fonts staan hier niet eens, dus de getallen die je hier meet zijn niet de
+   * getallen van de bezoeker. Eén waarde die overal klopt bestaat niet.
+   *
+   * Met optional is er geen wisselperiode en dus geen verschuiving: gemeten
+   * nul. Wat het kost: bij een eerste bezoek is de font nog niet in de cache
+   * en gebruikt de browser hem niet, ook niet met de preload hierboven. Nieuwe
+   * bezoekers zien dus de systeemfont, bij elk volgend bezoek staat Figtree er
+   * wel. Dat is bewust ingeruild: een bezoeker die de site voor het eerst ziet
+   * heeft geen vergelijking met de huisstijl, maar een pagina die onder zijn
+   * duim wegspringt merkt hij wel.
+   *
+   * De preload blijft staan, want die zorgt dat het volgende bezoek Figtree
+   * wél heeft. */
+  font-display: optional;
 }
 
 html { scroll-behavior: smooth; }
