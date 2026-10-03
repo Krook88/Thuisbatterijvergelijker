@@ -200,6 +200,32 @@ export function absoluut(adres, basis) {
 }
 
 /**
+ * Het grootste adres uit een srcset.
+ *
+ * Een srcset is een rij "adres breedte", bijvoorbeeld "klein.jpg 400w,
+ * groot.jpg 1200w". We willen de bronfoto en niet de duimnagel, dus de
+ * hoogste w (of de hoogste x bij een dichtheidsset). Staat er geen maat bij,
+ * dan is de laatste doorgaans de grootste - zo schrijven winkels het op.
+ */
+export function grootsteUitSrcset(set) {
+  let beste = "";
+  let maat = -1;
+  for (const deel of String(set || "").split(",")) {
+    const stukken = deel.trim().split(/\s+/);
+    const adres = stukken[0];
+    if (!adres) continue;
+    const m = /^(\d+(?:\.\d+)?)(w|x)$/i.exec(stukken[1] || "");
+    // Zonder maat: oplopend meegaan, zodat de laatste wint.
+    const waarde = m ? Number(m[1]) * (m[2].toLowerCase() === "x" ? 1000 : 1) : maat + 1;
+    if (waarde >= maat) {
+      maat = waarde;
+      beste = adres;
+    }
+  }
+  return beste;
+}
+
+/**
  * Alle beeldadressen die deze pagina aandraagt, met de weg waarlangs.
  * Geen oordeel over welke de goede is; dat blijft mensenwerk.
  */
@@ -245,14 +271,49 @@ export function afbeeldingKandidaten(html, basis, naam = "", modellen = []) {
     if (href) voegToe(href[1], "link image_src");
   }
 
-  // Als laatste de gewone afbeeldingen op de pagina. Hier kijkt het filter naar
-  // de hele tag en niet alleen naar het adres, want "alt=Logo Bosch" verraadt
-  // een logo dat toevallig een nietszeggende bestandsnaam heeft.
-  for (const m of String(html).matchAll(/<img\s[^>]*>/gi)) {
+  /* Als laatste de gewone afbeeldingen op de pagina. Hier kijkt het filter naar
+     de hele tag en niet alleen naar het adres, want "alt=Logo Bosch" verraadt
+     een logo dat toevallig een nietszeggende bestandsnaam heeft.
+
+     En niet alleen naar src, want daar zat een blinde vlek die precies de
+     productfoto's kostte. Een winkel die lazy laadt zet in src een 1x1
+     placeholder en het echte adres in data-src; het filter gooide die
+     placeholder er terecht uit ("placeholder" en "transparent" staan in NOOIT),
+     en wat overbleef was de decoratie. Dat verklaart waarom een verse run over
+     85 producten dezelfde rommel opleverde die in augustus al was afgekeurd:
+     niet omdat de pagina geen foto had, maar omdat die foto in een attribuut
+     stond waar niemand keek.
+
+     srcset telt ook mee, en daar nemen we de grootste variant: dat is de
+     bronfoto en niet de duimnagel. */
+  const LAZY = ["data-src", "data-original", "data-lazy-src", "data-lazy", "data-image", "data-large-image", "data-zoom-image"];
+  for (const m of String(html).matchAll(/<(?:img|source)\s[^>]*>/gi)) {
+    /* Het filter op de hele tag kijkt alleen naar de beschrijvende attributen,
+       niet naar de adressen erin. Die adressen gaan één voor één door voegToe,
+       dat NOOIT en VERZONNEN al toepast.
+     *
+     * Dat onderscheid is nodig en de proef betrapte me erop: toetsen op de
+     * hele tag gooide juist de lazy gevallen weg. Bij <img src="placeholder.png"
+     * data-src="echte-foto.jpg"> staat "placeholder" in de tag, dus sloeg hij
+     * de tag over en daarmee de echte foto - precies het geval waarvoor dit
+     * stuk bestaat. De bedoeling blijft: "alt=Logo Bosch" verraadt een logo
+     * met een nietszeggende bestandsnaam. */
+    const beschrijving = [
+      /\salt=["']([^"']*)["']/i.exec(m[0]),
+      /\stitle=["']([^"']*)["']/i.exec(m[0]),
+      /\sclass=["']([^"']*)["']/i.exec(m[0]),
+    ].map((t) => (t ? t[1] : "")).join(" ");
+    if (NOOIT.test(beschrijving)) continue;
     const src = /\ssrc=["']([^"']+)["']/i.exec(m[0]);
-    if (!src) continue;
-    if (NOOIT.test(m[0])) continue;
-    voegToe(src[1], "img op de pagina");
+    if (src) voegToe(src[1], "img op de pagina");
+    for (const naam of LAZY) {
+      const bij = new RegExp(`\\s${naam}=["']([^"']+)["']`, "i").exec(m[0]);
+      if (bij) voegToe(bij[1], `${naam} (lazy)`);
+    }
+    for (const veld of ["srcset", "data-srcset"]) {
+      const set = new RegExp(`\\s${veld}=["']([^"']+)["']`, "i").exec(m[0]);
+      if (set) voegToe(grootsteUitSrcset(set[1]), `${veld}`);
+    }
   }
 
   /* Een adres dat het product bij naam noemt gaat voor op de volgorde van de

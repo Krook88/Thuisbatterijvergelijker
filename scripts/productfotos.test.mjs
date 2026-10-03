@@ -15,7 +15,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { afbeeldingKandidaten, absoluut, naamDelen, naamScore, beeldScore, bronPaginas, modelDelen, magStoppen, padVanAdres, bronVermelding } from "./productfotos.mjs";
+import { afbeeldingKandidaten, grootsteUitSrcset, absoluut, naamDelen, naamScore, beeldScore, bronPaginas, modelDelen, magStoppen, padVanAdres, bronVermelding } from "./productfotos.mjs";
 
 const BASIS = "https://www.fabrikant.nl/product/pomp-x";
 
@@ -279,4 +279,67 @@ test("bronPaginas zegt erbij of een adres van de fabrikant is", () => {
     aanbiedingen: [{ url: "https://winkel.nl/pomp", winkel: "Winkel" }],
   });
   assert.deepEqual(bronnen.map((b) => b.vanFabrikant), [true, false]);
+});
+
+/* ------------------------------------------------------------------
+   Lazy geladen beeld en srcset
+
+   Hier zat de blinde vlek die de productfoto's kostte. Een winkel die lazy
+   laadt zet in src een 1x1 placeholder en het echte adres in data-src. Het
+   filter gooide die placeholder er terecht uit - "placeholder" en
+   "transparent" staan in NOOIT - en wat overbleef was de decoratie van de
+   pagina. Zo kon een verse run over 85 producten dezelfde rommel opleveren
+   die in augustus al was afgekeurd, niet omdat de pagina geen foto had maar
+   omdat die in een attribuut stond waar niemand keek.
+   ------------------------------------------------------------------ */
+
+test("de echte foto achter een lazy placeholder komt mee", () => {
+  const html = `<img src="/assets/placeholder.png" data-src="/media/marstek-venus-e-4.jpg" alt="Marstek Venus E">`;
+  const k = afbeeldingKandidaten(html, BASIS);
+  assert.deepEqual(k.map((x) => x.url), ["https://www.fabrikant.nl/media/marstek-venus-e-4.jpg"]);
+  assert.equal(k[0].hoe, "data-src (lazy)");
+});
+
+test("alle gangbare lazy-attributen worden gelezen", () => {
+  for (const naam of ["data-src", "data-original", "data-lazy-src", "data-lazy", "data-image", "data-large-image", "data-zoom-image"]) {
+    const html = `<img src="/x/transparent.gif" ${naam}="/media/pomp-foto.jpg">`;
+    const k = afbeeldingKandidaten(html, BASIS);
+    assert.equal(k.length, 1, `${naam} leverde niets op`);
+    assert.equal(k[0].url, "https://www.fabrikant.nl/media/pomp-foto.jpg");
+  }
+});
+
+test("uit een srcset komt de grootste variant", () => {
+  // De duimnagel is onbruikbaar op een productpagina; we willen de bronfoto.
+  assert.equal(grootsteUitSrcset("klein.jpg 400w, midden.jpg 800w, groot.jpg 1600w"), "groot.jpg");
+  assert.equal(grootsteUitSrcset("een.jpg 1x, twee.jpg 2x, drie.jpg 3x"), "drie.jpg");
+});
+
+test("een srcset zonder maten houdt de laatste", () => {
+  // Zo schrijven winkels het op: oplopend, grootste achteraan.
+  assert.equal(grootsteUitSrcset("a.jpg, b.jpg, c.jpg"), "c.jpg");
+});
+
+test("een lege of onzinnige srcset levert niets op", () => {
+  assert.equal(grootsteUitSrcset(""), "");
+  assert.equal(grootsteUitSrcset(null), "");
+  assert.equal(grootsteUitSrcset("   "), "");
+});
+
+test("srcset op een <source> in een <picture> telt ook mee", () => {
+  const html = `<picture><source srcset="/media/klein-paneel.webp 400w, /media/groot-paneel.webp 1200w"><img src="/x/placeholder.png"></picture>`;
+  const k = afbeeldingKandidaten(html, BASIS);
+  assert.deepEqual(k.map((x) => x.url), ["https://www.fabrikant.nl/media/groot-paneel.webp"]);
+});
+
+test("het filter blijft gelden voor lazy-attributen", () => {
+  // Anders glipt een logo dat lazy geladen wordt er alsnog doorheen, en dat is
+  // precies de fout waar NOOIT voor is gemaakt.
+  const html = `<img src="/x/placeholder.png" data-src="/media/logo-bosch.png">`;
+  assert.equal(afbeeldingKandidaten(html, BASIS).length, 0);
+});
+
+test("een lazy adres en hetzelfde src-adres leveren één kandidaat", () => {
+  const html = `<img src="/media/foto.jpg" data-src="/media/foto.jpg">`;
+  assert.equal(afbeeldingKandidaten(html, BASIS).length, 1);
 });
