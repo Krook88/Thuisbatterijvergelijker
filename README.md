@@ -69,7 +69,34 @@ precies wat CI ook doet:
 | `npm run llms` | `llms.txt` loopt achter op het menu van de site |
 | `npm run slop` | tekst die vager is dan deze site wil zijn; de regels staan in `SCHRIJFWIJZE.md` |
 | `npm run keuring` | contrast, aanraakvlakken, tekstmaten en javascriptfouten op elke pagina van de drie sites, op 1280 en 390 pixels |
+| `npm run menubreedte` | de kop wikkelt niet naar twee regels, op elke breedte en met én zonder webfont |
 | `npm run dode-regels` | declaraties die er wel staan maar overal worden overruled |
+
+### Waarom de kop een eigen controle heeft
+
+`npm run menubreedte` lijkt een detail en was het grootste layoutprobleem dat de
+sites hadden. De navigatiebalk week pas onder 767 pixels voor een menuknop, maar
+het volledige menu pást daar niet: gemeten op de voorpagina blijft de kop pas op
+één regel vanaf 768 pixels bij batterijmaatje, 912 bij warmtepompmaatje en 976
+bij zonnestroommaatje. Met de terugvalfont die de bezoeker de eerste halve
+seconde ziet: vanaf 864, 1056 en 1128. Daartussen wikkelde de navigatie onder
+het logo door — twee regels, met de terugvalfont zelfs drie.
+
+Dat kostte twee dingen, en geen van beide valt op als je op een laptop test. Op
+een tablet oogt de kop verkeerd. En zodra de webfont binnenkomt krimpt de kop
+terug naar één regel, waardoor alles eronder omhoog schuift: een gemeten
+verschuiving van 0,24 op 768 pixels, waar Google 0,1 als grens voor "goed"
+aanhoudt.
+
+De inklapgrens staat nu per site op de terugvalbreedte plus marge (879, 1071 en
+1143 pixels). Dat getal hangt aan de inhoud van het menu: komt er een item bij,
+of wordt een label langer, dan wikkelt de kop weer — stil, want de pagina blijft
+werken. Vandaar de controle, die met én zonder webfont meet.
+
+Het alternatief staat er niet voor niets in de foutmelding: een menu-item onder
+"Meer ▾" zetten geeft de volledige balk terug op tabletbreedte. Dat is een keuze
+over wat hoofdzaak is, en die hoort bij de eigenaar van de site, niet bij een
+script.
 
 Eén controle staat er met opzet niet bij de ketting, maar draait wel elke dag
 mee in `update-prijzen.yml` als melding. `npm run zoekmachine` kijkt wat een

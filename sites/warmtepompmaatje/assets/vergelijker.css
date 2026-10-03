@@ -617,7 +617,14 @@
   .filter-rij.tweede .filter-groep { flex-direction: column; }
   .filter-rij.tweede .filter-label { padding-top: 0; }
   .sorteer-keuze { width: 100%; }
-  .sorteer-keuze select { flex: 1; }
+  /* min-width: 0 hoort er met opzet bij. Een flex-item krimpt niet onder zijn
+     min-content-breedte, en bij een <select> is dat de langste optie in de
+     lijst - "Sorteer op prijs per kWh" bijvoorbeeld. Zonder dit stak de
+     sorteerkeuze op een telefoon van 320 pixels buiten de pagina: 21 pixels bij
+     zonnestroommaatje, 38 bij batterijmaatje, 56 bij warmtepompmaatje, en je
+     kon de hele pagina horizontaal heen en weer schuiven. De keuzelijst zelf
+     kort nu de zichtbare tekst in, wat een browser netjes zelf doet. */
+  .sorteer-keuze select { flex: 1; min-width: 0; max-width: 100%; }
 }
 
 /* ==========================================================================

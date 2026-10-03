@@ -230,7 +230,31 @@ a { color: var(--kleur-primair); }
 .menu-knop:hover { background: var(--kleur-achtergrond); }
 .menu-knop .icoon { width: 22px; height: 22px; }
 
-@media (max-width: 767px) {
+/* Waarom 879 en niet 767.
+ *
+ * De hamburger week hier al onder 767 pixels, en daarboven stond het volledige
+ * menu. Alleen pástte dat menu daar niet: gemeten op de voorpagina blijft de
+ * kop pas op één regel vanaf 768 pixels met Figtree, en vanaf
+ * 864 pixels met de terugvalfont die de bezoeker de eerste halve
+ * seconde ziet. Daaronder wikkelde de navigatie onder het logo door - twee
+ * regels, en met de terugvalfont zelfs drie - en zakte de hele pagina mee.
+ *
+ * Dat kostte twee dingen tegelijk. Een kop die op een tablet verkeerd oogt, en
+ * een sprong zodra de webfont binnenkomt: de kop krimpt dan weer naar één
+ * regel en alles eronder schuift omhoog. Gemeten verschuiving op 768 pixels:
+ * 0,24, waar Google 0,1 als grens voor "goed" aanhoudt.
+ *
+ * Dus klapt het menu nu in tot 879 pixels, de terugvalbreedte plus een
+ * kleine marge. Daarmee is er geen breedte meer waarop de kop wikkelt, met
+ * welke font dan ook. Het kost de volledige balk op sommige tabletbreedtes;
+ * een kop van twee regels die bij het laden verspringt is slechter.
+ *
+ * De andere 767-grens hierboven gaat over de hero en blijft waar hij staat:
+ * die hangt aan het telefoonformaat en niet aan de breedte van dit menu.
+ *
+ * Verschuift het menu van inhoud, dan verschuift dit getal mee. Daar waakt
+ * scripts/menubreedte.mjs over. */
+@media (max-width: 879px) {
   .site-header.menu-inklapbaar .menu-knop { display: inline-flex; }
 
   .site-header.menu-inklapbaar .hoofdnav {
@@ -1120,6 +1144,20 @@ table.vergelijk-tabel {
 /* Titel en foto naast elkaar, onder elkaar zodra de foto niet meer past. */
 .product-kop { display: flex; gap: var(--ruimte-20); align-items: flex-start; flex-wrap: wrap; }
 .product-kop-tekst { flex: 1; min-width: 250px; }
+
+/* De foto moet zijn plek al innemen vóór de afbeelding binnen is.
+ *
+ * Zonder een vaste flex-basis leidt de browser de breedte van dit vak af uit de
+ * afbeelding erin, en die is er bij de eerste opmaak nog niet. Dan past de foto
+ * nog naast de tekst; komt hij binnen, dan past hij niet meer en klapt de hele
+ * pagina eronder 185 pixels omlaag. Gemeten op een productpagina: een
+ * verschuiving van 0,45 op 768 pixels breed, en Google noemt alles boven 0,25
+ * slecht. Blokkeer je de afbeelding, dan zakt het naar 0,10 - zo is vastgesteld
+ * dat het hier zat en niet aan de webfont.
+ *
+ * min() en niet 520px plat, want op een smal scherm moet het vak de regel vullen
+ * in plaats van eruit te steken. */
+.product-kop > .kaart-foto { flex: 0 0 min(520px, 100%); }
 
 /* Het prijskader: het bedrag groot, de herkomst en de dekking eronder. */
 .info-prijs { font-size: var(--tekst-28); font-weight: 800; }
