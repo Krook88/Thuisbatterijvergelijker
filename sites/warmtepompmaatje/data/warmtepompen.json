@@ -103,7 +103,11 @@
       ],
       "prijs_datum": "2026-10-02",
       "isde_meldcode": "KA14853",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/daikin-altherma-hybrid.webp",
+      "afbeelding_bron": "foto: Daikin",
+      "afbeelding_herkomst": "https://www.daikin.nl/nl_nl/installateurs/productgroup/verwarming-en-warmtepompen/lucht-water-warmtepompen/hybrid-heatpump/daikin-altherma-h-hybrid/_jcr_content/image21.coreimg.jpeg/1773653123449/daikin-altherma-h-hybrid-daf-002.jpeg",
+      "afbeelding_via": "https://www.daikin.nl/nl_nl/installateurs/productgroup/verwarming-en-warmtepompen/lucht-water-warmtepompen/hybrid-heatpump.html"
     },
     {
       "id": "quatt-hybrid",
@@ -192,7 +196,11 @@
       ],
       "isde_meldcode": "KA22154",
       "prijs_datum": "2026-10-02",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/intergas-xtend.webp",
+      "afbeelding_bron": "foto: Intergas",
+      "afbeelding_herkomst": "https://www.intergas-verwarming.nl/app/uploads/2026/06/24-009-eco-5kw-v001-pev-250827-rangle-noshadow-opague-1024x1024.png",
+      "afbeelding_via": "https://www.intergas-verwarming.nl/consument/producten/xtend/"
     },
     {
       "id": "vaillant-arotherm-plus",
@@ -417,7 +425,11 @@
       ],
       "prijs_datum": "2026-10-02",
       "vermogen_conditie": "Prated",
-      "scop_conditie": "35"
+      "scop_conditie": "35",
+      "afbeelding": "assets/producten/nibe-s2125.webp",
+      "afbeelding_bron": "foto: 123Klimaatshop",
+      "afbeelding_herkomst": "https://www.123klimaatshop.nl/wp-content/uploads/2022/01/NIBE-S2125-8-Lucht-water-warmtepomp-60-tot-80-kW-Exclusief-binnen-unit.jpg",
+      "afbeelding_via": "https://www.123klimaatshop.nl/product/nibe-s2125-8-lucht-water-monoblock-warmtepomp-67-kw-exclusief-binnen-unit-1x230v/"
     },
     {
       "id": "mitsubishi-ecodan",
@@ -545,7 +557,11 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "onbekend"
+      "scop_conditie": "onbekend",
+      "afbeelding": "assets/producten/daikin-altherma-3.webp",
+      "afbeelding_bron": "foto: Daikin",
+      "afbeelding_herkomst": "https://www.daikin.nl/adobe/dynamicmedia/deliver/dm-aid--95f729b6-afed-44fb-9e2f-b9d07a7e1569/daikin-altherma-3-hmt-3-4-2a.jpg?quality=90&preferwebp=true",
+      "afbeelding_via": "https://www.daikin.nl/nl_nl/consument/products-and-advice/product-categories/heat-pumps/air-to-water-heat-pumps/daikin-altherma-3-r-w.html"
     },
     {
       "id": "bosch-compress-5800i",
@@ -731,7 +747,11 @@
       "prijs_datum": "2026-10-02",
       "isde_meldcode": "KA29289",
       "vermogen_conditie": "Prated",
-      "scop_conditie": "35"
+      "scop_conditie": "35",
+      "afbeelding": "assets/producten/lg-therma-v.webp",
+      "afbeelding_bron": "foto: LG",
+      "afbeelding_herkomst": "https://www.lg.com/content/dam/channel/wcms/nl/images/warmtepomp/therma-v-r290-monobloc/lg-hvac-air-to-water-heat-pumps-therma-v-r290-monobloc-kv-thumb-d.png",
+      "afbeelding_via": "https://www.lg.com/nl/warmtepomp/therma-v-r290-monobloc/"
     },
     {
       "id": "samsung-ehs-mono-ht",
@@ -853,7 +873,11 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "onbekend"
+      "scop_conditie": "onbekend",
+      "afbeelding": "assets/producten/weheat-blackbird.webp",
+      "afbeelding_bron": "foto: Weheat",
+      "afbeelding_herkomst": "https://cdn.prod.website-files.com/67ed5695314f69c537693240/680a5821105683a40f9c4153_Blackbird-outside.webp",
+      "afbeelding_via": "https://www.weheat.nl/"
     },
     {
       "id": "stiebel-wpl-a07",
@@ -1582,7 +1606,11 @@
           "meldcode": "KA28310"
         }
       ],
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "afbeelding": "assets/producten/viessmann-vitocal-150a.webp",
+      "afbeelding_bron": "foto: Viessmann",
+      "afbeelding_herkomst": "https://www.viessmann.nl/content/dam/public-brands/master/products/heat-pump/vitocal-150-a/Vitocal-150-A-outdoor-unit-house-16-9.jpg/_jcr_content/renditions/original.image_file.1200.630.0,36,1920,1044.file/Vitocal-150-A-outdoor-unit-house-16-9.jpg",
+      "afbeelding_via": "https://www.viessmann.nl/nl/producten/warmtepompen/vitocal-150-a.html"
     },
     {
       "id": "panasonic-aquarea-wxg",
