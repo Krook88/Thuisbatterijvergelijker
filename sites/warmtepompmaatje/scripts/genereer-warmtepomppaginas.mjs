@@ -373,6 +373,7 @@ function geluidPagina() {
   <script type="application/ld+json">
 ${itemList}
   </script>
+  <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="assets/style.css?v=${ASSET_VERSIE}">
   <script src="assets/iconen.js?v=${ASSET_VERSIE}" defer></script>
   <script src="assets/nav.js?v=${ASSET_VERSIE}" defer></script>
@@ -536,6 +537,7 @@ function bouwvormPagina() {
   <script type="application/ld+json">
 ${itemList}
   </script>
+  <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="assets/style.css?v=${ASSET_VERSIE}">
   <script src="assets/iconen.js?v=${ASSET_VERSIE}" defer></script>
   <script src="assets/nav.js?v=${ASSET_VERSIE}" defer></script>
@@ -647,6 +649,7 @@ function pompPagina(w) {
   <meta property="og:image" content="${SITE}/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   ${productLd(w)}
+  <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="../assets/style.css?v=${ASSET_VERSIE}">
   <script src="../assets/iconen.js?v=${ASSET_VERSIE}" defer></script>
   <script src="../assets/nav.js?v=${ASSET_VERSIE}" defer></script>
@@ -845,6 +848,24 @@ if (index.includes(LD_BEGIN)) {
     );
   }
 }
+
+/* De datum achter "gecontroleerd" stond in de HTML als "…" en werd pas in de
+   browser door app.js gevuld. Dat is één teken dat verandert in "2 oktober
+   2026", en die badge staat in een rij die afbreekt: de rij herverdeelt, wordt
+   hoger of lager, en alles eronder schuift mee. Gemeten op de voorpagina een
+   verschuiving van 0,23 bij warmtepompmaatje en 0,68 bij zonnestroommaatje,
+   waar Google 0,1 als grens voor "goed" aanhoudt.
+
+   Dezelfde reden als bij de teller en de resultatenregel hierboven: wat de
+   generator al weet, hoort in de HTML te staan. app.js schrijft er daarna
+   precies hetzelfde in - de opmaak is aan beide kanten nagerekend
+   (toLocaleDateString met day/month/year tegen Intl met dateStyle "long",
+   allebei "2 oktober 2026") - dus er verspringt niets meer. En wie javascript
+   traag of niet krijgt, ziet nu een datum in plaats van drie puntjes. */
+index = index.replace(
+  /(<b id="updateDatum">)[^<]*(<\/b>)/,
+  `$1${datumNL(data.laatst_bijgewerkt || VANDAAG)}$2`,
+);
 
 writeFileSync(join(ROOT, "index.html"), index, "utf8");
 console.log(`index.html: ${gesorteerdePompen.length} kaarten voorgerenderd en ItemList bijgewerkt`);

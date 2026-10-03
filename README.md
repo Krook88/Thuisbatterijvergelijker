@@ -98,6 +98,34 @@ Het alternatief staat er niet voor niets in de foutmelding: een menu-item onder
 over wat hoofdzaak is, en die hoort bij de eigenaar van de site, niet bij een
 script.
 
+### Wat de pagina bij het laden laat verspringen
+
+Drie oorzaken, gemeten met een echte browser en een kunstmatige vertraging van
+250 ms op beeld, font en javascript — want op een plaatselijke server komt alles
+zo snel binnen dat je een probleem wegmeet dat de bezoeker op zijn telefoon wel
+heeft. De uitkomst varieert met de timing, dus meet drie keer en neem de hoogste.
+
+**De klasse `html.js` hoort in de `<head>`.** Of de navigatie inklapt hing aan
+een klasse die `nav.js` zette, en dat bestand laadt onderaan de pagina. Dus werd
+de kop eerst met het volledige menu getekend, wikkelde die over meerdere regels,
+en klapte daarna in: elke bezoeker zag de inhoud één keer 56 pixels
+verspringen. Nu zet één regel in de `<head>` die klasse vóór het eerste tekenen.
+Het vangnet blijft: zonder javascript komt de klasse er niet en staat het menu
+gewoon open — nagemeten, 13 van 13 links klikbaar.
+
+**Wat de generator al weet, hoort in de HTML.** De datum achter "gecontroleerd"
+stond er als `…` en werd pas in de browser gevuld. Eén teken dat "2 oktober
+2026" wordt, in een badgerij die afbreekt: de rij herverdeelt en alles eronder
+schuift mee. Dat kostte 0,23 op warmtepompmaatje en 0,68 op zonnestroommaatje.
+De generator schrijft hem nu voor, met de opmaak aan beide kanten nagerekend
+(`toLocaleDateString` met day/month/year tegen `Intl` met `dateStyle: "long"`,
+allebei "2 oktober 2026"), zodat app.js er daarna precies hetzelfde in zet.
+
+**En de webfont.** Wat er na die twee nog overblijft is de wissel van de
+terugvalfont naar Figtree, die de hero-tekst anders laat afbreken: 0,25 op
+warmtepompmaatje en 0,45 op zonnestroommaatje. Met de font geblokkeerd is het op
+alle drie de sites nul, dus daar zit het. Nog niet opgelost.
+
 Eén controle staat er met opzet niet bij de ketting, maar draait wel elke dag
 mee in `update-prijzen.yml` als melding. `npm run zoekmachine` kijkt wat een
 zoekmachine van de sites te zien krijgt - titellengte, canonical, geldige

@@ -200,9 +200,16 @@ a { color: var(--kleur-primair); }
    knop scheelt dat ruim 100 pixels, precies boven de vouw waar het het
    meeste waard is.
 
-   De klasse "menu-inklapbaar" wordt door nav.js gezet. Zonder JavaScript
-   blijft het menu dus gewoon uitgeklapt staan, in plaats van onbereikbaar
-   achter een knop die niets doet.
+   Deze regels hangen aan html.js, een klasse die één regel in de <head> zet,
+   vóór het eerste tekenen. Zonder JavaScript komt die klasse er niet en blijft
+   het menu gewoon uitgeklapt staan, in plaats van onbereikbaar achter een knop
+   die niets doet.
+
+   Dat zat eerst in nav.js, onderaan de pagina, en dus pas ná het eerste
+   tekenen. Gevolg: elke bezoeker zag de kop één keer verspringen - het
+   volledige menu werd getekend, wikkelde over meerdere regels, en klapte daarna
+   in. Gemeten op de voorpagina duwde dat de inhoud 56 pixels omhoog. Met de
+   klasse in de <head> is de kop vanaf de eerste opmaak goed.
    -------------------------------------------------------------------------- */
 
 .menu-knop {
@@ -247,9 +254,9 @@ a { color: var(--kleur-primair); }
  * Verschuift het menu van inhoud, dan verschuift dit getal mee. Daar waakt
  * scripts/menubreedte.mjs over. */
 @media (max-width: 1071px) {
-  .site-header.menu-inklapbaar .menu-knop { display: inline-flex; }
+  html.js .site-header .menu-knop { display: inline-flex; }
 
-  .site-header.menu-inklapbaar .hoofdnav {
+  html.js .site-header .hoofdnav {
     display: none;
     width: 100%;
     flex-direction: column;
@@ -257,16 +264,16 @@ a { color: var(--kleur-primair); }
     padding: var(--ruimte-6) 0 var(--ruimte-10);
   }
 
-  .site-header.menu-inklapbaar.menu-open .hoofdnav { display: flex; }
+  html.js .site-header.menu-open .hoofdnav { display: flex; }
 
   /* Uitgeklapt hoort elk item een volle regel te zijn, niet een pilletje. */
-  .site-header.menu-inklapbaar .hoofdnav a,
-  .site-header.menu-inklapbaar .hoofdnav details.nav-meer summary {
+  html.js .site-header .hoofdnav a,
+  html.js .site-header .hoofdnav details.nav-meer summary {
     width: 100%;
     justify-content: flex-start;
   }
 
-  .site-header.menu-inklapbaar .hoofdnav details.nav-meer .nav-meer-paneel {
+  html.js .site-header .hoofdnav details.nav-meer .nav-meer-paneel {
     position: static;
     box-shadow: none;
     border: 0;
