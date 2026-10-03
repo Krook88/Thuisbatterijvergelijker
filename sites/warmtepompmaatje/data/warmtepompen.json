@@ -317,6 +317,7 @@
       },
       "app": "ViCare",
       "garantie_jaar": 5,
+      "garantie_toelichting": "alleen als je de pomp via de ViCare-app online koppelt, volgens viessmann.nl",
       "opmerkingen": "Hoog rendement, propaan als koudemiddel en 70 graden aanvoer, dus geschikt voor bestaande bouw zonder dat de radiatoren eruit moeten. Sterk punt is de koppeling, met officiële Home Assistant-integratie én open aansturing, iets wat lang niet elk merk biedt. Garantie is via de installateur uit te breiden.",
       "product_url": "https://www.viessmann.nl/nl/producten/warmtepompen/vitocal-250-a.html",
       "aanbiedingen": [
@@ -1055,6 +1056,8 @@
       ],
       "prijs_datum": "2026-10-02",
       "isde_meldcode": "KA24521",
+      "garantie_jaar": 5,
+      "garantie_toelichting": "2 jaar fabrieksgarantie, plus 3 jaar op onderdelen als je de pomp registreert, volgens ithodaalderop.nl",
       "opmerkingen": "Met 9,5 kW een van de krachtigste hier, bedoeld voor grotere of slechter geïsoleerde woningen. Op 52 dB(A) blijft hij ondanks dat vermogen opvallend stil - alleen de Bosch en de Inventum doen het beter. Nederlands merk met een breed servicenetwerk; koppelen kan, maar overal via een omweg.",
       "varianten": [
         {
@@ -1120,6 +1123,8 @@
       ],
       "prijs_datum": "2026-10-02",
       "isde_meldcode": "KA01709",
+      "garantie_jaar": 5,
+      "garantie_toelichting": "2 jaar volledig op onderdelen, plus 3 jaar op onderdelen met een ingevulde garantiekaart; arbeidsloon alleen de eerste 2 jaar, volgens de garantiebepalingen van Inventum",
       "opmerkingen": "Een buitenbeentje, want dit is een ventilatiewarmtepomp die warmte uit je afgezogen binnenlucht haalt in plaats van uit de buitenlucht. Daarom geen buitenunit, geen geluid in de tuin, en met 48 dB(A) de stilste hier. Het vermogen van 1,6 kW is klein - hij ondersteunt je cv-ketel, hij vervangt hem niet.",
       "vermogen_conditie": "Prated",
       "afbeelding": "assets/producten/inventum-ecolution-combi.webp",
@@ -1174,6 +1179,8 @@
       ],
       "prijs_datum": "2026-10-02",
       "isde_meldcode": "KA22405",
+      "garantie_jaar": 5,
+      "garantie_toelichting": "vanaf levering, gegeven door importeur Kusters volgens de algemene voorwaarden op gree.nl",
       "opmerkingen": "Tien kilowatt voor een prijs waar de meeste merken de helft voor leveren. Daar hoort een kanttekening bij. De aanvoertemperatuur blijft op 60 graden steken, wat hem minder geschikt maakt voor oude radiatoren, en slim aansturen kan alleen via een omweg.",
       "varianten": [
         {
@@ -1288,6 +1295,8 @@
       "prijs_toelichting": "los toestel voor binnenopstelling, excl. installatie; werkt samen met de cv-ketel. De 4,5 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 4 kW volgens de ISDE-meldcodelijst.",
       "isde_indicatie_eur": 1925,
       "isde_meldcode": "KA20994",
+      "garantie_jaar": 5,
+      "garantie_toelichting": "2 jaar fabrieksgarantie, plus 3 jaar op onderdelen als je de pomp registreert, volgens ithodaalderop.nl",
       "sturing": {
         "status": "onbekend",
         "tekst": "Niet vastgesteld welke open aansturing deze unit biedt."
@@ -1451,6 +1460,8 @@
       "tapwater": "via de DUO-uitvoering met ingebouwde boiler",
       "isde_indicatie_eur": 2350,
       "isde_meldcode": "KA18006",
+      "garantie_jaar": 3,
+      "garantie_toelichting": "2 jaar vanaf installatie, plus 1 jaar als Groupe Atlantic de pomp zelf in bedrijf stelt, volgens de garantievoorwaarden van Atlantic",
       "sturing": {
         "status": "onbekend",
         "tekst": "Niet vastgesteld welke open aansturing deze unit biedt."
@@ -1548,7 +1559,7 @@
       "afbeelding_bron": "foto: DeWarmte",
       "afbeelding_herkomst": "https://a.storyblok.com/f/258866/616x341/ca9e934488/pomp-ao-atmos-12.png",
       "garantie_jaar": 2,
-      "garantie_toelichting": "Twee jaar productgarantie, door DeWarmte zelf op dewarmte.nl genoemd als wat je er altijd bij krijgt, plus storingshulp op afstand. Uitbreiding is tegen betaling mogelijk."
+      "garantie_toelichting": "standaard volgens dewarmte.nl, met storingshulp op afstand; langer kan tegen betaling"
     },
     {
       "id": "viessmann-vitocal-150a",
@@ -1563,6 +1574,8 @@
       "tapwater": "via een aparte boiler",
       "isde_indicatie_eur": 3700,
       "isde_meldcode": "KA28423",
+      "garantie_jaar": 5,
+      "garantie_toelichting": "alleen als je de pomp via de ViCare-app online koppelt, volgens viessmann.nl",
       "sturing": {
         "status": "onbekend",
         "tekst": "Niet vastgesteld; de 250-A van hetzelfde merk biedt open aansturing, maar dit is een andere lijn."

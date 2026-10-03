@@ -712,6 +712,10 @@ ${kop("index", true)}
         ${specRij("Koudemiddel", w.koudemiddel ? esc(w.koudemiddel) : null)}
         ${specRij("Warm tapwater", typeof w.tapwater === "string" ? esc(w.tapwater) : d3html(w.tapwater))}
         ${specRij("Maximale aanvoertemperatuur", w.max_aanvoer_c ? `${w.max_aanvoer_c} °C` : null)}
+        ${/* De garantie stond alleen in de vergelijkingstabel, en daar zonder de
+              voorwaarde erbij. Bij een deel van de merken hangt de termijn ergens
+              aan (de pomp online koppelen, binnen een jaar registreren), en dat
+              is precies wat je wilt weten voor je tekent. */ specRij("Garantie", w.garantie_jaar ? `${w.garantie_jaar} jaar${w.garantie_toelichting ? ` <small>(${esc(w.garantie_toelichting)})</small>` : ""}` : null)}
         ${specRij("ISDE-subsidie", w.isde_indicatie_eur ? `${eur(w.isde_indicatie_eur)} <small>${w.isde_meldcode ? `bij meldcode ${esc(w.isde_meldcode)} op de <a href="https://www.rvo.nl/subsidies-financiering/isde/meldcodelijsten/warmtepompen" target="_blank" rel="noopener">meldcodelijst van RVO</a>` : `(check de meldcode bij <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/warmtepomp" target="_blank" rel="noopener">RVO</a>)`}</small>` : null)}
       </table>
 
