@@ -479,6 +479,41 @@ export function prijsUitJsonVeld(html, opties = {}) {
   return vaakst >= 1 ? beste : null;
 }
 
+/**
+ * Het prijsveld, maar alleen als de pagina het ergens bevestigt.
+ *
+ * Waarom deze rem erbij moest. Bij Thuisbatterij.nl stonden in september drie
+ * verschillende producten ineens op hetzelfde bedrag: de EcoFlow Stream AC
+ * 5000 van 1.299 naar 1.650, de Indevolt SolidFlex van 795 naar 1.650 en de
+ * Marstek Venus E 3.0 van 1.200 naar 1.650. Drie producten die op dezelfde
+ * euro uitkomen zijn geen drie prijsstijgingen. Bij het nakijken bleek het
+ * bedrag inmiddels 849 te zijn - op alle drie de pagina's, opnieuw hetzelfde.
+ *
+ * Wat daar aan de hand is: die winkel bouwt zijn prijzen met JavaScript op. Een
+ * kaal verzoek krijgt een pagina zonder één zichtbaar bedrag, en het enige wat
+ * er dan nog in staat is een veld dat "price" heet en op elke productpagina
+ * dezelfde waarde draagt. Deze route pakte dat op, en daarmee gebeurde het
+ * ergste: er stond een prijs, dus de terugval naar een echte browser - die de
+ * pagina wél zou opbouwen - sloeg nooit aan. Een fout antwoord verdringt het
+ * goede antwoord.
+ *
+ * De eis is daarom niet "is dit veld er", maar "zegt de pagina dit ook ergens
+ * waar een bezoeker het ziet". Staat er nergens een bedrag in de zichtbare
+ * tekst, dan is dit veld het enige bewijs en te mager; de route geeft niets
+ * terug, en de laag erboven haalt de pagina alsnog met een browser op.
+ *
+ * Winkels waar dit veld wél klopt verliezen er niets mee: daar staat het
+ * bedrag ook gewoon op de pagina.
+ */
+export function prijsveldMetDekking(html, opties = {}) {
+  const prijs = prijsUitJsonVeld(html, opties);
+  if (!prijs) return null;
+  /* Let op: bedragenMetContext neemt met `max` de bovengrens van een bedrag,
+     niet een aantal treffers. Dezelfde grenzen meegeven als deze route zelf
+     gebruikt, anders meet de rem iets anders dan hij afremt. */
+  return bedragenMetContext(html, opties).length > 0 ? prijs : null;
+}
+
 /* ------------------------------------------------------------------
    3. Meta-tags
    ------------------------------------------------------------------ */
@@ -606,7 +641,7 @@ export function prijsUitPagina(html, naam, opties = {}) {
     ["structured data", () => prijsUitJsonLd(html, ankers, opties)],
     ["json in de pagina", () => prijsUitScriptJson(html, ankers, opties)],
     ["meta-tag", () => prijsUitMeta(html)],
-    ["prijsveld in de pagina", () => prijsUitJsonVeld(html, opties)],
+    ["prijsveld in de pagina", () => prijsveldMetDekking(html, opties)],
     ["zichtbare tekst", () => prijsUitTekst(html, ankers, opties)],
   ];
   for (const [hoe, lees] of wegen) {

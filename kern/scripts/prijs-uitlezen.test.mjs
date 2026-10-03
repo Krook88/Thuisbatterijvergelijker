@@ -31,6 +31,7 @@ import {
   prijsUitJsonLd,
   prijsUitScriptJson,
   prijsUitJsonVeld,
+  prijsveldMetDekking,
   prijsUitTekst,
   prijsUitPagina,
   toontExclBtw,
@@ -440,4 +441,39 @@ test("entiteiten in de linktekst worden opgelost", () => {
   const html = '<a href="/p/wpl-09.html">4,06&nbsp;kW WPL 09 ACS classic</a>';
   const links = linksMetTekst(html, "wpl-09", { basis: "https://x.nl/a/b.html" });
   assert.equal(links[0].tekst, "4,06 kW WPL 09 ACS classic");
+});
+
+/* De rem op het prijsveld.
+ *
+ * Bij Thuisbatterij.nl stonden in september drie verschillende producten op
+ * hetzelfde bedrag (1.650) en bij het nakijken was dat inmiddels 849 - weer op
+ * alle drie. Die winkel bouwt zijn prijzen met JavaScript, dus een kaal
+ * verzoek ziet geen enkel zichtbaar bedrag en alleen een veld dat "price" heet
+ * en overal dezelfde waarde draagt. Het ergste daaraan was niet het foute
+ * bedrag maar wat het verdrong: er stond een prijs, dus de terugval naar een
+ * echte browser sloeg nooit aan.
+ */
+test("prijsveldMetDekking: zonder zichtbaar bedrag telt het veld niet", () => {
+  const jsPagina = `<html><body><h1>Marstek Venus E 3.0</h1>
+    <div id="app"></div>
+    <script>window.__DATA__ = {"price": 849};</script></body></html>`;
+  assert.equal(prijsUitJsonVeld(jsPagina), 849, "het veld staat er wel");
+  assert.equal(prijsveldMetDekking(jsPagina), null, "maar de pagina bevestigt het nergens");
+});
+
+test("prijsveldMetDekking: met een zichtbaar bedrag telt het veld gewoon", () => {
+  const gewonePagina = `<html><body><h1>Marstek Venus E 3.0</h1>
+    <p>Nu voor &euro; 1.199,00 inclusief btw.</p>
+    <script>{"price":1199}</script></body></html>`;
+  assert.equal(prijsveldMetDekking(gewonePagina), 1199);
+});
+
+test("prijsveldMetDekking: geen veld blijft geen prijs", () => {
+  assert.equal(prijsveldMetDekking(`<p>&euro; 1.199</p>`), null);
+});
+
+test("prijsUitPagina kiest het prijsveld niet op een pagina zonder bedragen", () => {
+  const jsPagina = `<html><body><h1>Indevolt SolidFlex 3000</h1>
+    <script>window.__DATA__ = {"price": 849};</script></body></html>`;
+  assert.equal(prijsUitPagina(jsPagina, "Indevolt SolidFlex 3000").prijs, null);
 });
