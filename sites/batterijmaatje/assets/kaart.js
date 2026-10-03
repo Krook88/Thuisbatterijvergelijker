@@ -338,7 +338,11 @@
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>${b.installatie === "zelf" ? "Zelf" : "Installateur"}</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>${score}<span class="regel-van">/6</span>
-        <span class="regel-baan regel-baan-delen" title="Koppel-score ${score} van 6: ${escapeHtml(koppelSamenvatting(b))}">${koppelDelen(b).map((d) => `<span class="regel-deel deel-${d.punten}"></span>`).join("")}</span>
+        ${/* Drie streepjes zonder namen zeiden niet welk streepje Homey was,
+              en een leeg vak in het midden las als een weergavefout. Nu staat
+              er per onderdeel de naam bij, met hetzelfde teken als op de
+              productpagina: ✓ volledig, ◐ via een omweg, ✗ niet. */ ""}
+        <ul class="koppel-delen">${koppelDelen(b).map((d) => `<li class="koppel-deel deel-${d.punten}" title="${escapeHtml(d.naam)}: ${escapeHtml(d.tekst)}">${Iconen.svg({ ja: "ja", deels: "deels", nee: "nee" }[d.status] || "nee")}<span>${escapeHtml(d.naam)}</span><span class="visueel-verborgen"> ${d.status === "ja" ? "volledig" : d.status === "deels" ? "deels" : "niet"}</span></li>`).join("")}</ul>
       </div>
       <div class="regel-slot">
         ${/* De prijs is zelf de link naar de winkel. Eerst stond hier onder elke

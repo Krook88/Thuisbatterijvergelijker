@@ -2259,3 +2259,12 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
 @media (max-width: 760px) {
   .regel-groep { margin: var(--ruimte-14) 0 var(--ruimte-6); background: none; border: 0; padding: 0; }
 }
+
+/* De Koppel-score uitgesplitst in de regel: drie onderdelen met naam. */
+.koppel-delen { list-style: none; margin: var(--ruimte-4) 0 0; padding: 0; font-size: var(--tekst-12); font-weight: 600; line-height: 1.5; }
+.koppel-deel { display: flex; align-items: center; gap: var(--ruimte-4); white-space: nowrap; }
+.koppel-deel .icoon { width: 1.1em; height: 1.1em; }
+.koppel-deel.deel-2 { color: var(--kleur-primair-donker); }
+.koppel-deel.deel-1 { color: #92400e; }
+.koppel-deel.deel-0 { color: var(--kleur-tekst-licht); }
+.koppel-deel.deel-0 span:first-of-type { text-decoration: line-through; text-decoration-color: var(--kleur-rand); }
