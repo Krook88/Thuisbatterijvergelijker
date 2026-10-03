@@ -527,7 +527,8 @@
           "url": "https://www.klimate.nl/daikin-altherma-3-r-w-lucht-water-warmtepomp-split-unit-6-kw.html",
           "prijs_eur": 5414,
           "datum": "2026-09-01",
-          "prijs_controle": "handmatig"
+          "prijs_controle": "handmatig",
+          "prijs_controle_reden": "KliMate weigert geautomatiseerde verzoeken (HTTP 403). Deze prijs is met de hand nagekeken en moet dat ook blijven."
         }
       ],
       "prijs_datum": "2026-09-01",
@@ -1166,7 +1167,8 @@
           "prijs_eur": 4850,
           "url": "https://www.maxicool.nl/nl_NL/p/tosot-by-gree-versati-iv-monobloc-warmtepomp-400v-r32-10-kw/28816/",
           "datum": "2026-07-30",
-          "prijs_controle": "handmatig"
+          "prijs_controle": "handmatig",
+          "prijs_controle_reden": "MaxiCool weigert geautomatiseerde verzoeken (HTTP 403). Deze prijs is met de hand nagekeken en moet dat ook blijven."
         }
       ],
       "prijs_datum": "2026-10-02",

@@ -45,7 +45,9 @@
           "winkel": "Thuisbatterij.nl",
           "prijs_eur": 1200,
           "url": "https://thuisbatterij.nl/winkel/marstek-venus-e-versie-3/",
-          "datum": "2026-09-09"
+          "datum": "2026-09-09",
+          "prijs_controle": "handmatig",
+          "prijs_controle_reden": "Thuisbatterij.nl bouwt zijn prijzen met JavaScript op en draagt op elke productpagina hetzelfde prijsveld (849 op 3 oktober 2026, 1.650 in september). De automaat kan hier niet betrouwbaar lezen; deze prijs hoort met de hand nagekeken te worden."
         }
       ],
       "totaalprijs_van_eur": 1299,
@@ -1087,7 +1089,8 @@
           "prijs_eur": 2383,
           "url": "https://www.warmteservice.nl/Duurzaam/Thuisbatterij/GoodWe-Lynx-Home-(U-serie)-thuisbatterij-lithium/p/09601000",
           "datum": null,
-          "prijs_controle": "handmatig"
+          "prijs_controle": "handmatig",
+          "prijs_controle_reden": "Warmteservice weigert geautomatiseerde verzoeken (HTTP 403). Deze prijs is met de hand nagekeken en moet dat ook blijven."
         }
       ],
       "totaalprijs_van_eur": null,
@@ -1599,7 +1602,9 @@
           "winkel": "Thuisbatterij.nl",
           "prijs_eur": 795,
           "url": "https://thuisbatterij.nl/winkel/indevolt-solidflex-3000/",
-          "datum": "2026-09-07"
+          "datum": "2026-09-07",
+          "prijs_controle": "handmatig",
+          "prijs_controle_reden": "Thuisbatterij.nl bouwt zijn prijzen met JavaScript op en draagt op elke productpagina hetzelfde prijsveld (849 op 3 oktober 2026, 1.650 in september). De automaat kan hier niet betrouwbaar lezen; deze prijs hoort met de hand nagekeken te worden."
         }
       ],
       "totaalprijs_van_eur": 799,
@@ -1687,7 +1692,9 @@
           "prijs_eur": 1449,
           "url": "https://voordeelshop.ah.nl/smart-home/666/aeg-solarcube-plug-in-thuisbatterij/393975/aeg-solarcube-plug-in-thuisbatterij-48-kwh/393977/",
           "datum": "2026-07-20",
-          "niet_leverbaar": true
+          "niet_leverbaar": true,
+          "prijs_controle": "handmatig",
+          "prijs_controle_reden": "AH Voordeelshop weigert geautomatiseerde verzoeken (HTTP 403). Deze prijs is met de hand nagekeken en moet dat ook blijven."
         }
       ],
       "totaalprijs_van_eur": 1449,
@@ -1802,7 +1809,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 1699,
       "prijs_omvat": "incl. btw, stekkerklaar; excl. installatie",
-      "prijs_datum": "2026-09-09",
+      "prijs_datum": "2026-10-03",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "AC-gekoppeld via het stopcontact, dus je bestaande panelen en omvormer blijven zoals ze zijn. Panelen rechtstreeks aansluiten kan op dit model niet.",
       "koppeling_gemak": 5,
@@ -1817,9 +1824,12 @@
       "aanbiedingen": [
         {
           "winkel": "Thuisbatterij.nl (pre-sale)",
-          "prijs_eur": 1299,
+          "prijs_eur": 1599,
           "url": "https://thuisbatterij.nl/winkel/ecoflow-stream-ac-5000/",
-          "datum": "2026-09-09"
+          "datum": "2026-10-03",
+          "prijs_controle": "handmatig",
+          "prijs_controle_reden": "Thuisbatterij.nl bouwt zijn prijzen met JavaScript op en draagt op elke productpagina hetzelfde prijsveld (849 op 3 oktober 2026, 1.650 in september). De automaat kan hier niet betrouwbaar lezen; deze prijs hoort met de hand nagekeken te worden.",
+          "omvat": "actieprijs; de winkel noemt 1.699 als oorspronkelijke prijs. Niet op voorraad, verwachte verzending vanaf 12 oktober 2026."
         }
       ],
       "totaalprijs_van_eur": 1399,

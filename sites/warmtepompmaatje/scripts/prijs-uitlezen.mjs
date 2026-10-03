@@ -510,7 +510,20 @@ export function prijsveldMetDekking(html, opties = {}) {
   if (!prijs) return null;
   /* Let op: bedragenMetContext neemt met `max` de bovengrens van een bedrag,
      niet een aantal treffers. Dezelfde grenzen meegeven als deze route zelf
-     gebruikt, anders meet de rem iets anders dan hij afremt. */
+     gebruikt, anders meet de rem iets anders dan hij afremt.
+
+     Ik heb geprobeerd de eis strenger te maken: niet "staat er ergens een
+     bedrag" maar "staat dít bedrag er". Dat sneuvelde op een bestaande proef,
+     en terecht. Bij Aircozonderstek staat in het veld 5.695 en in de zichtbare
+     tekst "vanaf € 2.375" - het veld heeft daar gelijk en de tekst is een
+     lokkertje. Met de strenge eis zou die route afvallen en zakten vier
+     warmtepompen 42 tot 60 procent, precies de regressie waar die proef voor
+     is neergezet.
+
+     Van één pagina af is niet te zien welk van de twee je voor je hebt. Daarom
+     blijft het hier bij de losse eis, en gaat een winkel die aantoonbaar niet
+     te lezen is op prijs_controle: "handmatig" - zoals Thuisbatterij.nl, waar
+     het veld op elke productpagina hetzelfde bedrag draagt. */
   return bedragenMetContext(html, opties).length > 0 ? prijs : null;
 }
 
