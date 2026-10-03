@@ -375,6 +375,7 @@ function kop(titel, metaDesc, canoniek, ld = "") {
   <meta property="og:site_name" content="Zonnestroommaatje.nl">
   <meta name="twitter:card" content="summary_large_image">
   ${ld}
+  <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
   <link rel="icon" href="/assets/favicon.svg?v=1" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=1">
@@ -522,7 +523,9 @@ const OVERZICHTEN = [
     bestand: "beste-glas-glas-zonnepanelen.html",
     titel: `Beste glas-glas zonnepanelen (${JAAR})`,
     metaDesc: "Glas-glas zonnepanelen vergeleken op prijs per Wp, garanties en rendement. Waarom glas-glas langer meegaat en wat het tegenwoordig kost.",
-    intro: "Bij een glas-glas paneel liggen de cellen tussen twee lagen glas in plaats van glas en kunststof folie. Dat beschermt beter tegen vocht en microscheurtjes, vertraagt veroudering en levert vaak langere garanties op. Sinds fabrikanten dun gehard glas gebruiken, is het verschil in prijs en gewicht met foliepanelen klein; 7 van de 14 panelen op deze site zijn glas-glas. Hieronder alle glas-glas panelen uit mijn vergelijker, gesorteerd op prijs per wattpiek.",
+    // Geteld in plaats van opgeschreven: hier stond "7 van de 14", en dat klopte
+    // tot er een paneel bij kwam.
+    intro: `Bij een glas-glas paneel liggen de cellen tussen twee lagen glas in plaats van glas en kunststof folie. Dat beschermt beter tegen vocht en microscheurtjes, vertraagt veroudering en levert vaak langere garanties op. Sinds fabrikanten dun gehard glas gebruiken, is het verschil in prijs en gewicht met foliepanelen klein; ${data.panelen.filter((p) => p.uitvoering === "glas-glas").length} van de ${data.panelen.length} panelen op deze site zijn glas-glas. Hieronder alle glas-glas panelen uit mijn vergelijker, gesorteerd op prijs per wattpiek.`,
     selecteer: (lijst) => lijst.filter((p) => p.uitvoering === "glas-glas").sort((a, b) => (prijsPerWp(a) || Infinity) - (prijsPerWp(b) || Infinity)),
     voetnoot: "Lees ook de uitleg over glas-glas en glas-folie in mijn woordenlijst.",
   },
@@ -923,6 +926,24 @@ if (index.includes(LD_BEGIN)) {
     );
   }
 }
+
+/* De datum achter "gecontroleerd" stond in de HTML als "…" en werd pas in de
+   browser door app.js gevuld. Dat is één teken dat verandert in "2 oktober
+   2026", en die badge staat in een rij die afbreekt: de rij herverdeelt, wordt
+   hoger of lager, en alles eronder schuift mee. Gemeten op de voorpagina een
+   verschuiving van 0,23 bij warmtepompmaatje en 0,68 bij zonnestroommaatje,
+   waar Google 0,1 als grens voor "goed" aanhoudt.
+
+   Dezelfde reden als bij de teller en de resultatenregel hierboven: wat de
+   generator al weet, hoort in de HTML te staan. app.js schrijft er daarna
+   precies hetzelfde in - de opmaak is aan beide kanten nagerekend
+   (toLocaleDateString met day/month/year tegen Intl met dateStyle "long",
+   allebei "2 oktober 2026") - dus er verspringt niets meer. En wie javascript
+   traag of niet krijgt, ziet nu een datum in plaats van drie puntjes. */
+index = index.replace(
+  /(<b id="updateDatum">)[^<]*(<\/b>)/,
+  `$1${datumNL(data.laatst_bijgewerkt || VANDAAG)}$2`,
+);
 
 writeFileSync(resolve(ROOT, "index.html"), index, "utf8");
 console.log(`index.html: ${gesorteerdePanelen.length} kaarten voorgerenderd en ItemList bijgewerkt`);

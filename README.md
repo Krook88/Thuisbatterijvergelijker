@@ -69,7 +69,85 @@ precies wat CI ook doet:
 | `npm run llms` | `llms.txt` loopt achter op het menu van de site |
 | `npm run slop` | tekst die vager is dan deze site wil zijn; de regels staan in `SCHRIJFWIJZE.md` |
 | `npm run keuring` | contrast, aanraakvlakken, tekstmaten en javascriptfouten op elke pagina van de drie sites, op 1280 en 390 pixels |
+| `npm run menubreedte` | de kop wikkelt niet naar twee regels, en niets steekt buiten de pagina op 320 tot 390 pixels |
 | `npm run dode-regels` | declaraties die er wel staan maar overal worden overruled |
+
+### Waarom de kop een eigen controle heeft
+
+`npm run menubreedte` lijkt een detail en was het grootste layoutprobleem dat de
+sites hadden. De navigatiebalk week pas onder 767 pixels voor een menuknop, maar
+het volledige menu pást daar niet: gemeten op de voorpagina blijft de kop pas op
+één regel vanaf 768 pixels bij batterijmaatje, 912 bij warmtepompmaatje en 976
+bij zonnestroommaatje. Met de terugvalfont die de bezoeker de eerste halve
+seconde ziet: vanaf 864, 1056 en 1128. Daartussen wikkelde de navigatie onder
+het logo door — twee regels, met de terugvalfont zelfs drie.
+
+Dat kostte twee dingen, en geen van beide valt op als je op een laptop test. Op
+een tablet oogt de kop verkeerd. En zodra de webfont binnenkomt krimpt de kop
+terug naar één regel, waardoor alles eronder omhoog schuift: een gemeten
+verschuiving van 0,24 op 768 pixels, waar Google 0,1 als grens voor "goed"
+aanhoudt.
+
+De inklapgrens staat nu per site op de terugvalbreedte plus marge (879, 1071 en
+1143 pixels). Dat getal hangt aan de inhoud van het menu: komt er een item bij,
+of wordt een label langer, dan wikkelt de kop weer — stil, want de pagina blijft
+werken. Vandaar de controle, die met én zonder webfont meet.
+
+Het alternatief staat er niet voor niets in de foutmelding: een menu-item onder
+"Meer ▾" zetten geeft de volledige balk terug op tabletbreedte. Dat is een keuze
+over wat hoofdzaak is, en die hoort bij de eigenaar van de site, niet bij een
+script.
+
+### Wat de pagina bij het laden laat verspringen
+
+Drie oorzaken, gemeten met een echte browser en een kunstmatige vertraging van
+250 ms op beeld, font en javascript — want op een plaatselijke server komt alles
+zo snel binnen dat je een probleem wegmeet dat de bezoeker op zijn telefoon wel
+heeft. De uitkomst varieert met de timing, dus meet drie keer en neem de hoogste.
+
+**De klasse `html.js` hoort in de `<head>`.** Of de navigatie inklapt hing aan
+een klasse die `nav.js` zette, en dat bestand laadt onderaan de pagina. Dus werd
+de kop eerst met het volledige menu getekend, wikkelde die over meerdere regels,
+en klapte daarna in: elke bezoeker zag de inhoud één keer 56 pixels
+verspringen. Nu zet één regel in de `<head>` die klasse vóór het eerste tekenen.
+Het vangnet blijft: zonder javascript komt de klasse er niet en staat het menu
+gewoon open — nagemeten, 13 van 13 links klikbaar.
+
+**Wat de generator al weet, hoort in de HTML.** De datum achter "gecontroleerd"
+stond er als `…` en werd pas in de browser gevuld. Eén teken dat "2 oktober
+2026" wordt, in een badgerij die afbreekt: de rij herverdeelt en alles eronder
+schuift mee. Dat kostte 0,23 op warmtepompmaatje en 0,68 op zonnestroommaatje.
+De generator schrijft hem nu voor, met de opmaak aan beide kanten nagerekend
+(`toLocaleDateString` met day/month/year tegen `Intl` met `dateStyle: "long"`,
+allebei "2 oktober 2026"), zodat app.js er daarna precies hetzelfde in zet.
+
+**En de webfont, met een afruil.** Wat er na die twee nog overbleef was de
+wissel van de terugvalfont naar Figtree. Die terugvalfont is ongeveer 11 procent
+breder, dus brak alle tekst anders af: de hero kromp 129 pixels zodra Figtree
+binnenkwam — de h1 een regel, de badgerij een regel, de knoppenrij 65 pixels — en
+alles eronder schoof mee. 0,25 op warmtepompmaatje, 0,45 op zonnestroommaatje.
+
+De nette oplossing is een terugvalfont met bijgestelde metriek (`size-adjust`,
+`ascent-override`), en die kan hier niet verantwoord gemaakt worden. De stack
+begint met `ui-sans-serif`: dat is Roboto op Android, SF op Apple en Segoe UI op
+Windows. Gemeten in de bouwomgeving liepen de benodigde waarden van 89 tot 111
+procent uiteen — de correctie draait zelfs van richting — en die drie fonts staan
+hier niet eens geïnstalleerd, dus wat je hier meet is niet wat de bezoeker heeft.
+Eén waarde die overal klopt bestaat niet.
+
+Daarom staat `font-display` nu op `optional`: geen wisselperiode, dus geen
+verschuiving. Gemeten nul op alle drie de sites. Wat het kost: bij een eerste
+bezoek is de font nog niet in de cache en gebruikt de browser hem niet, ook niet
+met de preload. Nieuwe bezoekers zien dus de systeemfont; elk volgend bezoek
+staat Figtree er wel. Bewust ingeruild — wie de site voor het eerst ziet heeft
+geen vergelijking met de huisstijl, maar een pagina die onder zijn duim
+wegspringt merkt hij wel.
+
+Die keuze had één gevolg dat eerst niet zichtbaar was: de bredere terugvalfont is
+nu wat een nieuwe bezoeker werkelijk krijgt, en daarmee ging de overloop op een
+telefoon van 320 pixels van 5 naar 31 pixels (`.dagmaat-invoer` met
+`white-space: nowrap`). Opgelost met `flex-wrap`, en `npm run menubreedte` meet
+die smalle breedtes nu mee — op de terugvalfont, want dat is de brede stand.
 
 Eén controle staat er met opzet niet bij de ketting, maar draait wel elke dag
 mee in `update-prijzen.yml` als melding. `npm run zoekmachine` kijkt wat een
@@ -303,6 +381,56 @@ programmeren.
 | `scripts/vergelijkbaar.mjs` | een getal dat de gegevens in komt zonder dat vastligt wát het is |
 | `scripts/controleer-links.mjs --zonder-winkels` | links die nergens heen gaan, minus de winkels - die heeft het prijsscript net gehad |
 | `sites/<site>/scripts/nieuwe-modellen.mjs` | modellen bij winkels die wij nog niet hebben (`npm run nieuwe-modellen` in de map van de site) |
+| `scripts/bronnen-nakijken.mjs` | getallen die hun eigen bronpagina tegenspreken; hieronder uitgelegd |
+
+### Staan onze getallen nog op de pagina waar ze vandaan komen?
+
+`npm run bronnen` houdt elk na te kijken getal tegen de fabrikantpagina waar het
+vandaan komt. Dat is iets anders dan wat er al draaide: `controleer-links.mjs`
+kijkt of een `product_url` nog *bestaat*, en `verse-data.mjs` of de prijzen vers
+zijn. Of de *inhoud* achter die URL nog klopt met wat wij publiceren, controleerde
+niemand.
+
+Dat is de duurste onzichtbare fout die hier nog over was. Een fabrikant kan de
+URL houden en de SCOP herzien. En de zes Stiebel WPL-maten zijn met de hand uit
+een logboek overgenomen — zulke getallen horen controleerbaar te blijven, want ze
+zijn precies waarvoor iemand deze site gebruikt. Nu gaat het om 199 waarden
+(SCOP, geluid, aanvoertemperatuur, koudemiddel, garantie, capaciteit) over 99
+productpagina's bij 63 fabrikanten.
+
+Hij ankert elk getal aan een woord dat erbij hoort — "scop",
+"geluidsniveau", "aanvoertemperatuur" — en kijkt alleen in die zin of onze waarde
+er staat. Een getal los zoeken werkt niet: "57" staat op elke pagina wel ergens,
+en dan bevestigt de controle alles en betekent hij niets. Dat levert vier
+uitkomsten op, en juist het verschil ertussen is de hele waarde:
+
+| uitkomst | wat het betekent |
+| --- | --- |
+| bevestigd | het ankerwoord staat op de pagina en onze waarde staat erbij |
+| **afwijkend** | de pagina praat over de SCOP en noemt een ánder getal dan wij — hier moet iemand naar kijken |
+| geen bron | het ankerwoord staat er niet; de pagina zet die specificatie niet in tekst (een tabblad via javascript, of een pdf) |
+| geen productpagina | `product_url` noemt het product niet, meestal een homepage |
+
+Die laatste twee zijn geen fouten, en dat onderscheid is niet cosmetisch. Zonder
+de poort "noemt deze pagina het product eigenlijk?" zou elke regel waarvan
+`product_url` naar een homepage wijst — `solar.huawei.com/nl/`,
+`victronenergy.nl` — een afwijking melden, want "garantie" staat in elk menu en
+ons getal staat er nergens bij. Dan loopt de lijst binnen een week vol met
+pagina's die het goed doen, en een lijst die nooit leeg raakt leest niemand meer.
+Precies de reden waarom `zoekmachine.mjs` buiten de ketting staat.
+
+Draai hem niet hier maar via de werkstroom *Bronnen nakijken* (wekelijks op
+zondag, en met de hand te starten). De ontwikkelomgeving komt niet bij
+fabrikanten; `npm run bronnen -- --tellen` laat wél zien wát hij zou nakijken,
+zonder iets op te halen. Wekelijks en niet dagelijks omdat 99 pagina's bij 63
+fabrikanten ophalen die getallen niet sneller laat veranderen.
+
+Het vergelijken zelf staat apart in `scripts/bron-vergelijken.mjs`, met proeven
+op echte zinnen uit het logboek van de Stiebel-run. Dat is geen formaliteit: een
+vergelijking die te makkelijk "bevestigd" zegt maakt de hele controle waardeloos,
+en dat is aan de uitvoer niet te zien — die is dan juist mooi groen. Die proef
+vond ook meteen een fout, namelijk dat onze 4,5 de 4,50 van de pagina niet
+terugvond.
 
 `vergelijkbaar.mjs` verdient een toelichting, want hij bewaakt de duurste fout
 die deze sites kunnen maken. Vijf keer is hier een getal vergeleken met een getal
@@ -419,6 +547,56 @@ ankerwoorden, en dan lijkt het alsof het script niets kan lezen terwijl het in
 de echte run wél iets leest. Dat is één keer misgegaan: bij Frank Energie
 meldde de diagnose "geen prijs" langs alle zes de routes, en met de naam erbij
 kwam de zichtbare-tekstroute gewoon met € 4.945.
+
+**En hij kan meer dan bedragen.** Met `--zoek "scop,dB(A),aanvoertemperatuur"`
+toont hij elk stuk zichtbare tekst waar een van die woorden in staat, met de
+zin eromheen. Dat is voor de andere vraag die deze omgeving niet kan
+beantwoorden: bij het opnemen van een nieuw model gaat het niet over de prijs
+maar over de SCOP, het geluidsvermogen en de maximale aanvoertemperatuur, en
+die staan in gewone zinnen op de fabrikantpagina. Voorheen moest dat met de
+hand uit een datasheet komen.
+
+Het kiest nog steeds niets. Een script dat zelf "SCOP 4,8" uit een zin vist,
+vist er vroeg of laat de SCOP van het verkeerde model uit - precies de fout
+waar `REDACTIE.md` een hoofdstuk over heeft.
+
+**En met `--links "acs-classic"` toont hij de adressen op de pagina** waar dat
+stuk tekst in het adres of in de linktekst staat, relatief adres opgelost tegen
+de pagina zelf. Dat is de stap vóór `--zoek`: die laatste gaf op de
+Stiebel-categoriepagina netjes de hele WPL ACS classic-familie, maar dat zijn
+namen en geen adressen, en de specificaties staan een pagina verder.
+
+Raden werkt daar niet. Een verzonnen pad gaf eerst een 404, en daarna bleek dat
+Stiebel bij een onbekend adres helemaal geen 404 stuurt maar een vangnetpagina:
+twee volgende gokken kwamen met een nette 200 terug, met de familie-introductie
+erop in plaats van specificaties. Aan de statuscode zie je dus niet of je goed
+zat, en dan is raden niet alleen duur maar ook niet te controleren. Met de links
+erbij is het één run: categoriepagina lezen, adressen eruit, die lezen. Dat is
+het pad dat een mens met een browser ook zou lopen, en zo kwamen de SCOP, het
+geluidsvermogen en het koudemiddel van alle zes WPL-maten in één keer binnen.
+
+**Twee winkels weigeren een runner,** en dat scheelt van een storing: Boilermarkt
+geeft HTTP 500 op elk adres dat ik probeerde, bol.com geeft 403. Dat is geen
+kapot script en ook geen verlopen URL. Voor bol betekent het dat de
+kandidatenlijst van batterijmaatje - die vrijwel helemaal uit bol-adressen
+bestaat - niet via deze werkstroom na te kijken is.
+
+**Twee andere doodlopende wegen, zodat niemand ze nog eens inloopt.** Een
+fabrikant die zijn specificatietabel in een javascript-tab zet levert nul
+treffers op, hoe goed je zoekwoorden ook zijn: bij
+`toshiba-aircondition.com` staat niets van SCOP, geluid of aanvoertemperatuur in
+de zichtbare tekst, en `--links` geeft daar alleen navigatie terug. En een
+distributeur kan per unit een eigen pagina hebben die tóch dezelfde tekst
+toont: de drie Intercool-pagina's voor de Toshiba-buitendelen van 5, 12 en de
+binnenunit gaven woord voor woord hetzelfde verhaal, inclusief "de binnenunit
+produceert slechts 29 dB(A)". Dat lijkt een specificatie per model en is het
+niet.
+
+Dat laatste is het gevaarlijke geval, want er komt wél een getal uit. "30 dB(A)
+in nachtmodus" is geen geluidsvermogen volgens EN 12102, en dat naast de
+labelwaarden in de vergelijking zetten is precies de fout waar
+`vergelijkbaar.mjs` voor bestaat. Een leeg veld met een uitleg erbij is dan
+beter dan een gevuld veld dat iets anders meet.
 
 ### Een prijs die mensenwerk blijft
 

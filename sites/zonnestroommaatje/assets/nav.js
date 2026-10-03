@@ -8,11 +8,15 @@
 
    2. Op een telefoon zit de navigatie achter een menuknop. Zonder die knop
       wikkelde het menu over meerdere regels en begon de inhoud pas ver onder
-      de bovenkant van het scherm. De knop staat standaard verborgen en wordt
-      door de opmaak alleen op smalle schermen getoond. Het inklappen wordt
-      hier aangezet en niet in de CSS: werkt JavaScript niet, dan blijft het
-      menu gewoon openstaan zoals voorheen, in plaats van onbereikbaar achter
-      een knop die niets doet.
+      de bovenkant van het scherm. Dit bestand opent en sluit dat menu.
+
+      Of het menu überhaupt inklapt, bepaalt de klasse html.js, en die wordt
+      één regel in de <head> gezet. Dat stond hier, en dat was precies één
+      regel te laat: dit bestand laadt onderaan de pagina, dus de kop werd
+      eerst met het volledige menu getekend, wikkelde over meerdere regels en
+      klapte daarna in. Elke bezoeker zag de inhoud één keer 56 pixels
+      verspringen. Werkt JavaScript niet, dan komt die klasse er niet en blijft
+      het menu uitgeklapt staan - hetzelfde vangnet als voorheen.
 
    Gedeeld tussen de drie sites via kern/. Het gedrag is overal hetzelfde; wat
    per site verschilt (de kleuren, de menu-items) zit in de opmaak en de HTML,
@@ -29,8 +33,6 @@
   var knop = document.querySelector(".menu-knop");
   var kop = document.querySelector(".site-header");
   if (!knop || !kop) return;
-
-  kop.classList.add("menu-inklapbaar");
 
   function zet(open) {
     kop.classList.toggle("menu-open", open);

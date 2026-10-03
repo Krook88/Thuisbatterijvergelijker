@@ -662,6 +662,50 @@ export function bedragenMetContext(html, opties = {}) {
   return gevonden;
 }
 
+/**
+ * Elk stukje zichtbare tekst waar een van de gezochte woorden in staat, met de
+ * tekst eromheen.
+ *
+ * Waarom dit naast bedragenMetContext bestaat: dat laatste kijkt alleen naar
+ * euro's, en dat is precies wat je nodig hebt zolang de vraag over prijzen
+ * gaat. Bij het opnemen van een nieuw model gaat de vraag over iets anders -
+ * wat is de SCOP, hoeveel dB(A) maakt de buitenunit, tot hoeveel graden levert
+ * hij aan - en die getallen staan in gewone zinnen op de fabrikantpagina.
+ *
+ * De ontwikkelomgeving komt daar niet bij (de egress-proxy laat alleen npm en
+ * pypi door), dus dit draait op een runner, net als de prijsdiagnose. En net
+ * als daar geeft het geen oordeel: het toont wat er staat, en een mens leest
+ * het. Een script dat zelf "SCOP 4,8" uit een zin vist, vist er vroeg of laat
+ * de SCOP van het verkeerde model uit.
+ */
+export function tekstMetContext(html, woorden, opties = {}) {
+  const { breedte = 90, maxPerWoord = 6 } = opties;
+  const tekst = zichtbareTekst(html);
+  const uit = [];
+  for (const woord of woorden) {
+    const naald = String(woord || "").toLowerCase().trim();
+    if (!naald) continue;
+    let i = tekst.indexOf(naald);
+    let n = 0;
+    while (i >= 0 && n < maxPerWoord) {
+      const van = Math.max(0, i - breedte);
+      const tot = Math.min(tekst.length, i + naald.length + breedte);
+      const context = tekst.slice(van, tot).replace(/\s+/g, " ").trim();
+      // Twee treffers vlak naast elkaar leveren bijna dezelfde regel op, dus
+      // die slaan we over. Wel op woord én context: staan "scop" en "dB(A)" in
+      // dezelfde zin, dan is dat twee keer nieuws en niet één keer. Zonder dat
+      // onderscheid liet het ene zoekwoord het andere verdwijnen zodra ze
+      // dicht genoeg bij elkaar stonden.
+      if (!uit.some((r) => r.woord === naald && r.context === context)) {
+        uit.push({ woord: naald, positie: i, context });
+      }
+      n++;
+      i = tekst.indexOf(naald, i + naald.length);
+    }
+  }
+  return uit.sort((a, b) => a.positie - b.positie);
+}
+
 /* ------------------------------------------------------------------
    Wat een script überhaupt kan controleren
    ------------------------------------------------------------------ */
@@ -680,4 +724,66 @@ export function controleerbaar(bron) {
   if (!bron || typeof bron !== "object") return false;
   if (bron.prijs_controle === "handmatig") return false;
   return typeof (bron.url || bron.prijs_bron_url) === "string";
+}
+
+/**
+ * De links op een pagina, met de linktekst erbij.
+ *
+ * Waarom dit erbij hoort. tekstMetContext haalde de WPL ACS Classic-familie
+ * netjes van de Stiebel-categoriepagina - "wpl 07 acs classic compact set 1.1"
+ * tot en met de 17 - maar daarmee had ik de namen en niet de adressen, en de
+ * specificaties staan op de productpagina's. Het alternatief was adressen
+ * raden, en dat kostte eerst een 404 op een verzonnen pad en daarna twee
+ * runs op een pagina die wel 200 teruggaf maar de familie-introductie bleek:
+ * Stiebel stuurt bij een onbekend pad geen 404 maar een vangnetpagina, dus aan
+ * de statuscode zie je niet of je goed zat. Raden is hier dus niet alleen
+ * duur, het is ook niet te controleren.
+ *
+ * Met de links erbij is het één run: lees de categoriepagina, pak de adressen
+ * die bij de namen horen, lees die. Dat is precies het pad dat een mens met een
+ * browser zou lopen.
+ *
+ * Relatieve adressen worden tegen `basis` opgelost, want een categoriepagina
+ * linkt vrijwel nooit absoluut. Lukt dat niet, dan valt de link weg in plaats
+ * van als half adres in het logboek te belanden.
+ */
+export function linksMetTekst(html, patroon = "", opties = {}) {
+  const { max = 80 } = opties;
+  const { basis } = opties;
+  const naald = String(patroon || "").toLowerCase().trim();
+  const uit = [];
+  const gezien = new Set();
+  const re = /<a\b[^>]*\bhref\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)[^>]*>([\s\S]*?)<\/a>/gi;
+  let m;
+  while ((m = re.exec(String(html))) !== null && uit.length < max) {
+    const ruw = m[1].replace(/^['"]|['"]$/g, "").trim();
+    // Ankers en javascript:-links wijzen niet naar een andere pagina.
+    if (!ruw || /^(#|javascript:|mailto:|tel:)/i.test(ruw)) continue;
+    let url = ruw;
+    if (basis) {
+      try {
+        url = new URL(ruw, basis).toString();
+      } catch {
+        continue;
+      }
+    } else if (!/^https?:\/\//i.test(ruw)) {
+      continue;
+    }
+    // Entiteiten eerst, net als in zichtbareTekst: Stiebel schrijft "4,06&nbsp;kW"
+    // in de linktekst, en onopgelost staat dat zo in het logboek.
+    const tekst = m[2]
+      .replace(/<[^>]+>/g, " ")
+      .replace(/&nbsp;|&#160;/gi, " ")
+      .replace(/&amp;/gi, "&")
+      .replace(/\s+/g, " ")
+      .trim();
+    // Het patroon mag op het adres of op de linktekst slaan. Een menu noemt het
+    // model vaak alleen in de tekst, en een adres bevat de naam soms juist
+    // terwijl de link een plaatje is en dus geen tekst heeft.
+    if (naald && !url.toLowerCase().includes(naald) && !tekst.toLowerCase().includes(naald)) continue;
+    if (gezien.has(url)) continue;
+    gezien.add(url);
+    uit.push({ url, tekst });
+  }
+  return uit;
 }

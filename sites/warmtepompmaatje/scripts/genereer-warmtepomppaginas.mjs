@@ -373,6 +373,7 @@ function geluidPagina() {
   <script type="application/ld+json">
 ${itemList}
   </script>
+  <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="assets/style.css?v=${ASSET_VERSIE}">
   <script src="assets/iconen.js?v=${ASSET_VERSIE}" defer></script>
   <script src="assets/nav.js?v=${ASSET_VERSIE}" defer></script>
@@ -536,6 +537,7 @@ function bouwvormPagina() {
   <script type="application/ld+json">
 ${itemList}
   </script>
+  <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="assets/style.css?v=${ASSET_VERSIE}">
   <script src="assets/iconen.js?v=${ASSET_VERSIE}" defer></script>
   <script src="assets/nav.js?v=${ASSET_VERSIE}" defer></script>
@@ -550,7 +552,7 @@ ${kop("", false)}
   <h1>Monoblock of split?</h1>
   <p class="datum-stempel">Samengesteld uit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
-  <p class="intro">Dit is de eerste keuze nadat je besloten hebt dat je een warmtepomp wilt, en hij gaat over waar de techniek staat. Alle 30 pompen op deze site zijn lucht-water; het verschil zit in de opstelling. Bij een <b>monoblock</b> zit alles in de buitenunit en loopt er alleen water naar binnen. Bij een <b>split</b> staat er ook een unit binnen, met een koudemiddelleiding ertussen.</p>
+  <p class="intro">Dit is de eerste keuze nadat je besloten hebt dat je een warmtepomp wilt, en hij gaat over waar de techniek staat. Alle ${pompen.length} pompen op deze site zijn lucht-water; het verschil zit in de opstelling. Bij een <b>monoblock</b> zit alles in de buitenunit en loopt er alleen water naar binnen. Bij een <b>split</b> staat er ook een unit binnen, met een koudemiddelleiding ertussen.</p>
 
   <h2>Het verschil in één tabel</h2>
   <div class="tabel-wrap">
@@ -595,6 +597,33 @@ ${voet(false)}
 `;
 }
 
+/* Wat er in de rij "Rendement (SCOP)" komt te staan.
+ *
+ * Zonder SCOP viel deze rij terug op `scop_toelichting`, en dat veld is bij de
+ * dertien pompen zonder getal geen toelichting op het rendement maar een
+ * omschrijving van het product. Op de Vitocal 150-A stond onder "Rendement
+ * (SCOP)" dus letterlijk "de toegankelijkere lijn naast de Vitocal 250-A,
+ * gericht op grotere woningen". Dat zegt niets over rendement en ziet er wél
+ * uit als een antwoord - erger dan een lege rij, want de bezoeker leest het als
+ * het getal dat hij zocht.
+ *
+ * Nu staat er eerst dat het getal er niet is. De toelichting mag er daarna
+ * achter, want soms zegt die wel iets: bij de Yutaki M staat er een reeks
+ * ("SCOP 3,9 tot 4,6 bij 35 graden aanvoer") en die is het waard om te tonen,
+ * alleen niet als vervanging van het ene vergelijkbare getal dat ontbreekt.
+ *
+ * Zeven van de dertien zijn hybrides, waar één SCOP ook inhoudelijk weinig
+ * betekent omdat de verhouding gas/elektra de uitkomst bepaalt. Die zouden een
+ * eigen formulering verdienen; dat is nog niet gedaan. */
+function scopRij(w) {
+  if (w.scop) {
+    return `${String(w.scop).replace(".", ",")}${Condities.labelHtml("scop", w)}`
+      + (w.scop_toelichting ? ` <small>(${esc(w.scop_toelichting)})</small>` : "");
+  }
+  const staart = w.scop_toelichting ? ` <small>(${esc(w.scop_toelichting)})</small>` : "";
+  return `<span class="hint">niet als één getal opgegeven</span>${staart}`;
+}
+
 function pompPagina(w) {
   const naam = volledigeNaam(w);
   const beste = bestePrijs(w);
@@ -620,6 +649,7 @@ function pompPagina(w) {
   <meta property="og:image" content="${SITE}/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   ${productLd(w)}
+  <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="../assets/style.css?v=${ASSET_VERSIE}">
   <script src="../assets/iconen.js?v=${ASSET_VERSIE}" defer></script>
   <script src="../assets/nav.js?v=${ASSET_VERSIE}" defer></script>
@@ -672,8 +702,13 @@ ${kop("index", true)}
       <table class="spec-tabel">
         ${specRij("Type", w.type === "hybride" ? "Hybride (naast de cv-ketel)" : "All-electric (van het gas af)")}
         ${specRij("Vermogen", w.vermogen_kw ? `${String(w.vermogen_kw).replace(".", ",")} kW${Condities.labelHtml("vermogen", w)}` : null)}
-        ${specRij("Rendement (SCOP)", w.scop ? `${String(w.scop).replace(".", ",")}${Condities.labelHtml("scop", w)}${w.scop_toelichting ? ` <small>(${esc(w.scop_toelichting)})</small>` : ""}` : (w.scop_toelichting ? esc(w.scop_toelichting) : null))}
-        ${specRij("Geluid buitenunit", w.geluid_db ? `${w.geluid_db} dB(A)${w.geluid_toelichting ? ` <small>(${esc(w.geluid_toelichting)})</small>` : ""}` : null)}
+        ${specRij("Rendement (SCOP)", scopRij(w))}
+        ${/* Het label hing vast op "buitenunit", en dat klopt niet voor een
+              pomp die helemaal binnen staat: de Inventum Ecolution Combi en de
+              Stiebel WPL ICS classic hebben er geen. Die kregen een
+              geluidswaarde onder een kopje over een onderdeel dat ze niet
+              hebben, en dat leest als een waarde op de erfgrens. */ ""}
+        ${specRij(heeftBuitenunit(w) ? "Geluid buitenunit" : "Geluid toestel", w.geluid_db ? `${w.geluid_db} dB(A)${w.geluid_toelichting ? ` <small>(${esc(w.geluid_toelichting)})</small>` : ""}` : null)}
         ${specRij("Koudemiddel", w.koudemiddel ? esc(w.koudemiddel) : null)}
         ${specRij("Warm tapwater", typeof w.tapwater === "string" ? esc(w.tapwater) : d3html(w.tapwater))}
         ${specRij("Maximale aanvoertemperatuur", w.max_aanvoer_c ? `${w.max_aanvoer_c} °C` : null)}
@@ -813,6 +848,24 @@ if (index.includes(LD_BEGIN)) {
     );
   }
 }
+
+/* De datum achter "gecontroleerd" stond in de HTML als "…" en werd pas in de
+   browser door app.js gevuld. Dat is één teken dat verandert in "2 oktober
+   2026", en die badge staat in een rij die afbreekt: de rij herverdeelt, wordt
+   hoger of lager, en alles eronder schuift mee. Gemeten op de voorpagina een
+   verschuiving van 0,23 bij warmtepompmaatje en 0,68 bij zonnestroommaatje,
+   waar Google 0,1 als grens voor "goed" aanhoudt.
+
+   Dezelfde reden als bij de teller en de resultatenregel hierboven: wat de
+   generator al weet, hoort in de HTML te staan. app.js schrijft er daarna
+   precies hetzelfde in - de opmaak is aan beide kanten nagerekend
+   (toLocaleDateString met day/month/year tegen Intl met dateStyle "long",
+   allebei "2 oktober 2026") - dus er verspringt niets meer. En wie javascript
+   traag of niet krijgt, ziet nu een datum in plaats van drie puntjes. */
+index = index.replace(
+  /(<b id="updateDatum">)[^<]*(<\/b>)/,
+  `$1${datumNL(data.laatst_bijgewerkt || VANDAAG)}$2`,
+);
 
 writeFileSync(join(ROOT, "index.html"), index, "utf8");
 console.log(`index.html: ${gesorteerdePompen.length} kaarten voorgerenderd en ItemList bijgewerkt`);

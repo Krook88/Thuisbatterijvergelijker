@@ -1,0 +1,83 @@
+name: Bronnen nakijken
+
+# Staan de getallen die wij publiceren nog op de pagina waar ze vandaan komen?
+#
+# Wat hier bij komt bovenop wat er al draait. De dagelijkse prijsrun controleert
+# of een product_url nog bestáát (controleer-links.mjs) en of de prijzen vers
+# zijn (verse-data.mjs). Wat niemand controleerde is of de inhoud achter die URL
+# nog klopt met wat er bij ons staat: een fabrikant kan de URL houden en de SCOP
+# herzien, en een getal dat met de hand uit een logboek is overgenomen kan
+# simpelweg verkeerd zijn overgetypt.
+#
+# Dat laatste is de directe aanleiding. De zes Stiebel WPL-maten zijn zo
+# binnengekomen, via de werkstroom "Wat staat er op een winkelpagina", en daarna
+# ingetypt. Zulke getallen horen controleerbaar te blijven, want ze zijn precies
+# waarvoor iemand deze site gebruikt.
+#
+# Waarom wekelijks en niet dagelijks: hij haalt 99 pagina's bij 63 fabrikanten
+# op, en die specificaties veranderen niet van dag tot dag. Dagelijks zou alleen
+# die fabrikanten belasten.
+#
+# Waarom niet in de controleketting: de ontwikkelomgeving komt niet bij
+# fabrikanten (de egress-proxy laat alleen npm en pypi door), en een deel van de
+# uitkomsten is niet met code op te lossen - een pagina die zijn tabel met
+# javascript inlaadt blijft dat doen. Hetzelfde argument waarom zoekmachine.mjs
+# buiten de ketting staat; zie README.md.
+#
+# Schrijft niets weg, commit niets en duwt niets. Het antwoord staat in de
+# samenvatting van de run.
+
+on:
+  schedule:
+    # Zondagochtend, en op minuut 47 omdat het hele uur de drukste minuut van de
+    # planner is en een run op :00 daar achteraan sluit.
+    - cron: "47 6 * * 0"
+  workflow_dispatch:
+    inputs:
+      site:
+        description: "Eén site in plaats van alle drie (batterijmaatje, warmtepompmaatje, zonnestroommaatje)"
+        required: false
+        type: string
+      alleen:
+        description: "Alleen deze product-id's, gescheiden door komma's"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  nakijken:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # Eerst de proeven op het vergelijken zelf. Een vergelijking die te
+      # makkelijk "bevestigd" zegt maakt deze hele run waardeloos, en dat is
+      # aan de uitvoer niet te zien - die is dan juist mooi groen. Dit kost
+      # een seconde en draait vóór er een pagina wordt opgehaald.
+      - name: Proeven op het vergelijken
+        run: node --test scripts/bron-vergelijken.test.mjs
+
+      # Veel fabrikanten zetten hun specificaties in een tabblad dat javascript
+      # inlaadt. Zonder browser levert dit vooral "geen bron" op en zegt de run
+      # weinig. Met een grens erop, om dezelfde reden als in kern-gelijk.yml:
+      # een download van 300 MB die na tien minuten niet klaar is komt niet meer
+      # goed, en dan is snel falen beter dan zes uur blijven hangen.
+      - name: Browser klaarzetten
+        timeout-minutes: 10
+        run: npm i --no-save playwright && npx playwright install --with-deps chromium
+
+      # Niet streng: een afwijking is een vraag voor een mens, geen defect in de
+      # code. Zou deze stap rood worden op iets wat niet te programmeren valt,
+      # dan staat de werkstroom binnen een maand permanent rood en kijkt niemand
+      # er meer naar - precies wat dit project over andere controles vastlegt.
+      - name: Bronnen nakijken
+        run: >
+          node scripts/bronnen-nakijken.mjs
+          ${{ inputs.site && format('--site {0}', inputs.site) || '' }}
+          ${{ inputs.alleen && format('--alleen {0}', inputs.alleen) || '' }}

@@ -36,6 +36,8 @@ import {
   toontExclBtw,
   controleerbaar,
   bedragenMetContext,
+  tekstMetContext,
+  linksMetTekst,
 } from "./prijs-uitlezen.mjs";
 
 /* ------------------------------------------------------------------
@@ -345,4 +347,97 @@ test("bedragen in een script tellen niet mee, net als bij de zichtbare tekst", (
 
 test("een pagina zonder bedragen levert een lege lijst, geen fout", () => {
   assert.deepEqual(bedragenMetContext("<p>Tijdelijk uitverkocht</p>"), []);
+});
+
+test("tekstMetContext toont de zin waar een gezocht woord in staat", () => {
+  // Voor het opnemen van een nieuw model: de SCOP en het geluidsvermogen staan
+  // in gewone zinnen op de fabrikantpagina, niet in een prijsveld.
+  const html = `<p>De WPL 09 haalt een SCOP van 4,2 bij 35 graden aanvoer.</p>
+    <p>Het geluidsvermogen bedraagt 54 dB(A).</p>`;
+  const uit = tekstMetContext(html, ["scop", "dB(A)"]);
+  assert.equal(uit.length, 2);
+  assert.match(uit[0].context, /scop van 4,2 bij 35 graden/);
+  assert.match(uit[1].context, /54 db\(a\)/);
+});
+
+test("een woord dat er niet staat levert niets op", () => {
+  assert.deepEqual(tekstMetContext("<p>niets bijzonders</p>", ["scop"]), []);
+});
+
+test("scripts en stijl tellen niet mee, net als bij de bedragen", () => {
+  // Anders vind je het woord in een json-blok dat de bezoeker nooit ziet.
+  const html = `<script>var scop = 9.9;</script><p>SCOP 4,2 volgens het label.</p>`;
+  const uit = tekstMetContext(html, ["scop"]);
+  assert.equal(uit.length, 1);
+  assert.match(uit[0].context, /4,2 volgens het label/);
+});
+
+test("meer treffers van hetzelfde woord worden begrensd", () => {
+  const html = "<p>" + "scop ".repeat(40) + "</p>";
+  assert.ok(tekstMetContext(html, ["scop"], { maxPerWoord: 3 }).length <= 3);
+});
+
+test("de treffers staan op volgorde van de pagina", () => {
+  const html = `<p>eerst het geluid: 54 dB(A).</p><p>daarna de scop: 4,2.</p>`;
+  const uit = tekstMetContext(html, ["scop", "dB(A)"]);
+  assert.equal(uit[0].woord, "db(a)");
+  assert.equal(uit[1].woord, "scop");
+});
+
+/* ------------------------------------------------------------------
+   linksMetTekst
+   ------------------------------------------------------------------ */
+
+const CATEGORIE = `
+  <nav><a href="#top">Naar boven</a><a href="javascript:void(0)">Menu</a></nav>
+  <ul>
+    <li><a href="/nl/producten/wpl-07-acs-classic.html">WPL 07 ACS Classic Compact Set 1.1</a></li>
+    <li><a href='/nl/producten/wpl-09-acs-classic.html'>WPL 09 ACS <b>Classic</b> Compact Set 1.1</a></li>
+    <li><a href="https://www.elders.nl/wpl-13">WPL 13 elders</a></li>
+    <li><a href="/nl/producten/wpl-07-acs-classic.html">nog een keer dezelfde</a></li>
+    <li><a href="/nl/service/garantie.html">Garantie</a></li>
+  </ul>`;
+
+const BASIS = "https://www.stiebel-eltron.nl/nl/producten/lucht-water-warmtepompen.html";
+
+test("relatieve adressen worden tegen de basis opgelost", () => {
+  const links = linksMetTekst(CATEGORIE, "wpl-09", { basis: BASIS });
+  assert.equal(links.length, 1);
+  assert.equal(links[0].url, "https://www.stiebel-eltron.nl/nl/producten/wpl-09-acs-classic.html");
+});
+
+test("de linktekst komt zonder opmaak terug", () => {
+  // <b>Classic</b> middenin de tekst mag geen tags in het logboek opleveren.
+  const links = linksMetTekst(CATEGORIE, "wpl-09", { basis: BASIS });
+  assert.equal(links[0].tekst, "WPL 09 ACS Classic Compact Set 1.1");
+});
+
+test("het patroon slaat op het adres of op de linktekst", () => {
+  // "elders" staat alleen in het adres, "Garantie" alleen in de tekst.
+  assert.equal(linksMetTekst(CATEGORIE, "elders", { basis: BASIS }).length, 1);
+  assert.equal(linksMetTekst(CATEGORIE, "garantie", { basis: BASIS }).length, 1);
+});
+
+test("ankers, javascript en mailto wijzen niet naar een pagina", () => {
+  const alles = linksMetTekst(CATEGORIE, "", { basis: BASIS });
+  assert.ok(!alles.some((l) => /#top|javascript:/i.test(l.url)));
+});
+
+test("hetzelfde adres komt één keer terug", () => {
+  // De 07 staat twee keer in de lijst, met verschillende linktekst.
+  const links = linksMetTekst(CATEGORIE, "wpl-07", { basis: BASIS });
+  assert.equal(links.length, 1);
+});
+
+test("zonder basis blijven alleen absolute adressen over", () => {
+  // Anders staat er "/nl/producten/..." in het logboek, en daar kun je niets mee.
+  const links = linksMetTekst(CATEGORIE, "wpl");
+  assert.deepEqual(links.map((l) => l.url), ["https://www.elders.nl/wpl-13"]);
+});
+
+test("entiteiten in de linktekst worden opgelost", () => {
+  // Stiebel schrijft "4,06&nbsp;kW WPL 09 ACS classic" in de linktekst.
+  const html = '<a href="/p/wpl-09.html">4,06&nbsp;kW WPL 09 ACS classic</a>';
+  const links = linksMetTekst(html, "wpl-09", { basis: "https://x.nl/a/b.html" });
+  assert.equal(links[0].tekst, "4,06 kW WPL 09 ACS classic");
 });

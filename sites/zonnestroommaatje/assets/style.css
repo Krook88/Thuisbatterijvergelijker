@@ -2,8 +2,8 @@
    Zonnepaneelmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20260828a");
-@import url("vergelijker.css?v=20260828a");
+@import url("maatlat.css?v=20261002a");
+@import url("vergelijker.css?v=20261002a");
 
 :root {
   --kleur-primair: #0369a1;
@@ -59,7 +59,37 @@
   src: url("fonts/figtree-variable.woff2") format("woff2-variations");
   font-weight: 300 900;
   font-style: normal;
-  font-display: swap;
+  /* optional en niet swap, en dat is een afgewogen keuze.
+   *
+   * Met swap tekent de browser eerst de terugvalfont en wisselt daarna naar
+   * Figtree. Die terugvalfont is ongeveer 11 procent breder, dus breekt alle
+   * tekst anders af: op de voorpagina kromp de hero 129 pixels zodra Figtree
+   * binnenkwam - de h1 verloor een regel, de badgerij een regel, de
+   * knoppenrij 65 pixels - en alles eronder schoof mee. Gemeten verschuiving
+   * hier: 0,45, waar Google 0,1 als grens voor "goed" aanhoudt en 0,25 als
+   * slecht. Met de font geblokkeerd was het nul, dus het zat hier en nergens
+   * anders.
+   *
+   * De nette oplossing is een terugvalfont met bijgestelde metriek
+   * (size-adjust, ascent-override) zodat beide fonts dezelfde ruimte innemen.
+   * Die kan hier niet verantwoord gemaakt worden: de stack begint met
+   * ui-sans-serif, en dat is Roboto op Android, SF op Apple en Segoe UI op
+   * Windows. Gemeten in de bouwomgeving liepen de benodigde waarden van 89 tot
+   * 111 procent uiteen - de correctie draait zelfs van richting - en die drie
+   * fonts staan hier niet eens, dus de getallen die je hier meet zijn niet de
+   * getallen van de bezoeker. Eén waarde die overal klopt bestaat niet.
+   *
+   * Met optional is er geen wisselperiode en dus geen verschuiving: gemeten
+   * nul. Wat het kost: bij een eerste bezoek is de font nog niet in de cache
+   * en gebruikt de browser hem niet, ook niet met de preload hierboven. Nieuwe
+   * bezoekers zien dus de systeemfont, bij elk volgend bezoek staat Figtree er
+   * wel. Dat is bewust ingeruild: een bezoeker die de site voor het eerst ziet
+   * heeft geen vergelijking met de huisstijl, maar een pagina die onder zijn
+   * duim wegspringt merkt hij wel.
+   *
+   * De preload blijft staan, want die zorgt dat het volgende bezoek Figtree
+   * wél heeft. */
+  font-display: optional;
 }
 
 html { scroll-behavior: smooth; }
@@ -196,9 +226,16 @@ a { color: var(--kleur-primair); }
    knop scheelt dat ruim 100 pixels, precies boven de vouw waar het het
    meeste waard is.
 
-   De klasse "menu-inklapbaar" wordt door nav.js gezet. Zonder JavaScript
-   blijft het menu dus gewoon uitgeklapt staan, in plaats van onbereikbaar
-   achter een knop die niets doet.
+   Deze regels hangen aan html.js, een klasse die één regel in de <head> zet,
+   vóór het eerste tekenen. Zonder JavaScript komt die klasse er niet en blijft
+   het menu gewoon uitgeklapt staan, in plaats van onbereikbaar achter een knop
+   die niets doet.
+
+   Dat zat eerst in nav.js, onderaan de pagina, en dus pas ná het eerste
+   tekenen. Gevolg: elke bezoeker zag de kop één keer verspringen - het
+   volledige menu werd getekend, wikkelde over meerdere regels, en klapte daarna
+   in. Gemeten op de voorpagina duwde dat de inhoud 56 pixels omhoog. Met de
+   klasse in de <head> is de kop vanaf de eerste opmaak goed.
    -------------------------------------------------------------------------- */
 
 .menu-knop {
@@ -218,10 +255,34 @@ a { color: var(--kleur-primair); }
 .menu-knop:hover { background: var(--kleur-achtergrond); }
 .menu-knop .icoon { width: 22px; height: 22px; }
 
-@media (max-width: 767px) {
-  .site-header.menu-inklapbaar .menu-knop { display: inline-flex; }
+/* Waarom 1143 en niet 767.
+ *
+ * De hamburger week hier al onder 767 pixels, en daarboven stond het volledige
+ * menu. Alleen pástte dat menu daar niet: gemeten op de voorpagina blijft de
+ * kop pas op één regel vanaf 976 pixels met Figtree, en vanaf
+ * 1128 pixels met de terugvalfont die de bezoeker de eerste halve
+ * seconde ziet. Daaronder wikkelde de navigatie onder het logo door - twee
+ * regels, en met de terugvalfont zelfs drie - en zakte de hele pagina mee.
+ *
+ * Dat kostte twee dingen tegelijk. Een kop die op een tablet verkeerd oogt, en
+ * een sprong zodra de webfont binnenkomt: de kop krimpt dan weer naar één
+ * regel en alles eronder schuift omhoog. Gemeten verschuiving op 768 pixels:
+ * 0,24, waar Google 0,1 als grens voor "goed" aanhoudt.
+ *
+ * Dus klapt het menu nu in tot 1143 pixels, de terugvalbreedte plus een
+ * kleine marge. Daarmee is er geen breedte meer waarop de kop wikkelt, met
+ * welke font dan ook. Het kost de volledige balk op sommige tabletbreedtes;
+ * een kop van twee regels die bij het laden verspringt is slechter.
+ *
+ * De andere 767-grens hierboven gaat over de hero en blijft waar hij staat:
+ * die hangt aan het telefoonformaat en niet aan de breedte van dit menu.
+ *
+ * Verschuift het menu van inhoud, dan verschuift dit getal mee. Daar waakt
+ * scripts/menubreedte.mjs over. */
+@media (max-width: 1143px) {
+  html.js .site-header .menu-knop { display: inline-flex; }
 
-  .site-header.menu-inklapbaar .hoofdnav {
+  html.js .site-header .hoofdnav {
     display: none;
     width: 100%;
     flex-direction: column;
@@ -229,16 +290,16 @@ a { color: var(--kleur-primair); }
     padding: var(--ruimte-6) 0 var(--ruimte-10);
   }
 
-  .site-header.menu-inklapbaar.menu-open .hoofdnav { display: flex; }
+  html.js .site-header.menu-open .hoofdnav { display: flex; }
 
   /* Uitgeklapt hoort elk item een volle regel te zijn, niet een pilletje. */
-  .site-header.menu-inklapbaar .hoofdnav a,
-  .site-header.menu-inklapbaar .hoofdnav details.nav-meer summary {
+  html.js .site-header .hoofdnav a,
+  html.js .site-header .hoofdnav details.nav-meer summary {
     width: 100%;
     justify-content: flex-start;
   }
 
-  .site-header.menu-inklapbaar .hoofdnav details.nav-meer .nav-meer-paneel {
+  html.js .site-header .hoofdnav details.nav-meer .nav-meer-paneel {
     position: static;
     box-shadow: none;
     border: 0;
@@ -1333,6 +1394,20 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 /* Titel en beeld naast elkaar, onder elkaar zodra het beeld niet meer past. */
 .product-kop { display: flex; gap: var(--ruimte-20); align-items: flex-start; flex-wrap: wrap; }
 .product-kop-tekst { flex: 1; min-width: 250px; }
+
+/* De foto moet zijn plek al innemen vóór de afbeelding binnen is.
+ *
+ * Zonder een vaste flex-basis leidt de browser de breedte van dit vak af uit de
+ * afbeelding erin, en die is er bij de eerste opmaak nog niet. Dan past de foto
+ * nog naast de tekst; komt hij binnen, dan past hij niet meer en klapt de hele
+ * pagina eronder 185 pixels omlaag. Gemeten op een productpagina: een
+ * verschuiving van 0,45 op 768 pixels breed, en Google noemt alles boven 0,25
+ * slecht. Blokkeer je de afbeelding, dan zakt het naar 0,10 - zo is vastgesteld
+ * dat het hier zat en niet aan de webfont.
+ *
+ * min() en niet 520px plat, want op een smal scherm moet het vak de regel vullen
+ * in plaats van eruit te steken. */
+.product-kop > .kaart-foto { flex: 0 0 min(520px, 100%); }
 
 /* Het prijskader: het bedrag groot, de herkomst en de dekking eronder. */
 .info-prijs { font-size: var(--tekst-28); font-weight: 800; }

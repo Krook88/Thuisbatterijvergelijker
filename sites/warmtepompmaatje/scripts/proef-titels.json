@@ -27,7 +27,8 @@
     },
     {
       "titel": "Stiebel Eltron lucht water warmtepomp WPL 07 ACS classic compact plus Set 1.1 204261",
-      "verwacht": "nieuw"
+      "verwacht": "bekend",
+      "waarom": "sinds de WPL ACS classic op de site staat is dit geen nieuw model meer"
     },
     {
       "titel": "Stiebel Eltron WPL 25 AC warmtepomp set compact duo Set 2.1 204255",
@@ -35,11 +36,17 @@
     },
     {
       "titel": "Stiebel Eltron lucht water warmtepomp WPL 07 ACS classic 235920",
-      "verwacht": "nieuw"
+      "verwacht": "bekend",
+      "waarom": "sinds de WPL ACS classic op de site staat is dit geen nieuw model meer"
     },
     {
       "titel": "Stiebel Eltron lucht water warmtepomp WPL-A 10 HK 400 Premium 205851",
       "verwacht": "nieuw"
+    },
+    {
+      "titel": "TOSHIBA bi-bloc R290",
+      "verwacht": "bekend",
+      "waarom": "staat als Estia Bi-Bloc R290 op de site; zoeknamen hoort deze korte winkelnaam af te vangen"
     }
   ]
 }
