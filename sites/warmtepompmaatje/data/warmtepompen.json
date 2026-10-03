@@ -422,7 +422,11 @@
       ],
       "prijs_datum": "2026-10-02",
       "vermogen_conditie": "Prated",
-      "scop_conditie": "35"
+      "scop_conditie": "35",
+      "afbeelding": "assets/producten/nibe-s2125.webp",
+      "afbeelding_bron": "foto: 123Klimaatshop",
+      "afbeelding_herkomst": "https://www.123klimaatshop.nl/wp-content/uploads/2022/01/NIBE-S2125-8-Lucht-water-warmtepomp-60-tot-80-kW-Exclusief-binnen-unit-600x600.jpg",
+      "afbeelding_via": "https://www.123klimaatshop.nl/product/nibe-s2125-8-lucht-water-monoblock-warmtepomp-67-kw-exclusief-binnen-unit-1x230v/"
     },
     {
       "id": "mitsubishi-ecodan",
@@ -486,7 +490,11 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "onbekend"
+      "scop_conditie": "onbekend",
+      "afbeelding": "assets/producten/mitsubishi-ecodan.webp",
+      "afbeelding_bron": "foto: Mitsubishi Electric",
+      "afbeelding_herkomst": "https://alklima.nl/library/content/landers/propaan-r290/id/5375/PUZ-WZ60VAA_Front_935x800.jpg?timestamp=1706705309",
+      "afbeelding_via": "https://alklima.nl/ecodan"
     },
     {
       "id": "daikin-altherma-3",
@@ -551,7 +559,11 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "onbekend"
+      "scop_conditie": "onbekend",
+      "afbeelding": "assets/producten/daikin-altherma-3.webp",
+      "afbeelding_bron": "foto: Daikin",
+      "afbeelding_herkomst": "https://www.daikin.nl/adobe/dynamicmedia/deliver/dm-aid--95f729b6-afed-44fb-9e2f-b9d07a7e1569/daikin-altherma-3-hmt-3-4-2a.jpg?preferwebp=true&quality=90",
+      "afbeelding_via": "https://www.daikin.nl/nl_nl/consument/products-and-advice/product-categories/heat-pumps/air-to-water-heat-pumps/daikin-altherma-3-r-w.html"
     },
     {
       "id": "bosch-compress-5800i",
@@ -737,7 +749,11 @@
       "prijs_datum": "2026-10-02",
       "isde_meldcode": "KA29289",
       "vermogen_conditie": "Prated",
-      "scop_conditie": "35"
+      "scop_conditie": "35",
+      "afbeelding": "assets/producten/lg-therma-v.webp",
+      "afbeelding_bron": "foto: LG",
+      "afbeelding_herkomst": "https://www.lg.com/content/dam/channel/wcms/nl/images/warmtepomp/therma-v-r290-monobloc/lg-hvac-air-to-water-heat-pumps-therma-v-r290-monobloc-kv-thumb-m.png",
+      "afbeelding_via": "https://www.lg.com/nl/warmtepomp/therma-v-r290-monobloc/"
     },
     {
       "id": "samsung-ehs-mono-ht",
@@ -859,7 +875,11 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "onbekend"
+      "scop_conditie": "onbekend",
+      "afbeelding": "assets/producten/weheat-blackbird.webp",
+      "afbeelding_bron": "foto: Weheat",
+      "afbeelding_herkomst": "https://cdn.prod.website-files.com/67ed5695314f69c537693240/67f4c141ef9dadd2ab69b638_blackbird%20mockup%20(1).webp",
+      "afbeelding_via": "https://www.weheat.nl/"
     },
     {
       "id": "stiebel-wpl-a07",
