@@ -710,13 +710,17 @@ details.lees-meer[open] summary::after { content: " ▴"; }
   border-radius: var(--radius);
   padding: var(--ruimte-10) var(--ruimte-14);
   margin-top: var(--ruimte-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--ruimte-10);
+  /* Twee kolommen: het voorbeeld links, de uitleg rechts, op elke regel even
+     ver ingesprongen. Met flex-wrap viel de uitleg onder een breed voorbeeld
+     en ernaast bij een smal, en dat las als een rommelige lijst. */
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--ruimte-10) var(--ruimte-14);
+  align-items: start;
   max-width: 560px;
 }
-.legenda .legenda-rij { display: flex; align-items: baseline; gap: var(--ruimte-10); flex-wrap: wrap; }
-.legenda .legenda-rij > span:first-child { flex-shrink: 0; }
+.legenda .legenda-rij { display: contents; }
+.legenda .legenda-rij > span:first-child { white-space: nowrap; }
 .legenda .legenda-rij > span:last-child { color: var(--kleur-tekst-licht); min-width: 0; }
 
 /* Zeker-score: eigen Zonnepaneelmaatje-score voor degelijkheid (0-6 punten) */
