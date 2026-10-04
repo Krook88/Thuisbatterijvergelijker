@@ -2,66 +2,6 @@
   "toelichting": "Modellen die in een winkel staan maar niet in onze gegevens. Automatisch gevonden, nooit automatisch toegevoegd: nakijken en dan zelf opnemen, of de titel in scripts/nieuwe-modellen.json onder \"afgewezen\" zetten.",
   "kandidaten": [
     {
-      "titel": "Stiebel Eltron lucht water warmtepomp WPL 07 ACS classic 235920",
-      "bron": "Boilermarkt",
-      "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-lucht-water-warmtepomp-WPL-07-ACS-classic-235920/",
-      "ean": null,
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-08-11"
-    },
-    {
-      "titel": "Stiebel Eltron lucht water warmtepomp WPL 07 ACS classic compact plus Set 1.1 204261",
-      "bron": "Boilermarkt",
-      "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-lucht-water-warmtepomp-WPL-07-ACS-classic-compact-plus-Set-1.1-204261/",
-      "ean": null,
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-08-11"
-    },
-    {
-      "titel": "Stiebel Eltron lucht water warmtepomp WPL 07 ACS classic compact Set 1.1 204257",
-      "bron": "Boilermarkt",
-      "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-lucht-water-warmtepomp-WPL-07-ACS-classic-compact-Set-1.1/",
-      "ean": null,
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-08-11"
-    },
-    {
-      "titel": "Stiebel Eltron lucht water warmtepomp WPL 09 ACS classic compact Set 1.1 204258",
-      "bron": "Boilermarkt",
-      "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-lucht-water-warmtepomp-WPL-09-ACS-classic-compact-Set-1.1/",
-      "ean": null,
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-08-11"
-    },
-    {
-      "titel": "Stiebel Eltron lucht water warmtepomp WPL 13 ACS classic compact plus Set 1.1 204263",
-      "bron": "Boilermarkt",
-      "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-lucht-water-warmtepomp-WPL-13-ACS-classic-compact-plus-Set-1.1/",
-      "ean": null,
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-08-11"
-    },
-    {
-      "titel": "Stiebel Eltron lucht water warmtepomp WPL 13 ACS classic compact Set 1.1 204259",
-      "bron": "Boilermarkt",
-      "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-lucht-water-warmtepomp-WPL-13-ACS-classic-compact-Set-1.1/",
-      "ean": null,
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-08-11"
-    },
-    {
       "titel": "Stiebel Eltron lucht water warmtepomp WPL-A 10 HK 400 Premium 205851",
       "bron": "Boilermarkt",
       "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-lucht-water-warmtepomp-WPL-A-10-HK-400-Premium/",
@@ -82,29 +22,9 @@
       "eerst_gezien": "2026-08-11"
     },
     {
-      "titel": "Stiebel Eltron WPL 09 ACS warmtepompset classic compact plus Set 1.1 204262",
-      "bron": "Boilermarkt",
-      "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-WPL-09-ACS-warmtepompset-classic-compact-plus-Set-1.1/",
-      "ean": null,
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-08-11"
-    },
-    {
       "titel": "Stiebel Eltron WPL 09 ICS compact plus warmtepomp set 206272",
       "bron": "Boilermarkt",
       "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-WPL-09-ICS-compact-plus-warmtepomp-set-206272/",
-      "ean": null,
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-08-11"
-    },
-    {
-      "titel": "Stiebel Eltron WPL 17 ACS warmtepomp set classic compact plus Set 1.1 204264",
-      "bron": "Boilermarkt",
-      "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-WPL-17-ACS-warmtepomp-set-classic-compact-plus-Set-1.1-204264/",
       "ean": null,
       "prijs_eur": null,
       "lijkt_op": null,
@@ -139,15 +59,6 @@
       "prijs_eur": null,
       "lijkt_op": "stiebel-wpl-a07",
       "maat_uit_titel": "4.97 kw",
-      "eerst_gezien": "2026-08-11"
-    },
-    {
-      "titel": "TOSHIBA bi-bloc R290",
-      "bron": "Intercool",
-      "url": "https://www.intercool.nl/assortiment/warmtepompen/bi-bloc-r290/toshiba-bi-bloc-r290/",
-      "ean": null,
-      "prijs_eur": null,
-      "lijkt_op": "toshiba-estia-r290",
       "eerst_gezien": "2026-08-11"
     }
   ]

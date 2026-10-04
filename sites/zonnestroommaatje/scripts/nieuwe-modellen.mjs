@@ -630,6 +630,24 @@ for (const r of rauw) {
 const vorig = existsSync(RAPPORT_PAD) ? JSON.parse(readFileSync(RAPPORT_PAD, "utf8")) : { kandidaten: [] };
 const perSleutel = new Map((vorig.kandidaten || []).map((k) => [k.titel.toLowerCase().replace(/\s+/g, " ").trim(), k]));
 
+// Wat eerder doorkwam, gaat opnieuw langs de filters van nu. De lijst groeide
+// anders alleen maar: op 3 oktober 2026 stonden er bij batterijmaatje 62
+// kandidaten, waaronder een "Uitbreidingsunit" terwijl dat woord al weken op
+// de uitsluitlijst stond, en modellen die inmiddels gewoon in onze gegevens
+// zaten. Een lijst waar zoveel in staat dat niet meer klopt, leest niemand.
+// Een kandidaat die alleen van de markt verdwijnt, blijft wel staan (zie
+// hierboven); dit haalt alleen weg wat we nu zelf anders beoordelen.
+const regelsPerBron = new Map((config.bronnen || []).map((b) => [b.winkel || (b.soort === "bol" ? "bol.com" : b.soort), b]));
+let opgeruimd = 0;
+for (const [sleutel, k] of [...perSleutel]) {
+  const regels = regelsPerBron.get(k.bron) || {};
+  const weg = AFGEWEZEN.has(sleutel)
+    || !gaatOverOnsOnderwerp(k.titel, regels)
+    || !binnenBereik(k.titel, regels)
+    || herkenBekend(k.titel, k.ean);
+  if (weg) { perSleutel.delete(sleutel); opgeruimd++; }
+}
+
 for (const [sleutel, r] of kandidaten) {
   const bestaand = perSleutel.get(sleutel);
   perSleutel.set(sleutel, {
@@ -658,6 +676,7 @@ console.log(
   `${weggelaten.geenmodel} zonder modelaanduiding, ${weggelaten.bereik} buiten ons bereik, ` +
   `${weggelaten.prijs} te goedkoop`,
 );
+if (opgeruimd) console.log(`  ~ opgeruimd: ${opgeruimd} eerdere kandidaat/kandidaten die nu door de filters vallen of al bekend zijn`);
 if (!alleKandidaten.length) {
   console.log("  = geen onbekende modellen gevonden.");
 } else {

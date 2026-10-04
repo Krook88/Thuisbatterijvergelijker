@@ -2,24 +2,6 @@
   "toelichting": "Modellen die in een winkel staan maar niet in onze gegevens. Automatisch gevonden, nooit automatisch toegevoegd: nakijken en dan zelf opnemen, of de titel in scripts/nieuwe-modellen.json onder \"afgewezen\" zetten.",
   "kandidaten": [
     {
-      "titel": "AEG Solarcube – 4.8 kWh Plug-In Battery",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000258215840/",
-      "ean": "0884620072223",
-      "prijs_eur": null,
-      "lijkt_op": "homewizard-plug-in-battery",
-      "eerst_gezien": "2026-08-11"
-    },
-    {
-      "titel": "AEG Solarcube Expand – 4.8 kWh Uitbreidingsunit",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000258404355/",
-      "ean": "0884620072230",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "eerst_gezien": "2026-08-11"
-    },
-    {
       "titel": "Dyness® - Thuisbatterij 16.1 Kwh- - Thuisbatterij voor zonnepanelen - Thuisaccu - Thuisbatterij - Tijdelijke voorjaarsactie",
       "bron": "bol.com",
       "url": "https://www.bol.com/nl/nl/p/-/9300000249114382/",
@@ -67,34 +49,6 @@
       "prijs_eur": null,
       "lijkt_op": "huawei-luna2000-10",
       "maat_uit_titel": "7 kwh",
-      "eerst_gezien": "2026-08-11"
-    },
-    {
-      "titel": "Huawei LUNA2000-7-S1 Batterijopslag 7 kWh met BMS – Modulaire Energieopslag voor PV Systemen",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000266719689/",
-      "ean": "4262431423957",
-      "prijs_eur": null,
-      "lijkt_op": "huawei-luna2000-10",
-      "maat_uit_titel": "7 kwh",
-      "eerst_gezien": "2026-08-11"
-    },
-    {
-      "titel": "Huawei SmartGuard-63A-S0 Energiebeheerunit – Back-up Systeem voor Huawei Zonne-energie",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000272388763/",
-      "ean": "8490006399901",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "eerst_gezien": "2026-08-11"
-    },
-    {
-      "titel": "Hybride Zonne-energie Omvormer – Zonnepaneel Omvormer – Energieopslag – Batterijlader – 6,2 kW Vermogen – MPPT Zonladers",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000269906573/",
-      "ean": "8721391846955",
-      "prijs_eur": null,
-      "lijkt_op": null,
       "eerst_gezien": "2026-08-11"
     },
     {
@@ -268,26 +222,6 @@
       "eerst_gezien": "2026-08-13"
     },
     {
-      "titel": "Zonnepaneel 120 W 12 V Hoog Efficiëntie Volledig Zwart Ontwerp Geschikt voor Motorhome, Balkon, Tuin en Energieopslag",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000267821739/",
-      "ean": "9101142936941",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-08-13"
-    },
-    {
-      "titel": "Zonnepaneel Waterfonteinpomp - Energieopslag voor 24 Uur - 50W Met Hoge Wateropbrengst",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000263099493/",
-      "ean": "6153257112195",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-08-13"
-    },
-    {
       "titel": "5kWh Li-ion muur gemonteerde thuisbatterij, slimme energieopslag, voor zonne-energiesysteem",
       "bron": "bol.com",
       "url": "https://www.bol.com/nl/nl/p/-/9300000336486913/",
@@ -318,46 +252,6 @@
       "eerst_gezien": "2026-08-15"
     },
     {
-      "titel": "Zonnecontroller - Energieopslag Controle - Thuis Energie Beheer - Intelligente Ventilator - 40A Laadstroom - One Color",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000304949930/",
-      "ean": "9101241034456",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-08-15"
-    },
-    {
-      "titel": "Zonne Laadregelaar - Energieopslag Regulator - Energie Beheer - MPPT Technologie - 100A - Zwart",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000303152153/",
-      "ean": "9101239354115",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-08-16"
-    },
-    {
-      "titel": "Gesloten blokaccu 12V 130Ah - positieve buisplaat - krachtige energieopslag - ideaal voor zonnepanelen - ShopVlot",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000356884105/",
-      "ean": "2306445875769",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-08-21"
-    },
-    {
-      "titel": "Marstek Venus E V3 – de plug-in thuisbatterij met 5,12 kWh opslag incl. Marstek P1 meter",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000242686963/",
-      "ean": "6153905214295",
-      "prijs_eur": null,
-      "lijkt_op": "marstek-venus-e-3",
-      "maat_uit_titel": "5.12 kwh",
-      "eerst_gezien": "2026-08-21"
-    },
-    {
       "titel": "Thuisbatterij 20Kwh LIFePO4 voor zonne-energie opslag zonnepanelen ( Prijs doorbraak - introductieprijs )",
       "bron": "bol.com",
       "url": "https://www.bol.com/nl/nl/p/-/9300000167040419/",
@@ -366,36 +260,6 @@
       "lijkt_op": null,
       "maat_uit_titel": "20 kwh",
       "eerst_gezien": "2026-08-21"
-    },
-    {
-      "titel": "Marstek Venus E V3 – de plug-in thuisbatterij met 5,12 kWh opslag zonder p1 METER",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000242686963/",
-      "ean": "6153905214295",
-      "prijs_eur": null,
-      "lijkt_op": "marstek-venus-e-3",
-      "maat_uit_titel": "5.12 kwh",
-      "eerst_gezien": "2026-08-22"
-    },
-    {
-      "titel": "Stroomomvormer - Energieomvormer Netomvormer - Energieopslag Thuis - WiFi Bedienen Bewaken - 1000W Aluminium",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000271027999/",
-      "ean": "9101166454711",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-08-24"
-    },
-    {
-      "titel": "Hybride Solar Inverter – Zonnepaneel Omvormer – Energieopslag Converter – Thuis Energiebeheer – 11 kW 48V 220-240V – Ingebouwde MPPT 160A – Wifi Monitoring",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000393822332/",
-      "ean": "9113768096732",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-08-27"
     },
     {
       "titel": "10Kwh thuisbatterij 1995,- eenmalige WEEKAANBIEDING ( Geldig van 30-8 tot 6-9 ) Zolang de voorraad strekt OP=OP",
@@ -548,26 +412,6 @@
       "eerst_gezien": "2026-09-14"
     },
     {
-      "titel": "Zonne-Omvormer 6.2KW 48V - Hybride Solar Inverter - 60-500V PV Ingang - Zuivere Sinusgolf - Voor Thuis Energieopslag",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000387846408/",
-      "ean": "9113768657667",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-09-14"
-    },
-    {
-      "titel": "De Thuisbatterij Gids",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000300559073/",
-      "ean": "9789083708805",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-09-15"
-    },
-    {
       "titel": "BLUETTI Apex 300 2764,8 Wh - 3840W - Duurzame energie（ Tijdelijk gratis Charger 1） - LiFePO4 - voor een levensduur van 17 jaar- Realtime waarschuwingen voor extreem weer via de app -Plug-and-play installatie met directe UPS-omschakeling binnen 20 ms",
       "bron": "bol.com",
       "url": "https://www.bol.com/nl/nl/p/-/9300000237297231/",
@@ -575,16 +419,6 @@
       "prijs_eur": null,
       "lijkt_op": "bluetti-balco-500",
       "maat_uit_titel": "2.7648 kwh",
-      "eerst_gezien": "2026-09-19"
-    },
-    {
-      "titel": "Off-Grid Solar Without Zapping Your Wallet or Yourself: A Step-by-Step Blueprint to Sizing Battery Banks, Safe Cabin Wiring, and Power Independence",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000386647028/",
-      "ean": "9798173040978",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
       "eerst_gezien": "2026-09-19"
     },
     {

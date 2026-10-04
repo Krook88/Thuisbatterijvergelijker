@@ -62,7 +62,10 @@
       "capaciteit_nominaal_kwh": 5.12,
       "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "max",
-      "vermogen_bron": "Marstek geeft 800 W on-grid en 2500 W off-grid; dit getal is de off-grid maximumwaarde"
+      "vermogen_bron": "Marstek geeft 800 W on-grid en 2500 W off-grid; dit getal is de off-grid maximumwaarde",
+      "zoeknamen": [
+        "Venus E V3"
+      ]
     },
     {
       "id": "marstek-venus-c-768",
@@ -1920,9 +1923,9 @@
     {
       "id": "zendure-solarflow-2400-pro",
       "merk": "Zendure",
-      "model": "SolarFlow 2400 Pro (2,4 kWh bruikbaar)",
+      "model": "SolarFlow 2400 Pro (2,4 kWh)",
       "capaciteit_kwh": 2.4,
-      "uitbreidbaar_tot_kwh": 17.28,
+      "uitbreidbaar_tot_kwh": 16.8,
       "vermogen_kw": 2.4,
       "type": "plug-in",
       "fase": "1-fase",
@@ -1940,16 +1943,23 @@
       "app": "Zendure app",
       "garantie_jaar": null,
       "cycli": null,
-      "opmerkingen": "Sinds het voorjaar van 2026 leverbaar via zendure.nl en meerdere Nederlandse webshops. Over de capaciteit bestond verwarring: winkels noemen 2,88 kWh en de fabrikant 2,4 kWh. Dat zijn geen tegenstrijdige opgaven maar twee verschillende maten - 2,88 kWh is het bruto pakket, 2,4 kWh is wat je er bij 90% ontlaaddiepte werkelijk uit haalt. Ik vergelijk op de bruikbare capaciteit, dus staat hier 2,4 kWh; dat telt direct door in de prijs per kWh. De prijzen wisselen sterk per actie; ik zag 999 tot 1.339 euro. Garantie, IP-klasse en Homey-ondersteuning waren in juli 2026 nog niet vastgesteld.",
+      "opmerkingen": "Sinds het voorjaar van 2026 leverbaar via zendure.nl en meerdere Nederlandse webshops. Over de capaciteit bestond verwarring: winkels noemen 2,88 kWh en de fabrikant 2,4 kWh. Zendure geeft op zijn productpagina 2.400 Wh als nominale energie van de ingebouwde accu; de 2,88 kWh hoort bij de losse AB3000L-uitbreidingsaccu, waarvan je er tot vijf bijzet (samen 16,8 kWh). Hoeveel van die 2,4 kWh bruikbaar is, publiceert Zendure niet. Op 4 oktober 2026 kostte hij bij Zendure zelf 969 euro, tegen een normale prijs van 1.339 euro. Garantie, IP-klasse en Homey-ondersteuning waren in juli 2026 nog niet vastgesteld.",
       "product_url": "https://www.zendure.nl/products/zendure-solarflow-2400-pro",
-      "aanbiedingen": [],
-      "totaalprijs_van_eur": 999,
+      "aanbiedingen": [
+        {
+          "winkel": "Zendure (officieel)",
+          "prijs_eur": 969,
+          "url": "https://www.zendure.nl/products/zendure-solarflow-2400-pro",
+          "datum": "2026-10-04"
+        }
+      ],
+      "totaalprijs_van_eur": 969,
       "totaalprijs_tot_eur": 1339,
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren; prijzen wisselen per actie",
       "noodstroom": null,
       "noodstroom_uitleg": "Niet vastgesteld; controleer bij de fabrikant.",
-      "capaciteit_soort": "bruikbaar",
-      "capaciteit_nominaal_kwh": 2.88,
+      "capaciteit_soort": "nominaal",
+      "capaciteit_nominaal_kwh": 2.4,
       "vermogen_conditie": "continu",
       "vermogen_bron": "Zendure geeft 2400 W AC in beide richtingen als vermogen van de serie"
     }
