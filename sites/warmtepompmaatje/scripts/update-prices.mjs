@@ -32,6 +32,7 @@ import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import { prijsUitPagina, sluitBrowser, browserBeschikbaar } from "./prijs-uitlezen.mjs";
+import { voorraadVolgensWinkel, verwerkVoorraad } from "./voorraad.mjs";
 import { nieuweSignalen, noteerFout, haalMetTerugval, verzamelVerouderd, puntenVan, toonSignalen } from "./prijs-signalen.mjs";
 import { vergelijk, leesBekend, schrijfBekend, meldAandacht } from "./prijs-aandacht.mjs";
 
@@ -151,6 +152,20 @@ async function updateAanbieding(pomp, aanbieding, grenzen, verdacht, signalen) {
     if (/www\.bol\.com/.test(aanbieding.url) && BOL_CLIENT_ID && BOL_CLIENT_SECRET) {
       gevonden = await bolApiPrijs(aanbieding, grenzen);
     } else {
+      // Zegt de winkel zelf dat alle varianten uitverkocht zijn (Shopify), dan
+      // telt de aanbieding niet mee, ook al staat het bedrag nog in de pagina.
+      // Zie voorraad.mjs: Multi Solar en Zendure toonden zo dagenlang een prijs
+      // voor iets wat je niet kon bestellen.
+      const voorraad = verwerkVoorraad(aanbieding, await voorraadVolgensWinkel(aanbieding.url));
+      if (voorraad === "uitverkocht" || voorraad === "blijft") {
+        console.log(voorraad === "uitverkocht"
+          ? `  ! ${pomp.id} @ ${aanbieding.winkel}: alles uitverkocht volgens de winkel, telt niet meer mee voor de kopprijs`
+          : `  ~ ${pomp.id} @ ${aanbieding.winkel}: nog steeds uitverkocht`);
+        return false;
+      }
+      if (voorraad === "weer") {
+        console.log(`  ! ${pomp.id} @ ${aanbieding.winkel}: weer leverbaar, markering vervalt`);
+      }
       const { uit } = await haalMetTerugval(aanbieding.url, (h) =>
         prijsUitPagina(h, `${pomp.merk || ""} ${pomp.model || ""}`, grenzen));
       gevonden = uit.prijs ? { bedrag: uit.prijs, btw: uit.btw } : null;

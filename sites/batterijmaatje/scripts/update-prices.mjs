@@ -35,6 +35,7 @@ import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { haalPagina, haalMetBrowser, sluitBrowser, browserBeschikbaar, prijsUitPagina, controleerbaar } from "./prijs-uitlezen.mjs";
+import { voorraadVolgensWinkel, verwerkVoorraad } from "./voorraad.mjs";
 import { vergelijk, leesBekend, schrijfBekend, meldAandacht } from "./prijs-aandacht.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -322,7 +323,14 @@ function btwVolgensPagina(html) {
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
     .replace(/<[^>]+>/g, " ")
     .replace(/&nbsp;/gi, " ")
-    .toLowerCase();
+    .toLowerCase()
+    // Een zin over een heffing of verzendkosten zegt niets over de prijs van
+    // het product. Multi Solar noemt de Belgische Bebat-bijdrage "per kg excl.
+    // btw", en daardoor leek de hele pagina excl. btw terwijl de prijs van de
+    // Venus D gewoon inclusief was.
+    .split(/(?<=[.!?])\s+/)
+    .filter((zin) => !/(bebat|recupel|bijdrage|heffing|verzendkosten|per kg)/.test(zin))
+    .join(" ");
   const exclusief = /\b(excl\.?|exclusief|ex\.)\s*(btw|b\.t\.w)/.test(tekst);
   const inclusief = /\b(incl\.?|inclusief|in\.)\s*(btw|b\.t\.w)/.test(tekst);
   if (exclusief && !inclusief) return false;
@@ -365,6 +373,22 @@ async function updateAanbieding(batterij, aanbieding) {
          bots met een 404 of een 400, en zo hield de lijst aanbiedingen voor
          dood die het gewoon doen. Lukt het de browser ook niet, dan geldt de
          oorspronkelijke fout. */
+      // Zegt de winkel zelf dat alle varianten uitverkocht zijn (Shopify), dan
+      // telt de aanbieding niet mee, ook al staat het bedrag nog in de pagina.
+      // Zie voorraad.mjs: Multi Solar en Zendure toonden zo dagenlang een prijs
+      // voor iets wat je niet kon bestellen.
+      const voorraad = verwerkVoorraad(aanbieding, await voorraadVolgensWinkel(aanbieding.url));
+      if (voorraad === "uitverkocht" || voorraad === "blijft") {
+        console.log(voorraad === "uitverkocht"
+          ? `  ! ${batterij.id} @ ${aanbieding.winkel}: alles uitverkocht volgens de winkel, telt niet meer mee voor de kopprijs`
+          : `  ~ ${batterij.id} @ ${aanbieding.winkel}: nog steeds uitverkocht`);
+        if (voorraad === "uitverkocht") nietMeerLeverbaar.push({ winkel: aanbieding.winkel, url: aanbieding.url });
+        return false;
+      }
+      if (voorraad === "weer") {
+        console.log(`  ! ${batterij.id} @ ${aanbieding.winkel}: weer leverbaar, markering vervalt`);
+        weerLeverbaar.push({ winkel: aanbieding.winkel, url: aanbieding.url });
+      }
       let html;
       let viaBrowser = false;
       try {

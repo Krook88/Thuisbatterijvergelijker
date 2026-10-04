@@ -20,6 +20,7 @@ import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { prijsUitPagina, sluitBrowser, browserBeschikbaar } from "./prijs-uitlezen.mjs";
+import { voorraadVolgensWinkel, verwerkVoorraad } from "./voorraad.mjs";
 import { nieuweSignalen, noteerFout, haalMetTerugval, verzamelVerouderd, puntenVan, toonSignalen } from "./prijs-signalen.mjs";
 import { vergelijk, leesBekend, schrijfBekend, meldAandacht } from "./prijs-aandacht.mjs";
 
@@ -132,7 +133,14 @@ function btwVolgensPagina(html) {
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
     .replace(/<[^>]+>/g, " ")
     .replace(/&nbsp;/gi, " ")
-    .toLowerCase();
+    .toLowerCase()
+    // Een zin over een heffing of verzendkosten zegt niets over de prijs van
+    // het product. Multi Solar noemt de Belgische Bebat-bijdrage "per kg excl.
+    // btw", en daardoor leek de hele pagina excl. btw terwijl de prijs van de
+    // Venus D gewoon inclusief was.
+    .split(/(?<=[.!?])\s+/)
+    .filter((zin) => !/(bebat|recupel|bijdrage|heffing|verzendkosten|per kg)/.test(zin))
+    .join(" ");
   const exclusief = /\b(excl\.?|exclusief|ex\.)\s*(btw|b\.t\.w)/.test(tekst);
   const inclusief = /\b(incl\.?|inclusief|in\.)\s*(btw|b\.t\.w)/.test(tekst);
   if (exclusief && !inclusief) return false;
@@ -181,6 +189,20 @@ async function updateAanbieding(paneel, aanbieding, grenzen, signalen) {
       if (ALLEEN_BTW) return false;
       nieuw = await bolApiPrijs(aanbieding);
     } else {
+      // Zegt de winkel zelf dat alle varianten uitverkocht zijn (Shopify), dan
+      // telt de aanbieding niet mee, ook al staat het bedrag nog in de pagina.
+      // Zie voorraad.mjs: Multi Solar en Zendure toonden zo dagenlang een prijs
+      // voor iets wat je niet kon bestellen.
+      const voorraad = verwerkVoorraad(aanbieding, await voorraadVolgensWinkel(aanbieding.url));
+      if (voorraad === "uitverkocht" || voorraad === "blijft") {
+        console.log(voorraad === "uitverkocht"
+          ? `  ! ${paneel.id} @ ${aanbieding.winkel}: alles uitverkocht volgens de winkel, telt niet meer mee voor de kopprijs`
+          : `  ~ ${paneel.id} @ ${aanbieding.winkel}: nog steeds uitverkocht`);
+        return false;
+      }
+      if (voorraad === "weer") {
+        console.log(`  ! ${paneel.id} @ ${aanbieding.winkel}: weer leverbaar, markering vervalt`);
+      }
       const gehaald = await haalMetTerugval(aanbieding.url, (h) =>
         prijsUitPagina(h, productNaam(paneel), { ...grenzen, lowPriceTelt: true }));
       const html = gehaald.html;
