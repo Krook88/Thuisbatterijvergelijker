@@ -457,8 +457,12 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
 @media (max-width: 760px) {
   .resultaat-lijst { border: 0; background: none; border-radius: 0; }
 
+  /* Bovenaan uitlijnen, niet in het midden. Twee vakjes naast elkaar zijn
+     zelden even hoog (de Koppel-score heeft drie regels, het vermogen een),
+     en gecentreerd stonden hun scheidingslijnen dan op verschillende hoogtes. */
   .resultaat-regel {
     grid-template-columns: 1fr 1fr;
+    align-items: start;
     gap: var(--ruimte-10);
     background: var(--kleur-wit);
     border: 1px solid var(--kleur-rand);
