@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-10-04",
+  "bijgewerkt": "2026-10-05",
   "punten": {
     "onbereikbaar|fox-ess-ep11|Energiemagazijn": {
       "sinds": "2026-08-16",
@@ -10,31 +10,31 @@
     "verouderd|aeg-solarcube-48|richtprijs": {
       "sinds": "2026-10-03",
       "soort": "verouderd",
-      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (76 dagen)",
+      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (77 dagen)",
       "bevestigd": true
     },
     "verouderd|alphaess-smile-g3-t10|Frank Energie (sets incl. aansturing, 4.945 tot 14.895 euro excl. btw)": {
       "sinds": "2026-10-03",
       "soort": "verouderd",
-      "tekst": "alphaess-smile-g3-t10 @ Frank Energie (sets incl. aansturing, 4.945 tot 14.895 euro excl. btw): €9000 (83 dagen)",
+      "tekst": "alphaess-smile-g3-t10 @ Frank Energie (sets incl. aansturing, 4.945 tot 14.895 euro excl. btw): €9000 (84 dagen)",
       "bevestigd": true
     },
     "verouderd|bluetti-balco-500|adviesprijs fabrikant bij de aankondiging voor Europa; de productpagina van Bluetti is verdwenen": {
       "sinds": "2026-08-21",
       "soort": "verouderd",
-      "tekst": "bluetti-balco-500 @ adviesprijs fabrikant bij de aankondiging voor Europa; de productpagina van Bluetti is verdwenen: €1599 (81 dagen)",
+      "tekst": "bluetti-balco-500 @ adviesprijs fabrikant bij de aankondiging voor Europa; de productpagina van Bluetti is verdwenen: €1599 (82 dagen)",
       "bevestigd": true
     },
     "verouderd|ecoflow-stream-ac-pro|richtprijs": {
       "sinds": "2026-08-26",
       "soort": "verouderd",
-      "tekst": "ecoflow-stream-ac-pro @ richtprijs: €700 (60 dagen)",
+      "tekst": "ecoflow-stream-ac-pro @ richtprijs: €700 (61 dagen)",
       "bevestigd": true
     },
     "verouderd|fox-ess-ep11|Energiemagazijn": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "fox-ess-ep11 @ Energiemagazijn: €3385 (83 dagen)",
+      "tekst": "fox-ess-ep11 @ Energiemagazijn: €3385 (84 dagen)",
       "bevestigd": true
     },
     "verouderd|goodwe-lynx-home-u-54|Warmteservice": {
@@ -46,49 +46,49 @@
     "verouderd|indevolt-solidflex-3000|Thuisbatterij.nl": {
       "sinds": "2026-09-28",
       "soort": "verouderd",
-      "tekst": "indevolt-solidflex-3000 @ Thuisbatterij.nl: €795 (27 dagen)",
+      "tekst": "indevolt-solidflex-3000 @ Thuisbatterij.nl: €795 (28 dagen)",
       "bevestigd": true
     },
     "verouderd|marstek-venus-e-3|Thuisbatterij.nl": {
       "sinds": "2026-09-30",
       "soort": "verouderd",
-      "tekst": "marstek-venus-e-3 @ Thuisbatterij.nl: €1200 (25 dagen)",
+      "tekst": "marstek-venus-e-3 @ Thuisbatterij.nl: €1200 (26 dagen)",
       "bevestigd": true
     },
     "verouderd|mova-lumegret-a4000|Thuisbatterij.io (winkeloverzicht, geen productpagina)": {
       "sinds": "2026-10-03",
       "soort": "verouderd",
-      "tekst": "mova-lumegret-a4000 @ Thuisbatterij.io (winkeloverzicht, geen productpagina): €1190 (69 dagen)",
+      "tekst": "mova-lumegret-a4000 @ Thuisbatterij.io (winkeloverzicht, geen productpagina): €1190 (70 dagen)",
       "bevestigd": true
     },
     "verouderd|samduo-nex-e6000|adviesprijs fabrikant (samduo.nl, juli 2026)": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "samduo-nex-e6000 @ adviesprijs fabrikant (samduo.nl, juli 2026): €1999 (69 dagen)",
+      "tekst": "samduo-nex-e6000 @ adviesprijs fabrikant (samduo.nl, juli 2026): €1999 (70 dagen)",
       "bevestigd": true
     },
     "verouderd|sessy-5kwh|Sessy.nl (direct)": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "sessy-5kwh @ Sessy.nl (direct): €3550 (83 dagen)",
+      "tekst": "sessy-5kwh @ Sessy.nl (direct): €3550 (84 dagen)",
       "bevestigd": true
     },
     "verouderd|sunpura-s4800|StekkerDeal-prijsvergelijking (juli 2026)": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "sunpura-s4800 @ StekkerDeal-prijsvergelijking (juli 2026): €1330 (76 dagen)",
+      "tekst": "sunpura-s4800 @ StekkerDeal-prijsvergelijking (juli 2026): €1330 (77 dagen)",
       "bevestigd": true
     },
     "verouderd|tesla-powerwall-3|BeterDuurzaam": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "tesla-powerwall-3 @ BeterDuurzaam: €7497 (83 dagen)",
+      "tekst": "tesla-powerwall-3 @ BeterDuurzaam: €7497 (84 dagen)",
       "bevestigd": true
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (80 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (81 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
@@ -113,7 +113,7 @@
       "sinds": "2026-10-04",
       "soort": "zonder bron",
       "tekst": "jackery-homepower-2000-ultra: €669 van ?, geen bron-URL",
-      "bevestigd": false
+      "bevestigd": true
     },
     "zonder bron|samduo-nex-e6000|adviesprijs fabrikant (samduo.nl, juli 2026)": {
       "sinds": "2026-08-16",
@@ -131,7 +131,7 @@
       "sinds": "2026-10-04",
       "soort": "geweigerd",
       "tekst": "aeg-solarcube-48 @ AH Voordeelshop: HTTP 403",
-      "bevestigd": false
+      "bevestigd": true
     },
     "zonder prijs|goodwe-lynx-home-u-54|Warmteservice": {
       "sinds": "2026-08-21",
