@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-10-04",
+  "bijgewerkt": "2026-10-05",
   "punten": {
     "onbereikbaar|canadian-solar-tophiku6-435|Off Grid Power Station": {
       "sinds": "2026-09-08",
@@ -34,13 +34,13 @@
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (75 dagen)",
+      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (76 dagen)",
       "bevestigd": true
     },
     "verouderd|canadian-solar-tophiku6-435|richtprijs": {
       "sinds": "2026-10-03",
       "soort": "verouderd",
-      "tekst": "canadian-solar-tophiku6-435 @ richtprijs: €119 (27 dagen)",
+      "tekst": "canadian-solar-tophiku6-435 @ richtprijs: €119 (28 dagen)",
       "bevestigd": true
     },
     "verouderd|denim-440-full-black|Feenstra": {
@@ -52,7 +52,7 @@
     "verouderd|deye-sg04lp1|richtprijs": {
       "sinds": "2026-10-03",
       "soort": "verouderd",
-      "tekst": "deye-sg04lp1 @ richtprijs: €850 (38 dagen)",
+      "tekst": "deye-sg04lp1 @ richtprijs: €850 (39 dagen)",
       "bevestigd": true
     },
     "verouderd|dmegc-440-glas-glas|Stroomwinkel": {
@@ -70,7 +70,7 @@
     "verouderd|maxeon-6-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "maxeon-6-440 @ richtprijs: €230 (75 dagen)",
+      "tekst": "maxeon-6-440 @ richtprijs: €230 (76 dagen)",
       "bevestigd": true
     },
     "verouderd|qcells-qtron-430|Zonnefabriek": {
@@ -94,7 +94,7 @@
     "verouderd|solarwatt-vision-am-425|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "solarwatt-vision-am-425 @ richtprijs: €140 (75 dagen)",
+      "tekst": "solarwatt-vision-am-425 @ richtprijs: €140 (76 dagen)",
       "bevestigd": true
     },
     "verouderd|solis-s6-hybride|VDH Power": {
@@ -112,7 +112,7 @@
     "verouderd|ulica-440-full-black|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "ulica-440-full-black @ richtprijs: €55 (75 dagen)",
+      "tekst": "ulica-440-full-black @ richtprijs: €55 (76 dagen)",
       "bevestigd": true
     },
     "zonder prijs|denim-440-full-black|Feenstra": {
