@@ -585,6 +585,68 @@
           "datum": "2026-10-06"
         }
       ]
+    },
+    {
+      "id": "dmegc-470-glas-glas",
+      "merk": "DMEGC",
+      "model": "DM470G12RT-B48HBB 470 Wp Full Black (glas-glas)",
+      "vermogen_wp": 470,
+      "celtype": "topcon",
+      "uitvoering": "glas-glas",
+      "full_black": true,
+      "bifaciaal": false,
+      "rendement_pct": 23.5,
+      "afmetingen_mm": "1762 × 1134 × 30",
+      "gewicht_kg": 24,
+      "garantie_product_jaar": 25,
+      "garantie_vermogen_jaar": 30,
+      "vermogen_behoud_eind_pct": 87.4,
+      "vermogen_behoud_25j_pct": 89.4,
+      "temp_coefficient": -0.29,
+      "richtprijs_eur": 128,
+      "prijs_datum": "2026-10-07",
+      "prijs_omvat": "prijs per paneel, 0% btw bij levering voor een woning, excl. omvormer en installatie",
+      "product_url": "https://www.dmegcsolar.com/",
+      "opmerkingen": "Het hoogste vermogen dat DMEGC in de gewone maat van 1762 mm levert, 470 Wp tegen 450 Wp voor het glas-glaspaneel van DMEGC dat hier al staat. Op een vol dak is dat ruim 4% meer zonder de indeling te veranderen. Het datasheet noemt de serie bifaciaal, maar deze uitvoering heeft een zwarte achterkant en Solar-NU verkoopt hem als enkelzijdig; reken dus niet op opbrengst van de achterkant. Per Wp is hij duidelijk duurder dan de 450.",
+      "aanbiedingen": [
+        {
+          "winkel": "Solar-NU",
+          "prijs_eur": 128,
+          "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1524/dmegc-zonnepaneel-470wp-mono-full-black-n-type-glassglass-20mm-mono-facial-hc-30mm-met-mc4-evo-2a-1762x1134x30mm-0260w.html",
+          "datum": "2026-10-07"
+        }
+      ]
+    },
+    {
+      "id": "jinko-tiger-neo-470",
+      "merk": "Jinko Solar",
+      "model": "Tiger Neo JKM470N-60HL4-V 470 Wp (1903 mm)",
+      "vermogen_wp": 470,
+      "celtype": "topcon",
+      "uitvoering": "glas-folie",
+      "full_black": false,
+      "bifaciaal": false,
+      "rendement_pct": 21.78,
+      "afmetingen_mm": "1903 × 1134 × 30",
+      "gewicht_kg": 24.2,
+      "garantie_product_jaar": 12,
+      "garantie_vermogen_jaar": 30,
+      "vermogen_behoud_eind_pct": 87.4,
+      "vermogen_behoud_25j_pct": 89.4,
+      "temp_coefficient": -0.3,
+      "richtprijs_eur": 140,
+      "prijs_datum": "2026-10-07",
+      "prijs_omvat": "prijs per paneel, 0% btw bij levering voor een woning, excl. omvormer en installatie; bij 10 stuks 136,71 euro per paneel",
+      "product_url": "https://www.jinkosolar.com/",
+      "opmerkingen": "Let op de maat, want dit paneel is 1903 mm lang, 14 cm langer dan de 1762 mm van bijna alle andere panelen in deze lijst. Op een dak dat op die kleinere maat is ingedeeld, past hij dus niet vanzelf. Dat verklaart ook het vermogen: het rendement per vierkante meter is lager dan bij de Tiger Neo van 440 en 455 Wp. Verder een zilveren frame en 12 jaar productgarantie, tegen 25 jaar bij de Tiger Neo full black. Voor een groter dak met ruimte over, niet voor wie zoveel mogelijk op een klein dak wil.",
+      "aanbiedingen": [
+        {
+          "winkel": "Solar-NU",
+          "prijs_eur": 140,
+          "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1311/jinko-solar-tiger-neo-470w-half-cut-silver-frame---jkm470n-60hl4-v-1903113430mm-0282w.html",
+          "datum": "2026-10-07"
+        }
+      ]
     }
   ]
 }

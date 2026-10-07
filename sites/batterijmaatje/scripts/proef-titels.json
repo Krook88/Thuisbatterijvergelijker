@@ -40,7 +40,8 @@
     },
     {
       "titel": "Anker SOLIX Solarbank 4 Pro thuisbatterij",
-      "verwacht": "nieuw"
+      "verwacht": "bekend",
+      "waarom": "sinds oktober 2026 opgenomen als anker-solix-solarbank-4-pro"
     },
     {
       "titel": "EcoFlow PowerOcean DC Fit 10 kWh thuisbatterij",
@@ -96,7 +97,8 @@
     },
     {
       "titel": "Jackery SolarVault 3 Pro Max - Incl. 2x BP2500 - Thuisbatterij - 7,5 kWh",
-      "verwacht": "nieuw"
+      "verwacht": "bekend",
+      "waarom": "sinds oktober 2026 opgenomen; een set met uitbreidingsaccu's hoort bij de regel van de hoofdunit"
     },
     {
       "titel": "PEGO Smart Energy Stapelbare Thuisbatterij Plug & Play Energieopslag uitbreidbaar tot 15kwh",
@@ -116,8 +118,8 @@
     },
     {
       "titel": "AEG Solarcube Pro - 6.4 kWh Plug-In Battery",
-      "verwacht": "nieuw",
-      "buur": "aeg-solarcube-48"
+      "verwacht": "bekend",
+      "waarom": "sinds oktober 2026 opgenomen als aeg-solarcube-pro, en niet als de gewone SolarCube"
     }
   ]
 }

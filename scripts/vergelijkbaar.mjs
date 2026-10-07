@@ -113,6 +113,11 @@ const REGISTERS = {
     // en 2500 W off-grid op; ons veld stond op dat tweede getal.
     vermogen_kw: { conditie: "vermogen_conditie", waarom: "continu ontlaadvermogen, een piek, of het off-grid maximum" },
     vermogen_bron: { conditie: null, waarom: "waar de conditie op gebaseerd is" },
+    // Het rendement van een accupakket alleen (95%) en dat van stopcontact tot
+    // stopcontact (70 tot 90%) heten allebei "rendement". Zonder soort wint de
+    // fabrikant die het gunstigste meetpunt kiest.
+    rendement_pct: { conditie: "rendement_soort", waarom: "alleen de accu, laden uit de panelen, of stopcontact tot stopcontact" },
+    rendement_tot_pct: { conditie: "rendement_soort", waarom: "bovenkant van een opgegeven bereik, zelfde meetpunt" },
     terugleverkosten_per_kwh_indicatie: { conditie: null, waarom: "tarief per kWh, zelfde eenheid voor elke leverancier" },
   },
   warmtepompmaatje: {

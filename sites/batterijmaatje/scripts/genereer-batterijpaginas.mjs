@@ -540,6 +540,7 @@ ${NAV_HTML}
     ${specRij("Beschermingsgraad", b.ip_klasse ? `<a class="term-link" href="/uitleg.html#ip-waarde" title="Wat zegt de IP-waarde? Lees de uitleg in de woordenlijst">${esc(b.ip_klasse)}</a>${b.buiten_toelichting ? ` <small>(${esc(b.buiten_toelichting)})</small>` : ""}` : null)}
     ${specRij("Garantie", b.garantie_jaar ? `${b.garantie_jaar} jaar` : null)}
     ${specRij("Laadcycli", b.cycli ? esc(String(b.cycli)) : null)}
+    ${specRij("Rendement heen en terug", Kaart.rendementHtml(b) || `geen opgave gevonden <small>(<a class="term-link" href="/uitleg.html#rendement" title="Wat is het rendement van een thuisbatterij? Lees de uitleg">wat betekent dat?</a>)</small>`)}
     ${specRij("App", b.app ? `${esc(b.app)} <small>(<a class="term-link" href="/uitleg.html#fabrikant-app" title="Wat kan de app van de fabrikant? Lees de uitleg">wat kan zo'n app?</a>)</small>` : "")}
   </table>
   </div>
@@ -569,7 +570,7 @@ ${NAV_HTML}
        algemeen, maar niet voor deze lijst - en dan hoort hij hier niet te
        staan. Nu telt de alinea wat er werkelijk in de gegevens staat, zodat
        hij niet stil kan verouderen. -->
-  <p class="datum-stempel">Volledig zelfvoorzienend (van het net af) is in Nederland vrijwel nooit haalbaar, want zonnepanelen leveren in de winter te weinig. Noodstroom is iets anders: een deel van je huis blijft werken tijdens een storing. Van de ${noodstroomTelling.totaal} batterijen hier kunnen er ${noodstroomTelling.ja} dat uit zichzelf, ${noodstroomTelling.deels} alleen met extra hardware erbij en ${noodstroomTelling.nee} helemaal niet; bij ${noodstroomTelling.onbekend} heb ik het niet kunnen vaststellen.</p>
+  <p class="datum-stempel">Volledig zelfvoorzienend (van het net af) is in Nederland vrijwel nooit haalbaar, want zonnepanelen leveren in de winter te weinig. Noodstroom is iets anders, want daarbij blijft een deel van je huis werken tijdens een storing. Van de ${noodstroomTelling.totaal} batterijen hier kunnen er ${noodstroomTelling.ja} dat uit zichzelf, ${noodstroomTelling.deels} alleen met extra hardware erbij en ${noodstroomTelling.nee} helemaal niet; bij ${noodstroomTelling.onbekend} heb ik het niet kunnen vaststellen.</p>
 
   ${b.opmerkingen ? `<h2>Goed om te weten</h2><p>${esc(b.opmerkingen)}</p>` : ""}
 
@@ -589,7 +590,7 @@ ${NAV_HTML}
 
   <p>Twijfel je of deze batterij bij je past? Doe de <a href="/advies.html">keuzehulp</a> voor een maatadvies, of <a href="/index.html">vergelijk alle thuisbatterijen</a> op prijs, capaciteit en aansluitgemak.</p>
 
-  ${b.product_url ? `<p>Meer informatie: <a href="${esc(b.product_url)}" target="_blank" rel="noopener">officiële productpagina van ${esc(b.merk)}</a>.</p>` : ""}
+  ${b.product_url ? `<p>Meer informatie staat op de <a href="${esc(b.product_url)}" target="_blank" rel="noopener">${esc(Kaart.productpaginaTekst(b))}</a>.</p>` : ""}
 
 </main>
 
@@ -1343,6 +1344,7 @@ ${NAV_HTML}
       ${rij("Beschermingsgraad (IP)", A.ip_klasse ? `${esc(A.ip_klasse)}${A.buiten_toelichting ? `<br><small>${esc(A.buiten_toelichting)}</small>` : ""}` : "onbekend", B.ip_klasse ? `${esc(B.ip_klasse)}${B.buiten_toelichting ? `<br><small>${esc(B.buiten_toelichting)}</small>` : ""}` : "onbekend")}
       ${rij("Garantie", A.garantie_jaar ? `${A.garantie_jaar} jaar` : "n.b.", B.garantie_jaar ? `${B.garantie_jaar} jaar` : "n.b.", hoogWint(A.garantie_jaar, B.garantie_jaar))}
       ${rij("Laadcycli", A.cycli ? esc(String(A.cycli)) : "n.b.", B.cycli ? esc(String(B.cycli)) : "n.b.")}
+      ${rij("Rendement heen en terug", Kaart.rendementHtml(A) || "geen opgave gevonden", Kaart.rendementHtml(B) || "geen opgave gevonden")}
       ${rij("App", esc(A.app || "n.b."), esc(B.app || "n.b."))}
     </tbody>
   </table>

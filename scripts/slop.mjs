@@ -266,8 +266,10 @@ const DUBBELE_PUNT = /[a-z0-9)"'’]: [a-z]/;
    276. Dat is geen verslechtering: die 214 stonden er al, alleen keek er niets
    naar. Het plafond gaat daarom mee omhoog naar wat er vandaag staat, met
    dezelfde afspraak als eerst - het mag alleen nog omlaag. Zakt het getal,
-   dan hoort dit mee te zakken, net zoals 124 ooit 62 werd. */
-const DUBBELE_PUNT_BUDGET = 276;
+   dan hoort dit mee te zakken, net zoals 124 ooit 62 werd.
+   Oktober 2026: 193. Eén sjabloonzin op elke batterijpagina ("Noodstroom is
+   iets anders: ...") stond er 52 keer, en twee per pagina telde op. */
+const DUBBELE_PUNT_BUDGET = 193;
 
 const zonderRuis = (html) =>
   html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/g, " ");

@@ -530,6 +530,15 @@
     const bevestigd = Prijs.capaciteitBevestigd(b);
     el("inpBruikbaar").value = bevestigd ? 100 : 90;
 
+    /* Het rendement: alleen een opgave van stopcontact tot stopcontact neemt
+       de rekenmodule over. Een getal over alleen het accupakket of over laden
+       uit de zonnepanelen ligt hoger dan wat je bij deze rekensom terugkrijgt;
+       dan blijft het op 90%, en zegt de hint waarom. */
+    const rendementAc = b.rendement_soort === "ac" && typeof b.rendement_pct === "number"
+      ? Math.round(typeof b.rendement_tot_pct === "number" ? (b.rendement_pct + b.rendement_tot_pct) / 2 : b.rendement_pct)
+      : null;
+    el("inpRendement").value = rendementAc || 90;
+
     const hint = el("batterijHint");
     const delen = [];
     if (inv && inv.soort === "totaal") {
@@ -547,6 +556,13 @@
       delen.push(`Over de capaciteit van ${String(b.capaciteit_kwh).replace(".", ",")} kWh: ${capToelichting}. De berekening houdt daarom 90% aan als bruikbaar deel; haal je er minder uit, dan valt de besparing lager uit.`);
     } else {
       delen.push(`De ${String(b.capaciteit_kwh).replace(".", ",")} kWh hierboven is de bruikbare capaciteit, dus die telt volledig mee.`);
+    }
+    if (rendementAc) {
+      delen.push(`Het rendement staat op ${rendementAc}%, wat ${b.merk} opgeeft van stopcontact tot stopcontact${typeof b.rendement_tot_pct === "number" ? ` (${b.rendement_pct} tot ${b.rendement_tot_pct}%, hier het midden)` : ""}.`);
+    } else if (typeof b.rendement_pct === "number") {
+      delen.push(`${b.merk} noemt ${b.rendement_pct}% rendement, gemeten ${b.rendement_soort === "accu" ? "aan het accupakket alleen" : "bij laden uit de zonnepanelen"}. Van stopcontact tot stopcontact geeft ${b.merk} niets op, dus de berekening houdt de standaard van 90% aan.`);
+    } else {
+      delen.push(`${b.merk} geeft geen rendement op; de berekening houdt 90% aan.`);
     }
     hint.textContent = delen.join(" ");
     bereken();

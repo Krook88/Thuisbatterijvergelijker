@@ -221,6 +221,54 @@
     </div>`;
   }
 
+  /* Niet elke productlink gaat naar de fabrikant. Van HYXi en Voltdeer is er
+     geen Nederlandse fabrikantpagina, en dan wijst de link naar StekkerDeal.
+     "Officiële productpagina" zou daar niet kloppen, dus de tekst volgt het
+     adres. Staat de merknaam in de domeinnaam, dan is het de fabrikant. */
+  function productpaginaTekst(b) {
+    let host = "";
+    try { host = new URL(b.product_url).hostname.replace(/^www\./, ""); } catch { return "productpagina"; }
+    // Het eerste woord van het merk is genoeg: "LG Energy Solution" zit op lgessbattery.com.
+    const merk = String(b.merk || "").toLowerCase().split(/\s+/)[0].replace(/[^a-z0-9]/g, "");
+    return merk && host.replace(/[^a-z0-9]/g, "").includes(merk)
+      ? `officiële productpagina van ${b.merk}`
+      : `productpagina op ${host}`;
+  }
+
+  /* Rendement: van elke kWh die je erin stopt, hoeveel er weer uitkomt. Het
+     getal betekent niet bij elke fabrikant hetzelfde, en het verschil is groter
+     dan het verschil tussen de merken. Zendure geeft 90% "aan de paneelzijde",
+     HomeWizard 70 tot 85% van stopcontact tot stopcontact; een accupakket los
+     haalt al snel 95%, maar daar zit de omvormer nog niet bij. Daarom staat
+     er altijd bij waarover gemeten is (rendement_soort):
+       "ac"       stopcontact in, stopcontact uit: wat je echt terugkrijgt
+       "zonzijde" laden uit de zonnepanelen, ontladen naar het huis
+       "accu"     alleen het accupakket, zonder omvormer
+     Alleen "ac" gaat de rekenmodule in; de andere twee liggen hoger dan wat
+     er bij een stekkerbatterij uit het stopcontact komt. */
+  const RENDEMENT_SOORT = {
+    ac: "van stopcontact tot stopcontact",
+    zonzijde: "laden uit de zonnepanelen, uit het stopcontact is het minder",
+    accu: "alleen het accupakket zonder omvormer, heen en terug is het minder",
+  };
+  function rendement(b) {
+    if (!b || typeof b.rendement_pct !== "number") return null;
+    const pct = (x) => String(x).replace(".", ",");
+    const tot = typeof b.rendement_tot_pct === "number" && b.rendement_tot_pct > b.rendement_pct ? b.rendement_tot_pct : null;
+    return {
+      tekst: tot ? `${pct(b.rendement_pct)} tot ${pct(tot)}%` : `${pct(b.rendement_pct)}%`,
+      waarover: RENDEMENT_SOORT[b.rendement_soort] || "niet duidelijk waarover gemeten",
+      bron: b.rendement_bron || "",
+      // Een bereik telt in de rekenmodule met het midden.
+      reken: b.rendement_soort === "ac" ? Math.round(tot ? (b.rendement_pct + tot) / 2 : b.rendement_pct) : null,
+    };
+  }
+  function rendementHtml(b) {
+    const r = rendement(b);
+    if (!r) return null;
+    return `${escapeHtml(r.tekst)} <small>(${escapeHtml(r.waarover)}${r.bron ? `; ${escapeHtml(r.bron)}` : ""})</small>`;
+  }
+
   /* Eén vorm voor elk oordeel op een schaal, zie .waardering in de opmaak.
      Eerder stonden hier sterren; die lezen als een recensiecijfer van
      gebruikers, terwijl dit een rekensom is die op uitleg.html staat. */
@@ -470,10 +518,11 @@
         <dt>Noodstroom bij stroomuitval</dt><dd>${escapeHtml(b.noodstroom_uitleg || vierwaardig(b.noodstroom).tekst)}</dd>
         ${b.opmerkingen ? `<dt>Goed om te weten</dt><dd>${escapeHtml(b.opmerkingen)}</dd>` : ""}
         ${b.cycli ? `<dt>Laadcycli (garantie)</dt><dd>${escapeHtml(String(b.cycli))}</dd>` : ""}
+        ${rendementHtml(b) ? `<dt>Rendement heen en terug</dt><dd>${rendementHtml(b)}</dd>` : ""}
         ${b.fase ? `<dt>Aansluiting</dt><dd>${escapeHtml(b.fase)}</dd>` : ""}
         ${b.app ? `<dt>App</dt><dd>${escapeHtml(b.app)}</dd>` : ""}
         ${(b.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${b.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${eurFmt.format(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""}${a.omvat ? ` <small>${escapeHtml(a.omvat)}</small>` : ""} &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul></dd>` : ""}
-        ${b.product_url ? `<dt>Fabrikant</dt><dd><a href="${escapeHtml(b.product_url)}" target="_blank" rel="noopener">officiële productpagina</a></dd>` : ""}
+        ${b.product_url ? `<dt>Productinformatie</dt><dd><a href="${escapeHtml(b.product_url)}" target="_blank" rel="noopener">${escapeHtml(productpaginaTekst(b))}</a></dd>` : ""}
         ${b.prijs_datum ? `<dd class="datum-stempel prijs-gecontroleerd">Prijs gecontroleerd: ${escapeHtml(datumNL(b.prijs_datum))}</dd>` : ""}
       </div>
       <div class="kaart-prijs">
@@ -518,6 +567,9 @@
     koppelUitsplitsingHtml,
     dagmaatHtml,
     dagmaatUitlegHtml,
+    rendement,
+    rendementHtml,
+    productpaginaTekst,
     badgeHtml,
     noodstroomBadge,
     sterren,

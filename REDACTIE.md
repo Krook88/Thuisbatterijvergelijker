@@ -54,17 +54,20 @@ naast een prijs incl. btw zetten.
 bepaalt, en dus wat de bezoeker vergelijkt.
 
 Dat dit ertoe doet bleek bij de Zendure SolarFlow 2400 Pro. Winkels noemden
-2,88 kWh, de fabrikant 2,4 kWh, en dat leek een tegenspraak. Het waren twee
-verschillende maten: 2,88 bruto, 2,4 bruikbaar bij 90% ontlaaddiepte. Op de
-site ging dat model daarmee van 420 naar 504 euro per kWh - van middenmoot naar
-de duurste in zijn klasse.
+2,88 kWh, de fabrikant 2,4 kWh, en dat leek op bruto tegenover bruikbaar. Dat
+was het niet: 2.400 Wh is de nominale maat van de ingebouwde accu, en 2,88 kWh
+hoort bij de AB3000L-uitbreiding die sommige winkels erbij verkopen. Wat er
+bruikbaar van overblijft, publiceert Zendure niet. Eerst stond hij hier als
+"2,4 bruikbaar van 2,88 bruto"; dat was een aanname die als feit gelezen werd.
+De les: een verschil tussen twee getallen is pas bruto tegenover bruikbaar als
+de fabrikant dat zelf zegt.
 
 Per model leggen we vast waar het getal vandaan komt:
 
 ```json
 "capaciteit_kwh": 2.4,
-"capaciteit_soort": "bruikbaar",
-"capaciteit_nominaal_kwh": 2.88
+"capaciteit_soort": "nominaal",
+"capaciteit_nominaal_kwh": 2.4
 ```
 
 `capaciteit_soort` is `"bruikbaar"`, `"nominaal"`, of afwezig als het niet is
@@ -128,6 +131,26 @@ beschrijven de prijs en de meldcode mogelijk verschillende varianten. Dat is
 nog niet nagelopen.
 
 `npm run condities` laat zien hoever we zijn.
+
+## Rendement van een batterij: alleen met meetpunt
+
+`rendement_pct` is wat er van een geladen kWh weer uitkomt, en `rendement_soort`
+zegt waarover het gemeten is. Zonder soort komt het getal er niet in, want het
+verschil tussen de meetpunten is groter dan het verschil tussen de merken:
+
+- `"ac"`: stopcontact in, stopcontact uit. Dat is wat de bezoeker terugkrijgt,
+  en het enige getal dat de rekenmodule overneemt. Enphase geeft 90%,
+  HomeWizard 70 tot 85% (een bereik gaat in `rendement_pct` en
+  `rendement_tot_pct`).
+- `"zonzijde"`: laden uit de zonnepanelen. Zendure geeft 90%, gemeten als 95%
+  laden maal 95% ontladen aan de paneelzijde.
+- `"accu"`: alleen het accupakket, zonder omvormer. SolarEdge noemt 95,4% bij
+  directe DC-koppeling; Enphase noemt naast zijn 90% ook 96% voor de accu alleen.
+
+`rendement_bron` zegt wie het opgeeft. Een maximale omvormerefficiëntie (AlphaESS
+noemt 96 tot 97,5%) is geen rendement van de batterij en hoort hier niet. Staat
+er niets, dan zegt de site "geen opgave gevonden" en rekent de rekenmodule met
+90%; dat is eerlijker dan een getal van een ander model overnemen.
 
 ## Capaciteitsvarianten van hetzelfde systeem: één regel
 

@@ -942,7 +942,12 @@
       "afbeelding": "assets/producten/stiebel-wpl-a07.webp",
       "afbeelding_bron": "foto: Stiebel Eltron",
       "afbeelding_herkomst": "https://www.stiebel-eltron.nl/content/dam/ste/products/article_picture/pic00009/pic00009953-00.png",
-      "afbeelding_via": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-a-05-07-hk-premium/wpl-a-07-hk-230-premium.html"
+      "afbeelding_via": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-a-05-07-hk-premium/wpl-a-07-hk-230-premium.html",
+      "zoeknamen": [
+        "WPL-A 05 HK 230 Premium",
+        "WPL-A 10 HK 400 Premium",
+        "WPL-A 13 HK 400 Premium"
+      ]
     },
     {
       "id": "wolf-cha-07",
@@ -1868,7 +1873,11 @@
       "afbeelding": "assets/producten/stiebel-wpl-ics-classic.webp",
       "afbeelding_bron": "foto: Stiebel Eltron",
       "afbeelding_herkomst": "https://www.stiebel-eltron.nl/content/dam/ste/products/article_picture/pic00006/pic00006520-00.png",
-      "afbeelding_via": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-ics-classic/wpl-09-ics-classic.html"
+      "afbeelding_via": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-ics-classic/wpl-09-ics-classic.html",
+      "zoeknamen": [
+        "WPL 09 ICS compact plus",
+        "WPL 17 ICS compact plus"
+      ]
     },
     {
       "id": "bosch-compress-5800i-12",
