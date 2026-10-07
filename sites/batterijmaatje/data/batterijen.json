@@ -2547,7 +2547,7 @@
           "winkel": "bol.com",
           "prijs_eur": 2249,
           "url": "https://www.bol.com/nl/nl/p/-/9300000279244703/",
-          "datum": null,
+          "datum": "2026-10-07",
           "ean": "8721082352376"
         }
       ],
@@ -2622,9 +2622,9 @@
       "vermogen_kw": 2,
       "type": "plug-in",
       "fase": "1-fase",
-      "richtprijs_eur": 999,
-      "prijs_bron": "MediaMarkt (oktober 2026)",
-      "prijs_bron_url": "https://www.mediamarkt.nl/nl/product/_tsun-msu2000-2048wh-opslag-met-slimme-meter-powerstation-170441771.html",
+      "richtprijs_eur": 995,
+      "prijs_bron": "bol.com (oktober 2026)",
+      "prijs_bron_url": "https://www.bol.com/nl/nl/p/-/9300000393483105/",
       "prijs_omvat": "incl. btw; één unit van 2 kWh met de TSUN Smart Meter",
       "prijs_datum": "2026-10-07",
       "installatie": "zelf",
@@ -2636,7 +2636,7 @@
       "app": "TSUN app",
       "garantie_jaar": null,
       "cycli": "6.000+ (volgens MediaMarkt)",
-      "opmerkingen": "Kleiner dan de PowerTrunk MAU5000 van TSUN die hier ook staat, en anders opgezet, want de SolarTrunk heeft zelf vier ingangen voor zonnepanelen, samen tot 2.800 W. Je begint met 2 kWh en breidt uit tot 10,24 kWh. In de doos zit de TSUN Smart Meter, die meet wat je huis verbruikt, zodat de unit daarop kan laden en ontladen. MediaMarkt verkocht hem op 7 oktober 2026 voor 999 euro, 100 euro onder de prijs die er normaal staat.",
+      "opmerkingen": "Kleiner dan de PowerTrunk MAU5000 van TSUN die hier ook staat, en anders opgezet, want de SolarTrunk heeft zelf vier ingangen voor zonnepanelen, samen tot 2.800 W. Je begint met 2 kWh en breidt uit tot 10,24 kWh. In de doos zit de TSUN Smart Meter, die meet wat je huis verbruikt, zodat de unit daarop kan laden en ontladen. Op 7 oktober 2026 kostte hij 995 euro bij bol.com en 999 euro bij MediaMarkt, waar hij normaal 1.099 euro kost.",
       "product_url": "https://www.mediamarkt.nl/nl/product/_tsun-msu2000-2048wh-opslag-met-slimme-meter-powerstation-170441771.html",
       "aanbiedingen": [
         {
@@ -2647,13 +2647,13 @@
         },
         {
           "winkel": "bol.com",
-          "prijs_eur": 999,
+          "prijs_eur": 995,
           "url": "https://www.bol.com/nl/nl/p/-/9300000393483105/",
-          "datum": null,
+          "datum": "2026-10-07",
           "ean": "6976384101128"
         }
       ],
-      "totaalprijs_van_eur": 999,
+      "totaalprijs_van_eur": 995,
       "totaalprijs_tot_eur": null,
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren",
       "noodstroom": null,
@@ -2687,7 +2687,7 @@
       "app": "mySolarEdge / SolarEdge ONE",
       "garantie_jaar": null,
       "cycli": null,
-      "opmerkingen": "De hoogspanningsbatterij van SolarEdge voor een 1-fase omvormer. De Home Battery 48V die hier ook staat, is de laagspanningslijn voor de 3-fase Home Hub. Op bol.com staat hij als Energy Bank 9,7 kWh. Per kWh is hij fors duurder dan de 48V: 6.824 euro voor 9,7 kWh tegen 2.990 euro voor 9,2 kWh. Dat verschil is alleen te verdedigen als je al een 1-fase SolarEdge-omvormer hebt die met deze batterij werkt.",
+      "opmerkingen": "De hoogspanningsbatterij van SolarEdge voor een 1-fase omvormer. De Home Battery 48V die hier ook staat, is de laagspanningslijn voor de 3-fase Home Hub. Bol.com verkocht hem als Energy Bank 9,7 kWh, maar heeft hem niet meer. Per kWh is hij fors duurder dan de 48V: 6.824 euro voor 9,7 kWh tegen 2.990 euro voor 9,2 kWh. Dat verschil is alleen te verdedigen als je al een 1-fase SolarEdge-omvormer hebt die met deze batterij werkt.",
       "product_url": "https://www.wattuneed.com/nl/lithium-zonnebatterijen/25980-accu-solaredge-home-battery-10-kwh-bat-10k1ps0b-01-0768563817625.html",
       "aanbiedingen": [
         {
@@ -2695,13 +2695,6 @@
           "prijs_eur": 6824,
           "url": "https://www.wattuneed.com/nl/lithium-zonnebatterijen/25980-accu-solaredge-home-battery-10-kwh-bat-10k1ps0b-01-0768563817625.html",
           "datum": "2026-10-07"
-        },
-        {
-          "winkel": "bol.com",
-          "prijs_eur": 6824,
-          "url": "https://www.bol.com/nl/nl/p/-/9300000146694126/",
-          "datum": null,
-          "ean": "8720769902200"
         }
       ],
       "totaalprijs_van_eur": null,
@@ -2717,7 +2710,11 @@
       "rendement_bron": "toprendement boven 94,5% volgens de SolarEdge-specificatie bij Wattuneed",
       "zoeknamen": [
         "Energy Bank 9.7 kWh"
-      ]
+      ],
+      "afbeelding": "assets/producten/solaredge-home-battery-400v.webp",
+      "afbeelding_bron": "foto: SolarEdge",
+      "afbeelding_herkomst": "https://www.wattuneed.com/39875-product_main_2x/accu-solaredge-home-battery-10-kwh-bat-10k1ps0b-01.jpg",
+      "afbeelding_via": "https://www.wattuneed.com/nl/lithium-zonnebatterijen/25980-accu-solaredge-home-battery-10-kwh-bat-10k1ps0b-01-0768563817625.html"
     },
     {
       "id": "dyness-powerbrick-plus",
