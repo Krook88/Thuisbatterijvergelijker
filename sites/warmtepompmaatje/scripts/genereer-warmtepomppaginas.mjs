@@ -160,6 +160,22 @@ function fotoBlok(w, naam) {
   </div>`;
 }
 
+/* De winkels voor de tabel onder het prijsverloop. Ook een winkel die het
+ * artikel niet meer voert staat erin, zonder link maar met de prijs die hij
+ * het laatst vroeg. Het rijtje in het prijsblok rechts blijft: dat is de
+ * korte route naar een winkel, deze tabel is het overzicht. */
+function winkelRijen(w) {
+  return (w.aanbiedingen || []).filter((a) => a && a.winkel && !a.is_richtprijs).map((a) => ({
+    winkel: a.winkel,
+    url: a.affiliate_url || a.url,
+    sponsored: !!a.affiliate_url,
+    leverbaar: !Prijs.nietLeverbaar(a),
+    prijs: Prijs.nietLeverbaar(a) ? null : Prijs.vergelijkPrijs(a),
+    datum: a.datum || w.prijs_datum,
+    toelichting: Prijs.prijsToelichting(a) || "",
+  }));
+}
+
 function productLd(w) {
   const naam = volledigeNaam(w);
   const beeld = w.afbeelding
@@ -768,7 +784,11 @@ ${kop("index", true)}
     ${variantenBlok(w)}
     ${(() => {
       const g = PrijsGrafiek.grafiekHtml(w.id, { naam: `${w.merk} ${w.model}` });
-      return g ? `<h2>Prijsverloop</h2>\n  ${g}` : "";
+      const t = PrijsGrafiek.winkelTabel(w.id, winkelRijen(w));
+      if (!g && !t) return "";
+      return `<h2>${g ? "Prijsverloop" : "Prijzen per winkel"}</h2>
+  ${g}${g && t ? `\n  <h3>Prijzen per winkel</h3>` : ""}
+  ${t}`;
     })()}
     <h2>Over de ${esc(naam)}</h2>
     <p>${esc(w.omschrijving || `${naam} is een ${w.type === "hybride" ? `hybride warmtepomp van ${w.vermogen_kw} kW die samenwerkt met je cv-ketel: de pomp doet het gros van de verwarming, de ketel vangt piekkou en warm water op` : `all-electric warmtepomp van ${w.vermogen_kw} kW die de cv-ketel volledig vervangt, inclusief warm tapwater via een boilervat`}.`)}</p>

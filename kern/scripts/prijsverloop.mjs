@@ -89,12 +89,44 @@ export function itemsUit(bestanden) {
   return uit;
 }
 
-/** Eén dagstand op alle producten toepassen. */
-export function verwerkDag(verloop, items, datum, Prijs) {
+/**
+ * De prijs per winkel op deze dag: het bedrag zoals de lijst het zou tonen,
+ * of null als de winkel het artikel niet leverbaar heeft. Heeft een winkel
+ * meer aanbiedingen (een losse unit en een set), dan telt de laagste.
+ */
+export function prijsPerWinkel(item, Prijs) {
+  const uit = new Map();
+  for (const a of item.aanbiedingen || []) {
+    if (!a || !a.winkel) continue;
+    const p = Prijs.nietLeverbaar(a) ? null : Prijs.vergelijkPrijs(a);
+    const bedrag = typeof p === "number" && Number.isFinite(p) && p > 0 ? Math.round(p * 100) / 100 : null;
+    const was = uit.get(a.winkel);
+    if (!uit.has(a.winkel) || (bedrag !== null && (was === null || bedrag < was))) uit.set(a.winkel, bedrag);
+  }
+  return uit;
+}
+
+/**
+ * Eén dagstand op alle producten toepassen. `winkels` is optioneel: daarin
+ * komt per product per winkel een eigen reeks, zodat de productpagina kan
+ * laten zien wat elke winkel vroeg, ook een winkel die het artikel inmiddels
+ * niet meer voert.
+ */
+export function verwerkDag(verloop, items, datum, Prijs, winkels) {
   for (const [id, item] of items) {
     const reeks = verloop[id] || (verloop[id] = []);
     voegPuntToe(reeks, datum, laagsteWinkelprijs(item, Prijs));
     if (!reeks.length) delete verloop[id];
+    if (!winkels) continue;
+    const perWinkel = winkels[id] || (winkels[id] = {});
+    const vandaag = prijsPerWinkel(item, Prijs);
+    for (const [winkel, prijs] of vandaag) voegPuntToe(perWinkel[winkel] || (perWinkel[winkel] = []), datum, prijs);
+    // Een winkel die uit de gegevens verdween, heeft vanaf vandaag geen prijs meer.
+    for (const winkel of Object.keys(perWinkel)) {
+      if (!vandaag.has(winkel)) voegPuntToe(perWinkel[winkel], datum, null);
+      if (!perWinkel[winkel].length) delete perWinkel[winkel];
+    }
+    if (!Object.keys(perWinkel).length) delete winkels[id];
   }
   return verloop;
 }
@@ -117,6 +149,7 @@ function hoofd() {
   const nu = () => itemsUit(namen.map((f) => lees(join(DATA, f))));
 
   let verloop = {};
+  let winkels = {};
   if (argv.includes("--uit-git")) {
     // Per dag de laatste stand van elk bestand. Een dag waarop één bestand
     // veranderde, gebruikt voor de andere de stand van daarvoor.
@@ -136,26 +169,34 @@ function hoofd() {
       for (const [f, hash] of perDag.get(datum)) {
         try { stand.set(f, JSON.parse(git("show", `${hash}:./data/${f}`))); } catch { /* bestand bestond nog niet of was kapot */ }
       }
-      verwerkDag(verloop, itemsUit([...stand.values()]), datum, Prijs);
+      verwerkDag(verloop, itemsUit([...stand.values()]), datum, Prijs, winkels);
     }
     console.log(`Uit git: ${perDag.size} dag(en) met een wijziging in ${namen.join(", ")}.`);
   } else if (existsSync(UIT)) {
-    verloop = lees(UIT).producten || {};
+    const oud = lees(UIT);
+    verloop = oud.producten || {};
+    winkels = oud.winkels || {};
   }
 
   const items = nu();
-  verwerkDag(verloop, items, vandaag, Prijs);
+  verwerkDag(verloop, items, vandaag, Prijs, winkels);
   // Producten die uit de lijst zijn verdwenen, gaan ook uit het verloop.
   for (const id of Object.keys(verloop)) {
     if (!items.has(id)) delete verloop[id];
     else verloop[id] = snoei(verloop[id], vandaag);
   }
+  for (const id of Object.keys(winkels)) {
+    if (!items.has(id)) { delete winkels[id]; continue; }
+    for (const w of Object.keys(winkels[id])) winkels[id][w] = snoei(winkels[id][w], vandaag);
+  }
 
   const gesorteerd = Object.fromEntries(Object.keys(verloop).sort().map((id) => [id, verloop[id]]));
+  const winkelsGesorteerd = Object.fromEntries(Object.keys(winkels).sort().map((id) => [id, winkels[id]]));
   writeFileSync(UIT, JSON.stringify({
-    toelichting: "Laagste winkelprijs incl. btw per product, als [datum, prijs] op de dagen dat hij veranderde; null = die dag geen winkel met een prijs. Gemaakt door scripts/prijsverloop.mjs.",
+    toelichting: "Laagste winkelprijs incl. btw per product, als [datum, prijs] op de dagen dat hij veranderde; null = die dag geen winkel met een prijs. Onder winkels hetzelfde per winkel (null = niet leverbaar of niet meer gevolgd). Gemaakt door scripts/prijsverloop.mjs.",
     bijgewerkt: vandaag,
     producten: gesorteerd,
+    winkels: winkelsGesorteerd,
   }) + "\n", "utf8");
   const punten = Object.values(gesorteerd).reduce((n, r) => n + r.length, 0);
   console.log(`prijsverloop.json: ${Object.keys(gesorteerd).length} producten, ${punten} wijzigingspunten, bijgewerkt ${vandaag}.`);

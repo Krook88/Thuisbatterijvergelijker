@@ -429,6 +429,32 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
 .pg-tabel { margin-top: var(--ruimte-10); }
 .pg-tabel summary { cursor: pointer; min-height: 24px; font-size: var(--tekst-15); }
 
+/* Prijzen per winkel, onder de grafiek. Eigen opmaak en niet .data-tabel,
+   want warmtepompmaatje heeft die niet; zo ziet de tabel er op alle drie de
+   sites hetzelfde uit. De bedragen staan rechts, onder elkaar te vergelijken. */
+.wt-blok { overflow-x: auto; margin: var(--ruimte-14) 0 var(--ruimte-28); background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); }
+.wt-tabel { width: 100%; border-collapse: collapse; font-size: var(--tekst-15); }
+.wt-tabel caption { caption-side: bottom; padding: var(--ruimte-10) var(--ruimte-14); text-align: left; color: var(--kleur-tekst-licht); border-top: 1px solid var(--kleur-rand); }
+.wt-tabel th, .wt-tabel td { padding: var(--ruimte-10) var(--ruimte-14); text-align: left; vertical-align: top; }
+.wt-tabel th { background: var(--kleur-achtergrond); white-space: nowrap; }
+.wt-tabel tbody td { border-top: 1px solid var(--kleur-rand); }
+.wt-tabel th:nth-child(2), .wt-tabel th:nth-child(3), .wt-tabel td.cijfer { text-align: right; }
+.wt-tabel td.cijfer { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.wt-tabel small { display: block; font-size: var(--tekst-12); color: var(--kleur-tekst-licht); }
+.wt-tabel .wt-niet td { color: var(--kleur-tekst-licht); }
+/* Op een telefoon passen vier kolommen niet. Elke winkel wordt dan een
+   blokje: de naam over de volle breedte, de drie waarden eronder met hun
+   eigen label, zodat er niets opzij hoeft te schuiven. */
+@media (max-width: 560px) {
+  .wt-tabel thead { display: none; }
+  .wt-tabel tbody, .wt-tabel tr { display: block; }
+  .wt-tabel tr { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--ruimte-6) var(--ruimte-10); padding: var(--ruimte-10) var(--ruimte-14); border-top: 1px solid var(--kleur-rand); }
+  .wt-tabel tbody td { padding: 0; border-top: 0; }
+  .wt-tabel td:first-child { grid-column: 1 / -1; font-weight: 700; }
+  .wt-tabel td.cijfer { text-align: left; white-space: normal; }
+  .wt-tabel td[data-naam]::before { content: attr(data-naam); display: block; font-size: var(--tekst-12); font-weight: 700; color: var(--kleur-tekst-licht); }
+}
+
 /* Foto en kenmerken in de regel. Zonder foto's en zonder pillen was de lijst
    een bord met cijfers in twee kleuren. Wat erbij komt draagt elk iets: de
    foto laat zien wat voor ding het is, en een kenmerk staat er alleen als

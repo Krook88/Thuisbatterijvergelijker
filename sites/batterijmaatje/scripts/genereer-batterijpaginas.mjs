@@ -286,6 +286,22 @@ function teKoop(product) {
   return (product.aanbiedingen || []).filter((a) => a && !Prijs.nietLeverbaar(a));
 }
 
+/* De winkels voor de tabel onder het prijsverloop. Ook een winkel die het
+ * artikel niet meer voert staat erin, zonder link (die wees bij zo'n winkel
+ * naar een 404 of de homepage) maar met de prijs die hij het laatst vroeg.
+ * Daarmee is de oude lijst "Verkrijgbaar bij" opgegaan in deze tabel. */
+function winkelRijen(product) {
+  return (product.aanbiedingen || []).filter((a) => a && a.winkel && !a.is_richtprijs).map((a) => ({
+    winkel: a.winkel,
+    url: a.affiliate_url || a.url,
+    sponsored: !!a.affiliate_url,
+    leverbaar: !Prijs.nietLeverbaar(a),
+    prijs: Prijs.nietLeverbaar(a) ? null : Prijs.vergelijkPrijs(a),
+    datum: a.datum,
+    toelichting: [a.omvat, Prijs.isOmgerekend(a) ? `de winkel noemt ${eur(a.prijs_eur)} excl. btw` : ""].filter(Boolean).join("; "),
+  }));
+}
+
 function productLd(b) {
   // Prijs.geldigeAanbiedingen en niet een eigen filter: dat sluit ook de
   // aanbiedingen uit die de winkel niet meer voert. Die stonden hier wel in,
@@ -533,7 +549,11 @@ ${NAV_HTML}
 
   ${(() => {
     const g = PrijsGrafiek.grafiekHtml(b.id, { naam: `${b.merk} ${b.model}` });
-    return g ? `<h2>Prijsverloop</h2>\n  ${g}` : "";
+    const t = PrijsGrafiek.winkelTabel(b.id, winkelRijen(b));
+    if (!g && !t) return "";
+    return `<h2>${g ? "Prijsverloop" : "Prijzen per winkel"}</h2>
+  ${g}${g && t ? `\n  <h3>Prijzen per winkel</h3>` : ""}
+  ${t}${t ? `\n  <p class="datum-stempel">Prijzen worden dagelijks automatisch gecontroleerd; de prijs op de website van de winkel is altijd leidend.${teKoop(b).some((a) => a.affiliate_url) ? " Sommige links zijn commissielinks: koop je via die link, dan ontvang ik een kleine vergoeding van de winkel. Dit kost jou niets en be\u00efnvloedt mijn prijzen, scores en volgorde niet." : ""}</p>` : ""}`;
   })()}
 
   <h2>Specificaties</h2>
@@ -580,12 +600,6 @@ ${NAV_HTML}
   <p class="datum-stempel">Volledig zelfvoorzienend (van het net af) is in Nederland vrijwel nooit haalbaar, want zonnepanelen leveren in de winter te weinig. Noodstroom is iets anders, want daarbij blijft een deel van je huis werken tijdens een storing. Van de ${noodstroomTelling.totaal} batterijen hier kunnen er ${noodstroomTelling.ja} dat uit zichzelf, ${noodstroomTelling.deels} alleen met extra hardware erbij en ${noodstroomTelling.nee} helemaal niet; bij ${noodstroomTelling.onbekend} heb ik het niet kunnen vaststellen.</p>
 
   ${b.opmerkingen ? `<h2>Goed om te weten</h2><p>${esc(b.opmerkingen)}</p>` : ""}
-
-  ${teKoop(b).length ? `<h2>Verkrijgbaar bij</h2>
-  <ul>
-    ${teKoop(b).map((a) => `<li><a href="${esc(a.affiliate_url || a.url)}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">${esc(a.winkel)}</a>: <b>${eur(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""}${a.omvat ? ` <small>${esc(a.omvat)}</small>` : ""} <span class="datum-stempel">${a.datum ? `(gecontroleerd ${esc(datumNL(a.datum))})` : "(prijsindicatie; klik voor de actuele prijs)"}</span></li>`).join("\n    ")}
-  </ul>
-  <p class="datum-stempel">Prijzen worden dagelijks automatisch gecontroleerd; de prijs op de website van de winkel is altijd leidend.${teKoop(b).some((a) => a.affiliate_url) ? " Sommige links zijn commissielinks: koop je via die link, dan ontvang ik een kleine vergoeding van de winkel. Dit kost jou niets en be\u00efnvloedt mijn prijzen, scores en volgorde niet." : ""}</p>` : ""}
 
   ${VERGELIJKINGEN.filter((v) => v.a === b.id || v.b === b.id).length ? `<h2>Vergelijk met alternatieven</h2>
   <ul>

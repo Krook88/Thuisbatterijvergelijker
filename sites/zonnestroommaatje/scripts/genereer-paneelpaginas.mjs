@@ -255,6 +255,22 @@ function teKoop(product) {
   return (product.aanbiedingen || []).filter((a) => a && !Prijs.nietLeverbaar(a));
 }
 
+/* De winkels voor de tabel onder het prijsverloop. Ook een winkel die het
+ * artikel niet meer voert staat erin, zonder link (die wees bij zo'n winkel
+ * naar een 404 of de homepage) maar met de prijs die hij het laatst vroeg.
+ * Daarmee is de oude lijst "Verkrijgbaar bij" opgegaan in deze tabel. */
+function winkelRijen(product) {
+  return (product.aanbiedingen || []).filter((a) => a && a.winkel && !a.is_richtprijs).map((a) => ({
+    winkel: a.winkel,
+    url: a.affiliate_url || a.url,
+    sponsored: !!a.affiliate_url,
+    leverbaar: !Prijs.nietLeverbaar(a),
+    prijs: Prijs.nietLeverbaar(a) ? null : Prijs.vergelijkPrijs(a),
+    datum: a.datum,
+    toelichting: [a.omvat, Prijs.isOmgerekend(a) ? `de winkel noemt ${eur(a.prijs_eur)} excl. btw` : ""].filter(Boolean).join("; "),
+  }));
+}
+
 function productLd(p) {
   // Prijs.geldigeAanbiedingen en niet een eigen filter: dat sluit ook de
   // aanbiedingen uit die de winkel niet meer voert.
@@ -456,7 +472,11 @@ function pagina(p) {
 
   ${(() => {
     const g = PrijsGrafiek.grafiekHtml(p.id, { naam: `${p.merk} ${p.model}` });
-    return g ? `<h2>Prijsverloop</h2>\n  ${g}` : "";
+    const t = PrijsGrafiek.winkelTabel(p.id, winkelRijen(p));
+    if (!g && !t) return "";
+    return `<h2>${g ? "Prijsverloop" : "Prijzen per winkel"}</h2>
+  ${g}${g && t ? `\n  <h3>Prijzen per winkel</h3>` : ""}
+  ${t}${t ? `\n  <p class="datum-stempel">De prijs op de website van de winkel is altijd leidend.${teKoop(p).some((a) => a.affiliate_url) ? " Sommige links zijn commissielinks: koop je via die link, dan ontvang ik een kleine vergoeding van de winkel. Dit kost jou niets en beïnvloedt mijn scores en volgorde niet." : ""}</p>` : ""}`;
   })()}
 
   <h2>Specificaties</h2>
@@ -490,12 +510,6 @@ function pagina(p) {
   <p class="datum-stempel">De <a href="/uitleg.html#zeker-score">Zeker-score</a> telt productgarantie, vermogensbehoud na 25 jaar en glas-glas uitvoering op: 2 punten per onderdeel.</p>
 
   ${p.opmerkingen ? `<h2>Goed om te weten</h2><p>${esc(p.opmerkingen)}</p>` : ""}
-
-  ${teKoop(p).length ? `<h2>Verkrijgbaar bij</h2>
-  <ul>
-    ${teKoop(p).map((a) => `<li><a href="${esc(a.affiliate_url || a.url)}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">${esc(a.winkel)}</a>: <b>${eur(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""} <span class="datum-stempel">${a.datum ? `(gecontroleerd ${esc(datumNL(a.datum))})` : "(prijsindicatie; klik voor de actuele prijs)"}</span></li>`).join("\n    ")}
-  </ul>
-  <p class="datum-stempel">De prijs op de website van de winkel is altijd leidend.${teKoop(p).some((a) => a.affiliate_url) ? " Sommige links zijn commissielinks: koop je via die link, dan ontvang ik een kleine vergoeding van de winkel. Dit kost jou niets en beïnvloedt mijn scores en volgorde niet." : ""}</p>` : ""}
 
   ${VERGELIJKINGEN.filter((v) => v.a === p.id || v.b === p.id).length ? `<h2>Vergelijk met alternatieven</h2>
   <ul>
