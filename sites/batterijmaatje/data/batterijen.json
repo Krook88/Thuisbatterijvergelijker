@@ -2096,10 +2096,7 @@
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "continu",
       "vermogen_bron": "Marstek noemt 1,5 kW bidirectioneel laad- en ontlaadvermogen; of dat op een gedeelde groep mag, staat er niet bij",
-      "afbeelding": "assets/producten/marstek-venus-e-mini.webp",
-      "afbeelding_bron": "foto: Marstek",
-      "afbeelding_herkomst": "https://www.marstek.nl/wp-content/uploads/2026/07/VenusEmini_2kwh.png",
-      "afbeelding_via": "https://www.marstek.nl/product/marstek-venus-e-mini-plug-charge-thuisbatterij/"
+      "afbeelding": null
     },
     {
       "id": "zendure-solarflow-2400-ac",

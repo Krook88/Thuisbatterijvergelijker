@@ -80,6 +80,18 @@
     {
       "url": "https://d2m3a8zzfvfhyv.cloudfront.net/images/battery/nexus-in-garage-1.jpg?format=auto&amp;width=3840&amp;quality=100",
       "waarom": "zelfde garagebeeld als hierboven, in de vorm waarin de pagina het adres noemt"
+    },
+    {
+      "url": "https://www.marstek.nl/wp-content/uploads/2026/07/VenusEmini_2kwh.png",
+      "waarom": "productfoto met een blauwe badge 'Officieel Geautoriseerde Marstek Distributeur' erop"
+    },
+    {
+      "url": "https://nl.jackery.com/cdn/shop/files/Jackery_Explorer_300D_Portable_Power_Station_with_40W_mini_solar_Panel_bundle.webp",
+      "waarom": "een ander product (Explorer 300D-powerstation) uit het menu van de Jackery-pagina"
+    },
+    {
+      "url": "https://www.zendure.nl/cdn/shop/files/SolarFlow-800-Pro-2_304ea558-56cf-49b2-8e85-a86fc065f0db.jpg",
+      "waarom": "een ander product (SolarFlow 800 Pro) op de pagina van de 2400 AC+"
     }
   ]
 }
