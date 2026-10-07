@@ -5,8 +5,8 @@
    - regelGrafiek(id): 30 dagen in een eigen kolom van de lijst;
    - grafiekHtml(id): een grote grafiek op de productpagina, met de laagste
      en hoogste prijs, wanneer die golden, en een tabel met de wijzigingen;
-   - winkelTabel(id, rijen): per winkel de prijs nu, de laagste prijs die
-     we bij die winkel zagen en wanneer de prijs is gecontroleerd.
+   - winkelTabel(id, rijen): per winkel de prijs nu en wanneer die is
+     gecontroleerd, ook voor een winkel die het artikel niet meer heeft.
 
    Het lijntje is een trapje en geen vloeiende lijn. Een prijs springt: hij
    staat drie weken op 1.199 en dan ineens op 1.099. Een lijn die daartussen
@@ -255,12 +255,7 @@
     for (const r of alle) {
       const reeks = historie[r.winkel] || [];
       const bedragen = reeks.filter(([, p]) => typeof p === "number");
-      if (bedragen.length) {
-        const min = Math.min(...bedragen.map(([, p]) => p));
-        r.laagste = min;
-        r.laagsteDatum = bedragen.find(([, p]) => p === min)[0];
-        r.laatst = bedragen[bedragen.length - 1][1];
-      }
+      if (bedragen.length) r.laatst = bedragen[bedragen.length - 1][1];
       // Sinds wanneer de winkel geen prijs meer heeft: het laatste gat in de reeks.
       const eind = reeks[reeks.length - 1];
       if (r.leverbaar === false && eind && eind[1] === null) r.wegSinds = eind[0];
@@ -269,9 +264,6 @@
     const groep = (r) => (r.leverbaar === false ? 2 : r.prijs === null ? 1 : 0);
     alle.sort((a, b) => groep(a) - groep(b) || (a.prijs || a.laatst || 0) - (b.prijs || b.laatst || 0) || a.winkel.localeCompare(b.winkel, "nl"));
 
-    // De kop zegt sinds wanneer we meten; dan hoeft daar geen uitlegzin onder.
-    const begin = Object.values(historie).map((r) => r[0] && r[0][0]).filter(Boolean).sort()[0];
-    const laagsteKop = begin ? `Laagste sinds ${datumKort(begin)}` : "Laagste";
     const regels = alle.map((r) => {
       const naam = r.url && r.leverbaar !== false
         ? `<a href="${esc(r.url)}" target="_blank" rel="noopener${r.sponsored ? " sponsored" : ""}">${esc(r.winkel)}</a>`
@@ -282,16 +274,13 @@
       } else {
         nu = r.prijs !== null ? `<b>${esc(eur.format(r.prijs))}</b>` : "prijs bij de winkel";
       }
-      const laagste = typeof r.laagste === "number"
-        ? `${esc(eur.format(r.laagste))}<small>${esc(datumKort(r.laagsteDatum))}</small>`
-        : "";
       // Bij een winkel die het niet meer heeft, zegt de controledatum niets meer: "sinds" staat al bij de prijs.
       const gecontroleerd = r.leverbaar === false ? "" : r.datum ? esc(datumKort(r.datum)) : "indicatie";
-      return `<tr${r.leverbaar === false ? ' class="wt-niet"' : ""}><td>${naam}${r.toelichting ? `<small>${esc(r.toelichting)}</small>` : ""}</td><td class="cijfer" data-naam="Prijs nu">${nu}</td><td class="cijfer" data-naam="${esc(laagsteKop)}">${laagste}</td><td data-naam="Gecontroleerd">${gecontroleerd}</td></tr>`;
+      return `<tr${r.leverbaar === false ? ' class="wt-niet"' : ""}><td>${naam}${r.toelichting ? `<small>${esc(r.toelichting)}</small>` : ""}</td><td class="cijfer" data-naam="Prijs nu">${nu}</td><td data-naam="Gecontroleerd">${gecontroleerd}</td></tr>`;
     }).join("");
     return `<div class="wt-blok"><table class="wt-tabel">
       <caption>Bedragen incl. btw.</caption>
-      <thead><tr><th scope="col">Winkel</th><th scope="col">Prijs nu</th><th scope="col">${esc(laagsteKop)}</th><th scope="col">Gecontroleerd</th></tr></thead>
+      <thead><tr><th scope="col">Winkel</th><th scope="col">Prijs nu</th><th scope="col">Gecontroleerd</th></tr></thead>
       <tbody>${regels}</tbody>
     </table></div>`;
   }
