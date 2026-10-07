@@ -393,7 +393,9 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
    en een grotere grafiek op de productpagina (assets/prijsgrafiek.js). De lijn
    staat in de zachte tekstkleur zodat hij naast het bedrag niet schreeuwt;
    alleen het punt van vandaag draagt de merkkleur. */
-.prijs-lijntje { display: block; margin: var(--ruimte-4) 0 var(--ruimte-2) auto; color: var(--kleur-tekst-licht); overflow: visible; }
+.prijs-verloop { display: flex; align-items: center; justify-content: flex-end; gap: var(--ruimte-6); margin: var(--ruimte-4) 0 var(--ruimte-2); }
+.prijs-lijntje { display: block; flex: none; color: var(--kleur-tekst-licht); overflow: visible; }
+.prijs-verloop-tekst { font-size: var(--tekst-12); font-weight: 600; color: var(--kleur-tekst-licht); white-space: nowrap; }
 .prijs-lijntje-nu { fill: var(--kleur-primair); stroke: var(--kleur-wit); stroke-width: 1.5; }
 
 .prijsgrafiek { margin: var(--ruimte-20) 0 var(--ruimte-28); }

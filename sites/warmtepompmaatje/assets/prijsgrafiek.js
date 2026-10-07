@@ -115,9 +115,17 @@
       ? `Prijsverloop ${o.dagen} dagen: gelijk gebleven op ${eur.format(s.laagste)}`
       : `Prijsverloop ${o.dagen} dagen: van ${eur.format(beginP)} naar ${eur.format(eindP)}, laagste ${eur.format(s.laagste)}`) +
       (s.nu === null ? ", nu bij geen winkel te koop" : "");
-    return `<svg class="prijs-lijntje" viewBox="0 0 ${o.breedte} ${o.hoogte}" width="${o.breedte}" height="${o.hoogte}" role="img" aria-label="${esc(tekst)}"><title>${esc(tekst)}</title>` +
+    /* Een woord erbij. Alleen een lijntje onder een onderstreept bedrag las
+       als een tweede onderstreping, zeker als de prijs een maand gelijk bleef
+       en het lijntje dus vlak was. */
+    const verschil = s.nu === null ? null : eindP - beginP;
+    const kort = s.nu === null ? "nu niet te koop"
+      : verschil === 0 ? `gelijk in ${o.dagen} dagen`
+      : `${verschil < 0 ? "−" : "+"}${eur.format(Math.abs(verschil))} in ${o.dagen} dagen`;
+    return `<span class="prijs-verloop"><svg class="prijs-lijntje" viewBox="0 0 ${o.breedte} ${o.hoogte}" width="${o.breedte}" height="${o.hoogte}" role="img" aria-label="${esc(tekst)}"><title>${esc(tekst)}</title>` +
       `<path d="${trapPad(lijst, x, y)}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>` +
-      (s.nu !== null ? `<circle class="prijs-lijntje-nu" cx="${x(laatsteI + 1).toFixed(1)}" cy="${y(eindP).toFixed(1)}" r="2.5"/>` : "") + "</svg>";
+      (s.nu !== null ? `<circle class="prijs-lijntje-nu" cx="${x(laatsteI + 1).toFixed(1)}" cy="${y(eindP).toFixed(1)}" r="2.5"/>` : "") +
+      `</svg><span class="prijs-verloop-tekst" aria-hidden="true">${esc(kort)}</span></span>`;
   }
 
   /* Ronde stappen voor de prijsas: 1, 2 of 5 maal een macht van tien. */
