@@ -2194,7 +2194,10 @@
       "capaciteit_nominaal_kwh": 2.4,
       "vermogen_conditie": "continu",
       "vermogen_bron": "Zendure geeft 2.400 W bidirectioneel AC-vermogen als laad- en ontlaadvermogen",
-      "afbeelding": null
+      "afbeelding": "assets/producten/zendure-solarflow-2400-ac-plus.webp",
+      "afbeelding_bron": "foto: Zendure",
+      "afbeelding_herkomst": "https://www.zendure.nl/cdn/shop/files/SF2400_AC_P1.jpg?v=1771035146",
+      "afbeelding_via": "https://www.zendure.nl/products/zendure-solarflow-2400-ac-plus"
     },
     {
       "id": "jackery-solarvault-3-pro-max-ac",
@@ -2240,7 +2243,10 @@
       "capaciteit_nominaal_kwh": 2.52,
       "vermogen_conditie": "max",
       "vermogen_bron": "Jackery noemt 2.500 W laden, ontladen en noodstroom; hoeveel daarvan via een gedeelde groep mag, staat er niet bij",
-      "afbeelding": null
+      "afbeelding": "assets/producten/jackery-solarvault-3-pro-max-ac.webp",
+      "afbeelding_bron": "foto: Jackery",
+      "afbeelding_herkomst": "https://nl.jackery.com/cdn/shop/files/pro-max-1_ceef2f67-f337-4791-ba9a-d64e162ad508.webp?v=1786453180&width=800",
+      "afbeelding_via": "https://nl.jackery.com/products/solarvault-3-pro-max-ac"
     },
     {
       "id": "jackery-solarvault-3-pro-max",
@@ -2286,7 +2292,10 @@
       "capaciteit_nominaal_kwh": 2.52,
       "vermogen_conditie": "max",
       "vermogen_bron": "Jackery noemt 2.500 W bidirectioneel laden; hoeveel daarvan via een gedeelde groep mag, staat er niet bij",
-      "afbeelding": null
+      "afbeelding": "assets/producten/jackery-solarvault-3-pro-max.webp",
+      "afbeelding_bron": "foto: Jackery",
+      "afbeelding_herkomst": "https://nl.jackery.com/cdn/shop/files/pro-max-1_ceef2f67-f337-4791-ba9a-d64e162ad508.webp?v=1786453180",
+      "afbeelding_via": "https://nl.jackery.com/products/solarvault-3-pro-max"
     },
     {
       "id": "anker-solix-solarbank-4-pro",
