@@ -403,7 +403,7 @@ async function updateAanbieding(batterij, aanbieding) {
         console.log(`  = ${batterij.id} @ ${aanbieding.winkel}: pagina staat er nog; prijs blijft mensenwerk (€${aanbieding.prijs_eur})`);
         return false;
       }
-      let uit = prijsUitPagina(html, naamVan(batterij), GRENZEN);
+      let uit = prijsUitPagina(html, naamVan(batterij), { ...GRENZEN, route: aanbieding.prijs_route });
       if (uit.prijs === null && !viaBrowser) {
         // Pagina antwoordde wel maar toont geen bedrag: vaak wordt de prijs pas
         // door javascript ingevuld. Sessy en BeterDuurzaam doen dat.
@@ -411,7 +411,7 @@ async function updateAanbieding(batterij, aanbieding) {
         if (uitBrowser) {
           html = uitBrowser;
           viaBrowser = true;
-          uit = prijsUitPagina(html, naamVan(batterij), GRENZEN);
+          uit = prijsUitPagina(html, naamVan(batterij), { ...GRENZEN, route: aanbieding.prijs_route });
         }
       }
       nieuw = uit.prijs;

@@ -45,6 +45,7 @@
           "winkel": "Thuisbatterij.nl",
           "prijs_eur": 1200,
           "url": "https://thuisbatterij.nl/winkel/marstek-venus-e-versie-3/",
+          "prijs_route": "gekozen variant",
           "datum": "2026-09-09"
         }
       ],
@@ -1588,14 +1589,13 @@
           "niet_leverbaar_door": "voorraad"
         },
         {
-          "winkel": "Thuisbatterij.io (winkeloverzicht, geen productpagina)",
-          "prijs_eur": 1190,
-          "url": "https://thuisbatterij.io/shop/",
-          "datum": "2026-07-27",
-          "prijs_controle": "handmatig"
+          "winkel": "Thuisbatterij.io",
+          "prijs_eur": 1349,
+          "url": "https://thuisbatterij.io/product/mova-lumegret-a4000/",
+          "datum": "2026-10-07"
         }
       ],
-      "totaalprijs_van_eur": 1190,
+      "totaalprijs_van_eur": 1349,
       "totaalprijs_tot_eur": 1399,
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren; prijzen wisselen per actie",
       "noodstroom": true,
@@ -1633,6 +1633,7 @@
           "winkel": "Thuisbatterij.nl",
           "prijs_eur": 795,
           "url": "https://thuisbatterij.nl/winkel/indevolt-solidflex-3000/",
+          "prijs_route": "gekozen variant",
           "datum": "2026-09-07"
         }
       ],
@@ -1855,6 +1856,7 @@
           "winkel": "Thuisbatterij.nl (pre-sale)",
           "prijs_eur": 1599,
           "url": "https://thuisbatterij.nl/winkel/ecoflow-stream-ac-5000/",
+          "prijs_route": "gekozen variant",
           "datum": "2026-10-03",
           "omvat": "actieprijs; de winkel noemt 1.699 als oorspronkelijke prijs. Niet op voorraad, verwachte verzending vanaf 12 oktober 2026."
         }
@@ -2223,6 +2225,7 @@
           "winkel": "Jackery (officieel)",
           "prijs_eur": 789,
           "url": "https://nl.jackery.com/products/solarvault-3-pro-max-ac",
+          "prijs_route": "meta-tag",
           "datum": "2026-10-07"
         }
       ],
@@ -2272,6 +2275,7 @@
           "winkel": "Jackery (officieel)",
           "prijs_eur": 1089,
           "url": "https://nl.jackery.com/products/solarvault-3-pro-max",
+          "prijs_route": "meta-tag",
           "datum": "2026-10-07"
         }
       ],

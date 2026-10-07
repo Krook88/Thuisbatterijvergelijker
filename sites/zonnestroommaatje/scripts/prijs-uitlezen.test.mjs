@@ -513,7 +513,7 @@ const wooPagina = (selectie) => {
 
 test("prijsUitWooVariaties: de voorgeselecteerde variant, niet de eerste", () => {
   assert.equal(prijsUitWooVariaties(wooPagina(["venus-5-kwh", "eigen-meter"])), 1200);
-  assert.equal(prijsUitPagina(wooPagina(["venus-5-kwh", "eigen-meter"]), "Marstek Venus E").prijs, 1200);
+  assert.equal(prijsUitPagina(wooPagina(["venus-5-kwh", "eigen-meter"]), "Marstek Venus E", { route: "gekozen variant" }).prijs, 1200);
 });
 
 test("prijsUitWooVariaties: een lege waarde in een variant past op elke keuze", () => {
@@ -523,4 +523,12 @@ test("prijsUitWooVariaties: een lege waarde in een variant past op elke keuze", 
 test("prijsUitWooVariaties: zonder voorselectie, of met meer dan één passende variant, geen prijs", () => {
   assert.equal(prijsUitWooVariaties(wooPagina([])), null);
   assert.equal(prijsUitWooVariaties(wooPagina(["venus-5-kwh"])), null, "5 kWh met en zonder meter passen allebei");
+});
+
+test("prijsUitPagina: de route van de gekozen variant alleen op verzoek, en een gevraagde route is de enige", () => {
+  const html = wooPagina(["venus-5-kwh", "eigen-meter"]);
+  assert.notEqual(prijsUitPagina(html, "Marstek Venus E").hoe, "gekozen variant", "zonder verzoek de gewone volgorde");
+  const metaPagina = `<meta property="og:price:amount" content="789"><script>{"name":"SolarVault 3 BP2500","price":609}</script>`;
+  assert.deepEqual(prijsUitPagina(metaPagina, "SolarVault 3", { route: "meta-tag" }).prijs, 789);
+  assert.equal(prijsUitPagina(metaPagina, "SolarVault 3", { route: "structured data" }).prijs, null);
 });

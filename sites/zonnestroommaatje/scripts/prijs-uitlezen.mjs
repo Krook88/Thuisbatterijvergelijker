@@ -696,16 +696,25 @@ export function toontExclBtw(html) {
 export function prijsUitPagina(html, naam, opties = {}) {
   const ankers = ankerWoorden(naam);
   const wegen = [
-    // Eerst: bij een product met varianten noemen structured data en het
-    // prijsveld de goedkoopste of de eerste variant, niet de gekozen.
-    ["gekozen variant", () => prijsUitWooVariaties(html, opties)],
     ["structured data", () => prijsUitJsonLd(html, ankers, opties)],
     ["json in de pagina", () => prijsUitScriptJson(html, ankers, opties)],
     ["meta-tag", () => prijsUitMeta(html)],
     ["prijsveld in de pagina", () => prijsveldMetDekking(html, opties)],
     ["zichtbare tekst", () => prijsUitTekst(html, ankers, opties)],
   ];
-  for (const [hoe, lees] of wegen) {
+  /* Een aanbieding kan zelf zeggen welke route klopt (prijs_route in de
+     gegevens). Dat is voor winkels waar de vaste volgorde aantoonbaar het
+     verkeerde bedrag pakt: bij Jackery vindt "json in de pagina" de losse
+     uitbreidingsaccu en staat de echte prijs in de meta-tag; bij
+     Thuisbatterij.nl is alleen de gekozen variant goed. Die laatste route
+     staat nooit in de vaste volgorde: Marstek.nl is ook WooCommerce, en daar
+     staat de variant mét P1-meter voorgeselecteerd terwijl wij de prijs
+     zonder meter vergelijken. Wie hem wil, vraagt er per aanbieding om. */
+  wegen.push(["gekozen variant", () => prijsUitWooVariaties(html, opties)]);
+  const gekozen = opties.route
+    ? wegen.filter(([hoe]) => hoe === opties.route)
+    : wegen.filter(([hoe]) => hoe !== "gekozen variant");
+  for (const [hoe, lees] of gekozen) {
     const uit = lees();
     const prijs = typeof uit === "object" && uit !== null ? uit.prijs : uit;
     if (!prijs) continue;
