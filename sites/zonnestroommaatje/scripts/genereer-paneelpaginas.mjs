@@ -522,7 +522,7 @@ function pagina(p) {
 
   <p>Twijfel je of dit paneel bij je past? Doe de <a href="/advies.html">keuzehulp</a> voor een advies op maat, of <a href="/index.html">vergelijk alle zonnepanelen</a> op prijs per Wp, rendement en Zeker-score.</p>
 
-  ${p.product_url ? `<p>Meer informatie: <a href="${esc(p.product_url)}" target="_blank" rel="noopener">officiële website van ${esc(p.merk)}</a>.</p>` : ""}
+  ${p.product_url ? `<p>De gegevens van de fabrikant zelf vind je op de <a href="${esc(p.product_url)}" target="_blank" rel="noopener">officiële website van ${esc(p.merk)}</a>.</p>` : ""}
 
 </main>
 ${staart}`;

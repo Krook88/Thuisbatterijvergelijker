@@ -91,13 +91,13 @@
   }
   </script>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="stylesheet" href="assets/style.css?v=20261007a">
-  <script src="assets/iconen.js?v=20261007a" defer></script>
-  <script src="assets/prijs.js?v=20261007a" defer></script>
-  <script src="assets/prijsgrafiek.js?v=20261007a" defer></script>
-  <script src="assets/kaart.js?v=20261007a" defer></script>
-  <script src="assets/app.js?v=20261007a" defer></script>
-  <script src="assets/nav.js?v=20261007a" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20261007b">
+  <script src="assets/iconen.js?v=20261007b" defer></script>
+  <script src="assets/prijs.js?v=20261007b" defer></script>
+  <script src="assets/prijsgrafiek.js?v=20261007b" defer></script>
+  <script src="assets/kaart.js?v=20261007b" defer></script>
+  <script src="assets/app.js?v=20261007b" defer></script>
+  <script src="assets/nav.js?v=20261007b" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=1">
   <script type="application/ld+json" data-lijst>
@@ -106,7 +106,7 @@
   "@type": "ItemList",
   "name": "Zonnepanelen vergeleken",
   "description": "Alle vergeleken zonnepanelen, gerangschikt op prijs per wattpiek.",
-  "numberOfItems": 19,
+  "numberOfItems": 20,
   "itemListElement": [
     {
       "@type": "ListItem",
@@ -177,48 +177,54 @@
     {
       "@type": "ListItem",
       "position": 12,
+      "url": "https://zonnestroommaatje.nl/paneel/dmegc-460-bifaciaal.html",
+      "name": "DMEGC DM460G12RT-B48HBT 460 Wp (glas-glas, bifaciaal)"
+    },
+    {
+      "@type": "ListItem",
+      "position": 13,
       "url": "https://zonnestroommaatje.nl/paneel/aiko-neostar-2p-455.html",
       "name": "AIKO Neostar 2S+ 455 Wp Full Black (glas-glas)"
     },
     {
       "@type": "ListItem",
-      "position": 13,
+      "position": 14,
       "url": "https://zonnestroommaatje.nl/paneel/dmegc-470-glas-glas.html",
       "name": "DMEGC DM470G12RT-B48HBB 470 Wp Full Black (glas-glas)"
     },
     {
       "@type": "ListItem",
-      "position": 14,
+      "position": 15,
       "url": "https://zonnestroommaatje.nl/paneel/canadian-solar-tophiku6-435.html",
       "name": "Canadian Solar TOPHiKu6 CS6.2-48TD 435 Wp Full Black"
     },
     {
       "@type": "ListItem",
-      "position": 15,
+      "position": 16,
       "url": "https://zonnestroommaatje.nl/paneel/rec-alpha-pure-2-420.html",
       "name": "REC Alpha Pure-R 420 Wp"
     },
     {
       "@type": "ListItem",
-      "position": 16,
+      "position": 17,
       "url": "https://zonnestroommaatje.nl/paneel/jinko-tiger-neo-470.html",
       "name": "Jinko Solar Tiger Neo JKM470N-60HL4-V 470 Wp (1903 mm)"
     },
     {
       "@type": "ListItem",
-      "position": 17,
+      "position": 18,
       "url": "https://zonnestroommaatje.nl/paneel/solarwatt-vision-am-425.html",
       "name": "Solarwatt Panel Vision AM 4.5 pure 425 Wp (glas-glas)"
     },
     {
       "@type": "ListItem",
-      "position": 18,
+      "position": 19,
       "url": "https://zonnestroommaatje.nl/paneel/aiko-neostar-3s-490.html",
       "name": "AIKO Neostar 3S54 490 Wp Full Black"
     },
     {
       "@type": "ListItem",
-      "position": 19,
+      "position": 20,
       "url": "https://zonnestroommaatje.nl/paneel/maxeon-6-440.html",
       "name": "Maxeon (SunPower) Maxeon 6 440 Wp"
     }
@@ -266,7 +272,7 @@
     <p>Een offerte noemt één totaalbedrag, en het paneel zit daar ergens in. Hier staan de panelen zelf naast elkaar: prijs per wattpiek, rendement, glas-glas of folie, en hoe hard de garanties werkelijk zijn (de <a href="uitleg.html#zeker-score">Zeker-score</a>). Daarmee reken je een offerte na, of bestel je zelf.</p>
     <p>Ik heb zelf acht panelen op het dak, nu vijf jaar, en ben er nog steeds tevreden over. <a href="over-ons.html">Wie dit maakt en hoe ik vergelijk</a>.</p>
     <div class="hero-badges">
-      <span class="update-info"><b id="tellerPanelen">19</b> panelen</span>
+      <span class="update-info"><b id="tellerPanelen">20</b> panelen</span>
       <span class="update-info">Richtprijzen gecontroleerd: <b id="updateDatum">7 oktober 2026</b></span>
       <span class="update-info"><a href="over-ons.html">Geen betaalde plaatsing</a></span>
     </div>
@@ -348,7 +354,7 @@
   <div class="regel-banner kruis-hint" id="kruisHint" hidden></div>
 
   <div class="resultaten-balk">
-    <span class="resultaten-telling" id="resultatenTelling">19 van 19 zonnepanelen, gesorteerd op beste prijs per Wp</span>
+    <span class="resultaten-telling" id="resultatenTelling">20 van 20 zonnepanelen, gesorteerd op beste prijs per Wp</span>
     <label class="sorteer-keuze"><span>Sorteren op</span><select id="sorteer">
           <option value="prijs-per-wp" selected>Beste prijs per Wp</option>
           <option value="zeker-score">Zeker-score (degelijkste eerst)</option>
@@ -719,8 +725,38 @@
         
       </div>
     </article>
-    <article class="resultaat-regel" data-id="aiko-neostar-2p-455">
+    <article class="resultaat-regel" data-id="dmegc-460-bifaciaal">
       <span class="regel-plek cijfer">12</span>
+      <div class="regel-naam">
+        <span class="regel-foto leeg" aria-hidden="true"></span>
+        <div class="regel-naam-tekst">
+        <h3><a class="kop-link" href="paneel/dmegc-460-bifaciaal.html"><span class="regel-merk">DMEGC</span> DM460G12RT-B48HBT 460 Wp (glas-glas, bifaciaal)</a></h3>
+        <div class="regel-onder">
+        
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+          <input type="checkbox" class="vergelijk-check" data-id="dmegc-460-bifaciaal" > vergelijk
+        </label>
+        </div>
+        </div>
+      </div>
+      <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>460 Wp</div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">Rendement</span>23,02 %</div>
+      <div class="regel-waarde cijfer" data-naam="Uitvoering"><span class="regel-label">Uitvoering</span>glas-glas</div>
+      <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><span class="rg-leeg">geen winkelprijs gevolgd</span></div>
+      <div class="regel-waarde cijfer" data-naam="Zeker-score">
+        <span class="regel-label">Zeker-score</span>5<span class="regel-van">/6</span>
+        <span class="regel-baan"><span class="regel-vul" style="width:83%"></span></span>
+      </div>
+      <div class="regel-slot">
+        <a class="regel-bedrag cijfer" href="https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/glas-glas-panelen/detail/1499/dmegc-zonnepaneel-460wp-transparant--black-frame-n-type-glassglass-20mm-bifacial-hc-mc4-evo-2a-dm460g12rt-b48hbt-1762x1134x30-0235w.html" target="_blank" rel="noopener" aria-label="€ 113 bij Solar-NU: naar de aanbieding van het DMEGC DM460G12RT-B48HBT 460 Wp (glas-glas, bifaciaal), opent in een nieuw tabblad">€ 113</a>
+        <span class="regel-per cijfer">€ 0,25 per Wp</span>
+        <span class="regel-winkel">bij Solar-NU</span>
+        
+        
+      </div>
+    </article>
+    <article class="resultaat-regel" data-id="aiko-neostar-2p-455">
+      <span class="regel-plek cijfer">13</span>
       <div class="regel-naam">
         <span class="regel-foto"><img src="assets/producten/aiko-neostar-2p-455.webp" alt="" loading="lazy" decoding="async" width="88" height="66"></span>
         <div class="regel-naam-tekst">
@@ -750,7 +786,7 @@
       </div>
     </article>
     <article class="resultaat-regel" data-id="dmegc-470-glas-glas">
-      <span class="regel-plek cijfer">13</span>
+      <span class="regel-plek cijfer">14</span>
       <div class="regel-naam">
         <span class="regel-foto"><img src="assets/producten/dmegc-470-glas-glas.webp" alt="" loading="lazy" decoding="async" width="88" height="66"></span>
         <div class="regel-naam-tekst">
@@ -780,7 +816,7 @@
       </div>
     </article>
     <article class="resultaat-regel" data-id="canadian-solar-tophiku6-435">
-      <span class="regel-plek cijfer">14</span>
+      <span class="regel-plek cijfer">15</span>
       <div class="regel-naam">
         <span class="regel-foto leeg" aria-hidden="true"></span>
         <div class="regel-naam-tekst">
@@ -810,7 +846,7 @@
       </div>
     </article>
     <article class="resultaat-regel" data-id="rec-alpha-pure-2-420">
-      <span class="regel-plek cijfer">15</span>
+      <span class="regel-plek cijfer">16</span>
       <div class="regel-naam">
         <span class="regel-foto leeg" aria-hidden="true"></span>
         <div class="regel-naam-tekst">
@@ -840,7 +876,7 @@
       </div>
     </article>
     <article class="resultaat-regel" data-id="jinko-tiger-neo-470">
-      <span class="regel-plek cijfer">16</span>
+      <span class="regel-plek cijfer">17</span>
       <div class="regel-naam">
         <span class="regel-foto"><img src="assets/producten/jinko-tiger-neo-470.webp" alt="" loading="lazy" decoding="async" width="88" height="66"></span>
         <div class="regel-naam-tekst">
@@ -870,7 +906,7 @@
       </div>
     </article>
     <article class="resultaat-regel" data-id="solarwatt-vision-am-425">
-      <span class="regel-plek cijfer">17</span>
+      <span class="regel-plek cijfer">18</span>
       <div class="regel-naam">
         <span class="regel-foto"><img src="assets/producten/solarwatt-vision-am-425.webp" alt="" loading="lazy" decoding="async" width="88" height="66"></span>
         <div class="regel-naam-tekst">
@@ -900,7 +936,7 @@
       </div>
     </article>
     <article class="resultaat-regel" data-id="aiko-neostar-3s-490">
-      <span class="regel-plek cijfer">18</span>
+      <span class="regel-plek cijfer">19</span>
       <div class="regel-naam">
         <span class="regel-foto leeg" aria-hidden="true"></span>
         <div class="regel-naam-tekst">
@@ -930,7 +966,7 @@
       </div>
     </article>
     <article class="resultaat-regel" data-id="maxeon-6-440">
-      <span class="regel-plek cijfer">19</span>
+      <span class="regel-plek cijfer">20</span>
       <div class="regel-naam">
         <span class="regel-foto leeg" aria-hidden="true"></span>
         <div class="regel-naam-tekst">

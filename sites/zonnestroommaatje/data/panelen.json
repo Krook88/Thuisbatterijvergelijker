@@ -655,6 +655,37 @@
       "afbeelding_bron": "foto: Solar-NU",
       "afbeelding_herkomst": "https://www.solar-nu-webshop.nl/data/upload/Shop/images/big_230512panel-fotovoltal-470wp-monocristal-de-120-6x20-cell-model-jinko-tiger-neo-n-type-jkm470n-60hl4-v.jpg",
       "afbeelding_via": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1311/jinko-solar-tiger-neo-470w-half-cut-silver-frame---jkm470n-60hl4-v-1903113430mm-0282w.html"
+    },
+    {
+      "id": "dmegc-460-bifaciaal",
+      "merk": "DMEGC",
+      "model": "DM460G12RT-B48HBT 460 Wp (glas-glas, bifaciaal)",
+      "vermogen_wp": 460,
+      "celtype": "topcon",
+      "uitvoering": "glas-glas",
+      "full_black": false,
+      "bifaciaal": true,
+      "rendement_pct": 23.02,
+      "afmetingen_mm": "1762 × 1134 × 30",
+      "gewicht_kg": 24,
+      "garantie_product_jaar": 25,
+      "garantie_vermogen_jaar": 30,
+      "vermogen_behoud_eind_pct": 87.4,
+      "vermogen_behoud_25j_pct": 89.4,
+      "temp_coefficient": -0.29,
+      "richtprijs_eur": 113,
+      "prijs_datum": "2026-10-07",
+      "prijs_omvat": "prijs per paneel bij afname van minimaal 4 stuks, 0% btw bij levering voor een woning, excl. omvormer en installatie",
+      "product_url": "https://www.dmegcsolar.com/",
+      "opmerkingen": "Glas-glas met een doorzichtige achterkant en een zwart frame, en daardoor echt tweezijdig. Licht dat via de achterkant binnenkomt levert extra op, vooral op een plat dak of carport boven een lichte ondergrond. Daarin verschilt hij van de 470 Wp van DMEGC in deze lijst, die een zwarte achterkant heeft. Op een schuin dak met de achterkant tegen de pannen win je er weinig mee. De winkel rekent per 4 stuks af.",
+      "aanbiedingen": [
+        {
+          "winkel": "Solar-NU",
+          "prijs_eur": 113,
+          "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/glas-glas-panelen/detail/1499/dmegc-zonnepaneel-460wp-transparant--black-frame-n-type-glassglass-20mm-bifacial-hc-mc4-evo-2a-dm460g12rt-b48hbt-1762x1134x30-0235w.html",
+          "datum": "2026-10-07"
+        }
+      ]
     }
   ]
 }

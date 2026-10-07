@@ -1981,6 +1981,59 @@
         }
       ],
       "vermogen_conditie": "Prated"
+    },
+    {
+      "id": "stiebel-wpl-25-ac",
+      "merk": "Stiebel Eltron",
+      "model": "WPL 25 AC",
+      "type": "all-electric",
+      "voorbeeld_variant": "WPL 25 AC (monoblock buitenopstelling, 13 kW)",
+      "vermogen_kw": 13,
+      "vermogen_conditie": "Prated",
+      "scop": 4.76,
+      "scop_conditie": "35",
+      "scop_toelichting": "labelwaarde bij 35 °C aanvoer volgens EN 14825, opgave van de fabrikant",
+      "geluid_db": 55,
+      "geluid_toelichting": "geluidsniveau buitenunit volgens EN 12102",
+      "koudemiddel": "R410A (GWP 2088)",
+      "max_aanvoer_c": 65,
+      "tapwater": "via een aparte boiler; Stiebel levert hem ook als 'compact duo'-set met binnenmodule",
+      "richtprijs_eur": null,
+      "prijs_toelichting": "alleen de warmtepomp, excl. installatie en boiler. Geen Nederlandse winkel met een opvraagbare prijs: Boilermarkt voert hem als set, maar gaf op 7 oktober 2026 een foutmelding.",
+      "prijs_controle": "handmatig",
+      "sturing": {
+        "status": "deels",
+        "tekst": "Volgens de productpagina optioneel in het thuisnetwerk te integreren; dat loopt bij Stiebel via de aparte ISG-gateway, net als bij de WPL-A."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "De officiële integratie (stiebel_eltron) praat Modbus met de ISG-gateway. Die gateway is een los toestel en staat niet op de productpagina van deze serie, dus reken erop dat je hem erbij koopt."
+      },
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen app, en geen community-oplossing die ik voor deze serie heb kunnen vinden."
+      },
+      "app": "Stiebel Eltron ISG web (via de ISG-gateway)",
+      "isde_indicatie_eur": 3950,
+      "isde_meldcode": "KA01552",
+      "product_url": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-20-25-ac/wpl-25-ac.html",
+      "opmerkingen": "Een grote monoblock voor buiten, bedoeld voor een groot of matig geïsoleerd huis. Bij -7 °C buiten levert hij volgens Stiebel nog 12,86 kW bij 35 °C aanvoer, hij gaat tot 65 °C aanvoer en hij kan ook koelen. Daar staat hetzelfde nadeel tegenover als bij de WPL ACS classic, want ook hier zit R410A in, met een broeikaseffect van 2088 keer CO2. Met 175 kg en 55 dB(A) is het bovendien geen toestel voor een kleine tuin vlak bij de buren. De kleinere WPL 20 AC (10 kW) is verder gelijk.",
+      "varianten": [
+        {
+          "vermogen_kw": 10,
+          "isde_eur": 3275,
+          "meldcode": "KA07230"
+        },
+        {
+          "vermogen_kw": 13,
+          "isde_eur": 3950,
+          "meldcode": "KA01552"
+        }
+      ],
+      "zoeknamen": [
+        "WPL 20 AC",
+        "WPL 25 AC compact duo"
+      ]
     }
   ]
 }
