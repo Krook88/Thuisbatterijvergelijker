@@ -125,7 +125,7 @@
       "prijs_datum": "2026-07-13",
       "prijs_bron": "Sessy",
       "installatie": "zelf",
-      "zonnepanelen_koppeling": "Hij hangt aan de muur en gaat gewoon in een geaard stopcontact; een P1-dongle op je slimme meter doet de meting. Je bestaande zonnepanelen blijven zoals ze zijn. Wordt het je te krap, dan kun je meerdere Sessy's combineren, ook verdeeld over 3 fasen.",
+      "zonnepanelen_koppeling": "Hij hangt aan de muur en gaat in een geaard stopcontact, op een groep zonder andere grote verbruikers; het hogere vermogen stel je volgens de installatiehandleiding pas in als hij op een eigen groep zit; een P1-dongle op je slimme meter doet de meting. Je bestaande zonnepanelen blijven zoals ze zijn. Wordt het je te krap, dan kun je meerdere Sessy's combineren, ook verdeeld over 3 fasen.",
       "koppeling_gemak": 5,
       "homey": true,
       "home_assistant": "Via HACS 'ha-sessy': open lokale API met volledige monitoring en sturing",
@@ -152,7 +152,7 @@
       "buiten_toelichting": "alleen voor droge binnenruimtes, 0-40 °C",
       "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "continu",
-      "vermogen_bron": "Sessy geeft 2,2 kW laden en 1,7 kW ontladen voor de ingebouwde omvormer; mij getal is die ontlaadwaarde",
+      "vermogen_bron": "Sessy geeft 2,2 kW laden en 1,7 kW ontladen voor de ingebouwde omvormer; mijn getal is die ontlaadwaarde",
       "onbalans": {
         "status": "ja",
         "via": [
@@ -224,8 +224,8 @@
       "afbeelding_bron": "foto: HomeWizard",
       "capaciteit_soort": "nominaal",
       "capaciteit_nominaal_kwh": 2.7,
-      "vermogen_conditie": "stopcontact",
-      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
+      "vermogen_conditie": "max",
+      "vermogen_bron": "HomeWizard: laden en ontladen tot 800 W; meer vermogen krijg je alleen door units te koppelen"
     },
     {
       "id": "ecoflow-stream-ac-pro",
@@ -273,7 +273,7 @@
       "afbeelding_bron": "foto: EcoFlow",
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "stopcontact",
-      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
+      "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van."
     },
     {
       "id": "anker-solix-solarbank-3-pro",
@@ -321,7 +321,7 @@
       "capaciteit_soort": "nominaal",
       "capaciteit_nominaal_kwh": 2.69,
       "vermogen_conditie": "stopcontact",
-      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
+      "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van."
     },
     {
       "id": "zendure-solarflow-hyper-2000",
@@ -370,7 +370,7 @@
       "afbeelding_bron": "foto: Zendure",
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "stopcontact",
-      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
+      "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van."
     },
     {
       "id": "zonneplan-nexus",
@@ -456,7 +456,7 @@
       "rendement_pct": 90,
       "rendement_soort": "ac",
       "rendement_bron": "opgave van Enphase, die voor de accu alleen 96% noemt",
-      "opmerkingen": "Met 15 jaar heeft hij de langste garantie van dit hele overzicht, dus als zekerheid je belangrijkste eis is, begint je zoektocht hier. Technisch is hij stapelbaar tot 70 kWh, maar Nederlandse installateurs houden het meestal bij 4 units (20 kWh). Piekvermogen 7,68 kW, 3 seconden lang. Er is een opvolger aangekondigd, de IQ Battery 10C (vierde generatie, 10 kWh), maar of die naar Nederland komt was in juli 2026 nog niet bevestigd.",
+      "opmerkingen": "Met 15 jaar deelt hij de langste garantie van dit overzicht met de Huawei LUNA2000-S1, dus als zekerheid je belangrijkste eis is, begint je zoektocht hier. Technisch is hij stapelbaar tot 70 kWh, maar Nederlandse installateurs houden het meestal bij 4 units (20 kWh). Piekvermogen 7,68 kW, 3 seconden lang. Er is een opvolger aangekondigd, de IQ Battery 10C (vierde generatie, 10 kWh), maar of die naar Nederland komt was in juli 2026 nog niet bevestigd.",
       "product_url": "https://enphase.com/nl-nl/store/storage/iq-battery-5p-flexphase",
       "aanbiedingen": [
         {
@@ -525,7 +525,7 @@
       "model": "SigenStor 8 kWh + 8 kW omvormer",
       "capaciteit_kwh": 8.06,
       "uitbreidbaar_tot_kwh": 48,
-      "vermogen_kw": 8,
+      "vermogen_kw": 4,
       "type": "hybride",
       "fase": "beide",
       "richtprijs_eur": 6499,
@@ -541,7 +541,7 @@
       "app": "mySigen",
       "garantie_jaar": 10,
       "cycli": 10000,
-      "opmerkingen": "Een van de populairste keuzes in Nederland in 2025 en 2026, en aan de specificaties te zien snap je waarom: LiFePO4, IP66 en 10.000 cycli. Let op één ding als je offertes vergelijkt: een enkele batterijmodule levert continu ongeveer 4 kW, dus voor het volle omvormervermogen heb je 2 of meer modules nodig. Compleet geïnstalleerd kom je in de praktijk op 6.500 tot 8.000 euro incl. btw voor 8 kWh.",
+      "opmerkingen": "Een van de populairste keuzes in Nederland in 2025 en 2026, en aan de specificaties te zien snap je waarom: LiFePO4, IP66 en 10.000 cycli. Let op één ding als je offertes vergelijkt: een enkele batterijmodule levert continu ongeveer 4 kW, dus voor het volle omvormervermogen heb je 2 of meer modules nodig. Frank Energie levert hem compleet geïnstalleerd voor 6.499 euro excl. btw, oftewel 7.864 euro incl. btw voor 8 kWh.",
       "product_url": "https://www.sigenergy.com/en/products/sigenstor",
       "aanbiedingen": [
         {
@@ -561,7 +561,7 @@
       "afbeelding": "assets/producten/sigenergy-sigenstor-8kwh.webp",
       "afbeelding_bron": "foto: Sigenergy",
       "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend",
+      "vermogen_conditie": "continu",
       "onbalans": {
         "status": "onbekend",
         "via": [
@@ -573,7 +573,8 @@
           }
         ],
         "toelichting": "Wordt via Frank Energie geleverd inclusief slimme sturing; of daar ook onbalanshandel bij zit heb ik niet nagegaan."
-      }
+      },
+      "vermogen_bron": "Sigen-datasheet: een BAT 8.0-module laadt en ontlaadt maximaal 4 kW, 6 kW piek gedurende 10 seconden; de omvormer kan 8 kW, maar dat haal je pas met twee modules"
     },
     {
       "id": "tesla-powerwall-3",
@@ -581,7 +582,7 @@
       "model": "Powerwall 3 (13,5 kWh)",
       "capaciteit_kwh": 13.5,
       "uitbreidbaar_tot_kwh": 40.5,
-      "vermogen_kw": 5,
+      "vermogen_kw": 11.04,
       "type": "hybride",
       "fase": "1-fase",
       "richtprijs_eur": 7497,
@@ -596,7 +597,7 @@
       "app": "Tesla app",
       "garantie_jaar": 10,
       "cycli": null,
-      "opmerkingen": "Veel capaciteit in een enkele kast, en je kunt er extra Powerwalls naast zetten. Continu levert hij ongeveer 5 kW met een piek van 7 kW, al verschillen de opgaven per bron: schrik dus niet als een offerte iets anders noemt.",
+      "opmerkingen": "Veel capaciteit in een enkele kast, en je kunt er extra Powerwalls naast zetten. Volgens de Europese datasheet levert hij tot 11,04 kW, afhankelijk van hoe de installateur hem instelt; laden uit het net gaat tot 5 kW.",
       "product_url": "https://www.tesla.com/nl_nl/powerwall",
       "aanbiedingen": [
         {
@@ -620,8 +621,8 @@
       "ip_klasse": "IP67",
       "buiten_toelichting": "binnen en buiten; bedradingscompartiment IP55",
       "capaciteit_soort": "bruikbaar",
-      "vermogen_conditie": "continu",
-      "vermogen_bron": "mijn notitie: continu circa 5 kW, piek 7 kW",
+      "vermogen_conditie": "max",
+      "vermogen_bron": "Tesla-datasheet (Europa): ontladen tot 11,04 kW, afhankelijk van de instelling bij installatie; laden uit het net tot 5 kW",
       "onbalans": {
         "status": "nee",
         "via": [],
@@ -670,7 +671,7 @@
       "buiten_toelichting": "omvormer IP65; de IP-klasse van de batterijmodule verschilt per uitvoering, vraag de installateur",
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "max",
-      "vermogen_bron": "AlphaESS noemt op de eigen pagina \"Maximaal laadvermogen 4 / 6 / 8 / 10 kW\": mij getal is de bovenste variant en bovendien een laadvermogen, niet het ontlaadvermogen",
+      "vermogen_bron": "AlphaESS noemt op de eigen pagina \"Maximaal laadvermogen 4 / 6 / 8 / 10 kW\": mijn getal is de bovenste variant en bovendien een laadvermogen, niet het ontlaadvermogen",
       "onbalans": {
         "status": "ja",
         "via": [
@@ -892,7 +893,7 @@
       ],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "Van dit systeem heb ik geen prijs inclusief installatie uit een bron. Dit is het toestel (6200 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
+      "totaalprijs_toelichting": "Van dit systeem heb ik geen prijs inclusief installatie uit een bron. Dit is de batterij (2.990 euro voor twee modules) plus de Home Hub-omvormer (1.500 tot 2.500 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
       "noodstroom": false,
       "noodstroom_uitleg": "De SolarEdge 48V-lijn levert in Nederland geen noodstroom; SolarEdge biedt back-up alleen via de 400V-lijn met de Home Backup Interface.",
       "ip_klasse": "IP65",
@@ -901,8 +902,8 @@
       "capaciteit_nominaal_kwh": 9.7,
       "vermogen_conditie": "continu",
       "vermogen_bron": "mijn notitie: vanaf 2 modules continu 5 kW",
-      "totaalprijs_geschat_van_eur": 6700,
-      "totaalprijs_geschat_tot_eur": 8200
+      "totaalprijs_geschat_van_eur": 4990,
+      "totaalprijs_geschat_tot_eur": 7490
     },
     {
       "id": "huawei-luna2000-10",
@@ -914,7 +915,7 @@
       "type": "hybride",
       "fase": "beide",
       "richtprijs_eur": 5508,
-      "prijs_omvat": "alleen batterijmodules, excl. btw; excl. SUN2000-omvormer en installatie. Compleet geïnstalleerd ca. 7.500 tot 8.500 euro incl. btw",
+      "prijs_omvat": "alleen batterijmodules, incl. btw (4.552 euro excl. btw bij Groothandel Solar); excl. SUN2000-omvormer en installatie. Compleet geïnstalleerd ca. 7.500 tot 8.500 euro incl. btw",
       "prijs_datum": "2026-10-07",
       "prijs_bron": "Groothandel Solar",
       "installatie": "installateur",
@@ -1084,7 +1085,7 @@
       "afbeelding_bron": "foto: Jackery",
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "stopcontact",
-      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel."
+      "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van."
     },
     {
       "id": "goodwe-lynx-home-u-54",
@@ -1383,7 +1384,7 @@
       "afbeelding_bron": "foto: Bluetti",
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "stopcontact",
-      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel.",
+      "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van.",
       "prijs_bron": "adviesprijs fabrikant bij de aankondiging voor Europa; de productpagina van Bluetti is verdwenen"
     },
     {
@@ -1471,7 +1472,7 @@
       "afbeelding_bron": "foto: Zendure",
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "continu",
-      "vermogen_bron": "Zendure geeft 3 kW continu on-grid en 3,68 kW off-grid; mij getal is de continue on-grid waarde"
+      "vermogen_bron": "Zendure geeft 3 kW continu on-grid en 3,68 kW off-grid; mijn getal is de continue on-grid waarde"
     },
     {
       "id": "zendure-solarflow-4000-mix-ac",
@@ -1788,7 +1789,7 @@
       "capaciteit_nominaal_kwh": 4.8,
       "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "stopcontact",
-      "vermogen_bron": "800 W is geen technische grens van de batterij maar de veiligheidsafspraak die de branche aanhoudt voor een gedeelde groep. Op een eigen groep levert hetzelfde apparaat meer - op een 16A-groep tot circa 3.500 W. Dit getal zegt dus iets over de aansluiting, niet over het toestel.",
+      "vermogen_bron": "Teruglevering aan het stopcontact is bij dit model beperkt tot 800 W",
       "afbeelding": "assets/producten/sunpura-s4800.webp",
       "afbeelding_bron": "foto: Sunpura",
       "afbeelding_herkomst": "https://sunpuraenergy.nl/cdn/shop/files/S2400_All-In-One_-_front_view_-_3.png?v=1784618697&width=900",

@@ -641,16 +641,18 @@ const OVERZICHTEN = [
     veld: "home_assistant",
     naam: "Home Assistant",
     anker: "home-assistant",
-    intro: "Home Assistant is het populairste gratis smart-home-platform voor wie zijn huis zelf wil automatiseren. Een thuisbatterij die je in Home Assistant kunt uitlezen en aansturen, kun je laten samenwerken met je zonnepanelen, dynamische stroomprijzen en de rest van je slimme huis. De ondersteuning verschilt enorm per merk. Van de 41 batterijen hier hebben er 4 een officiële integratie, werken er 30 via een omweg en doen er 7 helemaal niets.",
-    deelsUitleg: "Bij deze 30 batterijen loopt de koppeling via een omweg, zoals een community-integratie (HACS), een lokale API of Modbus. Dat werkt vaak prima, maar vraagt wat meer handigheid en kan na een firmware-update van de fabrikant haperen.",
+    intro: "Home Assistant is het populairste gratis smart-home-platform voor wie zijn huis zelf wil automatiseren. Een thuisbatterij die je in Home Assistant kunt uitlezen en aansturen, kun je laten samenwerken met je zonnepanelen, dynamische stroomprijzen en de rest van je slimme huis. De ondersteuning verschilt enorm per merk.",
+    telling: (n) => `Van de ${n.alle} batterijen hier hebben er ${n.ja} een officiële integratie, werken er ${n.deels} via een omweg en doen er ${n.nee} helemaal niets.`,
+    deelsUitleg: "Bij deze batterijen loopt de koppeling via een omweg, zoals een community-integratie (HACS), een lokale API of Modbus. Dat werkt vaak prima, maar vraagt wat meer handigheid en kan na een firmware-update van de fabrikant haperen.",
   },
   {
     bestand: "beste-thuisbatterij-homey.html",
     veld: "homey",
     naam: "Homey",
     anker: "homey",
-    intro: "Homey is het laagdrempelige smart-home-kastje waarmee je apparaten in huis laat samenwerken zonder te programmeren. Een thuisbatterij met een goede Homey-app kun je automatisch laten laden op goedkope uren en meenemen in je energie-overzicht. De ondersteuning verschilt per merk. Van de 41 batterijen hier hebben er 6 een officiële Homey-app, werken er 12 via een community-app of de Homey Energy Dongle, en doen er 23 niets.",
-    deelsUitleg: "Bij deze 12 batterijen loopt de koppeling via een community-app, een extra kastje (zoals de Homey Energy Dongle) of een beperkte integratie. Vaak goed werkbaar, maar zonder officiële ondersteuning van de fabrikant.",
+    intro: "Homey is het laagdrempelige smart-home-kastje waarmee je apparaten in huis laat samenwerken zonder te programmeren. Een thuisbatterij met een goede Homey-app kun je automatisch laten laden op goedkope uren en meenemen in je energie-overzicht. De ondersteuning verschilt per merk.",
+    telling: (n) => `Van de ${n.alle} batterijen hier hebben er ${n.ja} een officiële Homey-app, werken er ${n.deels} via een community-app of de Homey Energy Dongle, en doen er ${n.nee} niets.`,
+    deelsUitleg: "Bij deze batterijen loopt de koppeling via een community-app, een extra kastje (zoals de Homey Energy Dongle) of een beperkte integratie. Vaak goed werkbaar, maar zonder officiële ondersteuning van de fabrikant.",
   },
 ];
 
@@ -744,7 +746,7 @@ ${NAV_HTML}
   <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
   <h1>Beste thuisbatterij voor ${esc(cfg.naam)} (${JAAR})</h1>
   <p class="datum-stempel">Dagelijks automatisch bijgewerkt · laatst gecontroleerd op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
-  <p>${esc(cfg.intro)}</p>
+  <p>${esc(cfg.intro)} ${esc(cfg.telling({ alle: data.batterijen.length, ja: ja.length, deels: deels.length, nee: nee.length }))}</p>
   <p>Hieronder zie je alle ${data.batterijen.length} thuisbatterijen uit mijn vergelijker, ingedeeld naar ${esc(cfg.naam)}-ondersteuning. De prijzen worden dagelijks automatisch gecontroleerd bij de winkels. De <a href="/uitleg.html#koppel-score">Koppel-score</a> (0 tot 6 punten) telt daarnaast ook de ondersteuning voor ${cfg.veld === "homey" ? "Home Assistant" : "Homey"} en een dynamisch energiecontract mee.</p>
 
   <h2>${Iconen.svg("ja")} Volledige ${esc(cfg.naam)}-ondersteuning (${ja.length})</h2>
@@ -752,7 +754,7 @@ ${NAV_HTML}
   ${overzichtTabel(ja, cfg.veld)}
 
   <h2>~ Gedeeltelijke ondersteuning (${deels.length})</h2>
-  <p>${esc(cfg.deelsUitleg)}</p>
+  <p>${esc(cfg.deelsUitleg.replace("Bij deze batterijen", `Bij deze ${deels.length} batterijen`))}</p>
   ${overzichtTabel(deels, cfg.veld)}
 
   <h2>${Iconen.svg("nee")} Geen ${esc(cfg.naam)}-ondersteuning (${nee.length})</h2>
@@ -917,7 +919,7 @@ ${NAV_HTML}
   <h1>${esc(titel)}</h1>
   <p class="datum-stempel">Dagelijks automatisch bijgewerkt · laatst gecontroleerd op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
-  <p>Een stekkerbatterij steek je zelf in een gewoon stopcontact. Geen installateur, geen ingreep in de meterkast, geen wachtlijst. Van de 41 batterijen op deze site zijn er 23 zo aan te sluiten. Je komt hem ook tegen als <b>plug-and-play thuisbatterij</b>, als <b>balkonbatterij</b> of gewoon als <b>thuisbatterij met stekker</b>. Vier namen voor hetzelfde apparaat.</p>
+  <p>Een stekkerbatterij steek je zelf in een gewoon stopcontact. Geen wachtlijst, en tot 800 W ook geen ingreep in de meterkast. Van de ${data.batterijen.length} batterijen op deze site zijn er ${stekker.length} zo aan te sluiten. Je komt hem ook tegen als <b>plug-and-play thuisbatterij</b>, als <b>balkonbatterij</b> of gewoon als <b>thuisbatterij met stekker</b>. Vier namen voor hetzelfde apparaat.</p>
 
   <p>Hieronder staan alle ${stekker.length} modellen uit mijn vergelijker die je zonder monteur aansluit, gesorteerd op prijs per kilowattuur. De prijzen worden dagelijks automatisch bij de winkels gecontroleerd.</p>
 
@@ -928,13 +930,14 @@ ${NAV_HTML}
   <ul>
     <li><b>Noodstroom is iets anders dan je denkt.</b> ${metNoodstroom} van de ${stekker.length} hebben een noodstroomfunctie, maar dat is bij vrijwel alle modellen een stopcontact op het apparaat zelf. Bij een stroomstoring blijft wat je daarin steekt werken; de rest van je huis niet. Een automatische overschakeling van de hele woning vraagt een batterij die een installateur plaatst.</li>
     <li><b>Buiten hangen mag niet zomaar.</b> ${buiten} van de ${stekker.length} hebben een IP65-behuizing of beter en kunnen daarmee tegen regen. De rest hoort binnen te staan.</li>
+    <li><b>Boven 800 W een eigen groep.</b> Tot 800 W kan een stekkerbatterij op een gewone groep. Levert hij meer, dan hoort hij op een eigen groep in de meterkast, en die legt een installateur aan. Bij ${stekker.filter((b) => b.vermogen_kw > 0.8).length} van de ${stekker.length} modellen hier kan dat nodig zijn, als je het hogere vermogen wilt gebruiken.</li>
     <li><b>Je kunt hem meenemen.</b> Verhuis je, dan gaat hij mee. Dat scheelt bij een huurwoning of een huis dat je over een paar jaar verkoopt.</li>
   </ul>
 
   <h2>Stekker of installateur?</h2>
-  <p>De keuze gaat over het instapbedrag en over wat je ermee kunt. Een stekkerbatterij begint hier bij 669 euro, een systeem met installateur bij 1.625 euro. Op prijs per kilowattuur ontlopen de twee groepen elkaar minder dan je zou denken.</p>
+  <p>De keuze gaat over het instapbedrag en over wat je ermee kunt. Een stekkerbatterij begint hier bij ${eur(Math.min(...prijzen))}${restPrijzen.length ? `, een systeem met installateur bij ${eur(Math.min(...restPrijzen))}` : ""}. Op prijs per kilowattuur ontlopen de twee groepen elkaar minder dan je zou denken.</p>
   <ul>
-    <li><b>Instappen is goedkoper.</b> De goedkoopste stekkerbatterij in mijn vergelijker kost ${eur(Math.min(...prijzen))}${restPrijzen.length ? `, tegenover ${eur(Math.min(...restPrijzen))} voor de goedkoopste batterij die een installateur plaatst` : ""}. Daar komt bij dat de installatie zelf niets kost.</li>
+    <li><b>Instappen is goedkoper.</b> De goedkoopste stekkerbatterij in mijn vergelijker kost ${eur(Math.min(...prijzen))}${restPrijzen.length ? `, tegenover ${eur(Math.min(...restPrijzen))} voor de goedkoopste batterij die een installateur plaatst` : ""}. Daar komt bij dat de installatie meestal niets kost, behalve als je voor een zwaarder model een eigen groep laat aanleggen.</li>
     <li><b>Groot worden ze niet.</b> De stekkermodellen gaan tot ${nl(Math.max(...caps))} kWh${restCaps.length ? `; de vaste batterijen lopen door tot ${nl(Math.max(...restCaps))} kWh` : ""}. Heb je een groot verbruik, een warmtepomp of een elektrische auto, dan loop je tegen die grens aan.</li>
     <li><b>Uitbreiden kan vaak wel.</b> Veel merken verkopen losse uitbreidingsmodules die je aan dezelfde stekkerbatterij hangt. Kijk op de modelpagina wat de maximale capaciteit is voordat je de kleinste koopt.</li>
     <li><b>Zonnepanelen aansluiten verschilt.</b> Sommige stekkerbatterijen nemen zelf zonnepanelen aan, andere laden alleen uit het stopcontact en werken samen met je bestaande omvormer. Dat staat per model in de tabel op de <a href="/index.html">vergelijker</a>.</li>
@@ -1086,7 +1089,7 @@ ${NAV_HTML}
 
   <h2>Per capaciteit</h2>
   ${kostenTabel(rijen)}
-  <p class="datum-stempel">Prijs van het apparaat, incl. btw, bij de goedkoopste winkel die ik vind. Waar geen winkel is, staat de richtprijs van de fabrikant. De mediaan is het middelste model van die groep. Dat is bewust niet het gemiddelde, want één uitschieter trekt een gemiddelde scheef, en die staat er in elke groep; over alle 41 modellen loopt de prijs per kWh van 192 tot 1.098 euro.</p>
+  <p class="datum-stempel">Prijs van het apparaat, incl. btw, bij de goedkoopste winkel die ik vind. Waar geen winkel is, staat de richtprijs van de fabrikant. De mediaan is het middelste model van die groep. Dat is bewust niet het gemiddelde, want één uitschieter trekt een gemiddelde scheef, en die staat er in elke groep; over alle ${data.batterijen.length} modellen loopt de prijs per kWh van ${(() => { const pk = data.batterijen.map((b) => perKwhInclBtw(b)).filter((v) => typeof v === "number" && v > 0); return `${eur(Math.min(...pk))} tot ${eur(Math.max(...pk))}`; })()}.</p>
 
   <h2>Groter is niet goedkoper per kilowattuur</h2>
   <p>Dat is de aanname achter bijna elk prijsoverzicht, en in mijn gegevens klopt hij niet. De mediaan per kWh ligt bij <b>${eur(perKwhStekker)}</b> voor een stekkerbatterij en bij <b>${eur(perKwhVast)}</b> voor een batterij die een installateur plaatst, terwijl de grootste modellen juist van die tweede soort zijn.</p>
@@ -1095,9 +1098,9 @@ ${NAV_HTML}
   <h2>Wat er nog bij komt</h2>
   <p>De bedragen hierboven zijn het apparaat. Gebruiksklaar is iets anders, en dat verschilt sterk per soort:</p>
   <ul>
-    ${compleetStekker ? `<li><b>Met stekker: ${eur(compleetStekker.van)} tot ${eur(compleetStekker.tot)} compleet.</b> Vaak is de winkelprijs al alles; soms komt er een P1-meter van een paar tientjes bij. Je sluit hem zelf aan, dus installatiekosten zijn er niet.</li>` : ""}
+    ${compleetStekker ? `<li><b>Met stekker: ${eur(compleetStekker.van)} tot ${eur(compleetStekker.tot)} compleet.</b> Vaak is de winkelprijs al alles; soms komt er een P1-meter van een paar tientjes bij. Je sluit hem zelf aan; alleen een model boven 800 W vraagt een eigen groep, en dat is werk voor een installateur.</li>` : ""}
     ${compleetVast ? `<li><b>Met installateur: ${eur(compleetVast.van)} tot ${eur(compleetVast.tot)} compleet.</b> Hier zit het verschil met de kale apparaatprijs in montage, bekabeling, een omvormer als je die nog niet hebt, en werk in de meterkast.</li>` : ""}
-    <li><b>Btw.</b> Alle bedragen op deze site zijn incl. btw. Koop je de batterij samen met zonnepanelen, dan geldt vaak het nultarief; los ervan meestal niet. Wat er precies geldt staat op <a href="/regelgeving.html">regels en subsidies</a>.</li>
+    <li><b>Btw.</b> Alle bedragen op deze site zijn incl. btw. Ook als je de batterij samen met zonnepanelen koopt, betaal je over de batterij 21 procent btw; het nultarief geldt alleen voor de panelen. Wat er precies geldt staat op <a href="/regelgeving.html">regels en subsidies</a>.</li>
     ${zonderCompleet ? `<li><b>Van ${zonderCompleet} modellen weet ik de complete prijs niet.</b> Dat zijn er die alleen via een installateur gaan, waar het bedrag van je woning afhangt. Die staan in de tabel met de apparaatprijs; de offerte is leidend.</li>` : ""}
   </ul>
 
@@ -1123,13 +1126,13 @@ ${VOET_HTML}
 
    Waar deze pagina zich verre van houdt: voorspellen dat batterijen goedkoper
    worden. Dat is de standaardzin in dit hoekje van het internet, en wij kunnen
-   hem niet waarmaken: onze gegevens bevatten geen prijsgeschiedenis, alleen de
-   prijs van vandaag. Een bewering over een dalende lijn zou hier dus verzonnen
+   hem niet waarmaken: het prijsverloop per winkel loopt pas sinds augustus
+   2026, te kort voor een trend. Een bewering over een dalende lijn zou hier dus verzonnen
    zijn. Dat schrijven we ook op, want het is een van de twee argumenten die
    mensen tegenkomen en het is nergens op gebaseerd.
 
    Wat we wel kunnen: de dingen benoemen die aantoonbaar veranderen (de datum
-   van de saldering, de btw-voorwaarde, de wachtlijst bij de netbeheerder) en
+   van de saldering, de btw, de wachtlijst bij de netbeheerder) en
    de bezoeker naar de rekenmodule sturen, want het antwoord hangt af van zijn
    contract en zijn verbruik en niet van het jaartal.
    ------------------------------------------------------------------ */
@@ -1187,7 +1190,7 @@ ${NAV_HTML}
 
   <h2>Redenen om niet te wachten</h2>
   <ul>
-    <li><b>Je hebt al een dynamisch contract.</b> Dan levert een batterij nu al op, los van de saldering: laden als de prijs laag is, gebruiken als hij hoog is. ${dynamisch.length} van de ${data.batterijen.length} modellen in mijn vergelijker kunnen op uurprijzen sturen.</li>
+    <li><b>Je hebt al een dynamisch contract.</b> Dan levert een batterij nu al op, los van de saldering: laden als de prijs laag is, gebruiken als hij hoog is. ${dynamisch.length} van de ${data.batterijen.length} modellen in mijn vergelijker kunnen op wisselende stroomprijzen sturen, een deel daarvan via Home Assistant of de leverancier.</li>
     <li><b>Je levert veel terug en betaalt terugleverkosten.</b> Die kosten lopen nu al, niet pas in 2027. Elke maand wachten is een maand betalen om je eigen stroom kwijt te raken.</li>
     <li><b>Je wilt een zwaardere aansluiting.</b> Bij netcongestie kun je als kleinverbruiker op een wachtlijst komen. Een batterij vangt juist de piek af, dus die aanvraag wordt er niet makkelijker op door te wachten.</li>
     <li><b>Er staat nu een aanbieding op.</b> ${korting.length ? `Op dit moment ${korting.length === 1 ? "is dat bij één model het geval" : `zijn dat er ${korting.length}`}; ik markeer ze in de <a href="/index.html">vergelijker</a>.` : "Op dit moment staat er bij geen enkel model een korting, maar dat wisselt per week."}</li>
@@ -1196,14 +1199,14 @@ ${NAV_HTML}
   <h2>Redenen om wel te wachten</h2>
   <ul>
     <li><b>Je hebt nog een vast contract dat pas later afloopt.</b> Zonder prijsverschil per uur en zonder terugleverkosten valt er weinig te verdienen. Laat de batterij samenvallen met een nieuw contract.</li>
-    <li><b>Je overweegt zonnepanelen erbij.</b> Koop je de batterij tegelijk met panelen, dan geldt vaak het nultarief voor de btw; los ervan meestal niet. Dat scheelt 21 procent en is het wachten waard.</li>
     <li><b>Je weet nog niet hoe groot.</b> Te groot kopen kost geld dat je niet terugverdient, en dat is een duurdere vergissing dan een paar maanden later beslissen. Doe eerst de <a href="/advies.html">keuzehulp</a>.</li>
     <li><b>Je huis verandert nog.</b> Komt er een warmtepomp of een laadpaal, dan verandert je verbruikspatroon en daarmee de maat die past.</li>
   </ul>
 
   <h2>Wat géén reden is</h2>
   <ul>
-    <li><b>"Batterijen worden elk jaar goedkoper."</b> Dat kan ik niet hardmaken en ik doe het daarom niet. Mijn vergelijker bewaart de prijs van vandaag en geen prijsgeschiedenis, dus een dalende lijn zou hier een aanname zijn en geen meting. Wat ik wel zie: het bereik loopt vandaag van ${eur(Math.min(...alle))} tot ${eur(Math.max(...alle))}, en dat verschil is groter dan wat een jaar wachten aan welke kant dan ook zou opleveren. Kiezen wat bij je past levert meer op dan timen.</li>
+    <li><b>"Batterijen worden elk jaar goedkoper."</b> Dat kan ik niet hardmaken en ik doe het daarom niet. Mijn vergelijker houdt pas sinds augustus 2026 het prijsverloop per winkel bij, en dat is te kort voor een trend; een dalende lijn zou hier een aanname zijn en geen meting. Wat ik wel zie: het bereik loopt vandaag van ${eur(Math.min(...alle))} tot ${eur(Math.max(...alle))}, en dat verschil is groter dan wat een jaar wachten aan welke kant dan ook zou opleveren. Kiezen wat bij je past levert meer op dan timen.</li>
+    <li><b>"De btw gaat eraf."</b> Het Belastingplan 2027 van Prinsjesdag 2026 laat de btw op thuisbatterijen op 21 procent staan, ook als je ze samen met zonnepanelen koopt. Zie <a href="/regelgeving.html#btw">regels en subsidies</a>.</li>
     <li><b>"Straks is er subsidie."</b> Er is in ${JAAR} geen landelijke aankoopsubsidie voor thuisbatterijen, en er ligt geen aangekondigde regeling klaar. Wachten op iets wat niet is aangekondigd is geen plan.</li>
     <li><b>"Ik moet erbij zijn voordat de saldering stopt."</b> Andersom: daarna is hij nuttiger. De datum is geen deadline voor de koper van een batterij.</li>
   </ul>

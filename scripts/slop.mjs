@@ -271,8 +271,9 @@ const DUBBELE_PUNT = /[a-z0-9)"'’]: [a-z]/;
    iets anders: ...") stond er 52 keer, en twee per pagina telde op.
    Later in oktober 2026: 174. Elke paneelpagina eindigde met "Meer
    informatie: officiële website van ...", zodat elk nieuw paneel het getal
-   met één ophoogde. */
-const DUBBELE_PUNT_BUDGET = 174;
+   met één ophoogde. Daarna 173, na het herschrijven van de btw-tekst.
+   */
+const DUBBELE_PUNT_BUDGET = 173;
 
 const zonderRuis = (html) =>
   html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/g, " ");

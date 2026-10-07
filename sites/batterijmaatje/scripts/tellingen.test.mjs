@@ -68,3 +68,19 @@ for (const { woord, verwacht } of CLAIMS) {
     assert.deepEqual(fout, [], `staat er ${verwacht()} in de gegevens, dan hoort dat ook op de pagina te staan:\n  ${fout.join("\n  ")}`);
   });
 }
+
+/* "Van de 41 batterijen" stond zo nog op zes plekken toen er 57 waren: de
+   proef hierboven zoekt alleen het woord "thuisbatterijen". Deze vangt de
+   gewone schrijfwijze van het totaal ook. Een deelverzameling heeft altijd
+   een bijvoeglijk woord ertussen ("de 23 stekkerbatterijen"), dus die valt er
+   vanzelf buiten. */
+test("elk genoemd totaal batterijen of modellen klopt met de gegevens", () => {
+  const patroon = /\b(?:[Vv]an de|[Aa]lle|[Dd]e)\s+(\d+)\s+batterijen\b(?!\s+met\b)/g;
+  const fout = [];
+  for (const pagina of paginas) {
+    for (const [, getal] of zonderTags(lees(pagina)).matchAll(patroon)) {
+      if (Number(getal) !== batterijen.length) fout.push(`${pagina}: ${getal}`);
+    }
+  }
+  assert.deepEqual(fout, [], `er zijn ${batterijen.length} batterijen:\n  ${fout.join("\n  ")}`);
+});

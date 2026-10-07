@@ -365,8 +365,8 @@
         {
           "@type": "DefinedTerm",
           "@id": "https://batterijmaatje.nl/uitleg.html#uurprijzen",
-          "name": "Uurprijzen (stroombeurs, EPEX)",
-          "description": "Stroom wordt per uur verhandeld op een beurs (de EPEX). Bij een dynamisch contract betaal je die uurprijzen. Midden op de dag en 's nachts is stroom vaak goedkoop, aan het begin van de avond duur.",
+          "name": "Uur- en kwartierprijzen (stroombeurs, EPEX)",
+          "description": "Stroom wordt op de day-ahead-beurs (de EPEX) sinds 1 oktober 2025 per kwartier verhandeld, daarvoor per uur. Bij een dynamisch contract betaal je die prijzen. Midden op de dag en 's nachts is stroom vaak goedkoop, aan het begin van de avond duur.",
           "url": "https://batterijmaatje.nl/uitleg.html#uurprijzen"
         },
         {
@@ -425,7 +425,7 @@
 
   <h1>Hoe werkt een thuisbatterij? Eenvoudige uitleg</h1>
   <p class="intro">In gewone taal, zonder dat je iets van elektrotechniek hoeft te weten. Alle voorbeelden hieronder komen uit de <span data-cijfer="aantal">57</span> batterijen die op deze site staan, dus je kunt ze nalopen in de <a href="index.html">vergelijker</a>. Onderaan staan <span data-cijfer="woorden">33</span> woorden uitgelegd die je in folders en offertes tegenkomt.</p>
-  <p class="bijgewerkt-regel">Bijgewerkt op <time data-bijgewerkt data-stand="d1a29678afef" datetime="2026-10-07">7 oktober 2026</time>. Alle getallen komen elke dag vers uit de prijscontrole van de batterijen.</p>
+  <p class="bijgewerkt-regel">Bijgewerkt op <time data-bijgewerkt data-stand="b139c95c22d9" datetime="2026-10-07">7 oktober 2026</time>. Alle getallen komen elke dag vers uit de prijscontrole van de batterijen.</p>
 
   <div class="kort-antwoord" data-vraag="Hoe werkt een thuisbatterij?">
     <p class="kort-label">Kort antwoord</p>
@@ -628,7 +628,7 @@
   <text x="538.0833333333334" y="56" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg> leveren</text>
   <!-- legenda -->
   <line x1="52" y1="18" x2="78" y2="18" stroke="#0d9488" stroke-width="3"/>
-  <text x="84" y="22" font-size="13" font-weight="600" fill="#24312f">dynamisch (per uur)</text>
+  <text x="84" y="22" font-size="13" font-weight="600" fill="#24312f">dynamisch contract</text>
   <line x1="252" y1="18" x2="278" y2="18" stroke="#d97706" stroke-width="3" stroke-dasharray="7 6"/>
   <text x="284" y="22" font-size="13" font-weight="600" fill="#24312f">vast tarief (€ 0,30)</text>
   <circle cx="64.79166666666666" cy="208.22857142857143" r="9" fill="transparent"><title>00:00 – 01:00: € 0,22 per kWh (vast: € 0,30)</title></circle>
@@ -670,12 +670,12 @@
   <p><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg> Dit werkt trouwens niet alleen met een batterij. Ook een <b>warmtepomp</b> kan met slimme sturing het boilervat opwarmen of de vloer voorverwarmen in de goedkope uren, en een elektrische auto laadt dan het voordeligst. Hoe meer flexibel verbruik je hebt, hoe meer een dynamisch contract oplevert. Warmtepompen die dit kunnen vergelijk je op mijn zustersite <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a>.</p>
 
   <h2 id="day-ahead-en-onbalans">Day-ahead en onbalansmarkt: twee manieren van slim handelen</h2>
-  <p>Een dynamisch contract en handelen op de onbalansmarkt worden vaak op één hoop gegooid. Het zijn twee verschillende markten. Op day-ahead ligt de prijs een dag vooruit vast, per uur van 60 minuten. Op de onbalansmarkt blijkt hij pas achteraf, per kwartier. Dat verschil bepaalt wie de batterij aanstuurt.</p>
+  <p>Een dynamisch contract en handelen op de onbalansmarkt worden vaak op één hoop gegooid. Het zijn twee verschillende markten. Op day-ahead ligt de prijs een dag vooruit vast, sinds 1 oktober 2025 per kwartier. Op de onbalansmarkt blijkt hij pas achteraf. Dat verschil in timing bepaalt wie de batterij aanstuurt.</p>
   <div class="tabel-blok los">
   <table class="data-tabel">
     <thead><tr><th>&nbsp;</th><th>Day-ahead (dynamisch contract)</th><th>Onbalansmarkt</th></tr></thead>
     <tbody>
-      <tr><th>Wanneer staat de prijs vast?</th><td>Een dag vooruit, per uur</td><td>Pas achteraf, per kwartier</td></tr>
+      <tr><th>Wanneer staat de prijs vast?</th><td>Een dag vooruit, per kwartier</td><td>Pas achteraf, per kwartier</td></tr>
       <tr><th>Hoe snel moet je reageren?</th><td>Uren van tevoren te plannen</td><td>Binnen seconden</td></tr>
       <tr><th>Wie stuurt de batterij aan?</th><td>De batterij zelf, met je eigen app</td><td>Een leverancier of aggregator, die honderden batterijen bundelt</td></tr>
       <tr><th>Kun je zelf meedoen?</th><td>Ja, met een dynamisch contract naar keuze</td><td>Nee, alleen via zo'n partij - en vaak alleen met een contract bij die partij</td></tr>
@@ -769,7 +769,7 @@
     <div class="woord" id="terugleverkosten"><dt>Terugleverkosten</dt><dd>Kosten die veel energieleveranciers rekenen aan mensen met zonnepanelen, omdat teruggeleverde middagstroom hen geld kost. Gemiddeld zo'n 300 euro per jaar (peildatum oktober 2025, bron: ACM). In het spraakgebruik heet dit vaak de <b>terugleverboete</b>, maar een boete is het niet: het is een tarief dat je leverancier in rekening brengt, en het verschilt per contract. Een batterij die je teruglevering vermindert, verlaagt deze kosten.</dd></div>
     <div class="woord" id="terugleververgoeding"><dt>Terugleververgoeding</dt><dd>Het bedrag dat je vanaf 2027 krijgt voor stroom die je aan het net teruggeeft. Naar verwachting zo'n 4 tot 6 cent per kWh, veel minder dan wat stroom kopen kost.</dd></div>
     <div class="woord" id="terugverdientijd"><dt>Terugverdientijd</dt><dd>Het aantal jaren voordat de besparingen van de batterij samen net zo groot zijn als de aanschafprijs. Daarna levert hij "gratis" voordeel op. Reken het uit met mijn <a href="rekenmodule.html">rekenhulp</a>.</dd></div>
-    <div class="woord" id="uurprijzen"><dt>Uurprijzen (stroombeurs, EPEX)</dt><dd>Stroom wordt per uur verhandeld op een beurs (de EPEX). Bij een dynamisch contract betaal je die uurprijzen. Midden op de dag en 's nachts is stroom vaak goedkoop, aan het begin van de avond duur.</dd></div>
+    <div class="woord" id="uurprijzen"><dt>Uur- en kwartierprijzen (stroombeurs, EPEX)</dt><dd>Stroom wordt op de day-ahead-beurs (de EPEX) sinds 1 oktober 2025 per kwartier verhandeld, daarvoor per uur. Bij een dynamisch contract betaal je die prijzen. Midden op de dag en 's nachts is stroom vaak goedkoop, aan het begin van de avond duur.</dd></div>
     <div class="woord" id="eigen-verbruik"><dt>Zelf verbruiken (eigen verbruik)</dt><dd>Het deel van je zonnestroom dat je direct zelf gebruikt in plaats van teruglevert. Zonder batterij is dat vaak maar 30 procent. Een batterij maakt dat deel veel groter, en dat is precies waar de besparing zit.</dd></div>
     <div class="woord" id="zelfvoorzienend"><dt>Zelfvoorzienend</dt><dd>Helemaal in je eigen stroom voorzien, zonder het net. In Nederland lukt dat vrijwel nooit het hele jaar: in de winter leveren zonnepanelen te weinig op. Grotendeels zelfvoorzienend in de zomer kan wel, net als noodstroom voor tijdens storingen.</dd></div>
   </dl>
