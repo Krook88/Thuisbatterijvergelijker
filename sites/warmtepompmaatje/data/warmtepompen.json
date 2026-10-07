@@ -91,7 +91,7 @@
       },
       "app": "Daikin Onecta",
       "garantie_jaar": 5,
-      "opmerkingen": "Een monoblock die naast je cv-ketel komt te hangen. Al het koudemiddel zit in de buitenunit, binnen loopt alleen water. Van alle pompen hier is dit met 59 dB(A) de luidste, dus met de buren dichtbij is dit niet je eerste keus. Let op de naam: Daikin heeft ook een R Hybride, en dat is een split met een aparte binnenunit.",
+      "opmerkingen": "Een monoblock die naast je cv-ketel komt te hangen. Al het koudemiddel zit in de buitenunit, binnen loopt alleen water. Met 59 dB(A) hoort hij bij de luidste hier; alleen de Atlantic Alfea en de grote Bosch 5800i zitten met 60 hoger. Met de buren dichtbij is dit dus niet je eerste keus. Let op de naam: Daikin heeft ook een R Hybride, en dat is een split met een aparte binnenunit.",
       "product_url": "https://www.daikin.nl/nl_nl/installateurs/productgroup/verwarming-en-warmtepompen/lucht-water-warmtepompen/hybrid-heatpump.html",
       "aanbiedingen": [
         {
@@ -590,7 +590,7 @@
       },
       "app": "Bosch HomeCom Easy",
       "garantie_jaar": 5,
-      "opmerkingen": "Met 51 dB(A) de stilste pomp in deze vergelijking op de Inventum na, en die laatste is een heel ander type. Als je buren dichtbij wonen of de unit onder een slaapkamerraam komt, is dat het argument. Propaan, 75 graden aanvoer, en in Nederland ook via de Nefit-kanalen te krijgen.",
+      "opmerkingen": "Met 51 dB(A) de stilste buitenunit in deze vergelijking; alleen de Stiebel WPL ICS en de Inventum zijn stiller, en die staan allebei binnen. Als je buren dichtbij wonen of de unit onder een slaapkamerraam komt, is dat het argument. Propaan, 75 graden aanvoer, en in Nederland ook via de Nefit-kanalen te krijgen.",
       "product_url": "https://www.nefit-bosch.nl/ocs/compress-5800i-aw-21076799-p/",
       "aanbiedingen": [
         {
@@ -776,7 +776,7 @@
       },
       "app": "SmartThings",
       "garantie_jaar": 5,
-      "opmerkingen": "Levert tapwater tot 70 graden, dus bestaande radiatoren kunnen meestal blijven zitten. De Quiet-uitvoering mikt op rijtjeshuizen: 54 dB(A) is netjes voor dit vermogen. Slim aansturen kan, maar Home Assistant vraagt een omweg en een Homey-app is er niet.",
+      "opmerkingen": "Haalt een aanvoertemperatuur tot 70 graden, dus bestaande radiatoren kunnen meestal blijven zitten. De Quiet-uitvoering mikt op rijtjeshuizen: 54 dB(A) is netjes voor dit vermogen. Slim aansturen kan, maar Home Assistant vraagt een omweg en een Homey-app is er niet.",
       "product_url": "https://www.samsung.com/nl/business/climate/",
       "isde_meldcode": "KA23536",
       "aanbiedingen": [
@@ -872,13 +872,13 @@
       "merk": "Stiebel Eltron",
       "model": "WPL-A 07 HK Premium",
       "type": "all-electric",
-      "voorbeeld_variant": "WPL-A 07.2 Plus HK 230 (monoblock, 7 kW)",
+      "voorbeeld_variant": "WPL-A 07 HK 230 Premium (monoblock, 7 kW)",
       "vermogen_kw": 7,
       "scop": 4.6,
       "scop_toelichting": "labelwaarde bij 35 °C aanvoer",
       "geluid_db": 54,
       "geluid_toelichting": "geluidsvermogen buitenunit; met stille nachtmodus",
-      "koudemiddel": "R290 (propaan)",
+      "koudemiddel": "R454C (GWP 146)",
       "tapwater": "via geïntegreerde hydromodule met aparte boiler",
       "max_aanvoer_c": 75,
       "richtprijs_eur": 8500,
@@ -914,7 +914,7 @@
       ],
       "prijs_datum": "2026-10-07",
       "isde_meldcode": "KA19406",
-      "opmerkingen": "Propaan, 75 graden aanvoer en officiële Home Assistant-integratie, een combinatie die je niet vaak samen ziet. Met 54 dB(A) hoort hij bij de stillere helft. Een degelijke keus als je van het gas af wilt zonder je afgiftesysteem te verbouwen.",
+      "opmerkingen": "75 graden aanvoer en officiële Home Assistant-integratie, een combinatie die je niet vaak samen ziet. Het koudemiddel is R454C, met een broeikaseffect van 146 keer CO2. Dat is net onder de grens van 150 die vanaf 2027 voor nieuwe monoblocks tot 12 kW geldt, maar ver boven de 3 van propaan. De 10 en 13 kW-uitvoeringen draaien op R452B (675). Met 54 dB(A) hoort hij bij de stillere helft.",
       "varianten": [
         {
           "vermogen_kw": 5,
@@ -1020,13 +1020,13 @@
       "merk": "Itho Daalderop",
       "model": "Amber 95",
       "type": "all-electric",
-      "voorbeeld_variant": "Amber 95 monoblock (9,5 kW)",
+      "voorbeeld_variant": "Amber 95 monoblock (6 kW)",
       "vermogen_kw": 6,
       "scop": 4.5,
       "scop_toelichting": "labelwaarde bij 35 °C aanvoer",
       "geluid_db": 52,
       "geluid_toelichting": "geluidsvermogen buitenunit; ontworpen op stille werking",
-      "koudemiddel": "R32",
+      "koudemiddel": "R290 (natuurlijk)",
       "tapwater": "aparte boiler nodig",
       "max_aanvoer_c": 65,
       "richtprijs_eur": 5450,
@@ -1069,7 +1069,7 @@
       "isde_meldcode": "KA24521",
       "garantie_jaar": 5,
       "garantie_toelichting": "2 jaar fabrieksgarantie, plus 3 jaar op onderdelen als je de pomp registreert, volgens ithodaalderop.nl",
-      "opmerkingen": "Met 9,5 kW een van de krachtigste hier, bedoeld voor grotere of slechter geïsoleerde woningen. Op 52 dB(A) blijft hij ondanks dat vermogen opvallend stil - alleen de Bosch en de Inventum doen het beter. Nederlands merk met een breed servicenetwerk; koppelen kan, maar overal via een omweg.",
+      "opmerkingen": "De 95 in de naam is geen vermogen dat je hier terugziet, want de ISDE-opgave is 6 kW; daarmee zit hij in het midden van deze lijst. Op 52 dB(A) is hij opvallend stil; alleen de Bosch 5800i en twee toestellen die binnen staan doen het beter. Hij werkt met propaan (R290). Nederlands merk met een breed servicenetwerk; koppelen kan, maar overal via een omweg.",
       "varianten": [
         {
           "vermogen_kw": 4,
@@ -1485,7 +1485,7 @@
         "status": "onbekend",
         "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
       },
-      "opmerkingen": "Franse fabrikant die in Nederland ruim verkrijgbaar is, met een SCOP van 4,65 bij 35 graden aanvoer en maten van 4 tot 8 kW. Let op de uitvoering die je koopt. De DUO heeft de boiler ingebouwd, de gewone versie vraagt er een aparte bij - dat scheelt zowel in prijs als in de ruimte die je nodig hebt.",
+      "opmerkingen": "Franse fabrikant die in Nederland ruim verkrijgbaar is, met een SCOP van 4,46 bij 35 graden aanvoer en maten van 4 tot 8 kW. Let op de uitvoering die je koopt. De DUO heeft de boiler ingebouwd, de gewone versie vraagt er een aparte bij - dat scheelt zowel in prijs als in de ruimte die je nodig hebt.",
       "product_url": "https://atlanticclimate.nl/product/alfea-warmtepompen-r32/",
       "aanbiedingen": [
         {

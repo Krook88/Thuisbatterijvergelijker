@@ -358,7 +358,7 @@ function geluidPagina() {
 
   const titel = "Warmtepomp geluid: normen, dB en de erfgrens";
   const metaDesc = kortOmschrijving(
-    `Hoeveel geluid maakt een warmtepomp? De norm van 45 en 40 dB(A) op de erfgrens uitgelegd, met het geluidsvermogen van ${gemeten.length} warmtepompen omgerekend naar afstand.`,
+    `Hoeveel geluid maakt een warmtepomp? De norm van 40 dB(A) op de erfgrens uitgelegd, met het geluidsvermogen van ${gemeten.length} warmtepompen omgerekend naar afstand.`,
   );
 
   const itemList = JSON.stringify({
@@ -407,15 +407,15 @@ ${kop("", false)}
   <h1>Warmtepomp en geluid</h1>
   <p class="datum-stempel">Samengesteld uit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
-  <p>Geluid is de vraag waar de meeste twijfel zit voordat iemand een warmtepomp koopt, en terecht. Het is de enige eigenschap met een harde wettelijke grens eraan, van 45 dB(A) overdag en 40 dB(A) 's nachts. Alleen gaat die grens over iets anders dan het getal dat op het productblad staat, en daar gaat het mis in bijna alles wat je erover leest.</p>
+  <p>Geluid is de vraag waar de meeste twijfel zit voordat iemand een warmtepomp koopt, en terecht. Het is de enige eigenschap met een harde wettelijke grens eraan, van 40 dB(A) op de erfgrens. Alleen gaat die grens over iets anders dan het getal dat op het productblad staat, en daar gaat het mis in bijna alles wat je erover leest.</p>
 
-  <h2>De norm: 45 dB(A) overdag, 40 dB(A) 's nachts</h2>
+  <h2>De norm op de erfgrens</h2>
   <p>Sinds 1 april 2021 geldt in Nederland een geluidseis voor de buitenunit van een warmtepomp of airco bij een woning. Die staat nu in het Besluit bouwwerken leefomgeving:</p>
   <ul>
-    <li><b>45 dB(A)</b> tussen 07:00 en 19:00 uur;</li>
-    <li><b>40 dB(A)</b> tussen 19:00 en 07:00 uur.</li>
+    <li><b>40 dB(A)</b> als hoofdregel, gemeten bij de stand waarin de pomp het hardst werkt;</li>
+    <li><b>45 dB(A)</b> tussen 07:00 en 19:00 uur, maar alleen als de pomp een aparte stille stand heeft die 's avonds en 's nachts wel onder de 40 dB(A) blijft.</li>
   </ul>
-  <p>Beide gelden <b>op de erfgrens met de buren</b>, dus niet bij het apparaat en ook niet bij het slaapkamerraam van de buren. Blijf je onder die 45 en 40 dB(A), dan heb je in de regel geen vergunning nodig en kan de gemeente je niet op het geluid aanspreken. Sommige gemeenten hebben aanvullende beleidsregels over waar een unit mag hangen; dat verschilt per gemeente.</p>
+  <p>Beide gelden <b>op de erfgrens met de buren</b>, dus niet bij het apparaat en ook niet bij het slaapkamerraam van de buren. Blijf je eronder, dan voldoe je aan de landelijke eis en heb je in de regel geen vergunning nodig (<a href="https://iplo.nl/regelgeving/regels-voor-activiteiten/technische-bouwactiviteit/verbouw/geluid-bouwwerkinstallaties/" target="_blank" rel="noopener">IPLO</a>). Sommige gemeenten hebben aanvullende beleidsregels over waar een unit mag hangen; dat verschilt per gemeente.</p>
 
   <h2>Waarom het getal op het label niet de norm is</h2>
   <p>Er zijn twee soorten decibellen in het spel, en ze verschillen makkelijk vijftien tot twintig punten:</p>
@@ -485,6 +485,21 @@ ${voet(false)}
 const BOUWVORM_BESTAND = "monoblock-of-split.html";
 
 const isPropaan = (w) => /R290|propaan/i.test(w.koudemiddel || "");
+
+/* EU-verordening 2024/573: zelfstandige warmtepompen tot en met 12 kW met een
+   F-gas van GWP 150 of meer mogen vanaf 1 januari 2027 niet meer nieuw op de
+   markt. Of een reeks als monoblock of split geleverd wordt, staat niet in de
+   data (zie monoblock-of-split), dus de opmerking zegt "monoblocks" en laat
+   het oordeel over deze uitvoering aan de lezer. */
+const GWP = { R32: 675, R410A: 2088, R134A: 1430, R452B: 675, R454C: 146, R290: 3 };
+function gwpVan(koudemiddel) {
+  const tekst = String(koudemiddel || "");
+  const opgegeven = tekst.match(/GWP\s*(\d+)/i);
+  if (opgegeven) return Number(opgegeven[1]);
+  const code = (tekst.match(/R\d+[A-Z]?/i) || [""])[0].toUpperCase();
+  return GWP[code] ?? null;
+}
+const fgas2027 = (w) => (gwpVan(w.koudemiddel) ?? 0) >= 150 && typeof w.vermogen_kw === "number" && w.vermogen_kw <= 12;
 
 function bouwvormTabel(lijst) {
   return `<div class="tabel-wrap">
@@ -571,7 +586,7 @@ ${kop("", false)}
   <h1>Monoblock of split?</h1>
   <p class="datum-stempel">Samengesteld uit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
-  <p class="intro">Dit is de eerste keuze nadat je besloten hebt dat je een warmtepomp wilt, en hij gaat over waar de techniek staat. Alle ${pompen.length} pompen op deze site zijn lucht-water; het verschil zit in de opstelling. Bij een <b>monoblock</b> zit alles in de buitenunit en loopt er alleen water naar binnen. Bij een <b>split</b> staat er ook een unit binnen, met een koudemiddelleiding ertussen.</p>
+  <p class="intro">Dit is de eerste keuze nadat je besloten hebt dat je een warmtepomp wilt, en hij gaat over waar de techniek staat. Alle ${pompen.length} pompen op deze site zijn lucht-water; het verschil zit in de opstelling. Bij een <b>monoblock</b> zit alles in de buitenunit en loopt er alleen water naar binnen. Bij een <b>split</b> staat er ook een unit binnen, met een koudemiddelleiding ertussen. Een tussenvorm heet hydrosplit, met twee delen en water ertussen, terwijl het koudemiddel buiten blijft. Fabrikanten noemen dat niet allemaal hetzelfde; de Toshiba Estia R290 heet bijvoorbeeld bi-bloc.</p>
 
   <h2>Het verschil in één tabel</h2>
   <div class="tabel-wrap">
@@ -591,7 +606,7 @@ ${kop("", false)}
 
   <h2>Waarom het koudemiddel de keuze mede bepaalt</h2>
   <p>Propaan (R290) is een natuurlijk koudemiddel met een verwaarloosbaar broeikaseffect, maar het is brandbaar. Daarom houden fabrikanten het buiten, en zijn pompen op propaan vrijwel altijd monoblock. Tegelijk kan propaan hoger. Van de ${pompen.length} warmtepompen in mijn vergelijker draaien er ${propaan.length} op propaan${aanvoerPropaan ? `, en die halen allemaal ${aanvoerPropaan.laag} tot ${aanvoerPropaan.hoog} graden aanvoer` : ""}.${aanvoerRest ? ` De ${rest.length} met een ander koudemiddel zitten op ${aanvoerRest.laag} tot ${aanvoerRest.hoog} graden.` : ""}</p>
-  <p><b>Dat is precies het getal waar je huis om vraagt.</b> Bestaande radiatoren willen vaak 65 tot 70 graden op een koude dag; vloerverwarming heeft aan 35 genoeg. ${hoog.length} van de ${pompen.length} pompen hier halen 70 graden of meer, en ${hoog.filter(isPropaan).length} daarvan draaien op propaan. Wil je je radiatoren houden zonder ze allemaal te vervangen, dan stuurt die eis je dus vanzelf richting een monoblock op propaan.</p>
+  <p><b>Dat is het getal dat bepaalt of je radiatoren kunnen blijven.</b> Radiatoren in oudere huizen zijn vaak ontworpen voor 70 graden of meer, maar na isoleren volstaat vaak 55 graden of minder, en hoe lager de aanvoer, hoe zuiniger de pomp. Vloerverwarming heeft aan 35 genoeg. Laat dus eerst uitrekenen welke temperatuur je radiatoren op een koude dag echt nodig hebben. ${hoog.length} van de ${pompen.length} pompen hier halen 70 graden of meer, en ${hoog.filter(isPropaan).length} daarvan draaien op propaan; dat is de reserve voor een huis waar 55 graden niet genoeg blijkt.</p>
 
   ${bouwvormTabel(opAanvoer)}
 
@@ -601,7 +616,7 @@ ${kop("", false)}
   <h2>Zo kies je</h2>
   <ul>
     <li><b>Weinig ruimte binnen?</b> Monoblock. Er hoeft alleen water naar binnen, dus je bent een binnenunit kwijt.</li>
-    <li><b>Bestaande radiatoren houden?</b> Kijk naar de aanvoertemperatuur in de tabel hierboven, niet naar de bouwvorm. Alles vanaf 70 graden is kansrijk.</li>
+    <li><b>Bestaande radiatoren houden?</b> Kijk naar de aanvoertemperatuur in de tabel hierboven, niet naar de bouwvorm. Volstaat 55 graden, dan komt bijna elke pomp in aanmerking; zo niet, dan kom je bij de pompen die 70 graden of meer halen.</li>
     <li><b>Buitenunit dicht bij de erfgrens?</b> Dan is geluid je bindende eis. Zie <a href="${GELUID_BESTAND}">warmtepomp en geluid</a> voor de norm en de omrekening naar afstand.</li>
     <li><b>Nog niet zeker over hybride of all-electric?</b> Die keuze komt eerst. Doe de <a href="advies.html">keuzehulp</a>.</li>
     <li><b>Wat het kost en oplevert</b> staat in de <a href="rekenmodule.html">rekenmodule</a>, en wat je terugkrijgt op <a href="subsidie.html">ISDE-subsidie</a>.</li>
@@ -729,7 +744,7 @@ ${kop("index", true)}
               geluidswaarde onder een kopje over een onderdeel dat ze niet
               hebben, en dat leest als een waarde op de erfgrens. */ ""}
         ${specRij(heeftBuitenunit(w) ? "Geluid buitenunit" : "Geluid toestel", w.geluid_db ? `${w.geluid_db} dB(A)${w.geluid_toelichting ? ` <small>(${esc(w.geluid_toelichting)})</small>` : ""}` : null)}
-        ${specRij("Koudemiddel", w.koudemiddel ? esc(w.koudemiddel) : null)}
+        ${specRij("Koudemiddel", w.koudemiddel ? `${esc(w.koudemiddel)}${fgas2027(w) ? ` <small>(vanaf 2027 mogen nieuwe monoblocks tot 12 kW met dit koudemiddel niet meer op de markt komen; <a href="/uitleg.html#fgas">wat dat betekent</a>)</small>` : ""}` : null)}
         ${specRij("Warm tapwater", typeof w.tapwater === "string" ? esc(w.tapwater) : d3html(w.tapwater))}
         ${specRij("Maximale aanvoertemperatuur", w.max_aanvoer_c ? `${w.max_aanvoer_c} °C` : null)}
         ${/* De garantie stond alleen in de vergelijkingstabel, en daar zonder de
@@ -943,7 +958,9 @@ console.log(`${GELUID_BESTAND} gegenereerd (${pompen.filter((w) => w.geluid_db !
   const allEl = pompen.filter((w) => w.type !== "hybride");
   const bereik = (lijst) => { const p = lijst.map(prijsVan).filter(Boolean); return p.length ? `${eur(Math.min(...p))} tot ${eur(Math.max(...p))}` : "onbekend"; };
   const scops = getallen("scop");
-  const geluid = pompen.filter((w) => typeof w.geluid_db === "number");
+  // Alleen buitenunits: de Stiebel WPL ICS staat binnen en stond hier als
+  // "stilste buitenunit", terwijl hij er geen heeft.
+  const geluid = pompen.filter((w) => typeof w.geluid_db === "number" && heeftBuitenunit(w));
   const stilste = geluid.slice().sort((a, b) => a.geluid_db - b.geluid_db)[0];
   const r290 = pompen.filter((w) => /R290/i.test(w.koudemiddel || "")).length;
   const isde = getallen("isde_indicatie_eur");
