@@ -620,35 +620,34 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
   box-shadow: var(--schaduw);
 }
 
-/* Oktober 2026: het paneel was een rij keuzelijsten met daaronder een
-   strook vinkjes die over twee regels brak, met ertussen een grijs vinkje dat
-   pas iets deed als je een ander aanzette. Het las als een ratjetoe, en dat
-   was het ook: zes vinkjes over drie onderwerpen op een hoop.
+/* Oktober 2026, eerste ronde: het paneel was een rij keuzelijsten met daaronder
+   een strook vinkjes die over twee regels brak. Dat werd drie lagen met
+   benoemde groepen, en het oogde rustig, maar het was 420 px hoog: drie
+   keuzelijsten onder elkaar in de eerste groep, en de vergelijker zelf
+   begon pas onder de vouw.
 
-   Nu drie lagen. Bovenaan het zoekveld over de volle breedte. Daaronder de
-   filters in benoemde groepen naast elkaar (op een telefoon onder elkaar),
-   met in elke groep wat bij elkaar hoort. Onderaan een voet met hoeveel
-   filters er aan staan en het wissen. */
-.filter-zoek { display: flex; flex-direction: column; gap: var(--ruimte-4); }
-
-.filter-sets {
+   Tweede ronde, compacter. Twee rijen:
+     1. zoeken en de keuzelijsten naast elkaar, met het label erboven;
+     2. de vinkjes als knopjes per groep, en rechts op dezelfde regel hoeveel
+        filters er aan staan en het wissen.
+   De groepsnaam blijft erboven staan, want "Homey" naast "Noodstroom"
+   zonder kopje is weer de ratjetoe van het begin. */
+.filter-rij {
   display: grid;
   /* auto-fit heeft een vaste ondergrens nodig; met minmax(0, 1fr) kan de
      browser het aantal kolommen niet uitrekenen en valt alles in een kolom. */
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: var(--ruimte-20) var(--ruimte-28);
-  margin-top: var(--ruimte-20);
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: var(--ruimte-10) var(--ruimte-14);
+  align-items: end;
 }
-
-.filter-set { margin: 0; padding: 0; border: 0; min-width: 0; display: flex; flex-direction: column; gap: var(--ruimte-10); }
-.filter-set legend { padding: 0; margin-bottom: var(--ruimte-4); font-size: var(--tekst-15); font-weight: 700; color: var(--kleur-tekst); }
+.filter-zoek { display: flex; flex-direction: column; gap: var(--ruimte-4); grid-column: span 2; }
 
 .filter-groep { display: flex; flex-direction: column; gap: var(--ruimte-4); min-width: 0; }
 
 .filter-zoek > label,
 .filter-groep > label {
-  font-size: var(--tekst-15);
-  font-weight: 500;
+  font-size: var(--tekst-12);
+  font-weight: 700;
   color: var(--kleur-tekst-licht);
 }
 
@@ -665,48 +664,63 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
   color: var(--kleur-tekst);
 }
 
-/* Vinkjes onder elkaar binnen hun groep. Naast elkaar braken ze op een
-   willekeurige plek af, en dan stond "Noodstroom" onder "Homey" alsof het
-   erbij hoorde. */
-.checkbox-groep { display: flex; flex-direction: column; gap: var(--ruimte-2); }
+.filter-keuzes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--ruimte-10) var(--ruimte-28);
+  margin-top: var(--ruimte-14);
+  padding-top: var(--ruimte-14);
+  border-top: 1px solid var(--kleur-rand);
+}
+.filter-set { margin: 0; padding: 0; border: 0; min-width: 0; }
+.filter-set legend { padding: 0; margin-bottom: var(--ruimte-6); font-size: var(--tekst-12); font-weight: 700; color: var(--kleur-tekst-licht); }
+
+/* De vinkjes als knopjes naast elkaar. Het vinkje zelf blijft staan: een
+   knopje dat alleen van kleur verandert, zegt niets aan wie kleuren slecht
+   ziet. */
+.checkbox-groep { display: flex; flex-wrap: wrap; gap: var(--ruimte-6); }
 
 .checkbox-groep label {
   display: inline-flex;
   align-items: center;
   gap: var(--ruimte-6);
   min-height: 32px;
+  padding: 0 var(--ruimte-10);
   font-size: var(--tekst-15);
   font-weight: 500;
   color: var(--kleur-tekst);
+  background: var(--kleur-wit);
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius-klein);
   cursor: pointer;
 }
+.checkbox-groep label:hover { border-color: var(--kleur-primair); }
+.checkbox-groep label:has(input:checked) { font-weight: 600; color: var(--kleur-primair-donker); background: var(--kleur-primair-licht); border-color: var(--kleur-primair); }
+.checkbox-groep label:has(input:focus-visible) { outline: 2px solid var(--kleur-primair); outline-offset: 2px; }
 
-.checkbox-groep label:has(input:checked) { font-weight: 600; }
+.checkbox-groep input { margin: 0; accent-color: var(--kleur-primair); width: 16px; height: 16px; }
 
-.checkbox-groep input { accent-color: var(--kleur-primair); width: 16px; height: 16px; }
-
-/* "Alleen officiële ondersteuning" verscherpt de vinkjes erboven en doet in
-   zijn eentje niets. Hij stond er altijd, grijs; nu verschijnt hij pas als er
-   iets te verscherpen is, ingesprongen onder de vinkjes waar hij bij hoort. */
-.checkbox-groep label.filter-sub { padding-left: var(--ruimte-20); font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
+/* "Alleen officiële ondersteuning" verscherpt de knopjes ervoor en doet in
+   zijn eentje niets. Hij verschijnt pas als er iets te verscherpen is, met
+   een gestippelde rand: een verfijning, geen filter van zichzelf. */
+.checkbox-groep label.filter-sub { border-style: dashed; color: var(--kleur-tekst-licht); }
 .checkbox-groep label.filter-sub[hidden] { display: none; }
 
 .filter-voet {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
   gap: var(--ruimte-6) var(--ruimte-14);
-  margin-top: var(--ruimte-20);
-  padding-top: var(--ruimte-10);
-  border-top: 1px solid var(--kleur-rand);
+  margin-left: auto;
+  min-height: 32px;
 }
 .filter-actief { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
 
 .filter-reset {
   flex: none;
-  padding: var(--ruimte-6) 0;
-  min-height: 40px;
+  padding: var(--ruimte-4) 0;
+  min-height: 32px;
   background: none;
   border: 0;
   color: var(--kleur-primair);
@@ -716,6 +730,12 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
   cursor: pointer;
 }
 .filter-reset[hidden] { display: none; }
+
+@media (max-width: 520px) {
+  .filter-rij { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .filter-zoek { grid-column: 1 / -1; }
+  .filter-voet { margin-left: 0; }
+}
 
 /* Sorteren, in de resultatenbalk naast het aantal en de weergaveknoppen. */
 .sorteer-keuze { display: inline-flex; align-items: center; gap: var(--ruimte-6); }

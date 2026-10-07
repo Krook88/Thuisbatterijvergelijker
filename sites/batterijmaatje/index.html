@@ -520,38 +520,37 @@
   <button class="filter-toggle" id="filterToggle">Filters</button>
 
   <div class="filterbalk ingeklapt" id="filterbalk">
-    <div class="filter-zoek">
-      <label for="zoekVeld">Zoeken</label>
-      <input type="search" id="zoekVeld" placeholder="Zoek op merk of model, bijv. Marstek" autocomplete="off" enterkeyhint="search">
+    <div class="filter-rij">
+      <div class="filter-zoek">
+        <label for="zoekVeld">Zoeken</label>
+        <input type="search" id="zoekVeld" placeholder="Zoek op merk of model, bijv. Marstek" autocomplete="off" enterkeyhint="search">
+      </div>
+      <div class="filter-groep">
+        <label for="filterType">Hoe hij aansluit</label>
+        <select id="filterType">
+          <option value="alle">Alle typen</option>
+          <option value="plug-in">In het stopcontact</option>
+          <option value="ac-gekoppeld">Naast je omvormer (AC-gekoppeld)</option>
+          <option value="hybride">Vervangt je omvormer (hybride)</option>
+        </select>
+      </div>
+      <div class="filter-groep">
+        <label for="filterCapaciteit">Capaciteit</label>
+        <select id="filterCapaciteit">
+          <option value="alle">Alle capaciteiten</option>
+          <option value="klein">Klein (tot 4 kWh)</option>
+          <option value="middel">Gemiddeld (4 tot 10 kWh)</option>
+          <option value="groot">Groot (meer dan 10 kWh)</option>
+        </select>
+      </div>
+      <div class="filter-groep">
+        <label for="filterMerk">Merk</label>
+        <select id="filterMerk">
+          <option value="alle">Alle merken</option>
+        </select>
+      </div>
     </div>
-    <div class="filter-sets">
-      <fieldset class="filter-set">
-        <legend>Soort batterij</legend>
-        <div class="filter-groep">
-          <label for="filterType">Hoe hij aansluit</label>
-          <select id="filterType">
-            <option value="alle">Alle typen</option>
-            <option value="plug-in">In het stopcontact</option>
-            <option value="ac-gekoppeld">Naast je omvormer (AC-gekoppeld)</option>
-            <option value="hybride">Vervangt je omvormer (hybride)</option>
-          </select>
-        </div>
-        <div class="filter-groep">
-          <label for="filterCapaciteit">Capaciteit</label>
-          <select id="filterCapaciteit">
-            <option value="alle">Alle capaciteiten</option>
-            <option value="klein">Klein (tot 4 kWh)</option>
-            <option value="middel">Gemiddeld (4 tot 10 kWh)</option>
-            <option value="groot">Groot (meer dan 10 kWh)</option>
-          </select>
-        </div>
-        <div class="filter-groep">
-          <label for="filterMerk">Merk</label>
-          <select id="filterMerk">
-            <option value="alle">Alle merken</option>
-          </select>
-        </div>
-      </fieldset>
+    <div class="filter-keuzes">
       <fieldset class="filter-set">
         <legend>Slim aansturen</legend>
         <div class="checkbox-groep">
@@ -568,10 +567,10 @@
           <label><input type="checkbox" id="checkAanbieding"> Alleen aanbiedingen</label>
         </div>
       </fieldset>
-    </div>
-    <div class="filter-voet">
-      <span class="filter-actief" id="filterActief" aria-live="polite">Geen filters actief</span>
-      <button class="filter-reset" id="resetFilters" hidden>Alle filters wissen</button>
+      <div class="filter-voet">
+        <span class="filter-actief" id="filterActief" aria-live="polite">Geen filters actief</span>
+        <button class="filter-reset" id="resetFilters" hidden>Alle filters wissen</button>
+      </div>
     </div>
   </div>
 

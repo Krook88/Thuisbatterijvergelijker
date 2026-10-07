@@ -394,28 +394,27 @@
   <button class="filter-toggle" id="filterToggle">Filters</button>
 
   <div class="filterbalk ingeklapt" id="filterbalk">
-    <div class="filter-zoek">
-      <label for="zoekVeld">Zoeken</label>
-      <input type="search" id="zoekVeld" placeholder="Zoek op merk of model, bijv. Elga of Vaillant" autocomplete="off" enterkeyhint="search">
+    <div class="filter-rij">
+      <div class="filter-zoek">
+        <label for="zoekVeld">Zoeken</label>
+        <input type="search" id="zoekVeld" placeholder="Zoek op merk of model, bijv. Elga of Vaillant" autocomplete="off" enterkeyhint="search">
+      </div>
+      <div class="filter-groep">
+        <label for="filterType">Uitvoering</label>
+        <select id="filterType">
+          <option value="alle">Alle warmtepompen</option>
+          <option value="hybride">Hybride (naast de cv-ketel)</option>
+          <option value="all-electric">Volledig elektrisch (van het gas af)</option>
+        </select>
+      </div>
+      <div class="filter-groep">
+        <label for="filterMerk">Merk</label>
+        <select id="filterMerk">
+          <option value="alle">Alle merken</option>
+        </select>
+      </div>
     </div>
-    <div class="filter-sets">
-      <fieldset class="filter-set">
-        <legend>Soort warmtepomp</legend>
-        <div class="filter-groep">
-          <label for="filterType">Uitvoering</label>
-          <select id="filterType">
-            <option value="alle">Alle warmtepompen</option>
-            <option value="hybride">Hybride (naast de cv-ketel)</option>
-            <option value="all-electric">Volledig elektrisch (van het gas af)</option>
-          </select>
-        </div>
-        <div class="filter-groep">
-          <label for="filterMerk">Merk</label>
-          <select id="filterMerk">
-            <option value="alle">Alle merken</option>
-          </select>
-        </div>
-      </fieldset>
+    <div class="filter-keuzes">
       <fieldset class="filter-set">
         <legend>Eigenschappen</legend>
         <div class="checkbox-groep">
@@ -431,10 +430,10 @@
           <label class="filter-sub" title="Alleen koppelingen die de fabrikant zelf ondersteunt tellen mee. Community-integraties en omwegen vallen af." hidden><input type="checkbox" id="checkOfficieel"> Alleen officiële ondersteuning</label>
         </div>
       </fieldset>
-    </div>
-    <div class="filter-voet">
-      <span class="filter-actief" id="filterActief" aria-live="polite">Geen filters actief</span>
-      <button class="filter-reset" id="resetFilters" hidden>Alle filters wissen</button>
+      <div class="filter-voet">
+        <span class="filter-actief" id="filterActief" aria-live="polite">Geen filters actief</span>
+        <button class="filter-reset" id="resetFilters" hidden>Alle filters wissen</button>
+      </div>
     </div>
   </div>
 
