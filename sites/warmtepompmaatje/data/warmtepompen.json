@@ -2033,7 +2033,11 @@
       "zoeknamen": [
         "WPL 20 AC",
         "WPL 25 AC compact duo"
-      ]
+      ],
+      "afbeelding": "assets/producten/stiebel-wpl-25-ac.webp",
+      "afbeelding_bron": "foto: Stiebel Eltron",
+      "afbeelding_herkomst": "https://www.stiebel-eltron.nl/content/dam/ste/products/article_picture/pic-0007/pic-00070001.png",
+      "afbeelding_via": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-20-25-ac/wpl-25-ac.html"
     }
   ]
 }

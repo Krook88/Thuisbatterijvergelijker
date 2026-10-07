@@ -2566,7 +2566,11 @@
         "Saga 8,3 kWh",
         "Saga 11,1 kWh",
         "Saga 13,8 kWh"
-      ]
+      ],
+      "afbeelding": "assets/producten/heko-solar-saga-5-5.webp",
+      "afbeelding_bron": "foto: HEKO Solar",
+      "afbeelding_herkomst": "https://hekosolar.com/cdn/shop/files/HEKO_SOLAR_SAGA_Afbeelding_1_Familie.png?v=1788180462&width=1200",
+      "afbeelding_via": "https://hekosolar.com/products/plug-in-batterij-saga-5-5kwh"
     },
     {
       "id": "pego-plug-play",
@@ -2717,7 +2721,11 @@
       "rendement_bron": "toprendement boven 94,5% volgens de SolarEdge-specificatie bij Wattuneed",
       "zoeknamen": [
         "Energy Bank 9.7 kWh"
-      ]
+      ],
+      "afbeelding": "assets/producten/solaredge-home-battery-400v.webp",
+      "afbeelding_bron": "foto: SolarEdge",
+      "afbeelding_herkomst": "https://www.wattuneed.com/39875-product_main_2x/accu-solaredge-home-battery-10-kwh-bat-10k1ps0b-01.jpg",
+      "afbeelding_via": "https://www.wattuneed.com/nl/lithium-zonnebatterijen/25980-accu-solaredge-home-battery-10-kwh-bat-10k1ps0b-01-0768563817625.html"
     },
     {
       "id": "dyness-powerbrick-plus",
@@ -2765,7 +2773,11 @@
       "vermogen_bron": "Dyness-datasheet: 7,168 kW aanbevolen laad- en ontlaadvermogen, 10,24 kW maximaal",
       "zoeknamen": [
         "Dyness thuisbatterij 16.1 kWh"
-      ]
+      ],
+      "afbeelding": "assets/producten/dyness-powerbrick-plus.webp",
+      "afbeelding_bron": "foto: Dyness",
+      "afbeelding_herkomst": "https://www.nkon.nl/media/catalog/product/cache/7ec02836bb5d413c7e2ddcce89998e13/d/y/dy-powerbrick-plus-1607kwh-dyness-dyness-powerbrick-plus-ip65-1607kwh-512-v-laagspannings-lifepo4-accu.jpg",
+      "afbeelding_via": "https://www.nkon.nl/dyness-powerbrick-plus-51-2v-16-07kwh-thuisbatterij.html"
     }
   ]
 }
