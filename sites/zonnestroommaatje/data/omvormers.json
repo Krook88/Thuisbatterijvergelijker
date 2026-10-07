@@ -739,9 +739,10 @@
       "aanbiedingen": [
         {
           "winkel": "Acculaders.nl",
-          "prijs_eur": 670,
+          "prijs_eur": 1861,
           "url": "https://www.acculaders.nl/victron-multiplus-ii-48-5000-70-50-230v.html",
-          "datum": "2026-10-07"
+          "datum": "2026-10-07",
+          "omvat": "MultiPlus-II 48/5000/70-50; de meta-tag van de pagina noemt 669,95 euro, maar dat bedrag hoort niet bij dit toestel"
         }
       ],
       "prijs_datum": "2026-10-07",
