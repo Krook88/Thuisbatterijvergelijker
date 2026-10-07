@@ -81,3 +81,54 @@ export function verwerkVoorraad(aanbieding, leverbaar) {
   }
   return null;
 }
+
+/**
+ * Bestaat de winkelpagina nog?
+ *
+ * Een 404 werd elke dag netjes gemeld in het verslag van de prijsupdate, maar
+ * op de site bleef de knop naar die winkel staan. Thuisbatterij Outlet haalde
+ * in oktober 2026 twee productpagina's weg; de prijs stond er nog, met een
+ * link die op een foutpagina uitkwam, totdat iemand het met de hand
+ * opruimde. Dat is precies wat een bezoeker ziet en wij niet.
+ *
+ * Eén mislukte dag is nog geen verdwenen pagina: een winkel kan een uur plat
+ * liggen of een verbouwing doen. Daarom eerst een notitie (weg_sinds), en pas
+ * als de pagina op een latere dag nog steeds weg is de markering
+ * niet_leverbaar met als bron "pagina weg". Dan toont de site de winkel zonder
+ * link, net als bij uitverkocht. Komt de pagina terug, dan gaat de markering
+ * er vanzelf weer af - maar alleen als deze functie hem zelf zette; een
+ * markering van een mens of van de voorraadcontrole blijft staan.
+ *
+ * bereikbaar: true (de pagina kwam binnen, met of zonder bedrag) of false (404,
+ * 410 of geen antwoord van de server). Geeft "weg" als de aanbieding net
+ * gemarkeerd is, "terug" als de markering eraf ging, "eerste keer" bij de
+ * notitie, "blijft" als hij al gemarkeerd was, en null als er niets verandert.
+ */
+export function verwerkBereikbaarheid(aanbieding, bereikbaar, vandaag) {
+  if (bereikbaar) {
+    delete aanbieding.weg_sinds;
+    if (aanbieding.niet_leverbaar && aanbieding.niet_leverbaar_door === "pagina weg") {
+      delete aanbieding.niet_leverbaar;
+      delete aanbieding.niet_leverbaar_door;
+      return "terug";
+    }
+    return null;
+  }
+  if (aanbieding.niet_leverbaar) return aanbieding.niet_leverbaar_door === "pagina weg" ? "blijft" : null;
+  if (!aanbieding.weg_sinds) {
+    aanbieding.weg_sinds = vandaag;
+    return "eerste keer";
+  }
+  if (aanbieding.weg_sinds < vandaag) {
+    aanbieding.niet_leverbaar = true;
+    aanbieding.niet_leverbaar_door = "pagina weg";
+    return "weg";
+  }
+  return "eerste keer";
+}
+
+/** Betekent deze fout dat de pagina weg is (en niet: dat de winkel ons weert)? */
+export function paginaWeg(err) {
+  const status = (String(err && err.message).match(/HTTP (\d+)/) || [])[1];
+  return status === "404" || status === "410" || (err && err.name === "TypeError");
+}

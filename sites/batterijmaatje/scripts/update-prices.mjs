@@ -35,13 +35,21 @@ import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { haalPagina, haalMetBrowser, sluitBrowser, browserBeschikbaar, prijsUitPagina, controleerbaar } from "./prijs-uitlezen.mjs";
-import { voorraadVolgensWinkel, verwerkVoorraad } from "./voorraad.mjs";
+import { voorraadVolgensWinkel, verwerkVoorraad, verwerkBereikbaarheid, paginaWeg } from "./voorraad.mjs";
 import { vergelijk, leesBekend, schrijfBekend, meldAandacht } from "./prijs-aandacht.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_PAD = resolve(__dirname, "../data/batterijen.json");
 
 const VANDAAG = new Date().toISOString().slice(0, 10);
+
+/* Zie verwerkBereikbaarheid in voorraad.mjs: een pagina die twee dagen weg is,
+   krijgt op de site geen link meer, en krijgt hem terug als hij er weer is. */
+function meldBereikbaarheid(item, aanbieding, bereikbaar) {
+  const uitkomst = verwerkBereikbaarheid(aanbieding, bereikbaar, VANDAAG);
+  if (uitkomst === "weg") console.log(`  ! ${item.id} @ ${aanbieding.winkel}: pagina weg sinds ${aanbieding.weg_sinds}, de site toont deze winkel nu zonder link`);
+  if (uitkomst === "terug") console.log(`  ! ${item.id} @ ${aanbieding.winkel}: pagina is terug, de link komt weer op de site`);
+}
 // Alleen kijken, niets wegschrijven. Voor als je wilt zien waarom een winkel
 // niet meewerkt zonder de gegevens aan te raken.
 const DROOG = process.argv.includes("--droog");
@@ -399,6 +407,7 @@ async function updateAanbieding(batterij, aanbieding) {
         html = uitBrowser;
         viaBrowser = true;
       }
+      meldBereikbaarheid(batterij, aanbieding, true);
       if (handmatig) {
         console.log(`  = ${batterij.id} @ ${aanbieding.winkel}: pagina staat er nog; prijs blijft mensenwerk (€${aanbieding.prijs_eur})`);
         return false;
@@ -468,6 +477,7 @@ async function updateAanbieding(batterij, aanbieding) {
     // is een link die een bezoeker op een foutpagina laat belanden - het tweede
     // is een winkel die ons niet binnenlaat, en dat vraagt om iets anders.
     const status = (err.message.match(/HTTP (\d+)/) || [])[1];
+    if (paginaWeg(err) && !/www\.bol\.com/.test(aanbieding.url)) meldBereikbaarheid(batterij, aanbieding, false);
     if (status === "404" || status === "410" || err.name === "TypeError") {
       kapotteLinks.push({ id: batterij.id, winkel: aanbieding.winkel, url: aanbieding.url, reden: err.message });
     } else if (status === "403" || status === "429") {

@@ -32,7 +32,7 @@ import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import { prijsUitPagina, sluitBrowser, browserBeschikbaar } from "./prijs-uitlezen.mjs";
-import { voorraadVolgensWinkel, verwerkVoorraad } from "./voorraad.mjs";
+import { voorraadVolgensWinkel, verwerkVoorraad, verwerkBereikbaarheid, paginaWeg } from "./voorraad.mjs";
 import { nieuweSignalen, noteerFout, haalMetTerugval, verzamelVerouderd, puntenVan, toonSignalen } from "./prijs-signalen.mjs";
 import { vergelijk, leesBekend, schrijfBekend, meldAandacht } from "./prijs-aandacht.mjs";
 
@@ -59,6 +59,14 @@ const RICHTPRIJS_ONDER = 0.7;
 const RICHTPRIJS_BOVEN = 1.4;
 
 const VANDAAG = new Date().toISOString().slice(0, 10);
+
+/* Zie verwerkBereikbaarheid in voorraad.mjs: een pagina die twee dagen weg is,
+   krijgt op de site geen link meer, en krijgt hem terug als hij er weer is. */
+function meldBereikbaarheid(item, aanbieding, bereikbaar) {
+  const uitkomst = verwerkBereikbaarheid(aanbieding, bereikbaar, VANDAAG);
+  if (uitkomst === "weg") console.log(`  ! ${item.id} @ ${aanbieding.winkel}: pagina weg sinds ${aanbieding.weg_sinds}, de site toont deze winkel nu zonder link`);
+  if (uitkomst === "terug") console.log(`  ! ${item.id} @ ${aanbieding.winkel}: pagina is terug, de link komt weer op de site`);
+}
 
 // Alleen kijken, niets wegschrijven: laat zien welke prijs het script zou
 // vinden zonder de gegevens aan te raken. Zo is een wijziging aan het uitlezen
@@ -168,6 +176,7 @@ async function updateAanbieding(pomp, aanbieding, grenzen, verdacht, signalen) {
       }
       const { uit } = await haalMetTerugval(aanbieding.url, (h) =>
         prijsUitPagina(h, `${pomp.merk || ""} ${pomp.model || ""}`, grenzen));
+      meldBereikbaarheid(pomp, aanbieding, true);
       gevonden = uit.prijs ? { bedrag: uit.prijs, btw: uit.btw } : null;
     }
     if (!gevonden) {
@@ -235,6 +244,7 @@ async function updateAanbieding(pomp, aanbieding, grenzen, verdacht, signalen) {
     return veranderd;
   } catch (err) {
     console.log(`  x ${pomp.id} @ ${aanbieding.winkel}: ${err.message} (oude prijs blijft staan)`);
+    if (paginaWeg(err) && !/www\.bol\.com/.test(aanbieding.url)) meldBereikbaarheid(pomp, aanbieding, false);
     // Een 403 en een 404 vragen om iets heel anders; op één hoop is de melding
     // niets waard. Zie kern/scripts/prijs-signalen.mjs.
     noteerFout(signalen, { id: pomp.id, winkel: aanbieding.winkel, url: aanbieding.url }, err);
