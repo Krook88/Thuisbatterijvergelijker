@@ -248,6 +248,11 @@ module.exports = async function handler(req, res) {
     return antwoord(req, res, 400, "Het formulier werd wel erg snel verstuurd. Probeer het nog een keer.");
   }
 
+  // Alleen een bevestiging als het formulier echt via de pagina is ingevuld
+  // (het verborgen tijdveld is dan gezet). Een kaal POST-verzoek krijgt zijn
+  // bericht wel bij ons, maar geen mail naar het opgegeven adres.
+  const viaPagina = Number.isFinite(geopend) && geopend > 0;
+
   const naam = tekst(data.naam, LIMIETEN.naam);
   const email = tekst(data.email, LIMIETEN.email);
   const onderwerp = tekst(data.onderwerp, LIMIETEN.onderwerp) || "Bericht via het contactformulier";
@@ -300,18 +305,16 @@ module.exports = async function handler(req, res) {
     site,
   });
 
-  // Bevestiging aan de bezoeker: die weet dan dat zijn bericht is aangekomen en
-  // heeft meteen een kopie van wat hij schreef.
+  /* Waarom er niets van de bezoeker in deze bevestiging staat: hij gaat naar
+     een adres dat iedereen in het formulier kan typen, vanaf ons eigen domein.
+     Stond de tekst uit het formulier erin (naam, onderwerp, bericht), dan kon
+     iemand via ons een eigen boodschap naar een willekeurig adres laten
+     sturen - een spamrelais met onze afzender eronder. Een vaste tekst is aan
+     niemand iets waard. */
   const bevestigingTekst = [
-    `Hallo ${naam},`,
+    "Hallo,",
     "",
     "Bedankt voor je bericht aan Batterijmaatje. We hebben het ontvangen en je krijgt doorgaans binnen een dag antwoord.",
-    "",
-    "Dit is wat je ons stuurde:",
-    "",
-    `Onderwerp: ${onderwerp}`,
-    "",
-    bericht,
     "",
     "---",
     "Je hoeft niets te doen. Antwoorden op deze mail kan wel; die komt bij ons binnen.",
@@ -319,10 +322,10 @@ module.exports = async function handler(req, res) {
   ].join("\n");
 
   const bevestigingHtml = mailOpmaak({
-    titel: `Bedankt voor je bericht, ${naam}`,
-    intro: "We hebben je bericht ontvangen en je krijgt doorgaans binnen een dag antwoord. Hieronder staat wat je ons stuurde, zodat je het bij de hand hebt.",
-    rijen: [["Onderwerp", ontsnap(onderwerp)]],
-    bericht,
+    titel: "Bedankt voor je bericht",
+    intro: "We hebben je bericht ontvangen en je krijgt doorgaans binnen een dag antwoord.",
+    rijen: [],
+    bericht: "",
     voettekst: "Je hoeft niets te doen. Antwoorden op deze mail kan wel; die komt bij ons binnen.",
     site,
   });
@@ -362,10 +365,10 @@ module.exports = async function handler(req, res) {
   // De bevestiging is een extraatje. Mislukt die, dan is het bericht zelf al
   // aangekomen en zou het misleidend zijn om de bezoeker te vertellen dat het
   // versturen niet lukte. Dus loggen en doorgaan.
-  try {
+  if (viaPagina) try {
     await postbode.sendMail({
       from: { name: "Batterijmaatje", address: van },
-      to: { name: veiligVoorKopregel(naam), address: email },
+      to: email,
       replyTo: aan,
       subject: "We hebben je bericht ontvangen",
       text: bevestigingTekst,

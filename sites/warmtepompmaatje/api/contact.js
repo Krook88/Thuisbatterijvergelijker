@@ -267,6 +267,11 @@ module.exports = async function handler(req, res) {
     return antwoord(req, res, 400, "Het formulier werd wel erg snel verstuurd. Probeer het nog een keer.");
   }
 
+  // Alleen een bevestiging als het formulier echt via de pagina is ingevuld
+  // (het verborgen tijdveld is dan gezet). Een kaal POST-verzoek krijgt zijn
+  // bericht wel bij ons, maar geen mail naar het opgegeven adres.
+  const viaPagina = Number.isFinite(geopend) && geopend > 0;
+
   const naam = tekst(data.naam, LIMIETEN.naam);
   const email = tekst(data.email, LIMIETEN.email);
   const onderwerp = tekst(data.onderwerp, LIMIETEN.onderwerp) || "Bericht via het contactformulier";
@@ -330,17 +335,17 @@ module.exports = async function handler(req, res) {
 
   /* ----- 2. De bevestiging naar de afzender ----------------------- */
 
+  /* Waarom er niets van de bezoeker in deze bevestiging staat: hij gaat naar
+     een adres dat iedereen in het formulier kan typen, vanaf ons eigen domein.
+     Stond de tekst uit het formulier erin (naam, onderwerp, bericht), dan kon
+     iemand via ons een eigen boodschap naar een willekeurig adres laten
+     sturen - een spamrelais met onze afzender eronder. Een vaste tekst is aan
+     niemand iets waard. */
   const bevestigingTekst = [
-    `Hoi ${naam},`,
+    "Hoi,",
     "",
     "Bedankt voor je bericht aan Warmtepompmaatje. We hebben het goed ontvangen",
     "en je krijgt doorgaans binnen een dag antwoord.",
-    "",
-    "Dit stuurde je ons:",
-    "",
-    `Onderwerp: ${onderwerp}`,
-    "",
-    bericht,
     "",
     "---",
     "Antwoorden komen van info@batterijmaatje.nl. Dat is de gedeelde postbus van",
@@ -355,15 +360,8 @@ module.exports = async function handler(req, res) {
     titel: "Bedankt, we hebben je bericht ontvangen",
     voorvertoning: "Je krijgt doorgaans binnen een dag antwoord.",
     inhoud: `
-      <p style="margin:0 0 16px;">Hoi ${ontsnap(naam)},</p>
+      <p style="margin:0 0 16px;">Hoi,</p>
       <p style="margin:0 0 20px;">Bedankt voor je bericht aan Warmtepompmaatje. We hebben het goed ontvangen en je krijgt doorgaans binnen een dag antwoord.</p>
-      <p style="margin:0 0 8px; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:${KLEUR.tekstLicht};">Dit stuurde je ons</p>
-      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom:12px;">
-        ${gegevensRij("Onderwerp", ontsnap(onderwerp))}
-      </table>
-      <div style="border-left:3px solid ${KLEUR.accent}; background:${KLEUR.papier}; border-radius:0 8px 8px 0; padding:14px 16px; font-size:15px;">
-        ${alinea(bericht)}
-      </div>
       <p style="margin:22px 0 0;"><a href="https://warmtepompmaatje.nl/" style="display:inline-block; background:${KLEUR.primair}; color:${KLEUR.wit}; text-decoration:none; font-weight:700; font-size:15px; padding:12px 22px; border-radius:999px;">Terug naar Warmtepompmaatje</a></p>`,
     voet: `Ons antwoord komt van <b>${ontsnap(aan)}</b>, de gedeelde postbus van onze drie sites: Batterijmaatje.nl (thuisbatterijen), Zonnestroommaatje.nl (zonnepanelen) en Warmtepompmaatje.nl (warmtepompen). Dat is dus geen vreemde afzender.<br><br>
            Op deze bevestiging hoef je niet te reageren.`,
@@ -402,10 +400,10 @@ module.exports = async function handler(req, res) {
     // die - een postvak dat vol zit, een adres dat toch niet bestaat - dan is
     // het bericht nog steeds bij ons binnen. Daarom een eigen try, en geen
     // foutmelding aan de bezoeker over een mail die hij zelf niet miste.
-    try {
+    if (viaPagina) try {
       await postbode.sendMail({
         from: { name: SITE, address: van },
-        to: { name: veiligVoorKopregel(naam), address: email },
+        to: email,
         replyTo: aan,
         subject: `We hebben je bericht ontvangen - ${SITE}`,
         text: bevestigingTekst,
