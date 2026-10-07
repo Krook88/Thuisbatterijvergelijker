@@ -33,6 +33,7 @@ import {
   prijsUitJsonVeld,
   prijsveldMetDekking,
   prijsUitWooVariaties,
+  prijsBijVariant,
   prijsUitTekst,
   prijsUitPagina,
   toontExclBtw,
@@ -531,4 +532,14 @@ test("prijsUitPagina: de route van de gekozen variant alleen op verzoek, en een 
   const metaPagina = `<meta property="og:price:amount" content="789"><script>{"name":"SolarVault 3 BP2500","price":609}</script>`;
   assert.deepEqual(prijsUitPagina(metaPagina, "SolarVault 3", { route: "meta-tag" }).prijs, 789);
   assert.equal(prijsUitPagina(metaPagina, "SolarVault 3", { route: "structured data" }).prijs, null);
+});
+
+test("prijsBijVariant: het bedrag direct na de genoemde uitvoering", () => {
+  const capaciteiten = "<p>Prijzen exclusief installatie 4,6 kWh: &euro; 1.495 9,2 kWh: &euro; 2.990 13,8 kWh: &euro; 4.485</p>";
+  assert.equal(prijsBijVariant(capaciteiten, { variant: "9,2 kWh" }), 2990);
+  const keuzelijst = `<select><option selected>MAU 5000 / Zelf ophalen - €849,00</option><option>MAU 5000 / Powerness Express - €899,00</option><option>MAU 5000 / Standaardverzending - €1.449,00</option></select>`;
+  assert.equal(prijsBijVariant(keuzelijst, { variant: "Powerness Express" }), 899);
+  assert.equal(prijsBijVariant(keuzelijst, { variant: "Bestaat niet" }), null);
+  assert.equal(prijsUitPagina(keuzelijst, "TSUN MAU 5000", { route: "bij variant", variant: "Powerness Express" }).prijs, 899);
+  assert.notEqual(prijsUitPagina(keuzelijst, "TSUN MAU 5000").hoe, "bij variant", "alleen op verzoek");
 });

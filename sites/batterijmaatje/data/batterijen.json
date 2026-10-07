@@ -878,12 +878,13 @@
       "product_url": "https://www.solaredge.com/nl/batterijen/thuisbatterij-48v",
       "aanbiedingen": [
         {
-          "winkel": "Thuisbatterij Nederland (per module 4,6 kWh: 1.495 euro)",
+          "winkel": "Thuisbatterij Nederland",
           "prijs_eur": 2990,
           "url": "https://thuisbatterijnederland.nl/product/solaredge-home-46-kwh-48v/",
-          "datum": "2026-10-03",
-          "prijs_controle": "handmatig",
-          "prijs_controle_reden": "De winkelpagina gaat over de losse module van 4,6 kWh en zet 1.495 euro in de kop; onze 9,2 kWh staat verderop in dezelfde opsomming (4,6: 1.495 / 9,2: 2.990 / 13,8: 4.485 / 18,4: 5.980 / 23: 7.475). De automaat pakt de kop en stelt daarom elke dag 1.495 voor."
+          "prijs_route": "bij variant",
+          "prijs_variant": "9,2 kWh",
+          "datum": "2026-10-07",
+          "omvat": "twee modules van 4,6 kWh; excl. omvormer en installatie"
         }
       ],
       "totaalprijs_van_eur": null,
@@ -2460,10 +2461,10 @@
       "vermogen_kw": 2.5,
       "type": "plug-in",
       "fase": "1-fase",
-      "richtprijs_eur": 1449,
+      "richtprijs_eur": 899,
       "prijs_bron": "Powerness (oktober 2026)",
       "prijs_bron_url": "https://www.powerness.nl/products/tsun-mau-5000-thuisbatterij-door-powerness",
-      "prijs_omvat": "incl. btw; één unit van 5,12 kWh",
+      "prijs_omvat": "incl. btw; één unit van 5,12 kWh, met bezorging",
       "prijs_datum": "2026-10-07",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "AC-gekoppeld. Hij werkt naast micro-omvormers of een string-omvormer, zonder de bestaande installatie aan te passen.",
@@ -2479,12 +2480,15 @@
       "aanbiedingen": [
         {
           "winkel": "Powerness",
-          "prijs_eur": 1449,
+          "prijs_eur": 899,
           "url": "https://www.powerness.nl/products/tsun-mau-5000-thuisbatterij-door-powerness",
-          "datum": "2026-10-07"
+          "prijs_route": "bij variant",
+          "prijs_variant": "Powerness Express",
+          "datum": "2026-10-07",
+          "omvat": "met Powerness Express-bezorging; zelf ophalen in Weinheim (Duitsland) kost 849 euro, standaardverzending 1.449 euro"
         }
       ],
-      "totaalprijs_van_eur": 1449,
+      "totaalprijs_van_eur": 899,
       "totaalprijs_tot_eur": null,
       "totaalprijs_toelichting": "stekkerklaar, zelf te installeren",
       "noodstroom": true,

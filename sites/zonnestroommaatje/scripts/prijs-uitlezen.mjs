@@ -572,6 +572,36 @@ export function prijsUitWooVariaties(html, opties = {}) {
   return prijs >= min && prijs <= max ? prijs : null;
 }
 
+/**
+ * De prijs die de pagina noemt direct na een gegeven stuk tekst.
+ *
+ * Voor winkels die meer uitvoeringen op één pagina zetten, als lijst of als
+ * keuzelijst, waarbij de route die standaard kiest de verkeerde pakt:
+ *   - Thuisbatterij Nederland: "4,6 kWh: € 1.495 9,2 kWh: € 2.990 ...", en wij
+ *     vergelijken de 9,2 kWh;
+ *   - Powerness: "MAU 5000 / Zelf ophalen - € 849 ... / Powerness Express -
+ *     € 899 ... / Standaardverzending - € 1.449". Voorgeselecteerd staat ophalen
+ *     in Weinheim, in Duitsland; voor een koper hier telt de bezorging.
+ * De aanbieding noemt de tekst in prijs_variant. Het eerste bedrag binnen 60
+ * tekens daarna is de prijs; staat de tekst er niet, of staat er geen bedrag
+ * vlak achter, dan geeft deze route niets.
+ */
+export function prijsBijVariant(html, opties = {}) {
+  const { min = ONDERGRENS, max = BOVENGRENS, variant } = opties;
+  if (!variant) return null;
+  const tekst = zichtbareTekst(html).replace(/\s+/g, " ");
+  const naald = String(variant).toLowerCase().replace(/\s+/g, " ");
+  let van = tekst.indexOf(naald);
+  while (van >= 0) {
+    const na = tekst.slice(van + naald.length, van + naald.length + 60);
+    const m = /(?:€|eur)\s*([\d.]{3,7}(?:,\d{2})?)/.exec(na);
+    const prijs = m && parsePrijsWaarde(m[1]);
+    if (prijs && prijs >= min && prijs <= max) return prijs;
+    van = tekst.indexOf(naald, van + 1);
+  }
+  return null;
+}
+
 /* ------------------------------------------------------------------
    3. Meta-tags
    ------------------------------------------------------------------ */
@@ -711,9 +741,11 @@ export function prijsUitPagina(html, naam, opties = {}) {
      staat de variant mét P1-meter voorgeselecteerd terwijl wij de prijs
      zonder meter vergelijken. Wie hem wil, vraagt er per aanbieding om. */
   wegen.push(["gekozen variant", () => prijsUitWooVariaties(html, opties)]);
+  wegen.push(["bij variant", () => prijsBijVariant(html, opties)]);
+  const opVerzoek = ["gekozen variant", "bij variant"];
   const gekozen = opties.route
     ? wegen.filter(([hoe]) => hoe === opties.route)
-    : wegen.filter(([hoe]) => hoe !== "gekozen variant");
+    : wegen.filter(([hoe]) => !opVerzoek.includes(hoe));
   for (const [hoe, lees] of gekozen) {
     const uit = lees();
     const prijs = typeof uit === "object" && uit !== null ? uit.prijs : uit;
