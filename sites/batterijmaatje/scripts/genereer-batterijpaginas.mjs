@@ -13,6 +13,7 @@ import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
 import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
+import * as Uitleg from "./uitleg.mjs";
 
 // Dezelfde prijslogica en iconen als de browser gebruikt, zodat een
 // batterijpagina nooit een ander bedrag of ander icoon toont dan de vergelijker.
@@ -1541,6 +1542,127 @@ index = index.replace(
 
 writeFileSync(resolve(ROOT, "index.html"), index, "utf8");
 console.log(`index.html: ${gesorteerdeBatterijen.length} kaarten voorgerenderd, teller en ItemList bijgewerkt`);
+
+/* ------------------------------------------------------------------
+   uitleg.html: de getallen in de lopende tekst, de markt in cijfers, de
+   inhoudsopgave en de markup voor zoekmachines. De tekst zelf blijft
+   handwerk; zie kern/scripts/uitleg.mjs voor waarom.
+   ------------------------------------------------------------------ */
+{
+  const lijst = data.batterijen;
+  const nlGetal = (n, d = 1) => Number(n).toLocaleString("nl-NL", { maximumFractionDigits: d });
+  const rond = (n, op) => Math.round(n / op) * op;
+  const prijsVan = (b) => { const a = bestePrijs(b); return a ? Prijs.vergelijkPrijs(a) : null; };
+  const metPrijs = lijst.filter((b) => prijsVan(b));
+  const prijzen = metPrijs.map(prijsVan);
+  const caps = lijst.map((b) => b.capaciteit_kwh).filter((n) => typeof n === "number");
+  const stekker = lijst.filter((b) => b.installatie === "zelf");
+  const stekkerPrijzen = stekker.map(prijsVan).filter(Boolean);
+  const vastSys = lijst.filter((b) => b.installatie !== "zelf");
+  const vastVan = vastSys.map((b) => b.totaalprijs_van_eur).filter(Boolean);
+  const vastTot = vastSys.map((b) => b.totaalprijs_tot_eur || b.totaalprijs_van_eur).filter(Boolean);
+  const dyn = { ja: 0, deels: 0, nee: 0, onbekend: 0 };
+  for (const b of lijst) dyn[Kaart.vierwaardig(b.dynamisch_contract).status] += 1;
+  const onb = { ja: 0, nee: 0, open: 0 };
+  for (const b of lijst) {
+    const st = b.onbalans && b.onbalans.status;
+    if (st === "ja") onb.ja += 1; else if (st === "nee") onb.nee += 1; else onb.open += 1;
+  }
+  const garanties = lijst.map((b) => b.garantie_jaar).filter((n) => typeof n === "number");
+  const perKwh = lijst.map((b) => ({ b, p: perKwhInclBtw(b), echt: bestePrijs(b) && !bestePrijs(b).is_richtprijs })).filter((x) => x.p && x.echt);
+  const goedkoopstePerKwh = perKwh.slice().sort((x, y) => x.p - y.p)[0];
+  const verloop = JSON.parse(readFileSync(resolve(ROOT, "data/prijsverloop.json"), "utf8"));
+  const beweging = Uitleg.prijsbeweging(verloop, { dagen: 30 });
+  const pad = resolve(ROOT, "uitleg.html");
+  const oud = readFileSync(pad, "utf8");
+  const woorden = Uitleg.begrippen(oud).length;
+
+  // De rekenhulp krijgt per model alleen wat hij nodig heeft.
+  const rekenData = lijst.filter((b) => prijsVan(b) && b.capaciteit_kwh).map((b) => ({
+    n: volledigeNaam(b), u: `batterij/${b.id}.html`, k: b.capaciteit_kwh, b: Prijs.capaciteitBevestigd(b) ? 1 : 0, p: prijsVan(b),
+  }));
+  // Dezelfde zin die assets/uitleg.js schrijft, voor het standaardverbruik,
+  // zodat de pagina zonder javascript hetzelfde zegt en niets verspringt.
+  const Dagmaat = vereis("../assets/dagmaat.js");
+  const aanbodZin = (jaar) => {
+    const groot = rekenData.filter((x) => Dagmaat.bereken({ capaciteit: x.k, bevestigd: !!x.b }, jaar).deel >= 1);
+    if (!groot.length) return `Geen van de ${rekenData.length} batterijen met een prijs is zo groot; met twee kom je er wel.`;
+    const g = groot.slice().sort((x, y) => x.p - y.p)[0];
+    return `${groot.length} van de ${rekenData.length} batterijen met een prijs zijn groot genoeg. De goedkoopste daarvan is de <a href="${esc(g.u)}">${esc(g.n)}</a> voor ${eur(g.p)}.`;
+  };
+  const cijfers = {
+    "aantal": lijst.length,
+    "woorden": woorden,
+    "prijs-min": nlGetal(rond(Math.min(...prijzen), 1), 0),
+    "prijs-max": nlGetal(rond(Math.max(...prijzen), 1), 0),
+    "cap-min": nlGetal(Math.min(...caps)),
+    "cap-max": nlGetal(Math.max(...caps)),
+    "cap-mediaan": nlGetal(Uitleg.mediaan(caps)),
+    "stekker": stekker.length,
+    "stekker-min": eur(Math.min(...stekkerPrijzen)),
+    "stekker-max": eur(Math.max(...stekkerPrijzen)),
+    "stekker-08": stekker.filter((b) => (b.vermogen_kw || 0) >= 0.8).length,
+    "vast-min": eur(rond(Math.min(...vastVan), 100)),
+    "vast-max": eur(rond(Math.max(...vastTot), 100)),
+    "dyn-ja": dyn.ja,
+    "dyn-deels": dyn.deels,
+    "onb-uitgezocht": onb.ja + onb.nee,
+    "onb-ja": onb.ja,
+    "onb-nee": onb.nee,
+    "onb-open": onb.open,
+    "garantie-min": Math.min(...garanties),
+    "garantie-max": Math.max(...garanties),
+    "nood-ja": noodstroomTelling.ja,
+    "nood-deels": noodstroomTelling.deels,
+    "nood-nee": noodstroomTelling.nee,
+    "nood-onbekend": noodstroomTelling.onbekend,
+    "rh-aanbod": aanbodZin(Dagmaat.VERBRUIK_STANDAARD),
+  };
+
+  const marktCijfers = [
+    { id: "cijfer-aantal", label: "Thuisbatterijen in de vergelijker", getal: String(lijst.length),
+      toelichting: `${metPrijs.filter((b) => !bestePrijs(b).is_richtprijs).length} met een actuele winkelprijs, ${stekker.length} met stekker` },
+    { id: "cijfer-per-kwh", label: "Mediaanprijs per kWh opslag", getal: eur(Uitleg.mediaan(perKwh.map((x) => x.p))),
+      toelichting: `over ${perKwh.length} modellen met een winkelprijs, incl. btw` },
+    goedkoopstePerKwh && { id: "cijfer-goedkoopst-per-kwh", label: "Goedkoopste per kWh", getal: eur(goedkoopstePerKwh.p),
+      toelichting: `<a href="batterij/${esc(goedkoopstePerKwh.b.id)}.html">${esc(volledigeNaam(goedkoopstePerKwh.b))}</a>` },
+    { id: "cijfer-prijsrange", label: "Van goedkoopst tot duurst", getal: `${eur(Math.min(...prijzen))} tot ${eur(Math.max(...prijzen))}`,
+      toelichting: "laagste prijs per model, incl. btw" },
+    beweging && beweging.gemeten && { id: "cijfer-prijsbeweging", label: `Prijzen in ${beweging.dagen} dagen`,
+      getal: `${beweging.goedkoper} goedkoper, ${beweging.duurder} duurder`,
+      toelichting: `van ${beweging.gemeten} modellen die al ${beweging.dagen} dagen gevolgd worden${beweging.grootste ? `; grootste daling ${nlGetal(Math.abs(beweging.grootste.procent), 0)}% bij <a href="batterij/${esc(beweging.grootste.id)}.html">${esc(volledigeNaam(batterijById[beweging.grootste.id] || { merk: "", model: beweging.grootste.id }))}</a>` : ""}` },
+    { id: "cijfer-dynamisch", label: "Stuurt zelf op uurprijzen", getal: `${dyn.ja} van ${lijst.length}`,
+      toelichting: `bij nog eens ${dyn.deels} kan het via een omweg` },
+    { id: "cijfer-noodstroom", label: "Noodstroom bij een storing", getal: `${noodstroomTelling.ja} van ${lijst.length}`,
+      toelichting: `${noodstroomTelling.deels} alleen met extra hardware, ${noodstroomTelling.nee} niet` },
+  ].filter(Boolean);
+
+
+
+  const titel = "Hoe werkt een thuisbatterij? Uitleg met actuele cijfers";
+  const beschrijving = `Hoe een thuisbatterij werkt, of je zonnepanelen nodig hebt en of je hem moet aanmelden. Met de cijfers van ${lijst.length} batterijen, elke dag bijgewerkt.`;
+  const uit = Uitleg.bouwMetEerlijkeDatum(oud, VANDAAG, (datum) => {
+    let h = oud;
+    h = Uitleg.vulCijfers(h, cijfers);
+    h = Uitleg.vervangBlok(h, "markt", Uitleg.marktBlok({
+      kop: "De thuisbatterij in cijfers", iso: datum, datumTekst: datumNL(datum), cijfers: marktCijfers,
+      voet: `Alle bedragen incl. btw, uit de dagelijkse prijscontrole. Verwijzen naar één cijfer kan met de link naast dat cijfer.`,
+    }));
+    h = Uitleg.vervangBlok(h, "rekenhulp-data", `  <script type="application/json" id="rekenhulp-batterijen">${JSON.stringify(rekenData).replace(/</g, "\\u003c")}</script>`);
+    h = Uitleg.vervangBlok(h, "inhoud", Uitleg.inhoudsopgave(h, { zonder: ["markt-kop"] }));
+    h = Uitleg.zetBijgewerkt(h, datum, datumNL(datum));
+    h = h.replace(/<title>[^<]*<\/title>/, `<title>${esc(titel)}</title>`)
+      .replace(/(<meta name="description" content=")[^"]*(")/, `$1${esc(beschrijving)}$2`)
+      .replace(/(<meta property="og:description" content=")[^"]*(")/, `$1${esc(beschrijving)}$2`);
+    h = Uitleg.zetSchema(h, Uitleg.uitlegSchema(h, {
+      url: `${SITE}/uitleg.html`, titel, beschrijving, iso: datum,
+      uitgever: { naam: "Batterijmaatje", url: `${SITE}/` },
+    }));
+    return h;
+  });
+  writeFileSync(pad, uit.html, "utf8");
+  console.log(`uitleg.html: ${marktCijfers.length} marktcijfers, ${woorden} begrippen, ${uit.veranderd ? "bijgewerkt" : "ongewijzigd sinds"} ${uit.iso}`);
+}
 
 const vast = [
   { loc: `${SITE}/`, freq: "daily", prio: "1.0" },

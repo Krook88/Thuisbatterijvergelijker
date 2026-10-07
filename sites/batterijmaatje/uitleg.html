@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hoe werkt een thuisbatterij? Uitleg | Batterijmaatje</title>
-  <meta name="description" content="Wat een thuisbatterij doet en waar je op let, in gewone taal. Met een woordenlijst waarin kWh, omvormer, salderen en dynamisch contract worden uitgelegd.">
+  <title>Hoe werkt een thuisbatterij? Uitleg met actuele cijfers</title>
+  <meta name="description" content="Hoe een thuisbatterij werkt, of je zonnepanelen nodig hebt en of je hem moet aanmelden. Met de cijfers van 52 batterijen, elke dag bijgewerkt.">
   <link rel="canonical" href="https://batterijmaatje.nl/uitleg.html">
   <meta property="og:title" content="Hoe werkt een thuisbatterij? Eenvoudige uitleg">
-  <meta property="og:description" content="Wat een thuisbatterij doet en waar je op let, in gewone taal. Met een woordenlijst waarin kWh, omvormer, salderen en dynamisch contract worden uitgelegd.">
+  <meta property="og:description" content="Hoe een thuisbatterij werkt, of je zonnepanelen nodig hebt en of je hem moet aanmelden. Met de cijfers van 52 batterijen, elke dag bijgewerkt.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://batterijmaatje.nl/uitleg.html">
   <meta property="og:locale" content="nl_NL">
@@ -20,6 +20,8 @@
   <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="assets/style.css?v=20261002a">
   <script src="assets/nav.js?v=20261002a" defer></script>
+  <script src="assets/dagmaat.js?v=20261002a" defer></script>
+  <script src="assets/uitleg.js?v=20261002a" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <style>
@@ -44,6 +46,348 @@
     .woord dt { font-weight: 800; color: var(--kleur-primair-donker); font-size: var(--tekst-17); }
     .woord dd { margin: var(--ruimte-4) 0 0; }
   </style>
+  <script type="application/ld+json" data-uitleg>
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://batterijmaatje.nl/uitleg.html#artikel",
+      "headline": "Hoe werkt een thuisbatterij? Uitleg met actuele cijfers",
+      "description": "Hoe een thuisbatterij werkt, of je zonnepanelen nodig hebt en of je hem moet aanmelden. Met de cijfers van 52 batterijen, elke dag bijgewerkt.",
+      "dateModified": "2026-10-07",
+      "inLanguage": "nl-NL",
+      "mainEntityOfPage": "https://batterijmaatje.nl/uitleg.html",
+      "author": {
+        "@type": "Organization",
+        "name": "Batterijmaatje",
+        "url": "https://batterijmaatje.nl/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Batterijmaatje",
+        "url": "https://batterijmaatje.nl/"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://batterijmaatje.nl/uitleg.html#vragen",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Hoe werkt een thuisbatterij?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Een thuisbatterij slaat stroom op als die goedkoop is of gratis van je eigen zonnepanelen komt, en geeft hem terug zodra je huis stroom vraagt. Een kastje op je slimme meter (de P1-meter) vertelt hem wanneer hij moet laden en wanneer leveren. De 52 modellen in de vergelijker bergen 1,8 tot 14,4 kWh op, en de middelste 5,1 kWh, genoeg voor het grootste deel van een gewone avond en nacht."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Heb je zonnepanelen nodig voor een thuisbatterij?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nee, maar zonder zonnepanelen verdient een batterij alleen iets met een dynamisch contract met uurprijzen. Hij laadt dan als stroom goedkoop is en levert als stroom duur is. Van de 52 modellen hier doen er 15 dat met hun eigen app, zonder extra kastje of software."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Wat is een plug-in thuisbatterij en hoe werkt die?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Een plug-in thuisbatterij (ook stekkerbatterij of accu voor het stopcontact) steek je zelf in een gewoon geaard stopcontact. Een kastje op de P1-poort van je slimme meter meet wat je huis gebruikt en teruglevert, en de batterij laadt of levert precies dat verschil. Er staan er 33 in de vergelijker, van € 445 tot € 3.550 ."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hoe werkt slimme aansturing van een thuisbatterij?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Slim aansturen betekent dat de batterij zelf bepaalt wanneer hij laadt en levert, op basis van de uurprijzen van morgen. Die liggen elke middag voor de volgende dag vast. Van de 52 modellen hier doen er 15 dat met de eigen app; bij 33 kan het via een omweg zoals Home Assistant, Homey of je energieleverancier."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Moet je een thuisbatterij aanmelden?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja. Een thuisbatterij van 0,8 kW of meer meld je aan op energieleveren.nl, ook een plug-in batterij die je zelf in het stopcontact steekt. Het is gratis en kan met DigiD. Van de 33 stekkermodellen hier leveren er 32 minstens 0,8 kW."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Valt een thuisbatterij uit bij een stroomstoring?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Bij een deel wel. Van de 52 batterijen hier geven er 23 uit zichzelf noodstroom, 17 alleen met extra hardware en 3 helemaal niet; bij 9 heb ik het niet kunnen vaststellen. Met noodstroom voedt de batterij een apart stopcontact of een groep in de meterkast, meestal niet het hele huis."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is er subsidie op een thuisbatterij?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Landelijk niet, en op een losse thuisbatterij betaal je 21 procent btw. Het btw-nultarief geldt sinds 2023 alleen voor zonnepanelen op een woning. Sommige gemeenten hebben een eigen regeling; welke staat bij regels en subsidies ."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Moet je een thuisbatterij kopen voordat salderen stopt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nee. Na 1 januari 2027 bespaart een batterij juist meer, omdat teruggeleverde stroom dan bijna niets meer oplevert. Er verdwijnt niets wat je nu nog moet grijpen. De afweging staat uitgewerkt op nu kopen of wachten , en de prijsbeweging van de laatste 30 dagen staat bovenaan deze pagina."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Bespaar je meer met een grotere thuisbatterij?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tot een grens. Een huishouden van 2.900 kWh per jaar gebruikt buiten de zonuren zo'n 5,6 kWh per dag. Wat de batterij daarboven heeft, blijft op een gewone dag ongebruikt en verdient alleen nog iets met handelen op uurprijzen. De rekenhulp hierboven rekent het uit voor jouw verbruik."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "DefinedTermSet",
+      "@id": "https://batterijmaatje.nl/uitleg.html#woordenlijst",
+      "name": "Woordenlijst Batterijmaatje",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#fase",
+          "name": "1-fase en 3-fase",
+          "description": "Zegt iets over je stroomaansluiting. De meeste huizen hebben 1-fase (één \"stroomdraad\" het huis in). Huizen met bijvoorbeeld een warmtepomp of laadpaal hebben vaak 3-fase (drie draden, dus meer vermogen mogelijk). Het staat op je meterkast of jaarafrekening. Sommige grote batterijen hebben een 3-fase aansluiting nodig.",
+          "url": "https://batterijmaatje.nl/uitleg.html#fase"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#ac-gekoppeld",
+          "name": "AC-gekoppeld",
+          "description": "De batterij wordt aangesloten op het gewone stroomnet van je huis, los van je zonnepanelen. Voordeel: hij werkt met elk merk zonnepanelen, er hoeft niets aan je bestaande installatie te veranderen.",
+          "url": "https://batterijmaatje.nl/uitleg.html#ac-gekoppeld"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#leverancier-sturing",
+          "name": "Aansturing door je energieleverancier",
+          "description": "Sommige energieleveranciers met dynamische contracten (zoals Tibber, Frank Energie en Zonneplan) kunnen bepaalde thuisbatterijen automatisch voor je aansturen: laden als stroom goedkoop is, ontladen als stroom duur is, soms zelfs meedoen aan de onbalansmarkt. Jij hoeft dan niets in te stellen. Let op: dit werkt alleen met batterijen die de leverancier ondersteunt; controleer dat vóór aanschaf bij de leverancier zelf.",
+          "url": "https://batterijmaatje.nl/uitleg.html#leverancier-sturing"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#aggregator",
+          "name": "Aggregator",
+          "description": "Een bedrijf dat duizenden thuisbatterijen bundelt en als één grote virtuele batterij laat meedoen op de elektriciteitsmarkten, zoals de onbalansmarkt . Dat bundelen is nodig omdat TenneT alleen handelt met partijen die minimaal zo'n 1 megawatt kunnen leveren. Jij geeft de aggregator (vaak je energieleverancier, zoals Frank Energie of Zonneplan) toestemming om je batterij op afstand aan te sturen en deelt mee in de opbrengst. Keerzijde: je geeft de regie deels uit handen en de opbrengsten dalen naarmate meer batterijen meedoen.",
+          "url": "https://batterijmaatje.nl/uitleg.html#aggregator"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#capaciteit",
+          "name": "Capaciteit (kWh)",
+          "description": "Hoeveel stroom er in de batterij past, gemeten in kilowattuur (kWh). Ter vergelijking: een gemiddeld huishouden gebruikt zo'n 8 kWh per dag. Een batterij van 5 kWh kan dus ruwweg een avond en nacht overbruggen.",
+          "url": "https://batterijmaatje.nl/uitleg.html#capaciteit"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#cycli",
+          "name": "Cycli (laadcycli)",
+          "description": "Eén cyclus is één keer helemaal opladen en weer leegmaken. Fabrikanten beloven vaak 6.000 cycli of meer. Bij één cyclus per dag gaat de batterij dan ruim 15 jaar mee.",
+          "url": "https://batterijmaatje.nl/uitleg.html#cycli"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#dynamisch-contract",
+          "name": "Dynamisch energiecontract",
+          "description": "Een stroomcontract waarbij de prijs ieder uur anders is: goedkoop als er veel wind en zon is, duur op drukke momenten. Handig met een batterij, want die kan slim inkopen als het goedkoop is. Aanbieders zijn bijvoorbeeld Tibber, Frank Energie en Zonneplan. Zie ook de uitgebreide uitleg met grafiek en rekenvoorbeeld hierboven.",
+          "url": "https://batterijmaatje.nl/uitleg.html#dynamisch-contract"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#energiebelasting",
+          "name": "Energiebelasting",
+          "description": "Belasting die je betaalt over elke kilowattuur stroom die je van het net koopt. Zit in de prijs die je leverancier rekent.",
+          "url": "https://batterijmaatje.nl/uitleg.html#energiebelasting"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#fabrikant-app",
+          "name": "Fabrikant-app",
+          "description": "Elke thuisbatterij heeft een eigen app van de fabrikant op je telefoon. Daarmee zie je hoe vol de batterij is en wat hij doet. De verschillen zitten in wat de app kán: sommige apps kunnen alleen meekijken, andere kunnen de batterij ook slim laten laden op goedkope uren. In de vergelijker staat bij elke batterij de naam van de app; je hebt dus geen Homey of Home Assistant nodig om een batterij te gebruiken.",
+          "url": "https://batterijmaatje.nl/uitleg.html#fabrikant-app"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#home-assistant",
+          "name": "Home Assistant",
+          "description": "Een gratis computerprogramma voor mensen die hun \"slimme huis\" zelf willen regelen. Je kunt er veel batterijen mee uitlezen en aansturen. Vooral iets voor hobbyisten; je hebt het niet nodig om een batterij te gebruiken.",
+          "url": "https://batterijmaatje.nl/uitleg.html#home-assistant"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#homey",
+          "name": "Homey",
+          "description": "Een kastje dat slimme apparaten in huis (lampen, thermostaat, batterij) met elkaar laat samenwerken. Net als Home Assistant niet verplicht, wel handig voor liefhebbers.",
+          "url": "https://batterijmaatje.nl/uitleg.html#homey"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#hybride",
+          "name": "Hybride omvormer",
+          "description": "Een omvormer (zie hieronder) waarop de zonnepanelen én de batterij allebei rechtstreeks worden aangesloten. Efficiënt, maar meestal betekent dit dat je huidige omvormer vervangen wordt. Werk voor een installateur.",
+          "url": "https://batterijmaatje.nl/uitleg.html#hybride"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#ip-waarde",
+          "name": "IP-waarde (beschermingsgraad)",
+          "description": "Twee cijfers die aangeven hoe goed de behuizing beschermt tegen stof (eerste cijfer) en water (tweede cijfer). Voor buiten hangen of zetten is IP65 de gangbare ondergrens: volledig stofdicht en bestand tegen regen. IP21 of IP30 betekent: alleen binnen gebruiken. Let op: een geschikte IP-waarde betekent niet automatisch dat de fabrikant buitenplaatsing toestaat; check ook de handleiding voor eisen zoals een afdak, vorstbescherming of direct zonlicht.",
+          "url": "https://batterijmaatje.nl/uitleg.html#ip-waarde"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#kw",
+          "name": "kW (kilowatt)",
+          "description": "Het vermogen: hoe snel de batterij stroom kan leveren of opnemen. Een batterij van 2,5 kW kan bijvoorbeeld tegelijk een wasmachine en een televisie van stroom voorzien. Hoe hoger het getal, hoe meer apparaten tegelijk.",
+          "url": "https://batterijmaatje.nl/uitleg.html#kw"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#kwh",
+          "name": "kWh (kilowattuur)",
+          "description": "De hoeveelheid stroom, zoals liters bij water. Eén kWh is genoeg om ongeveer één wasje te draaien of zeven uur televisie te kijken. Zie ook \"capaciteit\".",
+          "url": "https://batterijmaatje.nl/uitleg.html#kwh"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#lfp",
+          "name": "LFP (LiFePO4)",
+          "description": "De batterijsoort die in vrijwel alle thuisbatterijen zit (voluit: lithium-ijzerfosfaat). Gaat lang mee en is een stuk brandveiliger dan de batterijen in telefoons en laptops.",
+          "url": "https://batterijmaatje.nl/uitleg.html#lfp"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#matter",
+          "name": "Matter",
+          "description": "Een nieuwe, universele \"taal\" waarmee slimme apparaten van verschillende merken met elkaar praten, gesteund door onder andere Apple, Google, Amazon en Samsung. De nieuwste versies van Matter ondersteunen ook thuisbatterijen, maar in de praktijk zijn er anno 2026 nog maar weinig batterijen die dit al kunnen. De verwachting is dat dit de komende jaren groeit; voor nu lopen koppelingen vooral via de fabrikant-app, Homey of Home Assistant.",
+          "url": "https://batterijmaatje.nl/uitleg.html#matter"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#netcongestie",
+          "name": "Netcongestie (vol stroomnet)",
+          "description": "Op veel plekken in Nederland is het stroomnet overvol, zoals file op de snelweg. Daarom kan een nieuwe of zwaardere aansluiting soms lang duren. Een slimme batterij kan juist helpen door het net te ontlasten.",
+          "url": "https://batterijmaatje.nl/uitleg.html#netcongestie"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#noodstroom",
+          "name": "Noodstroom",
+          "description": "Stroom uit de batterij tijdens een stroomstoring. Een batterij zonder noodstroom valt bij een storing uit, omdat hij met het net meedraait. Van de 52 hier kunnen er 23 het uit zichzelf en 17 alleen met extra apparatuur; die voeden dan een apart stopcontact of een groep. In de vergelijker zie je dit per batterij.",
+          "url": "https://batterijmaatje.nl/uitleg.html#noodstroom"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#omvormer",
+          "name": "Omvormer",
+          "description": "Het kastje dat de stroom van zonnepanelen (gelijkstroom) omzet naar stroom die je huis kan gebruiken (wisselstroom). Iedereen met zonnepanelen heeft er een, vaak op zolder of in de meterkast.",
+          "url": "https://batterijmaatje.nl/uitleg.html#omvormer"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#onbalansmarkt",
+          "name": "Onbalansmarkt",
+          "description": "Een \"achter de schermen\"-markt waar netbeheerder TenneT stroom bijkoopt of kwijt moet om het net stabiel te houden. Sommige batterijen kunnen daaraan meedoen en er wat mee verdienen, maar de opbrengsten dalen en zijn niet gegarandeerd. Zie het verschil met een dynamisch contract hierboven.",
+          "url": "https://batterijmaatje.nl/uitleg.html#onbalansmarkt"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#p1-meter",
+          "name": "P1-meter (slimme meter)",
+          "description": "De slimme meter in je meterkast heeft een klein aansluitpunt dat \"P1-poort\" heet. Daar past een kastje op dat doorgeeft hoeveel stroom je huis gebruikt en teruglevert. Stekkerbatterijen gebruiken dit om te weten wanneer ze moeten laden of ontladen.",
+          "url": "https://batterijmaatje.nl/uitleg.html#p1-meter"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#plug-in",
+          "name": "Plug-in batterij (stekkerbatterij)",
+          "description": "Een thuisbatterij die je zelf aansluit op een gewoon (geaard) stopcontact. Geen installateur nodig. Meestal kleiner en goedkoper dan vaste systemen.",
+          "url": "https://batterijmaatje.nl/uitleg.html#plug-in"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#rendement",
+          "name": "Rendement (heen en terug)",
+          "description": "Van elke kWh die je in de batterij stopt, komt er minder weer uit, want een deel gaat als warmte verloren in de omvormer en de accu. Bij een rendement van 90% krijg je van 10 kWh er 9 terug. Let op waarover het getal gaat. Alleen het accupakket haalt vaak 95% of meer, maar daar zit de omvormer niet bij. Het eerlijke getal is van stopcontact tot stopcontact, en dat geven weinig fabrikanten op. HomeWizard noemt voor zijn stekkerbatterij 70 tot 85%, afhankelijk van hoe hard hij laadt. Op de productpagina staat per batterij wat de fabrikant opgeeft en waarover.",
+          "url": "https://batterijmaatje.nl/uitleg.html#rendement"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#thuisaccu",
+          "name": "Thuisaccu",
+          "description": "Een ander woord voor thuisbatterij; er is geen verschil. Je komt ook huisbatterij , thuisaccu en energieopslag thuis tegen, en voor het model met een stekker daarnaast stekkerbatterij , plug-and-play thuisbatterij en balkonbatterij . Winkels en fabrikanten gebruiken ze door elkaar heen.",
+          "url": "https://batterijmaatje.nl/uitleg.html#thuisaccu"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#salderen",
+          "name": "Salderen (salderingsregeling)",
+          "description": "De regeling waarbij stroom die je teruglevert wordt weggestreept tegen stroom die je koopt, alsof de meter terugdraait. Deze regeling stopt op 1 januari 2027. Daarna krijg je voor teruggeleverde stroom nog maar een kleine vergoeding.",
+          "url": "https://batterijmaatje.nl/uitleg.html#salderen"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#koppel-score",
+          "name": "Koppel-score",
+          "description": "Mijn eigen score van 0 tot 6 punten die in één oogopslag laat zien hoe goed een batterij \"slim\" aan te sturen is. Drie dingen tellen mee: werkt de batterij met Homey, met Home Assistant en met een dynamisch energiecontract? Werkt iets volledig, dan telt dat voor 2 punten. Werkt het gedeeltelijk (bijvoorbeeld via een extra app of kastje), dan 1 punt. Werkt het niet, dan 0 punten. Een batterij met 6 punten kun je dus op alle drie de manieren slim aansturen. De score is puur gebaseerd op feiten per model; fabrikanten of winkels hebben er geen invloed op. Heb je geen slim huis en geen dynamisch contract? Dan is een lage Koppel-score geen enkel probleem.",
+          "url": "https://batterijmaatje.nl/uitleg.html#koppel-score"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#terugleverkosten",
+          "name": "Terugleverkosten",
+          "description": "Kosten die veel energieleveranciers rekenen aan mensen met zonnepanelen, omdat teruggeleverde middagstroom hen geld kost. Gemiddeld zo'n 300 euro per jaar (peildatum oktober 2025, bron: ACM). In het spraakgebruik heet dit vaak de terugleverboete , maar een boete is het niet: het is een tarief dat je leverancier in rekening brengt, en het verschilt per contract. Een batterij die je teruglevering vermindert, verlaagt deze kosten.",
+          "url": "https://batterijmaatje.nl/uitleg.html#terugleverkosten"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#terugleververgoeding",
+          "name": "Terugleververgoeding",
+          "description": "Het bedrag dat je vanaf 2027 krijgt voor stroom die je aan het net teruggeeft. Naar verwachting zo'n 4 tot 6 cent per kWh, veel minder dan wat stroom kopen kost.",
+          "url": "https://batterijmaatje.nl/uitleg.html#terugleververgoeding"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#terugverdientijd",
+          "name": "Terugverdientijd",
+          "description": "Het aantal jaren voordat de besparingen van de batterij samen net zo groot zijn als de aanschafprijs. Daarna levert hij \"gratis\" voordeel op. Reken het uit met mijn rekenhulp .",
+          "url": "https://batterijmaatje.nl/uitleg.html#terugverdientijd"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#uurprijzen",
+          "name": "Uurprijzen (stroombeurs, EPEX)",
+          "description": "Stroom wordt per uur verhandeld op een beurs (de EPEX). Bij een dynamisch contract betaal je die uurprijzen. Midden op de dag en 's nachts is stroom vaak goedkoop, aan het begin van de avond duur.",
+          "url": "https://batterijmaatje.nl/uitleg.html#uurprijzen"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#eigen-verbruik",
+          "name": "Zelf verbruiken (eigen verbruik)",
+          "description": "Het deel van je zonnestroom dat je direct zelf gebruikt in plaats van teruglevert. Zonder batterij is dat vaak maar 30 procent. Een batterij maakt dat deel veel groter, en dat is precies waar de besparing zit.",
+          "url": "https://batterijmaatje.nl/uitleg.html#eigen-verbruik"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#zelfvoorzienend",
+          "name": "Zelfvoorzienend",
+          "description": "Helemaal in je eigen stroom voorzien, zonder het net. In Nederland lukt dat vrijwel nooit het hele jaar: in de winter leveren zonnepanelen te weinig op. Grotendeels zelfvoorzienend in de zomer kan wel, net als noodstroom voor tijdens storingen.",
+          "url": "https://batterijmaatje.nl/uitleg.html#zelfvoorzienend"
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 
@@ -80,7 +424,37 @@
 <main class="content-pagina">
 
   <h1>Hoe werkt een thuisbatterij? Eenvoudige uitleg</h1>
-  <p class="intro">In gewone taal, zonder dat je iets van elektrotechniek hoeft te weten. Alle voorbeelden hieronder komen uit de 41 batterijen die op deze site staan, dus je kunt ze nalopen in de <a href="index.html">vergelijker</a>. Onderaan staan 32 woorden uitgelegd die je in folders en offertes tegenkomt.</p>
+  <p class="intro">In gewone taal, zonder dat je iets van elektrotechniek hoeft te weten. Alle voorbeelden hieronder komen uit de <span data-cijfer="aantal">52</span> batterijen die op deze site staan, dus je kunt ze nalopen in de <a href="index.html">vergelijker</a>. Onderaan staan <span data-cijfer="woorden">33</span> woorden uitgelegd die je in folders en offertes tegenkomt.</p>
+  <p class="bijgewerkt-regel">Bijgewerkt op <time data-bijgewerkt datetime="2026-10-07">7 oktober 2026</time>. De getallen op deze pagina rekent de site elke dag opnieuw uit.</p>
+
+  <div class="kort-antwoord" data-vraag="Hoe werkt een thuisbatterij?">
+    <p class="kort-label">Kort antwoord</p>
+    <p>Een thuisbatterij slaat stroom op als die goedkoop is of gratis van je eigen zonnepanelen komt, en geeft hem terug zodra je huis stroom vraagt. Een kastje op je slimme meter (de P1-meter) vertelt hem wanneer hij moet laden en wanneer leveren. De <span data-cijfer="aantal">52</span> modellen in de vergelijker bergen <span data-cijfer="cap-min">1,8</span> tot <span data-cijfer="cap-max">14,4</span> kWh op, en de middelste <span data-cijfer="cap-mediaan">5,1</span> kWh, genoeg voor het grootste deel van een gewone avond en nacht.</p>
+  </div>
+
+  <!-- blok:markt -->
+  <section class="markt" id="markt" aria-labelledby="markt-kop">
+    <h2 id="markt-kop">De thuisbatterij in cijfers</h2>
+    <p class="markt-stand">De site rekent deze cijfers elke dag opnieuw uit de vergelijker. Laatst veranderd op <time datetime="2026-10-07">7 oktober 2026</time>.</p>
+    <dl class="markt-cijfers">
+      <div class="markt-cijfer" id="cijfer-aantal"><dt>Thuisbatterijen in de vergelijker</dt><dd><span class="markt-getal">52</span><span class="markt-noot">37 met een actuele winkelprijs, 33 met stekker</span></dd></div>
+      <div class="markt-cijfer" id="cijfer-per-kwh"><dt>Mediaanprijs per kWh opslag</dt><dd><span class="markt-getal">€ 360</span><span class="markt-noot">over 37 modellen met een winkelprijs, incl. btw</span></dd></div>
+      <div class="markt-cijfer" id="cijfer-goedkoopst-per-kwh"><dt>Goedkoopste per kWh</dt><dd><span class="markt-getal">€ 186</span><span class="markt-noot"><a href="batterij/dyness-powerbox-g2.html">Dyness Powerbox G2 (9,73 kWh bruikbaar)</a></span></dd></div>
+      <div class="markt-cijfer" id="cijfer-prijsrange"><dt>Van goedkoopst tot duurst</dt><dd><span class="markt-getal">€ 445 tot € 9.000</span><span class="markt-noot">laagste prijs per model, incl. btw</span></dd></div>
+      <div class="markt-cijfer" id="cijfer-prijsbeweging"><dt>Prijzen in 30 dagen</dt><dd><span class="markt-getal">2 goedkoper, 3 duurder</span><span class="markt-noot">van 24 modellen die al 30 dagen gevolgd worden; grootste daling 10% bij <a href="batterij/zendure-solarflow-3000-mix-ac.html">Zendure SolarFlow 3000 Mix AC+ (8 kWh)</a></span></dd></div>
+      <div class="markt-cijfer" id="cijfer-dynamisch"><dt>Stuurt zelf op uurprijzen</dt><dd><span class="markt-getal">15 van 52</span><span class="markt-noot">bij nog eens 33 kan het via een omweg</span></dd></div>
+      <div class="markt-cijfer" id="cijfer-noodstroom"><dt>Noodstroom bij een storing</dt><dd><span class="markt-getal">23 van 52</span><span class="markt-noot">17 alleen met extra hardware, 3 niet</span></dd></div>
+    </dl>
+    <p class="markt-voet">Alle bedragen incl. btw, uit de dagelijkse prijscontrole. Verwijzen naar één cijfer kan met de link naast dat cijfer.</p>
+  </section>
+  <!-- /blok:markt -->
+
+  <!-- blok:inhoud -->
+  <nav class="inhoud" aria-label="Op deze pagina">
+    <p class="inhoud-kop">Op deze pagina</p>
+    <ol><li><a href="#wat-is-het">Wat is een thuisbatterij?</a></li><li><a href="#zo-werkt-het">Zo werkt het, stap voor stap</a></li><li><a href="#zonder-zonnepanelen">Heb je zonnepanelen nodig voor een thuisbatterij?</a></li><li><a href="#twee-soorten">Twee soorten thuisbatterijen</a></li><li><a href="#wat-kun-je-ermee">Wat kun je er allemaal mee?</a></li><li><a href="#waarom-toch">Is een thuisbatterij het waard als de terugverdientijd lang is?</a></li><li><a href="#vast-of-dynamisch">Vast of dynamisch contract</a></li><li><a href="#day-ahead-en-onbalans">Day-ahead en onbalansmarkt</a></li><li><a href="#waar-op-letten">Waar moet je op letten vóór je koopt?</a></li><li><a href="#aanmelden">Moet je een thuisbatterij aanmelden?</a></li><li><a href="#veilig">Is een thuisbatterij veilig?</a></li><li><a href="#kosten">Wat kost het en wat levert het op?</a></li><li><a href="#klopt-het">Klopt het dat…?</a></li><li><a href="#woordenlijst">Woordenlijst</a></li></ol>
+  </nav>
+  <!-- /blok:inhoud -->
 
   <svg viewBox="0 0 720 290" role="img" aria-labelledby="illuTitel" class="illustratie-breed">
     <title id="illuTitel">Overdag laadt de zon via de zonnepanelen de thuisbatterij op; 's avonds gebruikt het huis die opgeslagen stroom</title>
@@ -125,23 +499,41 @@
     <text x="536" y="140" font-size="14" font-weight="700" fill="#0e4f49">batterij</text>
   </svg>
 
-  <h2>Wat is een thuisbatterij?</h2>
-  <p>Een thuisbatterij is een grote oplaadbare accu voor in huis. Zie het als een <b>spaarpot voor stroom</b>. Je laadt hem als stroom goedkoop is of gratis van je eigen dak komt, en je gebruikt hem als stroom duur is. In de <a href="index.html">vergelijker</a> staan er 41, van 669 tot 9.000 euro.</p>
-  <p>De 41 modellen hier lopen van 1,8 tot 14,4 kWh, met 5,4 kWh als middenmoot. Een huishouden dat 2.900 kWh per jaar verbruikt, gebruikt buiten de zonuren ongeveer 5,6 kWh per dag. Zo'n middelgrote batterij dekt dus net niet een hele avond en nacht.</p>
-  <p>In folders heet hetzelfde apparaat ook <b>thuisaccu</b>, <b>huisbatterij</b>, <b>energieopslag thuis</b> of <b>stroom opslaan thuis</b>. Alle vier de woorden slaan op hetzelfde ding, en met elk ervan vind je in de <a href="index.html">vergelijker</a> dezelfde 41 modellen.</p>
+  <h2 id="wat-is-het">Wat is een thuisbatterij?</h2>
+  <p>Een thuisbatterij is een grote oplaadbare accu voor in huis. Zie het als een <b>spaarpot voor stroom</b>. Je laadt hem als stroom goedkoop is of gratis van je eigen dak komt, en je gebruikt hem als stroom duur is. In de <a href="index.html">vergelijker</a> staan er <span data-cijfer="aantal">52</span>, van <span data-cijfer="prijs-min">445</span> tot <span data-cijfer="prijs-max">9.000</span> euro.</p>
+  <p>De <span data-cijfer="aantal">52</span> modellen hier lopen van <span data-cijfer="cap-min">1,8</span> tot <span data-cijfer="cap-max">14,4</span> kWh, met <span data-cijfer="cap-mediaan">5,1</span> kWh als middenmoot. Een huishouden dat 2.900 kWh per jaar verbruikt, gebruikt buiten de zonuren ongeveer 5,6 kWh per dag. Zo'n middelgrote batterij dekt dus net niet een hele avond en nacht.</p>
+
+  <div class="rekenhulp" data-rekenhulp="batterij-maat">
+    <p class="rekenhulp-kop">Reken het na voor je eigen huis</p>
+    <label class="rekenhulp-veld">Wat verbruik je per jaar? <span class="rekenhulp-invoer"><input type="number" inputmode="numeric" min="500" max="25000" step="100" value="2900" data-in="verbruik"> kWh</span></label>
+    <p class="rekenhulp-uitkomst" aria-live="polite">Buiten de zonuren gebruik je dan zo'n <b data-uit="behoefte">5,6</b> kWh per dag. Daarvoor is een batterij van ongeveer <b data-uit="bruto">6,2</b> kWh nodig, want van een opgegeven capaciteit is meestal zo'n 90 procent echt bruikbaar. <span data-uit="aanbod"><span data-cijfer="rh-aanbod">16 van de 48 batterijen met een prijs zijn groot genoeg. De goedkoopste daarvan is de <a href="batterij/zendure-solarflow-3000-mix-ac.html">Zendure SolarFlow 3000 Mix AC+ (8 kWh)</a> voor € 1.748.</span></span></p>
+  </div>
+  <!-- blok:rekenhulp-data -->
+  <script type="application/json" id="rekenhulp-batterijen">[{"n":"Marstek Venus E 3.0 (4,6 kWh bruikbaar)","u":"batterij/marstek-venus-e-3.html","k":4.6,"b":1,"p":1199},{"n":"Marstek Venus C 1.0 (7,68 kWh)","u":"batterij/marstek-venus-c-768.html","k":7.68,"b":0,"p":1950},{"n":"Sessy 5 kWh","u":"batterij/sessy-5kwh.html","k":5,"b":1,"p":3550},{"n":"HomeWizard Plug-In Battery (2,7 kWh)","u":"batterij/homewizard-plug-in-battery.html","k":2.7,"b":0,"p":1195},{"n":"EcoFlow STREAM AC Pro (1,92 kWh)","u":"batterij/ecoflow-stream-ac-pro.html","k":1.92,"b":0,"p":700},{"n":"Anker SOLIX Solarbank 3 E2700 Pro (2,69 kWh)","u":"batterij/anker-solix-solarbank-3-pro.html","k":2.69,"b":0,"p":1199},{"n":"Zendure SolarFlow Hyper 2000 (1,92 kWh)","u":"batterij/zendure-solarflow-hyper-2000.html","k":1.92,"b":0,"p":850},{"n":"Zonneplan Nexus (10 kWh)","u":"batterij/zonneplan-nexus.html","k":10,"b":0,"p":5990},{"n":"Enphase IQ Battery 5P FlexPhase (5 kWh)","u":"batterij/enphase-iq-battery-5p.html","k":5,"b":1,"p":5426},{"n":"Sigenergy SigenStor 8 kWh + 8 kW omvormer","u":"batterij/sigenergy-sigenstor-8kwh.html","k":8.06,"b":0,"p":7864},{"n":"Tesla Powerwall 3 (13,5 kWh)","u":"batterij/tesla-powerwall-3.html","k":13.5,"b":1,"p":7400},{"n":"AlphaESS SMILE G3 T10 (8,2 kWh)","u":"batterij/alphaess-smile-g3-t10.html","k":8.2,"b":0,"p":9000},{"n":"Fox ESS EP11 (10,36 kWh)","u":"batterij/fox-ess-ep11.html","k":10.36,"b":0,"p":3385},{"n":"Sungrow SBR096 (9,6 kWh) + SH-omvormer","u":"batterij/sungrow-sbr096.html","k":9.6,"b":0,"p":3695},{"n":"SolarEdge Home Battery 48V (9,2 kWh)","u":"batterij/solaredge-home-battery-48v.html","k":9.2,"b":1,"p":2990},{"n":"Huawei LUNA2000-10-S0 (10 kWh)","u":"batterij/huawei-luna2000-10.html","k":10,"b":1,"p":5508},{"n":"LG Energy Solution Enblock FLEX 12.9 (12,9 kWh)","u":"batterij/lg-enblock-flex-129.html","k":12.9,"b":1,"p":5113},{"n":"Jackery HomePower 2000 Ultra","u":"batterij/jackery-homepower-2000-ultra.html","k":2,"b":0,"p":669},{"n":"GoodWe Lynx Home U (5,4 kWh)","u":"batterij/goodwe-lynx-home-u-54.html","k":5.4,"b":0,"p":2383},{"n":"SolaX Triple Power T-BAT H 5.8 (5,22 kWh bruikbaar)","u":"batterij/solax-triple-power-t58.html","k":5.22,"b":1,"p":1625},{"n":"Dyness Powerbox G2 (9,73 kWh bruikbaar)","u":"batterij/dyness-powerbox-g2.html","k":9.73,"b":1,"p":1809},{"n":"SAJ H2-5K-S2 All-in-One (10 kWh)","u":"batterij/saj-h2-5k-s2-10kwh.html","k":10,"b":0,"p":4566},{"n":"Duracell Energy Dura5 (4,6 kWh bruikbaar)","u":"batterij/duracell-dura5.html","k":4.6,"b":1,"p":5000},{"n":"Bluetti Balco 500","u":"batterij/bluetti-balco-500.html","k":5.02,"b":0,"p":1599},{"n":"Anker SOLIX Solarbank Max AC (7 kWh)","u":"batterij/anker-solix-solarbank-max-ac.html","k":7,"b":1,"p":2499},{"n":"Zendure SolarFlow 3000 Mix AC+ (8 kWh)","u":"batterij/zendure-solarflow-3000-mix-ac.html","k":8,"b":0,"p":1748},{"n":"Zendure SolarFlow 4000 Mix AC+ (8 kWh)","u":"batterij/zendure-solarflow-4000-mix-ac.html","k":8,"b":0,"p":2299},{"n":"Zendure SolarFlow 4000 Mix Pro (8 kWh)","u":"batterij/zendure-solarflow-4000-mix-pro.html","k":8,"b":0,"p":2899},{"n":"MOVA LumeGret A4000 (4 kWh)","u":"batterij/mova-lumegret-a4000.html","k":4,"b":0,"p":1349},{"n":"Indevolt SolidFlex 3000 AC (1,8 kWh)","u":"batterij/indevolt-solidflex-3000.html","k":1.8,"b":0,"p":795},{"n":"Marstek Venus D (2,56 kWh, modulair)","u":"batterij/marstek-venus-d.html","k":2.56,"b":0,"p":994},{"n":"AEG SolarCube AS-BBL09 (4,32 kWh bruikbaar)","u":"batterij/aeg-solarcube-48.html","k":4.32,"b":1,"p":1449},{"n":"Sunpura S4800 AC (4,32 kWh bruikbaar)","u":"batterij/sunpura-s4800.html","k":4.32,"b":1,"p":1330},{"n":"Marstek Venus E 4.0 (4,6 kWh bruikbaar)","u":"batterij/marstek-venus-e-4.html","k":4.6,"b":1,"p":1674},{"n":"EcoFlow STREAM AC 5000 (5 kWh)","u":"batterij/ecoflow-stream-ac-5000.html","k":5.02,"b":0,"p":1599},{"n":"SAMDUO Nex E6000 (5,43 kWh bruikbaar)","u":"batterij/samduo-nex-e6000.html","k":5.43,"b":1,"p":1999},{"n":"Voltdeer SR5000 (5,12 kWh)","u":"batterij/voltdeer-sr5000.html","k":5.12,"b":0,"p":1250},{"n":"Zendure SolarFlow 2400 Pro (2,4 kWh)","u":"batterij/zendure-solarflow-2400-pro.html","k":2.4,"b":0,"p":969},{"n":"Marstek Venus A (2,12 kWh)","u":"batterij/marstek-venus-a.html","k":2.12,"b":0,"p":445},{"n":"Marstek Venus E Mini (2 kWh)","u":"batterij/marstek-venus-e-mini.html","k":2,"b":0,"p":674},{"n":"Zendure SolarFlow 2400 AC met AB3000X (2,88 kWh)","u":"batterij/zendure-solarflow-2400-ac.html","k":2.88,"b":0,"p":969},{"n":"Zendure SolarFlow 2400 AC+ (2,4 kWh)","u":"batterij/zendure-solarflow-2400-ac-plus.html","k":2.4,"b":0,"p":849},{"n":"Jackery SolarVault 3 Pro Max AC (2,52 kWh)","u":"batterij/jackery-solarvault-3-pro-max-ac.html","k":2.52,"b":0,"p":789},{"n":"Jackery SolarVault 3 Pro Max (2,52 kWh)","u":"batterij/jackery-solarvault-3-pro-max.html","k":2.52,"b":0,"p":1089},{"n":"Anker SOLIX Solarbank 4 Pro (5 kWh)","u":"batterij/anker-solix-solarbank-4-pro.html","k":5,"b":0,"p":1799},{"n":"AEG Solarcube Pro (6 kWh)","u":"batterij/aeg-solarcube-pro.html","k":6,"b":0,"p":1799},{"n":"HYXi Halo (3 kWh)","u":"batterij/hyxi-halo.html","k":3.01,"b":0,"p":749},{"n":"TSUN PowerTrunk MAU5000 (5,12 kWh)","u":"batterij/tsun-powertrunk-mau5000.html","k":5.12,"b":0,"p":1449}]</script>
+  <!-- /blok:rekenhulp-data -->
+  <p>In folders heet hetzelfde apparaat ook <b>thuisaccu</b>, <b>huisbatterij</b>, <b>energieopslag thuis</b> of <b>stroom opslaan thuis</b>. Alle vier de woorden slaan op hetzelfde ding, en met elk ervan vind je in de <a href="index.html">vergelijker</a> dezelfde <span data-cijfer="aantal">52</span> modellen.</p>
   <p>Waarom is dat handig? Zonnepanelen maken de meeste stroom midden op de dag, terwijl de meeste mensen juist 's ochtends en 's avonds stroom gebruiken. Zonder batterij gaat die middagstroom het elektriciteitsnet op, en tot nu toe kreeg je daar via de zogeheten salderingsregeling een goede vergoeding voor. <b>Die regeling stopt op 1 januari 2027.</b> Daarna is stroom terugleveren nog maar een paar cent waard, terwijl stroom kopen 25 tot 40 cent per kilowattuur kost. Zelf bewaren en later gebruiken wordt dus veel aantrekkelijker.</p>
 
-  <h2>Zo werkt het, stap voor stap</h2>
+  <h2 id="zo-werkt-het">Zo werkt het, stap voor stap</h2>
   <p>Een dag met zonnepanelen en een thuisbatterij ziet er zo uit:</p>
 
   <div class="stap"><span class="nummer">1</span><div><b>Overdag: de zon schijnt.</b><p>Je zonnepanelen maken meer stroom dan je huis op dat moment gebruikt. Dat overschot gaat de batterij in. De <a href="rekenmodule.html">rekenhulp</a> gaat uit van 350 kWh per paneel per jaar, waarvan een huishouden zonder batterij ongeveer 30 procent meteen zelf opmaakt.</p></div></div>
-  <div class="stap"><span class="nummer">2</span><div><b>De batterij raakt vol.</b><p>Een <a href="#p1-meter">P1-meter</a> in je meterkast leest af hoeveel je huis op dit moment gebruikt en opwekt, en geeft dat door aan de batterij. Zo weet hij wanneer hij moet laden en wanneer hij moet stoppen. Bij de 23 modellen die je zelf in het stopcontact prikt zit die meter er lang niet altijd bij; bij de HomeWizard kost hij ongeveer 35 euro extra.</p></div></div>
+  <div class="stap"><span class="nummer">2</span><div><b>De batterij raakt vol.</b><p>Een <a href="#p1-meter">P1-meter</a> in je meterkast leest af hoeveel je huis op dit moment gebruikt en opwekt, en geeft dat door aan de batterij. Zo weet hij wanneer hij moet laden en wanneer hij moet stoppen. Bij de <span data-cijfer="stekker">33</span> modellen die je zelf in het stopcontact prikt zit die meter er lang niet altijd bij; bij de HomeWizard kost hij ongeveer 35 euro extra.</p></div></div>
   <div class="stap"><span class="nummer">3</span><div><b>'s Avonds: de zon is weg.</b><p>Je zet de televisie aan, kookt en doet de was. Nu komt de stroom uit de batterij en niet van het net. Om die 5,6 kWh van een gemiddelde avond en nacht te dekken heb je bruto zo'n 6 kWh nodig, want een batterij levert nooit zijn volle inhoud.</p></div></div>
-  <div class="stap"><span class="nummer">4</span><div><b>'s Nachts: de batterij is leeg of bijna leeg.</b><p>Morgen begint het opnieuw. Met een contract met uurprijzen (een "dynamisch contract") slaat de batterij 's nachts ook goedkope stroom van het net in. Van de 41 modellen hier doen er 15 dat volledig zelf; bij 23 andere kan het wel, maar loopt het via een omweg zoals Home Assistant of een externe aansturing.</p></div></div>
+  <div class="stap"><span class="nummer">4</span><div><b>'s Nachts: de batterij is leeg of bijna leeg.</b><p>Morgen begint het opnieuw. Met een contract met uurprijzen (een "dynamisch contract") slaat de batterij 's nachts ook goedkope stroom van het net in. Van de <span data-cijfer="aantal">52</span> modellen hier doen er <span data-cijfer="dyn-ja">15</span> dat volledig zelf; bij <span data-cijfer="dyn-deels">33</span> andere kan het wel, maar loopt het via een omweg zoals Home Assistant of een externe aansturing.</p></div></div>
 
-  <p>Heb je <b>geen zonnepanelen</b>? Dan kan een thuisbatterij alleen geld opleveren met zo'n contract met uurprijzen, want de batterij koopt stroom in als die goedkoop is (vaak 's nachts of midden op de dag) en gebruikt die als stroom duur is (meestal tussen 17.00 en 21.00 uur).</p>
+  <h2 id="zonder-zonnepanelen">Heb je zonnepanelen nodig voor een thuisbatterij?</h2>
+  <div class="kort-antwoord" data-vraag="Heb je zonnepanelen nodig voor een thuisbatterij?">
+    <p class="kort-label">Kort antwoord</p>
+    <p>Nee, maar zonder zonnepanelen verdient een batterij alleen iets met een dynamisch contract met uurprijzen. Hij laadt dan als stroom goedkoop is en levert als stroom duur is. Van de <span data-cijfer="aantal">52</span> modellen hier doen er <span data-cijfer="dyn-ja">15</span> dat met hun eigen app, zonder extra kastje of software.</p>
+  </div>
+  <p>De goedkope uren vallen vaak 's nachts of midden op de dag, de dure meestal tussen 17.00 en 21.00 uur. Het verschil tussen die twee is wat je verdient, min wat er bij het laden en ontladen verloren gaat. In de <a href="#vast-of-dynamisch">voorbeelddag verderop</a> is dat 27 cent per kWh. Met zonnepanelen komt daar de besparing op je eigen zonnestroom bij, en na 1 januari 2027 is dat de grootste van de twee.</p>
 
-  <h2>Twee soorten thuisbatterijen</h2>
+  <h2 id="twee-soorten">Twee soorten thuisbatterijen</h2>
+  <div class="kort-antwoord" data-vraag="Wat is een plug-in thuisbatterij en hoe werkt die?">
+    <p class="kort-label">Kort antwoord</p>
+    <p>Een plug-in thuisbatterij (ook stekkerbatterij of accu voor het stopcontact) steek je zelf in een gewoon geaard stopcontact. Een kastje op de P1-poort van je slimme meter meet wat je huis gebruikt en teruglevert, en de batterij laadt of levert precies dat verschil. Er staan er <span data-cijfer="stekker">33</span> in de vergelijker, van <span data-cijfer="stekker-min">€ 445</span> tot <span data-cijfer="stekker-max">€ 3.550</span>.</p>
+  </div>
   <p>Voor de keuze is vooral dit onderscheid belangrijk:</p>
   <div class="icoon-kaarten">
     <div class="icoon-kaart">
@@ -157,7 +549,7 @@
         <circle cx="153" cy="68" r="2.6" fill="#0a3733"/>
         <circle cx="153" cy="80" r="2.6" fill="#0a3733"/>
       </svg>
-      <b>Stekkerbatterijen (plug-in)</b>Deze hang of zet je zelf neer en steek je in een gewoon stopcontact. Een klein kastje op je slimme meter (de "P1-meter") vertelt de batterij wat je huis doet. Geen installateur nodig. Voorbeelden: Marstek, Sessy, HomeWizard. Prijzen: grofweg 700 tot 3.600 euro. Ook wel <b>plug-and-play thuisbatterij</b>, <b>balkonbatterij</b> of <b>thuisbatterij met stekker</b> genoemd; <a href="thuisbatterij-met-stekker.html">alle stekkermodellen op een rij</a>.
+      <b>Stekkerbatterijen (plug-in)</b>Deze hang of zet je zelf neer en steek je in een gewoon stopcontact. Een klein kastje op je slimme meter (de "P1-meter") vertelt de batterij wat je huis doet. Geen installateur nodig. Voorbeelden: Marstek, Sessy, HomeWizard. De <span data-cijfer="stekker">33</span> stekkermodellen hier kosten <span data-cijfer="stekker-min">€ 445</span> tot <span data-cijfer="stekker-max">€ 3.550</span>. Ook wel <b>plug-and-play thuisbatterij</b>, <b>balkonbatterij</b> of <b>thuisbatterij met stekker</b> genoemd; <a href="thuisbatterij-met-stekker.html">alle stekkermodellen op een rij</a>.
     </div>
     <div class="icoon-kaart">
       <svg viewBox="0 0 170 120" role="img" aria-label="Vast systeem: zonnepanelen en batterij delen één omvormer, aangesloten door een installateur" class="type-illustratie">
@@ -175,7 +567,7 @@
         <rect x="92" y="90" width="34" height="9" rx="3" fill="#2dd4bf"/>
         <circle cx="130" cy="89" r="3" fill="#f59e0b"/>
       </svg>
-      <b>Vaste systemen (met installateur)</b>Deze zijn groter en krachtiger en worden door een installateur in de meterkast of garage aangesloten, vaak samen met een apparaat dat "omvormer" heet. Voorbeelden: Sigenergy, Tesla Powerwall, Victron. Prijzen: grofweg 3.500 tot 11.500 euro, alles meegerekend.
+      <b>Vaste systemen (met installateur)</b>Deze zijn groter en krachtiger en worden door een installateur in de meterkast of garage aangesloten, vaak samen met een apparaat dat "omvormer" heet. Voorbeelden: Sigenergy, Tesla Powerwall, Victron. Compleet geïnstalleerd kosten ze hier <span data-cijfer="vast-min">€ 3.500</span> tot <span data-cijfer="vast-max">€ 13.000</span>.
     </div>
   </div>
   <p>Twijfel je wat bij je past? Mijn <a href="advies.html">keuzehulp</a> stelt een paar eenvoudige vragen en geeft dan een advies op maat.</p>
@@ -202,6 +594,10 @@
   <p><b>Daar staat een eerlijke keerzijde tegenover.</b> Is de berekende terugverdientijd langer dan de levensduur waar fabrikanten van uitgaan (10 tot 15 jaar), dan is een batterij op dit moment financieel gewoon geen goede koop, en dat zeg ik dan ook in de rekenhulp. Wachten is een prima keuze, want batterijprijzen zijn de afgelopen jaren flink gedaald, en na 2027 wordt de besparing per opgeslagen kWh groter. Wie nu geen goede businesscase heeft, heeft die over een of twee jaar mogelijk wel. Laat je dus nooit onder tijdsdruk zetten door een verkoper; de batterijen worden goedkoper, niet duurder.</p>
 
   <h2 id="vast-of-dynamisch">Vast of dynamisch contract: wat is het verschil?</h2>
+  <div class="kort-antwoord" data-vraag="Hoe werkt slimme aansturing van een thuisbatterij?">
+    <p class="kort-label">Kort antwoord</p>
+    <p>Slim aansturen betekent dat de batterij zelf bepaalt wanneer hij laadt en levert, op basis van de uurprijzen van morgen. Die liggen elke middag voor de volgende dag vast. Van de <span data-cijfer="aantal">52</span> modellen hier doen er <span data-cijfer="dyn-ja">15</span> dat met de eigen app; bij <span data-cijfer="dyn-deels">33</span> kan het via een omweg zoals Home Assistant, Homey of je energieleverancier.</p>
+  </div>
   <p>Bij een <b>vast (of variabel) contract</b> betaal je elk uur van de dag dezelfde stroomprijs. Bij een <b>dynamisch contract</b> verandert die prijs ieder uur, en van dat verschil leeft een slimme batterij. In de voorbeelddag hieronder zakt de prijs midden op de dag naar 14 cent en loopt hij in de avondspits op naar 41 cent, terwijl het vaste tarief de hele dag 30 cent blijft.</p>
 
   <svg viewBox="0 0 680 330" role="img" aria-label="Voorbeeld van dynamische uurprijzen op één dag vergeleken met een vast tarief van 30 cent: 's nachts en midden op de dag is stroom goedkoop en laadt de batterij, aan het begin van de avond is stroom duur en levert de batterij" class="grafiek-kader">
@@ -287,8 +683,8 @@
   </table>
   </div>
   <p><b>Waarom dat verschil uitmaakt.</b> Op day-ahead verdien je aan het gat tussen een goedkoop en een duur uur. In de voorbeelddag hierboven is dat 27 cent per kWh, en elke batterij met een beetje slimme app kan dat pakken. Op de onbalansmarkt word je betaald om het net te helpen op het moment dat er te veel of te weinig stroom is. Dat levert meer op. Je hebt er alleen een <a href="#aggregator">aggregator</a> voor nodig die namens jou handelt, want TenneT doet alleen zaken met partijen die minstens 1 megawatt kunnen leveren, en die aggregator houdt een deel van de opbrengst.</p>
-  <p><b>Waar je op moet letten.</b> Drie dingen. Bij sommige aanbieders zit je vast aan hun energiecontract, en dan bepaalt hun leveringstarief net zo goed wat je overhoudt als de handelsopbrengst zelf. De opbrengsten schommelen daarnaast sterk per maand en zijn de afgelopen jaren gedaald, doordat er steeds meer batterijen meedoen; TenneT waarschuwt daar zelf voor, en de bronnen staan bij <a href="regelgeving.html">regels en subsidies</a>. En een batterij die de hele dag voor de handel op en neer gaat, maakt meer cycli. De fabrieksopgaven hier lopen van 4.000 tot 10.000 cycli en de garanties van 2 tot 15 jaar, dus kijk of die twee bij elkaar passen.</p>
-  <p>Bij elke batterij staat onder <i>Smart home en slim aansturen</i> of hij op de onbalansmarkt mee kan doen en via wie. Van de 41 modellen heb ik er 4 uitgezocht, waarvan er 3 mee kunnen en 1 niet. Bij de overige 37 staat "nog niet uitgezocht", en dat is iets anders dan "nee".</p>
+  <p><b>Waar je op moet letten.</b> Drie dingen. Bij sommige aanbieders zit je vast aan hun energiecontract, en dan bepaalt hun leveringstarief net zo goed wat je overhoudt als de handelsopbrengst zelf. De opbrengsten schommelen daarnaast sterk per maand en zijn de afgelopen jaren gedaald, doordat er steeds meer batterijen meedoen; TenneT waarschuwt daar zelf voor, en de bronnen staan bij <a href="regelgeving.html">regels en subsidies</a>. En een batterij die de hele dag voor de handel op en neer gaat, maakt meer cycli. De fabrieksopgaven hier lopen van 4.000 tot 10.000 cycli en de garanties van <span data-cijfer="garantie-min">2</span> tot <span data-cijfer="garantie-max">15</span> jaar, dus kijk of die twee bij elkaar passen.</p>
+  <p>Bij elke batterij staat onder <i>Smart home en slim aansturen</i> of hij op de onbalansmarkt mee kan doen en via wie. Van de <span data-cijfer="aantal">52</span> modellen heb ik er <span data-cijfer="onb-uitgezocht">4</span> uitgezocht. Daarvan kunnen er <span data-cijfer="onb-ja">3</span> meedoen en <span data-cijfer="onb-nee">1</span> niet. Bij de overige <span data-cijfer="onb-open">48</span> staat "nog niet uitgezocht", en dat is iets anders dan "nee".</p>
 
   <h2 id="waar-op-letten">Waar moet je op letten vóór je koopt?</h2>
   <p>Dit zijn de punten waar kopers achteraf het vaakst tegenaan lopen:</p>
@@ -299,11 +695,41 @@
     <div class="icoon-kaart"><span class="icoon"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18" /> <path d="m19 8 3 8a5 5 0 0 1-6 0zV7" /> <path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1" /> <path d="m5 8 3 8a5 5 0 0 1-6 0zV7" /> <path d="M7 21h10" /></svg></span><b>Weet wat de batterij gaat dóén</b>Wordt hij gevuld met jouw zonnestroom, of gaat hij handelen op de stroommarkt? Beide kan slim zijn, maar het zijn verschillende keuzes. Een goede app laat je dit zelf kiezen.</div>
   </div>
 
-  <h2>Is het veilig?</h2>
-  <p>Vrijwel alle moderne thuisbatterijen gebruiken zogeheten LFP-cellen (zie de woordenlijst). Dat is een batterijsoort die veel minder snel te heet wordt dan de batterijen in bijvoorbeeld telefoons. Koop bij een bekende winkel of installateur, zet de batterij op een droge en geventileerde plek, en meld hem aan op <a href="https://www.energieleveren.nl" target="_blank" rel="noopener">energieleveren.nl</a> (dat is verplicht en gratis, het kan met DigiD). Twijfel je over de plek of de aansluiting, vraag dan een erkend installateur.</p>
+  <h2 id="aanmelden">Moet je een thuisbatterij aanmelden?</h2>
+  <div class="kort-antwoord" data-vraag="Moet je een thuisbatterij aanmelden?">
+    <p class="kort-label">Kort antwoord</p>
+    <p>Ja. Een thuisbatterij van 0,8 kW of meer meld je aan op energieleveren.nl, ook een plug-in batterij die je zelf in het stopcontact steekt. Het is gratis en kan met DigiD. Van de <span data-cijfer="stekker">33</span> stekkermodellen hier leveren er <span data-cijfer="stekker-08">32</span> minstens 0,8 kW.</p>
+  </div>
+  <p>Aanmelden doe je op <a href="https://www.energieleveren.nl" target="_blank" rel="noopener">energieleveren.nl</a>, het loket van de gezamenlijke netbeheerders. Je vult het merk, het type en het vermogen in; dat staat op de productpagina van elke batterij in de vergelijker. Meld de batterij ook bij je verzekeraar, want een vaste installatie valt meestal onder de opstalverzekering en een stekkerbatterij onder de inboedel. De regels en de bronnen staan bij <a href="regelgeving.html">regels en subsidies</a>.</p>
 
-  <h2>Wat kost het en wat levert het op?</h2>
-  <p>Dat hangt af van je situatie. Als vuistregel verdient een batterij zichzelf terug in ergens tussen de 4 en 22 jaar. Het gaat sneller naarmate je zonnepanelen hebt, veel stroom 's avonds gebruikt en een contract met uurprijzen neemt. Met mijn <a href="rekenmodule.html">rekenhulp</a> vul je een paar getallen in en zie je direct wat het voor jouw huishouden betekent. En op de pagina <a href="regelgeving.html">Regels &amp; subsidies</a> leg ik uit hoe de overheidsregels in elkaar zitten.</p>
+  <h2 id="veilig">Is een thuisbatterij veilig?</h2>
+  <p>Vrijwel alle moderne thuisbatterijen gebruiken zogeheten <a href="#lfp">LFP-cellen</a>. Dat is een batterijsoort die veel minder snel te heet wordt dan de batterijen in bijvoorbeeld telefoons. Koop bij een bekende winkel of installateur en zet de batterij op een droge en geventileerde plek. Wil je hem buiten hangen, kijk dan naar de IP-waarde (IP65 of hoger) en wat de handleiding toestaat. Twijfel je over de plek of de aansluiting, vraag dan een erkend installateur.</p>
+
+  <h2 id="kosten">Wat kost het en wat levert het op?</h2>
+  <p>Dat hangt af van je situatie. Wat een batterij per maat kost, staat uitgesplitst op <a href="wat-kost-een-thuisbatterij.html">wat kost een thuisbatterij</a>. Als vuistregel verdient een batterij zichzelf terug in ergens tussen de 4 en 22 jaar. Het gaat sneller naarmate je zonnepanelen hebt, veel stroom 's avonds gebruikt en een contract met uurprijzen neemt. Met mijn <a href="rekenmodule.html">rekenhulp</a> vul je een paar getallen in en zie je direct wat het voor jouw huishouden betekent. En op de pagina <a href="regelgeving.html">Regels &amp; subsidies</a> leg ik uit hoe de overheidsregels in elkaar zitten.</p>
+
+  <h2 id="klopt-het">Klopt het dat…?</h2>
+  <p>Vier dingen die je vaak hoort, nagelopen met de cijfers uit de vergelijker.</p>
+
+  <div class="kort-antwoord" data-vraag="Valt een thuisbatterij uit bij een stroomstoring?">
+    <p class="kort-label">Valt een thuisbatterij uit bij een stroomstoring?</p>
+    <p>Bij een deel wel. Van de <span data-cijfer="aantal">52</span> batterijen hier geven er <span data-cijfer="nood-ja">23</span> uit zichzelf noodstroom, <span data-cijfer="nood-deels">17</span> alleen met extra hardware en <span data-cijfer="nood-nee">3</span> helemaal niet; bij <span data-cijfer="nood-onbekend">9</span> heb ik het niet kunnen vaststellen. Met noodstroom voedt de batterij een apart stopcontact of een groep in de meterkast, meestal niet het hele huis.</p>
+  </div>
+
+  <div class="kort-antwoord" data-vraag="Is er subsidie op een thuisbatterij?">
+    <p class="kort-label">Is er subsidie op een thuisbatterij?</p>
+    <p>Landelijk niet, en op een losse thuisbatterij betaal je 21 procent btw. Het btw-nultarief geldt sinds 2023 alleen voor zonnepanelen op een woning. Sommige gemeenten hebben een eigen regeling; welke staat bij <a href="regelgeving.html">regels en subsidies</a>.</p>
+  </div>
+
+  <div class="kort-antwoord" data-vraag="Moet je een thuisbatterij kopen voordat salderen stopt?">
+    <p class="kort-label">Moet je snel kopen voordat salderen stopt?</p>
+    <p>Nee. Na 1 januari 2027 bespaart een batterij juist meer, omdat teruggeleverde stroom dan bijna niets meer oplevert. Er verdwijnt niets wat je nu nog moet grijpen. De afweging staat uitgewerkt op <a href="nu-kopen-of-wachten.html">nu kopen of wachten</a>, en de <a href="#cijfer-prijsbeweging">prijsbeweging van de laatste 30 dagen</a> staat bovenaan deze pagina.</p>
+  </div>
+
+  <div class="kort-antwoord" data-vraag="Bespaar je meer met een grotere thuisbatterij?">
+    <p class="kort-label">Bespaar je meer met een grotere batterij?</p>
+    <p>Tot een grens. Een huishouden van 2.900 kWh per jaar gebruikt buiten de zonuren zo'n 5,6 kWh per dag. Wat de batterij daarboven heeft, blijft op een gewone dag ongebruikt en verdient alleen nog iets met handelen op uurprijzen. De <a href="#wat-is-het">rekenhulp hierboven</a> rekent het uit voor jouw verbruik.</p>
+  </div>
 
   <h2 id="woordenlijst">Woordenlijst: alle moeilijke woorden uitgelegd</h2>
   <p>Klik op een woord om er direct naartoe te springen:</p>
@@ -331,7 +757,7 @@
     <div class="woord" id="lfp"><dt>LFP (LiFePO4)</dt><dd>De batterijsoort die in vrijwel alle thuisbatterijen zit (voluit: lithium-ijzerfosfaat). Gaat lang mee en is een stuk brandveiliger dan de batterijen in telefoons en laptops.</dd></div>
     <div class="woord" id="matter"><dt>Matter</dt><dd>Een nieuwe, universele "taal" waarmee slimme apparaten van verschillende merken met elkaar praten, gesteund door onder andere Apple, Google, Amazon en Samsung. De nieuwste versies van Matter ondersteunen ook thuisbatterijen, maar in de praktijk zijn er anno 2026 nog maar weinig batterijen die dit al kunnen. De verwachting is dat dit de komende jaren groeit; voor nu lopen koppelingen vooral via de fabrikant-app, Homey of Home Assistant.</dd></div>
     <div class="woord" id="netcongestie"><dt>Netcongestie (vol stroomnet)</dt><dd>Op veel plekken in Nederland is het stroomnet overvol, zoals file op de snelweg. Daarom kan een nieuwe of zwaardere aansluiting soms lang duren. Een slimme batterij kan juist helpen door het net te ontlasten.</dd></div>
-    <div class="woord" id="noodstroom"><dt>Noodstroom</dt><dd>Stroom uit de batterij tijdens een stroomstoring. Let op: veel batterijen vallen bij een storing juist úit, omdat ze met het net meedraaien. Sommige hebben een apart noodstroom-stopcontact, andere kunnen met extra apparatuur het hele huis blijven voeden. In de vergelijker zie je dit per batterij.</dd></div>
+    <div class="woord" id="noodstroom"><dt>Noodstroom</dt><dd>Stroom uit de batterij tijdens een stroomstoring. Een batterij zonder noodstroom valt bij een storing uit, omdat hij met het net meedraait. Van de <span data-cijfer="aantal">52</span> hier kunnen er <span data-cijfer="nood-ja">23</span> het uit zichzelf en <span data-cijfer="nood-deels">17</span> alleen met extra apparatuur; die voeden dan een apart stopcontact of een groep. In de vergelijker zie je dit per batterij.</dd></div>
     <div class="woord" id="omvormer"><dt>Omvormer</dt><dd>Het kastje dat de stroom van zonnepanelen (gelijkstroom) omzet naar stroom die je huis kan gebruiken (wisselstroom). Iedereen met zonnepanelen heeft er een, vaak op zolder of in de meterkast.</dd></div>
     <div class="woord" id="onbalansmarkt"><dt>Onbalansmarkt</dt><dd>Een "achter de schermen"-markt waar netbeheerder TenneT stroom bijkoopt of kwijt moet om het net stabiel te houden. Sommige batterijen kunnen daaraan meedoen en er wat mee verdienen, maar de opbrengsten dalen en zijn niet gegarandeerd. Zie het <a href="#day-ahead-en-onbalans">verschil met een dynamisch contract</a> hierboven.</dd></div>
     <div class="woord" id="p1-meter"><dt>P1-meter (slimme meter)</dt><dd>De slimme meter in je meterkast heeft een klein aansluitpunt dat "P1-poort" heet. Daar past een kastje op dat doorgeeft hoeveel stroom je huis gebruikt en teruglevert. Stekkerbatterijen gebruiken dit om te weten wanneer ze moeten laden of ontladen.</dd></div>
