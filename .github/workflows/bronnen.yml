@@ -70,14 +70,26 @@ jobs:
       # goed, en dan is snel falen beter dan zes uur blijven hangen.
       - name: Browser klaarzetten
         timeout-minutes: 10
-        run: npm i --no-save playwright && npx playwright install --with-deps chromium
+        run: npm i --no-save playwright@1.63.0 && npx playwright install --with-deps chromium
 
       # Niet streng: een afwijking is een vraag voor een mens, geen defect in de
       # code. Zou deze stap rood worden op iets wat niet te programmeren valt,
       # dan staat de werkstroom binnen een maand permanent rood en kijkt niemand
       # er meer naar - precies wat dit project over andere controles vastlegt.
+      # De invoer gaat via env en niet rechtstreeks in de opdracht: een
+      # ${{ }}-uitdrukking in run: wordt eerst letterlijk in het script
+      # geplakt, dus wat iemand in het veld typt zou als shellcode meedraaien.
       - name: Bronnen nakijken
-        run: >
-          node scripts/bronnen-nakijken.mjs
-          ${{ inputs.site && format('--site {0}', inputs.site) || '' }}
-          ${{ inputs.alleen && format('--alleen {0}', inputs.alleen) || '' }}
+        env:
+          SITE: ${{ inputs.site }}
+          ALLEEN: ${{ inputs.alleen }}
+        run: |
+          args=()
+          if [ -n "$SITE" ]; then
+            case "$SITE" in
+              batterijmaatje|warmtepompmaatje|zonnestroommaatje) args+=(--site "$SITE") ;;
+              *) echo "::error::Onbekende site: $SITE"; exit 1 ;;
+            esac
+          fi
+          [ -n "$ALLEEN" ] && args+=(--alleen "$ALLEEN")
+          node scripts/bronnen-nakijken.mjs "${args[@]}"

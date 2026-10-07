@@ -226,10 +226,20 @@ async function updateAanbieding(pomp, aanbieding, grenzen, verdacht, signalen) {
     if (richtprijs && !aanbieding.omvat) {
       const verhouding = nieuw / richtprijs;
       if (verhouding < RICHTPRIJS_ONDER || verhouding > RICHTPRIJS_BOVEN) {
+        // Een nieuw bedrag zo ver van de richtprijs gaat niet meer live: het
+        // dekt vrijwel altijd iets anders (een losse buitenunit, een set met
+        // boiler), en een verkeerde prijs op de site is schadelijker dan een
+        // dag een oude. Staat hetzelfde bedrag er al, dan heeft een mens het
+        // eerder goedgekeurd en telt het als bevestiging.
+        const nieuwBedrag = winkelbedrag !== aanbieding.prijs_eur;
         verdacht.push(
           `${pomp.id} @ ${aanbieding.winkel}: €${nieuw} is ${Math.round(verhouding * 100)}% van de richtprijs (€${richtprijs})` +
-          ` - controleer of deze prijs hetzelfde dekt; klopt het verschil, zet dan "omvat" op deze aanbieding (${aanbieding.url})`
+          `${nieuwBedrag ? " en is niet overgenomen" : ""} - controleer of deze prijs hetzelfde dekt; klopt het verschil, zet dan "omvat" op deze aanbieding (${aanbieding.url})`
         );
+        if (nieuwBedrag) {
+          console.log(`  ! ${pomp.id} @ ${aanbieding.winkel}: €${winkelbedrag} ligt ver van de richtprijs, oude prijs blijft staan`);
+          return false;
+        }
       }
     }
 
@@ -274,7 +284,10 @@ async function main() {
 
     alleProducten.push(...(data[bestand.lijst] || []));
     if (!DROOG) {
-      data.laatst_bijgewerkt = VANDAAG;
+      /* Alleen "vandaag gecontroleerd" als er vandaag ook echt iets bevestigd
+         is. Viel elke winkel weg (netwerkstoring, alles 403), dan toonde de
+         site anders een verse datum boven prijzen van dagen oud. */
+      if ((data[bestand.lijst] || []).some((w) => (w.aanbiedingen || []).some((a) => a.datum === VANDAAG))) data.laatst_bijgewerkt = VANDAAG;
       writeFileSync(bestand.pad, JSON.stringify(data, null, 2) + "\n", "utf8");
     }
   }

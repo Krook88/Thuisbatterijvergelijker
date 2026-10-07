@@ -586,7 +586,11 @@ async function main() {
   }
 
   if (!DROOG) {
-    data.laatst_bijgewerkt = VANDAAG;
+    /* Alleen "vandaag gecontroleerd" als er vandaag ook echt iets bevestigd
+       is. Viel elke winkel weg (netwerkstoring, alles 403), dan toonde de
+       site anders een verse datum boven prijzen van dagen oud. */
+    const bevestigd = data.batterijen.some((b) => (b.aanbiedingen || []).some((a) => a.datum === VANDAAG));
+    if (!ALLEEN && bevestigd) data.laatst_bijgewerkt = VANDAAG;
     writeFileSync(DATA_PAD, JSON.stringify(data, null, 2) + "\n", "utf8");
     // De batterijpagina's en sitemap worden hierna herbouwd door
     // scripts/genereer-batterijpaginas.mjs (zie de workflow).

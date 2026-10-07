@@ -31,6 +31,9 @@ on:
       - "package.json"
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+
 jobs:
   controleren:
     runs-on: ubuntu-latest
@@ -42,6 +45,11 @@ jobs:
 
       - name: Kern vergelijken met de sites
         run: npm run kern:controleer
+
+      # Stond in npm run controle maar niet hier, terwijl een vergeten stempel
+      # precies is wat telefoons zeven dagen met oude opmaak liet zitten.
+      - name: Cachestempel bij gewijzigde css en js
+        run: node scripts/cachestempel.mjs --controleer
 
       # De proeven bij prijs.mjs en prijs-uitlezen.mjs stonden er al, maar
       # niemand draaide ze automatisch. Juist die rekenen met geld: een fout
@@ -99,7 +107,7 @@ jobs:
       # goed; dan is snel falen beter, want opnieuw draaien is een knop.
       - name: Browser klaarzetten
         timeout-minutes: 10
-        run: npm i --no-save playwright && npx playwright install --with-deps chromium
+        run: npm i --no-save playwright@1.63.0 && npx playwright install --with-deps chromium
 
       # Contrast, aanraakvlakken, tekstmaten en javascriptfouten over elke
       # pagina van de drie sites, op 1280 en 390 pixels breed.
@@ -111,3 +119,6 @@ jobs:
       # 19px grijs; formeel klopte dat, dus de keuring zag het niet.
       - name: Regels die niets doen
         run: npm run dode-regels
+
+      - name: Menu past op een telefoon
+        run: npm run menubreedte

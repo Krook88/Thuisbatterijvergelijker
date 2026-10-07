@@ -84,7 +84,7 @@ jobs:
       - name: Browser klaarzetten
         timeout-minutes: 10
         continue-on-error: true
-        run: npm i --no-save playwright && npx playwright install chromium
+        run: npm i --no-save playwright@1.63.0 && npx playwright install chromium
 
       # De invoer gaat via de omgeving en niet rechtstreeks in de opdracht.
       # Een ${{ }} in een run-blok wordt vóór de shell ingevuld, dus vrije

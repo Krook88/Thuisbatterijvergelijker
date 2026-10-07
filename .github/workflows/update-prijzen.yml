@@ -28,9 +28,19 @@ on:
 permissions:
   contents: write
 
+# Een handmatige run die tegelijk met de geplande loopt, duwt naar dezelfde
+# tak; dan wacht de tweede tot de eerste klaar is in plaats van ertussen te
+# komen.
+concurrency:
+  group: prijsupdate-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   prijzen:
     runs-on: ubuntu-latest
+    # Een browserpagina die blijft hangen hield de matrix anders tot zes uur
+    # vast, en met max-parallel 1 wachten de andere sites mee.
+    timeout-minutes: 45
     strategy:
       # Niet parallel: de sites duwen naar dezelfde tak, en tegelijk pushen
       # levert een afgewezen push op in plaats van een tweede commit.
@@ -41,9 +51,11 @@ jobs:
     steps:
       - name: Bepalen of deze site meedoet
         id: keuze
+        env:
+          GEKOZEN: ${{ github.event.inputs.site }}
+          SITE: ${{ matrix.site }}
         run: |
-          gekozen="${{ github.event.inputs.site }}"
-          if [ -n "$gekozen" ] && [ "$gekozen" != "alle" ] && [ "$gekozen" != "${{ matrix.site }}" ]; then
+          if [ -n "$GEKOZEN" ] && [ "$GEKOZEN" != "alle" ] && [ "$GEKOZEN" != "$SITE" ]; then
             echo "doen=false" >> "$GITHUB_OUTPUT"
           else
             echo "doen=true" >> "$GITHUB_OUTPUT"
@@ -85,7 +97,7 @@ jobs:
         if: steps.keuze.outputs.doen == 'true'
         timeout-minutes: 10
         continue-on-error: true
-        run: npm i --no-save playwright && npx playwright install chromium
+        run: npm i --no-save playwright@1.63.0 && npx playwright install chromium
 
       - name: Prijzen bijwerken
         id: prijzen
@@ -151,8 +163,13 @@ jobs:
       # niet bestaat. De externe links gaan mee, minus de winkels: die heeft het
       # prijsscript hierboven zojuist al bezocht en het meldt zelf welke
       # verdwenen zijn.
+      # Meldend, niet blokkerend: een kapotte interne link in één pagina hield
+      # anders de prijzen van de hele site tegen, dag na dag. Het oordeel komt
+      # na de commit, in de stap "Kapotte interne links".
       - name: Links controleren
+        id: links
         if: steps.keuze.outputs.doen == 'true'
+        continue-on-error: true
         working-directory: sites/${{ matrix.site }}
         run: node scripts/controleer-links.mjs --zonder-winkels
 
@@ -166,10 +183,20 @@ jobs:
             echo "Geen prijswijzigingen voor ${{ matrix.site }}."
           else
             git commit -m "Dagelijkse prijsupdate ${{ matrix.site }} $(date -u +%F)"
-            # Een eerdere site in dezelfde run kan net geduwd hebben.
-            git pull --rebase --autostash
-            git push
+            # Een eerdere site in dezelfde run kan net geduwd hebben, of een
+            # mens. Tot drie keer opnieuw ophalen en duwen.
+            for poging in 1 2 3; do
+              git pull --rebase --autostash && git push && break
+              [ "$poging" = 3 ] && exit 1
+              sleep $((poging * 10))
+            done
           fi
+
+      - name: Kapotte interne links
+        if: steps.keuze.outputs.doen == 'true' && steps.links.outcome == 'failure'
+        run: |
+          echo "::error::Er staan kapotte interne links op ${{ matrix.site }}; zie de stap 'Links controleren'. De prijzen zijn wel bijgewerkt."
+          exit 1
 
       # Alles hierboven is al weggeschreven en gepusht: een signaal mag de
       # dagelijkse ronde niet tegenhouden. Maar groen blijven mag ook niet.

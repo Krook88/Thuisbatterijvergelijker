@@ -269,7 +269,8 @@ async function main() {
     alleProducten.push(...(data[bestand.lijst] || []));
     if (!ALLEEN_BTW) {
       if (!DROOG) {
-        data.laatst_bijgewerkt = VANDAAG;
+        // Alleen een verse datum als er vandaag ook echt iets bevestigd is.
+        if ((data[bestand.lijst] || []).some((p) => (p.aanbiedingen || []).some((a) => a.datum === VANDAAG))) data.laatst_bijgewerkt = VANDAAG;
         writeFileSync(bestand.pad, JSON.stringify(data, null, 2) + "\n", "utf8");
       }
     }
