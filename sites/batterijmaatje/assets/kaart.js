@@ -393,6 +393,7 @@
       <div class="regel-waarde cijfer" data-naam="Capaciteit"><span class="regel-label">Capaciteit</span>${capaciteit}${dagmaatHtml(b, o.verbruik)}</div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>${b.vermogen_kw ? String(b.vermogen_kw).replace(".", ",") + " kW" : "Onbekend"}</div>
       <div class="regel-waarde cijfer" data-naam="Installatie"><span class="regel-label">Installatie</span>${b.installatie === "zelf" ? "Zelf" : "Installateur"}</div>
+      <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span>${PrijsGrafiek ? PrijsGrafiek.regelGrafiek(b.id) : ""}</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>${score}<span class="regel-van">/6</span>
         ${/* Drie streepjes zonder namen zeiden niet welk streepje Homey was,
@@ -409,7 +410,6 @@
         ${beste && beste.url && vergelijk !== null
           ? `<a class="regel-bedrag cijfer" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="${escapeHtml(eurFmt.format(vergelijk))} bij ${escapeHtml(beste.winkel || "de winkel")}: naar de aanbieding van de ${escapeHtml(naamVan(b))}, opent in een nieuw tabblad">${eurFmt.format(vergelijk)}</a>`
           : `<span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>`}
-        ${PrijsGrafiek ? PrijsGrafiek.lijntje(b.id) : ""}
         ${perKwh ? `<span class="regel-per cijfer">${eurFmt.format(perKwh)} per kWh opslag</span>` : ""}
         ${beste && beste.url && beste.winkel ? `<span class="regel-winkel">${/^richtprijs/i.test(beste.winkel) ? "" : "bij "}${escapeHtml(beste.winkel)}</span>` : ""}
         ${ouderdomHtml(b)}
@@ -421,7 +421,7 @@
   /* De kop boven de regels. Staat los van de regel zelf zodat hij een keer in
      de lijst staat en niet 41 keer. */
   function lijstHtml(lijst, opties) {
-    const koppen = ["Model", "Capaciteit", "Vermogen", "Installatie", "Koppel-score", "Prijs"];
+    const koppen = ["Model", "Capaciteit", "Vermogen", "Installatie", "Prijsverloop", "Koppel-score", "Prijs"];
     return `<div class="resultaat-lijst">
       <div class="resultaat-regel regel-kop" aria-hidden="true">
         <span></span>${koppen.map((k) => `<span>${k}</span>`).join("")}

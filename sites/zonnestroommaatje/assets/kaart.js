@@ -219,6 +219,7 @@
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>${p.vermogen_wp ? p.vermogen_wp + " Wp" : "Onbekend"}</div>
       <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">Rendement</span>${p.rendement_pct ? String(p.rendement_pct).replace(".", ",") + " %" : "Onbekend"}</div>
       <div class="regel-waarde cijfer" data-naam="Uitvoering"><span class="regel-label">Uitvoering</span>${escapeHtml(p.uitvoering || p.celtype || "Onbekend")}</div>
+      <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span>${PrijsGrafiek ? PrijsGrafiek.regelGrafiek(p.id) : ""}</div>
       <div class="regel-waarde cijfer" data-naam="Zeker-score">
         <span class="regel-label">Zeker-score</span>${score}<span class="regel-van">/6</span>
         <span class="regel-baan"><span class="regel-vul" style="width:${Math.round((score / 6) * 100)}%"></span></span>
@@ -227,7 +228,6 @@
         ${beste && beste.url && vergelijk !== null
           ? `<a class="regel-bedrag cijfer" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="${escapeHtml(eurFmt.format(vergelijk))} bij ${escapeHtml(beste.winkel || "de winkel")}: naar de aanbieding van het ${escapeHtml(naamVan(p))}, opent in een nieuw tabblad">${eurFmt.format(vergelijk)}</a>`
           : `<span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>`}
-        ${PrijsGrafiek ? PrijsGrafiek.lijntje(p.id) : ""}
         ${prijsPerWp(p) ? `<span class="regel-per cijfer">${new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", minimumFractionDigits: 2 }).format(prijsPerWp(p))} per Wp</span>` : ""}
         ${beste && beste.url && beste.winkel ? `<span class="regel-winkel">${/^richtprijs/i.test(beste.winkel) ? "" : "bij "}${escapeHtml(beste.winkel)}</span>` : ""}
         ${ouderdomHtml(p)}
@@ -239,7 +239,7 @@
   /* De kop boven de regels. Staat los van de regel zodat hij een keer in de
      lijst staat en niet bij elk product. */
   function lijstHtml(lijst, opties) {
-    const koppen = ["Model", "Vermogen", "Rendement", "Uitvoering", "Zeker-score", "Prijs"];
+    const koppen = ["Model", "Vermogen", "Rendement", "Uitvoering", "Prijsverloop", "Zeker-score", "Prijs"];
     // Welke in deze lijst het goedkoopst is, over de lijst zoals hij nu
     // gefilterd is, zodat het kenmerk klopt met wat je ziet.
     let laagste = null;

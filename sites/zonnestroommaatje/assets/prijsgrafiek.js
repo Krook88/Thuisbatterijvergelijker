@@ -2,7 +2,7 @@
    Prijsgrafiek: het verloop van de laagste winkelprijs.
 
    Twee vormen uit dezelfde gegevens (data/prijsverloop.json):
-   - lijntje(id): een klein lijntje van 30 dagen naast de prijs in de lijst;
+   - regelGrafiek(id): 30 dagen in een eigen kolom van de lijst;
    - grafiekHtml(id): een grote grafiek op de productpagina, met de laagste
      en hoogste prijs, wanneer die golden, en een tabel met de wijzigingen.
 
@@ -94,38 +94,49 @@
     return d;
   }
 
-  /** Klein lijntje voor in de lijst: 30 dagen, zonder assen. */
-  function lijntje(id, opties) {
-    const o = Object.assign({ dagen: 30, breedte: 64, hoogte: 18 }, opties);
+  /** De grafiek in de lijst: 30 dagen, in een eigen kolom per regel.
+
+      Eerst stond hier een lijntje van 64 pixels onder het bedrag. Dat las als
+      een tweede onderstreping, en bij een prijs die een maand gelijk bleef
+      zag je helemaal niets. Nu een eigen kolom, zoals in de schets van de
+      maker: de lijn over de volle breedte, een punt bij de laagste prijs en
+      bij vandaag, en eronder in woorden wat de lijn zegt.
+
+      Dezelfde opbouw als de grote grafiek: de lijn in een SVG die meerekt, de
+      punten als HTML erover, zodat ze rond blijven bij elke kolombreedte. */
+  function regelGrafiek(id, opties) {
+    const o = Object.assign({ dagen: 30 }, opties);
     const lijst = dagen(id, o.dagen);
     const s = samenvatting(lijst);
-    // Onder een week aan metingen zegt een lijntje niets; dan liever niets.
-    if (!s || s.metingen < 7) return "";
-    const pad = 2;
+    // Onder een week aan metingen zegt een lijn niets.
+    if (!s || s.metingen < 7) {
+      return `<span class="rg-leeg">${s ? "nog te kort gevolgd" : "geen winkelprijs gevolgd"}</span>`;
+    }
     const n = lijst.length;
-    const bereik = s.hoogste - s.laagste || s.hoogste * 0.1 || 1;
-    const midden = (s.hoogste + s.laagste) / 2;
-    const onder = s.hoogste === s.laagste ? midden - bereik / 2 : s.laagste;
-    const x = (i) => (i / n) * o.breedte;
-    const y = (p) => pad + (1 - (p - onder) / bereik) * (o.hoogte - 2 * pad);
+    const gelijk = s.hoogste === s.laagste;
+    const bereik = gelijk ? 1 : s.hoogste - s.laagste;
+    // Ruimte boven en onder, zodat een punt op de rand niet half wegvalt.
+    const x = (i) => (i / n) * 1000;
+    const y = (p) => (gelijk ? 50 : 12 + (1 - (p - s.laagste) / bereik) * 76);
+    const pct = (v, max) => `${((v / max) * 100).toFixed(2)}%`;
     const laatsteI = lijst.map(([, p]) => typeof p === "number").lastIndexOf(true);
-    const eindP = lijst[laatsteI][1];
     const beginP = lijst.find(([, p]) => typeof p === "number")[1];
-    const tekst = (s.hoogste === s.laagste
+    const eindP = lijst[laatsteI][1];
+    const laagI = lijst.findIndex(([, p]) => p === s.laagste);
+    const punt = (px, py, klasse) => `<span class="rg-punt${klasse ? ` ${klasse}` : ""}" style="left:${pct(px, 1000)};top:${pct(py, 100)}"></span>`;
+
+    const onder = s.nu === null ? "nu niet te koop"
+      : gelijk ? `gelijk in ${o.dagen} dagen`
+      : `laagste ${eur.format(s.laagste)}`;
+    const tekst = (gelijk
       ? `Prijsverloop ${o.dagen} dagen: gelijk gebleven op ${eur.format(s.laagste)}`
-      : `Prijsverloop ${o.dagen} dagen: van ${eur.format(beginP)} naar ${eur.format(eindP)}, laagste ${eur.format(s.laagste)}`) +
+      : `Prijsverloop ${o.dagen} dagen: van ${eur.format(beginP)} naar ${eur.format(eindP)}, laagste ${eur.format(s.laagste)} op ${datumLang(s.laagsteDatum)}`) +
       (s.nu === null ? ", nu bij geen winkel te koop" : "");
-    /* Een woord erbij. Alleen een lijntje onder een onderstreept bedrag las
-       als een tweede onderstreping, zeker als de prijs een maand gelijk bleef
-       en het lijntje dus vlak was. */
-    const verschil = s.nu === null ? null : eindP - beginP;
-    const kort = s.nu === null ? "nu niet te koop"
-      : verschil === 0 ? `gelijk in ${o.dagen} dagen`
-      : `${verschil < 0 ? "−" : "+"}${eur.format(Math.abs(verschil))} in ${o.dagen} dagen`;
-    return `<span class="prijs-verloop"><svg class="prijs-lijntje" viewBox="0 0 ${o.breedte} ${o.hoogte}" width="${o.breedte}" height="${o.hoogte}" role="img" aria-label="${esc(tekst)}"><title>${esc(tekst)}</title>` +
-      `<path d="${trapPad(lijst, x, y)}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>` +
-      (s.nu !== null ? `<circle class="prijs-lijntje-nu" cx="${x(laatsteI + 1).toFixed(1)}" cy="${y(eindP).toFixed(1)}" r="2.5"/>` : "") +
-      `</svg><span class="prijs-verloop-tekst" aria-hidden="true">${esc(kort)}</span></span>`;
+    return `<div class="rg" role="img" aria-label="${esc(tekst)}" title="${esc(tekst)}">` +
+      `<svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="${trapPad(lijst, x, y)}"/></svg>` +
+      (gelijk ? "" : punt(x(laagI) + 500 / n, y(s.laagste))) +
+      (s.nu !== null ? punt(x(laatsteI + 1), y(eindP), "rg-nu") : "") +
+      `</div><span class="rg-onder" aria-hidden="true">${esc(onder)}</span>`;
   }
 
   /* Ronde stappen voor de prijsas: 1, 2 of 5 maal een macht van tien. */
@@ -258,5 +269,5 @@
     else koppel();
   }
 
-  return { laad, dagen, samenvatting, lijntje, grafiekHtml, koppel };
+  return { laad, dagen, samenvatting, regelGrafiek, grafiekHtml, koppel };
 });

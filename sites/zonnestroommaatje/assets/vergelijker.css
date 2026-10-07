@@ -285,7 +285,9 @@
   display: grid;
   /* De naamkolom is breed omdat er een foto naast de naam staat; zonder die
      ruimte liepen namen over drie of vier regels. */
-  grid-template-columns: 34px minmax(0, 3fr) repeat(3, minmax(0, 0.8fr)) minmax(0, 1fr) minmax(0, 1.3fr);
+  /* Acht kolommen sinds de prijsgrafiek erbij kwam (oktober 2026); de naam
+     staat een fractie in, de grafiek krijgt de ruimte van een kolom en een half. */
+  grid-template-columns: 34px minmax(0, 2.6fr) repeat(3, minmax(0, 0.8fr)) minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1.3fr);
   gap: var(--ruimte-14);
   align-items: center;
   padding: var(--ruimte-14);
@@ -389,14 +391,16 @@ a.regel-bedrag { color: var(--kleur-primair-donker); text-decoration: underline;
 a.regel-bedrag:hover { text-decoration-thickness: 2px; }
 .regel-details { display: inline-block; min-height: 24px; line-height: 24px; font-size: var(--tekst-15); }
 
-/* Prijsverloop: een klein trapje van 30 dagen onder het bedrag in de lijst,
-   en een grotere grafiek op de productpagina (assets/prijsgrafiek.js). De lijn
-   staat in de zachte tekstkleur zodat hij naast het bedrag niet schreeuwt;
-   alleen het punt van vandaag draagt de merkkleur. */
-.prijs-verloop { display: flex; align-items: center; justify-content: flex-end; gap: var(--ruimte-6); margin: var(--ruimte-4) 0 var(--ruimte-2); }
-.prijs-lijntje { display: block; flex: none; color: var(--kleur-tekst-licht); overflow: visible; }
-.prijs-verloop-tekst { font-size: var(--tekst-12); font-weight: 600; color: var(--kleur-tekst-licht); white-space: nowrap; }
-.prijs-lijntje-nu { fill: var(--kleur-primair); stroke: var(--kleur-wit); stroke-width: 1.5; }
+/* Prijsverloop. In de lijst een eigen kolom met 30 dagen (regelGrafiek in
+   assets/prijsgrafiek.js), op de productpagina een grotere grafiek. De lijn
+   draagt de merkkleur; het punt van vandaag ook, met een ring in de
+   achtergrondkleur zodat het los van de lijn leesbaar blijft. */
+.regel-verloop { min-width: 0; }
+.rg { position: relative; height: 44px; }
+.rg svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.rg-lijn { fill: none; stroke: var(--kleur-primair); stroke-width: 2; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.rg-punt { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--kleur-primair); box-shadow: 0 0 0 2px var(--kleur-wit); transform: translate(-50%, -50%); }
+.rg-onder, .rg-leeg { display: block; margin-top: var(--ruimte-4); font-size: var(--tekst-12); font-weight: 600; color: var(--kleur-tekst-licht); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .prijsgrafiek { margin: var(--ruimte-20) 0 var(--ruimte-28); }
 .pg-cijfers { display: flex; flex-wrap: wrap; gap: var(--ruimte-10) var(--ruimte-28); margin: 0 0 var(--ruimte-20); }
@@ -522,6 +526,16 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
     padding-top: var(--ruimte-6);
   }
 
+  /* Op een telefoon over de volle breedte van de kaart: een grafiek in een
+     half vakje is te smal om er iets aan af te lezen. */
+  .regel-verloop {
+    grid-column: 1 / -1;
+    order: 1;
+    border-top: 1px solid var(--kleur-rand);
+    padding-top: var(--ruimte-6);
+  }
+  .regel-verloop .rg { height: 32px; }
+
   .regel-label {
     display: block;
     font-size: var(--tekst-12);
@@ -529,8 +543,10 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
     color: var(--kleur-tekst-licht);
   }
 
+  /* Na de grafiek, die onder de vier eigenschappen staat (order: 1). */
   .regel-slot {
     grid-column: 1 / -1;
+    order: 2;
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: end;

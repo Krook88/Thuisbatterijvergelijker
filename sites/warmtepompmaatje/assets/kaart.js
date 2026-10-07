@@ -303,6 +303,7 @@
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>${w.vermogen_kw ? String(w.vermogen_kw).replace(".", ",") + " kW" : "Onbekend"}</div>
       <div class="regel-waarde cijfer" data-naam="Koudemiddel"><span class="regel-label">Koudemiddel</span><span title="${escapeHtml(w.koudemiddel || "")}">${escapeHtml((w.koudemiddel || "Onbekend").split(/[\s(]/)[0])}</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>${w.geluid_db ? w.geluid_db + " dB(A)" : "Onbekend"}</div>
+      <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span>${PrijsGrafiek ? PrijsGrafiek.regelGrafiek(w.id) : ""}</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
         <span class="regel-label">Koppel-score</span>${score}<span class="regel-van">/6</span>
         <ul class="koppel-delen">${koppelDelen(w).map((d) => `<li class="koppel-deel deel-${d.punten}" title="${escapeHtml(d.naam)}: ${escapeHtml(d.tekst)}">${Iconen.svg({ ja: "ja", deels: "deels", nee: "nee" }[d.status] || "nee")}<span>${escapeHtml(d.naam)}</span><span class="visueel-verborgen"> ${d.status === "ja" ? "volledig" : d.status === "deels" ? "deels" : "niet"}</span></li>`).join("")}</ul>
@@ -311,7 +312,6 @@
         ${beste && beste.url && vergelijk !== null
           ? `<a class="regel-bedrag cijfer" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="${escapeHtml(eurFmt.format(vergelijk))} bij ${escapeHtml(beste.winkel || "de winkel")}: naar de aanbieding van de ${escapeHtml(naamVan(w))}, opent in een nieuw tabblad">${eurFmt.format(vergelijk)}</a>`
           : `<span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>`}
-        ${PrijsGrafiek ? PrijsGrafiek.lijntje(w.id) : ""}
         ${w.isde_indicatie_eur ? `<span class="regel-per cijfer">ISDE circa ${eurFmt.format(w.isde_indicatie_eur)}</span>` : ""}
         ${beste && beste.url && beste.winkel ? `<span class="regel-winkel">${/^richtprijs/i.test(beste.winkel) ? "" : "bij "}${escapeHtml(beste.winkel)}</span>` : ""}
         ${ouderdomHtml(w)}
@@ -323,7 +323,7 @@
   /* De kop boven de regels. Staat los van de regel zodat hij een keer in de
      lijst staat en niet bij elk product. */
   function lijstHtml(lijst, opties) {
-    const koppen = ["Model", "Vermogen", "Koudemiddel", "Geluid", "Koppel-score", "Prijs"];
+    const koppen = ["Model", "Vermogen", "Koudemiddel", "Geluid", "Prijsverloop", "Koppel-score", "Prijs"];
     // Welke in deze lijst het goedkoopst is, over de lijst zoals hij nu
     // gefilterd is, zodat het kenmerk klopt met wat je ziet.
     let laagste = null;
