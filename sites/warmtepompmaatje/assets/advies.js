@@ -281,7 +281,18 @@
      Renderen
      ------------------------------------------------------------------ */
 
+  /* Het advies stond er meteen bij het openen, gerekend op ingevulde
+     gemiddelden die de bezoeker nog niet had gezien. Dat las als een oordeel
+     over iemand die nog niets had gezegd. Nu verschijnt het pas na het eerste
+     antwoord, of als iemand zelf vraagt om het advies met de gemiddelden. */
+  let gestart = false;
+  function startAdvies() {
+    gestart = true;
+    adviseer();
+  }
+
   function adviseer() {
+    if (!gestart) return;
     const s = invoer();
     const advies = typeAdvies(s);
     const b = besparing(s, advies.type);
@@ -342,12 +353,13 @@
       if (!res.ok) throw new Error("HTTP " + res.status);
       pompen = (await res.json()).warmtepompen || [];
       ["gasverbruik", "cvKetel", "isolatie", "afgifte", "buren", "smartHome"].forEach((id) => {
-        el(id).addEventListener("input", adviseer);
-        el(id).addEventListener("change", adviseer);
+        el(id).addEventListener("input", startAdvies);
+        el(id).addEventListener("change", startAdvies);
       });
-      el("checkZon").addEventListener("change", adviseer);
-      el("checkBatterij").addEventListener("change", adviseer);
-      adviseer();
+      el("checkZon").addEventListener("change", startAdvies);
+      el("checkBatterij").addEventListener("change", startAdvies);
+      const knop = document.querySelector("[data-start-advies]");
+      if (knop) knop.addEventListener("click", startAdvies);
     } catch (err) {
       el("adviesInhoud").innerHTML = '<p class="hint">De gegevens konden niet worden geladen. Vernieuw de pagina of probeer het later opnieuw.</p>';
       console.error("Fout bij laden warmtepompen.json:", err);

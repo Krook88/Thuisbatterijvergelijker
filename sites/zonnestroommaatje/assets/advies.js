@@ -276,7 +276,18 @@
      Renderen
      ------------------------------------------------------------------ */
 
+  /* Het advies stond er meteen bij het openen, gerekend op ingevulde
+     gemiddelden die de bezoeker nog niet had gezien. Dat las als een oordeel
+     over iemand die nog niets had gezegd. Nu verschijnt het pas na het eerste
+     antwoord, of als iemand zelf vraagt om het advies met de gemiddelden. */
+  let gestart = false;
+  function startAdvies() {
+    gestart = true;
+    adviseer();
+  }
+
   function adviseer() {
+    if (!gestart) return;
     const s = invoer();
     const { doelVerbruik, benodigdWp, extras } = vermogenAdvies(s);
 
@@ -422,14 +433,15 @@
       } catch { /* zonder omvormerdata blijft het paneeladvies gewoon werken */ }
 
       ["verbruik", "dakligging", "maxPanelen", "voorkeur", "schaduw", "batterijPlan", "smartHome"].forEach((id) => {
-        el(id).addEventListener("input", adviseer);
-        el(id).addEventListener("change", adviseer);
+        el(id).addEventListener("input", startAdvies);
+        el(id).addEventListener("change", startAdvies);
       });
       ["checkAuto", "checkWarmtepomp", "checkFullBlack"].forEach((id) => {
-        el(id).addEventListener("change", adviseer);
+        el(id).addEventListener("change", startAdvies);
       });
 
-      adviseer();
+      const knop = document.querySelector("[data-start-advies]");
+      if (knop) knop.addEventListener("click", startAdvies);
     } catch (err) {
       el("adviesInhoud").innerHTML = '<p class="hint">De paneelgegevens konden niet worden geladen. Vernieuw de pagina of probeer het later opnieuw.</p>';
       console.error("Fout bij laden panelen.json:", err);

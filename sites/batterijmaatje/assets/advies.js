@@ -429,7 +429,18 @@
       </div>`;
   }
 
+  /* Het advies stond er meteen bij het openen, gerekend op ingevulde
+     gemiddelden die de bezoeker nog niet had gezien. Dat las als een oordeel
+     over iemand die nog niets had gezegd. Nu verschijnt het pas na het eerste
+     antwoord, of als iemand zelf vraagt om het advies met de gemiddelden. */
+  let gestart = false;
+  function startAdvies() {
+    gestart = true;
+    render();
+  }
+
   function render() {
+    if (!gestart) return;
     const doel = el("adviesResultaat");
 
     const maat = berekenMaat();
@@ -536,11 +547,11 @@
     }
     koppelPresets();
     document.querySelectorAll("#adviesFormulier input, #adviesFormulier select").forEach((inp) => {
-      inp.addEventListener("input", render);
-      inp.addEventListener("change", render);
+      inp.addEventListener("input", startAdvies);
+      inp.addEventListener("change", startAdvies);
     });
-
-    render();
+    const knop = document.querySelector("[data-start-advies]");
+    if (knop) knop.addEventListener("click", startAdvies);
   }
 
   document.addEventListener("DOMContentLoaded", init);
