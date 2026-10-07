@@ -109,7 +109,62 @@
     reken();
   }
 
-  const REKENHULPEN = { "batterij-maat": batterijMaat };
+  /* ---- Rekenhulp: wat kost verwarmen met een warmtepomp ------------ */
+
+  /* De aannames komen uit de generator, die ze uit assets/rekenmodule.js en
+     rekenmodule.html leest. Hier staat alleen de som. */
+  function warmtepompKosten(blok) {
+    const bron = document.getElementById("rekenhulp-warmtepomp");
+    const veld = blok.querySelector('[data-in="gas"]');
+    if (!bron || !veld) return;
+    let r;
+    try { r = JSON.parse(bron.textContent); } catch (e) { return; }
+    const zet = (naam, tekst) => { const el = blok.querySelector(`[data-uit="${naam}"]`); if (el) el.textContent = tekst; };
+
+    function reken() {
+      const m3 = Number(veld.value);
+      if (!Number.isFinite(m3) || m3 < 100 || m3 > 10000) return;
+      const warmte = m3 * r.aandeel * r.kwhPerM3;
+      const gasKosten = m3 * r.aandeel * r.gasprijs;
+      const allEl = warmte / r.scop * r.stroomprijs;
+      const hyb = warmte * r.hybrideDekking / r.hybrideScop * r.stroomprijs + m3 * r.aandeel * (1 - r.hybrideDekking) * r.gasprijs;
+      zet("warmte", (Math.round(warmte / 100) * 100).toLocaleString("nl-NL"));
+      zet("gaskosten", eur(gasKosten));
+      zet("hybride", eur(hyb));
+      zet("allel", eur(allEl));
+    }
+    veld.addEventListener("input", reken);
+    reken();
+  }
+
+  /* ---- Rekenhulp: hoeveel zonnepanelen ------------------------------ */
+
+  /* Het paneelvermogen en de prijs zijn de middelste uit de vergelijker; de
+     dakliggingen en hun kWh per Wp komen uit rekenmodule.html. */
+  function panelenAantal(blok) {
+    const bron = document.getElementById("rekenhulp-panelen");
+    const verbruik = blok.querySelector('[data-in="verbruik"]');
+    const ligging = blok.querySelector('[data-in="ligging"]');
+    if (!bron || !verbruik || !ligging) return;
+    let r;
+    try { r = JSON.parse(bron.textContent); } catch (e) { return; }
+    const zet = (naam, tekst) => { const el = blok.querySelector(`[data-uit="${naam}"]`); if (el) el.textContent = tekst; };
+
+    function reken() {
+      const kwh = Number(verbruik.value);
+      const f = Number(ligging.value);
+      if (!Number.isFinite(kwh) || kwh < 200 || kwh > 50000 || !f) return;
+      const aantal = Math.ceil(kwh / (r.wp * f));
+      zet("aantal", String(aantal));
+      zet("opwek", (Math.round(aantal * r.wp * f / 10) * 10).toLocaleString("nl-NL"));
+      zet("kosten", eur(Math.round(aantal * r.paneelprijs / 10) * 10));
+    }
+    verbruik.addEventListener("input", reken);
+    ligging.addEventListener("change", reken);
+    reken();
+  }
+
+  const REKENHULPEN = { "batterij-maat": batterijMaat, "warmtepomp-kosten": warmtepompKosten, "panelen-aantal": panelenAantal };
 
   function start() {
     const main = document.querySelector("main");

@@ -14,6 +14,7 @@ import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
 import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
+import * as Uitleg from "./uitleg.mjs";
 
 // Dezelfde icoonset als de browser gebruikt, zodat een icoon op een
 // gegenereerde pagina identiek is aan datzelfde icoon in de vergelijker.
@@ -978,6 +979,94 @@ index = index.replace(
 
 writeFileSync(resolve(ROOT, "index.html"), index, "utf8");
 console.log(`index.html: ${gesorteerdePanelen.length} kaarten voorgerenderd en ItemList bijgewerkt`);
+
+/* ------------------------------------------------------------------
+   uitleg.html: getallen, de markt in cijfers, de rekenhulp "hoeveel
+   panelen" en de markup voor zoekmachines. Zie kern/scripts/uitleg.mjs.
+   ------------------------------------------------------------------ */
+{
+  const panelen = data.panelen;
+  const nlGetal = (n, d = 1) => Number(n).toLocaleString("nl-NL", { maximumFractionDigits: d });
+  const centen = (n) => `€ ${n.toFixed(2).replace(".", ",")}`;
+  const prijsVan = (p) => { const a = bestePrijs(p); return a ? Prijs.vergelijkPrijs(a) : null; };
+  const perWp = panelen.map((p) => ({ p, w: Prijs.prijsPerWp(p), echt: bestePrijs(p) && !bestePrijs(p).is_richtprijs })).filter((x) => x.w && x.echt);
+  const goedkoopst = perWp.slice().sort((a, b) => a.w - b.w)[0];
+  const wps = panelen.map((p) => p.vermogen_wp).filter((n) => typeof n === "number");
+  const tel = (f) => panelen.filter(f).length;
+  const prodGar = panelen.map((p) => p.garantie_product_jaar).filter((n) => typeof n === "number");
+  const vermGar = panelen.map((p) => p.garantie_vermogen_jaar).filter((n) => typeof n === "number");
+  const omvormers = JSON.parse(readFileSync(resolve(ROOT, "data/omvormers.json"), "utf8")).omvormers || [];
+  const verloop = JSON.parse(readFileSync(resolve(ROOT, "data/prijsverloop.json"), "utf8"));
+  const beweging = Uitleg.prijsbeweging(verloop, { dagen: 30 });
+
+  /* De rekenhulp neemt de dakliggingen over uit rekenmodule.html, zodat
+     "zuid, schuin dak" hier dezelfde kWh per Wp betekent als daar. */
+  const rmHtml = readFileSync(resolve(ROOT, "rekenmodule.html"), "utf8");
+  const select = /<select id="dakligging">([\s\S]*?)<\/select>/.exec(rmHtml);
+  if (!select) throw new Error("rekenmodule.html mist de keuzelijst dakligging; de rekenhulp op uitleg.html leunt erop");
+  const liggingen = [...select[1].matchAll(/<option value="([0-9.]+)"( selected)?>([^<]+)<\/option>/g)].map((m) => ({ f: Number(m[1]), naam: m[3], gekozen: !!m[2] }));
+  const mediaanWp = Uitleg.mediaan(wps);
+  const mediaanPaneel = Uitleg.mediaan(panelen.map(prijsVan).filter(Boolean));
+  const reken = { wp: mediaanWp, paneelprijs: mediaanPaneel, verbruik: 2900 };
+  const standaardLigging = liggingen.find((l) => l.gekozen) || liggingen[0];
+  const aantalVoor = (kwh, f) => Math.ceil(kwh / (reken.wp * f));
+
+  const cijfers = {
+    "aantal": panelen.length,
+    "wp-min": Math.min(...wps),
+    "wp-max": Math.max(...wps),
+    "wp-mediaan": mediaanWp,
+    "glas-glas": tel((p) => p.uitvoering === "glas-glas"),
+    "full-black": tel((p) => p.full_black),
+    "back-contact": tel((p) => p.celtype === "back-contact"),
+    "topcon": tel((p) => p.celtype === "topcon"),
+    "prod-gar-min": Math.min(...prodGar),
+    "prod-gar-max": Math.max(...prodGar),
+    "verm-gar-min": Math.min(...vermGar),
+    "verm-gar-max": Math.max(...vermGar),
+    "rh-aantal": aantalVoor(reken.verbruik, standaardLigging.f),
+    "kwh-laag": Math.round(mediaanWp * 0.85 / 10) * 10,
+    "kwh-hoog": Math.round(mediaanWp * 0.95 / 10) * 10,
+    "tien-panelen": eur(Math.round(10 * mediaanPaneel / 10) * 10),
+    "rh-opwek": nlGetal(Math.round(aantalVoor(reken.verbruik, standaardLigging.f) * reken.wp * standaardLigging.f / 10) * 10, 0),
+    "rh-kosten": eur(Math.round(aantalVoor(reken.verbruik, standaardLigging.f) * mediaanPaneel / 10) * 10),
+  };
+
+  const marktCijfers = [
+    { id: "cijfer-aantal", label: "Panelen in de vergelijker", getal: String(panelen.length), toelichting: `plus ${omvormers.length} omvormers en systemen` },
+    { id: "cijfer-per-wp", label: "Mediaanprijs per Wp", getal: centen(Uitleg.mediaan(perWp.map((x) => x.w))), toelichting: `over ${perWp.length} panelen met een winkelprijs, incl. btw` },
+    goedkoopst && { id: "cijfer-goedkoopst-per-wp", label: "Goedkoopste per Wp", getal: centen(goedkoopst.w), toelichting: `<a href="paneel/${esc(goedkoopst.p.id)}.html">${esc(volledigeNaam(goedkoopst.p))}</a>` },
+    { id: "cijfer-vermogen", label: "Vermogen per paneel", getal: `${Math.min(...wps)} tot ${Math.max(...wps)} Wp`, toelichting: `de middelste ${mediaanWp} Wp` },
+    { id: "cijfer-glas-glas", label: "Glas-glas", getal: `${cijfers["glas-glas"]} van ${panelen.length}`, toelichting: `${cijfers["full-black"]} zijn full black` },
+    { id: "cijfer-celtype", label: "Celtype", getal: `${cijfers.topcon} TOPCon`, toelichting: `${cijfers["back-contact"]} back-contact, ${tel((p) => p.celtype === "hjt")} HJT` },
+    beweging && beweging.gemeten && { id: "cijfer-prijsbeweging", label: `Prijzen in ${beweging.dagen} dagen`, getal: `${beweging.goedkoper} goedkoper, ${beweging.duurder} duurder`,
+      toelichting: `van ${beweging.gemeten} producten die al ${beweging.dagen} dagen gevolgd worden, per winkel` },
+  ].filter(Boolean);
+
+  const pad = resolve(ROOT, "uitleg.html");
+  const oud = readFileSync(pad, "utf8");
+  const titel = "Zo werken zonnepanelen: hoeveel heb je nodig na 2027?";
+  const beschrijving = `Hoe zonnepanelen werken, hoeveel je er nodig hebt en wat er verandert als salderen stopt. Met de cijfers van ${panelen.length} panelen, elke dag bijgewerkt.`;
+  const uit = Uitleg.bouwMetEerlijkeDatum(oud, VANDAAG, (datum) => {
+    let h = Uitleg.vulCijfers(oud, cijfers);
+    h = Uitleg.vervangBlok(h, "markt", Uitleg.marktBlok({
+      kop: "Zonnepanelen in cijfers", iso: datum, datumTekst: datumNL(datum), cijfers: marktCijfers,
+      voet: "Prijzen incl. btw uit de dagelijkse prijscontrole, alleen het paneel. Elk cijfer heeft een eigen link.",
+    }));
+    h = Uitleg.vervangBlok(h, "rekenhulp-data", `  <script type="application/json" id="rekenhulp-panelen">${JSON.stringify({ ...reken, liggingen })}</script>`);
+    h = Uitleg.vervangBlok(h, "rekenhulp-ligging", liggingen.map((l) => `      <option value="${l.f}"${l === standaardLigging ? " selected" : ""}>${esc(l.naam)}</option>`).join("\n"));
+    h = Uitleg.vervangBlok(h, "inhoud", Uitleg.inhoudsopgave(h, { zonder: ["markt-kop"] }));
+    h = Uitleg.zetBijgewerkt(h, datum, datumNL(datum));
+    h = h.replace(/<title>[^<]*<\/title>/, `<title>${esc(titel)}</title>`)
+      .replace(/(<meta name="description" content=")[^"]*(")/, `$1${esc(beschrijving)}$2`)
+      .replace(/(<meta property="og:description" content=")[^"]*(")/, `$1${esc(beschrijving)}$2`);
+    return Uitleg.zetSchema(h, Uitleg.uitlegSchema(h, {
+      url: `${SITE}/uitleg.html`, titel, beschrijving, iso: datum, uitgever: { naam: "Zonnestroommaatje", url: `${SITE}/` },
+    }));
+  });
+  writeFileSync(pad, uit.html, "utf8");
+  console.log(`uitleg.html: ${marktCijfers.length} marktcijfers, ${Uitleg.begrippen(uit.html).length} begrippen, ${uit.veranderd ? "bijgewerkt" : "ongewijzigd sinds"} ${uit.iso}`);
+}
 
 const vast = [
   { loc: `${SITE}/`, freq: "daily", prio: "1.0" },

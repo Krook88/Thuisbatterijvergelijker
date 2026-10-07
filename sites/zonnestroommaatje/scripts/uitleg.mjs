@@ -19,6 +19,8 @@
  * is een fout en geen stille lege plek: dan is er een naam verkeerd getypt.
  */
 
+import { createHash } from "node:crypto";
+
 const esc = (s) => String(s == null ? "" : s)
   .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
@@ -55,22 +57,39 @@ export function vorigeDatum(html) {
   return m ? m[1] : null;
 }
 
+const STAND = /\sdata-stand="[0-9a-f]*"/;
+
+/** Een vingerafdruk van de pagina zonder de datums, voor de vergelijking hieronder. */
+function vingerafdruk(html, iso) {
+  const zonder = html.split(iso).join("").replace(STAND, "");
+  return createHash("sha1").update(zonder).digest("hex").slice(0, 12);
+}
+
 /**
  * Bouwt de pagina, en zet de datum alleen op vandaag als er echt iets anders
  * staat. maak(iso) moet de hele pagina teruggeven met die datum erin.
  *
  * Waarom zo: "bijgewerkt op" die elke dag vandaag zegt, betekent niets, en
- * de dagelijkse run zou hem elke dag verzetten. Eerst bouwen met de oude
- * datum; is dat letter voor letter de pagina die er al lag, dan is er niets
- * veranderd en blijft die datum staan.
+ * de dagelijkse run zou hem elke dag verzetten. Maar een datum die alleen
+ * kijkt of de generator iets anders invulde, mist het belangrijkste: een
+ * alinea die met de hand is herschreven. Daarom staat in de pagina een
+ * vingerafdruk van de inhoud zoals hij de vorige keer was (data-stand op het
+ * <time>-element). Is de inhoud met de oude datum erin nog dezelfde, dan
+ * blijft de oude datum staan.
  */
 export function bouwMetEerlijkeDatum(oud, vandaag, maak) {
   const vorige = vorigeDatum(oud);
+  const opgeslagen = (/<time\b[^>]*\bdata-bijgewerkt\b[^>]*\bdata-stand="([0-9a-f]*)"/.exec(oud) || [])[1];
+  const metStand = (html, iso) => html.replace(/(<time\b[^>]*\bdata-bijgewerkt\b)([^>]*>)/g, (m, open, rest) =>
+    `${open} data-stand="${vingerafdruk(html, iso)}"${rest.replace(STAND, "")}`);
   if (vorige) {
     const metOudeDatum = maak(vorige);
-    if (metOudeDatum === oud) return { html: oud, iso: vorige, veranderd: false };
+    if (opgeslagen && vingerafdruk(metOudeDatum, vorige) === opgeslagen) {
+      return { html: metStand(metOudeDatum, vorige), iso: vorige, veranderd: false };
+    }
   }
-  return { html: maak(vandaag), iso: vandaag, veranderd: true };
+  const nieuw = maak(vandaag);
+  return { html: metStand(nieuw, vandaag), iso: vandaag, veranderd: true };
 }
 
 const platteTekst = (h) => String(h)

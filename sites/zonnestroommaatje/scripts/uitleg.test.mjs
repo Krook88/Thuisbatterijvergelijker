@@ -62,9 +62,11 @@ test("mediaan", () => {
   assert.equal(mediaan([]), null);
 });
 
-test("de datum verspringt alleen als de pagina echt verandert", () => {
-  const maak = (getal) => (iso) => `<time data-bijgewerkt datetime="${iso}">x</time><p>${getal}</p>`;
-  const oud = maak(52)("2026-10-01");
-  assert.equal(bouwMetEerlijkeDatum(oud, "2026-10-07", maak(52)).iso, "2026-10-01");
-  assert.equal(bouwMetEerlijkeDatum(oud, "2026-10-07", maak(53)).iso, "2026-10-07");
+test("de datum verspringt alleen als de pagina echt verandert, ook bij handwerk", () => {
+  const maak = (getal, tekst = "x") => (iso) => `<time data-bijgewerkt datetime="${iso}">${iso}</time><p>${tekst} ${getal}</p>`;
+  const eerste = bouwMetEerlijkeDatum(maak(52)("2026-10-01"), "2026-10-01", maak(52));
+  assert.equal(bouwMetEerlijkeDatum(eerste.html, "2026-10-07", maak(52)).iso, "2026-10-01", "niets veranderd");
+  assert.equal(bouwMetEerlijkeDatum(eerste.html, "2026-10-07", maak(53)).iso, "2026-10-07", "een getal veranderd");
+  const metHandwerk = eerste.html.replace("<p>x", "<p>y");
+  assert.equal(bouwMetEerlijkeDatum(metHandwerk, "2026-10-07", maak(52, "y")).iso, "2026-10-07", "met de hand herschreven");
 });

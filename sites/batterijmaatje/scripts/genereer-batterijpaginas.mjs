@@ -1646,7 +1646,7 @@ console.log(`index.html: ${gesorteerdeBatterijen.length} kaarten voorgerenderd, 
     h = Uitleg.vulCijfers(h, cijfers);
     h = Uitleg.vervangBlok(h, "markt", Uitleg.marktBlok({
       kop: "De thuisbatterij in cijfers", iso: datum, datumTekst: datumNL(datum), cijfers: marktCijfers,
-      voet: `Alle bedragen incl. btw, uit de dagelijkse prijscontrole. Verwijzen naar één cijfer kan met de link naast dat cijfer.`,
+      voet: `Alle bedragen incl. btw, uit de dagelijkse prijscontrole. Elk cijfer heeft een eigen link.`,
     }));
     h = Uitleg.vervangBlok(h, "rekenhulp-data", `  <script type="application/json" id="rekenhulp-batterijen">${JSON.stringify(rekenData).replace(/</g, "\\u003c")}</script>`);
     h = Uitleg.vervangBlok(h, "inhoud", Uitleg.inhoudsopgave(h, { zonder: ["markt-kop"] }));

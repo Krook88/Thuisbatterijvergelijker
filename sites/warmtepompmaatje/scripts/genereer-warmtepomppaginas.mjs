@@ -11,6 +11,7 @@ import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
 import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
+import * as Uitleg from "./uitleg.mjs";
 
 // Dezelfde icoonset als de browser gebruikt, zodat een pomppagina nooit een
 // ander icoon toont dan de vergelijker.
@@ -929,6 +930,125 @@ writeFileSync(join(ROOT, GELUID_BESTAND), geluidPagina(), "utf8");
 writeFileSync(join(ROOT, BOUWVORM_BESTAND), bouwvormPagina(), "utf8");
 console.log(`${BOUWVORM_BESTAND} gegenereerd`);
 console.log(`${GELUID_BESTAND} gegenereerd (${pompen.filter((w) => w.geluid_db != null).length} van ${pompen.length} pompen met een opgegeven geluidsvermogen)`);
+
+/* ------------------------------------------------------------------
+   uitleg.html: getallen, de markt in cijfers, de rekenhulp en de markup
+   voor zoekmachines. Zie kern/scripts/uitleg.mjs.
+   ------------------------------------------------------------------ */
+{
+  const nlGetal = (n, d = 1) => Number(n).toLocaleString("nl-NL", { maximumFractionDigits: d });
+  const prijsVan = (w) => { const a = bestePrijs(w); return a ? vergelijkPrijs(a) : null; };
+  const getallen = (f, lijst = pompen) => lijst.map((w) => w[f]).filter((n) => typeof n === "number");
+  const hybride = pompen.filter((w) => w.type === "hybride");
+  const allEl = pompen.filter((w) => w.type !== "hybride");
+  const bereik = (lijst) => { const p = lijst.map(prijsVan).filter(Boolean); return p.length ? `${eur(Math.min(...p))} tot ${eur(Math.max(...p))}` : "onbekend"; };
+  const scops = getallen("scop");
+  const geluid = pompen.filter((w) => typeof w.geluid_db === "number");
+  const stilste = geluid.slice().sort((a, b) => a.geluid_db - b.geluid_db)[0];
+  const r290 = pompen.filter((w) => /R290/i.test(w.koudemiddel || "")).length;
+  const isde = getallen("isde_indicatie_eur");
+  const aanvoer = getallen("max_aanvoer_c");
+  const garanties = getallen("garantie_jaar");
+  const verloop = JSON.parse(readFileSync(join(ROOT, "data", "prijsverloop.json"), "utf8"));
+  const beweging = Uitleg.prijsbeweging(verloop, { dagen: 30 });
+
+  /* De rekenhulp rekent met dezelfde aannames als de rekenmodule. Die staan in
+     assets/rekenmodule.js en rekenmodule.html; hier worden ze daaruit gelezen,
+     zodat er geen tweede kopie is die stil kan gaan afwijken. */
+  const rmJs = readFileSync(join(ROOT, "assets", "rekenmodule.js"), "utf8");
+  const rmHtml = readFileSync(join(ROOT, "rekenmodule.html"), "utf8");
+  const constante = (naam) => {
+    const m = new RegExp(`const ${naam} = ([0-9.]+);`).exec(rmJs);
+    if (!m) throw new Error(`rekenmodule.js mist ${naam}; de rekenhulp op uitleg.html leunt erop`);
+    return Number(m[1]);
+  };
+  const standaard = (id) => {
+    const m = new RegExp(`id="${id}"[^>]*value="([0-9.]+)"`).exec(rmHtml);
+    if (!m) throw new Error(`rekenmodule.html mist het veld ${id}`);
+    return Number(m[1]);
+  };
+  const reken = {
+    aandeel: constante("AANDEEL_VERWARMING"), kwhPerM3: constante("KWH_PER_M3"),
+    scop: constante("ALLEL_SCOP"), hybrideDekking: constante("HYBRIDE_DEKKING"), hybrideScop: constante("HYBRIDE_SCOP"),
+    gas: standaard("gasverbruik"), gasprijs: standaard("gasprijs"), stroomprijs: standaard("stroomprijs"),
+  };
+  const som = (m3) => {
+    const warmte = m3 * reken.aandeel * reken.kwhPerM3;
+    const gasKosten = m3 * reken.aandeel * reken.gasprijs;
+    const allEl = warmte / reken.scop * reken.stroomprijs;
+    const hyb = warmte * reken.hybrideDekking / reken.hybrideScop * reken.stroomprijs + m3 * reken.aandeel * (1 - reken.hybrideDekking) * reken.gasprijs;
+    return { warmte, gasKosten, allEl, hyb };
+  };
+  const st = som(reken.gas);
+
+  const cijfers = {
+    "aantal": pompen.length,
+    "hybride": hybride.length,
+    "all-electric": allEl.length,
+    "prijs-hybride": bereik(hybride),
+    "prijs-allel": bereik(allEl),
+    "scop-n": scops.length,
+    "scop-min": nlGetal(Math.min(...scops), 2),
+    "scop-max": nlGetal(Math.max(...scops), 2),
+    "geluid-n": geluid.length,
+    "geluid-min": Math.min(...geluid.map((w) => w.geluid_db)),
+    "geluid-max": Math.max(...geluid.map((w) => w.geluid_db)),
+    "geluid-55": geluid.filter((w) => w.geluid_db <= 55).length,
+    "r290": r290,
+    "isde-min": eur(Math.min(...isde)),
+    "isde-max": eur(Math.max(...isde)),
+    "aanvoer-n": aanvoer.length,
+    "aanvoer-min": Math.min(...aanvoer),
+    "aanvoer-max": Math.max(...aanvoer),
+    "aanvoer-70": aanvoer.filter((n) => n >= 70).length,
+    "garantie-min": Math.min(...garanties),
+    "garantie-max": Math.max(...garanties),
+    "levensduur": constante("LEVENSDUUR_JAAR"),
+    "rh-gas": nlGetal(reken.gas, 0),
+    "rh-warmte": nlGetal(Math.round(st.warmte / 100) * 100, 0),
+    "rh-gaskosten": eur(st.gasKosten),
+    "rh-allel": eur(st.allEl),
+    "rh-hybride": eur(st.hyb),
+    "rh-scop": reken.scop.toFixed(1).replace(".", ","),
+    "rh-gasprijs": reken.gasprijs.toFixed(2).replace(".", ","),
+    "rh-stroomprijs": reken.stroomprijs.toFixed(2).replace(".", ","),
+  };
+
+  const marktCijfers = [
+    { id: "cijfer-aantal", label: "Warmtepompen in de vergelijker", getal: String(pompen.length), toelichting: `${hybride.length} hybride, ${allEl.length} all-electric` },
+    { id: "cijfer-prijs-hybride", label: "Hybride kost", getal: bereik(hybride), toelichting: "laagste prijs per model, incl. btw, excl. installatie" },
+    { id: "cijfer-prijs-allel", label: "All-electric kost", getal: bereik(allEl), toelichting: "laagste prijs per model, incl. btw, excl. installatie" },
+    { id: "cijfer-isde", label: "ISDE-subsidie", getal: `${eur(Math.min(...isde))} tot ${eur(Math.max(...isde))}`, toelichting: "indicatie per model, uit de meldcodelijst van RVO" },
+    { id: "cijfer-scop", label: "Mediaan SCOP", getal: nlGetal(Uitleg.mediaan(scops), 2), toelichting: `bij 35 °C aanvoer, over ${scops.length} modellen met een opgave` },
+    stilste && { id: "cijfer-stilste", label: "Stilste buitenunit", getal: `${stilste.geluid_db} dB(A)`, toelichting: `<a href="pomp/${esc(stilste.id)}.html">${esc(volledigeNaam(stilste))}</a>, geluidsvermogen` },
+    { id: "cijfer-r290", label: "Op R290 (propaan)", getal: `${r290} van ${pompen.length}`, toelichting: "het natuurlijke koudemiddel" },
+    beweging && beweging.gemeten && { id: "cijfer-prijsbeweging", label: `Prijzen in ${beweging.dagen} dagen`, getal: `${beweging.goedkoper} goedkoper, ${beweging.duurder} duurder`,
+      toelichting: `van ${beweging.gemeten} modellen die al ${beweging.dagen} dagen gevolgd worden, per winkel` },
+  ].filter(Boolean);
+
+  const pad = join(ROOT, "uitleg.html");
+  const oud = readFileSync(pad, "utf8");
+  const titel = "Zo werkt een warmtepomp: kosten, geluid en radiatoren";
+  const beschrijving = `Hoe een warmtepomp werkt, wat hij kost en bespaart, of hij met radiatoren kan en hoeveel geluid hij maakt. Met de cijfers van ${pompen.length} warmtepompen.`;
+  const uit = Uitleg.bouwMetEerlijkeDatum(oud, VANDAAG, (datum) => {
+    let h = Uitleg.vulCijfers(oud, cijfers);
+    h = Uitleg.vervangBlok(h, "markt", Uitleg.marktBlok({
+      kop: "De warmtepomp in cijfers", iso: datum, datumTekst: datumNL(datum), cijfers: marktCijfers,
+      voet: "Prijzen incl. btw uit de dagelijkse prijscontrole, zonder installatie. Elk cijfer heeft een eigen link.",
+    }));
+    h = Uitleg.vervangBlok(h, "rekenhulp-data", `  <script type="application/json" id="rekenhulp-warmtepomp">${JSON.stringify(reken)}</script>`);
+    h = Uitleg.vervangBlok(h, "inhoud", Uitleg.inhoudsopgave(h, { zonder: ["markt-kop"] }));
+    h = Uitleg.zetBijgewerkt(h, datum, datumNL(datum));
+    h = h.replace(/<title>[^<]*<\/title>/, `<title>${esc(titel)}</title>`)
+      .replace(/(<meta name="description" content=")[^"]*(")/, `$1${esc(beschrijving)}$2`)
+      .replace(/(<meta property="og:description" content=")[^"]*(")/, `$1${esc(beschrijving)}$2`);
+    return Uitleg.zetSchema(h, Uitleg.uitlegSchema(h, {
+      url: `${SITE}/uitleg.html`, titel, beschrijving, iso: datum, uitgever: { naam: "Warmtepompmaatje", url: `${SITE}/` },
+    }));
+  });
+  writeFileSync(pad, uit.html, "utf8");
+  console.log(`uitleg.html: ${marktCijfers.length} marktcijfers, ${Uitleg.begrippen(uit.html).length} begrippen, ${uit.veranderd ? "bijgewerkt" : "ongewijzigd sinds"} ${uit.iso}`);
+}
 
 const vast = [
   { loc: `${SITE}/`, prio: "1.0" },

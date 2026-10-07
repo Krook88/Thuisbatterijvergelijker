@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zo werken zonnepanelen: uitleg en woordenlijst</title>
-  <meta name="description" content="Zonnepanelen in gewone taal: hoe ze werken, TOPCon, HJT en back-contact, glas-glas of folie, de Zeker-score en een woordenlijst.">
+  <title>Zo werken zonnepanelen: hoeveel heb je nodig na 2027?</title>
+  <meta name="description" content="Hoe zonnepanelen werken, hoeveel je er nodig hebt en wat er verandert als salderen stopt. Met de cijfers van 19 panelen, elke dag bijgewerkt.">
   <link rel="canonical" href="https://zonnestroommaatje.nl/uitleg.html">
   <meta property="og:title" content="Zo werken zonnepanelen: uitleg, celtypen en woordenlijst">
-  <meta property="og:description" content="Zonnepanelen in gewone taal: hoe ze werken, TOPCon, HJT en back-contact, glas-glas of folie, de Zeker-score en een woordenlijst.">
+  <meta property="og:description" content="Hoe zonnepanelen werken, hoeveel je er nodig hebt en wat er verandert als salderen stopt. Met de cijfers van 19 panelen, elke dag bijgewerkt.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://zonnestroommaatje.nl/uitleg.html">
   <meta property="og:locale" content="nl_NL">
@@ -18,12 +18,274 @@
   <link rel="stylesheet" href="assets/style.css?v=20261002a">
   <script src="assets/iconen.js?v=20261002a" defer></script>
   <script src="assets/nav.js?v=20261002a" defer></script>
+  <script src="assets/uitleg.js?v=20261002a" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=1">
   <style>
     .woord { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); padding: var(--ruimte-14) var(--ruimte-20); margin-bottom: var(--ruimte-10); }
     .woord b:first-child { color: var(--kleur-primair-donker); }
+    .uitleg-figuur { margin: var(--ruimte-20) 0 var(--ruimte-28); padding: var(--ruimte-20) var(--ruimte-14) var(--ruimte-10); background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); }
+    .uitleg-figuur svg { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; }
+    .staven { display: grid; gap: var(--ruimte-10); }
+    .staaf-rij { display: grid; grid-template-columns: 8.5em minmax(0, 1fr) 4.5em; align-items: center; gap: var(--ruimte-10); font-size: var(--tekst-15); }
+    .staaf { display: flex; height: 24px; }
+    .staaf-deel + .staaf-deel { margin-left: 2px; }
+    .staaf-vol { background: var(--kleur-primair); }
+    .staaf-terug { background: var(--kleur-accent); }
+    .staaf-bedrag { text-align: right; }
+    .staaf-legenda { display: flex; flex-wrap: wrap; gap: var(--ruimte-4) var(--ruimte-20); margin: var(--ruimte-14) 0 0; padding: 0; list-style: none; font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
+    .staaf-stip { display: inline-block; width: 12px; height: 12px; margin-right: var(--ruimte-6); vertical-align: -1px; border-radius: var(--radius-mini); }
+    .uitleg-figuur figcaption { margin-top: var(--ruimte-10); font-size: var(--tekst-15); color: var(--kleur-tekst-licht); text-align: center; }
   </style>
+  <script type="application/ld+json" data-uitleg>
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://zonnestroommaatje.nl/uitleg.html#artikel",
+      "headline": "Zo werken zonnepanelen: hoeveel heb je nodig na 2027?",
+      "description": "Hoe zonnepanelen werken, hoeveel je er nodig hebt en wat er verandert als salderen stopt. Met de cijfers van 19 panelen, elke dag bijgewerkt.",
+      "dateModified": "2026-10-07",
+      "inLanguage": "nl-NL",
+      "mainEntityOfPage": "https://zonnestroommaatje.nl/uitleg.html",
+      "author": {
+        "@type": "Organization",
+        "name": "Zonnestroommaatje",
+        "url": "https://zonnestroommaatje.nl/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Zonnestroommaatje",
+        "url": "https://zonnestroommaatje.nl/"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://zonnestroommaatje.nl/uitleg.html#vragen",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Hoe werken zonnepanelen?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Een zonnepaneel zet licht om in gelijkstroom, en een omvormer maakt daar wisselstroom van voor je huis. Wat je niet direct gebruikt, gaat via de meterkast het net op. Op een gunstig dak levert 1 Wp circa 0,85 tot 0,95 kWh per jaar, dus een paneel van 440 Wp, de middenmoot hier, zo'n 370 tot 420 kWh."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hoeveel zonnepanelen heb ik nodig?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deel je jaarverbruik door wat één paneel op jouw dak oplevert. Bij 2.900 kWh, het gemiddelde huishouden, en een schuin dak naar het zuidoosten of zuidwesten kom je met panelen van 440 Wp op 8 stuks. Na 2027 loont het niet meer om fors meer op te wekken dan je zelf gebruikt."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Wat verandert er als de salderingsregeling stopt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tot en met 2026 streep je teruggeleverde stroom weg tegen stroom die je koopt. Vanaf 1 januari 2027 krijg je voor teruggeleverde stroom alleen nog een terugleververgoeding van je leverancier, en veel leveranciers rekenen daarnaast terugleverkosten. Zelf gebruiken wat je opwekt wordt dus belangrijker dan zoveel mogelijk opwekken."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Zijn zonnepanelen na 2027 nog rendabel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja, alleen komt het voordeel dan vooral uit de stroom die je zelf gebruikt. In het rekenvoorbeeld hierboven is dat circa € 485 per jaar voor 10 panelen. Tien panelen kosten in de vergelijker rond € 1.000 , zonder omvormer en montage. Wat het voor jouw dak betekent, staat in de rekenmodule ."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Moet je zonnepanelen kopen voordat salderen stopt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Er is geen reden tot haast. Een systeem dat vóór 1 januari 2027 wordt geplaatst, profiteert tot die datum van saldering, en daarna gelden voor iedereen dezelfde regels. Belangrijker dan de datum is dat je niet fors meer opwekt dan je verbruikt, zie hoeveel panelen ."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is een full black zonnepaneel minder goed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Het levert een fractie minder op, omdat het donkerder is en daardoor iets warmer wordt. Hoeveel, zie je aan de temperatuurcoëfficiënt die per paneel in de vergelijker staat. Van de 19 panelen hier zijn er 16 full black."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Heb je bij schaduw micro-omvormers nodig?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Niet per se. Optimizers doen hetzelfde per paneel met één centrale omvormer, en back-contact panelen verdragen schaduw van zichzelf beter; daarvan staan er 4 in de vergelijker. Welke omvormer bij jouw dak past, zie je in de omvormer-vergelijker ."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "DefinedTermSet",
+      "@id": "https://zonnestroommaatje.nl/uitleg.html#woordenlijst",
+      "name": "Woordenlijst Zonnestroommaatje",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#topcon",
+          "name": "TOPCon (N-type)",
+          "description": "De huidige standaard. N-type silicium met een extra oxidelaagje: hoog rendement (21,5 tot 22,5%), lage degradatie en een scherpe prijs. De meeste panelen in mijn vergelijker zijn TOPCon.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#topcon"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#hjt",
+          "name": "HJT (heterojunctie)",
+          "description": "Combineert kristallijn en amorf silicium. Sterkste punt: de beste prestaties bij warmte (lage temperatuurcoëfficiënt ) en zeer lage degradatie. Vaak in het premiumsegment, zoals REC.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#hjt"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#back-contact",
+          "name": "Back-contact (IBC, ABC, HPBC)",
+          "description": "Alle elektrische contacten zitten aan de achterkant van de cel. Voordelen: het hoogste rendement (tot circa 23%), een egaal zwart uiterlijk zonder zichtbare lijntjes en vaak betere schaduwtolerantie. Voorbeelden: AIKO (ABC), LONGi (HPBC) en Maxeon (IBC).",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#back-contact"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#perc",
+          "name": "PERC (P-type)",
+          "description": "De vorige generatie. Nog steeds prima panelen, maar nieuwe systemen worden vrijwel altijd met N-type technologie gebouwd, omdat die meer oplevert en langzamer veroudert.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#perc"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#wattpiek",
+          "name": "Wattpiek (Wp)",
+          "description": "Het maximale vermogen van een paneel onder standaard testomstandigheden (vol zonlicht, 25 °C). In de Nederlandse praktijk levert 1 Wp circa 0,85 tot 0,95 kWh per jaar op een gunstig dak.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#wattpiek"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#kwh",
+          "name": "Kilowattuur (kWh)",
+          "description": "De eenheid van energie op je energierekening. Een gemiddeld huishouden verbruikt circa 2.900 kWh per jaar.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#kwh"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#rendement",
+          "name": "Rendement",
+          "description": "Het percentage van het zonlicht dat een paneel omzet in stroom. Moderne panelen halen 21 tot 23%. Hoger rendement betekent meer vermogen per vierkante meter dak; mijn sterrenscore \"opbrengst per m² dak\" is hierop gebaseerd (22% rendement = circa 220 Wp per m²).",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#rendement"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#omvormer",
+          "name": "Omvormer (string-omvormer)",
+          "description": "Zet de gelijkstroom van de panelen om in wisselstroom voor je huis. Bij een string-omvormer hangen de panelen in serie: goedkoop en efficiënt, maar schaduw op één paneel drukt de hele reeks.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#omvormer"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#micro-omvormer",
+          "name": "Micro-omvormer",
+          "description": "Kleine omvormer per paneel (bekend van Enphase). Elk paneel presteert onafhankelijk: ideaal bij schaduw of panelen in meerdere richtingen, wel duurder.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#micro-omvormer"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#optimizer",
+          "name": "Optimizer",
+          "description": "Elektronica per paneel die het maximale uit elk paneel haalt, gecombineerd met een centrale omvormer (bekend van SolarEdge). Tussenvorm tussen string en micro.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#optimizer"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#bifaciaal",
+          "name": "Bifaciaal",
+          "description": "Paneel dat ook via de achterkant licht opvangt. Levert vooral extra op bij een plat dak met een lichte ondergrond (grind, wit dakleer); op een schuin dak is de winst klein.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#bifaciaal"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#full-black",
+          "name": "Full black",
+          "description": "Volledig zwart paneel: zwarte cellen, zwarte folie of glas én zwart frame. Mooier op het dak, maar door de donkere achtergrond iets warmer en daardoor een fractie minder opbrengst dan hetzelfde paneel met witte achterzijde.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#full-black"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#degradatie",
+          "name": "Degradatie",
+          "description": "De geleidelijke afname van het vermogen door veroudering. Moderne N-type panelen verliezen circa 1% in het eerste jaar en daarna 0,3 tot 0,4% per jaar; de fabrikant garandeert daar een ondergrens bij.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#degradatie"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#vermogensgarantie",
+          "name": "Vermogensgarantie",
+          "description": "Garantie dat het paneel na een aantal jaren (meestal 25 of 30) nog een minimumpercentage van het oorspronkelijke vermogen levert, bijvoorbeeld 87,4% na 30 jaar. Niet te verwarren met de productgarantie , die defecten aan het paneel zelf dekt en per merk varieert van 12 tot 40 jaar.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#vermogensgarantie"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#temperatuurcoefficient",
+          "name": "Temperatuurcoëfficiënt",
+          "description": "Hoeveel vermogen een paneel verliest per graad boven 25 °C, bijvoorbeeld -0,29% per °C. Dichter bij nul is beter: op een hete zomerdag kan een paneel 60 °C worden en scheelt dit enkele procenten opbrengst. HJT- en back-contact panelen scoren hier het best.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#temperatuurcoefficient"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#salderen",
+          "name": "Salderen",
+          "description": "Teruggeleverde stroom wegstrepen tegen afgenomen stroom op je jaarafrekening. Salderen mag tot en met 31 december 2026; per 1 januari 2027 stopt de regeling. Zie Regels & subsidies .",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#salderen"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#terugleververgoeding",
+          "name": "Terugleververgoeding",
+          "description": "Wat je leverancier betaalt voor stroom die je (na het salderen, of na 2027 voor alle teruggeleverde stroom) aan het net levert. Verschilt sterk per leverancier.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#terugleververgoeding"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#terugleverkosten",
+          "name": "Terugleverkosten",
+          "description": "Kosten die sommige leveranciers rekenen aan klanten met zonnepanelen, vast per maand of per teruggeleverde kWh. Vergelijk dit bij het kiezen van een energiecontract.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#terugleverkosten"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#wp-per-m2",
+          "name": "Vermogensdichtheid (Wp per m²)",
+          "description": "Hoeveel wattpiek er per vierkante meter paneel past. Volgt direct uit het rendement en bepaalt hoeveel vermogen je op een klein dak kwijt kunt.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#wp-per-m2"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#ems",
+          "name": "Energiemanagementsysteem (EMS)",
+          "description": "Slimme software of een kastje dat via de slimme meter (P1-poort) je opwek en verbruik volgt en apparaten aanstuurt: batterij laden, warmtepomp extra laten draaien of de auto laden zodra er zonneoverschot is. Verkrijgbaar van omvormer- en batterijmerken, energieleveranciers, of zelf te bouwen met Home Assistant.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#ems"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#sg-ready",
+          "name": "SG-ready (Smart Grid ready)",
+          "description": "Standaardaansluiting op veel warmtepompen waarmee een extern systeem de warmtepomp in een van vier standen kan zetten, van tijdelijk blokkeren tot extra draaien bij zonneoverschot. Basaal maar breed ondersteund; Modbus of EEBUS biedt rijkere aansturing.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#sg-ready"
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://zonnestroommaatje.nl/uitleg.html#hybride-omvormer",
+          "name": "Hybride omvormer",
+          "description": "Omvormer waar zowel de zonnepanelen als een thuisbatterij rechtstreeks op aansluiten. Efficiënt (één apparaat, minder omzetverliezen) en vooral logisch bij nieuwe installaties; een AC-gekoppelde batterij is juist flexibeler bij een bestaand systeem.",
+          "url": "https://zonnestroommaatje.nl/uitleg.html#hybride-omvormer"
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 
@@ -61,18 +323,74 @@
 <main class="content-pagina">
 
   <h1>Zo werken zonnepanelen</h1>
-  <p class="datum-stempel">Laatst bijgewerkt: 21 juli 2026</p>
-  <p class="intro">Alles wat je wilt weten vóór je zonnepanelen koopt, in gewone taal. Hoe een paneel werkt, wat de celtypen betekenen, waarom glas-glas en garanties ertoe doen, en een woordenlijst voor elk begrip uit de <a href="index.html">vergelijker</a>. De voorbeelden komen uit de 19 panelen die daar staan.</p>
+  <p class="intro">Alles wat je wilt weten vóór je zonnepanelen koopt, in gewone taal. Hoe een paneel werkt, wat de celtypen betekenen, waarom glas-glas en garanties ertoe doen, en een woordenlijst voor elk begrip uit de <a href="index.html">vergelijker</a>. De voorbeelden komen uit de <span data-cijfer="aantal">19</span> panelen die daar staan.</p>
+  <p class="bijgewerkt-regel">Bijgewerkt op <time data-bijgewerkt data-stand="88fed174ba20" datetime="2026-10-07">7 oktober 2026</time>. De getallen hieronder volgen elke dag de panelen en prijzen in de vergelijker.</p>
+
+  <div class="kort-antwoord" data-vraag="Hoe werken zonnepanelen?">
+    <p class="kort-label">Kort antwoord</p>
+    <p>Een zonnepaneel zet licht om in gelijkstroom, en een omvormer maakt daar wisselstroom van voor je huis. Wat je niet direct gebruikt, gaat via de meterkast het net op. Op een gunstig dak levert 1 Wp circa 0,85 tot 0,95 kWh per jaar, dus een paneel van <span data-cijfer="wp-mediaan">440</span> Wp, de middenmoot hier, zo'n <span data-cijfer="kwh-laag">370</span> tot <span data-cijfer="kwh-hoog">420</span> kWh.</p>
+  </div>
+
+  <!-- blok:markt -->
+  <section class="markt" id="markt" aria-labelledby="markt-kop">
+    <h2 id="markt-kop">Zonnepanelen in cijfers</h2>
+    <p class="markt-stand">De site rekent deze cijfers elke dag opnieuw uit de vergelijker. Laatst veranderd op <time datetime="2026-10-07">7 oktober 2026</time>.</p>
+    <dl class="markt-cijfers">
+      <div class="markt-cijfer" id="cijfer-aantal"><dt>Panelen in de vergelijker</dt><dd><span class="markt-getal">19</span><span class="markt-noot">plus 12 omvormers en systemen</span></dd></div>
+      <div class="markt-cijfer" id="cijfer-per-wp"><dt>Mediaanprijs per Wp</dt><dd><span class="markt-getal">€ 0,22</span><span class="markt-noot">over 14 panelen met een winkelprijs, incl. btw</span></dd></div>
+      <div class="markt-cijfer" id="cijfer-goedkoopst-per-wp"><dt>Goedkoopste per Wp</dt><dd><span class="markt-getal">€ 0,14</span><span class="markt-noot"><a href="paneel/jinko-tiger-neo-440.html">Jinko Solar Tiger Neo N-type 440 Wp Full Black</a></span></dd></div>
+      <div class="markt-cijfer" id="cijfer-vermogen"><dt>Vermogen per paneel</dt><dd><span class="markt-getal">420 tot 490 Wp</span><span class="markt-noot">de middelste 440 Wp</span></dd></div>
+      <div class="markt-cijfer" id="cijfer-glas-glas"><dt>Glas-glas</dt><dd><span class="markt-getal">10 van 19</span><span class="markt-noot">16 zijn full black</span></dd></div>
+      <div class="markt-cijfer" id="cijfer-celtype"><dt>Celtype</dt><dd><span class="markt-getal">14 TOPCon</span><span class="markt-noot">4 back-contact, 1 HJT</span></dd></div>
+      <div class="markt-cijfer" id="cijfer-prijsbeweging"><dt>Prijzen in 30 dagen</dt><dd><span class="markt-getal">1 goedkoper, 0 duurder</span><span class="markt-noot">van 19 producten die al 30 dagen gevolgd worden, per winkel</span></dd></div>
+    </dl>
+    <p class="markt-voet">Prijzen incl. btw uit de dagelijkse prijscontrole, alleen het paneel. Elk cijfer heeft een eigen link.</p>
+  </section>
+  <!-- /blok:markt -->
+
+  <!-- blok:inhoud -->
+  <nav class="inhoud" aria-label="Op deze pagina">
+    <p class="inhoud-kop">Op deze pagina</p>
+    <ol><li><a href="#hoe-werkt-het">Hoe werkt een zonnepaneel?</a></li><li><a href="#wat-heb-je-nodig">Wat heb je nodig naast de panelen?</a></li><li><a href="#hoeveel">Hoeveel zonnepanelen heb ik nodig?</a></li><li><a href="#salderen">Wat verandert er als salderen stopt?</a></li><li><a href="#celtypen">Celtypen: TOPCon, HJT en back-contact</a></li><li><a href="#glas-glas">Glas-glas of glas-folie?</a></li><li><a href="#zeker-score">De Zeker-score uitgelegd</a></li><li><a href="#waar-op-letten">Waar let je op vóór je koopt?</a></li><li><a href="#slim-koppelen">Slim combineren</a></li><li><a href="#klopt-het">Klopt het dat…?</a></li><li><a href="#woordenlijst">Woordenlijst</a></li></ol>
+  </nav>
+  <!-- /blok:inhoud -->
 
   <h2 id="hoe-werkt-het">Hoe werkt een zonnepaneel?</h2>
   <p>Een zonnepaneel bestaat uit tientallen <b>zonnecellen</b> van silicium. Valt er licht op zo'n cel, dan komen er elektronen in beweging, en dat is gelijkstroom. Een <a href="#omvormer" class="term-link">omvormer</a> zet die gelijkstroom om in wisselstroom voor je huis. Wek je meer op dan je op dat moment verbruikt, dan gaat het overschot via de meterkast naar het stroomnet.</p>
-  <p>Zonnepanelen heten officieel <b>PV-panelen</b> (van <i>photovoltaic</i>), en je komt ze ook tegen als <b>zonnestroompanelen</b> of <b>zonnecellen</b>. Alle 19 panelen hier vallen daaronder. Een <b>zonneboiler</b> of <b>zonnecollector</b> is iets anders; die maken warm water, en daar gaat deze site niet over.</p>
+  <p>Zonnepanelen heten officieel <b>PV-panelen</b> (van <i>photovoltaic</i>), en je komt ze ook tegen als <b>zonnestroompanelen</b> of <b>zonnecellen</b>. Alle <span data-cijfer="aantal">19</span> panelen hier vallen daaronder. Een <b>zonneboiler</b> of <b>zonnecollector</b> is iets anders; die maken warm water, en daar gaat deze site niet over.</p>
   <p>Drie dingen bepalen samen hoeveel een paneel oplevert:</p>
   <ul>
     <li><b>Het vermogen</b> in <a href="#wattpiek" class="term-link">wattpiek</a> (Wp): wat het paneel maximaal kan leveren. Moderne panelen voor woningen zitten rond de 420 tot 460 Wp.</li>
     <li><b>De ligging van je dak</b>: een zuiddak onder een hoek van circa 35 graden vangt het meest. In Nederland levert 1 Wp op een gunstig dak circa 0,85 tot 0,95 kWh per jaar op (bron: Milieu Centraal); op een oost-westdak zo'n 10 tot 15% minder.</li>
     <li><b>Schaduw</b>: zelfs een schoorsteen of dakkapel kan de opbrengst merkbaar drukken. Optimizers, micro-omvormers of schaduwtolerante panelen (back-contact) beperken die schade.</li>
   </ul>
+
+  <figure class="uitleg-figuur">
+    <svg viewBox="0 0 560 230" role="img" aria-labelledby="zonWerktTitel">
+      <title id="zonWerktTitel">Zonlicht valt op het paneel, de omvormer maakt er wisselstroom van, het huis gebruikt wat het nodig heeft en het overschot gaat via de meter naar het net</title>
+      <circle cx="60" cy="52" r="26" fill="#f59e0b"/>
+      <g stroke="#f59e0b" stroke-width="4" stroke-linecap="round"><line x1="60" y1="10" x2="60" y2="18"/><line x1="18" y1="52" x2="26" y2="52"/><line x1="94" y1="52" x2="102" y2="52"/><line x1="30" y1="22" x2="36" y2="28"/><line x1="90" y1="22" x2="84" y2="28"/></g>
+      <path d="M 92 70 L 150 104" stroke="#f59e0b" stroke-width="4" stroke-dasharray="8 6" stroke-linecap="round"/>
+      <g transform="rotate(-20 190 118)"><rect x="140" y="96" width="100" height="46" rx="3" fill="#0369a1" stroke="#0c4a6e" stroke-width="3"/><line x1="173" y1="96" x2="173" y2="142" stroke="#7dd3fc" stroke-width="2"/><line x1="207" y1="96" x2="207" y2="142" stroke="#7dd3fc" stroke-width="2"/><line x1="140" y1="119" x2="240" y2="119" stroke="#7dd3fc" stroke-width="2"/></g>
+      <text x="190" y="182" text-anchor="middle" font-size="15" fill="#1f2937">paneel</text>
+      <text x="190" y="199" text-anchor="middle" font-size="12" fill="#4b5563">gelijkstroom</text>
+      <path d="M 244 120 L 286 120" stroke="#0369a1" stroke-width="4" stroke-linecap="round"/>
+      <rect x="288" y="98" width="56" height="44" rx="4" fill="#ffffff" stroke="#0c4a6e" stroke-width="3"/>
+      <path d="M 300 120 q 8 -12 16 0 q 8 12 16 0" fill="none" stroke="#0369a1" stroke-width="3" stroke-linecap="round"/>
+      <text x="316" y="182" text-anchor="middle" font-size="15" fill="#1f2937">omvormer</text>
+      <text x="316" y="199" text-anchor="middle" font-size="12" fill="#4b5563">wisselstroom</text>
+      <path d="M 346 120 L 392 120" stroke="#0369a1" stroke-width="4" stroke-linecap="round"/>
+      <polygon points="392,100 432,72 472,100" fill="#0c4a6e"/>
+      <rect x="400" y="100" width="64" height="48" fill="#ffffff" stroke="#0c4a6e" stroke-width="3"/>
+      <rect x="424" y="120" width="16" height="28" fill="#0369a1"/>
+      <text x="432" y="182" text-anchor="middle" font-size="15" fill="#1f2937">huis</text>
+      <path d="M 466 132 C 500 132, 510 150, 512 168" fill="none" stroke="#16a34a" stroke-width="4" stroke-dasharray="8 6" stroke-linecap="round"/>
+      <rect x="494" y="170" width="38" height="30" rx="4" fill="#ffffff" stroke="#0c4a6e" stroke-width="3"/>
+      <text x="513" y="190" text-anchor="middle" font-size="12" fill="#1f2937">net</text>
+      <text x="513" y="220" text-anchor="middle" font-size="12" fill="#4b5563">overschot</text>
+    </svg>
+    <figcaption>Wat het huis niet direct gebruikt, gaat via de meter naar het net.</figcaption>
+  </figure>
 
   <h2 id="wat-heb-je-nodig">Wat heb je nodig naast de panelen?</h2>
   <ul>
@@ -81,6 +399,47 @@
     <li><b>Ruimte in de meterkast.</b> Meestal is een aparte groep nodig; bij grotere systemen soms een verzwaring of drie-fase-aansluiting.</li>
     <li><b>Melding bij je netbeheerder.</b> De installateur (of jijzelf) registreert de installatie op energieleveren.nl.</li>
   </ul>
+
+  <h2 id="hoeveel">Hoeveel zonnepanelen heb ik nodig?</h2>
+  <div class="kort-antwoord" data-vraag="Hoeveel zonnepanelen heb ik nodig?">
+    <p class="kort-label">Kort antwoord</p>
+    <p>Deel je jaarverbruik door wat één paneel op jouw dak oplevert. Bij 2.900 kWh, het gemiddelde huishouden, en een schuin dak naar het zuidoosten of zuidwesten kom je met panelen van <span data-cijfer="wp-mediaan">440</span> Wp op <span data-cijfer="rh-aantal">8</span> stuks. Na 2027 loont het niet meer om fors meer op te wekken dan je zelf gebruikt.</p>
+  </div>
+  <div class="rekenhulp" data-rekenhulp="panelen-aantal">
+    <p class="rekenhulp-kop">Hoeveel panelen heb jij nodig?</p>
+    <label class="rekenhulp-veld">Wat verbruik je per jaar? <span class="rekenhulp-invoer"><input type="number" inputmode="numeric" min="500" max="25000" step="100" value="2900" data-in="verbruik"> kWh</span></label>
+    <label class="rekenhulp-veld">Hoe ligt je dak? <select data-in="ligging">
+      <!-- blok:rekenhulp-ligging -->
+      <option value="0.95">Zuid, schuin dak (beste opbrengst)</option>
+      <option value="0.9" selected>Zuidoost of zuidwest, schuin dak</option>
+      <option value="0.88">Plat dak (opstelling op zuid of oost-west)</option>
+      <option value="0.8">Oost-west, schuin dak</option>
+      <option value="0.65">Noord, schuin dak</option>
+  <!-- /blok:rekenhulp-ligging -->
+    </select></label>
+    <p class="rekenhulp-uitkomst" aria-live="polite">Met panelen van <span data-cijfer="wp-mediaan">440</span> Wp heb je er zo'n <b data-uit="aantal"><span data-cijfer="rh-aantal">8</span></b> nodig. Samen wekken ze ongeveer <b data-uit="opwek"><span data-cijfer="rh-opwek">3.170</span></b> kWh per jaar op. Alleen de panelen kosten dan rond <b data-uit="kosten"><span data-cijfer="rh-kosten">€ 800</span></b>, tegen de middelste prijs in de vergelijker; omvormer en montage komen erbij.</p>
+  </div>
+  <!-- blok:rekenhulp-data -->
+  <script type="application/json" id="rekenhulp-panelen">{"wp":440,"paneelprijs":100,"verbruik":2900,"liggingen":[{"f":0.95,"naam":"Zuid, schuin dak (beste opbrengst)","gekozen":false},{"f":0.9,"naam":"Zuidoost of zuidwest, schuin dak","gekozen":true},{"f":0.88,"naam":"Plat dak (opstelling op zuid of oost-west)","gekozen":false},{"f":0.8,"naam":"Oost-west, schuin dak","gekozen":false},{"f":0.65,"naam":"Noord, schuin dak","gekozen":false}]}</script>
+  <!-- /blok:rekenhulp-data -->
+
+  <h2 id="salderen">Wat verandert er als salderen stopt?</h2>
+  <div class="kort-antwoord" data-vraag="Wat verandert er als de salderingsregeling stopt?">
+    <p class="kort-label">Kort antwoord</p>
+    <p>Tot en met 2026 streep je teruggeleverde stroom weg tegen stroom die je koopt. Vanaf 1 januari 2027 krijg je voor teruggeleverde stroom alleen nog een terugleververgoeding van je leverancier, en veel leveranciers rekenen daarnaast terugleverkosten. Zelf gebruiken wat je opwekt wordt dus belangrijker dan zoveel mogelijk opwekken.</p>
+  </div>
+  <figure class="uitleg-figuur">
+    <div class="staven" role="img" aria-label="Rekenvoorbeeld voor 10 panelen met 3.500 kWh per jaar en 30 procent eigen verbruik: tot en met 2026 circa 1.050 euro per jaar, vanaf 2027 circa 485 euro">
+      <div class="staaf-rij"><span class="staaf-label">Tot en met 2026</span><span class="staaf"><span class="staaf-deel staaf-vol" style="width:100%"></span></span><b class="staaf-bedrag">€ 1.050</b></div>
+      <div class="staaf-rij"><span class="staaf-label">Vanaf 2027</span><span class="staaf"><span class="staaf-deel staaf-vol" style="width:30%"></span><span class="staaf-deel staaf-terug" style="width:16.2%"></span></span><b class="staaf-bedrag">€ 485</b></div>
+    </div>
+    <ul class="staaf-legenda">
+      <li><span class="staaf-stip staaf-vol"></span>€ 0,30 per kWh, gesaldeerd of zelf gebruikt</li>
+      <li><span class="staaf-stip staaf-terug"></span>€ 0,07 per kWh teruggeleverd, 2.450 kWh</li>
+    </ul>
+    <figcaption>Opbrengst per jaar in het rekenvoorbeeld van <a href="regelgeving.html">regels en subsidies</a>, afgerond.</figcaption>
+  </figure>
+  <p>In dat voorbeeld wekken 10 panelen 3.500 kWh per jaar op en gebruik je 30 procent daarvan direct zelf. Tot en met 2026 is alles via saldering circa € 0,30 per kWh waard, samen zo'n € 1.050. Vanaf 2027 levert de zelf gebruikte stroom nog steeds € 0,30 per kWh op, maar de 2.450 kWh die je teruglevert bij 7 cent nog maar circa € 170. Met 50 procent eigen verbruik, bijvoorbeeld door overdag te wassen of met een <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">thuisbatterij</a>, loopt het weer op. De <a href="rekenmodule.html">rekenmodule</a> rekent het voor jouw dak uit.</p>
 
   <h2 id="celtypen">Celtypen: TOPCon, HJT en back-contact</h2>
   <p>De celtechnologie bepaalt het rendement, het gedrag bij warmte en het uiterlijk van het paneel. De drie typen die je nu vooral tegenkomt:</p>
@@ -99,7 +458,7 @@
     <li><b>Vermogensbehoud na 25 jaar</b> volgens de fabrieksgarantie: 90% of meer = 2 punten, 88,5% of meer = 1 punt, minder = 0 punten.</li>
     <li><b>Uitvoering</b>: glas-glas = 2 punten, glas-folie = 0 punten.</li>
   </ul>
-  <p>De score is volledig op openbare specificaties gebaseerd en niet door fabrikanten te beïnvloeden. Een lage Zeker-score zegt iets over de garantie en niets over de kwaliteit. De productgaranties hier lopen van 15 tot 40 jaar en de vermogensgaranties van 25 tot 40 jaar; bij een scherpe prijs per Wp kan een kortere garantie een prima afweging zijn.</p>
+  <p>De score is volledig op openbare specificaties gebaseerd en niet door fabrikanten te beïnvloeden. Een lage Zeker-score zegt iets over de garantie en niets over de kwaliteit. De productgaranties hier lopen van <span data-cijfer="prod-gar-min">12</span> tot <span data-cijfer="prod-gar-max">40</span> jaar en de vermogensgaranties van <span data-cijfer="verm-gar-min">25</span> tot <span data-cijfer="verm-gar-max">40</span> jaar; bij een scherpe prijs per Wp kan een kortere garantie een prima afweging zijn.</p>
 
   <h2 id="waar-op-letten">Waar let je op vóór je koopt?</h2>
   <ul>
@@ -121,6 +480,25 @@
     <li><b>Zonder extra apparaten.</b> Ook simpel eigen verbruik helpt al, zoals wasmachine en vaatwasser overdag draaien, de auto op zonnige middaguren laden. Mijn <a href="rekenmodule.html">rekenmodule</a> laat zien wat een hoger eigen verbruik oplevert.</li>
   </ul>
   <p class="bron-lijst">Bronnen: <a href="https://www.zonnefabriek.nl/kenniscentrum/%E2%80%98smart-grid-ready%E2%80%99-contacten-van-een-warmtepomp-aansturen-hoe-gaat-dat-precies/" target="_blank" rel="noopener">Zonnefabriek over SG-ready contacten</a> · <a href="https://warmtepomp-kosten.nl/kennisbank/warmtepomp-smart-grid-ready-uitleg/" target="_blank" rel="noopener">Warmtepomp-kosten.nl over SG-ready en EMS</a> · <a href="https://solarmagazine.nl/nieuws-zonne-energie/i43715/eigen-huis-start-proef-met-energiemanagementsystemen-voor-slim-aansturen-thuisbatterijen-warmtepompen-en-zonnepanelen" target="_blank" rel="noopener">Solar Magazine: Vereniging Eigen Huis test EMS'en</a>.</p>
+
+  <h2 id="klopt-het">Klopt het dat…?</h2>
+  <p>Vier dingen die je vaak hoort over zonnepanelen, nagelopen met de cijfers van de panelen hier.</p>
+  <div class="kort-antwoord" data-vraag="Zijn zonnepanelen na 2027 nog rendabel?">
+    <p class="kort-label">Zijn zonnepanelen na 2027 nog rendabel?</p>
+    <p>Ja, alleen komt het voordeel dan vooral uit de stroom die je zelf gebruikt. In het rekenvoorbeeld hierboven is dat circa € 485 per jaar voor 10 panelen. Tien panelen kosten in de vergelijker rond <span data-cijfer="tien-panelen">€ 1.000</span>, zonder omvormer en montage. Wat het voor jouw dak betekent, staat in de <a href="rekenmodule.html">rekenmodule</a>.</p>
+  </div>
+  <div class="kort-antwoord" data-vraag="Moet je zonnepanelen kopen voordat salderen stopt?">
+    <p class="kort-label">Moet je snel kopen voordat salderen stopt?</p>
+    <p>Er is geen reden tot haast. Een systeem dat vóór 1 januari 2027 wordt geplaatst, profiteert tot die datum van saldering, en daarna gelden voor iedereen dezelfde regels. Belangrijker dan de datum is dat je niet fors meer opwekt dan je verbruikt, zie <a href="#hoeveel">hoeveel panelen</a>.</p>
+  </div>
+  <div class="kort-antwoord" data-vraag="Is een full black zonnepaneel minder goed?">
+    <p class="kort-label">Is een full black paneel minder goed?</p>
+    <p>Het levert een fractie minder op, omdat het donkerder is en daardoor iets warmer wordt. Hoeveel, zie je aan de temperatuurcoëfficiënt die per paneel in de vergelijker staat. Van de <span data-cijfer="aantal">19</span> panelen hier zijn er <span data-cijfer="full-black">16</span> full black.</p>
+  </div>
+  <div class="kort-antwoord" data-vraag="Heb je bij schaduw micro-omvormers nodig?">
+    <p class="kort-label">Heb je bij schaduw micro-omvormers nodig?</p>
+    <p>Niet per se. Optimizers doen hetzelfde per paneel met één centrale omvormer, en back-contact panelen verdragen schaduw van zichzelf beter; daarvan staan er <span data-cijfer="back-contact">4</span> in de vergelijker. Welke omvormer bij jouw dak past, zie je in de <a href="omvormers.html">omvormer-vergelijker</a>.</p>
+  </div>
 
   <h2 id="woordenlijst">Woordenlijst</h2>
   <p>Alle begrippen uit de vergelijker, kort uitgelegd.</p>
