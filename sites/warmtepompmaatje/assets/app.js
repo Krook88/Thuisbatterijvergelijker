@@ -14,7 +14,7 @@
     tabelSortKolom: null,
     tabelSortRichting: 1,
     vergelijkSelectie: [],
-    filters: { zoek: "", type: "alle", merk: "alle", r290: false, stil: false, officieelHa: false },
+    filters: { zoek: "", type: "alle", merk: "alle", r290: false, stil: false, homeAssistant: false, homey: false, officieel: false },
   };
 
   const el = (id) => document.getElementById(id);
@@ -81,7 +81,7 @@
      ------------------------------------------------------------------ */
 
   const FILTER_KEYS = ["type", "merk"];
-  const CHECK_KEYS = [["r290", "r290"], ["stil", "stil"], ["officieelHa", "ha"]];
+  const CHECK_KEYS = [["r290", "r290"], ["stil", "stil"], ["homeAssistant", "ha"], ["homey", "homey"], ["officieel", "officieel"]];
 
   function syncUrl() {
     const f = state.filters;
@@ -103,7 +103,8 @@
     const zet = (id, w) => { const n = el(id); if (n) n.value = w; };
     zet("filterType", state.filters.type); zet("filterMerk", state.filters.merk); zet("sorteer", state.sortering);
     const vink = (id, w) => { const n = el(id); if (n) n.checked = w; };
-    vink("checkR290", state.filters.r290); vink("checkStil", state.filters.stil); vink("checkHa", state.filters.officieelHa);
+    vink("checkR290", state.filters.r290); vink("checkStil", state.filters.stil);
+    vink("checkHa", state.filters.homeAssistant); vink("checkHomey", state.filters.homey); vink("checkOfficieel", state.filters.officieel);
   }
 
   function gefilterd(opties) {
@@ -115,7 +116,11 @@
       if (f.merk !== "alle" && w.merk !== f.merk) return false;
       if (f.r290 && !isR290(w)) return false;
       if (f.stil && !negeerStil && !isStil(w)) return false;
-      if (f.officieelHa && driewaardig(w.home_assistant).status !== "ja") return false;
+      // Een vinkje laat "ja" en "deels" door; met "alleen officieel" erbij
+      // telt alleen wat de fabrikant zelf ondersteunt.
+      const goed = (v) => { const s = driewaardig(v).status; return s === "ja" || (!f.officieel && s === "deels"); };
+      if (f.homeAssistant && !goed(w.home_assistant)) return false;
+      if (f.homey && !goed(w.homey)) return false;
       return true;
     });
   }
@@ -300,12 +305,29 @@
     }
   }
 
+  /* "Alleen officiële ondersteuning" verscherpt de twee koppelvinkjes van
+     "ja of deels" naar "alleen ja". Zonder een van die twee doet hij niets,
+     en dan staat hij uit, net als op batterijmaatje. */
+  function officieelBijwerken() {
+    const knop = el("checkOfficieel");
+    if (!knop) return;
+    const bruikbaar = state.filters.homeAssistant || state.filters.homey;
+    knop.disabled = !bruikbaar;
+    const label = knop.closest("label");
+    if (label) {
+      label.classList.toggle("uitgeschakeld", !bruikbaar);
+      label.title = bruikbaar
+        ? "Alleen koppelingen die de fabrikant zelf ondersteunt tellen mee. Community-integraties en omwegen vallen af."
+        : "Zet eerst Home Assistant of Homey aan; deze verscherpt die keuze.";
+    }
+  }
+
   function koppelEvents() {
     [["filterType", "type"], ["filterMerk", "merk"]].forEach(([id, key]) => {
       el(id).addEventListener("change", (e) => { state.filters[key] = e.target.value; render(); });
     });
-    [["checkR290", "r290"], ["checkStil", "stil"], ["checkHa", "officieelHa"]].forEach(([id, key]) => {
-      el(id).addEventListener("change", (e) => { state.filters[key] = e.target.checked; render(); });
+    [["checkR290", "r290"], ["checkStil", "stil"], ["checkHa", "homeAssistant"], ["checkHomey", "homey"], ["checkOfficieel", "officieel"]].forEach(([id, key]) => {
+      el(id).addEventListener("change", (e) => { state.filters[key] = e.target.checked; officieelBijwerken(); render(); });
     });
     el("sorteer").addEventListener("change", (e) => { state.sortering = e.target.value; render(); });
 
@@ -314,9 +336,10 @@
 
     const reset = el("resetFilters");
     if (reset) reset.addEventListener("click", () => {
-      state.filters = { zoek: "", type: "alle", merk: "alle", r290: false, stil: false, officieelHa: false };
+      state.filters = { zoek: "", type: "alle", merk: "alle", r290: false, stil: false, homeAssistant: false, homey: false, officieel: false };
       ["filterType", "filterMerk"].forEach((id) => { el(id).value = "alle"; });
-      ["checkR290", "checkStil", "checkHa"].forEach((id) => { el(id).checked = false; });
+      ["checkR290", "checkStil", "checkHa", "checkHomey", "checkOfficieel"].forEach((id) => { el(id).checked = false; });
+      officieelBijwerken();
       if (zoekVeld) zoekVeld.value = "";
       render();
     });
@@ -433,6 +456,7 @@
 
       koppelEvents();
       leesUrl();
+      officieelBijwerken(); // na leesUrl: een gedeelde link kan ?ha=1 meebrengen
       render();
     } catch (err) {
       el("resultaten").innerHTML = '<div class="leeg-melding">De warmtepompgegevens konden niet worden geladen. Vernieuw de pagina of probeer het later opnieuw.</div>';

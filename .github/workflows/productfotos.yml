@@ -46,6 +46,10 @@ on:
         description: "Zelf gekozen beeld uit een eerdere droge run: id=adres of id=adres|winkelpagina, gescheiden door komma's of regels"
         required: false
         type: string
+      toon:
+        description: "Droge run: toon alle kandidaten met dit stuk tekst in het adres (meerdere met |)"
+        required: false
+        type: string
       tak:
         description: "Naam van de tak (het runnummer komt erachter)"
         required: false
@@ -91,11 +95,13 @@ jobs:
           ALLEEN: ${{ inputs.alleen }}
           DROOG: ${{ inputs.droog }}
           BEELD: ${{ inputs.beeld }}
+          TOON: ${{ inputs.toon }}
         run: |
           args=()
           [ -n "$SITE" ] && [ "$SITE" != "alle" ] && args+=(--site "$SITE")
           [ -n "$ALLEEN" ] && args+=(--alleen "$ALLEEN")
           [ -n "$BEELD" ] && args+=(--beeld "$BEELD")
+          [ -n "$TOON" ] && args+=(--toon "$TOON")
           [ "$DROOG" = "true" ] && args+=(--droog)
           npm run fotos -- "${args[@]}"
 

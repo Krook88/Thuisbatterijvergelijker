@@ -373,6 +373,31 @@
     if (i.contract === "dynamisch" && r.opbrengstArb > 0) {
       kanttekeningen.push("De opbrengst uit handel op uurprijzen is een schatting op basis van een vast gemiddeld prijsverschil; werkelijke spreads wisselen per dag en seizoen, en over stroom uit het net betaal je energiebelasting.");
     }
+    /* Wie doet die handel? De som gaat ervan uit dat de batterij op goedkope
+       uren laadt en op dure ontlaadt. Doet hij dat niet zelf, dan haal je dat
+       deel alleen als iets anders hem aanstuurt, en Home Assistant of Homey is
+       dan de enige weg. Daarom staat hier hoeveel van de opbrengst daarvan
+       afhangt, en wat de terugverdientijd zonder is. */
+    if (gekozenBatterij && i.contract === "dynamisch" && r.opbrengstArb > 0) {
+      const stand = (v) => v === true ? "ja" : v === false ? "nee" : v == null ? "onbekend"
+        : (typeof v === "object" ? (v.status || "deels") : "deels");
+      const zelf = stand(gekozenBatterij.dynamisch_contract);
+      if (zelf === "nee" || zelf === "onbekend") {
+        const zonder = Rekenkern.bereken({ ...i, contract: "vast" });
+        const via = [["Home Assistant", gekozenBatterij.home_assistant], ["Homey", gekozenBatterij.homey]]
+          .filter(([, v]) => ["ja", "deels"].includes(stand(v))).map(([naam]) => naam);
+        const tijd = zonder.terugverdientijd != null
+          ? `is de terugverdientijd ${jaarFmt.format(zonder.terugverdientijd)} jaar`
+          : "verdient hij zich met deze invoer niet terug";
+        const zin = `<b>${zelf === "nee" ? "Deze batterij stuurt niet zelf op uurprijzen." : "Niet vastgesteld of deze batterij zelf op uurprijzen stuurt."}</b> ` +
+          `Van de opbrengst hierboven komt ${eurFmt.format(r.opbrengstArb)} per jaar uit handel op uurprijzen. ` +
+          (via.length
+            ? `Die haal je dan alleen als je hem zelf aanstuurt, bijvoorbeeld via ${via.join(" of ")}.`
+            : "Ook een koppeling met Home Assistant of Homey is voor deze batterij niet vastgesteld, dus reken er niet op.") +
+          ` Zonder die handel ${tijd}.`;
+        (zelf === "nee" ? waarschuwingen : kanttekeningen).push(zin);
+      }
+    }
     if (i.extraOnbalans > 0) {
       kanttekeningen.push("Opbrengsten uit de onbalansmarkt zijn de afgelopen jaren gedaald en bieden geen garantie; TenneT waarschuwt daar expliciet voor.");
     }

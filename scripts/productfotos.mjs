@@ -26,7 +26,7 @@
  * heeft.
  *
  *   node scripts/productfotos.mjs [--site <naam>] [--alleen id,id] [--droog]
- *                                  [--beeld id=adres,id=adres]
+ *                                  [--beeld id=adres,id=adres] [--toon "stuk-adres"]
  *
  * Draaien doe je het via de werkstroom "Productfoto's ophalen": deze omgeving
  * komt niet bij fabrikantsites, want de egress-proxy laat alleen npm en pypi
@@ -64,6 +64,15 @@ const vlag = (naam) => {
 const DROOG = argv.includes("--droog");
 const ALLEEN_SITE = vlag("--site");
 const ALLEEN = (vlag("--alleen") || "").split(",").map((s) => s.trim()).filter(Boolean);
+
+/* Meer kandidaten tonen: --toon "solarvault-3-pro-max"
+ *
+ * Een droge run toont de beste kandidaat en drie reserves. Op de pagina van de
+ * Jackery SolarVault 3 stonden 572 beelden, en de vier bovenste waren een
+ * Explorer 300D uit het menu; het juiste beeld stond er wel tussen, maar niet
+ * in beeld. Met --toon laat hij alle kandidaten zien waarvan het adres dit stuk
+ * tekst bevat (meerdere met |), zodat je er een kiest voor --beeld. */
+const TOON = (vlag("--toon") || "").toLowerCase().split("|").map((s) => s.trim()).filter(Boolean);
 
 /* Met de hand gekozen beeld: --beeld id=adres,id=adres
  *
@@ -610,6 +619,11 @@ async function main() {
       console.log(`  ? ${p.id}: ${kandidaten.length} kandidaat(en) van ${bezocht} pagina(s), eerste via ${keuze.hoe} bij ${keuze.bron} (score ${keuze.score})`);
       console.log(`      ${keuze.url}`);
       for (const k of kandidaten.slice(1, 4)) console.log(`      (ook: ${k.hoe} bij ${k.bron} ${k.url})`);
+      if (TOON.length) {
+        const extra = kandidaten.filter((k) => TOON.some((t) => k.url.toLowerCase().includes(t)));
+        console.log(`      ${extra.length} kandidaat(en) met "${TOON.join("|")}" in het adres:`);
+        for (const k of extra.slice(0, 40)) console.log(`        ${k.url}  (${k.hoe} bij ${k.bron}, score ${k.score})`);
+      }
 
       if (DROOG) { opgehaald++; continue; }
 
