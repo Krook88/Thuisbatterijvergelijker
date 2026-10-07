@@ -32,6 +32,7 @@ import {
   prijsUitScriptJson,
   prijsUitJsonVeld,
   prijsveldMetDekking,
+  prijsUitWooVariaties,
   prijsUitTekst,
   prijsUitPagina,
   toontExclBtw,
@@ -493,4 +494,33 @@ test("een lege naald tussen de strepen vangt niet ineens alles", () => {
   // "wpl-09||" mag niet als "elke link" gelezen worden.
   const links = linksMetTekst(CATEGORIE, "wpl-09||", { basis: BASIS });
   assert.equal(links.length, 1);
+});
+
+/* Varianten bij WooCommerce, zoals Thuisbatterij.nl ze toont: de eerste
+ * variant in de lijst is een losse module (849), voorgeselecteerd staat de
+ * uitvoering van 5 kWh zonder meter (1.199,95). */
+const wooPagina = (selectie) => {
+  const varianten = [
+    { attributes: { attribute_pa_opslag: "module-2-kwh", attribute_pa_meter: "" }, display_price: 849 },
+    { attributes: { attribute_pa_opslag: "venus-5-kwh", attribute_pa_meter: "eigen-meter" }, display_price: 1199.95 },
+    { attributes: { attribute_pa_opslag: "venus-5-kwh", attribute_pa_meter: "p1-meter" }, display_price: 1299 },
+  ];
+  const attr = JSON.stringify(varianten).replace(/"/g, "&quot;");
+  const opt = (naam, waarden) => `<select name="attribute_pa_${naam}"><option value="">Kies</option>${waarden.map((w) => `<option value="${w}"${selectie.includes(w) ? " selected='selected'" : ""}>${w}</option>`).join("")}</select>`;
+  return `<form class="variations_form" data-product_variations="${attr}">${opt("opslag", ["module-2-kwh", "venus-5-kwh"])}${opt("meter", ["eigen-meter", "p1-meter"])}</form>
+    <p>€ 849,00 - € 1.299,00</p><script>{"price":849}</script>`;
+};
+
+test("prijsUitWooVariaties: de voorgeselecteerde variant, niet de eerste", () => {
+  assert.equal(prijsUitWooVariaties(wooPagina(["venus-5-kwh", "eigen-meter"])), 1200);
+  assert.equal(prijsUitPagina(wooPagina(["venus-5-kwh", "eigen-meter"]), "Marstek Venus E").prijs, 1200);
+});
+
+test("prijsUitWooVariaties: een lege waarde in een variant past op elke keuze", () => {
+  assert.equal(prijsUitWooVariaties(wooPagina(["module-2-kwh", "p1-meter"])), 849);
+});
+
+test("prijsUitWooVariaties: zonder voorselectie, of met meer dan één passende variant, geen prijs", () => {
+  assert.equal(prijsUitWooVariaties(wooPagina([])), null);
+  assert.equal(prijsUitWooVariaties(wooPagina(["venus-5-kwh"])), null, "5 kWh met en zonder meter passen allebei");
 });

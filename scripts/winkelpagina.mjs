@@ -37,6 +37,7 @@ import {
   prijsUitScriptJson,
   prijsUitMeta,
   prijsUitJsonVeld,
+  prijsUitWooVariaties,
   prijsUitTekst,
   prijsUitPagina,
   toontExclBtw,
@@ -136,6 +137,7 @@ function perRoute(html) {
     ["json in de pagina", () => prijsUitScriptJson(html, ANKERS)],
     ["meta-tag", () => prijsUitMeta(html)],
     ["prijsveld in de pagina", () => prijsUitJsonVeld(html)],
+    ["gekozen variant", () => prijsUitWooVariaties(html)],
     ["zichtbare tekst (met anker)", () => prijsUitTekst(html, ANKERS)],
     ["zichtbare tekst (zonder anker)", () => prijsUitTekst(html, [])],
   ];

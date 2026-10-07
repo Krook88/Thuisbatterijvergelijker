@@ -45,9 +45,7 @@
           "winkel": "Thuisbatterij.nl",
           "prijs_eur": 1200,
           "url": "https://thuisbatterij.nl/winkel/marstek-venus-e-versie-3/",
-          "datum": "2026-09-09",
-          "prijs_controle": "handmatig",
-          "prijs_controle_reden": "Thuisbatterij.nl bouwt zijn prijzen met JavaScript op en draagt op elke productpagina hetzelfde prijsveld (849 op 3 oktober 2026, 1.650 in september). De automaat kan hier niet betrouwbaar lezen; deze prijs hoort met de hand nagekeken te worden."
+          "datum": "2026-09-09"
         }
       ],
       "totaalprijs_van_eur": 1299,
@@ -1635,9 +1633,7 @@
           "winkel": "Thuisbatterij.nl",
           "prijs_eur": 795,
           "url": "https://thuisbatterij.nl/winkel/indevolt-solidflex-3000/",
-          "datum": "2026-09-07",
-          "prijs_controle": "handmatig",
-          "prijs_controle_reden": "Thuisbatterij.nl bouwt zijn prijzen met JavaScript op en draagt op elke productpagina hetzelfde prijsveld (849 op 3 oktober 2026, 1.650 in september). De automaat kan hier niet betrouwbaar lezen; deze prijs hoort met de hand nagekeken te worden."
+          "datum": "2026-09-07"
         }
       ],
       "totaalprijs_van_eur": 799,
@@ -1860,8 +1856,6 @@
           "prijs_eur": 1599,
           "url": "https://thuisbatterij.nl/winkel/ecoflow-stream-ac-5000/",
           "datum": "2026-10-03",
-          "prijs_controle": "handmatig",
-          "prijs_controle_reden": "Thuisbatterij.nl bouwt zijn prijzen met JavaScript op en draagt op elke productpagina hetzelfde prijsveld (849 op 3 oktober 2026, 1.650 in september). De automaat kan hier niet betrouwbaar lezen; deze prijs hoort met de hand nagekeken te worden.",
           "omvat": "actieprijs; de winkel noemt 1.699 als oorspronkelijke prijs. Niet op voorraad, verwachte verzending vanaf 12 oktober 2026."
         }
       ],

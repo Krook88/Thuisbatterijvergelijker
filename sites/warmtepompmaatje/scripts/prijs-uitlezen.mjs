@@ -527,6 +527,51 @@ export function prijsveldMetDekking(html, opties = {}) {
   return bedragenMetContext(html, opties).length > 0 ? prijs : null;
 }
 
+/**
+ * De prijs van de variant die de winkel zelf voorselecteert (WooCommerce).
+ *
+ * Bij een product met varianten - 5 of 10 kWh, met of zonder P1-meter - zet
+ * WooCommerce alle varianten met hun prijs in een attribuut van het
+ * bestelformulier: data-product_variations. In beeld staat dan alleen een
+ * prijsklasse ("€ 1.199,95 - € 6.850,00"), en de prijs van de gekozen variant
+ * vult de browser pas in. Thuisbatterij.nl werkt zo. Het prijsveld dat daar
+ * telkens op hetzelfde bedrag uitkwam (849, eerder 1.650) was de eerste
+ * variant uit die lijst: een uitbreidingsmodule, niet het product.
+ *
+ * Welke variant hoort er bij ons? Die de winkel voorselecteert: in de
+ * keuzelijsten staat daar één optie op selected, en dat is de uitvoering die
+ * een bezoeker als eerste ziet en waarvan de prijs in beeld komt. Bij de drie
+ * producten van Thuisbatterij.nl is dat precies de uitvoering die wij
+ * vergelijken. Staat er niets voorgeselecteerd, of past er niet precies één
+ * variant bij, dan geeft deze route niets: liever geen prijs dan een gok uit
+ * twintig varianten.
+ */
+export function prijsUitWooVariaties(html, opties = {}) {
+  const { min = ONDERGRENS, max = BOVENGRENS } = opties;
+  const m = /data-product_variations=(["'])([\s\S]*?)\1/.exec(html);
+  if (!m) return null;
+  const ontsnap = (t) => t
+    .replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+  let varianten;
+  try { varianten = JSON.parse(ontsnap(m[2])); } catch { return null; }
+  if (!Array.isArray(varianten) || !varianten.length) return null;
+
+  const gekozen = {};
+  for (const lijst of html.matchAll(/<select[^>]*\bname=["'](attribute_[^"']+)["'][^>]*>([\s\S]*?)<\/select>/gi)) {
+    const optie = /<option\b[^>]*\bvalue=["']([^"']*)["'][^>]*\bselected\b/i.exec(lijst[2])
+      || /<option\b[^>]*\bselected\b[^>]*\bvalue=["']([^"']*)["']/i.exec(lijst[2]);
+    if (optie && optie[1]) gekozen[lijst[1]] = ontsnap(optie[1]);
+  }
+  if (!Object.keys(gekozen).length) return null;
+
+  // Een lege waarde in een variant betekent "elke keuze" bij dat kenmerk.
+  const past = (v) => v && v.attributes && Object.entries(gekozen).every(([k, w]) => !v.attributes[k] || v.attributes[k] === w);
+  const treffers = varianten.filter((v) => past(v) && typeof v.display_price === "number");
+  if (treffers.length !== 1) return null;
+  const prijs = Math.round(treffers[0].display_price);
+  return prijs >= min && prijs <= max ? prijs : null;
+}
+
 /* ------------------------------------------------------------------
    3. Meta-tags
    ------------------------------------------------------------------ */
@@ -651,6 +696,9 @@ export function toontExclBtw(html) {
 export function prijsUitPagina(html, naam, opties = {}) {
   const ankers = ankerWoorden(naam);
   const wegen = [
+    // Eerst: bij een product met varianten noemen structured data en het
+    // prijsveld de goedkoopste of de eerste variant, niet de gekozen.
+    ["gekozen variant", () => prijsUitWooVariaties(html, opties)],
     ["structured data", () => prijsUitJsonLd(html, ankers, opties)],
     ["json in de pagina", () => prijsUitScriptJson(html, ankers, opties)],
     ["meta-tag", () => prijsUitMeta(html)],
