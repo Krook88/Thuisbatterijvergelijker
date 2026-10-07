@@ -288,7 +288,25 @@
     return `, gesorteerd op ${tekst.charAt(0).toLowerCase()}${tekst.slice(1)}`;
   }
 
+
+  /* Hoeveel filters er aan staan, onderaan het paneel, met het wissen erbij
+     alleen als er iets te wissen is. Geteld uit het paneel zelf, zodat een
+     nieuw vinkje vanzelf meetelt. */
+  function actieveFiltersBijwerken() {
+    const balk = el("filterbalk");
+    if (!balk) return;
+    const zoek = el("zoekVeld");
+    const n = [...balk.querySelectorAll("select")].filter((s) => s.value !== "alle").length
+      + [...balk.querySelectorAll('input[type="checkbox"]')].filter((c) => c.checked && !c.closest("[hidden]")).length
+      + (zoek && zoek.value.trim() ? 1 : 0);
+    const tekst = el("filterActief");
+    if (tekst) tekst.textContent = n === 0 ? "Geen filters actief" : n === 1 ? "1 filter actief" : `${n} filters actief`;
+    const wis = el("resetFilters");
+    if (wis) wis.hidden = n === 0;
+  }
+
   function render() {
+    actieveFiltersBijwerken();
     syncUrl();
     kruisHint();
     const lijst = gesorteerd(gefilterd());
@@ -346,7 +364,7 @@
       filterToggle.addEventListener("click", () => {
         const balk = el("filterbalk");
         const ingeklapt = balk.classList.toggle("ingeklapt");
-        filterToggle.textContent = ingeklapt ? "" + Iconen.svg("zoeken") + " Filteren en sorteren " + Iconen.svg("chevron") + "" : "" + Iconen.svg("zoeken") + " Filteren en sorteren " + Iconen.svg("chevron") + "";
+        filterToggle.textContent = ingeklapt ? "" + Iconen.svg("zoeken") + " Filters " + Iconen.svg("chevron") + "" : "" + Iconen.svg("zoeken") + " Filters " + Iconen.svg("chevron") + "";
       });
     }
 
@@ -457,6 +475,12 @@
 
   async function init() {
     try {
+      // Het prijsverloop voor de lijntjes in de lijst. Ontbreekt het, dan
+      // staat er gewoon geen lijntje; de lijst zelf hangt er niet van af.
+      const verloop = fetch("data/prijsverloop.json", { cache: "no-cache" })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d) => { if (d && window.PrijsGrafiek) window.PrijsGrafiek.laad(d); })
+        .catch(() => {});
       const res = await fetch("data/panelen.json", { cache: "no-cache" });
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
@@ -483,6 +507,7 @@
 
       koppelEvents();
       leesUrl(); // na het vullen van het merkenfilter, zodat ?merk=... aankomt
+      await verloop;
       render();
     } catch (err) {
       el("resultaten").innerHTML = '<div class="leeg-melding">De paneelgegevens konden niet worden geladen. Vernieuw de pagina of probeer het later opnieuw.</div>';

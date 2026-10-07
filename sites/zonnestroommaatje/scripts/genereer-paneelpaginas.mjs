@@ -25,6 +25,8 @@ const Prijs = vereis("../assets/prijs.js");
 // En dezelfde kaartopmaak, zodat de voorgerenderde kaarten in index.html niet
 // kunnen afwijken van wat de browser tekent.
 const Kaart = vereis("../assets/kaart.js");
+const PrijsGrafiek = vereis("../assets/prijsgrafiek.js");
+PrijsGrafiek.laad(JSON.parse(readFileSync(new URL("../data/prijsverloop.json", import.meta.url), "utf8")));
 
 /* ------------------------------------------------------------------
    Titels en omschrijvingen binnen de ruimte die Google toont
@@ -387,6 +389,7 @@ ${NAV}`;
 const staart = `
 ${FOOTER}
 
+<script src="/assets/prijsgrafiek.js?v=${ASSET_VERSIE}" defer></script>
 <script src="/assets/nav.js?v=${ASSET_VERSIE}" defer></script>
 </body>
 </html>
@@ -450,6 +453,11 @@ function pagina(p) {
       <a class="knop knop-secundair" href="/rekenmodule.html?paneel=${encodeURIComponent(p.id)}">Bereken terugverdientijd</a>
     </p>
   </div>
+
+  ${(() => {
+    const g = PrijsGrafiek.grafiekHtml(p.id, { naam: `${p.merk} ${p.model}` });
+    return g ? `<h2>Prijsverloop</h2>\n  ${g}` : "";
+  })()}
 
   <h2>Specificaties</h2>
   <div class="tabel-blok">

@@ -122,6 +122,32 @@
     </p>
   </div>
 
+  <h2>Prijsverloop</h2>
+  <figure class="prijsgrafiek" data-dagen='[[&quot;2026-10-07&quot;,749]]' aria-label="Prijsverloop van de HYXi Halo (3 kWh) sinds 7 oktober 2026">
+    <dl class="pg-cijfers">
+      <div><dt>Nu</dt><dd><span class="cijfer">€ 749</span></dd></div>
+      <div><dt>Laagste</dt><dd><span class="cijfer">€ 749</span> <small>7 okt</small></dd></div>
+      <div><dt>Hoogste</dt><dd><span class="cijfer">€ 749</span> <small>7 okt</small></dd></div>
+    </dl>
+    <div class="pg-vlak">
+      <div class="pg-plot">
+        <svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+          <g class="pg-raster"><line x1="0" x2="1000" y1="100.00" y2="100.00"/><line x1="0" x2="1000" y1="66.67" y2="66.67"/><line x1="0" x2="1000" y1="33.33" y2="33.33"/><line x1="0" x2="1000" y1="0.00" y2="0.00"/></g>
+          <path class="pg-lijn" d="M0.0 34.0H1000.0"/>
+        </svg>
+        <span class="pg-y" style="top:100.00%">€ 650</span><span class="pg-y" style="top:66.67%">€ 700</span><span class="pg-y" style="top:33.33%">€ 750</span><span class="pg-y" style="top:0.00%">€ 800</span>
+        <span class="pg-punt pg-nu" style="left:100.00%;top:34.00%"></span>
+        <span class="pg-kruis" hidden></span>
+        <div class="pg-tip" hidden></div>
+      </div>
+      <div class="pg-xas"><span class="pg-x pg-x-begin" style="left:0.00%">vandaag</span></div>
+    </div>
+    <figcaption>Laagste winkelprijs incl. btw per dag, sinds 7 oktober 2026. De laagste winkelprijs bleef € 749.</figcaption>
+    <details class="pg-tabel"><summary>Alle prijswijzigingen</summary>
+      <div class="tabel-blok"><table class="data-tabel"><thead><tr><th>Datum</th><th>Laagste prijs</th><th>Verschil</th></tr></thead><tbody><tr><td>7 oktober 2026</td><td class="cijfer">€ 749</td><td class="cijfer"></td></tr></tbody></table></div>
+    </details>
+  </figure>
+
   <h2>Specificaties</h2>
   <div class="tabel-blok">
   <table class="data-tabel spec-tabel">
@@ -220,6 +246,7 @@
      jaarverbruik dat de bezoeker eerder invulde, en laat het veld daarin
      werken. Het heeft geen ander bestand nodig. -->
 <script src="/assets/dagmaat.js?v=20261002a" defer></script>
+<script src="/assets/prijsgrafiek.js?v=20261002a" defer></script>
 <script src="/assets/nav.js?v=20261002a" defer></script>
 </body>
 </html>

@@ -98,6 +98,15 @@ jobs:
           BOL_CLIENT_SECRET: ${{ secrets.BOL_CLIENT_SECRET }}
         run: npm run prijzen ${{ github.event.inputs.droog == 'true' && '-- --droog' || '' }}
 
+      # De prijsupdate overschrijft de bedragen van gisteren. Dit legt de
+      # laagste winkelprijs van vandaag vast in data/prijsverloop.json, waar
+      # de grafiekjes in de lijst en op de productpagina's uit putten. Het
+      # bestand gaat mee in de commit hieronder (git add van de hele site).
+      - name: Prijsverloop bijwerken
+        if: steps.keuze.outputs.doen == 'true' && github.event.inputs.droog != 'true'
+        working-directory: sites/${{ matrix.site }}
+        run: npm run prijsverloop
+
       # Prijzen werken zichzelf bij, maar een nieuw model verschijnt nergens
       # vanzelf. Deze stap zoekt ernaar en meldt alleen: toevoegen blijft
       # mensenwerk, want een verkeerd toegevoegd model krijgt een pagina en een

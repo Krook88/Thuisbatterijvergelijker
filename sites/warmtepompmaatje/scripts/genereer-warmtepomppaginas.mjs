@@ -25,6 +25,8 @@ const Condities = vereis("../assets/condities.js");
 // En dezelfde kaartopmaak, zodat de voorgerenderde kaarten in index.html niet
 // kunnen afwijken van wat de browser tekent.
 const Kaart = vereis("../assets/kaart.js");
+const PrijsGrafiek = vereis("../assets/prijsgrafiek.js");
+PrijsGrafiek.laad(JSON.parse(readFileSync(new URL("../data/prijsverloop.json", import.meta.url), "utf8")));
 
 /* ------------------------------------------------------------------
    Titels en omschrijvingen binnen de ruimte die Google toont
@@ -652,6 +654,7 @@ function pompPagina(w) {
   <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="../assets/style.css?v=${ASSET_VERSIE}">
   <script src="../assets/iconen.js?v=${ASSET_VERSIE}" defer></script>
+  <script src="../assets/prijsgrafiek.js?v=${ASSET_VERSIE}" defer></script>
   <script src="../assets/nav.js?v=${ASSET_VERSIE}" defer></script>
   <link rel="icon" href="../assets/favicon.svg?v=1" type="image/svg+xml">
   <style>
@@ -763,6 +766,10 @@ ${kop("index", true)}
 
   <section class="content-pagina aansluitend">
     ${variantenBlok(w)}
+    ${(() => {
+      const g = PrijsGrafiek.grafiekHtml(w.id, { naam: `${w.merk} ${w.model}` });
+      return g ? `<h2>Prijsverloop</h2>\n  ${g}` : "";
+    })()}
     <h2>Over de ${esc(naam)}</h2>
     <p>${esc(w.omschrijving || `${naam} is een ${w.type === "hybride" ? `hybride warmtepomp van ${w.vermogen_kw} kW die samenwerkt met je cv-ketel: de pomp doet het gros van de verwarming, de ketel vangt piekkou en warm water op` : `all-electric warmtepomp van ${w.vermogen_kw} kW die de cv-ketel volledig vervangt, inclusief warm tapwater via een boilervat`}.`)}</p>
     ${/* De eigen aantekening bij deze pomp. Die stond tot oktober 2026 alleen

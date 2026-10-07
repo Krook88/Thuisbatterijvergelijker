@@ -389,6 +389,40 @@ a.regel-bedrag { color: var(--kleur-primair-donker); text-decoration: underline;
 a.regel-bedrag:hover { text-decoration-thickness: 2px; }
 .regel-details { display: inline-block; min-height: 24px; line-height: 24px; font-size: var(--tekst-15); }
 
+/* Prijsverloop: een klein trapje van 30 dagen onder het bedrag in de lijst,
+   en een grotere grafiek op de productpagina (assets/prijsgrafiek.js). De lijn
+   staat in de zachte tekstkleur zodat hij naast het bedrag niet schreeuwt;
+   alleen het punt van vandaag draagt de merkkleur. */
+.prijs-lijntje { display: block; margin: var(--ruimte-4) 0 var(--ruimte-2) auto; color: var(--kleur-tekst-licht); overflow: visible; }
+.prijs-lijntje-nu { fill: var(--kleur-primair); stroke: var(--kleur-wit); stroke-width: 1.5; }
+
+.prijsgrafiek { margin: var(--ruimte-20) 0 var(--ruimte-28); }
+.pg-cijfers { display: flex; flex-wrap: wrap; gap: var(--ruimte-10) var(--ruimte-28); margin: 0 0 var(--ruimte-20); }
+.pg-cijfers dt { font-size: var(--tekst-12); font-weight: 700; color: var(--kleur-tekst-licht); }
+.pg-cijfers dd { margin: 0; font-size: var(--tekst-19); font-weight: 800; }
+.pg-cijfers dd small { font-size: var(--tekst-12); font-weight: 600; color: var(--kleur-tekst-licht); }
+.pg-vlak { padding-left: 64px; }
+.pg-plot { position: relative; height: 180px; touch-action: pan-y; }
+.pg-plot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.pg-raster line { stroke: var(--kleur-rand); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.pg-lijn { fill: none; stroke: var(--kleur-primair); stroke-width: 2; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.pg-y { position: absolute; right: calc(100% + var(--ruimte-10)); transform: translateY(-50%); font-size: var(--tekst-12); color: var(--kleur-tekst-licht); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pg-xas { position: relative; height: 28px; }
+.pg-x { position: absolute; top: var(--ruimte-6); transform: translateX(-50%); font-size: var(--tekst-12); color: var(--kleur-tekst-licht); white-space: nowrap; }
+.pg-x-begin { transform: none; }
+.pg-x-eind { transform: translateX(-100%); }
+.pg-punt { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: var(--kleur-primair); box-shadow: 0 0 0 2px var(--kleur-wit); transform: translate(-50%, -50%); pointer-events: none; }
+.pg-label { position: absolute; transform: translate(-50%, var(--ruimte-10)); font-size: var(--tekst-12); font-weight: 700; color: var(--kleur-tekst); white-space: nowrap; pointer-events: none; }
+.pg-label-links { transform: translate(-6px, var(--ruimte-10)); }
+.pg-label-rechts { transform: translate(calc(-100% + 6px), var(--ruimte-10)); }
+.pg-kruis { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--kleur-tekst-licht); pointer-events: none; }
+.pg-tip { position: absolute; top: var(--ruimte-4); padding: var(--ruimte-6) var(--ruimte-10); background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius-klein); font-size: var(--tekst-12); white-space: nowrap; pointer-events: none; }
+.pg-tip b { display: block; font-size: var(--tekst-15); }
+.pg-kruis[hidden], .pg-tip[hidden] { display: none; }
+.prijsgrafiek figcaption { margin-top: var(--ruimte-6); font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
+.pg-tabel { margin-top: var(--ruimte-10); }
+.pg-tabel summary { cursor: pointer; min-height: 24px; font-size: var(--tekst-15); }
+
 /* Foto en kenmerken in de regel. Zonder foto's en zonder pillen was de lijst
    een bord met cijfers in twee kleuren. Wat erbij komt draagt elk iets: de
    foto laat zien wat voor ding het is, en een kenmerk staat er alleen als
@@ -541,26 +575,40 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
   box-shadow: var(--schaduw);
 }
 
-.filter-rij {
+/* Oktober 2026: het paneel was een rij keuzelijsten met daaronder een
+   strook vinkjes die over twee regels brak, met ertussen een grijs vinkje dat
+   pas iets deed als je een ander aanzette. Het las als een ratjetoe, en dat
+   was het ook: zes vinkjes over drie onderwerpen op een hoop.
+
+   Nu drie lagen. Bovenaan het zoekveld over de volle breedte. Daaronder de
+   filters in benoemde groepen naast elkaar (op een telefoon onder elkaar),
+   met in elke groep wat bij elkaar hoort. Onderaan een voet met hoeveel
+   filters er aan staan en het wissen. */
+.filter-zoek { display: flex; flex-direction: column; gap: var(--ruimte-4); }
+
+.filter-sets {
   display: grid;
   /* auto-fit heeft een vaste ondergrens nodig; met minmax(0, 1fr) kan de
      browser het aantal kolommen niet uitrekenen en valt alles in een kolom. */
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: var(--ruimte-10);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--ruimte-20) var(--ruimte-28);
+  margin-top: var(--ruimte-20);
 }
 
-.filter-groep { display: flex; flex-direction: column; gap: var(--ruimte-4); min-width: 0; }
-.filter-groep.breed { grid-column: span 2; }
+.filter-set { margin: 0; padding: 0; border: 0; min-width: 0; display: flex; flex-direction: column; gap: var(--ruimte-10); }
+.filter-set legend { padding: 0; margin-bottom: var(--ruimte-4); font-size: var(--tekst-15); font-weight: 700; color: var(--kleur-tekst); }
 
-.filter-groep > label,
-.filter-groep .filter-label {
+.filter-groep { display: flex; flex-direction: column; gap: var(--ruimte-4); min-width: 0; }
+
+.filter-zoek > label,
+.filter-groep > label {
   font-size: var(--tekst-15);
-  font-weight: 600;
+  font-weight: 500;
   color: var(--kleur-tekst-licht);
 }
 
-.filter-groep select,
-.filter-groep input {
+.filter-zoek input,
+.filter-groep select {
   font: inherit;
   font-size: var(--tekst-15);
   padding: var(--ruimte-6) var(--ruimte-10);
@@ -572,27 +620,11 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
   color: var(--kleur-tekst);
 }
 
-/* De tweede zone. Het label staat naast de schakelaars en niet erboven: dat
-   scheelt een regel, en op een blok van twee regels lijnt het uit op de
-   eerste - niet zwevend in het midden, zoals het stond. */
-.filter-rij.tweede {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--ruimte-10);
-  margin-top: var(--ruimte-10);
-  padding-top: var(--ruimte-10);
-  border-top: 1px solid var(--kleur-rand);
-}
+/* Vinkjes onder elkaar binnen hun groep. Naast elkaar braken ze op een
+   willekeurige plek af, en dan stond "Noodstroom" onder "Homey" alsof het
+   erbij hoorde. */
+.checkbox-groep { display: flex; flex-direction: column; gap: var(--ruimte-2); }
 
-.filter-rij.tweede .filter-groep { flex: 1; flex-direction: row; align-items: flex-start; gap: var(--ruimte-10); }
-.filter-rij.tweede .filter-label { flex: none; padding-top: 12px; }
-
-.checkbox-groep { display: flex; flex-wrap: wrap; gap: var(--ruimte-4) var(--ruimte-20); flex: 1; }
-
-/* Zelfde rechthoek en ronding als een keuzelijst. Het waren grijsgevulde
-   pillen naast rechthoekige velden: twee vormentalen in een paneel. */
-/* Gewone vinkjes naast elkaar. Elk vinkje had een eigen kader, en zes
-   kaders op een rij is drukte zonder betekenis. */
 .checkbox-groep label {
   display: inline-flex;
   align-items: center;
@@ -608,16 +640,26 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
 
 .checkbox-groep input { accent-color: var(--kleur-primair); width: 16px; height: 16px; }
 
-/* Een schakelaar die op dit moment niets kan doen: zichtbaar, maar duidelijk
-   niet aan de beurt. Weghalen zou erger zijn - dan springt de rij. */
-.checkbox-groep label.uitgeschakeld {
-  opacity: 0.55;
-  cursor: not-allowed;
+/* "Alleen officiële ondersteuning" verscherpt de vinkjes erboven en doet in
+   zijn eentje niets. Hij stond er altijd, grijs; nu verschijnt hij pas als er
+   iets te verscherpen is, ingesprongen onder de vinkjes waar hij bij hoort. */
+.checkbox-groep label.filter-sub { padding-left: var(--ruimte-20); font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
+.checkbox-groep label.filter-sub[hidden] { display: none; }
+
+.filter-voet {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ruimte-6) var(--ruimte-14);
+  margin-top: var(--ruimte-20);
+  padding-top: var(--ruimte-10);
+  border-top: 1px solid var(--kleur-rand);
 }
+.filter-actief { font-size: var(--tekst-15); color: var(--kleur-tekst-licht); }
 
 .filter-reset {
   flex: none;
-  margin-left: var(--ruimte-4);
   padding: var(--ruimte-6) 0;
   min-height: 40px;
   background: none;
@@ -628,6 +670,7 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
   font-weight: 700;
   cursor: pointer;
 }
+.filter-reset[hidden] { display: none; }
 
 /* Sorteren, in de resultatenbalk naast het aantal en de weergaveknoppen. */
 .sorteer-keuze { display: inline-flex; align-items: center; gap: var(--ruimte-6); }
@@ -645,11 +688,6 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
 }
 
 @media (max-width: 700px) {
-  .filter-rij { grid-template-columns: 1fr; }
-  .filter-groep.breed { grid-column: auto; }
-  .filter-rij.tweede { flex-direction: column; }
-  .filter-rij.tweede .filter-groep { flex-direction: column; }
-  .filter-rij.tweede .filter-label { padding-top: 0; }
   .sorteer-keuze { width: 100%; }
   /* min-width: 0 hoort er met opzet bij. Een flex-item krimpt niet onder zijn
      min-content-breedte, en bij een <select> is dat de langste optie in de

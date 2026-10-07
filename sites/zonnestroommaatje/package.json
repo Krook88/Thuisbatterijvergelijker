@@ -10,6 +10,7 @@
     "genereer": "node scripts/genereer-paneelpaginas.mjs",
     "keuzehulp": "node scripts/keuzehulp-spreiding.mjs",
     "prijzen": "node scripts/update-prices.mjs",
+    "prijsverloop": "node scripts/prijsverloop.mjs",
     "nieuwe-modellen": "node scripts/nieuwe-modellen.mjs",
     "nieuwe-modellen:proef": "node scripts/nieuwe-modellen.mjs --proef",
     "links": "node scripts/controleer-links.mjs",

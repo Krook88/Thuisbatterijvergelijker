@@ -1205,7 +1205,6 @@ details.faq-item p { margin-top: 0; }
 
 @media (max-width: 640px) {
   .kaarten-grid { grid-template-columns: 1fr; }
-  .filter-rij { gap: var(--ruimte-10); }
   .filter-groep select { min-width: 130px; }
   .hero { padding: var(--ruimte-28) 0 var(--ruimte-20); }
   .hero p { font-size: var(--tekst-15); }

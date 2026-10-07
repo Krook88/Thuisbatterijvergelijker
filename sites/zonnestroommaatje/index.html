@@ -94,6 +94,7 @@
   <link rel="stylesheet" href="assets/style.css?v=20261002a">
   <script src="assets/iconen.js?v=20261002a" defer></script>
   <script src="assets/prijs.js?v=20261002a" defer></script>
+  <script src="assets/prijsgrafiek.js?v=20261002a" defer></script>
   <script src="assets/kaart.js?v=20261002a" defer></script>
   <script src="assets/app.js?v=20261002a" defer></script>
   <script src="assets/nav.js?v=20261002a" defer></script>
@@ -285,77 +286,68 @@
     <p><b>Salderingsregeling stopt per 1 januari 2027.</b> Panelen blijven lonen, maar teruggeleverde stroom brengt minder op. Een installatie die past bij wat je zelf verbruikt, wint het dan van een dak dat zo vol mogelijk ligt. <a href="regelgeving.html">Wat er precies verandert <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a></p>
   </div>
 
-  <button class="filter-toggle" id="filterToggle">Filteren en sorteren </button>
+  <button class="filter-toggle" id="filterToggle">Filters</button>
 
   <div class="filterbalk ingeklapt" id="filterbalk">
-    <div class="filter-rij">
-      <div class="filter-groep breed">
-        <label for="zoekVeld">Zoeken</label>
-        <input type="search" id="zoekVeld" placeholder="Zoek op merk of model, bijv. Jinko of SMA…" class="zoekveld">
-      </div>
-      <div class="filter-groep">
-        <label for="filterCeltype">Soort zonnecel</label>
-        <select id="filterCeltype">
-          <option value="alle">Alle celtypen</option>
-          <option value="topcon">TOPCon - nu het meest gebruikt</option>
-          <option value="back-contact">Back-contact - geen zichtbare draadjes</option>
-          <option value="hjt">HJT - blijft beter presteren in de hitte</option>
-        </select>
-      </div>
-      <div class="filter-groep">
-        <label for="filterVermogen">Vermogen</label>
-        <select id="filterVermogen">
-          <option value="alle">Alle vermogens</option>
-          <option value="klein">Tot 430 Wp</option>
-          <option value="middel">430 tot 450 Wp</option>
-          <option value="groot">450 Wp en meer</option>
-        </select>
-      </div>
-      <div class="filter-groep">
-        <label for="filterUitvoering">Glas of folie</label>
-        <select id="filterUitvoering">
-          <option value="alle">Maakt niet uit</option>
-          <option value="glas-glas">Glas aan beide kanten</option>
-          <option value="glas-folie">Glas voor, folie achter</option>
-        </select>
-      </div>
-      <div class="filter-groep">
-        <label for="filterMerk">Merk</label>
-        <select id="filterMerk">
-          <option value="alle">Alle merken</option>
-        </select>
-      </div>
+    <div class="filter-zoek">
+      <label for="zoekVeld">Zoeken</label>
+      <input type="search" id="zoekVeld" placeholder="Zoek op merk of model, bijv. Jinko of SMA…" autocomplete="off" enterkeyhint="search">
     </div>
-    <div class="filter-rij tweede">
-      
-      <div class="filter-groep">
-        <span class="filter-label">Toon alleen</span>
+    <div class="filter-sets">
+      <fieldset class="filter-set">
+        <legend>Soort paneel</legend>
+        <div class="filter-groep">
+          <label for="filterCeltype">Soort zonnecel</label>
+          <select id="filterCeltype">
+            <option value="alle">Alle celtypen</option>
+            <option value="topcon">TOPCon - nu het meest gebruikt</option>
+            <option value="back-contact">Back-contact - geen zichtbare draadjes</option>
+            <option value="hjt">HJT - blijft beter presteren in de hitte</option>
+          </select>
+        </div>
+        <div class="filter-groep">
+          <label for="filterUitvoering">Glas of folie</label>
+          <select id="filterUitvoering">
+            <option value="alle">Maakt niet uit</option>
+            <option value="glas-glas">Glas aan beide kanten</option>
+            <option value="glas-folie">Glas voor, folie achter</option>
+          </select>
+        </div>
+      </fieldset>
+      <fieldset class="filter-set">
+        <legend>Maat en merk</legend>
+        <div class="filter-groep">
+          <label for="filterVermogen">Vermogen</label>
+          <select id="filterVermogen">
+            <option value="alle">Alle vermogens</option>
+            <option value="klein">Tot 430 Wp</option>
+            <option value="middel">430 tot 450 Wp</option>
+            <option value="groot">450 Wp en meer</option>
+          </select>
+        </div>
+        <div class="filter-groep">
+          <label for="filterMerk">Merk</label>
+          <select id="filterMerk">
+            <option value="alle">Alle merken</option>
+          </select>
+        </div>
+      </fieldset>
+      <fieldset class="filter-set">
+        <legend>Toon alleen</legend>
         <div class="checkbox-groep">
           <label title="Volledig zwarte panelen: cellen, folie en frame"><input type="checkbox" id="checkFullBlack"> Helemaal zwart</label>
           <label title="Bifaciale panelen vangen ook licht via de achterkant; interessant bij een plat dak"><input type="checkbox" id="checkBifaciaal"> Vangt ook licht op de achterkant</label>
           <label title="Minimaal 25 jaar garantie op het product zelf, niet alleen op het vermogen"><input type="checkbox" id="checkGarantie"> 25+ jaar garantie op defecten</label>
           <label><input type="checkbox" id="checkAanbieding"> Alleen aanbiedingen</label>
         </div>
-      </div>
-      <button class="filter-reset" id="resetFilters">Alle filters wissen</button>
+      </fieldset>
+    </div>
+    <div class="filter-voet">
+      <span class="filter-actief" id="filterActief" aria-live="polite">Geen filters actief</span>
+      <button class="filter-reset" id="resetFilters" hidden>Alle filters wissen</button>
     </div>
   </div>
 
-  <details class="legenda">
-    <summary>Wat betekenen de symbolen?</summary>
-    <div class="legenda-lijst">
-      <!-- Deze legenda beschreef de oude badges ("~" in een geel vakje), terwijl
-           de lijst inmiddels de onderdelen met naam toont en gekleurde
-           kenmerken. Elk voorbeeld hieronder is dezelfde opmaak als in de lijst,
-           zodat wat je hier leest eruitziet als wat je daar ziet. -->
-      <div class="legenda-rij"><span><b>5</b><span class="regel-van">/6</span> Zeker-score</span><span>Punten voor productgarantie, vermogensbehoud en glas-glas. <a href="uitleg.html#zeker-score">Hoe werkt dit?</a></span></div>
-      <div class="legenda-rij"><span><span class="kenmerk kenmerk-prijs">laagste prijs per Wp</span></span><span>Het goedkoopste paneel per wattpiek in de lijst zoals je hem nu gefilterd hebt.</span></div>
-      <div class="legenda-rij"><span><span class="kenmerk kenmerk-actie">aanbieding</span></span><span>Nu goedkoper dan de gewone prijs van dit paneel.</span></div>
-      <div class="legenda-rij"><span><span class="kenmerk kenmerk-kan">30 jaar garantie</span></span><span>Een productgarantie langer dan de 25 jaar die bijna elk paneel hier heeft.</span></div>
-      <div class="legenda-rij"><span><svg class="icoon" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></svg></span><span>Opbrengst per m² dak: hoe meer sterren, hoe meer vermogen er op een klein dak past.</span></div>
-      <div class="legenda-rij"><span></span><span>Onbekende term? Bekijk de <a href="uitleg.html#woordenlijst">woordenlijst</a>.</span></div>
-    </div>
-  </details>
 
   <div class="regel-banner kruis-hint" id="kruisHint" hidden></div>
 
@@ -376,6 +368,21 @@
       <button id="knopTabel">Tabel</button>
     </div>
   </div>
+  <details class="legenda">
+    <summary>Wat betekenen de symbolen?</summary>
+    <div class="legenda-lijst">
+      <!-- Deze legenda beschreef de oude badges ("~" in een geel vakje), terwijl
+           de lijst inmiddels de onderdelen met naam toont en gekleurde
+           kenmerken. Elk voorbeeld hieronder is dezelfde opmaak als in de lijst,
+           zodat wat je hier leest eruitziet als wat je daar ziet. -->
+      <div class="legenda-rij"><span><b>5</b><span class="regel-van">/6</span> Zeker-score</span><span>Punten voor productgarantie, vermogensbehoud en glas-glas. <a href="uitleg.html#zeker-score">Hoe werkt dit?</a></span></div>
+      <div class="legenda-rij"><span><span class="kenmerk kenmerk-prijs">laagste prijs per Wp</span></span><span>Het goedkoopste paneel per wattpiek in de lijst zoals je hem nu gefilterd hebt.</span></div>
+      <div class="legenda-rij"><span><span class="kenmerk kenmerk-actie">aanbieding</span></span><span>Nu goedkoper dan de gewone prijs van dit paneel.</span></div>
+      <div class="legenda-rij"><span><span class="kenmerk kenmerk-kan">30 jaar garantie</span></span><span>Een productgarantie langer dan de 25 jaar die bijna elk paneel hier heeft.</span></div>
+      <div class="legenda-rij"><span><svg class="icoon" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></svg></span><span>Opbrengst per m² dak: hoe meer sterren, hoe meer vermogen er op een klein dak past.</span></div>
+      <div class="legenda-rij"><span></span><span>Onbekende term? Bekijk de <a href="uitleg.html#woordenlijst">woordenlijst</a>.</span></div>
+    </div>
+  </details>
 
   <h2 class="visueel-verborgen">Alle zonnepanelen vergeleken</h2>
   <div id="resultaten">
@@ -409,6 +416,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://www.ulicasolar.com/" target="_blank" rel="noopener" aria-label="€ 55 bij richtprijs (indicatie): naar de aanbieding van het Ulica Solar UL-445M-108ADGN 445 Wp Full Black (glas-glas), opent in een nieuw tabblad">€ 55</a>
+        
         <span class="regel-per cijfer">€ 0,12 per Wp</span>
         <span class="regel-winkel">richtprijs (indicatie)</span>
         <span class="prijs-ouderdom" title="Dit bedrag is 78 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 21 juli 2026</span>
@@ -438,6 +446,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://www.astronergy.com/" target="_blank" rel="noopener" aria-label="€ 55 bij richtprijs (indicatie): naar de aanbieding van het Astronergy Astro N5s 440 Wp Full Black, opent in een nieuw tabblad">€ 55</a>
+        
         <span class="regel-per cijfer">€ 0,13 per Wp</span>
         <span class="regel-winkel">richtprijs (indicatie)</span>
         <span class="prijs-ouderdom" title="Dit bedrag is 78 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 21 juli 2026</span>
@@ -467,6 +476,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://www.stralendgroen.nl/en/product/jinko-solar-tiger-neo-all-black-n-type-440wp/" target="_blank" rel="noopener" aria-label="€ 60 bij Stralend Groen: naar de aanbieding van het Jinko Solar Tiger Neo N-type 440 Wp Full Black, opent in een nieuw tabblad">€ 60</a>
+        <svg class="prijs-lijntje" viewBox="0 0 64 18" width="64" height="18" role="img" aria-label="Prijsverloop 30 dagen: van € 55 naar € 60, laagste € 55"><title>Prijsverloop 30 dagen: van € 55 naar € 60, laagste € 55</title><path d="M0.0 16.0H55.5V2.0H64.0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><circle class="prijs-lijntje-nu" cx="64.0" cy="2.0" r="2.5"/></svg>
         <span class="regel-per cijfer">€ 0,14 per Wp</span>
         <span class="regel-winkel">bij Stralend Groen</span>
         
@@ -496,6 +506,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://www.stralendgroen.nl/en/product/trina-solar-vertex-s-dual-glass-all-black-450wp/" target="_blank" rel="noopener" aria-label="€ 62 bij Stralend Groen: naar de aanbieding van het Trina Solar Vertex S+ 450 Wp Full Black (glas-glas), opent in een nieuw tabblad">€ 62</a>
+        <svg class="prijs-lijntje" viewBox="0 0 64 18" width="64" height="18" role="img" aria-label="Prijsverloop 30 dagen: van € 64 naar € 62, laagste € 62"><title>Prijsverloop 30 dagen: van € 64 naar € 62, laagste € 62</title><path d="M0.0 2.0H44.8V16.0H64.0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><circle class="prijs-lijntje-nu" cx="64.0" cy="16.0" r="2.5"/></svg>
         <span class="regel-per cijfer">€ 0,14 per Wp</span>
         <span class="regel-winkel">bij Stralend Groen</span>
         
@@ -525,6 +536,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://www.stralendgroen.nl/en/product/longi-solar-hi-mo6-all-black-440wp/" target="_blank" rel="noopener" aria-label="€ 65 bij Stralend Groen: naar de aanbieding van het LONGi Hi-MO X6 Explorer 440 Wp Full Black, opent in een nieuw tabblad">€ 65</a>
+        <svg class="prijs-lijntje" viewBox="0 0 64 18" width="64" height="18" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 65"><title>Prijsverloop 30 dagen: gelijk gebleven op € 65</title><path d="M0.0 9.0H64.0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><circle class="prijs-lijntje-nu" cx="64.0" cy="9.0" r="2.5"/></svg>
         <span class="regel-per cijfer">€ 0,15 per Wp</span>
         <span class="regel-winkel">bij Stralend Groen</span>
         
@@ -554,6 +566,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://solarkopen.nl/products/ja-solar-440wp-n-type-glas-glas-full-black-zonnepaneel" target="_blank" rel="noopener" aria-label="€ 75 bij SolarKopen: naar de aanbieding van het JA Solar JAM54D41 440 Wp Full Black (glas-glas), opent in een nieuw tabblad">€ 75</a>
+        <svg class="prijs-lijntje" viewBox="0 0 64 18" width="64" height="18" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 75"><title>Prijsverloop 30 dagen: gelijk gebleven op € 75</title><path d="M0.0 9.0H64.0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><circle class="prijs-lijntje-nu" cx="64.0" cy="9.0" r="2.5"/></svg>
         <span class="regel-per cijfer">€ 0,17 per Wp</span>
         <span class="regel-winkel">bij SolarKopen</span>
         
@@ -583,6 +596,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://solarkopen.nl/products/dmegc-450wp-glas-glas-full-black-zonnepaneel" target="_blank" rel="noopener" aria-label="€ 78 bij SolarKopen: naar de aanbieding van het DMEGC DM450M10RT-B54HBT 450 Wp Full Black (glas-glas), opent in een nieuw tabblad">€ 78</a>
+        <svg class="prijs-lijntje" viewBox="0 0 64 18" width="64" height="18" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 78"><title>Prijsverloop 30 dagen: gelijk gebleven op € 78</title><path d="M0.0 9.0H64.0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><circle class="prijs-lijntje-nu" cx="64.0" cy="9.0" r="2.5"/></svg>
         <span class="regel-per cijfer">€ 0,17 per Wp</span>
         <span class="regel-winkel">bij SolarKopen</span>
         
@@ -612,6 +626,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://www.feenstra.com/shop/denim-n-type-topcon-440-wp-all-black-glas-glas-bifacial.html" target="_blank" rel="noopener" aria-label="€ 85 bij Feenstra: naar de aanbieding van het Denim 440 Wp Full Black (glas-glas), opent in een nieuw tabblad">€ 85</a>
+        <svg class="prijs-lijntje" viewBox="0 0 64 18" width="64" height="18" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 85"><title>Prijsverloop 30 dagen: gelijk gebleven op € 85</title><path d="M0.0 9.0H64.0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><circle class="prijs-lijntje-nu" cx="64.0" cy="9.0" r="2.5"/></svg>
         <span class="regel-per cijfer">€ 0,19 per Wp</span>
         <span class="regel-winkel">bij Feenstra</span>
         
@@ -641,6 +656,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://www.zonnefabriek.nl/zonnepanelen/q-cells/q-tron-blk-m-g2-435/" target="_blank" rel="noopener" aria-label="€ 95 bij Zonnefabriek: naar de aanbieding van het Qcells Q.TRON BLK M-G2+ 435 Wp, opent in een nieuw tabblad">€ 95</a>
+        <svg class="prijs-lijntje" viewBox="0 0 64 18" width="64" height="18" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 95"><title>Prijsverloop 30 dagen: gelijk gebleven op € 95</title><path d="M0.0 9.0H64.0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><circle class="prijs-lijntje-nu" cx="64.0" cy="9.0" r="2.5"/></svg>
         <span class="regel-per cijfer">€ 0,22 per Wp</span>
         <span class="regel-winkel">bij Zonnefabriek</span>
         
@@ -670,6 +686,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1500/jinko-solar-tiger-neo-455w-half-cut-full-black-dual-glass-ppe2-jkm455n-48hl4m-db-1762x1134x30mm-0213w.html" target="_blank" rel="noopener" aria-label="€ 100 bij Solar-NU: naar de aanbieding van het Jinko Solar Tiger Neo 455 Wp Full Black (glas-glas), opent in een nieuw tabblad">€ 100</a>
+        
         <span class="regel-per cijfer">€ 0,22 per Wp</span>
         <span class="regel-winkel">bij Solar-NU</span>
         
@@ -699,6 +716,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1526/ja-solar-jam54d40lb-465w-bifacial-double-glass-half-cut-black-frame-jam54d40-465lb--1762-x-1134-x-30-nm-0217w.html" target="_blank" rel="noopener" aria-label="€ 104 bij Solar-NU: naar de aanbieding van het JA Solar JAM54D40/LB 465 Wp (glas-glas, bifaciaal), opent in een nieuw tabblad">€ 104</a>
+        
         <span class="regel-per cijfer">€ 0,22 per Wp</span>
         <span class="regel-winkel">bij Solar-NU</span>
         
@@ -728,6 +746,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://justsolar.store/products/aiko-455wp-neostar-2s-gen2-glas-glas-all-black" target="_blank" rel="noopener" aria-label="€ 120 bij Just Solar: naar de aanbieding van het AIKO Neostar 2S+ 455 Wp Full Black (glas-glas), opent in een nieuw tabblad">€ 120</a>
+        <svg class="prijs-lijntje" viewBox="0 0 64 18" width="64" height="18" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 120"><title>Prijsverloop 30 dagen: gelijk gebleven op € 120</title><path d="M0.0 9.0H64.0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><circle class="prijs-lijntje-nu" cx="64.0" cy="9.0" r="2.5"/></svg>
         <span class="regel-per cijfer">€ 0,26 per Wp</span>
         <span class="regel-winkel">bij Just Solar</span>
         
@@ -757,6 +776,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1524/dmegc-zonnepaneel-470wp-mono-full-black-n-type-glassglass-20mm-mono-facial-hc-30mm-met-mc4-evo-2a-1762x1134x30mm-0260w.html" target="_blank" rel="noopener" aria-label="€ 128 bij Solar-NU: naar de aanbieding van het DMEGC DM470G12RT-B48HBB 470 Wp Full Black (glas-glas), opent in een nieuw tabblad">€ 128</a>
+        
         <span class="regel-per cijfer">€ 0,27 per Wp</span>
         <span class="regel-winkel">bij Solar-NU</span>
         
@@ -786,6 +806,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://www.csisolar.com/" target="_blank" rel="noopener" aria-label="€ 119 bij richtprijs (indicatie): naar de aanbieding van het Canadian Solar TOPHiKu6 CS6.2-48TD 435 Wp Full Black, opent in een nieuw tabblad">€ 119</a>
+        <svg class="prijs-lijntje" viewBox="0 0 64 18" width="64" height="18" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 119, nu bij geen winkel te koop"><title>Prijsverloop 30 dagen: gelijk gebleven op € 119, nu bij geen winkel te koop</title><path d="M0.0 9.0H51.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/></svg>
         <span class="regel-per cijfer">€ 0,27 per Wp</span>
         <span class="regel-winkel">richtprijs (indicatie)</span>
         <span class="prijs-ouderdom" title="Dit bedrag is 30 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 7 september 2026</span>
@@ -815,6 +836,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://zonnepaneelcentrum.nl/product/rec-alpha-pure-2-400-430-w/" target="_blank" rel="noopener" aria-label="€ 120 bij Zonnepaneelcentrum: naar de aanbieding van het REC Alpha Pure-R 420 Wp, opent in een nieuw tabblad">€ 120</a>
+        <svg class="prijs-lijntje" viewBox="0 0 64 18" width="64" height="18" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 120"><title>Prijsverloop 30 dagen: gelijk gebleven op € 120</title><path d="M0.0 9.0H64.0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><circle class="prijs-lijntje-nu" cx="64.0" cy="9.0" r="2.5"/></svg>
         <span class="regel-per cijfer">€ 0,29 per Wp</span>
         <span class="regel-winkel">bij Zonnepaneelcentrum</span>
         
@@ -844,6 +866,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1311/jinko-solar-tiger-neo-470w-half-cut-silver-frame---jkm470n-60hl4-v-1903113430mm-0282w.html" target="_blank" rel="noopener" aria-label="€ 140 bij Solar-NU: naar de aanbieding van het Jinko Solar Tiger Neo JKM470N-60HL4-V 470 Wp (1903 mm), opent in een nieuw tabblad">€ 140</a>
+        
         <span class="regel-per cijfer">€ 0,30 per Wp</span>
         <span class="regel-winkel">bij Solar-NU</span>
         
@@ -873,6 +896,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://www.solarwatt.nl/" target="_blank" rel="noopener" aria-label="€ 140 bij richtprijs (indicatie): naar de aanbieding van het Solarwatt Panel Vision AM 4.5 pure 425 Wp (glas-glas), opent in een nieuw tabblad">€ 140</a>
+        
         <span class="regel-per cijfer">€ 0,33 per Wp</span>
         <span class="regel-winkel">richtprijs (indicatie)</span>
         <span class="prijs-ouderdom" title="Dit bedrag is 78 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 21 juli 2026</span>
@@ -902,6 +926,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1542/aiko-neostar-3s54-490w-abc-ntype-full-black-monofacial-single-glass-aiko-a490mce54mb-1762-x-1134-x-30mm--0332w.html" target="_blank" rel="noopener" aria-label="€ 170 bij Solar-NU: naar de aanbieding van het AIKO Neostar 3S54 490 Wp Full Black, opent in een nieuw tabblad">€ 170</a>
+        
         <span class="regel-per cijfer">€ 0,35 per Wp</span>
         <span class="regel-winkel">bij Solar-NU</span>
         
@@ -931,6 +956,7 @@
       </div>
       <div class="regel-slot">
         <a class="regel-bedrag cijfer" href="https://maxeon.com/" target="_blank" rel="noopener" aria-label="€ 230 bij richtprijs (indicatie): naar de aanbieding van het Maxeon (SunPower) Maxeon 6 440 Wp, opent in een nieuw tabblad">€ 230</a>
+        
         <span class="regel-per cijfer">€ 0,52 per Wp</span>
         <span class="regel-winkel">richtprijs (indicatie)</span>
         <span class="prijs-ouderdom" title="Dit bedrag is 78 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 21 juli 2026</span>

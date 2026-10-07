@@ -20,11 +20,11 @@
 
 (function (root, factory) {
   if (typeof module === "object" && module.exports) {
-    module.exports = factory(require("./prijs.js"), require("./iconen.js"), require("./dagmaat.js"));
+    module.exports = factory(require("./prijs.js"), require("./iconen.js"), require("./dagmaat.js"), require("./prijsgrafiek.js"));
   } else {
-    root.Kaart = factory(root.Prijs, root.Iconen, root.Dagmaat);
+    root.Kaart = factory(root.Prijs, root.Iconen, root.Dagmaat, root.PrijsGrafiek);
   }
-})(typeof self !== "undefined" ? self : globalThis, function (Prijs, Iconen, Dagmaat) {
+})(typeof self !== "undefined" ? self : globalThis, function (Prijs, Iconen, Dagmaat, PrijsGrafiek) {
   "use strict";
 
   const eurFmt = new Intl.NumberFormat("nl-NL", {
@@ -409,6 +409,7 @@
         ${beste && beste.url && vergelijk !== null
           ? `<a class="regel-bedrag cijfer" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="${escapeHtml(eurFmt.format(vergelijk))} bij ${escapeHtml(beste.winkel || "de winkel")}: naar de aanbieding van de ${escapeHtml(naamVan(b))}, opent in een nieuw tabblad">${eurFmt.format(vergelijk)}</a>`
           : `<span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>`}
+        ${PrijsGrafiek ? PrijsGrafiek.lijntje(b.id) : ""}
         ${perKwh ? `<span class="regel-per cijfer">${eurFmt.format(perKwh)} per kWh opslag</span>` : ""}
         ${beste && beste.url && beste.winkel ? `<span class="regel-winkel">${/^richtprijs/i.test(beste.winkel) ? "" : "bij "}${escapeHtml(beste.winkel)}</span>` : ""}
         ${ouderdomHtml(b)}

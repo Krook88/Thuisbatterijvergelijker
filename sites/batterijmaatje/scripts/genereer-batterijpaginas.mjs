@@ -20,6 +20,8 @@ const vereis = createRequire(import.meta.url);
 const Prijs = vereis("../assets/prijs.js");
 const Iconen = vereis("../assets/iconen.js");
 const Kaart = vereis("../assets/kaart.js");
+const PrijsGrafiek = vereis("../assets/prijsgrafiek.js");
+PrijsGrafiek.laad(JSON.parse(readFileSync(new URL("../data/prijsverloop.json", import.meta.url), "utf8")));
 
 // Hoe de capaciteit in lopende tekst verschijnt.
 //
@@ -529,6 +531,11 @@ ${NAV_HTML}
     </p>
   </div>
 
+  ${(() => {
+    const g = PrijsGrafiek.grafiekHtml(b.id, { naam: `${b.merk} ${b.model}` });
+    return g ? `<h2>Prijsverloop</h2>\n  ${g}` : "";
+  })()}
+
   <h2>Specificaties</h2>
   <div class="tabel-blok">
   <table class="data-tabel spec-tabel">
@@ -600,6 +607,7 @@ ${VOET_HTML}
      jaarverbruik dat de bezoeker eerder invulde, en laat het veld daarin
      werken. Het heeft geen ander bestand nodig. -->
 <script src="/assets/dagmaat.js?v=${ASSET_VERSIE}" defer></script>
+<script src="/assets/prijsgrafiek.js?v=${ASSET_VERSIE}" defer></script>
 <script src="/assets/nav.js?v=${ASSET_VERSIE}" defer></script>
 </body>
 </html>

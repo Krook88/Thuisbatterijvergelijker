@@ -274,7 +274,25 @@
     return `, gesorteerd op ${tekst.charAt(0).toLowerCase()}${tekst.slice(1)}`;
   }
 
+
+  /* Hoeveel filters er aan staan, onderaan het paneel, met het wissen erbij
+     alleen als er iets te wissen is. Geteld uit het paneel zelf, zodat een
+     nieuw vinkje vanzelf meetelt. */
+  function actieveFiltersBijwerken() {
+    const balk = el("filterbalk");
+    if (!balk) return;
+    const zoek = el("zoekVeld");
+    const n = [...balk.querySelectorAll("select")].filter((s) => s.value !== "alle").length
+      + [...balk.querySelectorAll('input[type="checkbox"]')].filter((c) => c.checked && !c.closest("[hidden]")).length
+      + (zoek && zoek.value.trim() ? 1 : 0);
+    const tekst = el("filterActief");
+    if (tekst) tekst.textContent = n === 0 ? "Geen filters actief" : n === 1 ? "1 filter actief" : `${n} filters actief`;
+    const wis = el("resetFilters");
+    if (wis) wis.hidden = n === 0;
+  }
+
   function render() {
+    actieveFiltersBijwerken();
     syncUrl();
     const lijst = gesorteerd(gefilterd());
     const verborgen = verborgenDoorOnbekendGeluid();
@@ -307,19 +325,15 @@
 
   /* "Alleen officiële ondersteuning" verscherpt de twee koppelvinkjes van
      "ja of deels" naar "alleen ja". Zonder een van die twee doet hij niets,
-     en dan staat hij uit, net als op batterijmaatje. */
+     en dan staat hij er niet, net als op batterijmaatje. */
   function officieelBijwerken() {
     const knop = el("checkOfficieel");
     if (!knop) return;
     const bruikbaar = state.filters.homeAssistant || state.filters.homey;
-    knop.disabled = !bruikbaar;
+    // Zonder een koppelvinkje doet hij niets, dus dan staat hij er ook niet.
     const label = knop.closest("label");
-    if (label) {
-      label.classList.toggle("uitgeschakeld", !bruikbaar);
-      label.title = bruikbaar
-        ? "Alleen koppelingen die de fabrikant zelf ondersteunt tellen mee. Community-integraties en omwegen vallen af."
-        : "Zet eerst Home Assistant of Homey aan; deze verscherpt die keuze.";
-    }
+    if (label) label.hidden = !bruikbaar;
+    if (!bruikbaar && knop.checked) { knop.checked = false; state.filters.officieel = false; }
   }
 
   function koppelEvents() {
@@ -426,7 +440,7 @@
       filterToggle.addEventListener("click", () => {
         const balk = el("filterbalk");
         const ingeklapt = balk.classList.toggle("ingeklapt");
-        filterToggle.innerHTML = `${Iconen.svg("zoeken")} Filteren en sorteren ${Iconen.svg("chevron", { klasse: ingeklapt ? "" : "gedraaid" })}`;
+        filterToggle.innerHTML = `${Iconen.svg("zoeken")} Filters ${Iconen.svg("chevron", { klasse: ingeklapt ? "" : "gedraaid" })}`;
       });
     }
   }
@@ -437,6 +451,12 @@
 
   async function init() {
     try {
+      // Het prijsverloop voor de lijntjes in de lijst. Ontbreekt het, dan
+      // staat er gewoon geen lijntje; de lijst zelf hangt er niet van af.
+      const verloop = fetch("data/prijsverloop.json", { cache: "no-cache" })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d) => { if (d && window.PrijsGrafiek) window.PrijsGrafiek.laad(d); })
+        .catch(() => {});
       const res = await fetch("data/warmtepompen.json", { cache: "no-cache" });
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
@@ -457,6 +477,7 @@
       koppelEvents();
       leesUrl();
       officieelBijwerken(); // na leesUrl: een gedeelde link kan ?ha=1 meebrengen
+      await verloop;
       render();
     } catch (err) {
       el("resultaten").innerHTML = '<div class="leeg-melding">De warmtepompgegevens konden niet worden geladen. Vernieuw de pagina of probeer het later opnieuw.</div>';

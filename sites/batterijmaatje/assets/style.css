@@ -1461,7 +1461,6 @@ details.faq-item p { margin-top: 0; }
 
 @media (max-width: 640px) {
   .kaarten-grid { grid-template-columns: 1fr; }
-  .filter-rij { gap: var(--ruimte-10); }
   .filter-groep select { min-width: 130px; }
   .hero { padding: var(--ruimte-28) 0 var(--ruimte-20); }
   .hero p { font-size: var(--tekst-15); }
@@ -1918,12 +1917,21 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
    drie knoppen zijn dus geen extra filter maar hetzelfde filter, op de plek
    waar de vraag gesteld wordt.
    -------------------------------------------------------------------------- */
+/* De twee vragen over jouw situatie staan samen op een regel boven de
+   filters, los van het paneel: het zijn geen filters op de batterij maar
+   antwoorden over je huis. Op een telefoon onder elkaar. */
+.situatie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ruimte-14) var(--ruimte-40);
+  margin: var(--ruimte-20) 0 var(--ruimte-14);
+}
 .aansluitkeuze {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--ruimte-10) var(--ruimte-14);
-  margin: var(--ruimte-20) 0 var(--ruimte-14);
 }
 .aansluitkeuze-vraag { font-weight: 700; font-size: var(--tekst-15); }
 .aansluitkeuze-knoppen { display: flex; flex-wrap: wrap; gap: var(--ruimte-6); }
@@ -1936,7 +1944,6 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   flex-wrap: wrap;
   align-items: baseline;
   gap: var(--ruimte-6) var(--ruimte-10);
-  margin: 0 0 var(--ruimte-20);
 }
 .verbruikkeuze-vraag { font-weight: 700; font-size: var(--tekst-15); }
 .verbruikkeuze input {

@@ -52,6 +52,7 @@
   <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="../assets/style.css?v=20261002a">
   <script src="../assets/iconen.js?v=20261002a" defer></script>
+  <script src="../assets/prijsgrafiek.js?v=20261002a" defer></script>
   <script src="../assets/nav.js?v=20261002a" defer></script>
   <link rel="icon" href="../assets/favicon.svg?v=1" type="image/svg+xml">
   <style>
@@ -191,6 +192,31 @@
       <tbody><tr><td>4 kW</td><td class="tabel-prijs">€ 2.125</td><td>KA17817</td></tr><tr><td>5 kW</td><td class="tabel-prijs">€ 2.350</td><td>KA18006</td></tr><tr><td>6 kW</td><td class="tabel-prijs">€ 2.575</td><td>KA17840</td></tr><tr><td>8 kW</td><td class="tabel-prijs">€ 3.025</td><td>KA20245</td></tr></tbody>
     </table>
   </div>
+    <h2>Prijsverloop</h2>
+  <figure class="prijsgrafiek" data-dagen='[[&quot;2026-08-11&quot;,5300],[&quot;2026-08-12&quot;,5300],[&quot;2026-08-13&quot;,5300],[&quot;2026-08-14&quot;,5500],[&quot;2026-08-15&quot;,5300],[&quot;2026-08-16&quot;,5300],[&quot;2026-08-17&quot;,5300],[&quot;2026-08-18&quot;,5300],[&quot;2026-08-19&quot;,5300],[&quot;2026-08-20&quot;,5300],[&quot;2026-08-21&quot;,5300],[&quot;2026-08-22&quot;,5300],[&quot;2026-08-23&quot;,5300],[&quot;2026-08-24&quot;,5300],[&quot;2026-08-25&quot;,5300],[&quot;2026-08-26&quot;,5300],[&quot;2026-08-27&quot;,5300],[&quot;2026-08-28&quot;,5300],[&quot;2026-08-29&quot;,5300],[&quot;2026-08-30&quot;,5300],[&quot;2026-08-31&quot;,5300],[&quot;2026-09-01&quot;,5300],[&quot;2026-09-02&quot;,5300],[&quot;2026-09-03&quot;,5300],[&quot;2026-09-04&quot;,5300],[&quot;2026-09-05&quot;,5300],[&quot;2026-09-06&quot;,5300],[&quot;2026-09-07&quot;,5300],[&quot;2026-09-08&quot;,5300],[&quot;2026-09-09&quot;,5300],[&quot;2026-09-10&quot;,5300],[&quot;2026-09-11&quot;,5300],[&quot;2026-09-12&quot;,5300],[&quot;2026-09-13&quot;,5300],[&quot;2026-09-14&quot;,5300],[&quot;2026-09-15&quot;,5300],[&quot;2026-09-16&quot;,5300],[&quot;2026-09-17&quot;,5300],[&quot;2026-09-18&quot;,5300],[&quot;2026-09-19&quot;,5300],[&quot;2026-09-20&quot;,5300],[&quot;2026-09-21&quot;,5300],[&quot;2026-09-22&quot;,5300],[&quot;2026-09-23&quot;,5300],[&quot;2026-09-24&quot;,5300],[&quot;2026-09-25&quot;,5300],[&quot;2026-09-26&quot;,5300],[&quot;2026-09-27&quot;,5300],[&quot;2026-09-28&quot;,5300],[&quot;2026-09-29&quot;,5300],[&quot;2026-09-30&quot;,5300],[&quot;2026-10-01&quot;,5300],[&quot;2026-10-02&quot;,5300],[&quot;2026-10-03&quot;,5300],[&quot;2026-10-04&quot;,5300],[&quot;2026-10-05&quot;,5300],[&quot;2026-10-06&quot;,5300],[&quot;2026-10-07&quot;,5300]]' aria-label="Prijsverloop van de Atlantic Alfea Extensa sinds 11 augustus 2026">
+    <dl class="pg-cijfers">
+      <div><dt>Nu</dt><dd><span class="cijfer">€ 5.300</span></dd></div>
+      <div><dt>Laagste</dt><dd><span class="cijfer">€ 5.300</span> <small>11 aug</small></dd></div>
+      <div><dt>Hoogste</dt><dd><span class="cijfer">€ 5.500</span> <small>14 aug</small></dd></div>
+    </dl>
+    <div class="pg-vlak">
+      <div class="pg-plot">
+        <svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+          <g class="pg-raster"><line x1="0" x2="1000" y1="100.00" y2="100.00"/><line x1="0" x2="1000" y1="66.67" y2="66.67"/><line x1="0" x2="1000" y1="33.33" y2="33.33"/><line x1="0" x2="1000" y1="0.00" y2="0.00"/></g>
+          <path class="pg-lijn" d="M0.0 66.7H51.7V0.0H69.0V66.7H1000.0"/>
+        </svg>
+        <span class="pg-y" style="top:100.00%">€ 5.200</span><span class="pg-y" style="top:66.67%">€ 5.300</span><span class="pg-y" style="top:33.33%">€ 5.400</span><span class="pg-y" style="top:0.00%">€ 5.500</span>
+        <span class="pg-punt" style="left:0.86%;top:66.67%"></span><span class="pg-label pg-label-links" style="left:0.86%;top:66.67%">laagste € 5.300</span><span class="pg-punt pg-nu" style="left:100.00%;top:66.67%"></span>
+        <span class="pg-kruis" hidden></span>
+        <div class="pg-tip" hidden></div>
+      </div>
+      <div class="pg-xas"><span class="pg-x pg-x-begin" style="left:0.00%">11 aug</span><span class="pg-x pg-x-midden" style="left:49.14%">8 sep</span><span class="pg-x pg-x-eind" style="left:100.00%">vandaag</span></div>
+    </div>
+    <figcaption>Laagste winkelprijs incl. btw per dag, sinds 11 augustus 2026. Laagste € 5.300 op 11 augustus 2026, hoogste € 5.500 op 14 augustus 2026, nu € 5.300.</figcaption>
+    <details class="pg-tabel"><summary>Alle prijswijzigingen</summary>
+      <div class="tabel-blok"><table class="data-tabel"><thead><tr><th>Datum</th><th>Laagste prijs</th><th>Verschil</th></tr></thead><tbody><tr><td>11 augustus 2026</td><td class="cijfer">€ 5.300</td><td class="cijfer"></td></tr><tr><td>14 augustus 2026</td><td class="cijfer">€ 5.500</td><td class="cijfer">+€ 200</td></tr><tr><td>15 augustus 2026</td><td class="cijfer">€ 5.300</td><td class="cijfer">−€ 200</td></tr></tbody></table></div>
+    </details>
+  </figure>
     <h2>Over de Atlantic Alfea Extensa</h2>
     <p>Atlantic Alfea Extensa is een all-electric warmtepomp van 5 kW die de cv-ketel volledig vervangt, inclusief warm tapwater via een boilervat.</p>
     <h2>Goed om te weten</h2>
