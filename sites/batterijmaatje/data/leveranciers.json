@@ -155,7 +155,7 @@
       "terugleververgoeding_omschrijving": "spotprijs; vaste kosten € 7,00/mnd, opslag € 0,02178 per kWh",
       "vanaf_2027": null,
       "kanttekening": "Geen eigen batterij-aansturing; eigen systeem (Homey, Home Assistant of fabrikant-app) nodig.",
-      "bron": "https://www.easyenergy.com/klantenservice/mij-aanbod/wat-kost-energie-bij-easyenergy",
+      "bron": "https://www.easyenergy.com/dynamische-energie/prijzen",
       "peildatum": "2026-07"
     },
     {
@@ -191,11 +191,11 @@
       "terugleverkosten_model": "geen",
       "terugleverkosten_omschrijving": "geen terugleverkosten",
       "terugleverkosten_per_kwh_indicatie": 0,
-      "terugleververgoeding_omschrijving": "uurprijs (beursprijs); vaste kosten € 5,99/mnd, inkoopvergoeding ca. € 0,018 per kWh",
+      "terugleververgoeding_omschrijving": "kwartierprijs (beursprijs); vaste leverkosten € 6,99/mnd, verkoopvergoeding € 0,018 per kWh",
       "vanaf_2027": null,
       "kanttekening": "Eigen Homevolt-batterij met aansturing binnen het abonnement; Grid Rewards-opbrengsten wisselen.",
-      "bron": "https://support.tibber.com/nl/articles/5605892-de-kosten-bij-tibber",
-      "peildatum": "2026-06"
+      "bron": "https://tibber.com/nl/stroomprijs",
+      "peildatum": "2026-10"
     },
     {
       "id": "zonneplan",

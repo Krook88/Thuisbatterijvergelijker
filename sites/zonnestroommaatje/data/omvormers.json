@@ -469,7 +469,7 @@
       "app": "ShinePhone",
       "garantie_jaar": 10,
       "opmerkingen": "De budgetkoning onder de omvormers, zeer veel verkocht in Nederland. Eenvoudig en degelijk; de software en cloud zijn minder verfijnd dan bij de premiummerken.",
-      "product_url": "https://www.ginverter.com/",
+      "product_url": "https://nl.growatt.com/",
       "homey": {
         "status": "deels",
         "tekst": "Community-app voor Growatt in de Homey App Store (via de cloud)."
@@ -608,7 +608,7 @@
       "app": "iSolarCloud",
       "garantie_jaar": 10,
       "opmerkingen": "Een van de grootste omvormerfabrikanten ter wereld; degelijk hybride-ecosysteem met stapelbare batterijmodules.",
-      "product_url": "https://nld.sungrowpower.com/",
+      "product_url": "https://en.sungrowpower.com/",
       "homey": {
         "status": "nee",
         "tekst": "Geen bekende Homey-app; de opwek is wel zichtbaar in Homey Energy via de Homey Energy Dongle op de slimme meter (P1)."

@@ -799,7 +799,10 @@
           "winkel": "Thuisbatterij Outlet",
           "prijs_eur": 3695,
           "url": "https://thuisbatterijoutlet.eu/product/sungrow-sbr-hoogspannings-lfp-batterij-96kw-sbr096/",
-          "datum": "2026-10-05"
+          "datum": "2026-10-05",
+          "niet_leverbaar": true,
+          "niet_leverbaar_door": "pagina weg",
+          "weg_sinds": "2026-10-07"
         }
       ],
       "totaalprijs_van_eur": 5500,
@@ -1275,7 +1278,10 @@
           "winkel": "Thuisbatterij Outlet",
           "prijs_eur": 4566,
           "url": "https://thuisbatterijoutlet.eu/product/saj-h2-5k-s2-10kwh-all-in-one-solution/",
-          "datum": "2026-10-05"
+          "datum": "2026-10-05",
+          "niet_leverbaar": true,
+          "niet_leverbaar_door": "pagina weg",
+          "weg_sinds": "2026-10-07"
         },
         {
           "winkel": "bol.com",
