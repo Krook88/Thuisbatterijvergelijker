@@ -329,7 +329,7 @@
       "prijs_toelichting": "5 kW hybride, excl. batterij en installatie",
       "batterij": {
         "status": "ja",
-        "tekst": "Hybride: eigen GoodWe Lynx Home-batterijen rechtstreeks aan te sluiten (en een aantal geteste merken zoals BYD en Pylontech, afhankelijk van model); noodstroom via back-upaansluiting."
+        "tekst": "Hybride voor hoogvolt-batterijen: de GoodWe Lynx Home F en een aantal geteste merken zoals BYD, afhankelijk van model. De laagvolt Lynx Home U hoort bij de ES- en EM-serie. Noodstroom via back-upaansluiting."
       },
       "home_assistant": {
         "status": "ja",
