@@ -2047,7 +2047,10 @@
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "stopcontact",
       "vermogen_bron": "Marstek geeft 800 W aan het net en 1.200 W off-grid en bij laden; 1,2 kW is dus geen continu vermogen naar je huis",
-      "afbeelding": null
+      "afbeelding": "assets/producten/marstek-venus-a.webp",
+      "afbeelding_bron": "foto: Marstek",
+      "afbeelding_herkomst": "https://www.marstek.nl/wp-content/uploads/2025/09/marstek-venus-a-stackable.png",
+      "afbeelding_via": "https://www.marstek.nl/product/marstek-venus-a-plug-charge-thuisbatterij-2-12-kwh-incl-p1-meter/"
     },
     {
       "id": "marstek-venus-e-mini",
@@ -2093,7 +2096,10 @@
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "continu",
       "vermogen_bron": "Marstek noemt 1,5 kW bidirectioneel laad- en ontlaadvermogen; of dat op een gedeelde groep mag, staat er niet bij",
-      "afbeelding": null
+      "afbeelding": "assets/producten/marstek-venus-e-mini.webp",
+      "afbeelding_bron": "foto: Marstek",
+      "afbeelding_herkomst": "https://www.marstek.nl/wp-content/uploads/2026/07/VenusEmini_2kwh.png",
+      "afbeelding_via": "https://www.marstek.nl/product/marstek-venus-e-mini-plug-charge-thuisbatterij/"
     },
     {
       "id": "zendure-solarflow-2400-ac",
@@ -2142,7 +2148,10 @@
       "capaciteit_nominaal_kwh": 2.88,
       "vermogen_conditie": "max",
       "vermogen_bron": "Zendure noemt 800 W bidirectioneel via het stopcontact en 2.400 W voor laden, ontladen en off-grid; die 2.400 W vraagt een eigen groep",
-      "afbeelding": null
+      "afbeelding": "assets/producten/zendure-solarflow-2400-ac.webp",
+      "afbeelding_bron": "foto: Zendure",
+      "afbeelding_herkomst": "https://www.zendure.nl/cdn/shop/files/SF2400AC-1AB3000X_1024x1024.png?v=1775719171",
+      "afbeelding_via": "https://www.zendure.nl/products/zendure-solarflow-2400-ac"
     },
     {
       "id": "zendure-solarflow-2400-ac-plus",
@@ -2331,7 +2340,10 @@
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "max",
       "vermogen_bron": "Anker noemt 800 W via het stopcontact en 2.500 W met PluginPower 2.0 op een eigen groep",
-      "afbeelding": null
+      "afbeelding": "assets/producten/anker-solix-solarbank-4-pro.webp",
+      "afbeelding_bron": "foto: Techpunt",
+      "afbeelding_herkomst": "https://www.techpunt.nl/cdn/shop/files/03-anker-solix-solarbank-4-e5000-pro-vooraanzicht_f4661497-57d7-4b8b-86eb-7fdafd0d24ac.webp?v=1786825711&width=1620",
+      "afbeelding_via": "https://www.techpunt.nl/products/anker-solix-solarbank-4-e5000-pro"
     },
     {
       "id": "aeg-solarcube-pro",
@@ -2376,7 +2388,10 @@
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "max",
       "vermogen_bron": "AEG noemt 800 W standaard, 1.500 W premium en \"tot 3.000 W maximaal\" op een eigen groep",
-      "afbeelding": null
+      "afbeelding": "assets/producten/aeg-solarcube-pro.webp",
+      "afbeelding_bron": "foto: AEG",
+      "afbeelding_herkomst": "https://aegthuisbatterij.nl/cdn/shop/files/AEG_pro_rechts_1.png?v=1785412427",
+      "afbeelding_via": "https://aegthuisbatterij.nl/products/aeg-solarcube-pro"
     },
     {
       "id": "hyxi-halo",
@@ -2427,7 +2442,10 @@
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "stopcontact",
       "vermogen_bron": "800 W aan het net en 1.500 W off-grid en bij laden, volgens StekkerDeal",
-      "afbeelding": null
+      "afbeelding": "assets/producten/hyxi-halo.webp",
+      "afbeelding_bron": "foto: HYXi",
+      "afbeelding_herkomst": "https://stekkerdeal.nl/product-images/HYXi_Halo.png",
+      "afbeelding_via": "https://stekkerdeal.nl/products/hyxi-halo/"
     },
     {
       "id": "tsun-powertrunk-mau5000",
@@ -2473,10 +2491,13 @@
       "capaciteit_nominaal_kwh": 5.12,
       "vermogen_conditie": "max",
       "vermogen_bron": "TSUN noemt 2.500 W maximaal uitgangsvermogen; aan het net via het stopcontact is dat 800 W",
-      "afbeelding": null,
+      "afbeelding": "assets/producten/tsun-powertrunk-mau5000.webp",
       "zoeknamen": [
         "Plug & play thuisbatterij 5 kwh via stopcontact"
-      ]
+      ],
+      "afbeelding_bron": "foto: TSUN",
+      "afbeelding_herkomst": "https://images.exportstart.com/images/a1296/mau5000-front-617.webp",
+      "afbeelding_via": "https://www.tsun-ess.com/power-trunk-micro-ac-coupled-unit.html"
     }
   ]
 }
