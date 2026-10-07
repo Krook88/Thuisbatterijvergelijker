@@ -48,6 +48,10 @@ on:
         description: "Toon de links op de pagina waar dit stuk tekst in staat (bijvoorbeeld: acs-classic)"
         required: false
         type: string
+      bron:
+        description: "Toon de ruwe HTML rond deze termen, met | ertussen (bijvoorbeeld: product_variations|variation_id)"
+        required: false
+        type: string
       kort:
         description: "Alleen titel, treffers en links tonen, zonder de prijsdiagnose per route"
         required: false
@@ -90,4 +94,5 @@ jobs:
           ZOEK: ${{ inputs.zoek }}
           LINKS: ${{ inputs.links }}
           KORT: ${{ inputs.kort }}
+          BRON: ${{ inputs.bron }}
         run: npm run winkelpagina

@@ -103,6 +103,14 @@ const LINKS = vlag("links", "LINKS");
    een fabrikant - en dan is de diagnose per route alleen ruis: zestien regels
    per pagina die niets met de vraag te maken hebben, bij twaalf pagina's het
    grootste deel van het logboek. */
+/* Stukjes ruwe HTML rond een zoekterm, met | tussen meerdere termen.
+   --zoek kijkt alleen naar zichtbare tekst, en dat is precies wat bij een
+   winkel als Thuisbatterij.nl niet genoeg is: daar staat in beeld alleen een
+   prijsklasse ("€ 555 - € 4.950") en zit de prijs per variant in een
+   data-attribuut dat geen bezoeker leest. Om te zien of een route daarlangs
+   kan, moet je de bron zien. */
+const BRON = vlag("bron", "BRON").split("|").map((w) => w.trim()).filter(Boolean);
+const BRON_MAX = 6;
 const KORT = args.includes("--kort") || /^(1|true|ja)$/i.test(process.env.KORT || "");
 
 const urls = [
@@ -249,6 +257,21 @@ for (const url of urls) {
     console.log(`  ${links.length} link(s) met "${LINKS}" erin:`);
     for (const l of links) console.log(`    ${l.url}\n      ${l.tekst || "(geen linktekst)"}`);
     if (!links.length) console.log("    (geen link met dat stuk tekst erin)");
+  }
+
+  if (BRON.length) {
+    for (const naald of BRON) {
+      const lager = uit.html.toLowerCase();
+      let van = 0, n = 0;
+      console.log(`  bron rond "${naald}":`);
+      while (n < BRON_MAX) {
+        const i = lager.indexOf(naald.toLowerCase(), van);
+        if (i < 0) break;
+        console.log(`    [${i}] ${uit.html.slice(Math.max(0, i - 200), i + 1200).replace(/\s+/g, " ")}`);
+        van = i + naald.length; n++;
+      }
+      if (!n) console.log("    (staat niet in de bron)");
+    }
   }
 
   if (ZOEK.length) {
