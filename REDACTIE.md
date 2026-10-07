@@ -114,9 +114,10 @@ koude dag - maar uit een bron die volledig en controleerbaar is.
 Dat is ook hoe het is ingevuld. Alle dertig pompen hebben een `isde_meldcode`,
 en `data/bronnen/isde-meldcodes.csv` - de meldcodelijst van RVO, met de hand
 ververst - koppelt die code aan het thermisch vermogen volgens EU 811/2013.
-`npm run isde -- --schrijf` neemt dat over, net zoals het de subsidiebedragen
-al deed. Verversen: download het Excel-bestand bij RVO en draai
-`npm run isde:ververs <pad-naar-xlsx>`.
+`node scripts/isde-meldcodes.mjs --schrijf` (in `sites/warmtepompmaatje`)
+neemt dat over, net zoals het de subsidiebedragen al deed. Verversen: download
+het Excel-bestand bij RVO en zet de kolommen met de hand over in de csv; een
+script dat het Excel-bestand omzet bestaat (nog) niet.
 
 Let op bij de uitkomst: het vermogen wijkt vaak af van het typenummer. Een
 Ecodan 6 kW staat bij RVO op 5 kW, een Itho Amber 95 op 6 in plaats van 9,5.

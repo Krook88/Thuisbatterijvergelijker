@@ -25,7 +25,7 @@
  *     daarvan verdwenen zijn. Een aparte controle daarvoor zou dezelfde
  *     winkels een tweede keer belasten.
  *   - Bij fouten of onduidelijke pagina's blijft de oude prijs staan;
- *     alleen de datum "prijs_gecontroleerd" wordt dan NIET bijgewerkt,
+ *     alleen de datum (`datum` per aanbieding) wordt dan NIET bijgewerkt,
  *     zodat zichtbaar blijft hoe vers elke prijs is.
  *   - Het script faalt nooit hard op één winkel: fouten worden gelogd
  *     en de rest gaat door.

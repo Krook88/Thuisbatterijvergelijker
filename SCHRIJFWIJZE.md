@@ -136,7 +136,8 @@ niet. Over alle 150 staat de teller op 92 van 586. Die 92 stonden er dus al;
 er keek alleen niets naar. Ze zijn niet in één keer weg te schrijven zonder er
 iets bij te verzinnen, en dat is precies wat deze controle moet voorkomen. Er
 staat daarom voorlopig een plafond van 92 in plaats van een nul, met dezelfde
-afspraak: het mag alleen omlaag.
+afspraak: het mag alleen omlaag. In oktober 2026 staat het op 10
+(`CLAIM_BUDGET` in `scripts/slop.mjs`).
 
 Loop je erop vast bij een alinea die echt geen getal hoort te dragen, dan is de
 uitweg om hem korter dan 25 woorden te maken, of om er de bron bij te zetten
@@ -175,7 +176,8 @@ erboven, dan valt de run. Wordt het minder, zet het plafond dan omlaag; dat is
 de bedoeling.
 
 Ook hier gold die 62 maar voor 44 pagina's. Over alle 150 zijn het er 276, en
-daar staat het plafond nu. Dezelfde afspraak: alleen omlaag.
+daar stond het plafond toen. Dezelfde afspraak: alleen omlaag. In oktober 2026
+staat het op 173 (`DUBBELE_PUNT_BUDGET` in `scripts/slop.mjs`).
 
 **9. Kromme zinsbouw in de eerste persoon.** "Hebben ik niet kan bevestigen."
 Deze controle kijkt als enige niet naar stijl maar naar fouten, en hij bestaat

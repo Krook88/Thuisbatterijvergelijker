@@ -38,9 +38,9 @@ scripts/update-prices.mjs       Prijsupdate-script (Node.js), voor gekoppelde wi
 
 ## Hosting
 
-De site staat in de repository [Krook88/Zonnemaatje](https://github.com/Krook88/Zonnemaatje) en draait op **Vercel** (team `the-rook`, project `zonnemaatje`), bereikbaar op <https://zonnestroommaatje.nl/>. `www.zonnestroommaatje.nl` stuurt met een 308 door naar het apex-domein.
+De site staat in de monorepo `Krook88/Thuisbatterijvergelijker` (map `sites/zonnestroommaatje`, ingesteld als Root Directory in Vercel) en draait op **Vercel** (project `zonnestroommaatje`), bereikbaar op <https://zonnestroommaatje.nl/>. `www.zonnestroommaatje.nl` stuurt met een 308 door naar het apex-domein.
 
-Publiceren gaat automatisch: elke push naar `main` levert een nieuwe productiedeploy op. Er is geen build-stap en geen framework ingesteld; Vercel serveert de repository als statische site. Pushes naar andere branches krijgen een preview-URL, zonder invloed op het domein.
+Publiceren gaat automatisch: elke push naar de productietak `claude/home-battery-comparison-nl-qxolhe` levert een nieuwe productiedeploy op; zie [BIJDRAGEN.md](../../BIJDRAGEN.md). Er is geen build-stap en geen framework ingesteld; Vercel serveert de repository als statische site. Pushes naar andere branches krijgen een preview-URL, zonder invloed op het domein.
 
 Twee dingen zijn goed om te weten:
 

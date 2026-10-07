@@ -3,9 +3,9 @@
 Deze site is statisch (geen build-stap). Vercel serveert de bestanden precies zoals ze in
 de repository staan; `vercel.json` regelt alleen cache- en beveiligingsheaders.
 
-Dezelfde aanpak geldt voor de zustersites (Zonnemaatje → zonnestroommaatje.nl,
-Warmtepompmaatje → warmtepompmaatje.nl): één Vercel-project per repository, één domein
-per project.
+Dezelfde aanpak geldt voor de zustersites (zonnestroommaatje.nl en warmtepompmaatje.nl):
+alle drie staan in deze ene repository, met één Vercel-project per site en één domein
+per project. Het verschil zit in de Root Directory (zie §7).
 
 ---
 
@@ -16,7 +16,8 @@ per project.
    (De eerste keer moet je de Vercel GitHub-app toegang geven tot de repository.)
 3. Instellingen bij het importeren:
    - **Framework Preset**: `Other`
-   - **Root Directory**: `./`
+   - **Root Directory**: `sites/batterijmaatje` (of `sites/zonnestroommaatje`,
+     `sites/warmtepompmaatje` voor de zustersites)
    - **Build Command**: leeg laten (staat al uit via `vercel.json`)
    - **Output Directory**: leeg laten
    - **Install Command**: leeg laten
@@ -36,7 +37,8 @@ vanzelf.
 
 Aanbevolen opruimactie: hernoem de standaardbranch op GitHub naar `main`, zet Branch
 Tracking in Vercel op `main` en pas de branchnaam in
-`.github/workflows/update-prijzen.yml` aan.
+`.github/workflows/kern-gelijk.yml` (`on.push.branches`) aan. `update-prijzen.yml`
+noemt geen tak: die draait op de standaardtak.
 
 ### Automatisch opnieuw publiceren
 

@@ -1,5 +1,5 @@
 {
-  "toelichting": "Echte winkeltitels met wat scripts/nieuwe-modellen.mjs ervan hoort te maken. 'bekend' = dit staat al in data/, 'nieuw' = dit hoort gemeld te worden, 'genegeerd' = dit is geen product voor deze site. Draai met: npm run modellen:proef. Deze site is de lastigste: wij noteren series ('IQ8-serie', 'SUN2000 L1') en winkels noteren exacte types ('IQ8HC', 'SUN2000-5KTL-L1'), dus juist hier moet de proef bewaken dat de herkenning niet te streng en niet te ruim staat.",
+  "toelichting": "Echte winkeltitels met wat scripts/nieuwe-modellen.mjs ervan hoort te maken. 'bekend' = dit staat al in data/, 'nieuw' = dit hoort gemeld te worden, 'genegeerd' = dit is geen product voor deze site. Draai met: npm run nieuwe-modellen:proef in de site, of npm run modellen in de wortel. Deze site is de lastigste: wij noteren series ('IQ8-serie', 'SUN2000 L1') en winkels noteren exacte types ('IQ8HC', 'SUN2000-5KTL-L1'), dus juist hier moet de proef bewaken dat de herkenning niet te streng en niet te ruim staat.",
   "titels": [
     {
       "titel": "Jinko Solar 440Wp Tiger Neo N-type all black zonnepaneel",

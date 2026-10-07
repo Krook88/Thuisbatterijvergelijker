@@ -1,5 +1,5 @@
 {
-  "toelichting": "Echte winkeltitels met wat scripts/nieuwe-modellen.mjs ervan hoort te maken. 'bekend' = dit staat al in data/, 'nieuw' = dit hoort gemeld te worden, 'genegeerd' = dit is geen product voor deze site. Draai met: npm run modellen:proef. Voeg hier een regel toe zodra een melding onterecht blijkt - dan kan diezelfde fout niet terugkomen. Een regel kan ook 'buur' zetten: het model waar de melding volgens ons het dichtst bij zit. Een verkeerde buur is geen fout in bekend/nieuw en zou dus onzichtbaar blijven, terwijl hij de lezer wel het verkeerde model aanwijst.",
+  "toelichting": "Echte winkeltitels met wat scripts/nieuwe-modellen.mjs ervan hoort te maken. 'bekend' = dit staat al in data/, 'nieuw' = dit hoort gemeld te worden, 'genegeerd' = dit is geen product voor deze site. Draai met: npm run nieuwe-modellen:proef in de site, of npm run modellen in de wortel. Voeg hier een regel toe zodra een melding onterecht blijkt - dan kan diezelfde fout niet terugkomen. Een regel kan ook 'buur' zetten: het model waar de melding volgens ons het dichtst bij zit. Een verkeerde buur is geen fout in bekend/nieuw en zou dus onzichtbaar blijven, terwijl hij de lezer wel het verkeerde model aanwijst.",
   "titels": [
     {
       "titel": "Marstek Venus E 3.0 Thuisbatterij 5,12 kWh incl. P1-meter",

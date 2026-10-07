@@ -36,7 +36,7 @@ vercel.json                     Cache- en beveiligingsheaders voor Vercel
 
 ## De vergelijker staat in de HTML
 
-`index.html` bevat de 41 kaarten kant-en-klaar tussen de markeringen
+`index.html` bevat alle kaarten kant-en-klaar tussen de markeringen
 `<!-- kaarten:begin -->` en `<!-- kaarten:eind -->`. Die worden geschreven door
 `scripts/genereer-batterijpaginas.mjs`, met de opmaak uit `assets/kaart.js` -
 dezelfde module die de browser gebruikt, zodat er geen verschil kan ontstaan.
@@ -131,7 +131,7 @@ Andere branches krijgen een preview-URL die als testomgeving dient.
 
 Cache- en beveiligingsheaders staan in `vercel.json`. Het opzetten van een project, het
 koppelen van een domein en de bijbehorende DNS-stappen staan in
-[VERCEL-DEPLOY.md](VERCEL-DEPLOY.md).
+[VERCEL-DEPLOY.md](../../VERCEL-DEPLOY.md).
 
 ## Dagelijkse prijsupdate
 
@@ -144,7 +144,7 @@ De workflow `update-prijzen.yml` draait elke ochtend en:
 
 Winkels die zich niet automatisch laten uitlezen behouden de laatst bekende prijs. De datum van de laatste succesvolle controle staat per aanbieding in het databestand en per batterij zichtbaar op de site.
 
-Handmatig draaien kan ook: `node scripts/update-prices.mjs` (Node.js 18 of hoger) of via **Actions → Dagelijkse prijsupdate → Run workflow**.
+Handmatig draaien kan ook: `node scripts/update-prices.mjs` (Node.js 20 of hoger) of via **Actions → Dagelijkse prijsupdate → Run workflow**.
 
 ### Bol.com
 
@@ -164,7 +164,7 @@ prijzen.
 
 ## Data bijwerken of batterijen toevoegen
 
-Alle inhoud staat in `data/batterijen.json`. Voeg een object toe aan de `batterijen`-array met dezelfde velden als de bestaande items. De site pikt nieuwe items automatisch op; er is geen build-stap.
+Alle inhoud staat in `data/batterijen.json`. Voeg een object toe aan de `batterijen`-array volgens [DATASCHEMA.md](../../DATASCHEMA.md) en draai daarna `npm run genereer`: de kaarten, productpagina's en sitemap worden vooraf gegenereerd. De volledige stappen staan in [BIJDRAGEN.md](../../BIJDRAGEN.md).
 
 ## Contactformulier en linkcontrole
 
@@ -174,7 +174,7 @@ Zonder inloggegevens toont het formulier netjes het mailadres in plaats van beri
 verliezen. De linkcontrole draait mee in de dagelijkse
 prijsupdate: het prijsscript meldt zelf welke winkelpagina's verdwenen zijn (het bezoekt
 ze toch al), en `controleer-links.mjs` doet de interne links en de overige externe links. Beide staan uitgelegd in
-[VERCEL-DEPLOY.md](VERCEL-DEPLOY.md).
+[VERCEL-DEPLOY.md](../../VERCEL-DEPLOY.md).
 
 ## Disclaimer
 

@@ -8,8 +8,13 @@ Drie onafhankelijke vergelijkingssites in één repository:
 | `sites/zonnestroommaatje` | zonnestroommaatje.nl | zonnepanelen en omvormers |
 | `sites/warmtepompmaatje` | warmtepompmaatje.nl | warmtepompen |
 
-Elke site is statisch: geen build-stap, geen framework. In de map van elke site
+Elke site is statisch: geen framework, en de HTML wordt vooraf gegenereerd uit
+de gegevens (`npm run genereer` per site) en gecommit. In de map van elke site
 staat een eigen `README.md` met de details van die site.
+
+Hoe je een product toevoegt, naar productie gaat en welke controle waar draait,
+staat in [BIJDRAGEN.md](BIJDRAGEN.md). Alle velden van de databestanden staan in
+[DATASCHEMA.md](DATASCHEMA.md).
 
 ## Waarom één repository
 
@@ -62,6 +67,7 @@ precies wat CI ook doet:
 | Commando | Wat het bewaakt |
 | --- | --- |
 | `npm run kern:controleer` | de sites lopen gelijk met `kern/`, en de `?v=`-nummers binnen een site lopen gelijk |
+| `node scripts/cachestempel.mjs --controleer` | css of js onder `assets/` is veranderd zonder een nieuwe `?v=`-stempel |
 | `npm test` | de proeven bij het prijsrekenen en het uitlezen van winkelpagina's |
 | `npm run modellen` | het herkennen van modelnamen, dat anders stil faalt |
 | `npm run workflows` | stappen die naar een stap in een ander blok verwijzen en zichzelf daardoor overslaan |
@@ -167,9 +173,10 @@ dragen. Google toont een productresultaat - foto, prijs, beschikbaarheid naast
 het blauwe linkje - alleen als allebei er staan. Dat is niet aan de pagina te
 zien, want die werkt gewoon.
 
-`npm test` draait meer proeven dan er staan: de vier testbestanden uit `kern/`
-worden naar elke site gekopieerd en dus vier keer uitgevoerd, wat van de 431
-proeven er 328 een echo maakt. Dat is geen slordigheid maar de prijs van een
+`npm test` draait meer proeven dan er staan: de testbestanden uit `kern/`
+worden naar elke site gekopieerd en dus vier keer uitgevoerd, waardoor een
+flink deel van de proeven een echo is (in oktober 2026 waren het er 719, ruim
+400 daarvan kopie). Dat is geen slordigheid maar de prijs van een
 keuze die ergens anders zijn nut heeft: de dagelijkse prijsrun draait per site
 `npm test` in de map van díé site, vóórdat hij prijzen wegschrijft. Daar wil je
 de bestanden toetsen die dat script straks importeert, en niet een kopie

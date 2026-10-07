@@ -1,5 +1,5 @@
 {
-  "toelichting": "Echte winkeltitels met wat scripts/nieuwe-modellen.mjs ervan hoort te maken. 'bekend' = dit staat al in data/, 'nieuw' = dit hoort gemeld te worden, 'genegeerd' = dit is geen product voor deze site. Draai met: npm run modellen:proef. Bundels horen 'nieuw' te geven: die nemen we op (REDACTIE.md), met het veld 'omvat' erbij.",
+  "toelichting": "Echte winkeltitels met wat scripts/nieuwe-modellen.mjs ervan hoort te maken. 'bekend' = dit staat al in data/, 'nieuw' = dit hoort gemeld te worden, 'genegeerd' = dit is geen product voor deze site. Draai met: npm run nieuwe-modellen:proef in de site, of npm run modellen in de wortel. Bundels horen 'nieuw' te geven: die nemen we op (REDACTIE.md), met het veld 'omvat' erbij.",
   "titels": [
     {
       "titel": "Daikin Altherma 3 R W lucht-water warmtepomp split unit 6 kW",

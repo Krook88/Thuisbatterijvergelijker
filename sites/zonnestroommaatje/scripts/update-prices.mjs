@@ -10,7 +10,7 @@
  *   - Een nieuwe prijs wordt alleen overgenomen als hij plausibel is
  *     (tussen 40% en 250% van de laatst bekende prijs).
  *   - Bij fouten of onduidelijke pagina's blijft de oude prijs staan;
- *     alleen de datum "prijs_gecontroleerd" wordt dan NIET bijgewerkt,
+ *     alleen de datum (`datum` per aanbieding) wordt dan NIET bijgewerkt,
  *     zodat zichtbaar blijft hoe vers elke prijs is.
  *   - Het script faalt nooit hard op één winkel: fouten worden gelogd
  *     en de rest gaat door.
