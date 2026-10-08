@@ -19,8 +19,9 @@
 import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { prijsUitPagina, sluitBrowser, browserBeschikbaar, zonderExclBijschrift } from "./prijs-uitlezen.mjs";
-import { voorraadVolgensWinkel, verwerkVoorraad, verwerkBereikbaarheid, paginaWeg } from "./voorraad.mjs";
+import { prijsUitPagina, sluitBrowser, browserBeschikbaar, btwVolgensPagina } from "./prijs-uitlezen.mjs";
+import { voorraadVolgensWinkel, verwerkVoorraad, meldBereikbaarheid, paginaWeg } from "./voorraad.mjs";
+import { bolApiPrijs, bolBeschikbaar } from "./bol.mjs";
 import { nieuweSignalen, noteerFout, haalMetTerugval, verzamelVerouderd, puntenVan, toonSignalen } from "./prijs-signalen.mjs";
 import { vergelijk, leesBekend, schrijfBekend, meldAandacht } from "./prijs-aandacht.mjs";
 
@@ -50,77 +51,13 @@ const ALLEEN_BTW = process.argv.includes("--alleen-btw");
 
 const VANDAAG = new Date().toISOString().slice(0, 10);
 
-/* Zie verwerkBereikbaarheid in voorraad.mjs: een pagina die twee dagen weg is,
-   krijgt op de site geen link meer, en krijgt hem terug als hij er weer is. */
-function meldBereikbaarheid(item, aanbieding, bereikbaar) {
-  const uitkomst = verwerkBereikbaarheid(aanbieding, bereikbaar, VANDAAG);
-  if (uitkomst === "weg") console.log(`  ! ${item.id} @ ${aanbieding.winkel}: pagina weg sinds ${aanbieding.weg_sinds}, de site toont deze winkel nu zonder link`);
-  if (uitkomst === "terug") console.log(`  ! ${item.id} @ ${aanbieding.winkel}: pagina is terug, de link komt weer op de site`);
-}
 
 // Alleen kijken, niets wegschrijven: laat zien welke prijs het script zou
 // vinden zonder de gegevens aan te raken. Zo is een wijziging aan het uitlezen
 // te controleren voordat hij de site haalt.
 const DROOG = process.argv.includes("--droog");
 
-/* ------------------------------------------------------------------
-   Bol.com Marketing Catalog API (officiële partnerroute).
-   Bol blokkeert gewone scraping (403); met partner-inloggegevens halen
-   we prijzen op via de API. Zonder BOL_CLIENT_ID/BOL_CLIENT_SECRET in
-   de omgeving wordt dit overgeslagen en blijft de oude prijs staan.
-   Auth: https://api.bol.com/marketing/docs/catalog-api/authentication.html
-   ------------------------------------------------------------------ */
-
-const BOL_CLIENT_ID = process.env.BOL_CLIENT_ID || "";
-const BOL_CLIENT_SECRET = process.env.BOL_CLIENT_SECRET || "";
-let bolToken = null;
-
-async function haalBolToken() {
-  if (!BOL_CLIENT_ID || !BOL_CLIENT_SECRET) return null;
-  if (bolToken) return bolToken;
-  const res = await fetch("https://login.bol.com/token?grant_type=client_credentials", {
-    method: "POST",
-    headers: {
-      "Authorization": "Basic " + Buffer.from(`${BOL_CLIENT_ID}:${BOL_CLIENT_SECRET}`).toString("base64"),
-      "Accept": "application/json",
-    },
-  });
-  if (!res.ok) throw new Error(`bol-token HTTP ${res.status}`);
-  bolToken = (await res.json()).access_token;
-  return bolToken;
-}
-
-// Defensief: vind de eerste plausibele price-waarde in de API-respons,
-// zodat kleine wijzigingen in het responsformaat ons niet breken.
-function zoekPrijsInRespons(obj) {
-  if (obj == null || typeof obj !== "object") return null;
-  if (Array.isArray(obj)) {
-    for (const x of obj) { const p = zoekPrijsInRespons(x); if (p) return p; }
-    return null;
-  }
-  if (typeof obj.price === "number" && obj.price >= 20 && obj.price <= 2000) return obj.price;
-  for (const k of Object.keys(obj)) {
-    const p = zoekPrijsInRespons(obj[k]);
-    if (p) return p;
-  }
-  return null;
-}
-
-async function bolApiPrijs(aanbieding) {
-  const token = await haalBolToken();
-  if (!token) return null;
-  const m = (aanbieding.url || "").match(/\/(\d{8,})\/?$/);
-  if (!m) { console.log(`  ~ bol-API: geen product-id herkend in ${aanbieding.url}`); return null; }
-  const res = await fetch(`https://api.bol.com/marketing/catalog/v1/products/${m[1]}/offers/best?country-code=NL`, {
-    headers: { "Authorization": `Bearer ${token}`, "Accept": "application/json" },
-  });
-  if (!res.ok) {
-    console.log(`  ~ bol-API ${m[1]}: HTTP ${res.status} (respons kort: ${(await res.text()).slice(0, 120)})`);
-    return null;
-  }
-  const prijs = zoekPrijsInRespons(await res.json());
-  return prijs ? Math.round(prijs) : null;
-}
+/* Bol.com: zie kern/scripts/bol.mjs. */
 
 /* ------------------------------------------------------------------
    Btw-signaal.
@@ -134,31 +71,6 @@ async function bolApiPrijs(aanbieding) {
    ------------------------------------------------------------------ */
 
 const btwTwijfel = [];
-
-function btwVolgensPagina(html) {
-  let tekst = html
-    .replace(/<script[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style[\s\S]*?<\/style>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/gi, " ")
-    .toLowerCase()
-    // Een zin over een heffing of verzendkosten zegt niets over de prijs van
-    // het product. Multi Solar noemt de Belgische Bebat-bijdrage "per kg excl.
-    // btw", en daardoor leek de hele pagina excl. btw terwijl de prijs van de
-    // Venus D gewoon inclusief was.
-    .split(/(?<=[.!?])\s+/)
-    .filter((zin) => !/(bebat|recupel|bijdrage|heffing|verzendkosten|per kg)/.test(zin))
-    .join(" ")
-    // NKON: "€ 1.924,95 excl. btw: € 1.590,87" is een prijs inclusief met
-    // een bijschrift. Zie zonderExclBijschrift in prijs-uitlezen.mjs.
-    .replace(/&euro;|&#8364;|&#x20ac;/gi, "€");
-  tekst = zonderExclBijschrift(tekst);
-  const exclusief = /\b(excl\.?|exclusief|ex\.)\s*(btw|b\.t\.w)/.test(tekst);
-  const inclusief = /\b(incl\.?|inclusief|in\.)\s*(btw|b\.t\.w)/.test(tekst);
-  if (exclusief && !inclusief) return false;
-  if (inclusief && !exclusief) return true;
-  return null;
-}
 
 function meldBtw(product, aanbieding, html) {
   const volgensPagina = btwVolgensPagina(html);
@@ -197,9 +109,9 @@ async function updateAanbieding(paneel, aanbieding, grenzen, signalen) {
   if (!aanbieding.url) return false;
   try {
     let nieuw;
-    if (/www\.bol\.com/.test(aanbieding.url) && BOL_CLIENT_ID && BOL_CLIENT_SECRET) {
+    if (/www\.bol\.com/.test(aanbieding.url) && bolBeschikbaar()) {
       if (ALLEEN_BTW) return false;
-      nieuw = await bolApiPrijs(aanbieding);
+      nieuw = await bolApiPrijs(aanbieding, { grenzen });
     } else {
       // Zegt de winkel zelf dat alle varianten uitverkocht zijn (Shopify), dan
       // telt de aanbieding niet mee, ook al staat het bedrag nog in de pagina.
@@ -217,7 +129,7 @@ async function updateAanbieding(paneel, aanbieding, grenzen, signalen) {
       }
       const gehaald = await haalMetTerugval(aanbieding.url, (h) =>
         prijsUitPagina(h, productNaam(paneel), { ...grenzen, lowPriceTelt: true }));
-      meldBereikbaarheid(paneel, aanbieding, true);
+      meldBereikbaarheid(paneel, aanbieding, true, VANDAAG);
       const html = gehaald.html;
       if (grenzen.btwControle) meldBtw(paneel, aanbieding, html);
       if (ALLEEN_BTW) return false;
@@ -243,7 +155,7 @@ async function updateAanbieding(paneel, aanbieding, grenzen, signalen) {
     return veranderd;
   } catch (err) {
     console.log(`  x ${paneel.id} @ ${aanbieding.winkel}: ${err.message} (oude prijs blijft staan)`);
-    if (paginaWeg(err) && !/www\.bol\.com/.test(aanbieding.url)) meldBereikbaarheid(paneel, aanbieding, false);
+    if (paginaWeg(err) && !/www\.bol\.com/.test(aanbieding.url)) meldBereikbaarheid(paneel, aanbieding, false, VANDAAG);
     // Een 403 en een 404 vragen om iets heel anders; op één hoop is de melding
     // niets waard. Zie kern/scripts/prijs-signalen.mjs.
     noteerFout(signalen, { id: paneel.id, winkel: aanbieding.winkel, url: aanbieding.url }, err);

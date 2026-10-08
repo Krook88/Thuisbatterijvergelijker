@@ -37,6 +37,7 @@ import {
   prijsUitTekst,
   prijsUitPagina,
   toontExclBtw,
+  btwVolgensPagina,
   zonderExclBijschrift,
   controleerbaar,
   bedragenMetContext,
@@ -552,4 +553,14 @@ test("prijsBijVariant: het bedrag direct na de genoemde uitvoering", () => {
   assert.equal(prijsBijVariant(keuzelijst, { variant: "Bestaat niet" }), null);
   assert.equal(prijsUitPagina(keuzelijst, "TSUN MAU 5000", { route: "bij variant", variant: "Powerness Express" }).prijs, 899);
   assert.notEqual(prijsUitPagina(keuzelijst, "TSUN MAU 5000").hoe, "bij variant", "alleen op verzoek");
+});
+
+test("de btw-controle van de prijsscripts: alleen een eenduidige pagina, heffingen tellen niet", () => {
+  assert.equal(btwVolgensPagina("<p>€ 1.000,00 incl. btw</p>"), true);
+  assert.equal(btwVolgensPagina("<p>€ 826,45 excl. btw</p>"), false);
+  assert.equal(btwVolgensPagina("<p>Geen woord over belasting.</p>"), null);
+  // Multi Solar: de Bebat-bijdrage "per kg excl. btw" zegt niets over de prijs.
+  assert.equal(btwVolgensPagina("<p>€ 1.299 incl. btw.</p><p>Bebat-bijdrage per kg excl. btw.</p>"), true);
+  // NKON: een bijschrift excl. btw onder een prijs incl. btw.
+  assert.equal(btwVolgensPagina("<p>€ 1.924,95</p><p>excl. btw: € 1.590,87</p>"), null);
 });

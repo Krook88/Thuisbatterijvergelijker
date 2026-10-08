@@ -127,6 +127,17 @@ export function verwerkBereikbaarheid(aanbieding, bereikbaar, vandaag) {
   return "eerste keer";
 }
 
+/**
+ * verwerkBereikbaarheid plus de regel in het logboek. Stond woord voor woord in
+ * alle drie de prijsscripts.
+ */
+export function meldBereikbaarheid(item, aanbieding, bereikbaar, vandaag) {
+  const uitkomst = verwerkBereikbaarheid(aanbieding, bereikbaar, vandaag);
+  if (uitkomst === "weg") console.log(`  ! ${item.id} @ ${aanbieding.winkel}: pagina weg sinds ${aanbieding.weg_sinds}, de site toont deze winkel nu zonder link`);
+  if (uitkomst === "terug") console.log(`  ! ${item.id} @ ${aanbieding.winkel}: pagina is terug, de link komt weer op de site`);
+  return uitkomst;
+}
+
 /** Betekent deze fout dat de pagina weg is (en niet: dat de winkel ons weert)? */
 export function paginaWeg(err) {
   const status = (String(err && err.message).match(/HTTP (\d+)/) || [])[1];

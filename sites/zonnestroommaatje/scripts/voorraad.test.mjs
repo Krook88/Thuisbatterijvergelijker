@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { shopifyJsonAdres, leverbaarUitShopify, voorraadVolgensWinkel, verwerkVoorraad, verwerkBereikbaarheid, paginaWeg } from "./voorraad.mjs";
+import { shopifyJsonAdres, leverbaarUitShopify, voorraadVolgensWinkel, verwerkVoorraad, verwerkBereikbaarheid, meldBereikbaarheid, paginaWeg } from "./voorraad.mjs";
 
 test("een Shopify-productpagina krijgt het adres van zijn product-JSON", () => {
   assert.equal(
@@ -97,4 +97,13 @@ test("alleen 404, 410 en geen antwoord tellen als verdwenen pagina", () => {
   assert.equal(paginaWeg(new Error("HTTP 403")), false);
   assert.equal(paginaWeg(new Error("HTTP 500")), false);
   assert.equal(paginaWeg(new Error("HTTP 429")), false);
+});
+
+test("meldBereikbaarheid doet hetzelfde als verwerkBereikbaarheid en geeft de uitkomst terug", () => {
+  const a = { winkel: "Winkel", url: "https://example.nl/p", prijs_eur: 100, datum: "2026-10-01" };
+  assert.equal(meldBereikbaarheid({ id: "x" }, a, false, "2026-10-07"), "eerste keer");
+  assert.equal(meldBereikbaarheid({ id: "x" }, a, false, "2026-10-08"), "weg");
+  assert.equal(a.niet_leverbaar_door, "pagina weg");
+  assert.equal(meldBereikbaarheid({ id: "x" }, a, true, "2026-10-09"), "terug");
+  assert.equal(a.niet_leverbaar, undefined);
 });

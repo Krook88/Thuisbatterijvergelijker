@@ -720,6 +720,37 @@ export function zonderExclBijschrift(tekst) {
   );
 }
 
+// Kijkt of de pagina onmiskenbaar over prijzen excl. of incl. btw spreekt:
+// true (incl.), false (excl.) of null. Strenger dan toontExclBtw, en daarom
+// voor de btw-controle van batterijmaatje en zonnestroommaatje: die meldt een
+// afwijking aan een mens in plaats van een prijs om te rekenen.
+// Staan beide er, of geen van beide, dan zegt de pagina er te weinig over en
+// houden we onze mond; alleen een eenduidig signaal is het melden waard.
+export function btwVolgensPagina(html) {
+  let tekst = html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .toLowerCase()
+    // Een zin over een heffing of verzendkosten zegt niets over de prijs van
+    // het product. Multi Solar noemt de Belgische Bebat-bijdrage "per kg excl.
+    // btw", en daardoor leek de hele pagina excl. btw terwijl de prijs van de
+    // Venus D gewoon inclusief was.
+    .split(/(?<=[.!?])\s+/)
+    .filter((zin) => !/(bebat|recupel|bijdrage|heffing|verzendkosten|per kg)/.test(zin))
+    .join(" ")
+    // NKON: "€ 1.924,95 excl. btw: € 1.590,87" is een prijs inclusief met
+    // een bijschrift. Zie zonderExclBijschrift hierboven.
+    .replace(/&euro;|&#8364;|&#x20ac;/gi, "€");
+  tekst = zonderExclBijschrift(tekst);
+  const exclusief = /\b(excl\.?|exclusief|ex\.)\s*(btw|b\.t\.w)/.test(tekst);
+  const inclusief = /\b(incl\.?|inclusief|in\.)\s*(btw|b\.t\.w)/.test(tekst);
+  if (exclusief && !inclusief) return false;
+  if (inclusief && !exclusief) return true;
+  return null;
+}
+
 /**
  * Wat de pagina in gewone tekst over btw zegt. Een signaal, geen bewijs: de zin
  * kan ook over verzendkosten of een ander artikel gaan. Daarom alleen een
