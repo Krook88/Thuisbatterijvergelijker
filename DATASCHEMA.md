@@ -10,6 +10,11 @@ Er bestaat geen formeel schema (JSON Schema of iets dergelijks). Wat hier
 "verplicht" heet, is wat de generator, de proeven of de vergelijker nodig
 hebben om niet stil iets verkeerds te tonen.
 
+`npm run dataschema` (`scripts/dataschema.mjs`, ook onderdeel van `npm run
+controle` en CI) bewaakt de kern hiervan: de velden en waarden van een
+aanbieding, het id, de datums en de velden met een vaste reeks waarden. Voeg
+je een veld of waarde toe, zet hem daar en hier tegelijk.
+
 ## Inhoud
 
 1. Algemene regels voor alle sites

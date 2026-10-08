@@ -11,6 +11,7 @@
     "kern:controleer": "node scripts/kern-verdelen.mjs --controleer",
     "test": "node --test kern/scripts/*.test.mjs sites/*/scripts/*.test.mjs scripts/*.test.mjs",
     "modellen": "node scripts/modelherkenning.mjs",
+    "dataschema": "node scripts/dataschema.mjs",
     "stempel": "node scripts/cachestempel.mjs",
     "workflows": "node scripts/workflow-verwijzingen.mjs",
     "datums": "node scripts/datumteksten.mjs --streng",
@@ -23,6 +24,6 @@
     "bronnen": "node scripts/bronnen-nakijken.mjs",
     "fotos": "node scripts/productfotos.mjs",
     "menubreedte": "node scripts/menubreedte.mjs",
-    "controle": "npm run kern:controleer && node scripts/cachestempel.mjs --controleer && npm test && npm run modellen && npm run workflows && npm run datums && npm run llms && npm run slop && npm run keuring && npm run menubreedte && npm run dode-regels"
+    "controle": "npm run kern:controleer && node scripts/cachestempel.mjs --controleer && npm test && npm run dataschema && npm run modellen && npm run workflows && npm run datums && npm run llms && npm run slop && npm run keuring && npm run menubreedte && npm run dode-regels"
   }
 }

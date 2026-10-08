@@ -57,6 +57,11 @@ jobs:
       - name: Proeven draaien
         run: npm test
 
+      # De vorm van de productgegevens: een tikfout als "btw_inbegrepen":
+      # "false" (tekst, dus waar) of een onbekend veld doet anders stil niets.
+      - name: Gegevens tegen DATASCHEMA.md
+        run: npm run dataschema
+
       - name: Herkenning van modelnamen toetsen
         run: npm run modellen
 
