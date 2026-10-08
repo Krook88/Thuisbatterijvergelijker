@@ -37,7 +37,8 @@
           "winkel": "Zonnige Winkel",
           "prijs_eur": 109,
           "url": "https://zonnigewinkel.nl/product/enphase-micro-omvormer-iq8hc/",
-          "datum": "2026-10-06"
+          "datum": "2026-10-06",
+          "btw_inbegrepen": false
         },
         {
           "winkel": "Winkelman Zonnepanelen",
@@ -166,9 +167,10 @@
       "aanbiedingen": [
         {
           "winkel": "Zonnige Winkel",
-          "prijs_eur": 1050,
+          "prijs_eur": 370,
           "url": "https://zonnigewinkel.nl/product/solaredge-home-wave-omvormer-se5000h/",
-          "datum": null
+          "datum": "2026-10-08",
+          "btw_inbegrepen": false
         }
       ],
       "samensteller": {
@@ -224,23 +226,7 @@
         "status": "deels",
         "tekst": "Community-app voor SMA in de Homey App Store (lokaal via het netwerk)."
       },
-      "aanbiedingen": [
-        {
-          "winkel": "Memodo",
-          "prijs_eur": 1750,
-          "url": "https://www.memodo.nl/omvormers/sma/7179/sma-hybride-sunny-tripower-5.0-smart-energy",
-          "datum": null,
-          "niet_leverbaar": true
-        },
-        {
-          "winkel": "Volt-shop",
-          "prijs_eur": 1800,
-          "url": "https://volt-shop.nl/product/sma-sunny-tripower-5-0-wifi-smart-energy-hybride-omvormer/",
-          "datum": null,
-          "niet_leverbaar": true,
-          "niet_leverbaar_reden": "Productpagina geeft HTTP 404, ook met een browser. Driemaal vastgesteld: 17 augustus, 3 oktober in de dagelijkse run en 3 oktober apart nagekeken."
-        }
-      ],
+      "aanbiedingen": [],
       "samensteller": {
         "soort": "centraal",
         "voorbeeld_ac_kw": 5,
@@ -352,7 +338,9 @@
           "winkel": "Zonnige Winkel",
           "prijs_eur": 1181,
           "url": "https://zonnigewinkel.nl/product/goodwe-5kn-et-hybride/",
-          "datum": "2026-10-06"
+          "datum": "2026-10-06",
+          "niet_leverbaar": true,
+          "niet_leverbaar_reden": "Het adres van de productpagina toont sinds oktober 2026 een overzicht van GoodWe-omvormers; de 5K-ET staat er niet meer tussen."
         }
       ],
       "samensteller": {
@@ -482,14 +470,6 @@
           "datum": "2026-10-08"
         },
         {
-          "winkel": "Winkelman Zonnepanelen",
-          "prijs_eur": 546,
-          "url": "https://www.winkelman-zonnepanelen.nl/growatt-min-5000tl-xh-1-fase-omvormer-hybride.html",
-          "datum": "2026-07-25",
-          "niet_leverbaar": true,
-          "niet_leverbaar_reden": "Productpagina geeft HTTP 404, ook met een browser. Driemaal vastgesteld: 17 augustus, 3 oktober in de dagelijkse run en 3 oktober apart nagekeken."
-        },
-        {
           "winkel": "WarmteBeheer",
           "prijs_eur": 620,
           "url": "https://www.warmtebeheer.nl/growatt-min-5000tl-xh-hybrid-ready-omvormer-5000w-2mppt-gratis-wifi-module.html",
@@ -554,13 +534,8 @@
           "winkel": "Zonnige Winkel",
           "prijs_eur": 799,
           "url": "https://zonnigewinkel.nl/product/solis-omvormer-hybride-s6-eh1p5klpl-1-fase/",
-          "datum": "2026-10-06"
-        },
-        {
-          "winkel": "VDH Power",
-          "prijs_eur": 900,
-          "url": "https://vdhpower.nl/winkel/omvormers/solis-s6-5kw-1-fase-hybrid-2-mppt-low-voltage",
-          "datum": null
+          "datum": "2026-10-06",
+          "btw_inbegrepen": false
         }
       ],
       "prijs_datum": "2026-10-06",
@@ -619,13 +594,6 @@
           "prijs_eur": 950,
           "url": "https://www.cvtotaal.nl/sungrow-sh5-0rt-v112-3-fase-hybride-omvormer-5000w.html",
           "datum": "2026-10-08"
-        },
-        {
-          "winkel": "Pavento Solar",
-          "prijs_eur": 1050,
-          "url": "https://paventosolar.nl/product/sungrow-sh5-0rt/",
-          "datum": null,
-          "btw_inbegrepen": false
         }
       ],
       "prijs_datum": "2026-10-08",
@@ -679,16 +647,7 @@
         "status": "nee",
         "tekst": "Geen bekende Homey-app; de opwek is wel zichtbaar in Homey Energy via de Homey Energy Dongle op de slimme meter (P1)."
       },
-      "aanbiedingen": [
-        {
-          "winkel": "Eigen Stroom Opslaan",
-          "prijs_eur": 1295,
-          "url": "https://eigenstroomopslaan.nl/product/deye-inverter-sun-5k-sg03-lp1eu/",
-          "datum": "2026-08-27",
-          "btw_inbegrepen": false,
-          "niet_leverbaar": true
-        }
-      ],
+      "aanbiedingen": [],
       "prijs_datum": "2026-08-27",
       "samensteller": {
         "soort": "centraal",

@@ -599,12 +599,6 @@
           "prijs_eur": 5695,
           "datum": "2026-10-08",
           "omvat": "Dit is de losse buitenunit van de 5 kW-uitvoering; de richtprijs hiernaast geldt voor het complete toestel."
-        },
-        {
-          "winkel": "Woonwijzerwinkel",
-          "prijs_eur": 7500,
-          "url": "https://www.woonwijzerwinkel.nl/product/nefit-bosch-monoblock-compress-5800i-aw/",
-          "datum": null
         }
       ],
       "prijs_datum": "2026-10-08",
@@ -898,13 +892,6 @@
         "tekst": "Geen officiële app; community-oplossingen via de ISG-gateway en Modbus."
       },
       "aanbiedingen": [
-        {
-          "winkel": "Boilermarkt",
-          "prijs_eur": 7950,
-          "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-WPL-A-07-HK-230-Premium-lucht-water-warmtepomp-6-87-kW/",
-          "datum": "2026-09-14",
-          "niet_leverbaar": true
-        },
         {
           "winkel": "Wasco",
           "prijs_eur": 8812,
