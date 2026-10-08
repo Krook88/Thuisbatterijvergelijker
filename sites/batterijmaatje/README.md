@@ -158,9 +158,10 @@ De API werkt op EAN's van dertien cijfers, terwijl een bol-URL het
 bol-product-ID van zestien cijfers bevat. Het script zet dat één keer om via
 `/products/{bolProductId}/to-ean` en bewaart de gevonden EAN in
 `data/batterijen.json`, zodat een volgende run meteen de prijs kan opvragen.
-Meldt bol dat het artikel niet in de verkoop is, dan blijft de oude prijs
-staan en verschijnt de aanbieding in het overzicht van niet-bevestigde
-prijzen.
+Meldt bol dat het artikel niet in de verkoop is, dan krijgt de aanbieding
+`niet_leverbaar` en telt ze niet meer mee voor de kopprijs; heeft bol weer een
+prijs, dan gaat de markering er vanzelf af. De client zelf staat in
+`kern/scripts/bol.mjs` en is voor de drie sites dezelfde.
 
 ## Data bijwerken of batterijen toevoegen
 

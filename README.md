@@ -372,7 +372,10 @@ prijsupdate → Run workflow**.
 
 De secrets `BOL_CLIENT_ID` en `BOL_CLIENT_SECRET` staan op repositoryniveau en
 gelden dus voor alle drie. Ontbreken ze, dan slaat het prijsscript bol over en
-blijft de oude prijs staan.
+blijft de oude prijs staan. De bol-client, de btw-controle en de
+bereikbaarheidsregel staan in `kern/` (`bol.mjs`, `prijs-uitlezen.mjs`,
+`voorraad.mjs`); de lus per product blijft per site, omdat die in kWh, wattpiek
+of met een btw-omrekening rekent.
 
 ### Wat er verder elke dag meeloopt
 

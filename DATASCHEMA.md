@@ -91,7 +91,7 @@ wel in welke velden ze lezen (zie de laatste kolom).
 | `weg_sinds` | datum | nee | Gezet door de prijsupdate bij de eerste dag dat de pagina weg is; de dag erna volgt `niet_leverbaar` met `"pagina weg"`. Niet met de hand invullen. | `voorraad.mjs` |
 | `prijs_route` | `"gekozen variant"`, `"bij variant"`, of een naam uit de vaste volgorde (`"structured data"`, `"json in de pagina"`, `"meta-tag"`, `"prijsveld in de pagina"`, `"zichtbare tekst"`) | nee | Dwingt één uitleesroute af voor deze winkel. Alleen nodig als de vaste volgorde aantoonbaar het verkeerde bedrag pakt. **Werkt nu alleen op batterijmaatje**: de prijsscripts van de andere twee sites geven dit veld niet door. | batterijmaatje |
 | `prijs_variant` | tekst | bij `"bij variant"` | De tekst die op de pagina vlak vóór het juiste bedrag staat ("9,2 kWh", "Powerness Express"). Het eerste bedrag binnen 60 tekens erna is de prijs. | batterijmaatje |
-| `ean` | tekst (13 cijfers) | nee | Alleen bij bol.com. Wordt door de prijsupdate één keer opgezocht en bewaard; niet met de hand invullen. | batterijmaatje, nieuwe-modellen |
+| `ean` | tekst (13 cijfers) | nee | Alleen bij bol.com. Wordt door de prijsupdate één keer opgezocht en bewaard; niet met de hand invullen. | alle (`kern/scripts/bol.mjs`), nieuwe-modellen |
 | `affiliate_url` | tekst | nee | Commissielink. De knop gebruikt deze; de prijscontrole altijd `url`. | batterijmaatje |
 
 **Uitleesroutes.** `kern/scripts/prijs-uitlezen.mjs` probeert zonder
