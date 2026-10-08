@@ -37,7 +37,7 @@
           "winkel": "Zonnige Winkel",
           "prijs_eur": 109,
           "url": "https://zonnigewinkel.nl/product/enphase-micro-omvormer-iq8hc/",
-          "datum": "2026-10-06",
+          "datum": "2026-10-08",
           "btw_inbegrepen": false
         },
         {
@@ -194,7 +194,8 @@
         "max_dc_ac": 1.5,
         "bron": "SolarEdge S500-datasheet (tot 500 Wp per optimizer); SolarEdge staat 135-155% overdimensionering toe"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "prijs_datum": "2026-10-08"
     },
     {
       "id": "sma-tripower-smart-energy",
@@ -534,11 +535,11 @@
           "winkel": "Zonnige Winkel",
           "prijs_eur": 799,
           "url": "https://zonnigewinkel.nl/product/solis-omvormer-hybride-s6-eh1p5klpl-1-fase/",
-          "datum": "2026-10-06",
+          "datum": "2026-10-08",
           "btw_inbegrepen": false
         }
       ],
-      "prijs_datum": "2026-10-06",
+      "prijs_datum": "2026-10-08",
       "samensteller": {
         "soort": "centraal",
         "voorbeeld_ac_kw": 5,

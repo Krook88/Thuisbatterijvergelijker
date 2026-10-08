@@ -119,7 +119,7 @@
       "sinds": "2026-10-08",
       "soort": "zonder bron",
       "tekst": "saj-h2-5k-s2-10kwh: €4566 van ?, geen bron-URL",
-      "bevestigd": false
+      "bevestigd": true
     },
     "zonder bron|samduo-nex-e6000|adviesprijs fabrikant (samduo.nl, juli 2026)": {
       "sinds": "2026-08-16",
@@ -131,13 +131,19 @@
       "sinds": "2026-10-08",
       "soort": "zonder bron",
       "tekst": "sungrow-sbr096: €3985 van Sunnergie, geen bron-URL",
-      "bevestigd": false
+      "bevestigd": true
     },
     "zonder bron|sunpura-s4800|StekkerDeal-prijsvergelijking (juli 2026)": {
       "sinds": "2026-08-16",
       "soort": "zonder bron",
       "tekst": "sunpura-s4800: €1330 van StekkerDeal-prijsvergelijking (juli 2026), geen bron-URL",
       "bevestigd": true
+    },
+    "zonder prijs|aeg-solarcube-48|AH Voordeelshop": {
+      "sinds": "2026-10-08",
+      "soort": "geweigerd",
+      "tekst": "aeg-solarcube-48 @ AH Voordeelshop: HTTP 403",
+      "bevestigd": false
     },
     "zonder prijs|goodwe-lynx-home-u-54|Warmteservice": {
       "sinds": "2026-08-21",

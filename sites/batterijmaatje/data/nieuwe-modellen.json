@@ -1,4 +1,15 @@
 {
   "toelichting": "Modellen die in een winkel staan maar niet in onze gegevens. Automatisch gevonden, nooit automatisch toegevoegd: nakijken en dan zelf opnemen, of de titel in scripts/nieuwe-modellen.json onder \"afgewezen\" zetten.",
-  "kandidaten": []
+  "kandidaten": [
+    {
+      "titel": "Hoymiles - HB-4020-AC Plug-in thuisbatterij",
+      "bron": "bol.com",
+      "url": "https://www.bol.com/nl/nl/p/-/9300000385282147/",
+      "ean": "6975514334030",
+      "prijs_eur": null,
+      "lijkt_op": null,
+      "maat_uit_titel": null,
+      "eerst_gezien": "2026-10-08"
+    }
+  ]
 }

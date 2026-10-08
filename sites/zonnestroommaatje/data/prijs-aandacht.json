@@ -121,30 +121,6 @@
       "tekst": "denim-440-full-black @ Feenstra: geen leesbaar bedrag",
       "bevestigd": true
     },
-    "zonder prijs|dmegc-440-glas-glas|Stroomwinkel": {
-      "sinds": "2026-10-08",
-      "soort": "zonder bedrag",
-      "tekst": "dmegc-440-glas-glas @ Stroomwinkel: geen leesbaar bedrag",
-      "bevestigd": false
-    },
-    "zonder prijs|enphase-iq8|Zonnige Winkel": {
-      "sinds": "2026-10-07",
-      "soort": "zonder bedrag",
-      "tekst": "enphase-iq8 @ Zonnige Winkel: geen leesbaar bedrag",
-      "bevestigd": true
-    },
-    "zonder prijs|goodwe-et|Zonnige Winkel": {
-      "sinds": "2026-10-07",
-      "soort": "zonder bedrag",
-      "tekst": "goodwe-et @ Zonnige Winkel: geen leesbaar bedrag",
-      "bevestigd": true
-    },
-    "zonder prijs|growatt-min-xh|WarmteBeheer": {
-      "sinds": "2026-10-08",
-      "soort": "geweigerd",
-      "tekst": "growatt-min-xh @ WarmteBeheer: HTTP 403",
-      "bevestigd": false
-    },
     "zonder prijs|jinko-tiger-neo-440|GroothandelSolar": {
       "sinds": "2026-08-21",
       "soort": "zonder bedrag",
@@ -153,26 +129,14 @@
     },
     "zonder prijs|qcells-qtron-430|Zonnefabriek": {
       "sinds": "2026-08-21",
-      "soort": "geweigerd",
-      "tekst": "qcells-qtron-430 @ Zonnefabriek: HTTP 403",
-      "bevestigd": true
-    },
-    "zonder prijs|solaredge-home-wave|Zonnige Winkel": {
-      "sinds": "2026-10-07",
       "soort": "zonder bedrag",
-      "tekst": "solaredge-home-wave @ Zonnige Winkel: geen leesbaar bedrag",
+      "tekst": "qcells-qtron-430 @ Zonnefabriek: geen leesbaar bedrag",
       "bevestigd": true
     },
     "zonder prijs|solis-s6-hybride|VDH Power": {
       "sinds": "2026-08-21",
       "soort": "zonder bedrag",
       "tekst": "solis-s6-hybride @ VDH Power: geen leesbaar bedrag",
-      "bevestigd": true
-    },
-    "zonder prijs|solis-s6-hybride|Zonnige Winkel": {
-      "sinds": "2026-10-07",
-      "soort": "zonder bedrag",
-      "tekst": "solis-s6-hybride @ Zonnige Winkel: geen leesbaar bedrag",
       "bevestigd": true
     }
   }
