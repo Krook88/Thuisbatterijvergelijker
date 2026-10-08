@@ -859,7 +859,9 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "onbekend"
+      "scop_conditie": "onbekend",
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Weheat verkoopt rechtstreeks en toont geen prijs op de productpagina (nagekeken op 8 oktober 2026); het bedrag is een richtprijs."
     },
     {
       "id": "stiebel-wpl-a07",
@@ -1165,14 +1167,6 @@
           "prijs_eur": 4139,
           "url": "https://aircoshopnl.nl/warmtepomp/tosot-by-gree-versati-iv-10-kw-400v-r32-monoblock-lucht-water-warmtepomp-meldcode-ka22519/",
           "datum": "2026-10-08"
-        },
-        {
-          "winkel": "MaxiCool",
-          "prijs_eur": 4850,
-          "url": "https://www.maxicool.nl/nl_NL/p/tosot-by-gree-versati-iv-monobloc-warmtepomp-400v-r32-10-kw/28816/",
-          "datum": "2026-07-30",
-          "prijs_controle": "handmatig",
-          "prijs_controle_reden": "MaxiCool weigert geautomatiseerde verzoeken (HTTP 403). Deze prijs is met de hand nagekeken en moet dat ook blijven."
         }
       ],
       "prijs_datum": "2026-10-08",

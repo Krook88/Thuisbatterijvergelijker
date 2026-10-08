@@ -244,7 +244,9 @@
       "afbeelding": "assets/producten/sma-tripower-smart-energy.webp",
       "afbeelding_bron": "foto: SMA",
       "afbeelding_herkomst": "https://www.sma.de/fileadmin/_processed_/9/c/csm_Sunny-Tripower-Smart-Energy_1200x630_689f3fe5f5.jpg",
-      "afbeelding_via": "https://www.sma.de/en/products/hybrid-inverters/sunny-tripower-smart-energy"
+      "afbeelding_via": "https://www.sma.de/en/products/hybrid-inverters/sunny-tripower-smart-energy",
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is."
     },
     {
       "id": "fronius-gen24",
@@ -664,7 +666,9 @@
         "max_dc_ac": 1.35,
         "bron": "Deye SG04LP1: 3,6-12 kW, 1-fase"
       },
-      "panelen_per_eenheid": null
+      "panelen_per_eenheid": null,
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is."
     },
     {
       "id": "victron-multiplus2",

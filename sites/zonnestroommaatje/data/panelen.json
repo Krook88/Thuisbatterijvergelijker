@@ -469,7 +469,9 @@
       "prijs_omvat": "prijs per paneel, 0% btw bij levering voor een woning, excl. omvormer en installatie",
       "product_url": "https://www.csisolar.com/",
       "opmerkingen": "Gevestigde wereldspeler met 25 jaar productgarantie. Momenteel bij veel Nederlandse webshops beperkt leverbaar; vraag ook bij een installateur naar beschikbaarheid.",
-      "aanbiedingen": []
+      "aanbiedingen": [],
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is."
     },
     {
       "id": "qcells-qtron-430",
@@ -493,18 +495,13 @@
       "prijs_omvat": "prijs per paneel, 0% btw bij levering voor een woning, excl. omvormer en installatie",
       "product_url": "https://www.qcells.com/",
       "opmerkingen": "Zuid-Koreaans merk (Hanwha) met een sterke reputatie in onafhankelijke degradatietests. 25 jaar productgarantie en een bovengemiddelde vermogensgarantie van 90,6% na 25 jaar.",
-      "aanbiedingen": [
-        {
-          "winkel": "Zonnefabriek",
-          "prijs_eur": 95,
-          "url": "https://www.zonnefabriek.nl/zonnepanelen/q-cells/q-tron-blk-m-g2-435/",
-          "datum": null
-        }
-      ],
+      "aanbiedingen": [],
       "afbeelding": "assets/producten/qcells-qtron-430.webp",
       "afbeelding_bron": "foto: Zonnefabriek",
       "afbeelding_herkomst": "https://www.zonnefabriek.nl/assets/uploads/producten%20zonnepanelen/Q-cells/qcells-witruimte-2.png",
-      "afbeelding_via": "https://www.zonnefabriek.nl/zonnepanelen/q-cells/q-tron-blk-m-g2-435/"
+      "afbeelding_via": "https://www.zonnefabriek.nl/zonnepanelen/q-cells/q-tron-blk-m-g2-435/",
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Zonnefabriek verkoopt dit paneel alleen met een offerte en toont geen prijs; een andere Nederlandse winkel met een openbare prijs vond ik niet (nagezocht op 8 oktober 2026)."
     },
     {
       "id": "solarwatt-vision-am-425",

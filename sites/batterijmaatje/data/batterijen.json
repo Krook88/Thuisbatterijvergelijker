@@ -173,7 +173,9 @@
       "afbeelding": "assets/producten/sessy-5kwh.webp",
       "afbeelding_bron": "foto: Sessy",
       "afbeelding_herkomst": "https://www.sessy.nl/wp-content/uploads/2026/02/5kwh-iso.186-scaled.png",
-      "afbeelding_via": "https://www.sessy.nl/sessy-5-kwh/"
+      "afbeelding_via": "https://www.sessy.nl/sessy-5-kwh/",
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Sessy toont op de productpagina geen prijs meer (nagekeken op 8 oktober 2026); het bedrag is de prijs die er in juli 2026 stond."
     },
     {
       "id": "homewizard-plug-in-battery",
@@ -677,7 +679,9 @@
           }
         ],
         "toelichting": "Frank Energie stuurt AlphaESS-batterijen automatisch aan op day-ahead en onbalansmarkt."
-      }
+      },
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "AlphaESS toont geen prijs (nagekeken op 8 oktober 2026); het bedrag komt uit de sets van Frank Energie en blijft mensenwerk."
     },
     {
       "id": "fox-ess-ep11",
@@ -716,7 +720,9 @@
       "afbeelding_bron": "foto: Fox ESS",
       "capaciteit_soort": "onbekend",
       "totaalprijs_geschat_van_eur": 3885,
-      "totaalprijs_geschat_tot_eur": 5385
+      "totaalprijs_geschat_tot_eur": 5385,
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is."
     },
     {
       "id": "growatt-apx-10",
@@ -810,7 +816,9 @@
       "afbeelding": "assets/producten/sungrow-sbr096.webp",
       "afbeelding_bron": "foto: Sungrow",
       "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "onbekend",
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is."
     },
     {
       "id": "byd-battery-box-hvm-11",
@@ -1107,16 +1115,7 @@
       "cycli": 4000,
       "opmerkingen": "Een merk dat je veel bij installateurs tegenkomt. Sturen op dynamische EPEX-uurprijzen gaat via de SEMS+ app. Kijk goed naar wat de prijs dekt: dit is de losse module, dus omvormer en installatie komen er nog bij. Ik ben in juli 2026 overgestapt op Warmteservice als bron omdat de vorige productpagina verdween; die prijs wordt bij de eerstvolgende dagelijkse controle geverifieerd.",
       "product_url": "https://emea.goodwe.com/lynx-home-u-series-low-voltage-lithium-battery",
-      "aanbiedingen": [
-        {
-          "winkel": "Warmteservice",
-          "prijs_eur": 2383,
-          "url": "https://www.warmteservice.nl/Duurzaam/Thuisbatterij/GoodWe-Lynx-Home-(U-serie)-thuisbatterij-lithium/p/09601000",
-          "datum": null,
-          "prijs_controle": "handmatig",
-          "prijs_controle_reden": "Warmteservice weigert geautomatiseerde verzoeken (HTTP 403). Deze prijs is met de hand nagekeken en moet dat ook blijven."
-        }
-      ],
+      "aanbiedingen": [],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
       "totaalprijs_toelichting": "Van dit systeem heb ik geen prijs inclusief installatie uit een bron. Dit is het toestel (2383 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
@@ -1129,7 +1128,9 @@
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "onbekend",
       "totaalprijs_geschat_van_eur": 2883,
-      "totaalprijs_geschat_tot_eur": 4383
+      "totaalprijs_geschat_tot_eur": 4383,
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Warmteservice weigert geautomatiseerde verzoeken (HTTP 403, ook met een browser) en de prijs daar is nooit bevestigd; een andere Nederlandse winkel met een openbare prijs vond ik niet (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs."
     },
     {
       "id": "solax-triple-power-t58",
@@ -1298,7 +1299,9 @@
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "onbekend",
       "totaalprijs_geschat_van_eur": 5066,
-      "totaalprijs_geschat_tot_eur": 6566
+      "totaalprijs_geschat_tot_eur": 6566,
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is."
     },
     {
       "id": "duracell-dura5",
@@ -1379,7 +1382,9 @@
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "stopcontact",
       "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van.",
-      "prijs_bron": "adviesprijs fabrikant bij de aankondiging voor Europa; de productpagina van Bluetti is verdwenen"
+      "prijs_bron": "adviesprijs fabrikant bij de aankondiging voor Europa; de productpagina van Bluetti is verdwenen",
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "De productpagina van Bluetti is verdwenen; het bedrag is de adviesprijs bij de aankondiging voor Europa."
     },
     {
       "id": "anker-solix-solarbank-max-ac",
@@ -1731,6 +1736,14 @@
           "niet_leverbaar": true,
           "prijs_controle": "handmatig",
           "prijs_controle_reden": "AH Voordeelshop weigert geautomatiseerde verzoeken (HTTP 403). Deze prijs is met de hand nagekeken en moet dat ook blijven."
+        },
+        {
+          "winkel": "AEG thuisbatterij (officieel)",
+          "prijs_eur": 1499,
+          "url": "https://aegthuisbatterij.nl/products/aeg-as-bbl09/",
+          "datum": "2026-10-08",
+          "prijs_route": "bij variant",
+          "prijs_variant": "4.8 kWh"
         }
       ],
       "totaalprijs_van_eur": 1449,
@@ -1787,7 +1800,9 @@
       "afbeelding": "assets/producten/sunpura-s4800.webp",
       "afbeelding_bron": "foto: Sunpura",
       "afbeelding_herkomst": "https://sunpuraenergy.nl/cdn/shop/files/S2400_All-In-One_-_front_view_-_3.png?v=1784618697&width=900",
-      "afbeelding_via": "https://sunpuraenergy.nl/en"
+      "afbeelding_via": "https://sunpuraenergy.nl/en",
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Sunpura toont op sunpuraenergy.nl geen prijs bij dit model (nagekeken op 8 oktober 2026); het bedrag komt uit een prijsvergelijking van juli 2026."
     },
     {
       "id": "marstek-venus-e-4",
@@ -1911,7 +1926,9 @@
       "afbeelding_bron": "foto: SAMDUO",
       "capaciteit_nominaal_kwh": 6,
       "capaciteit_soort": "bruikbaar",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "onbekend",
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Samduo.nl toont geen prijs bij dit model (nagekeken op 8 oktober 2026); het bedrag is de adviesprijs van juli 2026."
     },
     {
       "id": "voltdeer-sr5000",
