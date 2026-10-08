@@ -198,6 +198,15 @@
     if (b.vermogen_conditie === "stopcontact") {
       return { tekst: "stopcontactgrens", klasse: "maat-bruto", titel: "Dit is de 800 W die op een gedeelde groep is toegestaan, niet wat het toestel kan. " + (b.vermogen_bron || "") };
     }
+    // Een derde geval kwam uit een handleiding die een lezer opstuurde. De
+    // Zendure 4000 Mix levert in het stopcontact 800 W en het volle vermogen
+    // pas na een vaste aansluiting door een installateur. Dat is geen piek en
+    // geen stopcontactgrens. Zonder eigen label leest "4 kW continu" als iets
+    // wat je uit de doos krijgt, en bij een stekkerbatterij is dat precies de
+    // verwachting die de site niet moet wekken.
+    if (b.vermogen_conditie === "vaste-aansluiting") {
+      return { tekst: "vaste aansluiting", klasse: "maat-bruto", titel: "Dit haalt hij pas met een vaste aansluiting door een installateur; in een gewoon stopcontact levert hij 800 W. " + (b.vermogen_bron || "") };
+    }
     return null;
   }
 

@@ -165,7 +165,7 @@ for (const b of modellen) {
 console.log(`${metTreffer} van ${modellen.length} pagina's noemden een vermogen met een aanduiding erbij.`);
 console.log(`${zonderAanduiding} noemden wel getallen maar zonder aanduiding - vaak bestandsnamen of andere producten - en ${jsPaginas} hadden een browser nodig.`);
 console.log("Dit is een rapport. Overnemen doet een mens, in data/batterijen.json:");
-console.log("  vermogen_conditie: \"continu\" | \"max\" | \"stopcontact\" | \"onbekend\"");
+console.log("  vermogen_conditie: \"continu\" | \"max\" | \"stopcontact\" | \"vaste-aansluiting\" | \"onbekend\"");
 console.log("  vermogen_bron:     waar het vandaan komt, in een zin");
 
 if (process.env.GITHUB_STEP_SUMMARY) {

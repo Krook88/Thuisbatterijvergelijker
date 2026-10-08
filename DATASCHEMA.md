@@ -147,7 +147,7 @@ Afgekeurde beelden staan in `scripts/afgewezen-fotos.json`, elk met een reden.
 | `capaciteit_nominaal_kwh` | getal | 23/57 | De bruto pakketmaat, als die naast de bruikbare bekend is. Komt ook in de paginatekst, omdat winkels op die maat verkopen. |
 | `uitbreidbaar_tot_kwh` | getal of `null` | 57/57 | `null` = niet uitbreidbaar of onbekend. Volgt dezelfde maat als `capaciteit_kwh`. |
 | `vermogen_kw` | getal of `null` | 57/57 | Ontlaadvermogen. |
-| `vermogen_conditie` | tekst | 52/57 | `"continu"` (16), `"max"` (14: piek of off-grid maximum), `"stopcontact"` (9: de 800 W-grens van een gedeelde groep), `"onbekend"` (13). Ontbreekt waar `vermogen_kw` `null` is. |
+| `vermogen_conditie` | tekst | 52/57 | `"continu"` (14), `"max"` (16: piek of off-grid maximum), `"stopcontact"` (8: de 800 W-grens van een gedeelde groep), `"vaste-aansluiting"` (2: het volle vermogen pas na een vaste aansluiting door een installateur, in het stopcontact 800 W), `"onbekend"` (12). Ontbreekt waar `vermogen_kw` `null` is. |
 | `vermogen_bron` | tekst | 39/57 | Waar de conditie op gebaseerd is; komt in de tooltip. |
 | `fase` | tekst | 57/57 | Meestal `"1-fase"`, `"3-fase"` of `"beide"`; soms een zin. |
 | `installatie` | tekst | 57/57 | `"zelf"` of `"installateur"`. |
