@@ -1,0 +1,13 @@
+# Bestanden die in de repository horen, maar niet op de site. Zonder deze
+# lijst serveerde Vercel ook de scripts, de README en de interne lijsten met
+# prijssignalen en kandidaat-modellen gewoon op een eigen adres.
+#
+# Laat staan wat de pagina's of de functie nodig hebben: api/, package.json en
+# package-lock.json (nodemailer voor het contactformulier), vercel.json, en in
+# data/ alleen wat assets/*.js ophaalt.
+scripts/
+README.md
+meting-ijkpunt.json
+data/prijs-aandacht.json
+data/nieuwe-modellen.json
+data/bronnen/
