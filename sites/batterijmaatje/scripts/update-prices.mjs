@@ -34,7 +34,7 @@
 import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { haalPagina, haalMetBrowser, sluitBrowser, browserBeschikbaar, prijsUitPagina, controleerbaar } from "./prijs-uitlezen.mjs";
+import { haalPagina, haalMetBrowser, sluitBrowser, browserBeschikbaar, prijsUitPagina, controleerbaar, zonderExclBijschrift } from "./prijs-uitlezen.mjs";
 import { voorraadVolgensWinkel, verwerkVoorraad, verwerkBereikbaarheid, paginaWeg } from "./voorraad.mjs";
 import { vergelijk, leesBekend, schrijfBekend, meldAandacht } from "./prijs-aandacht.mjs";
 
@@ -326,7 +326,7 @@ function meld(rijen, titel, uitleg, kolommen, naarRij) {
 // Staan beide er, of geen van beide, dan zegt de pagina er te weinig over en
 // houden we onze mond; alleen een eenduidig signaal is het melden waard.
 function btwVolgensPagina(html) {
-  const tekst = html
+  let tekst = html
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
     .replace(/<[^>]+>/g, " ")
@@ -338,7 +338,11 @@ function btwVolgensPagina(html) {
     // Venus D gewoon inclusief was.
     .split(/(?<=[.!?])\s+/)
     .filter((zin) => !/(bebat|recupel|bijdrage|heffing|verzendkosten|per kg)/.test(zin))
-    .join(" ");
+    .join(" ")
+    // NKON: "€ 1.924,95 excl. btw: € 1.590,87" is een prijs inclusief met
+    // een bijschrift. Zie zonderExclBijschrift in prijs-uitlezen.mjs.
+    .replace(/&euro;|&#8364;|&#x20ac;/gi, "€");
+  tekst = zonderExclBijschrift(tekst);
   const exclusief = /\b(excl\.?|exclusief|ex\.)\s*(btw|b\.t\.w)/.test(tekst);
   const inclusief = /\b(incl\.?|inclusief|in\.)\s*(btw|b\.t\.w)/.test(tekst);
   if (exclusief && !inclusief) return false;

@@ -696,6 +696,31 @@ export function prijsUitTekst(html, ankers = [], opties = {}) {
    ------------------------------------------------------------------ */
 
 /**
+ * Haalt een bijschrift "excl. btw: € 1.590,87" uit de tekst, maar alleen als
+ * er op de pagina ook een bedrag staat dat daar precies 21 procent boven ligt.
+ *
+ * NKON zet onder de prijs "€ 1.924,95 excl. btw: € 1.590,87". De hoofdprijs
+ * is dus inclusief, het tweede bedrag is het bijschrift. Omdat het woord
+ * "incl." nergens staat, las de btw-controle de pagina als exclusief, en bij
+ * warmtepompmaatje rekent dezelfde uitkomst een prijs om met 21 procent erbij.
+ * Zonder het bijbehorende bedrag inclusief blijft het label staan: een winkel
+ * die alleen "prijs excl. btw: € 1.000" toont, is wel degelijk exclusief.
+ */
+export function zonderExclBijschrift(tekst) {
+  const bedragen = [...String(tekst).matchAll(/(?:€|eur)\s*([\d.]{1,9}(?:,\d{1,2})?)/g)]
+    .map((m) => parsePrijsWaarde(m[1]))
+    .filter((b) => b > 0);
+  return String(tekst).replace(
+    /\b(?:excl\.?|exclusief|ex\.)\s*(?:\d+%\s*)?(?:btw|b\.t\.w\.?)\s*:?\s*(?:€|eur)\s*([\d.]{1,9}(?:,\d{1,2})?)/g,
+    (geheel, ruw) => {
+      const excl = parsePrijsWaarde(ruw);
+      const metBtw = excl && bedragen.some((b) => Math.abs(b - excl * 1.21) <= Math.max(1, excl * 0.005));
+      return metBtw ? " " : geheel;
+    },
+  );
+}
+
+/**
  * Wat de pagina in gewone tekst over btw zegt. Een signaal, geen bewijs: de zin
  * kan ook over verzendkosten of een ander artikel gaan. Daarom alleen een
  * oordeel als de pagina eenduidig is - staat er zowel "excl. btw" als "incl.
@@ -703,7 +728,7 @@ export function prijsUitTekst(html, ankers = [], opties = {}) {
  * vrijwel altijd het bedrag inclusief.
  */
 export function toontExclBtw(html) {
-  const tekst = zichtbareTekst(html);
+  const tekst = zonderExclBijschrift(zichtbareTekst(html));
   const excl = /\b(?:excl\.?|exclusief|ex\.)\s*(?:\d+%\s*)?(?:btw|b\.t\.w)/.test(tekst);
   const incl = /\b(?:incl\.?|inclusief|in\.)\s*(?:\d+%\s*)?(?:btw|b\.t\.w)/.test(tekst);
   return excl && !incl;

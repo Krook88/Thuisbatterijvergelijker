@@ -37,6 +37,7 @@ import {
   prijsUitTekst,
   prijsUitPagina,
   toontExclBtw,
+  zonderExclBijschrift,
   controleerbaar,
   bedragenMetContext,
   tekstMetContext,
@@ -277,6 +278,15 @@ test("alleen een eenduidige pagina levert een oordeel over btw", () => {
   // het bedrag inclusief.
   assert.equal(toontExclBtw("<p>€ 1.000 excl. btw, € 1.210 incl. btw</p>"), false);
   assert.equal(toontExclBtw("<p>Geen woord over belasting.</p>"), false);
+});
+
+test("een bijschrift excl. btw onder een prijs incl. btw maakt de pagina niet exclusief", () => {
+  // NKON, oktober 2026: de hoofdprijs is inclusief, het bijschrift niet.
+  assert.equal(toontExclBtw("<p>€ 1.924,95</p><p>excl. btw: € 1.590,87</p>"), false);
+  // Zonder bedrag dat 21 procent hoger ligt is het label wel de prijs zelf.
+  assert.equal(toontExclBtw("<p>Prijs excl. btw: € 1.000,00</p>"), true);
+  // Het label achter het bedrag (Zonnige Winkel) blijft exclusief.
+  assert.equal(toontExclBtw("<p>€ 109,00 excl. btw</p>"), true);
 });
 
 /* ------------------------------------------------------------------
