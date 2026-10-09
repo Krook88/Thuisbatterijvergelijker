@@ -1,46 +1,16 @@
 {
-  "bijgewerkt": "2026-10-08",
+  "bijgewerkt": "2026-10-09",
   "punten": {
-    "onbereikbaar|stiebel-wpl-a07|Boilermarkt": {
-      "sinds": "2026-09-15",
-      "soort": "onbereikbaar",
-      "tekst": "stiebel-wpl-a07 @ Boilermarkt: HTTP 500",
-      "bevestigd": true
-    },
-    "verouderd|bosch-compress-5800i|Woonwijzerwinkel": {
-      "sinds": "2026-08-17",
-      "soort": "verouderd",
-      "tekst": "bosch-compress-5800i @ Woonwijzerwinkel: €7500 (nooit bevestigd)",
-      "bevestigd": true
-    },
     "verouderd|daikin-altherma-3|KliMate": {
       "sinds": "2026-09-22",
       "soort": "verouderd",
-      "tekst": "daikin-altherma-3 @ KliMate: €5414 (37 dagen)",
-      "bevestigd": true
-    },
-    "verouderd|gree-versati-iv-10|MaxiCool": {
-      "sinds": "2026-08-20",
-      "soort": "verouderd",
-      "tekst": "gree-versati-iv-10 @ MaxiCool: €4850 (70 dagen)",
-      "bevestigd": true
-    },
-    "verouderd|weheat-blackbird|richtprijs": {
-      "sinds": "2026-08-17",
-      "soort": "verouderd",
-      "tekst": "weheat-blackbird @ richtprijs: €7000 (nooit bevestigd)",
+      "tekst": "daikin-altherma-3 @ KliMate: €5414 (38 dagen)",
       "bevestigd": true
     },
     "zonder prijs|daikin-altherma-3|KliMate": {
       "sinds": "2026-09-02",
       "soort": "geweigerd",
       "tekst": "daikin-altherma-3 @ KliMate: HTTP 403",
-      "bevestigd": true
-    },
-    "zonder prijs|gree-versati-iv-10|MaxiCool": {
-      "sinds": "2026-08-21",
-      "soort": "geweigerd",
-      "tekst": "gree-versati-iv-10 @ MaxiCool: HTTP 403",
       "bevestigd": true
     },
     "zonder prijs|toshiba-estia-r290|Intercool": {
