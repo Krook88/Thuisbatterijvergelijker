@@ -1,143 +1,35 @@
 {
-  "bijgewerkt": "2026-10-08",
+  "bijgewerkt": "2026-10-09",
   "punten": {
-    "onbereikbaar|canadian-solar-tophiku6-435|Off Grid Power Station": {
-      "sinds": "2026-09-08",
-      "soort": "onbereikbaar",
-      "tekst": "canadian-solar-tophiku6-435 @ Off Grid Power Station: HTTP 404",
-      "bevestigd": true
-    },
-    "onbereikbaar|deye-sg04lp1|Eigen Stroom Opslaan": {
-      "sinds": "2026-08-28",
-      "soort": "onbereikbaar",
-      "tekst": "deye-sg04lp1 @ Eigen Stroom Opslaan: HTTP 500",
-      "bevestigd": true
-    },
-    "onbereikbaar|growatt-min-xh|Winkelman Zonnepanelen": {
-      "sinds": "2026-08-17",
-      "soort": "onbereikbaar",
-      "tekst": "growatt-min-xh @ Winkelman Zonnepanelen: HTTP 404",
-      "bevestigd": true
-    },
-    "onbereikbaar|sma-tripower-smart-energy|Memodo": {
-      "sinds": "2026-09-18",
-      "soort": "onbereikbaar",
-      "tekst": "sma-tripower-smart-energy @ Memodo: HTTP 400",
-      "bevestigd": true
-    },
-    "onbereikbaar|sma-tripower-smart-energy|Volt-shop": {
-      "sinds": "2026-08-17",
-      "soort": "onbereikbaar",
-      "tekst": "sma-tripower-smart-energy @ Volt-shop: HTTP 404",
-      "bevestigd": true
-    },
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (79 dagen)",
-      "bevestigd": true
-    },
-    "verouderd|canadian-solar-tophiku6-435|richtprijs": {
-      "sinds": "2026-10-03",
-      "soort": "verouderd",
-      "tekst": "canadian-solar-tophiku6-435 @ richtprijs: €119 (31 dagen)",
-      "bevestigd": true
-    },
-    "verouderd|denim-440-full-black|Feenstra": {
-      "sinds": "2026-08-17",
-      "soort": "verouderd",
-      "tekst": "denim-440-full-black @ Feenstra: €85 (nooit bevestigd)",
-      "bevestigd": true
-    },
-    "verouderd|deye-sg04lp1|richtprijs": {
-      "sinds": "2026-10-03",
-      "soort": "verouderd",
-      "tekst": "deye-sg04lp1 @ richtprijs: €850 (42 dagen)",
-      "bevestigd": true
-    },
-    "verouderd|dmegc-440-glas-glas|Stroomwinkel": {
-      "sinds": "2026-08-17",
-      "soort": "verouderd",
-      "tekst": "dmegc-440-glas-glas @ Stroomwinkel: €79 (nooit bevestigd)",
-      "bevestigd": true
-    },
-    "verouderd|jinko-tiger-neo-440|GroothandelSolar": {
-      "sinds": "2026-08-17",
-      "soort": "verouderd",
-      "tekst": "jinko-tiger-neo-440 @ GroothandelSolar: €70 (nooit bevestigd)",
+      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (80 dagen)",
       "bevestigd": true
     },
     "verouderd|maxeon-6-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "maxeon-6-440 @ richtprijs: €230 (79 dagen)",
-      "bevestigd": true
-    },
-    "verouderd|qcells-qtron-430|Zonnefabriek": {
-      "sinds": "2026-08-17",
-      "soort": "verouderd",
-      "tekst": "qcells-qtron-430 @ Zonnefabriek: €95 (nooit bevestigd)",
-      "bevestigd": true
-    },
-    "verouderd|sma-tripower-smart-energy|richtprijs": {
-      "sinds": "2026-10-03",
-      "soort": "verouderd",
-      "tekst": "sma-tripower-smart-energy @ richtprijs: €2100 (nooit bevestigd)",
-      "bevestigd": true
-    },
-    "verouderd|solaredge-home-wave|Zonnige Winkel": {
-      "sinds": "2026-08-17",
-      "soort": "verouderd",
-      "tekst": "solaredge-home-wave @ Zonnige Winkel: €1050 (nooit bevestigd)",
+      "tekst": "maxeon-6-440 @ richtprijs: €230 (80 dagen)",
       "bevestigd": true
     },
     "verouderd|solarwatt-vision-am-425|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "solarwatt-vision-am-425 @ richtprijs: €140 (79 dagen)",
-      "bevestigd": true
-    },
-    "verouderd|solis-s6-hybride|VDH Power": {
-      "sinds": "2026-08-17",
-      "soort": "verouderd",
-      "tekst": "solis-s6-hybride @ VDH Power: €900 (nooit bevestigd)",
-      "bevestigd": true
-    },
-    "verouderd|sungrow-sh|Pavento Solar": {
-      "sinds": "2026-08-17",
-      "soort": "verouderd",
-      "tekst": "sungrow-sh @ Pavento Solar: €1050 (nooit bevestigd)",
+      "tekst": "solarwatt-vision-am-425 @ richtprijs: €140 (80 dagen)",
       "bevestigd": true
     },
     "verouderd|ulica-440-full-black|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "ulica-440-full-black @ richtprijs: €55 (79 dagen)",
+      "tekst": "ulica-440-full-black @ richtprijs: €55 (80 dagen)",
       "bevestigd": true
     },
-    "zonder prijs|denim-440-full-black|Feenstra": {
-      "sinds": "2026-08-21",
+    "zonder prijs|dmegc-440-glas-glas|Stroomwinkel": {
+      "sinds": "2026-10-09",
       "soort": "zonder bedrag",
-      "tekst": "denim-440-full-black @ Feenstra: geen leesbaar bedrag",
-      "bevestigd": true
-    },
-    "zonder prijs|jinko-tiger-neo-440|GroothandelSolar": {
-      "sinds": "2026-08-21",
-      "soort": "zonder bedrag",
-      "tekst": "jinko-tiger-neo-440 @ GroothandelSolar: geen leesbaar bedrag",
-      "bevestigd": true
-    },
-    "zonder prijs|qcells-qtron-430|Zonnefabriek": {
-      "sinds": "2026-08-21",
-      "soort": "zonder bedrag",
-      "tekst": "qcells-qtron-430 @ Zonnefabriek: geen leesbaar bedrag",
-      "bevestigd": true
-    },
-    "zonder prijs|solis-s6-hybride|VDH Power": {
-      "sinds": "2026-08-21",
-      "soort": "zonder bedrag",
-      "tekst": "solis-s6-hybride @ VDH Power: geen leesbaar bedrag",
-      "bevestigd": true
+      "tekst": "dmegc-440-glas-glas @ Stroomwinkel: geen leesbaar bedrag",
+      "bevestigd": false
     }
   }
 }
