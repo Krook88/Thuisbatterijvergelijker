@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-10-09",
+  "bijgewerkt": "2026-10-10",
   "punten": {
     "onbereikbaar|saj-h2-5k-s2-10kwh|Thuisbatterij Outlet": {
       "sinds": "2026-10-06",
@@ -16,19 +16,19 @@
     "verouderd|anker-solix-solarbank-3-pro|richtprijs": {
       "sinds": "2026-10-06",
       "soort": "verouderd",
-      "tekst": "anker-solix-solarbank-3-pro @ richtprijs: €1199 (24 dagen)",
+      "tekst": "anker-solix-solarbank-3-pro @ richtprijs: €1199 (25 dagen)",
       "bevestigd": true
     },
     "verouderd|ecoflow-stream-ac-pro|richtprijs": {
       "sinds": "2026-08-26",
       "soort": "verouderd",
-      "tekst": "ecoflow-stream-ac-pro @ richtprijs: €700 (65 dagen)",
+      "tekst": "ecoflow-stream-ac-pro @ richtprijs: €700 (66 dagen)",
       "bevestigd": true
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (85 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (86 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
@@ -54,6 +54,12 @@
       "soort": "geweigerd",
       "tekst": "aeg-solarcube-48 @ AH Voordeelshop: HTTP 403",
       "bevestigd": true
+    },
+    "zonder prijs|dyness-powerbox-g2|Zonnige Winkel": {
+      "sinds": "2026-10-10",
+      "soort": "zonder bedrag",
+      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: geen leesbaar bedrag",
+      "bevestigd": false
     }
   }
 }

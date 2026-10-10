@@ -1,6 +1,6 @@
 {
   "merk_logos": {},
-  "laatst_bijgewerkt": "2026-10-09",
+  "laatst_bijgewerkt": "2026-10-10",
   "toelichting": "Prijzen zijn indicatief en gebaseerd op openbaar vindbare winkel- en aanbiedersprijzen op de genoemde datum. De prijs op de website van de aanbieder is altijd leidend. Let op wat een prijs dekt (prijs_omvat): sommige prijzen zijn hardware-only of exclusief btw en installatie.",
   "batterijen": [
     {
@@ -14,7 +14,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 1299,
       "prijs_omvat": "incl. btw en P1-meter, zelf te installeren",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Je hoeft aan je bestaande panelen en omvormer niets te veranderen: de meegeleverde P1-meter ziet je overschot en de batterij laadt daarop. Via het stopcontact levert hij maximaal 800 W terug; wil je meer, dan moet hij vast op een aparte groep, en dan kan er 2,5 kW uit.",
       "koppeling_gemak": 5,
@@ -31,14 +31,14 @@
           "winkel": "Marstek.nl (officieel)",
           "prijs_eur": 1199,
           "url": "https://www.marstek.nl/product/marstek-venus-e-3-0-plug-charge-thuisbatterij-5-12-kwh-incl-p1-meter/",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         },
         {
           "winkel": "bol.com",
           "prijs_eur": 1250,
           "url": "https://www.bol.com/nl/nl/p/marstek-venus-e-3-0-5-12kwh-plug-play-thuisbatterij-via-230v-stopcontact/9300000240523865/",
           "affiliate_url": "https://partner.bol.com/click/click?p=1&t=url&s=1532448&f=TXL&url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2Fmarstek-venus-e-3-0-5-12kwh-plug-play-thuisbatterij-via-230v-stopcontact%2F9300000240523865%2F&name=marstek-venus-e-3&subid=batterijmaatje",
-          "datum": "2026-10-09",
+          "datum": "2026-10-10",
           "ean": "9507399321460"
         },
         {
@@ -46,7 +46,7 @@
           "prijs_eur": 1200,
           "url": "https://thuisbatterij.nl/winkel/marstek-venus-e-versie-3/",
           "prijs_route": "gekozen variant",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 1299,
@@ -77,7 +77,7 @@
       "fase": "1-fase",
       "richtprijs_eur": null,
       "prijs_omvat": "incl. btw en P1-meter (aanbiedingsprijs), zelf te installeren",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Hetzelfde principe als de Venus E: een P1-meter ziet je overschot en je huidige zonnepanelensysteem blijft ongemoeid. Houd er wel rekening mee dat teruglevering via het stopcontact op 800 W begrensd is.",
       "koppeling_gemak": 5,
@@ -94,7 +94,7 @@
           "winkel": "Marstek.nl (officieel)",
           "prijs_eur": 1950,
           "url": "https://www.marstek.nl/product/marstek-venus-c-1-0-plug-charge-thuisbatterij-7-68-kwh-incl-p1-meter/",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 1950,
@@ -188,7 +188,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 1395,
       "prijs_omvat": "incl. btw, excl. HomeWizard P1-meter (ca. 35 euro, vereist)",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "De HomeWizard P1-meter leest je slimme meter uit, waarna de batterij op nul-op-de-meter stuurt en het overschot van je bestaande panelen opvangt. Stekker in het stopcontact en je bent klaar.",
       "koppeling_gemak": 5,
@@ -212,7 +212,7 @@
           "winkel": "HomeWizard shop",
           "prijs_eur": 1195,
           "url": "https://www.homewizard.com/shop/plug-in-battery/",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 1230,
@@ -533,7 +533,7 @@
       "richtprijs_eur": 6499,
       "richtprijs_btw_inbegrepen": false,
       "prijs_omvat": "excl. btw, incl. geïntegreerde 8 kW hybride omvormer, via Frank Energie incl. installatie",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Een 5-in-1 systeem met een eigen hybride omvormer, waar je panelen rechtstreeks op kunnen. Heb je al zonnepanelen, dan hoeft je huidige omvormer er niet uit: via de Sigen Gateway hangt het systeem AC-gekoppeld ernaast en blijft alles gewoon draaien.",
       "koppeling_gemak": 4,
@@ -551,7 +551,7 @@
           "btw_inbegrepen": false,
           "prijs_eur": 6499,
           "url": "https://www.frankenergie.nl/nl/thuisbatterij/sigenergy/8-06-kwh-sigenergy-5-in-1-thuisbatterij-met-8-kw-omvormer-3-fase",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 7864,
@@ -589,7 +589,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 7497,
       "prijs_omvat": "alleen hardware; compleet geïnstalleerd incl. btw ca. 9.500 tot 11.500 euro",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "De omvormer zit erin, dus nieuwe panelen kun je er rechtstreeks (DC) op aansluiten. Heb je al een systeem, dan kan dat AC-zijdig naast de Powerwall blijven draaien. Plaatsen gaat altijd via een Tesla Certified Installer.",
       "koppeling_gemak": 2,
@@ -606,7 +606,7 @@
           "winkel": "ThuisbatterijNederland",
           "prijs_eur": 7400,
           "url": "https://thuisbatterijnederland.nl/product/tesla-powerwall-3/",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 9500,
@@ -866,7 +866,7 @@
       "fase": "3-fase",
       "richtprijs_eur": 2990,
       "prijs_omvat": "alleen batterijmodules (2x 4,6 kWh); Home Hub-omvormer (ca. 1.500 tot 2.500 euro) en installatie komen erbij",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "prijs_bron": "Thuisbatterij Nederland",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Alleen te combineren met een SolarEdge Home Hub- of StorEdge-omvormer, DC-gekoppeld. Heb je panelen van een ander merk, dan moet de omvormer eruit. Let op: ook een oudere SolarEdge-omvormer zonder batterij-interface volstaat niet.",
@@ -889,7 +889,7 @@
           "url": "https://thuisbatterijnederland.nl/product/solaredge-home-46-kwh-48v/",
           "prijs_route": "bij variant",
           "prijs_variant": "9,2 kWh",
-          "datum": "2026-10-09",
+          "datum": "2026-10-10",
           "omvat": "twee modules van 4,6 kWh; excl. omvormer en installatie"
         }
       ],
@@ -918,7 +918,7 @@
       "fase": "beide",
       "richtprijs_eur": 5508,
       "prijs_omvat": "alleen batterijmodules, incl. btw (4.552 euro excl. btw bij Groothandel Solar); excl. SUN2000-omvormer en installatie. Compleet geïnstalleerd ca. 7.500 tot 8.500 euro incl. btw",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "prijs_bron": "Groothandel Solar",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Alleen te combineren met een Huawei SUN2000-omvormer, 1- of 3-fase, DC-gekoppeld. Bij panelen van een ander merk moet je zo'n SUN2000-omvormer toevoegen of ervoor in de plaats zetten. Mooi detail: de capaciteit is 100% bruikbaar (DoD).",
@@ -937,7 +937,7 @@
           "btw_inbegrepen": false,
           "prijs_eur": 4552,
           "url": "https://www.groothandelsolar.com/accu-systemen/huawei/huawei-luna2000-10-kwh",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 7500,
@@ -1004,7 +1004,7 @@
       "fase": "beide",
       "richtprijs_eur": 5113,
       "prijs_omvat": "alleen batterij; excl. hybride omvormer en installatie (compleet NL-systeem incl. omvormer en installatie ca. 4.400 tot 14.500 euro afhankelijk van capaciteit)",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "prijs_bron": "MG Solar Shop",
       "prijs_bron_url": "https://www.mg-solar-shop.com/lg-energy-solution-enblock-flex-12.9-kwh-batteriespeicher",
       "installatie": "installateur",
@@ -1143,7 +1143,7 @@
       "fase": "1- of 3-fase (afhankelijk van X1/X3-omvormer)",
       "richtprijs_eur": 1735,
       "prijs_omvat": "vanaf-prijs master-module; hybride omvormer en installatie apart",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Een hoogspanningsbatterij die bij een SolaX hybride omvormer hoort (X1 voor 1-fase, X3 voor 3-fase). Daarom vooral interessant als je nieuw begint, of als je omvormer toch aan vervanging toe is.",
       "koppeling_gemak": 2,
@@ -1163,7 +1163,7 @@
           "winkel": "Alma Solar",
           "prijs_eur": 1625,
           "url": "https://www.alma-solarshop.nl/triple-power-batterij/1241-triple-power-batterij-58kwh-hoogspanning.html",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 5700,
@@ -1192,7 +1192,7 @@
       "richtprijs_eur": 1545,
       "richtprijs_btw_inbegrepen": false,
       "prijs_omvat": "prijs excl. btw; losse batterijmodule, omvormer en installatie apart",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Een laagspanningsmodule (51,2 V) die je koppelt aan een hybride omvormer van bijvoorbeeld Victron, Solis of GoodWe, en die je parallel kunt uitbreiden met extra modules. Veel batterij voor weinig geld, maar wat je ermee kunt bepaalt de omvormer.",
       "koppeling_gemak": 2,
@@ -1217,7 +1217,7 @@
           "btw_inbegrepen": false,
           "prijs_eur": 1650,
           "url": "https://thuisaccuwebshop.nl/product/dyness-powerbox-g2-1024-kwh/",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 7000,
@@ -1314,7 +1314,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 5000,
       "prijs_omvat": "incl. btw, omvormer én installatie: compleet gebruiksklaar",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Je krijgt hem als compleet systeem met een Dura-i hybride omvormer (3,6 tot 5 kW), geplaatst door een erkende installateur. Hij kan naast je bestaande zonnepanelensysteem werken of ervoor in de plaats komen.",
       "koppeling_gemak": 3,
@@ -1331,7 +1331,7 @@
           "winkel": "Batterijenhuis",
           "prijs_eur": 5000,
           "url": "https://www.batterijenhuis.nl/duracell-thuisbatterij-5kwh-inclusief-installatie",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 5000,
@@ -1397,7 +1397,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 2499,
       "prijs_omvat": "incl. btw, stekkerklaar met ingebouwde omvormer; excl. installatie",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "AC-gekoppeld via het stopcontact en een P1-meter: aan je bestaande panelen en omvormer verandert er niets.",
       "koppeling_gemak": 5,
@@ -1414,7 +1414,7 @@
           "winkel": "Anker SOLIX (officieel)",
           "prijs_eur": 2499,
           "url": "https://www.ankersolix.com/nl/plug-and-play-thuisbatterij/thuisbatterij-a17e2",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 2099,
@@ -1437,7 +1437,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 2059,
       "prijs_omvat": "incl. btw, stekkerklaar met ingebouwde omvormer; excl. installatie",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "AC-gekoppeld via het stopcontact, dus je huidige zonnepanelensysteem blijft precies zoals het is.",
       "koppeling_gemak": 5,
@@ -1457,7 +1457,7 @@
           "winkel": "Plugin-batterij.nl",
           "prijs_eur": 1745,
           "url": "https://plugin-batterij.nl/product/zendure-solarflow-3000-mix-ac-plug-in-thuisbatterij/",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 1999,
@@ -1484,7 +1484,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 2399,
       "prijs_omvat": "incl. btw, stekkerklaar met ingebouwde omvormer; excl. installatie",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "prijs_bron": "Zendure (officieel)",
       "prijs_bron_url": "https://www.zendure.nl/products/solarflow-4000-mix-ac",
       "installatie": "zelf",
@@ -1506,7 +1506,7 @@
           "winkel": "TechPunt",
           "prijs_eur": 2299,
           "url": "https://www.techpunt.nl/products/zendure-solarflow-4000-mix-ac",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 2359,
@@ -1531,7 +1531,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 2899,
       "prijs_omvat": "incl. btw, stekkerklaar met ingebouwde omvormer; excl. installatie",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Een hybride plug-in: naast AC-koppeling kun je er ook zonnepanelen rechtstreeks op aansluiten (MPPT, tot ongeveer 13 kW PV-invoer inclusief de AC-PV-ingang).",
       "koppeling_gemak": 4,
@@ -1551,7 +1551,7 @@
           "winkel": "Zendure (officieel)",
           "prijs_eur": 2899,
           "url": "https://www.zendure.nl/products/solarflow-4000-mix-pro",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 2899,
@@ -1578,7 +1578,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 1990,
       "prijs_omvat": "incl. btw, stekkerklaar met ingebouwde omvormer; excl. installatie",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Een hybride plug-in: AC-gekoppeld én met 4 MPPT-ingangen, zodat je tot ongeveer 3.600 W aan panelen rechtstreeks kunt aansluiten.",
       "koppeling_gemak": 4,
@@ -1603,7 +1603,7 @@
           "winkel": "Thuisbatterij.io",
           "prijs_eur": 1349,
           "url": "https://thuisbatterij.io/product/mova-lumegret-a4000/",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 1349,
@@ -1627,7 +1627,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 799,
       "prijs_omvat": "incl. btw, introductieprijs; stekkerklaar, excl. installatie",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "AC-gekoppeld via het stopcontact, met een P1- of CT-meter. Je bestaande zonnepanelensysteem blijft ongemoeid.",
       "koppeling_gemak": 5,
@@ -1645,7 +1645,7 @@
           "prijs_eur": 749,
           "url": "https://thuisbatterij.nl/winkel/indevolt-solidflex-3000/",
           "prijs_route": "gekozen variant",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 799,
@@ -1671,7 +1671,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 1299,
       "prijs_omvat": "incl. btw, stekkerklaar; excl. installatie; prijs afhankelijk van aantal modules",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Een hybride plug-in: AC-gekoppeld én met 4 MPPT-ingangen, goed voor ongeveer 4.000 W aan panelen die je er rechtstreeks op hangt.",
       "koppeling_gemak": 4,
@@ -1688,7 +1688,7 @@
           "winkel": "Multi Solar",
           "prijs_eur": 994,
           "url": "https://multi-solar.nl/products/marstek-venus-d-plug-and-play-thuisbatterij-2-56-tot-15-36-kwh",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 1100,
@@ -1818,7 +1818,7 @@
       "richtprijs_eur": 1699,
       "prijs_bron": "adviesprijs incl. P1-meter (vakmedia/winkels, juli 2026)",
       "prijs_omvat": "incl. btw en P1-meter, zelf te installeren; laagste winkelprijs is exclusief P1-meter",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Net als de Venus E 3.0 werkt hij met elk bestaand zonnepanelensysteem: een P1-meter ziet je overschot en de batterij laadt daarop, via het stopcontact.",
       "koppeling_gemak": 5,
@@ -1836,7 +1836,7 @@
           "omvat": "vanafprijs; Marstek toont voor dit model een prijsklasse van 1.674 tot 4.999 euro incl. btw, afhankelijk van de gekozen capaciteit",
           "prijs_eur": 1674,
           "url": "https://www.marstek.nl/product/marstek-venus-e-4-0-plug-charge-thuisbatterij/",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 1274,
@@ -1862,7 +1862,7 @@
       "fase": "1-fase",
       "richtprijs_eur": 1699,
       "prijs_omvat": "incl. btw, stekkerklaar; excl. installatie",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "AC-gekoppeld via het stopcontact, dus je bestaande panelen en omvormer blijven zoals ze zijn. Panelen rechtstreeks aansluiten kan op dit model niet.",
       "koppeling_gemak": 5,
@@ -1880,7 +1880,7 @@
           "prijs_eur": 1599,
           "url": "https://thuisbatterij.nl/winkel/ecoflow-stream-ac-5000/",
           "prijs_route": "gekozen variant",
-          "datum": "2026-10-09",
+          "datum": "2026-10-10",
           "omvat": "actieprijs; de winkel noemt 1.699 als oorspronkelijke prijs. Niet op voorraad, verwachte verzending vanaf 12 oktober 2026."
         }
       ],
@@ -1945,7 +1945,7 @@
       "prijs_bron": "richtprijs uit prijsvergelijkingen (juli 2026); winkelprijzen lopen uiteen",
       "prijs_bron_url": "https://stekkerdeal.nl/products/voltdeer-sr5000/",
       "prijs_omvat": "incl. btw en P1-meter, stekkerklaar; excl. installatie",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Een AC-gekoppelde plug-in batterij met P1-meter, naast je bestaande zonnepanelensysteem. Aan je huidige installatie verandert er niets.",
       "koppeling_gemak": 5,
@@ -1983,7 +1983,7 @@
       "prijs_bron": "prijsoverzichten en webshops (juli 2026); actieprijzen wisselen",
       "prijs_bron_url": "https://www.zendure.nl/products/zendure-solarflow-2400-pro",
       "prijs_omvat": "incl. btw, stekkerklaar met ingebouwde hybride omvormer; excl. installatie",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Een hybride plug-in: AC-gekoppeld én met 4 MPPT-ingangen om panelen rechtstreeks aan te sluiten, tot ongeveer 3.000 W PV.",
       "koppeling_gemak": 4,
@@ -2000,7 +2000,7 @@
           "winkel": "Zendure (officieel)",
           "prijs_eur": 969,
           "url": "https://www.zendure.nl/products/zendure-solarflow-2400-pro",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 969,
@@ -2026,7 +2026,7 @@
       "prijs_bron": "Marstek.nl en webshops (oktober 2026)",
       "prijs_bron_url": "https://www.marstek.nl/product/marstek-venus-a-plug-charge-thuisbatterij-2-12-kwh-incl-p1-meter/",
       "prijs_omvat": "incl. btw; bij Marstek.nl en SolarKopen met P1-meter, bij Stralend Groen zonder verzendkosten van 72,60 euro",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Een hybride stekkerbatterij. Panelen sluit je rechtstreeks aan op vier MPPT-ingangen (tot 60 V), en via de P1-meter werkt hij ook naast een bestaand systeem.",
       "koppeling_gemak": 4,
@@ -2043,19 +2043,19 @@
           "winkel": "Stralend Groen",
           "prijs_eur": 445,
           "url": "https://www.stralendgroen.nl/product/marstek-venus-a/",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         },
         {
           "winkel": "SolarKopen",
           "prijs_eur": 499,
           "url": "https://solarkopen.nl/products/marstek-venus-a-incl-p1-meter",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         },
         {
           "winkel": "Marstek.nl",
           "prijs_eur": 599,
           "url": "https://www.marstek.nl/product/marstek-venus-a-plug-charge-thuisbatterij-2-12-kwh-incl-p1-meter/",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 445,
@@ -2086,7 +2086,7 @@
       "prijs_bron": "Marstek.nl (oktober 2026)",
       "prijs_bron_url": "https://www.marstek.nl/product/marstek-venus-e-mini-plug-charge-thuisbatterij/",
       "prijs_omvat": "incl. btw; vanafprijs voor 2 kWh, de P1-meter is een keuze bij het bestellen",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "AC-gekoppeld. Een P1-meter ziet je overschot en de batterij laadt daarop via het stopcontact. Aan je zonnepanelen verandert niets.",
       "koppeling_gemak": 5,
@@ -2103,7 +2103,7 @@
           "winkel": "Marstek.nl",
           "prijs_eur": 674,
           "url": "https://www.marstek.nl/product/marstek-venus-e-mini-plug-charge-thuisbatterij/",
-          "datum": "2026-10-09",
+          "datum": "2026-10-10",
           "omvat": "vanafprijs; Marstek toont voor dit model een prijsklasse van 674 tot 1.999 euro incl. btw, afhankelijk van capaciteit en meter"
         }
       ],
@@ -2132,7 +2132,7 @@
       "prijs_bron": "Zendure.nl (oktober 2026)",
       "prijs_bron_url": "https://www.zendure.nl/products/zendure-solarflow-2400-ac",
       "prijs_omvat": "incl. btw; de hub met één AB3000X-accu, zonder P1-meter",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Alleen AC-gekoppeld. Hij hangt aan het stopcontact en stuurt op een slimme meter. Je bestaande panelen en omvormer blijven zoals ze zijn.",
       "koppeling_gemak": 5,
@@ -2152,7 +2152,7 @@
           "winkel": "Zendure (officieel)",
           "prijs_eur": 969,
           "url": "https://www.zendure.nl/products/zendure-solarflow-2400-ac",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 969,
@@ -2184,7 +2184,7 @@
       "prijs_bron": "Zendure.nl (oktober 2026)",
       "prijs_bron_url": "https://www.zendure.nl/products/zendure-solarflow-2400-ac-plus",
       "prijs_omvat": "incl. btw; alleen de hoofdunit, met P1-meter 879 euro",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "AC-gekoppeld voor een bestaande installatie. Hij hangt aan het stopcontact en stuurt op je slimme meter.",
       "koppeling_gemak": 5,
@@ -2201,7 +2201,7 @@
           "winkel": "Zendure (officieel)",
           "prijs_eur": 849,
           "url": "https://www.zendure.nl/products/zendure-solarflow-2400-ac-plus",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 849,
@@ -2233,7 +2233,7 @@
       "prijs_bron": "Jackery NL (oktober 2026)",
       "prijs_bron_url": "https://nl.jackery.com/products/solarvault-3-pro-max-ac",
       "prijs_omvat": "incl. btw; de hoofdunit zonder uitbreidingsaccu",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "AC-gekoppeld via het stopcontact en een P1-uitlezer; geschikt om naast een bestaande installatie te zetten.",
       "koppeling_gemak": 5,
@@ -2251,7 +2251,7 @@
           "prijs_eur": 789,
           "url": "https://nl.jackery.com/products/solarvault-3-pro-max-ac",
           "prijs_route": "meta-tag",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 789,
@@ -2283,7 +2283,7 @@
       "prijs_bron": "Jackery NL (oktober 2026)",
       "prijs_bron_url": "https://nl.jackery.com/products/solarvault-3-pro-max",
       "prijs_omvat": "incl. btw; de hoofdunit zonder uitbreidingsaccu en zonder panelen",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Hybride. Panelen sluit je rechtstreeks aan, en via het stopcontact en een P1-uitlezer werkt hij ook naast een bestaande installatie.",
       "koppeling_gemak": 4,
@@ -2301,7 +2301,7 @@
           "prijs_eur": 1089,
           "url": "https://nl.jackery.com/products/solarvault-3-pro-max",
           "prijs_route": "meta-tag",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 1089,
@@ -2333,7 +2333,7 @@
       "prijs_bron": "mediaan van webshopprijzen over 90 dagen volgens StekkerDeal (oktober 2026)",
       "prijs_bron_url": "https://www.ankersolix.com/nl/plug-and-play-thuisbatterij/thuisbatterij-ae103",
       "prijs_omvat": "incl. btw; hoofdunit met 5 kWh, zonder extra accu",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Hybride met vier MPPT-ingangen voor 4 tot 12 panelen (tot 5.000 W), en via een P1-meter ook naast een bestaand systeem.",
       "koppeling_gemak": 4,
@@ -2350,13 +2350,13 @@
           "winkel": "Anker SOLIX (officieel)",
           "prijs_eur": 1799,
           "url": "https://www.ankersolix.com/nl/products/ae103",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         },
         {
           "winkel": "Techpunt",
           "prijs_eur": 1799,
           "url": "https://www.techpunt.nl/products/anker-solix-solarbank-4-e5000-pro",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 1799,
@@ -2387,7 +2387,7 @@
       "prijs_bron": "aegthuisbatterij.nl (oktober 2026)",
       "prijs_bron_url": "https://aegthuisbatterij.nl/products/aeg-solarcube-pro",
       "prijs_omvat": "incl. btw en P1-meter, stekkerklaar; excl. installatie",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "AC-gekoppeld via het stopcontact en een P1-meter. Aan je bestaande zonnepanelen hoef je niets te doen.",
       "koppeling_gemak": 5,
@@ -2404,7 +2404,7 @@
           "winkel": "AEG thuisbatterij (officieel)",
           "prijs_eur": 1599,
           "url": "https://aegthuisbatterij.nl/products/aeg-solarcube-pro",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 1799,
@@ -2435,7 +2435,7 @@
       "prijs_bron": "webshops volgens StekkerDeal (oktober 2026)",
       "prijs_bron_url": "https://stekkerdeal.nl/products/hyxi-halo/",
       "prijs_omvat": "incl. btw; één module van 3 kWh",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "AC-gekoppeld via het stopcontact, naast je bestaande zonnepanelen.",
       "koppeling_gemak": 5,
@@ -2452,13 +2452,13 @@
           "winkel": "Stekker-batterij.nl",
           "prijs_eur": 749,
           "url": "https://stekker-batterij.nl/product/hyxi-halo-3-kwh-opslag/",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         },
         {
           "winkel": "Stralend Groen",
           "prijs_eur": 750,
           "url": "https://www.stralendgroen.nl/product/hyxi-halo-stekkerbatterij/",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 749,
@@ -2489,7 +2489,7 @@
       "prijs_bron": "Powerness (oktober 2026)",
       "prijs_bron_url": "https://www.powerness.nl/products/tsun-mau-5000-thuisbatterij-door-powerness",
       "prijs_omvat": "incl. btw; één unit van 5,12 kWh, met bezorging",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "AC-gekoppeld. Hij werkt naast micro-omvormers of een string-omvormer, zonder de bestaande installatie aan te passen.",
       "koppeling_gemak": 5,
@@ -2508,7 +2508,7 @@
           "url": "https://www.powerness.nl/products/tsun-mau-5000-thuisbatterij-door-powerness",
           "prijs_route": "bij variant",
           "prijs_variant": "Powerness Express",
-          "datum": "2026-10-09",
+          "datum": "2026-10-10",
           "omvat": "met Powerness Express-bezorging; zelf ophalen in Weinheim (Duitsland) kost 849 euro, standaardverzending 1.449 euro"
         }
       ],
@@ -2544,7 +2544,7 @@
       "prijs_bron": "HEKO Solar (oktober 2026)",
       "prijs_bron_url": "https://hekosolar.com/products/plug-in-batterij-saga-5-5kwh",
       "prijs_omvat": "incl. btw; hoofdunit met twee batterijmodules, P1-dongle en kabels",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Via het stopcontact naast je bestaande installatie. Daarnaast heeft de hoofdunit vier MC4-ingangen, zodat je ook panelen direct kunt aansluiten.",
       "koppeling_gemak": 5,
@@ -2561,13 +2561,13 @@
           "winkel": "HEKO Solar (officieel)",
           "prijs_eur": 2249,
           "url": "https://hekosolar.com/products/plug-in-batterij-saga-5-5kwh",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         },
         {
           "winkel": "bol.com",
           "prijs_eur": 2249,
           "url": "https://www.bol.com/nl/nl/p/-/9300000279244703/",
-          "datum": "2026-10-09",
+          "datum": "2026-10-10",
           "ean": "8721082352376"
         }
       ],
@@ -2601,7 +2601,7 @@
       "prijs_bron": "PEGO Stroomopslag (oktober 2026)",
       "prijs_bron_url": "https://www.stroomopslag.eu/product/23999616/pego-plug-play-stekker-batterij",
       "prijs_omvat": "incl. btw; basisset, de prijs loopt op met het aantal modules",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Via het stopcontact naast je bestaande installatie. De omvormermodule heeft ook drie MPPT-ingangen voor samen maximaal 3.300 Wp aan panelen.",
       "koppeling_gemak": 5,
@@ -2618,7 +2618,7 @@
           "winkel": "PEGO Stroomopslag (officieel)",
           "prijs_eur": 1195,
           "url": "https://www.stroomopslag.eu/product/23999616/pego-plug-play-stekker-batterij",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": 1195,
@@ -2646,7 +2646,7 @@
       "prijs_bron": "bol.com (oktober 2026)",
       "prijs_bron_url": "https://www.bol.com/nl/nl/p/-/9300000393483105/",
       "prijs_omvat": "incl. btw; één unit van 2 kWh met de TSUN Smart Meter",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Panelen sluit je direct op de unit aan, tot 2.800 W zonne-invoer verdeeld over vier panelen, zoals bij een balkonbatterij.",
       "koppeling_gemak": 4,
@@ -2663,13 +2663,13 @@
           "winkel": "MediaMarkt",
           "prijs_eur": 999,
           "url": "https://www.mediamarkt.nl/nl/product/_tsun-msu2000-2048wh-opslag-met-slimme-meter-powerstation-170441771.html",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         },
         {
           "winkel": "bol.com",
           "prijs_eur": 995,
           "url": "https://www.bol.com/nl/nl/p/-/9300000393483105/",
-          "datum": "2026-10-09",
+          "datum": "2026-10-10",
           "ean": "6976384101128"
         }
       ],
@@ -2697,7 +2697,7 @@
       "prijs_bron": "Wattuneed (oktober 2026)",
       "prijs_bron_url": "https://www.wattuneed.com/nl/lithium-zonnebatterijen/25980-accu-solaredge-home-battery-10-kwh-bat-10k1ps0b-01-0768563817625.html",
       "prijs_omvat": "incl. btw; één batterij, excl. omvormer en installatie; Wattuneed rekent er per batterij een recyclingbijdrage van 349,69 euro excl. btw bij",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Alleen met een 1-fase SolarEdge-omvormer, DC-gekoppeld; batterij en omvormer praten draadloos met elkaar. Heb je een omvormer van een ander merk, dan is deze batterij geen optie.",
       "koppeling_gemak": 2,
@@ -2714,7 +2714,7 @@
           "winkel": "Wattuneed",
           "prijs_eur": 6824,
           "url": "https://www.wattuneed.com/nl/lithium-zonnebatterijen/25980-accu-solaredge-home-battery-10-kwh-bat-10k1ps0b-01-0768563817625.html",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": null,
@@ -2749,7 +2749,7 @@
       "prijs_bron": "NKON (oktober 2026)",
       "prijs_bron_url": "https://www.nkon.nl/dyness-powerbrick-plus-51-2v-16-07kwh-thuisbatterij.html",
       "prijs_omvat": "incl. btw (1.590,87 euro excl. btw); losse batterij, omvormer en installatie apart",
-      "prijs_datum": "2026-10-09",
+      "prijs_datum": "2026-10-10",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Een laagspanningsbatterij (51,2 V) voor een hybride omvormer. Dyness noemt onder meer Victron, Deye en APsystems als compatibel.",
       "koppeling_gemak": 2,
@@ -2766,7 +2766,7 @@
           "winkel": "NKON",
           "prijs_eur": 1925,
           "url": "https://www.nkon.nl/dyness-powerbrick-plus-51-2v-16-07kwh-thuisbatterij.html",
-          "datum": "2026-10-09"
+          "datum": "2026-10-10"
         }
       ],
       "totaalprijs_van_eur": null,
