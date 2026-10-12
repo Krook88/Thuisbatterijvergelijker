@@ -1,52 +1,52 @@
 {
-  "bijgewerkt": "2026-10-11",
+  "bijgewerkt": "2026-10-12",
   "punten": {
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (82 dagen)",
+      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (83 dagen)",
       "bevestigd": true
     },
     "verouderd|maxeon-6-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "maxeon-6-440 @ richtprijs: €230 (82 dagen)",
+      "tekst": "maxeon-6-440 @ richtprijs: €230 (83 dagen)",
       "bevestigd": true
     },
     "verouderd|solarwatt-vision-am-425|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "solarwatt-vision-am-425 @ richtprijs: €140 (82 dagen)",
+      "tekst": "solarwatt-vision-am-425 @ richtprijs: €140 (83 dagen)",
       "bevestigd": true
     },
     "verouderd|ulica-440-full-black|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "ulica-440-full-black @ richtprijs: €55 (82 dagen)",
+      "tekst": "ulica-440-full-black @ richtprijs: €55 (83 dagen)",
       "bevestigd": true
     },
     "zonder prijs|enphase-iq8|Zonnige Winkel": {
       "sinds": "2026-10-10",
-      "soort": "geweigerd",
-      "tekst": "enphase-iq8 @ Zonnige Winkel: HTTP 403",
+      "soort": "zonder bedrag",
+      "tekst": "enphase-iq8 @ Zonnige Winkel: geen leesbaar bedrag",
       "bevestigd": true
     },
     "zonder prijs|goodwe-et|Zonnige Winkel": {
       "sinds": "2026-10-10",
-      "soort": "geweigerd",
-      "tekst": "goodwe-et @ Zonnige Winkel: HTTP 403",
+      "soort": "zonder bedrag",
+      "tekst": "goodwe-et @ Zonnige Winkel: geen leesbaar bedrag",
       "bevestigd": true
     },
     "zonder prijs|solaredge-home-wave|Zonnige Winkel": {
       "sinds": "2026-10-10",
-      "soort": "geweigerd",
-      "tekst": "solaredge-home-wave @ Zonnige Winkel: HTTP 403",
+      "soort": "zonder bedrag",
+      "tekst": "solaredge-home-wave @ Zonnige Winkel: geen leesbaar bedrag",
       "bevestigd": true
     },
     "zonder prijs|solis-s6-hybride|Zonnige Winkel": {
       "sinds": "2026-10-10",
-      "soort": "geweigerd",
-      "tekst": "solis-s6-hybride @ Zonnige Winkel: HTTP 403",
+      "soort": "zonder bedrag",
+      "tekst": "solis-s6-hybride @ Zonnige Winkel: geen leesbaar bedrag",
       "bevestigd": true
     }
   }
