@@ -1,10 +1,10 @@
 {
-  "bijgewerkt": "2026-10-11",
+  "bijgewerkt": "2026-10-12",
   "punten": {
     "verouderd|daikin-altherma-3|KliMate": {
       "sinds": "2026-09-22",
       "soort": "verouderd",
-      "tekst": "daikin-altherma-3 @ KliMate: €5414 (40 dagen)",
+      "tekst": "daikin-altherma-3 @ KliMate: €5414 (41 dagen)",
       "bevestigd": true
     },
     "zonder prijs|daikin-altherma-3|KliMate": {
@@ -15,8 +15,8 @@
     },
     "zonder prijs|itho-amber-95|Installmat": {
       "sinds": "2026-10-10",
-      "soort": "zonder bedrag",
-      "tekst": "itho-amber-95 @ Installmat: geen leesbaar bedrag",
+      "soort": "geweigerd",
+      "tekst": "itho-amber-95 @ Installmat: HTTP 403",
       "bevestigd": true
     },
     "zonder prijs|toshiba-estia-r290|Intercool": {
