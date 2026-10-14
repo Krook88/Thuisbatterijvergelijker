@@ -521,11 +521,18 @@
       "vermogen_behoud_25j_pct": 89.5,
       "temp_coefficient": -0.29,
       "richtprijs_eur": 140,
-      "prijs_datum": "2026-07-21",
+      "prijs_datum": "2026-10-14",
       "prijs_omvat": "prijs per paneel, 0% btw bij levering voor een woning, excl. omvormer en installatie",
       "product_url": "https://www.solarwatt.nl/",
       "opmerkingen": "Duitse kwaliteitsbouwer met 30 jaar garantie op product én vermogen. Robuust glas-glas paneel (2 mm glas aan beide zijden), daardoor wel enkele kilo's zwaarder dan de gemiddelde concurrent. Vooral leverbaar via installateurs, niet als los paneel bij webshops.",
-      "aanbiedingen": [],
+      "aanbiedingen": [
+        {
+          "winkel": "Zonnepaneelcentrum",
+          "prijs_eur": 140,
+          "url": "https://zonnepaneelcentrum.nl/product/solarwatt-panel-vision-am-4-5/",
+          "datum": "2026-10-14"
+        }
+      ],
       "afbeelding": "assets/producten/solarwatt-vision-am-425.webp",
       "afbeelding_bron": "foto: Solarwatt",
       "afbeelding_herkomst": "https://solarwatt.nl/wp-content/uploads/2025/01/vp-sw-panel-vision-300x300.png",

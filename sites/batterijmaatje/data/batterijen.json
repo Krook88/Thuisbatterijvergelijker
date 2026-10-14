@@ -1102,9 +1102,9 @@
       "vermogen_kw": 2.56,
       "type": "hybride",
       "fase": "1-fase (met andere GoodWe-omvormers ook 3-fase)",
-      "richtprijs_eur": 2383,
+      "richtprijs_eur": 1799,
       "prijs_omvat": "incl. btw; losse batterijmodule, hybride omvormer en installatie apart",
-      "prijs_datum": "2026-07-15",
+      "prijs_datum": "2026-10-14",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Koppelt aan de hybride omvormers van GoodWe zelf (ES-, EM- en SBP-serie). Heb je er al een hangen, dan is dit een logische uitbreiding; heb je een ander merk, dan komt er een omvormer bij of voor in de plaats.",
       "koppeling_gemak": 2,
@@ -1117,12 +1117,20 @@
       "app": "SEMS Portal / SEMS+",
       "garantie_jaar": 10,
       "cycli": 4000,
-      "opmerkingen": "Een merk dat je veel bij installateurs tegenkomt. Sturen op dynamische EPEX-uurprijzen gaat via de SEMS+ app. Kijk goed naar wat de prijs dekt: dit is de losse module, dus omvormer en installatie komen er nog bij. Ik ben in juli 2026 overgestapt op Warmteservice als bron omdat de vorige productpagina verdween; die prijs wordt bij de eerstvolgende dagelijkse controle geverifieerd.",
+      "opmerkingen": "Een merk dat je veel bij installateurs tegenkomt. Sturen op dynamische EPEX-uurprijzen gaat via de SEMS+ app. Kijk goed naar wat de prijs dekt: dit is de losse module, dus omvormer en installatie komen er nog bij. Sinds oktober 2026 volg ik de prijs bij Groothandel Solar. Die winkel toont bedragen zonder btw, en de site telt die er voor de vergelijking bij.",
       "product_url": "https://emea.goodwe.com/lynx-home-u-series-low-voltage-lithium-battery",
-      "aanbiedingen": [],
+      "aanbiedingen": [
+        {
+          "winkel": "Groothandel Solar (prijs excl. btw)",
+          "btw_inbegrepen": false,
+          "prijs_eur": 1487,
+          "url": "https://www.groothandelsolar.com/accu-systemen/goodwe/goodwe-lynx-home-u-5-4-lv-bau5400-01-00p",
+          "datum": "2026-10-14"
+        }
+      ],
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "Van dit systeem heb ik geen prijs inclusief installatie uit een bron. Dit is het toestel (2383 euro) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
+      "totaalprijs_toelichting": "Van dit systeem heb ik geen prijs inclusief installatie uit een bron. Dit is het toestel (1.799 euro incl. btw) plus 500 tot 2.000 euro installatie: een marktbreed bedrag voor montage, bekabeling, afzekeren en inbedrijfstelling. Een schatting dus, geen opgave.",
       "noodstroom": "Via de hybride omvormer (bijvoorbeeld GoodWe ES G2 met UPS-omschakeling); laat de installateur dit inregelen",
       "noodstroom_uitleg": "De batterij zelf regelt geen noodstroom; in combinatie met een GoodWe hybride omvormer met back-upfunctie (zoals de ES G2, omschakeling binnen 10 ms) kan een deel van het huis doorwerken bij een storing.",
       "ip_klasse": "IP65",
@@ -1132,9 +1140,7 @@
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "onbekend",
       "totaalprijs_geschat_van_eur": 2883,
-      "totaalprijs_geschat_tot_eur": 4383,
-      "prijs_controle": "handmatig",
-      "prijs_controle_reden": "Warmteservice weigert geautomatiseerde verzoeken (HTTP 403, ook met een browser) en de prijs daar is nooit bevestigd; een andere Nederlandse winkel met een openbare prijs vond ik niet (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs."
+      "totaalprijs_geschat_tot_eur": 4383
     },
     {
       "id": "solax-triple-power-t58",
@@ -1907,10 +1913,10 @@
       "vermogen_kw": 2.6,
       "type": "plug-in",
       "fase": "1-fase",
-      "richtprijs_eur": 1999,
-      "prijs_bron": "adviesprijs fabrikant (samduo.nl, juli 2026)",
+      "richtprijs_eur": 1799,
+      "prijs_bron": "Stekker-batterij.nl en samduo.nl (oktober 2026)",
       "prijs_omvat": "incl. btw, stekkerklaar; excl. installatie",
-      "prijs_datum": "2026-07-27",
+      "prijs_datum": "2026-10-14",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Een AC-gekoppelde plug-in batterij: je bestaande zonnepanelensysteem blijft ongemoeid.",
       "koppeling_gemak": 5,
@@ -1922,19 +1928,30 @@
       "cycli": null,
       "opmerkingen": "Een nieuw merk dat op 13 juli 2026 begon met directe onlineverkoop in Nederland via samduo.nl. Zijn opvallendste eigenschap is de dikte, of eigenlijk het gebrek daaraan: met 11,9 cm hangt hij bijna plat tegen de muur. Er is ook een Nex E6000H-variant (10 jaar garantie, IP65, noodstroom 2.600 W) en een modulaire Nex P2800 Pro, maar wat die kosten is nog onbekend. Van deze E6000 staan garantie, IP-klasse, noodstroom, uitbreidbaarheid en Homey- of Home Assistant-ondersteuning nog open; de specificaties komen uit de berichtgeving rond de lancering in juli 2026.",
       "product_url": "https://samduo.nl",
-      "aanbiedingen": [],
+      "aanbiedingen": [
+        {
+          "winkel": "Stekker-batterij.nl",
+          "prijs_eur": 1799,
+          "url": "https://stekker-batterij.nl/product/samduo-nex-e6000-6kwh/",
+          "datum": "2026-10-14"
+        },
+        {
+          "winkel": "SAMDUO (officieel)",
+          "prijs_eur": 1999,
+          "url": "https://samduo.nl/products/e6000",
+          "datum": "2026-10-14"
+        }
+      ],
       "totaalprijs_van_eur": 1999,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "stekkerklaar, zelf te installeren; adviesprijs fabrikant",
+      "totaalprijs_toelichting": "stekkerklaar, zelf te installeren",
       "noodstroom": null,
       "noodstroom_uitleg": "Niet vastgesteld voor de E6000; de duurdere E6000H-variant heeft wel noodstroom (2.600 W).",
       "afbeelding": "assets/producten/samduo-nex-e6000.webp",
       "afbeelding_bron": "foto: SAMDUO",
       "capaciteit_nominaal_kwh": 6,
       "capaciteit_soort": "bruikbaar",
-      "vermogen_conditie": "onbekend",
-      "prijs_controle": "handmatig",
-      "prijs_controle_reden": "Samduo.nl toont geen prijs bij dit model (nagekeken op 8 oktober 2026); het bedrag is de adviesprijs van juli 2026."
+      "vermogen_conditie": "onbekend"
     },
     {
       "id": "voltdeer-sr5000",
