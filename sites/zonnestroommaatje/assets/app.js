@@ -481,7 +481,7 @@
         .then((r) => (r.ok ? r.json() : null))
         .then((d) => { if (d && window.PrijsGrafiek) window.PrijsGrafiek.laad(d); })
         .catch(() => {});
-      const res = await fetch("data/panelen.json", { cache: "no-cache" });
+      const res = await fetch("data/site/panelen.json", { cache: "no-cache" });
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
       state.panelen = data.panelen || [];
@@ -501,7 +501,7 @@
 
       // Omvormers meladen voor de gezamenlijke zoekfunctie (best effort)
       try {
-        const resO = await fetch("data/omvormers.json", { cache: "no-cache" });
+        const resO = await fetch("data/site/omvormers.json", { cache: "no-cache" });
         if (resO.ok) state.omvormers = (await resO.json()).omvormers || [];
       } catch { /* zoekfunctie werkt dan alleen binnen panelen */ }
 

@@ -26,8 +26,10 @@ import { fileURLToPath } from "node:url";
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const lees = (naam) => readFileSync(resolve(ROOT, naam), "utf8");
 
-const panelen = JSON.parse(lees("data/panelen.json")).panelen;
-const omvormers = JSON.parse(lees("data/omvormers.json")).omvormers;
+// De lijsten die op de site staan (zie kern/scripts/zichtbaar.mjs), want de
+// pagina's tellen alleen wat een actuele prijs heeft.
+const panelen = JSON.parse(lees("data/site/panelen.json")).panelen;
+const omvormers = JSON.parse(lees("data/site/omvormers.json")).omvormers;
 
 // Alleen de pagina's in de hoofdmap: /paneel en /vergelijk worden per model
 // gegenereerd en noemen aantallen die bij dat ene model horen.

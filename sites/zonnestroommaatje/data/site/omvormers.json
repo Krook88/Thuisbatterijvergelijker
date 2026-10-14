@@ -1,0 +1,674 @@
+{
+  "laatst_bijgewerkt": "2026-10-13",
+  "toelichting": "Richtprijzen zijn indicatief, gelden voor de genoemde gangbare variant (excl. installatie) en verschillen sterk per vermogen en uitvoering. Winkelprijzen betreffen de losse omvormer van de genoemde variant. Sommige winkels tonen prijzen exclusief btw; die reken ik om naar inclusief btw zodat alle bedragen vergelijkbaar zijn, met de winkelprijs erbij vermeld. Accessoires (gateway, meter, optimizers) komen er soms nog bij. Specificaties en integraties komen uit fabrikantendocumentatie en openbare bronnen; controleer voor aankoop de actuele datasheet en garantievoorwaarden. Koppelingsinformatie (batterij, Home Assistant) kan per firmwareversie veranderen. Homey-informatie is gebaseerd op de Homey App Store; controleer vóór aankoop of de app jouw model ondersteunt.",
+  "omvormers": [
+    {
+      "id": "enphase-iq8",
+      "merk": "Enphase",
+      "model": "IQ8-serie micro-omvormers",
+      "type": "micro",
+      "fase": "1-fase (3-fase mogelijk met verdeling)",
+      "vermogen_bereik": "per paneel (circa 300-380 VA per micro)",
+      "voorbeeld_variant": "IQ8HC per paneel",
+      "richtprijs_eur": 165,
+      "prijs_toelichting": "per micro-omvormer, per paneel; plus IQ Gateway (circa € 250) per systeem",
+      "batterij": {
+        "status": "ja",
+        "tekst": "Eigen ecosysteem: Enphase IQ Battery (AC-gekoppeld) koppelt zonder extra hardware; batterijen van andere merken kunnen alleen los via de meterkast (P1) naast het systeem."
+      },
+      "home_assistant": {
+        "status": "ja",
+        "tekst": "Officiële Home Assistant-integratie (Enphase Envoy), lokaal uit te lezen per paneel."
+      },
+      "schaduw": {
+        "status": "ja",
+        "tekst": "Per paneel een eigen omvormer: schaduw op één paneel kost alleen dat paneel opbrengst."
+      },
+      "app": "Enphase App",
+      "garantie_jaar": 25,
+      "opmerkingen": "Geen enkel punt van uitval (geen centrale omvormer), stille werking en 25 jaar garantie. Duurder per Wp dan een string-omvormer; vervanging zit wél op het dak.",
+      "product_url": "https://enphase.com/nl-nl",
+      "homey": {
+        "status": "deels",
+        "tekst": "Community-app voor Enphase (Envoy) in de Homey App Store; opwek ook zichtbaar via de Homey Energy Dongle (P1)."
+      },
+      "aanbiedingen": [
+        {
+          "winkel": "Zonnige Winkel",
+          "prijs_eur": 109,
+          "url": "https://zonnigewinkel.nl/product/enphase-micro-omvormer-iq8hc/",
+          "datum": "2026-10-09",
+          "btw_inbegrepen": false
+        },
+        {
+          "winkel": "Winkelman Zonnepanelen",
+          "prijs_eur": 109,
+          "url": "https://www.winkelman-zonnepanelen.nl/enphase-iq8-hc-micro-omvormer.html",
+          "datum": "2026-10-13",
+          "btw_inbegrepen": false
+        },
+        {
+          "winkel": "Solar Bouwmarkt",
+          "prijs_eur": 129,
+          "url": "https://www.solar-bouwmarkt.nl/iq8hc-micro-omvormer.html",
+          "datum": "2026-10-13",
+          "btw_inbegrepen": false
+        }
+      ],
+      "prijs_datum": "2026-10-13",
+      "samensteller": {
+        "soort": "per_paneel",
+        "max_wp_per_paneel": 560,
+        "extra_per_systeem": {
+          "label": "IQ Gateway",
+          "prijs_eur": 250
+        },
+        "bron": "Enphase IQ8HC datasheet: aanbevolen paneelvermogen tot 560 Wp"
+      },
+      "panelen_per_eenheid": 1,
+      "systeem_toeslag_eur": 250,
+      "afbeelding": "assets/producten/enphase-iq8.webp",
+      "afbeelding_bron": "foto: Winkelman Zonnepanelen",
+      "afbeelding_herkomst": "https://cdn.webshopapp.com/shops/307138/files/444527210/300x250x2/enphase-enphase-iq8-hc-micro-omvormer.jpg",
+      "afbeelding_via": "https://www.winkelman-zonnepanelen.nl/enphase-iq8-hc-micro-omvormer.html"
+    },
+    {
+      "id": "apsystems-ds3",
+      "merk": "APsystems",
+      "model": "DS3-serie micro-omvormers (duo)",
+      "type": "micro",
+      "fase": "1-fase",
+      "vermogen_bereik": "per 2 panelen (tot 960 VA per duo-micro)",
+      "voorbeeld_variant": "DS3 voor 2 panelen",
+      "richtprijs_eur": 175,
+      "prijs_toelichting": "per duo-micro (2 panelen); plus ECU-communicatiemodule per systeem",
+      "batterij": {
+        "status": "nee",
+        "tekst": "Geen eigen batterijlijn; een thuisbatterij kan alleen los via de meterkast (AC/P1) naast het systeem."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Via community-integraties (lokaal via de ECU of de APsystems EZ1-API); geen officiële integratie voor de DS3-lijn."
+      },
+      "schaduw": {
+        "status": "ja",
+        "tekst": "Per twee panelen een micro-omvormer met twee onafhankelijke MPPT's."
+      },
+      "app": "AP EasyPower",
+      "garantie_jaar": 10,
+      "opmerkingen": "Scherper geprijsd dan Enphase doordat één micro twee panelen bedient. Garantie vaak uit te breiden tot 20/25 jaar via registratie.",
+      "product_url": "https://emea.apsystems.com/nl/",
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen bekende Homey-app; de opwek is wel zichtbaar in Homey Energy via de Homey Energy Dongle op de slimme meter (P1)."
+      },
+      "aanbiedingen": [
+        {
+          "winkel": "Simply Solar",
+          "prijs_eur": 149,
+          "url": "https://www.simply-solar.nl/products/aps-ds3-microinverter",
+          "datum": "2026-10-13"
+        },
+        {
+          "winkel": "J en M Zonnepanelen",
+          "prijs_eur": 145,
+          "url": "https://www.jenm-zonnepanelen.nl/nl/apsystems-ds3-micro-omvormer.html",
+          "datum": "2026-10-13",
+          "btw_inbegrepen": false
+        }
+      ],
+      "prijs_datum": "2026-10-13",
+      "samensteller": {
+        "soort": "per_2_panelen",
+        "max_wp_per_paneel": 550,
+        "extra_per_systeem": {
+          "label": "ECU-communicatiemodule",
+          "prijs_eur": 230
+        },
+        "bron": "APsystems DS3 datasheet: 300-660 Wp+ aanbevolen, tot 550 Wp per ingang gangbaar"
+      },
+      "panelen_per_eenheid": 2,
+      "systeem_toeslag_eur": 150,
+      "afbeelding": "assets/producten/apsystems-ds3.webp",
+      "afbeelding_bron": "foto: APsystems",
+      "afbeelding_herkomst": "https://emea.apsystems.com/wp-content/uploads/2022/06/APsystems-microinverter-QT2-DS3.png",
+      "afbeelding_via": "https://emea.apsystems.com/nl/"
+    },
+    {
+      "id": "solaredge-home-wave",
+      "merk": "SolarEdge",
+      "model": "Home Wave met optimizers",
+      "type": "optimizer",
+      "fase": "1-fase en 3-fase varianten",
+      "vermogen_bereik": "2,2 - 10 kW",
+      "voorbeeld_variant": "SE5000H (5 kW) + optimizers",
+      "richtprijs_eur": 1250,
+      "prijs_toelichting": "omvormer 5 kW circa € 1.100 + circa € 60 per paneel aan optimizers; winkelprijzen betreffen alleen de omvormer",
+      "batterij": {
+        "status": "ja",
+        "tekst": "Eigen ecosysteem: SolarEdge Home Battery (DC-gekoppeld) op de hybride varianten; werkt niet met batterijen van andere merken aan DC-zijde."
+      },
+      "home_assistant": {
+        "status": "ja",
+        "tekst": "Officiële Home Assistant-integratie via de SolarEdge cloud-API; lokaal uitlezen kan via Modbus TCP (instelling aanzetten)."
+      },
+      "schaduw": {
+        "status": "ja",
+        "tekst": "Optimizer per paneel: elk paneel presteert onafhankelijk en is per paneel te monitoren."
+      },
+      "app": "mySolarEdge",
+      "garantie_jaar": 12,
+      "opmerkingen": "12 jaar garantie op de omvormer (uitbreidbaar tot 20/25) en 25 jaar op de optimizers. Marktleider in optimizer-systemen; verplichte optimizers maken het systeem wel merkgebonden.",
+      "product_url": "https://www.solaredge.com/nl/",
+      "homey": {
+        "status": "ja",
+        "tekst": "SolarEdge-app in de Homey App Store (koppelt via de cloud-API)."
+      },
+      "aanbiedingen": [
+        {
+          "winkel": "Zonnige Winkel",
+          "prijs_eur": 370,
+          "url": "https://zonnigewinkel.nl/product/solaredge-home-wave-omvormer-se5000h/",
+          "datum": "2026-10-09",
+          "btw_inbegrepen": false
+        }
+      ],
+      "samensteller": {
+        "soort": "centraal_optimizer",
+        "max_wp_per_paneel": 500,
+        "optimizer": {
+          "label": "S500-optimizer per paneel",
+          "prijs_eur": 60
+        },
+        "voorbeeld_ac_kw": 5,
+        "ac_kw_bereik": [
+          2.2,
+          3,
+          3.68,
+          4,
+          5,
+          6,
+          8,
+          10
+        ],
+        "max_dc_ac": 1.5,
+        "bron": "SolarEdge S500-datasheet (tot 500 Wp per optimizer); SolarEdge staat 135-155% overdimensionering toe"
+      },
+      "panelen_per_eenheid": null,
+      "prijs_datum": "2026-10-09"
+    },
+    {
+      "id": "fronius-gen24",
+      "merk": "Fronius",
+      "model": "Primo / Symo GEN24 (Plus)",
+      "type": "hybride",
+      "fase": "1-fase (Primo) en 3-fase (Symo)",
+      "vermogen_bereik": "3 - 10 kW",
+      "voorbeeld_variant": "Primo GEN24 5.0 Plus",
+      "richtprijs_eur": 1600,
+      "prijs_toelichting": "5 kW hybride (Plus), excl. batterij en installatie",
+      "batterij": {
+        "status": "ja",
+        "tekst": "Hybride (Plus-uitvoering): BYD Battery-Box Premium HVS/HVM rechtstreeks aan te sluiten; basisnoodstroom via PV Point, volledige back-up met extra hardware."
+      },
+      "home_assistant": {
+        "status": "ja",
+        "tekst": "Officiële Home Assistant-integratie (Fronius), lokaal via de open Solar API."
+      },
+      "schaduw": {
+        "status": "deels",
+        "tekst": "Twee MPPT-trackers met Dynamic Peak Manager; geen elektronica per paneel."
+      },
+      "app": "Fronius Solar.web",
+      "garantie_jaar": 10,
+      "opmerkingen": "Oostenrijkse fabrikant met open API's, geliefd bij slimme-huis-gebruikers. 10 jaar garantie na (gratis) registratie: 2 jaar volledig plus 8 jaar op materiaal, of volledig tegen bijbetaling.",
+      "product_url": "https://www.fronius.com/nl-nl/netherlands",
+      "homey": {
+        "status": "deels",
+        "tekst": "Community-app voor Fronius in de Homey App Store (lokale Solar API)."
+      },
+      "aanbiedingen": [
+        {
+          "winkel": "Zonnepanelen-voordelig",
+          "prijs_eur": 1415,
+          "url": "https://www.zonnepanelen-voordelig.nl/contents/nl/p58724_Fronius-Primo-GEN24-Plus-5.0-omvormer.html",
+          "datum": "2026-10-13",
+          "btw_inbegrepen": false
+        }
+      ],
+      "prijs_datum": "2026-10-13",
+      "samensteller": {
+        "soort": "centraal",
+        "voorbeeld_ac_kw": 5,
+        "ac_kw_bereik": [
+          3,
+          3.6,
+          4,
+          4.6,
+          5,
+          6,
+          8,
+          10
+        ],
+        "max_dc_ac": 1.35,
+        "bron": "Fronius GEN24: Primo 3-6 kW (1-fase), Symo 6-10 kW (3-fase)"
+      },
+      "panelen_per_eenheid": null
+    },
+    {
+      "id": "goodwe-et",
+      "merk": "GoodWe",
+      "model": "ET-serie (hybride)",
+      "type": "hybride",
+      "fase": "3-fase (EH-serie voor 1-fase)",
+      "vermogen_bereik": "5 - 15 kW",
+      "voorbeeld_variant": "GW5K-ET",
+      "richtprijs_eur": 1250,
+      "prijs_toelichting": "5 kW hybride, excl. batterij en installatie",
+      "batterij": {
+        "status": "ja",
+        "tekst": "Hybride voor hoogvolt-batterijen: de GoodWe Lynx Home F en een aantal geteste merken zoals BYD, afhankelijk van model. De laagvolt Lynx Home U hoort bij de ES- en EM-serie. Noodstroom via back-upaansluiting."
+      },
+      "home_assistant": {
+        "status": "ja",
+        "tekst": "Officiële Home Assistant-integratie (GoodWe), lokaal via het netwerk."
+      },
+      "schaduw": {
+        "status": "deels",
+        "tekst": "Twee MPPT-trackers; geen elektronica per paneel."
+      },
+      "app": "SEMS Portal",
+      "garantie_jaar": 10,
+      "opmerkingen": "Veel geïnstalleerd in Nederland met een goede prijs-kwaliteitverhouding. GoodWe levert ook een eigen EMS en laadpaal voor één ecosysteem.",
+      "product_url": "https://nl.goodwe.com/",
+      "homey": {
+        "status": "deels",
+        "tekst": "Community-app voor GoodWe (SEMS) in de Homey App Store."
+      },
+      "aanbiedingen": [
+        {
+          "winkel": "Zonnige Winkel",
+          "prijs_eur": 1181,
+          "url": "https://zonnigewinkel.nl/product/goodwe-5kn-et-hybride/",
+          "datum": "2026-10-09",
+          "niet_leverbaar": true,
+          "niet_leverbaar_reden": "Het adres van de productpagina toont sinds oktober 2026 een overzicht van GoodWe-omvormers; de 5K-ET staat er niet meer tussen."
+        }
+      ],
+      "samensteller": {
+        "soort": "centraal",
+        "voorbeeld_ac_kw": 5,
+        "ac_kw_bereik": [
+          5,
+          6.5,
+          8,
+          10,
+          15
+        ],
+        "max_dc_ac": 1.35,
+        "bron": "GoodWe ET-serie: 5-15 kW, 3-fase"
+      },
+      "panelen_per_eenheid": null,
+      "prijs_datum": "2026-10-09"
+    },
+    {
+      "id": "huawei-sun2000",
+      "merk": "Huawei",
+      "model": "SUN2000 L1 (hybride)",
+      "type": "hybride",
+      "fase": "1-fase (M1-serie voor 3-fase)",
+      "vermogen_bereik": "2 - 6 kW",
+      "voorbeeld_variant": "SUN2000-5KTL-L1",
+      "richtprijs_eur": 950,
+      "prijs_toelichting": "5 kW hybride, excl. batterij en installatie",
+      "batterij": {
+        "status": "ja",
+        "tekst": "Hybride: eigen LUNA2000-batterijen rechtstreeks aan te sluiten; noodstroom met back-upbox."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Via de veelgebruikte community-integratie (huawei_solar, lokaal via Modbus); geen officiële integratie."
+      },
+      "schaduw": {
+        "status": "deels",
+        "tekst": "Twee MPPT-trackers; optioneel per paneel uit te breiden met Huawei-optimizers."
+      },
+      "app": "FusionSolar",
+      "garantie_jaar": 10,
+      "opmerkingen": "Scherp geprijsd hybride-ecosysteem met optionele optimizers per paneel. Grote speler; controleer wel de beschikbaarheid van service in Nederland.",
+      "product_url": "https://solar.huawei.com/nl",
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen bekende Homey-app; de opwek is wel zichtbaar in Homey Energy via de Homey Energy Dongle op de slimme meter (P1)."
+      },
+      "aanbiedingen": [
+        {
+          "winkel": "Stralend Groen",
+          "prijs_eur": 625,
+          "url": "https://www.stralendgroen.nl/product/huawei-sun2000-5ktl-l1/",
+          "datum": "2026-10-13"
+        },
+        {
+          "winkel": "Groothandel Solar",
+          "prijs_eur": 1000,
+          "url": "https://www.groothandelsolar.com/omvormers/string-omvormers/huawei/huawai-sun2000-5ktl-l1",
+          "datum": "2026-10-13",
+          "btw_inbegrepen": false
+        },
+        {
+          "winkel": "SolarNRG",
+          "prijs_eur": 460,
+          "url": "https://solarnrg.shop/omvormers/huawei-sun2000-5ktl-l1/",
+          "datum": "2026-10-13",
+          "btw_inbegrepen": false
+        }
+      ],
+      "prijs_datum": "2026-10-13",
+      "samensteller": {
+        "soort": "centraal",
+        "voorbeeld_ac_kw": 5,
+        "ac_kw_bereik": [
+          2,
+          3,
+          3.68,
+          4.6,
+          5,
+          6
+        ],
+        "max_dc_ac": 1.35,
+        "bron": "Huawei SUN2000 L1: 2-6 kW, 1-fase"
+      },
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/huawei-sun2000.webp",
+      "afbeelding_bron": "foto: Huawei",
+      "afbeelding_herkomst": "https://solar.huawei.com/-/media/SolarV4/images/Professionals/AllProducts/Solution2/SmartPVController/Smart-PV-Controller-5.png",
+      "afbeelding_via": "https://solar.huawei.com/nl"
+    },
+    {
+      "id": "growatt-min-xh",
+      "merk": "Growatt",
+      "model": "MIN TL-XH (hybride-ready)",
+      "type": "hybride",
+      "fase": "1-fase (MOD/MID voor 3-fase)",
+      "vermogen_bereik": "2,5 - 6 kW",
+      "voorbeeld_variant": "MIN 5000TL-XH",
+      "richtprijs_eur": 750,
+      "prijs_toelichting": "5 kW hybride-ready, excl. batterij en installatie",
+      "batterij": {
+        "status": "ja",
+        "tekst": "Hybride-ready: eigen Growatt ARK XH-batterijen aan te sluiten (soms extra module nodig); werkt niet met batterijen van andere merken aan DC-zijde."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Via community-oplossingen (Grott of lokaal Modbus); de cloud-koppeling is beperkt en veranderde in het verleden regelmatig."
+      },
+      "schaduw": {
+        "status": "deels",
+        "tekst": "Twee MPPT-trackers; geen elektronica per paneel."
+      },
+      "app": "ShinePhone",
+      "garantie_jaar": 10,
+      "opmerkingen": "De budgetkoning onder de omvormers, zeer veel verkocht in Nederland. Eenvoudig en degelijk; de software en cloud zijn minder verfijnd dan bij de premiummerken.",
+      "product_url": "https://nl.growatt.com/",
+      "homey": {
+        "status": "deels",
+        "tekst": "Community-app voor Growatt in de Homey App Store (via de cloud)."
+      },
+      "aanbiedingen": [
+        {
+          "winkel": "Stralend Groen",
+          "prijs_eur": 540,
+          "url": "https://www.stralendgroen.nl/en/product/growatt-min-5000tl-xh-hybrid/",
+          "datum": "2026-10-13"
+        },
+        {
+          "winkel": "WarmteBeheer",
+          "prijs_eur": 620,
+          "url": "https://www.warmtebeheer.nl/growatt-min-5000tl-xh-hybrid-ready-omvormer-5000w-2mppt-gratis-wifi-module.html",
+          "datum": "2026-10-13",
+          "btw_inbegrepen": false
+        }
+      ],
+      "prijs_datum": "2026-10-13",
+      "samensteller": {
+        "soort": "centraal",
+        "voorbeeld_ac_kw": 5,
+        "ac_kw_bereik": [
+          2.5,
+          3,
+          3.6,
+          4.2,
+          4.6,
+          5,
+          6
+        ],
+        "max_dc_ac": 1.35,
+        "bron": "Growatt MIN TL-XH: 2,5-6 kW, 1-fase"
+      },
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/growatt-min-xh.webp",
+      "afbeelding_bron": "foto: Stralend Groen",
+      "afbeelding_herkomst": "https://www.stralendgroen.nl/wp-content/uploads/2024/10/vooraanzicht-Growatt-MIN-XH-omvormer.png",
+      "afbeelding_via": "https://www.stralendgroen.nl/en/product/growatt-min-5000tl-xh-hybrid/"
+    },
+    {
+      "id": "solis-s6-hybride",
+      "merk": "Solis",
+      "model": "S6 hybride",
+      "type": "hybride",
+      "fase": "1-fase en 3-fase varianten",
+      "vermogen_bereik": "3 - 10 kW",
+      "voorbeeld_variant": "S6-EH1P5K-L",
+      "richtprijs_eur": 900,
+      "prijs_toelichting": "5 kW hybride, excl. batterij en installatie",
+      "batterij": {
+        "status": "ja",
+        "tekst": "Hybride en relatief merk-open: werkt met een lijst geteste lithiumbatterijen (o.a. Pylontech en Dyness) via CAN-bus."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Via community-integraties (SolisCloud-API of lokaal Modbus met een adapter); geen officiële integratie."
+      },
+      "schaduw": {
+        "status": "deels",
+        "tekst": "Twee MPPT-trackers; geen elektronica per paneel."
+      },
+      "app": "SolisCloud",
+      "garantie_jaar": 10,
+      "opmerkingen": "Interessant voor wie batterijvrijheid wil: geen gedwongen eigen batterijlijn. Populair bij installateurs en zelfbouwers.",
+      "product_url": "https://www.solisinverters.com/",
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen bekende Homey-app; de opwek is wel zichtbaar in Homey Energy via de Homey Energy Dongle op de slimme meter (P1)."
+      },
+      "aanbiedingen": [
+        {
+          "winkel": "Zonnige Winkel",
+          "prijs_eur": 799,
+          "url": "https://zonnigewinkel.nl/product/solis-omvormer-hybride-s6-eh1p5klpl-1-fase/",
+          "datum": "2026-10-09",
+          "btw_inbegrepen": false
+        }
+      ],
+      "prijs_datum": "2026-10-09",
+      "samensteller": {
+        "soort": "centraal",
+        "voorbeeld_ac_kw": 5,
+        "ac_kw_bereik": [
+          3,
+          3.6,
+          4.6,
+          5,
+          6,
+          8
+        ],
+        "max_dc_ac": 1.35,
+        "bron": "Solis S6 hybride: 3-10 kW in 1- en 3-fase varianten"
+      },
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/solis-s6-hybride.webp",
+      "afbeelding_bron": "foto: Solis",
+      "afbeelding_herkomst": "https://cmsdata.solisinverters.com/uploads/image/20230209/LU5Eelv7W2J8efw6kPyELQvEuIgQhUzAliRIXcpp.png"
+    },
+    {
+      "id": "sungrow-sh",
+      "merk": "Sungrow",
+      "model": "SH-serie (hybride)",
+      "type": "hybride",
+      "fase": "1-fase (SH-RS) en 3-fase (SH-RT)",
+      "vermogen_bereik": "3,6 - 10 kW",
+      "voorbeeld_variant": "SH5.0RT",
+      "richtprijs_eur": 1450,
+      "prijs_toelichting": "5 kW hybride 3-fase, excl. batterij en installatie",
+      "batterij": {
+        "status": "ja",
+        "tekst": "Hybride: eigen SBR-batterijmodules rechtstreeks aan te sluiten; noodstroom via back-upaansluiting."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Via goed gedocumenteerd lokaal Modbus en populaire community-integraties; geen officiële integratie."
+      },
+      "schaduw": {
+        "status": "deels",
+        "tekst": "Twee MPPT-trackers; geen elektronica per paneel."
+      },
+      "app": "iSolarCloud",
+      "garantie_jaar": 10,
+      "opmerkingen": "Een van de grootste omvormerfabrikanten ter wereld; degelijk hybride-ecosysteem met stapelbare batterijmodules.",
+      "product_url": "https://en.sungrowpower.com/",
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen bekende Homey-app; de opwek is wel zichtbaar in Homey Energy via de Homey Energy Dongle op de slimme meter (P1)."
+      },
+      "aanbiedingen": [
+        {
+          "winkel": "CV Totaal",
+          "prijs_eur": 950,
+          "url": "https://www.cvtotaal.nl/sungrow-sh5-0rt-v112-3-fase-hybride-omvormer-5000w.html",
+          "datum": "2026-10-13"
+        }
+      ],
+      "prijs_datum": "2026-10-13",
+      "samensteller": {
+        "soort": "centraal",
+        "voorbeeld_ac_kw": 5,
+        "ac_kw_bereik": [
+          3.6,
+          4,
+          4.6,
+          5,
+          6,
+          8,
+          10
+        ],
+        "max_dc_ac": 1.35,
+        "bron": "Sungrow SH-serie: 3,6-10 kW (RS 1-fase, RT 3-fase)"
+      },
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/sungrow-sh.webp",
+      "afbeelding_bron": "foto: Coen+",
+      "afbeelding_herkomst": "https://www.coen-plus.nl/media/catalog/product/cache/6517c62f5899ad6aa0ba23ceb3eeff97/s/u/sungrow_sh60rt_1.jpg"
+    },
+    {
+      "id": "deye-sg04lp1",
+      "merk": "Deye",
+      "model": "SUN SG04LP1 (hybride)",
+      "type": "hybride",
+      "fase": "1-fase (SG04LP3 voor 3-fase)",
+      "vermogen_bereik": "3,6 - 12 kW",
+      "voorbeeld_variant": "SUN-5K-SG04LP1",
+      "richtprijs_eur": 850,
+      "prijs_toelichting": "5 kW hybride, excl. batterij en installatie",
+      "batterij": {
+        "status": "ja",
+        "tekst": "Hybride en merk-open: werkt met veel lithiumbatterijen (o.a. Pylontech en Dyness) via CAN/RS485; sterke noodstroomfunctie ingebouwd."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Via community-integraties (Solarman of lokaal Modbus); geen officiële integratie."
+      },
+      "schaduw": {
+        "status": "deels",
+        "tekst": "Twee MPPT-trackers; geen elektronica per paneel."
+      },
+      "app": "Deye Cloud / Solarman",
+      "garantie_jaar": 5,
+      "opmerkingen": "Favoriet bij zelfbouwers vanwege batterijvrijheid, noodstroom en prijs; wordt ook onder andere merknamen verkocht. Kwaliteit is prima, maar support loopt via de verkoper. Garantie verschilt per verkoopkanaal.",
+      "product_url": "https://www.deyeinverter.com/",
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen bekende Homey-app; de opwek is wel zichtbaar in Homey Energy via de Homey Energy Dongle op de slimme meter (P1)."
+      },
+      "aanbiedingen": [],
+      "prijs_datum": "2026-08-27",
+      "samensteller": {
+        "soort": "centraal",
+        "voorbeeld_ac_kw": 5,
+        "ac_kw_bereik": [
+          3.6,
+          5,
+          6,
+          8,
+          10,
+          12
+        ],
+        "max_dc_ac": 1.35,
+        "bron": "Deye SG04LP1: 3,6-12 kW, 1-fase"
+      },
+      "panelen_per_eenheid": null,
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is."
+    },
+    {
+      "id": "victron-multiplus2",
+      "merk": "Victron Energy",
+      "model": "MultiPlus-II (systeembouw)",
+      "type": "hybride",
+      "fase": "1-fase (3-fase mogelijk met 3 units)",
+      "vermogen_bereik": "3 - 10 kVA (per unit)",
+      "voorbeeld_variant": "MultiPlus-II 48/5000 + MPPT-laadregelaar",
+      "richtprijs_eur": 1350,
+      "prijs_toelichting": "48/5000-unit, excl. MPPT-laadregelaar(s), GX-device en batterij",
+      "batterij": {
+        "status": "ja",
+        "tekst": "Volledig merk-open: werkt met vrijwel elke 48V-batterij (Pylontech, BYD, zelfbouw-LiFePO4); zeer sterke noodstroom- en off-grid-mogelijkheden."
+      },
+      "home_assistant": {
+        "status": "ja",
+        "tekst": "Uitstekend te integreren: Venus OS praat lokaal via MQTT/Modbus en er zijn volwassen community-integraties."
+      },
+      "schaduw": {
+        "status": "deels",
+        "tekst": "Schaduwaanpak hangt af van de gekozen MPPT-laadregelaars (meerdere kleine MPPT's mogelijk)."
+      },
+      "app": "VRM Portal",
+      "garantie_jaar": 5,
+      "opmerkingen": "Nederlands merk, de standaard voor zelfbouwers, boten en off-grid. Geen kant-en-klaar pakket maar een bouwdoos: panelen koppelen via aparte MPPT-laadregelaars; laat het ontwerp door een specialist maken.",
+      "product_url": "https://www.victronenergy.nl/",
+      "homey": {
+        "status": "deels",
+        "tekst": "Community-app voor Victron (GX) in de Homey App Store, lokaal via het netwerk."
+      },
+      "aanbiedingen": [
+        {
+          "winkel": "Acculaders.nl",
+          "prijs_eur": 1861,
+          "url": "https://www.acculaders.nl/victron-multiplus-ii-48-5000-70-50-230v.html",
+          "datum": "2026-10-07",
+          "omvat": "MultiPlus-II 48/5000/70-50; de meta-tag van de pagina noemt 669,95 euro, maar dat bedrag hoort niet bij dit toestel"
+        }
+      ],
+      "prijs_datum": "2026-10-07",
+      "samensteller": {
+        "soort": "maatwerk",
+        "voorbeeld_ac_kw": 4,
+        "bron": "Victron MultiPlus-II 48/5000: 4.000 W continu; panelen via aparte MPPT-laadregelaars (ontwerp door specialist)"
+      },
+      "panelen_per_eenheid": null,
+      "afbeelding": "assets/producten/victron-multiplus2.webp",
+      "afbeelding_bron": "foto: Acculaders.nl",
+      "afbeelding_herkomst": "https://cdn.webshopapp.com/shops/74363/files/461396841/victron-multiplus-ii-48-5000-70-50-230v.jpg",
+      "afbeelding_via": "https://www.acculaders.nl/victron-multiplus-ii-48-5000-70-50-230v.html"
+    }
+  ]
+}

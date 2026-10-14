@@ -349,7 +349,7 @@
 
   async function init() {
     try {
-      const res = await fetch("data/warmtepompen.json", { cache: "no-cache" });
+      const res = await fetch("data/site/warmtepompen.json", { cache: "no-cache" });
       if (!res.ok) throw new Error("HTTP " + res.status);
       pompen = (await res.json()).warmtepompen || [];
       ["gasverbruik", "cvKetel", "isolatie", "afgifte", "buren", "smartHome"].forEach((id) => {

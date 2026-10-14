@@ -175,7 +175,8 @@
       "afbeelding_herkomst": "https://www.sessy.nl/wp-content/uploads/2026/02/5kwh-iso.186-scaled.png",
       "afbeelding_via": "https://www.sessy.nl/sessy-5-kwh/",
       "prijs_controle": "handmatig",
-      "prijs_controle_reden": "Sessy toont op de productpagina geen prijs meer (nagekeken op 8 oktober 2026); het bedrag is de prijs die er in juli 2026 stond."
+      "prijs_controle_reden": "Sessy toont op de productpagina geen prijs meer (nagekeken op 8 oktober 2026); het bedrag is de prijs die er in juli 2026 stond.",
+      "prijs_uit_offerte": true
     },
     {
       "id": "homewizard-plug-in-battery",
@@ -430,7 +431,8 @@
           }
         ],
         "toelichting": "Powerplay handelt op day-ahead en op de onbalansmarkt; je zit dan wel vast aan Zonneplan als leverancier."
-      }
+      },
+      "prijs_uit_offerte": true
     },
     {
       "id": "enphase-iq-battery-5p",
@@ -479,7 +481,8 @@
       "afbeelding_bron": "foto: Enphase",
       "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "continu",
-      "vermogen_bron": "Enphase-datasheet: 3,84 kVA rated (continuous) output, piek 7,68 kW gedurende 3 seconden"
+      "vermogen_bron": "Enphase-datasheet: 3,84 kVA rated (continuous) output, piek 7,68 kW gedurende 3 seconden",
+      "prijs_uit_offerte": true
     },
     {
       "id": "victron-pylontech-3fase",
@@ -681,7 +684,8 @@
         "toelichting": "Frank Energie stuurt AlphaESS-batterijen automatisch aan op day-ahead en onbalansmarkt."
       },
       "prijs_controle": "handmatig",
-      "prijs_controle_reden": "AlphaESS toont geen prijs (nagekeken op 8 oktober 2026); het bedrag komt uit de sets van Frank Energie en blijft mensenwerk."
+      "prijs_controle_reden": "AlphaESS toont geen prijs (nagekeken op 8 oktober 2026); het bedrag komt uit de sets van Frank Energie en blijft mensenwerk.",
+      "prijs_uit_offerte": true
     },
     {
       "id": "fox-ess-ep11",

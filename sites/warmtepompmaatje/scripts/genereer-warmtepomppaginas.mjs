@@ -11,6 +11,7 @@ import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
 import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
+import { verdeel, verborgenPagina, aantalWinkels } from "./zichtbaar.mjs";
 import * as Uitleg from "./uitleg.mjs";
 
 // Dezelfde icoonset als de browser gebruikt, zodat een pomppagina nooit een
@@ -103,6 +104,13 @@ const ASSET_VERSIE = assetVersie();
 const VANDAAG = new Date().toISOString().slice(0, 10);
 
 const data = JSON.parse(readFileSync(join(ROOT, "data", "warmtepompen.json"), "utf8"));
+
+/* Alleen pompen met een prijs die in de afgelopen 14 weken bevestigd is staan
+   op de site; zie kern/scripts/zichtbaar.mjs. Vanaf hier ziet het script
+   alleen die lijst, en de browser krijgt hem via data/site/warmtepompen.json. */
+const { zichtbaar: ZICHTBAAR, verborgen: VERBORGEN } = verdeel(data.warmtepompen || [], VANDAAG);
+data.warmtepompen = ZICHTBAAR;
+for (const { product, reden } of VERBORGEN) console.log(`  ~ ${product.id} staat er niet op: ${reden}`);
 
 /* De stand van de pagina's vóór dit script ze overschrijft. Daarmee kan de
    sitemap straks zeggen welke pagina's echt veranderd zijn, in plaats van elke
@@ -833,6 +841,27 @@ for (const w of pompen) {
 }
 console.log(`${pompen.length} productpagina's gegenereerd in /pomp/`);
 
+/* De pagina's van de pompen die er nu niet op staan. Het adres blijft
+   bestaan, want er kan elders naar gelinkt zijn, maar met noindex. */
+const HTML_404 = readFileSync(join(ROOT, "404.html"), "utf8");
+for (const { product: w } of VERBORGEN) {
+  const naam = volledigeNaam(w);
+  writeFileSync(join(ROOT, "pomp", `${w.id}.html`), verborgenPagina(HTML_404, {
+    titel: `${naam} | Warmtepompmaatje.nl`,
+    kop: `De ${naam} staat er nu niet op`,
+    alineas: [
+      `Een warmtepomp komt in mijn vergelijker als ik een prijs heb die in de laatste 14 weken bij een winkel of fabrikant is bevestigd. Bij de ${esc(naam)} lukt dat op dit moment niet, en met een oude prijs ernaast zou de vergelijking met de ${pompen.length} andere pompen scheef lopen.`,
+      "Zodra er weer een bevestigde prijs is, komt hij de volgende dag vanzelf terug.",
+    ],
+    terug: { href: "/index.html", tekst: "Naar alle warmtepompen" },
+  }), "utf8");
+}
+if (VERBORGEN.length) console.log(`${VERBORGEN.length} pomppagina's zonder actuele prijs als korte pagina geschreven`);
+
+// De browser leest dezelfde lijst als deze generator.
+mkdirSync(join(ROOT, "data", "site"), { recursive: true });
+writeFileSync(join(ROOT, "data", "site", "warmtepompen.json"), JSON.stringify(data, null, 2) + "\n", "utf8");
+
 // Sitemap herbouwen
 
 /* ------------------------------------------------------------------
@@ -946,6 +975,7 @@ writeFileSync(join(ROOT, BOUWVORM_BESTAND), bouwvormPagina(), "utf8");
 console.log(`${BOUWVORM_BESTAND} gegenereerd`);
 console.log(`${GELUID_BESTAND} gegenereerd (${pompen.filter((w) => w.geluid_db != null).length} van ${pompen.length} pompen met een opgegeven geluidsvermogen)`);
 
+let CIJFERS = null;
 /* ------------------------------------------------------------------
    uitleg.html: getallen, de markt in cijfers, de rekenhulp en de markup
    voor zoekmachines. Zie kern/scripts/uitleg.mjs.
@@ -963,6 +993,17 @@ console.log(`${GELUID_BESTAND} gegenereerd (${pompen.filter((w) => w.geluid_db !
   const geluid = pompen.filter((w) => typeof w.geluid_db === "number" && heeftBuitenunit(w));
   const stilste = geluid.slice().sort((a, b) => a.geluid_db - b.geluid_db)[0];
   const r290 = pompen.filter((w) => /R290/i.test(w.koudemiddel || "")).length;
+  // "R290 (natuurlijk)" en "R410A (GWP 2088)" tellen als R290 en R410A.
+  const perMiddel = {};
+  for (const w of pompen) {
+    const m = (/^R\d+[A-Za-z]?/.exec(w.koudemiddel || "") || [])[0];
+    if (m) perMiddel[m] = (perMiddel[m] || 0) + 1;
+  }
+  const middelen = Object.entries(perMiddel).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([m, n]) => `${n} op ${m}`);
+  const opsomming = (delen) => delen.length > 1 ? `${delen.slice(0, -1).join(", ")} en ${delen[delen.length - 1]}` : delen.join("");
+  const status = (veld, s) => pompen.filter((w) => (w[veld] || {}).status === s).length;
+  const prijzen = pompen.map(prijsVan).filter(Boolean);
   const isde = getallen("isde_indicatie_eur");
   const aanvoer = getallen("max_aanvoer_c");
   const garanties = getallen("garantie_jaar");
@@ -1000,6 +1041,20 @@ console.log(`${GELUID_BESTAND} gegenereerd (${pompen.filter((w) => w.geluid_db !
 
   const cijfers = {
     "aantal": pompen.length,
+    "prijs-n": prijzen.length,
+    "prijs-min": eur(Math.min(...prijzen)),
+    "prijs-max": eur(Math.max(...prijzen)),
+    "winkels": aantalWinkels(pompen),
+    "binnen": pompen.filter((w) => !heeftBuitenunit(w)).length,
+    "isde-n": isde.length,
+    "aanvoer-lijst": opsomming([...new Set(aanvoer)].sort((a, b) => a - b).map(String)),
+    "koudemiddelen": opsomming(middelen),
+    "ha-ja": status("home_assistant", "ja"),
+    "ha-deels": status("home_assistant", "deels"),
+    "ha-onbekend": status("home_assistant", "onbekend"),
+    "homey-ja": status("homey", "ja"),
+    "homey-deels": status("homey", "deels"),
+    "homey-nee": status("homey", "nee"),
     "hybride": hybride.length,
     "all-electric": allEl.length,
     "prijs-hybride": bereik(hybride),
@@ -1064,7 +1119,18 @@ console.log(`${GELUID_BESTAND} gegenereerd (${pompen.filter((w) => w.geluid_db !
     }));
   });
   writeFileSync(pad, uit.html, "utf8");
+  CIJFERS = cijfers;
   console.log(`uitleg.html: ${marktCijfers.length} marktcijfers, ${Uitleg.begrippen(uit.html).length} begrippen, ${uit.veranderd ? "bijgewerkt" : "ongewijzigd sinds"} ${uit.iso}`);
+}
+
+/* De met de hand geschreven pagina's met aantallen erin. Die tellen de pompen
+   die er nu op staan, dus ze worden elke dag ingevuld, en de FAQ-markup van de
+   voorpagina volgt de zichtbare antwoorden. */
+for (const bestand of ["index.html", "over-ons.html", "steun.html"]) {
+  const pad = join(ROOT, bestand);
+  const oud = readFileSync(pad, "utf8");
+  const nieuw = Uitleg.faqVolgensTekst(Uitleg.vulCijfers(oud, CIJFERS, bestand));
+  if (nieuw !== oud) writeFileSync(pad, nieuw, "utf8");
 }
 
 const vast = [

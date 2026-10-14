@@ -126,6 +126,9 @@ export function controleerBestand(data, { site, lijst }) {
     }
     if ("prijs_datum" in p && p.prijs_datum !== null && !isDatum(p.prijs_datum)) meld("prijs_datum is geen JJJJ-MM-DD");
     if ("prijs_controle" in p && p.prijs_controle !== "handmatig") meld(`prijs_controle mag alleen "handmatig" zijn`);
+    // Als tekst is "false" waar, en dan blijft een product zonder actuele prijs
+    // op de site staan (kern/scripts/zichtbaar.mjs vergelijkt met true).
+    if ("prijs_uit_offerte" in p && p.prijs_uit_offerte !== true) meld("prijs_uit_offerte mag alleen true zijn; laat het veld anders weg");
     for (const [veld, waarden] of Object.entries(vast)) {
       if (veld in p && p[veld] !== null && !waarden.includes(p[veld])) meld(`${veld} heeft een onbekende waarde (${JSON.stringify(p[veld])})`);
     }

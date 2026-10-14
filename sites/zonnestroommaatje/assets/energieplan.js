@@ -237,7 +237,7 @@
 
   async function init() {
     try {
-      const res = await fetch("data/panelen.json", { cache: "no-cache" });
+      const res = await fetch("data/site/panelen.json", { cache: "no-cache" });
       if (res.ok) panelen = (await res.json()).panelen || [];
     } catch (err) { console.error("panelen.json niet geladen:", err); }
     ["gasverbruik", "stroomverbruik", "dak", "isolatie", "cvKetel", "afgifte", "woning", "contract"].forEach((id) => {

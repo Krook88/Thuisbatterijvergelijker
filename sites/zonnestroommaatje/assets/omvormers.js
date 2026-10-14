@@ -462,7 +462,7 @@
 
   async function init() {
     try {
-      const res = await fetch("data/omvormers.json", { cache: "no-cache" });
+      const res = await fetch("data/site/omvormers.json", { cache: "no-cache" });
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
       state.omvormers = data.omvormers || [];
@@ -478,7 +478,7 @@
 
       // Panelen meladen voor de gezamenlijke zoekfunctie (best effort)
       try {
-        const resP = await fetch("data/panelen.json", { cache: "no-cache" });
+        const resP = await fetch("data/site/panelen.json", { cache: "no-cache" });
         if (resP.ok) state.panelen = (await resP.json()).panelen || [];
       } catch { /* zoekfunctie werkt dan alleen binnen omvormers */ }
 

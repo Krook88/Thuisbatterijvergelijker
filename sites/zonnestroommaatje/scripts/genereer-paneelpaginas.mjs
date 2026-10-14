@@ -14,6 +14,7 @@ import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
 import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
+import { verdeel, verborgenPagina, aantalWinkels } from "./zichtbaar.mjs";
 import * as Uitleg from "./uitleg.mjs";
 
 // Dezelfde icoonset als de browser gebruikt, zodat een icoon op een
@@ -101,6 +102,16 @@ function assetVersie() {
 const ASSET_VERSIE = assetVersie();
 
 const data = JSON.parse(readFileSync(resolve(ROOT, "data/panelen.json"), "utf8"));
+const omvormerData = JSON.parse(readFileSync(resolve(ROOT, "data/omvormers.json"), "utf8"));
+
+/* Alleen panelen en omvormers met een prijs die in de afgelopen 14 weken
+   bevestigd is staan op de site; zie kern/scripts/zichtbaar.mjs. Vanaf hier
+   ziet het script alleen die lijsten, en de browser krijgt ze via data/site/. */
+const { zichtbaar: ZICHTBAAR, verborgen: VERBORGEN } = verdeel(data.panelen || [], VANDAAG);
+data.panelen = ZICHTBAAR;
+const omvormerVerdeling = verdeel(omvormerData.omvormers || [], VANDAAG);
+omvormerData.omvormers = omvormerVerdeling.zichtbaar;
+for (const { product, reden } of [...VERBORGEN, ...omvormerVerdeling.verborgen]) console.log(`  ~ ${product.id} staat er niet op: ${reden}`);
 
 /* De stand van de pagina's vóór dit script ze overschrijft. Daarmee kan de
    sitemap straks zeggen welke pagina's echt veranderd zijn, in plaats van elke
@@ -729,7 +740,7 @@ ${staart}`;
    zodat prijzen en scores actueel blijven.
    ------------------------------------------------------------------ */
 
-const VERGELIJKINGEN = [
+const VERGELIJKINGEN_ALLE = [
   { a: "dmegc-440-glas-glas", b: "ulica-440-full-black" },
   { a: "aiko-neostar-2p-455", b: "longi-himo-x6-440" },
   { a: "jinko-tiger-neo-440", b: "ja-solar-jam54d41-440" },
@@ -737,6 +748,9 @@ const VERGELIJKINGEN = [
   { a: "rec-alpha-pure-2-420", b: "maxeon-6-440" },
   { a: "qcells-qtron-430", b: "canadian-solar-tophiku6-435" },
 ].map((v) => ({ ...v, slug: `${v.a}-vs-${v.b}` }));
+// Een vergelijking met een paneel dat er nu niet op staat, verdwijnt mee.
+const VERGELIJKINGEN_WEG = VERGELIJKINGEN_ALLE.filter((v) => !paneelById[v.a] || !paneelById[v.b]);
+const VERGELIJKINGEN = VERGELIJKINGEN_ALLE.filter((v) => paneelById[v.a] && paneelById[v.b]);
 
 // Feitelijke pluspunten van x ten opzichte van y, alleen op basis van de data.
 function pluspunten(x, y) {
@@ -851,6 +865,28 @@ for (const p of data.panelen) {
 }
 console.log(`${data.panelen.length} paneelpagina's gegenereerd in /paneel/`);
 
+/* De pagina's van de panelen die er nu niet op staan. Het adres blijft
+   bestaan, want er kan elders naar gelinkt zijn, maar met noindex. */
+const HTML_404 = readFileSync(resolve(ROOT, "404.html"), "utf8");
+for (const { product: p } of VERBORGEN) {
+  const naam = volledigeNaam(p);
+  writeFileSync(resolve(ROOT, "paneel", `${p.id}.html`), verborgenPagina(HTML_404, {
+    titel: `${naam} | Zonnestroommaatje.nl`,
+    kop: `Het ${naam} staat er nu niet op`,
+    alineas: [
+      `Ik zet een paneel alleen in de vergelijker als er een prijs bij hoort die in de afgelopen 14 weken nog is bevestigd. Voor het ${esc(naam)} heb ik die nu niet, en een prijs per wattpiek van maanden terug zegt weinig naast die van de ${ZICHTBAAR.length} andere panelen.`,
+      "Bevestigt een winkel de prijs weer, dan staat het paneel er de volgende dag vanzelf weer tussen.",
+    ],
+    terug: { href: "/index.html", tekst: "Naar alle panelen" },
+  }), "utf8");
+}
+if (VERBORGEN.length) console.log(`${VERBORGEN.length} paneelpagina's zonder actuele prijs als korte pagina geschreven`);
+
+// De browser leest dezelfde lijsten als deze generator.
+mkdirSync(resolve(ROOT, "data/site"), { recursive: true });
+writeFileSync(resolve(ROOT, "data/site/panelen.json"), JSON.stringify(data, null, 2) + "\n", "utf8");
+writeFileSync(resolve(ROOT, "data/site/omvormers.json"), JSON.stringify(omvormerData, null, 2) + "\n", "utf8");
+
 for (const cfg of OVERZICHTEN) {
   writeFileSync(resolve(ROOT, cfg.bestand), relativeer(overzichtsPagina(cfg), 0), "utf8");
 }
@@ -864,6 +900,14 @@ for (const v of VERGELIJKINGEN) {
   writeFileSync(resolve(ROOT, "vergelijk", `${v.slug}.html`), relativeer(vergelijkingsPagina(v), 1), "utf8");
 }
 console.log(`${VERGELIJKINGEN.length} vergelijkingspagina's gegenereerd in /vergelijk/`);
+for (const v of VERGELIJKINGEN_WEG) {
+  writeFileSync(resolve(ROOT, "vergelijk", `${v.slug}.html`), verborgenPagina(HTML_404, {
+    titel: "Vergelijking | Zonnestroommaatje.nl",
+    kop: "Deze vergelijking staat er nu niet op",
+    alineas: ["Voor een van de twee panelen heb ik geen prijs die in de laatste 14 weken bij een winkel is bevestigd, dus naast elkaar zetten heeft nu geen zin."],
+    terug: { href: "/index.html", tekst: "Naar alle panelen" },
+  }), "utf8");
+}
 
 /* ------------------------------------------------------------------
    Sitemap herbouwen (vaste pagina's + paneelpagina's)
@@ -984,6 +1028,7 @@ console.log(`index.html: ${gesorteerdePanelen.length} kaarten voorgerenderd en I
    uitleg.html: getallen, de markt in cijfers, de rekenhulp "hoeveel
    panelen" en de markup voor zoekmachines. Zie kern/scripts/uitleg.mjs.
    ------------------------------------------------------------------ */
+let CIJFERS = null;
 {
   const panelen = data.panelen;
   const nlGetal = (n, d = 1) => Number(n).toLocaleString("nl-NL", { maximumFractionDigits: d });
@@ -995,7 +1040,12 @@ console.log(`index.html: ${gesorteerdePanelen.length} kaarten voorgerenderd en I
   const tel = (f) => panelen.filter(f).length;
   const prodGar = panelen.map((p) => p.garantie_product_jaar).filter((n) => typeof n === "number");
   const vermGar = panelen.map((p) => p.garantie_vermogen_jaar).filter((n) => typeof n === "number");
-  const omvormers = JSON.parse(readFileSync(resolve(ROOT, "data/omvormers.json"), "utf8")).omvormers || [];
+  const omvormers = omvormerData.omvormers;
+  // Gewicht per uitvoering, voor de zin over glas-glas op de voorpagina.
+  const gewichten = (f) => panelen.filter(f).map((p) => p.gewicht_kg).filter((n) => typeof n === "number");
+  const gg = gewichten((p) => p.uitvoering === "glas-glas");
+  const gf = gewichten((p) => p.uitvoering !== "glas-glas");
+  const centPerWp = panelen.map((p) => Prijs.prijsPerWp(p)).filter(Boolean).map((w) => Math.round(w * 100));
   const verloop = JSON.parse(readFileSync(resolve(ROOT, "data/prijsverloop.json"), "utf8"));
   const beweging = Uitleg.prijsbeweging(verloop, { dagen: 30 });
 
@@ -1013,6 +1063,17 @@ console.log(`index.html: ${gesorteerdePanelen.length} kaarten voorgerenderd en I
 
   const cijfers = {
     "aantal": panelen.length,
+    "omvormers": omvormers.length,
+    "winkels": aantalWinkels(panelen, omvormers),
+    "gg-n": gg.length,
+    "gg-min": nlGetal(Math.min(...gg)),
+    "gg-max": nlGetal(Math.max(...gg)),
+    "gf-n": gf.length,
+    "gf-min": nlGetal(Math.min(...gf)),
+    "gf-max": nlGetal(Math.max(...gf)),
+    "cent-wp-min": Math.min(...centPerWp),
+    "cent-wp-max": Math.max(...centPerWp),
+    "cent-wp-factor": nlGetal(Math.max(...centPerWp) / Math.min(...centPerWp)),
     "wp-min": Math.min(...wps),
     "wp-max": Math.max(...wps),
     "wp-mediaan": mediaanWp,
@@ -1065,7 +1126,18 @@ console.log(`index.html: ${gesorteerdePanelen.length} kaarten voorgerenderd en I
     }));
   });
   writeFileSync(pad, uit.html, "utf8");
+  CIJFERS = cijfers;
   console.log(`uitleg.html: ${marktCijfers.length} marktcijfers, ${Uitleg.begrippen(uit.html).length} begrippen, ${uit.veranderd ? "bijgewerkt" : "ongewijzigd sinds"} ${uit.iso}`);
+}
+
+/* De met de hand geschreven pagina's met aantallen erin. Die tellen wat er nu
+   op staat, dus ze worden elke dag ingevuld, en de FAQ-markup volgt de
+   zichtbare antwoorden. */
+for (const bestand of ["index.html", "steun.html", "omvormers.html"]) {
+  const pad = resolve(ROOT, bestand);
+  const oud = readFileSync(pad, "utf8");
+  const nieuw = Uitleg.faqVolgensTekst(Uitleg.vulCijfers(oud, CIJFERS, bestand));
+  if (nieuw !== oud) writeFileSync(pad, nieuw, "utf8");
 }
 
 const vast = [

@@ -29,7 +29,9 @@ import { fileURLToPath } from "node:url";
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const lees = (naam) => readFileSync(resolve(ROOT, naam), "utf8");
 
-const batterijen = JSON.parse(lees("data/batterijen.json")).batterijen;
+// De lijst die op de site staat (zie kern/scripts/zichtbaar.mjs), want de
+// pagina's tellen alleen de batterijen met een actuele prijs.
+const batterijen = JSON.parse(lees("data/site/batterijen.json")).batterijen;
 const leveranciers = JSON.parse(lees("data/leveranciers.json")).leveranciers;
 
 // Alleen de pagina's in de hoofdmap: /batterij en /vergelijk worden per model

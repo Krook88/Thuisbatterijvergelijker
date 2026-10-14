@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { bouwMetEerlijkeDatum, vulCijfers, vervangBlok, korteAntwoorden, begrippen, uitlegSchema, inhoudsopgave, prijsbeweging, mediaan } from "./uitleg.mjs";
+import { bouwMetEerlijkeDatum, vulCijfers, vervangBlok, korteAntwoorden, begrippen, uitlegSchema, inhoudsopgave, prijsbeweging, mediaan, faqVolgensTekst } from "./uitleg.mjs";
 
 test("cijfers worden ingevuld, een onbekende naam is een fout", () => {
   const html = `<p>Er staan er <span data-cijfer="aantal">41</span>.</p>`;
@@ -69,4 +69,18 @@ test("de datum verspringt alleen als de pagina echt verandert, ook bij handwerk"
   assert.equal(bouwMetEerlijkeDatum(eerste.html, "2026-10-07", maak(53)).iso, "2026-10-07", "een getal veranderd");
   const metHandwerk = eerste.html.replace("<p>x", "<p>y");
   assert.equal(bouwMetEerlijkeDatum(metHandwerk, "2026-10-07", maak(52, "y")).iso, "2026-10-07", "met de hand herschreven");
+});
+
+test("de FAQ-markup volgt de zichtbare antwoorden", () => {
+  const ld = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [
+    { "@type": "Question", name: "Hoeveel?", acceptedAnswer: { "@type": "Answer", text: "Van de 57 hier." } },
+    { "@type": "Question", name: "Zonder tekst", acceptedAnswer: { "@type": "Answer", text: "Blijft." } },
+  ] };
+  const html = `<script type="application/ld+json">\n${JSON.stringify(ld, null, 2)}\n  </script>\n` +
+    '<details class="faq-item"><summary>Hoeveel?</summary><p>Van de <span data-cijfer="aantal">53</span> hier, zie <a href="x">dit</a>.</p></details>';
+  const uit = faqVolgensTekst(html);
+  const nieuw = JSON.parse(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/.exec(uit)[1]);
+  assert.equal(nieuw.mainEntity[0].acceptedAnswer.text, "Van de 53 hier, zie dit.");
+  assert.equal(nieuw.mainEntity[1].acceptedAnswer.text, "Blijft.");
+  assert.equal(faqVolgensTekst(uit), uit, "een tweede keer verandert niets");
 });

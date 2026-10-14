@@ -278,8 +278,8 @@
   async function init() {
     try {
       const [resP, resO] = await Promise.all([
-        fetch("data/panelen.json", { cache: "no-cache" }),
-        fetch("data/omvormers.json", { cache: "no-cache" }),
+        fetch("data/site/panelen.json", { cache: "no-cache" }),
+        fetch("data/site/omvormers.json", { cache: "no-cache" }),
       ]);
       if (!resP.ok || !resO.ok) throw new Error("HTTP " + resP.status + "/" + resO.status);
       panelen = (await resP.json()).panelen || [];

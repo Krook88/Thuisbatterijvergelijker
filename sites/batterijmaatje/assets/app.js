@@ -548,7 +548,7 @@
         .then((r) => (r.ok ? r.json() : null))
         .then((d) => { if (d && window.PrijsGrafiek) window.PrijsGrafiek.laad(d); })
         .catch(() => {});
-      const res = await fetch("data/batterijen.json", { cache: "no-cache" });
+      const res = await fetch("data/site/batterijen.json", { cache: "no-cache" });
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
       state.batterijen = data.batterijen || [];

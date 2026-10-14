@@ -33,7 +33,9 @@ import { fileURLToPath } from "node:url";
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const lees = (naam) => readFileSync(resolve(ROOT, naam), "utf8");
 
-const data = JSON.parse(lees("data/warmtepompen.json"));
+// De lijst die op de site staat (zie kern/scripts/zichtbaar.mjs), want de
+// pagina's tellen alleen de pompen met een actuele prijs.
+const data = JSON.parse(lees("data/site/warmtepompen.json"));
 const pompen = Object.values(data).find((v) => Array.isArray(v));
 
 // Alleen de pagina's in de hoofdmap: /pomp wordt per model gegenereerd en noemt

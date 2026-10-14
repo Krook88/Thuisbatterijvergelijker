@@ -717,7 +717,7 @@
     onthoudStandaardWaarden();
     beginParams = new URLSearchParams(location.search);
     try {
-      const res = await fetch("data/batterijen.json", { cache: "no-cache" });
+      const res = await fetch("data/site/batterijen.json", { cache: "no-cache" });
       const data = await res.json();
       batterijen = data.batterijen || [];
       vulBatterijKeuze();

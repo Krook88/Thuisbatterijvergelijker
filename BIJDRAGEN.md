@@ -210,6 +210,12 @@ De generator ruimt geen pagina's op. Bij het weghalen van een product
 Een id hernoemen is hetzelfde plus de sleutel in `data/prijsverloop.json`
 meenemen, anders begint de prijsgrafiek opnieuw.
 
+Een product dat geen actuele prijs meer heeft, hoef je niet weg te halen. Na
+14 weken zonder bevestigde prijs verdwijnt het vanzelf van de site, met een
+korte pagina op het oude adres, en het komt terug zodra een winkel de prijs
+weer bevestigt (DATASCHEMA.md, paragraaf 1). Weghalen is voor een product dat
+er niet meer hoort, bijvoorbeeld omdat het nergens meer te koop is.
+
 ## 6. Een prijs die niet klopt
 
 De velden staan in DATASCHEMA.md, paragraaf 2. Kort:
@@ -221,6 +227,8 @@ De velden staan in DATASCHEMA.md, paragraaf 2. Kort:
 | "te controleren" in het rapport | werkstroom *Wat staat er op een winkelpagina* met de URL en de `naam` |
 | een punt in `prijs-aandacht.json` dat je wilt vergeten | haal de regel uit dat bestand |
 | een richtprijs zonder winkel (batterijen) | `prijs_bron_url` erbij, dan loopt hij mee; anders `prijs_controle: "handmatig"` op het product |
+| een vanaf-prijs uit een offerte of pakket die geen script kan bevestigen | `prijs_uit_offerte: true` op het product, anders verdwijnt het na 14 weken van de site |
+| een product staat er ineens niet meer op | de generator meldt per product waarom ("prijs 103 dagen oud"); bevestig de prijs met de werkstroom *Wat staat er op een winkelpagina* en zet de `datum` |
 
 ## 7. Opmaak of scripts wijzigen (cachestempel)
 

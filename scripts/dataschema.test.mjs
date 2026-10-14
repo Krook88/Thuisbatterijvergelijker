@@ -40,3 +40,9 @@ test("een bestand met een dubbel id, een dubbele winkel en een onbekende conditi
   assert.match(uit, /id komt twee keer voor/);
   assert.match(uit, /kleine letters/);
 });
+
+test("prijs_uit_offerte is true of staat er niet", () => {
+  const data = { batterijen: [{ id: "a", merk: "A", model: "Een", prijs_uit_offerte: "ja" }, { id: "b", merk: "B", model: "Twee", prijs_uit_offerte: true }] };
+  const uit = controleerBestand(data, { site: "batterijmaatje", lijst: "batterijen" });
+  assert.equal(uit.filter((r) => /prijs_uit_offerte/.test(r)).length, 1);
+});

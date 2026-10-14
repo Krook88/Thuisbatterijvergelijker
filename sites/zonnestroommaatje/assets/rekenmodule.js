@@ -164,8 +164,8 @@
   async function init() {
     try {
       const [res, resOmv] = await Promise.all([
-        fetch("data/panelen.json", { cache: "no-cache" }),
-        fetch("data/omvormers.json", { cache: "no-cache" }).catch(() => null),
+        fetch("data/site/panelen.json", { cache: "no-cache" }),
+        fetch("data/site/omvormers.json", { cache: "no-cache" }).catch(() => null),
       ]);
       if (resOmv && resOmv.ok) omvormers = (await resOmv.json()).omvormers || [];
       if (!res.ok) throw new Error("HTTP " + res.status);

@@ -25,13 +25,13 @@ const esc = (s) => String(s == null ? "" : s)
   .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 /** Vult elk <span data-cijfer="naam"> met waarden[naam]. */
-export function vulCijfers(html, waarden) {
+export function vulCijfers(html, waarden, bestand = "uitleg.html") {
   const onbekend = new Set();
   const uit = html.replace(/(<span\b[^>]*\bdata-cijfer="([^"]+)"[^>]*>)[\s\S]*?(<\/span>)/g, (heel, open, naam, sluit) => {
     if (!(naam in waarden)) { onbekend.add(naam); return heel; }
     return `${open}${waarden[naam]}${sluit}`;
   });
-  if (onbekend.size) throw new Error(`uitleg.html noemt cijfers die de generator niet kent: ${[...onbekend].join(", ")}`);
+  if (onbekend.size) throw new Error(`${bestand} noemt cijfers die de generator niet kent: ${[...onbekend].join(", ")}`);
   return uit;
 }
 
@@ -97,6 +97,34 @@ const platteTekst = (h) => String(h)
   .replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
   .replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&euro;/g, "€")
   .replace(/\s+/g, " ").trim();
+
+/**
+ * De FAQ-markup van een met de hand geschreven pagina gelijktrekken met wat er
+ * in de <details> staat. Op de voorpagina's stond elk antwoord twee keer, een
+ * keer zichtbaar en een keer in de JSON-LD, en sinds de aantallen daarin uit
+ * de gegevens komen zou de tweede kopie stil achterlopen. Een vraag in de
+ * markup zonder <details> met precies dezelfde vraag blijft zoals hij is.
+ */
+export function faqVolgensTekst(html) {
+  const antwoorden = new Map();
+  const re = /<details\b[^>]*>\s*<summary\b[^>]*>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/g;
+  let m;
+  // Een tag wordt een spatie; voor een leesteken hoort die er niet.
+  const tekst = (h) => platteTekst(h).replace(/\s+([.,;:!?)])/g, "$1");
+  while ((m = re.exec(html)) !== null) antwoorden.set(tekst(m[1]), tekst(m[2]));
+  return html.replace(/(<script type="application\/ld\+json">)([\s\S]*?)(\n\s*<\/script>)/g, (heel, open, json, sluit) => {
+    let ld;
+    try { ld = JSON.parse(json); } catch { return heel; }
+    if (!ld || ld["@type"] !== "FAQPage" || !Array.isArray(ld.mainEntity)) return heel;
+    let anders = false;
+    for (const v of ld.mainEntity) {
+      const antwoord = antwoorden.get(tekst(v.name || ""));
+      if (antwoord && v.acceptedAnswer && v.acceptedAnswer.text !== antwoord) { v.acceptedAnswer.text = antwoord; anders = true; }
+    }
+    if (!anders) return heel;
+    return `${open}\n${JSON.stringify(ld, null, 2).replace(/^/gm, "  ")}${sluit}`;
+  });
+}
 
 /**
  * De korte antwoorden: <div class="kort-antwoord" data-vraag="..."> met de

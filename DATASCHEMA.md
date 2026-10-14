@@ -67,6 +67,19 @@ daar; anders meldt de dagelijkse run het.
 **Bedragen** zijn hele euro's (`prijs_eur`, `richtprijs_eur`). Incl. btw,
 tenzij een `btw_inbegrepen: false` het tegendeel zegt.
 
+**Wat er op de site staat.** Een product staat alleen op de site als er een
+prijs is die in de afgelopen 14 weken (98 dagen) bevestigd is: de jongste
+`datum` van een leverbare aanbieding met een bedrag, of anders de `prijs_datum`
+van de richtprijs. Een aanbieding zonder `datum` telt niet als bevestigd. De
+generator haalt de rest uit de lijst, de kaarten, de keuzehulp, de
+vergelijkingen en de sitemap, en schrijft voor elk ervan een korte pagina met
+noindex op het oude adres. De gegevens blijven hier staan; komt er weer een
+bevestigde prijs, dan staat het product er de volgende generatie weer op. De
+regel staat in `kern/scripts/zichtbaar.mjs`. Uitzondering is
+`prijs_uit_offerte: true` op productniveau, voor een vanaf-prijs uit een
+offerte of pakket die geen script kan bevestigen; zo'n product blijft staan
+zolang er een bedrag is, en de site toont de leeftijd van de prijs erbij.
+
 ---
 
 ## 2. Aanbiedingen
@@ -196,6 +209,7 @@ ontbrekend = onbekend (telt als 0).
 | `prijs_bron_url` | URL | 22/57 | Als die er is, gaat de richtprijs mee in de dagelijkse ronde. |
 | `prijs_controle` | `"handmatig"` | 3/57 | Op productniveau: de richtprijs is mensenwerk (offerte, schatting). |
 | `prijs_controle_reden` | tekst | 2/57 | |
+| `prijs_uit_offerte` | `true` | 4/57 | De prijs komt uit een offerte of pakket; het product blijft op de site staan, ook zonder bevestiging in de laatste 14 weken (zie paragraaf 1). Alleen `true`, of het veld weglaten. Kan ook op de andere sites. |
 | `totaalprijs_van_eur`, `totaalprijs_tot_eur` | geheel getal of `null` | 56/57, 55/57 | Compleet gebruiksklaar, incl. installatie. |
 | `totaalprijs_geschat_van_eur`, `totaalprijs_geschat_tot_eur` | geheel getal | 5/57 | Schatting (toestel plus installatie); telt niet mee in de rangschikking. |
 | `totaalprijs_toelichting` | tekst | 56/57 | |
@@ -372,6 +386,7 @@ Niet met de hand bewerken, behalve waar het erbij staat.
 | `sites/<site>/data/prijsverloop.json` | `npm run prijsverloop` (dagelijks) | `{toelichting, bijgewerkt, producten: {id: [[datum, prijs\|null], ...]}, winkels: {id: {winkel: [[datum, prijs\|null]]}}}`. Alleen wijzigingspunten; `null` = die dag geen winkelprijs. Opnieuw op te bouwen met `--uit-git`. |
 | `sites/<site>/data/prijs-aandacht.json` | `update-prices.mjs` via `kern/scripts/prijs-aandacht.mjs` | `{bijgewerkt, punten: {"<familie>\|<id>\|<winkel>": {sinds, soort, tekst, bevestigd}}}`. Soorten: `verouderd`, `onbereikbaar`, `te controleren`, `geweigerd` en `zonder bedrag` (die twee delen de familie `zonder prijs`). Een punt verwijderen = het vergeten. |
 | `sites/<site>/data/nieuwe-modellen.json` | `npm run nieuwe-modellen` (dagelijks) | `{toelichting, kandidaten: [{titel, bron, url, ean, prijs_eur, lijkt_op, maat_uit_titel, eerst_gezien}]}`. |
+| `sites/<site>/data/site/*.json` | de generator (`npm run genereer`) | Dezelfde vorm als het productbestand, met alleen de producten die op de site staan (zie paragraaf 1). Dit is wat `assets/*.js` ophaalt en wat de tellingproeven lezen; met de hand bewerken heeft geen zin, de volgende generatie overschrijft het. |
 | `scripts/stempels.json` | `npm run stempel` | Vingerafdruk van alle css en js per site; `--controleer` faalt als die niet meer klopt. |
 | `sites/<site>/meting-ijkpunt.json` | `npm run meet -- --bewaar` | IJkpunt voor `meet:vergelijk`. |
 | `sites/warmtepompmaatje/data/bronnen/isde-meldcodes.csv` | met de hand, uit de RVO-lijst | Lucht/water-regels van de meldcodelijst. Er is nog geen script dat het RVO-Excelbestand omzet (zie het rapport). |

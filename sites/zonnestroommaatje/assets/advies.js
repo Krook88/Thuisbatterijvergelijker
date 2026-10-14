@@ -421,14 +421,14 @@
 
   async function init() {
     try {
-      const res = await fetch("data/panelen.json", { cache: "no-cache" });
+      const res = await fetch("data/site/panelen.json", { cache: "no-cache" });
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
       panelen = data.panelen || [];
 
       // Omvormers meladen voor het omvormeradvies (best effort)
       try {
-        const resO = await fetch("data/omvormers.json", { cache: "no-cache" });
+        const resO = await fetch("data/site/omvormers.json", { cache: "no-cache" });
         if (resO.ok) omvormers = (await resO.json()).omvormers || [];
       } catch { /* zonder omvormerdata blijft het paneeladvies gewoon werken */ }
 

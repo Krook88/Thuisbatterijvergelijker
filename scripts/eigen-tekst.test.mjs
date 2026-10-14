@@ -30,11 +30,13 @@ import { fileURLToPath } from "node:url";
 const WORTEL = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 /* site, gegevensbestand, map met productpagina's. De omvormers van
-   zonnestroommaatje staan er bewust niet bij: die hebben geen eigen pagina. */
+   zonnestroommaatje staan er bewust niet bij: die hebben geen eigen pagina.
+   Het bestand in data/site/ is de lijst die op de site staat; een product
+   zonder actuele prijs heeft alleen een korte pagina zonder aantekening. */
 const SETS = [
-  ["batterijmaatje", "data/batterijen.json", "batterij"],
-  ["warmtepompmaatje", "data/warmtepompen.json", "pomp"],
-  ["zonnestroommaatje", "data/panelen.json", "paneel"],
+  ["batterijmaatje", "data/site/batterijen.json", "batterij"],
+  ["warmtepompmaatje", "data/site/warmtepompen.json", "pomp"],
+  ["zonnestroommaatje", "data/site/panelen.json", "paneel"],
 ];
 
 /* Entiteiten en opmaak maken een letterlijke vergelijking onbruikbaar: een

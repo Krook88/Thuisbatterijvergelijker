@@ -13,6 +13,7 @@ import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
 import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
+import { verdeel, verborgenPagina, aantalWinkels } from "./zichtbaar.mjs";
 import * as Uitleg from "./uitleg.mjs";
 
 // Dezelfde prijslogica en iconen als de browser gebruikt, zodat een
@@ -78,6 +79,14 @@ function assetVersie() {
 const ASSET_VERSIE = assetVersie();
 
 const data = JSON.parse(readFileSync(resolve(ROOT, "data/batterijen.json"), "utf8"));
+
+/* Alleen batterijen met een prijs die in de afgelopen 14 weken bevestigd is
+   staan op de site; zie kern/scripts/zichtbaar.mjs. Vanaf hier ziet het hele
+   script alleen die lijst: de kaarten, de tellingen, de vergelijkingen en de
+   sitemap. De browser krijgt dezelfde lijst via data/site/batterijen.json. */
+const { zichtbaar: ZICHTBAAR, verborgen: VERBORGEN } = verdeel(data.batterijen || [], VANDAAG);
+data.batterijen = ZICHTBAAR;
+for (const { product, reden } of VERBORGEN) console.log(`  ~ ${product.id} staat er niet op: ${reden}`);
 
 /* Hoeveel batterijen noodstroom kunnen, geteld zoals de kaart het toont.
    Staat hier en niet als vast getal in de tekst, want een hand-geschreven
@@ -1233,7 +1242,7 @@ ${VOET_HTML}
    herbouwd, zodat prijzen en scores actueel blijven.
    ------------------------------------------------------------------ */
 
-const VERGELIJKINGEN = [
+const VERGELIJKINGEN_ALLE = [
   { a: "sessy-5kwh", b: "homewizard-plug-in-battery" },
   { a: "marstek-venus-e-3", b: "sessy-5kwh" },
   { a: "marstek-venus-e-3", b: "homewizard-plug-in-battery" },
@@ -1246,6 +1255,9 @@ const VERGELIJKINGEN = [
 ].map((v) => ({ ...v, slug: `${v.a}-vs-${v.b}` }));
 
 const batterijById = Object.fromEntries(data.batterijen.map((b) => [b.id, b]));
+// Een vergelijking met een batterij die er nu niet op staat, verdwijnt mee.
+const VERGELIJKINGEN_WEG = VERGELIJKINGEN_ALLE.filter((v) => !batterijById[v.a] || !batterijById[v.b]);
+const VERGELIJKINGEN = VERGELIJKINGEN_ALLE.filter((v) => batterijById[v.a] && batterijById[v.b]);
 // "Sessy" + "Sessy 5 kWh" wordt anders "Sessy Sessy 5 kWh"
 const volledigeNaam = (b) => b.model.toLowerCase().startsWith(b.merk.toLowerCase()) ? b.model : `${b.merk} ${b.model}`;
 const perKwhVan = perKwhInclBtw;
@@ -1412,6 +1424,27 @@ for (const b of data.batterijen) {
 }
 console.log(`${data.batterijen.length} batterijpagina's gegenereerd in /batterij/`);
 
+/* De pagina's van wat er nu niet op staat. Het adres blijft bestaan, want er
+   kan elders naar gelinkt zijn, maar het is een korte pagina met noindex. */
+const HTML_404 = readFileSync(resolve(ROOT, "404.html"), "utf8");
+for (const { product: b } of VERBORGEN) {
+  const naam = volledigeNaam(b);
+  writeFileSync(resolve(ROOT, "batterij", `${b.id}.html`), verborgenPagina(HTML_404, {
+    titel: `${naam} | Batterijmaatje.nl`,
+    kop: `De ${naam} staat er nu niet op`,
+    alineas: [
+      `In mijn vergelijker staan alleen thuisbatterijen waarvan een winkel de prijs in de afgelopen 14 weken heeft bevestigd. Voor de ${esc(naam)} heb ik zo'n prijs nu niet, en zonder actuele prijs kun je hem niet eerlijk naast de andere ${ZICHTBAAR.length} leggen.`,
+      "Duikt er weer een winkel met een bevestigde prijs op, dan staat hij er de dag daarna vanzelf weer bij.",
+    ],
+    terug: { href: "/index.html", tekst: "Naar de vergelijker" },
+  }), "utf8");
+}
+if (VERBORGEN.length) console.log(`${VERBORGEN.length} batterijpagina's zonder actuele prijs als korte pagina geschreven`);
+
+// De browser leest dezelfde lijst als deze generator.
+mkdirSync(resolve(ROOT, "data/site"), { recursive: true });
+writeFileSync(resolve(ROOT, "data/site/batterijen.json"), JSON.stringify(data, null, 2) + "\n", "utf8");
+
 for (const cfg of OVERZICHTEN) {
   writeFileSync(resolve(ROOT, cfg.bestand), overzichtsPagina(cfg), "utf8");
 }
@@ -1429,6 +1462,14 @@ for (const v of VERGELIJKINGEN) {
   writeFileSync(resolve(ROOT, "vergelijk", `${v.slug}.html`), vergelijkingsPagina(v), "utf8");
 }
 console.log(`${VERGELIJKINGEN.length} vergelijkingspagina's gegenereerd in /vergelijk/`);
+for (const v of VERGELIJKINGEN_WEG) {
+  writeFileSync(resolve(ROOT, "vergelijk", `${v.slug}.html`), verborgenPagina(HTML_404, {
+    titel: "Vergelijking | Batterijmaatje.nl",
+    kop: "Deze vergelijking staat er nu niet op",
+    alineas: ["Een van de twee batterijen heeft op dit moment geen prijs die in de afgelopen 14 weken bij een winkel is bevestigd, en dan valt er niets eerlijks te vergelijken."],
+    terug: { href: "/index.html", tekst: "Naar de vergelijker" },
+  }), "utf8");
+}
 
 /* ------------------------------------------------------------------
    Sitemap herbouwen (vaste pagina's + batterijpagina's)
@@ -1552,6 +1593,7 @@ console.log(`index.html: ${gesorteerdeBatterijen.length} kaarten voorgerenderd, 
    inhoudsopgave en de markup voor zoekmachines. De tekst zelf blijft
    handwerk; zie kern/scripts/uitleg.mjs voor waarom.
    ------------------------------------------------------------------ */
+let CIJFERS = null;
 {
   const lijst = data.batterijen;
   const nlGetal = (n, d = 1) => Number(n).toLocaleString("nl-NL", { maximumFractionDigits: d });
@@ -1596,6 +1638,7 @@ console.log(`index.html: ${gesorteerdeBatterijen.length} kaarten voorgerenderd, 
   };
   const cijfers = {
     "aantal": lijst.length,
+    "winkels": aantalWinkels(lijst),
     "woorden": woorden,
     "prijs-min": nlGetal(rond(Math.min(...prijzen), 1), 0),
     "prijs-max": nlGetal(rond(Math.max(...prijzen), 1), 0),
@@ -1665,7 +1708,18 @@ console.log(`index.html: ${gesorteerdeBatterijen.length} kaarten voorgerenderd, 
     return h;
   });
   writeFileSync(pad, uit.html, "utf8");
+  CIJFERS = cijfers;
   console.log(`uitleg.html: ${marktCijfers.length} marktcijfers, ${woorden} begrippen, ${uit.veranderd ? "bijgewerkt" : "ongewijzigd sinds"} ${uit.iso}`);
+}
+
+/* De met de hand geschreven pagina's met aantallen erin. Die tellen de
+   batterijen die er nu op staan, dus ze worden elke dag ingevuld, en de
+   FAQ-markup volgt de zichtbare antwoorden. */
+for (const bestand of ["index.html", "over-ons.html", "regelgeving.html", "steun.html"]) {
+  const pad = resolve(ROOT, bestand);
+  const oud = readFileSync(pad, "utf8");
+  const nieuw = Uitleg.faqVolgensTekst(Uitleg.vulCijfers(oud, CIJFERS, bestand));
+  if (nieuw !== oud) writeFileSync(pad, nieuw, "utf8");
 }
 
 const vast = [
