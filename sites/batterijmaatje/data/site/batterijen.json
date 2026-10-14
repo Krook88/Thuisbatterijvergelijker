@@ -1625,10 +1625,10 @@
       "vermogen_kw": 0.8,
       "type": "plug-in",
       "fase": "1-fase",
-      "richtprijs_eur": 1330,
-      "prijs_bron": "StekkerDeal-prijsvergelijking (juli 2026)",
+      "richtprijs_eur": 1439,
+      "prijs_bron": "My Green Energy (oktober 2026)",
       "prijs_omvat": "incl. btw, stekkerklaar; excl. installatie",
-      "prijs_datum": "2026-07-20",
+      "prijs_datum": "2026-10-14",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "AC-gekoppeld via het stopcontact, en hij werkt samen met onder meer de HomeWizard P1 en de Shelly 3EM Pro.",
       "koppeling_gemak": 5,
@@ -1640,10 +1640,17 @@
       "cycli": "6.000 (bij 90% ontlaaddiepte, tot 70% restcapaciteit)",
       "opmerkingen": "Een nieuw merk in Nederland, sub-merk van NOVGEN/Jiawei, met dezelfde hardwarebasis als de AEG SolarCube: dezelfde doos, een andere naam. Eind juli 2026 lag hij bij meerdere webwinkels tussen circa 1.330 en 1.439 euro. Let op de teruglevering, die is beperkt tot 800 W; alleen de noodstroomuitgang levert meer (2.400 W, piek 3.600 W). De garantie is 10 jaar. Homey-ondersteuning en IP-klasse waren in juli 2026 nog niet vastgesteld.",
       "product_url": "https://sunpuraenergy.nl/en",
-      "aanbiedingen": [],
+      "aanbiedingen": [
+        {
+          "winkel": "My Green Energy",
+          "prijs_eur": 1439,
+          "url": "https://mygreenenergy.nl/product/sunpura-s4800-plug-play-thuisbatterij-met-stekker-48kwh/",
+          "datum": "2026-10-14"
+        }
+      ],
       "totaalprijs_van_eur": 1330,
       "totaalprijs_tot_eur": null,
-      "totaalprijs_toelichting": "stekkerklaar, zelf te installeren; richtprijs uit prijsvergelijking",
+      "totaalprijs_toelichting": "stekkerklaar, zelf te installeren",
       "noodstroom": true,
       "noodstroom_uitleg": "Off-grid/noodstroomuitgang tot 2.400 W continu (piek 3.600 W, fabrieksopgave).",
       "capaciteit_nominaal_kwh": 4.8,
@@ -1653,9 +1660,7 @@
       "afbeelding": "assets/producten/sunpura-s4800.webp",
       "afbeelding_bron": "foto: Sunpura",
       "afbeelding_herkomst": "https://sunpuraenergy.nl/cdn/shop/files/S2400_All-In-One_-_front_view_-_3.png?v=1784618697&width=900",
-      "afbeelding_via": "https://sunpuraenergy.nl/en",
-      "prijs_controle": "handmatig",
-      "prijs_controle_reden": "Sunpura toont op sunpuraenergy.nl geen prijs bij dit model (nagekeken op 8 oktober 2026); het bedrag komt uit een prijsvergelijking van juli 2026."
+      "afbeelding_via": "https://sunpuraenergy.nl/en"
     },
     {
       "id": "marstek-venus-e-4",
