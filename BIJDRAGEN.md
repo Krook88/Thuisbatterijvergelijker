@@ -18,6 +18,7 @@ daartegen nagelopen.
 8. De dagelijkse prijsupdate
 9. Werkstromen en hun invoer
 10. Npm-commando's per map
+11. Bezoekersstatistieken
 
 ---
 
@@ -315,3 +316,21 @@ op dit moment niets). Zonder alias, en wel degene die gegevens overneemt:
 `node scripts/isde-meldcodes.mjs [--schrijf]` (ISDE-bedrag en Prated-vermogen
 uit `data/bronnen/isde-meldcodes.csv`) en `node scripts/varianten.mjs
 [--schrijf]`.
+
+## 11. Bezoekersstatistieken
+
+De drie sites tellen bezoeken met Vercel Web Analytics, zonder cookies. Het
+dashboard staat in Vercel, per project onder **Analytics**:
+batterijmaatje, warmtepompmaatje en zonnestroommaatje. Daar zie je bezoekers
+en paginaweergaven per dag, de meest gelezen pagina's, waar bezoekers vandaan
+komen, land, apparaat en browser. Op het gratis abonnement gaat het dashboard
+31 dagen terug.
+
+- Het script (`/_vercel/insights/script.js`) zet de generator aan het eind op
+  elke pagina, ook op nieuwe en met de hand geschreven pagina's; zie
+  `kern/scripts/statistiek.mjs`. De proef "elke pagina van deze site telt mee"
+  faalt als er een pagina zonder staat.
+- Het dashboard toont standaard de productieomgeving; bezoeken aan een preview tellen daar niet mee.
+- Wat er gemeten wordt, staat op `privacy.html` van elke site. Meet je meer
+  (bijvoorbeeld klikken op een winkelknop), pas dan eerst die pagina aan.
+

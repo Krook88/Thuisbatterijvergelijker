@@ -12,6 +12,7 @@ import { createRequire } from "node:module";
 import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
 import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
 import { verdeel, verborgenPagina, aantalWinkels } from "./zichtbaar.mjs";
+import { zetStatistiekOveral } from "./statistiek.mjs";
 import * as Uitleg from "./uitleg.mjs";
 
 // Dezelfde icoonset als de browser gebruikt, zodat een pomppagina nooit een
@@ -1147,6 +1148,12 @@ const vast = [
   { loc: `${SITE}/steun.html`, prio: "0.3" },
 ];
 const urls = [...vast, ...pompen.map((w) => ({ loc: `${SITE}/pomp/${w.id}.html`, prio: "0.7" }))];
+// Het statistiekscript op elke pagina, ook op de pagina's die hierboven niet
+// geschreven zijn (zie kern/scripts/statistiek.mjs). Vóór de sitemap, want die
+// vergelijkt de pagina's met gisteren, en zonder tag zou elke gegenereerde
+// pagina elke dag als veranderd gelden.
+const metTag = zetStatistiekOveral(ROOT);
+if (metTag) console.log(`statistiekscript op ${metTag} pagina('s) gezet`);
 const lastmodVoor = lastmodMaker(ROOT, SITE, STAND_VOOR, VANDAAG);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
   urls.map((u) => `  <url><loc>${u.loc}</loc><lastmod>${lastmodVoor(u.loc)}</lastmod><priority>${u.prio}</priority></url>`).join("\n") +

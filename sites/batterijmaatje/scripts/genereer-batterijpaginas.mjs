@@ -14,6 +14,7 @@ import { createRequire } from "node:module";
 import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
 import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
 import { verdeel, verborgenPagina, aantalWinkels } from "./zichtbaar.mjs";
+import { zetStatistiekOveral } from "./statistiek.mjs";
 import * as Uitleg from "./uitleg.mjs";
 
 // Dezelfde prijslogica en iconen als de browser gebruikt, zodat een
@@ -1745,6 +1746,12 @@ const urls = [
   ...VERGELIJKINGEN.map((v) => ({ loc: `${SITE}/vergelijk/${v.slug}.html`, freq: "daily", prio: "0.7" })),
 ];
 
+// Het statistiekscript op elke pagina, ook op de pagina's die hierboven niet
+// geschreven zijn (zie kern/scripts/statistiek.mjs). Vóór de sitemap, want die
+// vergelijkt de pagina's met gisteren, en zonder tag zou elke gegenereerde
+// pagina elke dag als veranderd gelden.
+const metTag = zetStatistiekOveral(ROOT);
+if (metTag) console.log(`statistiekscript op ${metTag} pagina('s) gezet`);
 const lastmodVoor = lastmodMaker(ROOT, SITE, STAND_VOOR, VANDAAG);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
   urls.map((u) => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${lastmodVoor(u.loc)}</lastmod>\n    <changefreq>${u.freq}</changefreq>\n    <priority>${u.prio}</priority>\n  </url>`).join("\n") +
