@@ -510,7 +510,7 @@
       "vermogen_wp": 425,
       "celtype": "topcon",
       "uitvoering": "glas-glas",
-      "full_black": true,
+      "full_black": false,
       "bifaciaal": false,
       "rendement_pct": 21.7,
       "afmetingen_mm": "1727 × 1134 × 35",
@@ -524,7 +524,7 @@
       "prijs_datum": "2026-10-14",
       "prijs_omvat": "prijs per paneel, 0% btw bij levering voor een woning, excl. omvormer en installatie",
       "product_url": "https://www.solarwatt.nl/",
-      "opmerkingen": "Duitse kwaliteitsbouwer met 30 jaar garantie op product én vermogen. Robuust glas-glas paneel (2 mm glas aan beide zijden), daardoor wel enkele kilo's zwaarder dan de gemiddelde concurrent. Vooral leverbaar via installateurs, niet als los paneel bij webshops.",
+      "opmerkingen": "Duitse kwaliteitsbouwer met 30 jaar garantie op product én vermogen. Robuust glas-glas paneel (2 mm glas aan beide zijden), daardoor wel enkele kilo's zwaarder dan de gemiddelde concurrent. Vooral leverbaar via installateurs; als los paneel vond ik hem in oktober 2026 bij Zonnepaneelcentrum. De pure-uitvoering heeft volgens het datasheet van Solarwatt een zilverkleurig frame, dus hij is niet full black.",
       "aanbiedingen": [
         {
           "winkel": "Zonnepaneelcentrum",

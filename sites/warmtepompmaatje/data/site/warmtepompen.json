@@ -806,6 +806,65 @@
       "afbeelding_herkomst": "https://www.coen-plus.nl/media/catalog/product/cache/6517c62f5899ad6aa0ba23ceb3eeff97/s/a/samsung_ehs1.jpg"
     },
     {
+      "id": "weheat-blackbird",
+      "merk": "Weheat",
+      "model": "Blackbird",
+      "type": "all-electric",
+      "voorbeeld_variant": "Blackbird P60 (monoblock)",
+      "vermogen_kw": 6,
+      "scop": 5,
+      "scop_toelichting": "Nederlandse nieuwkomer met zeer hoog opgegeven rendement",
+      "geluid_db": 54,
+      "geluid_toelichting": "stil ontwerp met grote, langzaam draaiende ventilator",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "aparte boiler",
+      "max_aanvoer_c": 70,
+      "richtprijs_eur": 7000,
+      "prijs_toelichting": "toestel, excl. boiler en installatie. Mijn varianttekst noemde eerder 5 kW, maar de meldcode KA28196 hoort bij de Blackbird P60. Naam en meldcode wijzen nu naar hetzelfde toestel; RVO geeft er 6 kW voor bij de ontwerpbuitentemperatuur.",
+      "isde_indicatie_eur": 2575,
+      "sturing": {
+        "status": "ja",
+        "tekst": "Open instelling: SG-ready en een gedocumenteerde koppeling voor energiemanagement."
+      },
+      "home_assistant": {
+        "status": "ja",
+        "tekst": "Officiële Weheat-integratie in Home Assistant (sinds eind 2024): temperaturen, vermogen en COP direct zichtbaar."
+      },
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen eigen Homey-app; community vraagt erom, verbruik zichtbaar via de Homey Energy Dongle (P1)."
+      },
+      "app": "Weheat-app",
+      "garantie_jaar": 7,
+      "opmerkingen": "Uit Delft, en gebouwd met een plat dak in gedachten. Het liggende model valt nauwelijks op boven een dakkapel of carport. Met een opgegeven SCOP van 5 en 54 dB(A) staat hij bij de zuinigste en stilste van deze lijst. Officiële Home Assistant-ondersteuning is zeldzaam in deze markt en Weheat heeft het sinds eind 2024 wel. Homey ontbreekt vooralsnog.",
+      "product_url": "https://www.weheat.nl/",
+      "isde_meldcode": "KA28196",
+      "aanbiedingen": [
+        {
+          "winkel": "Weheat",
+          "url": "https://www.weheat.nl/producten/blackbird",
+          "omvat": "Weheat verkoopt rechtstreeks aan de klant; er is geen tussenhandel."
+        }
+      ],
+      "varianten": [
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA28196"
+        },
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA25415"
+        }
+      ],
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "onbekend",
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Weheat verkoopt rechtstreeks en toont geen prijs op de productpagina (nagekeken op 8 oktober 2026); het bedrag is een richtprijs. Hij blijft op de site als prijs uit een offerte (prijs_uit_offerte), want geen script kan deze prijs bevestigen.",
+      "prijs_uit_offerte": true
+    },
+    {
       "id": "stiebel-wpl-a07",
       "merk": "Stiebel Eltron",
       "model": "WPL-A 07 HK Premium",

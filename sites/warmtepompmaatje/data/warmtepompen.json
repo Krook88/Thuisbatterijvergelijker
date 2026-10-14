@@ -861,7 +861,8 @@
       "vermogen_conditie": "Prated",
       "scop_conditie": "onbekend",
       "prijs_controle": "handmatig",
-      "prijs_controle_reden": "Weheat verkoopt rechtstreeks en toont geen prijs op de productpagina (nagekeken op 8 oktober 2026); het bedrag is een richtprijs."
+      "prijs_controle_reden": "Weheat verkoopt rechtstreeks en toont geen prijs op de productpagina (nagekeken op 8 oktober 2026); het bedrag is een richtprijs. Hij blijft op de site als prijs uit een offerte (prijs_uit_offerte), want geen script kan deze prijs bevestigen.",
+      "prijs_uit_offerte": true
     },
     {
       "id": "stiebel-wpl-a07",
