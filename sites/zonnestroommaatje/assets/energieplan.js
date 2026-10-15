@@ -16,8 +16,10 @@
   // Vaste aannames, gelijk aan de rekenmodules van de zustersites
   const GASPRIJS = 1.45;            // euro per m3
   const STROOMPRIJS = 0.30;         // euro per kWh
-  const VERGOEDING = 0.05;          // terugleververgoeding vanaf 2027, euro per kWh
-  const TERUGLEVERKOSTEN = 0.02;    // euro per teruggeleverde kWh
+  // Teruglevering vanaf 2027: dezelfde getallen als de rekenmodule, uit
+  // assets/rekenkern.js. Hier stond een eigen 0,05 min 0,02.
+  const VERGOEDING = Rekenkern.TERUGLEVERING_2027.vergoeding;
+  const TERUGLEVERKOSTEN = Rekenkern.TERUGLEVERING_2027.terugleverkosten;
   const KWH_PER_M3 = 8.8;           // nuttige warmte per m3 gas
   const VASTRECHT_GAS = 350;        // vaste gaskosten per jaar
   const AFSLUITKOSTEN = 700;        // eenmalig, bij van het gas af

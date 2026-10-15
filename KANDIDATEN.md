@@ -148,6 +148,50 @@ schrijven, en is de eerste vraag niet hoe we hem beschrijven maar of hij op de
 site hoort. Ik heb ook een prijs van €3.499 gezien; die kan niet kloppen voor
 2,12 kWh en heb ik daarom niet overgenomen.
 
+### Dysun FlexVolt One (LV en HV) - op verzoek van de leverancier, wacht op gegevens
+
+Dysun Energy B.V. uit Echt (opgericht 2023) vroeg op 15 oktober 2026 om opname
+"zoals bij de andere modellen", en zei er zelf bij geen neutrale partij te zijn.
+Het verzoek is beantwoord met wat we nodig hebben. Opname gaat op dezelfde
+voorwaarden als elk ander model: de fabrikant levert feiten aan, wij toetsen ze,
+en de scores rekenen zonder tussenkomst van de leverancier.
+
+Twee regels, want het zijn twee systemen (net als bij Huawei S0 en S1):
+
+| | LV | HV |
+| --- | --- | --- |
+| fase | 1-fase | 3-fase |
+| modules | 5,12 kWh, 1 tot 4 | 3,8 kWh, 2 tot 6 |
+| capaciteit (bruto) | 5,12 tot 20,4 kWh | 7,6 tot 22,7 kWh |
+| omvormer | 3,68 / 5 / 6 kW | 8 / 10 / 12 kW |
+| noodstroom | niet gevonden | ja, omschakeling binnen 10 ms |
+
+Voor beide: hybride (accu, omvormer en energiebeheer in één kast), installatie
+via partnerinstallateurs, LFP, 95% ontladingsdiepte, 95% rendement (niet gezegd
+of dat AC is), 10 jaar garantie op de modules, 5 jaar op de omvormer, 70%
+restcapaciteit na 7.000 cycli. Alles fabrieksopgave, uit de mail en uit
+zoekresultaten; dysun.energy was vanuit deze omgeving niet bereikbaar.
+
+**Bronnen spreken elkaar tegen:** de homepage noemt HV 11,4 tot 22,7 kWh, de
+productpagina en de mail 7,6 tot 22,7 kWh.
+
+**Wat ontbreekt voor opname:**
+
+- een prijs. Er staat nergens een openbare prijs; zonder complete prijs incl.
+  installatie (of een offerte-indicatie met bron) komt hij niet in de
+  vergelijking op prijs per kWh en kan de rekenhulp er niets mee. Dit blokkeert.
+- Koppel-score: Dysun zegt dat het eigen energiebeheer op uurprijzen handelt
+  (mogelijk punten voor dynamisch contract). Voor Home Assistant en Homey is
+  niets gevonden, dus 0 tenzij er een openbare integratie, API of Modbus-
+  documentatie komt.
+- bruikbare capaciteit per module, AC-rendement, IP-klasse en of hij buiten mag,
+  noodstroom bij de LV, de naam van de app, de herkomst van cellen en omvormer.
+- een productfoto met toestemming.
+
+Bronnen: https://dysun.energy/thuisbatterij/,
+https://dysun.energy/product/flexvolt-one-hv-thuisbatterij/,
+https://dysun.energy/energiemanagement-platform/
+
 ### Nog niet uitgezocht
 
 `Growatt SPH5000 + 15,3 kWh` — een set van omvormer en batterij. De winkeltitel

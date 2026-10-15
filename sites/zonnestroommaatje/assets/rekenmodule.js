@@ -12,8 +12,8 @@
   const eurFmt = new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
   const kwhFmt = new Intl.NumberFormat("nl-NL", { maximumFractionDigits: 0 });
 
-  // Vaste aannames (toegelicht op de pagina onder "Hoe rekenen wij?")
-  const DEGRADATIE_PER_JAAR = 0.004;   // 0,4% minder opbrengst per jaar
+  // Vaste aannames (toegelicht op de pagina onder "Hoe rekenen wij?"). De som
+  // zelf staat in assets/rekenkern.js, getest door scripts/rekenkern.test.mjs.
   // Eén bedrag voor omvormer, bekabeling en voorrijden. Dat is een redelijke
   // schatting zolang je niet weet welke omvormer het wordt, maar het verschil
   // is groot: een Growatt kost 540 euro en een Enphase-systeem voor twaalf
@@ -22,17 +22,6 @@
   const VASTE_INSTALLATIEKOSTEN = 1200; // omvormer, bekabeling, voorrijden
   const BEKABELING_EN_VOORRIJDEN = 450; // wat er overblijft als de omvormer apart geteld wordt
   const KOSTEN_PER_PANEEL = 130;        // montagemateriaal en arbeid per paneel
-  const SALDERING_EINDJAAR = 2026;      // laatste jaar mét saldering (Wet beëindiging salderingsregeling)
-
-  // Het aanschafjaar volgt de kalender en staat niet vast.
-  //
-  // Hier stond 2026. Dat werkte tot en met dit jaar en zou op 1 januari 2027
-  // stilletjes fout gaan: de berekening telt het eerste jaar voor de helft mee
-  // en gebruikt saldering zolang het jaartal onder SALDERING_EINDJAAR ligt.
-  // Iemand die in 2027 koopt kreeg zo een half jaar salderingsvoordeel
-  // toegerekend dat hij nooit krijgt, en dus een te mooie terugverdientijd -
-  // precies op het moment dat mensen gaan rekenen omdat de regeling verandert.
-  const START_JAAR = new Date().getFullYear();
   const CO2_PER_KWH = 0.27;             // kg CO2 per kWh Nederlandse stroommix (indicatie, co2emissiefactoren.nl)
 
   let panelen = [];
@@ -59,6 +48,7 @@
       stroomprijs: Number(el("stroomprijs").value) || 0.30,
       vergoeding: Number(el("vergoeding").value) || 0,
       terugleverkosten: Number(el("terugleverkosten").value) || 0,
+      terugleverkosten2026: Rekenkern.TERUGLEVERKOSTEN_2026,
       eigenPct: Math.min(100, Math.max(5, Number(el("eigenverbruik").value) || 35)) / 100,
       omvormerPrijs: gekozenOmvormer ? Prijs.systeemPrijs(gekozenOmvormer, aantal) : null,
       omvormer: gekozenOmvormer,
@@ -70,73 +60,31 @@
     };
   }
 
-  // Besparing in één jaar mét saldering: teruglevering wegstrepen tegen afname
-  function besparingMetSaldering(opwek, s) {
-    const eigen = opwek * s.eigenPct;
-    const teruggeleverd = opwek - eigen;
-    const afnameVanNet = Math.max(0, s.verbruik - eigen);
-    const gesaldeerd = Math.min(teruggeleverd, afnameVanNet);
-    const overschot = teruggeleverd - gesaldeerd;
-    return eigen * s.stroomprijs + gesaldeerd * s.stroomprijs + overschot * s.vergoeding - teruggeleverd * s.terugleverkosten;
-  }
-
-  // Besparing in één jaar zonder saldering: alleen direct eigen verbruik is de
-  // volle stroomprijs waard; eigen verbruik kan nooit meer zijn dan je verbruik
-  function besparingZonderSaldering(opwek, s) {
-    const eigen = Math.min(opwek * s.eigenPct, s.verbruik);
-    const teruggeleverd = opwek - eigen;
-    return eigen * s.stroomprijs + teruggeleverd * (s.vergoeding - s.terugleverkosten);
-  }
-
   function bereken() {
     const s = invoer();
     // wpTotaal is in Wp, factor in kWh per Wp per jaar; opwek dus in kWh
     const opwek = Math.round(s.wpTotaal * s.factor);
 
-    const metSaldering = besparingMetSaldering(opwek, s);
-    const zonderSaldering = besparingZonderSaldering(opwek, s);
-
-    // Terugverdientijd: jaar voor jaar optellen, met veroudering.
-    // Het aanschafjaar telt voor een half jaar mee.
-    let cumulatief = 0;
-    let terugverdientijd = null;
-    let jaren = 0;
-    for (let jaar = START_JAAR; jaar <= START_JAAR + 40; jaar++) {
-      const degradatie = Math.max(0, 1 - DEGRADATIE_PER_JAAR * (jaar - START_JAAR));
-      const opwekDitJaar = opwek * degradatie;
-      const besparing = (jaar <= SALDERING_EINDJAAR ? besparingMetSaldering(opwekDitJaar, s) : besparingZonderSaldering(opwekDitJaar, s))
-        * (jaar === START_JAAR ? 0.5 : 1);
-      const vorige = cumulatief;
-      cumulatief += besparing;
-      jaren += jaar === START_JAAR ? 0.5 : 1;
-      if (terugverdientijd === null && cumulatief >= s.kosten && besparing > 0) {
-        const fractie = (s.kosten - vorige) / besparing;
-        terugverdientijd = jaren - (jaar === START_JAAR ? 0.5 : 1) + fractie * (jaar === START_JAAR ? 0.5 : 1);
-      }
-    }
-
-    // Totale besparing over 25 jaar (met veroudering, saldering alleen in het startjaar)
-    let besparing25 = 0;
-    for (let j = 0; j < 25; j++) {
-      const degradatie = Math.max(0, 1 - DEGRADATIE_PER_JAAR * j);
-      const opwekDitJaar = opwek * degradatie;
-      besparing25 += (START_JAAR + j <= SALDERING_EINDJAAR ? besparingMetSaldering(opwekDitJaar, s) : besparingZonderSaldering(opwekDitJaar, s))
-        * (j === 0 ? 0.5 : 1);
-    }
+    const band = Rekenkern.bandbreedte({ ...s, opwek }, s.kostenGeschat);
+    const { metSaldering, zonderSaldering, terugverdientijd, besparing25 } = band.verwacht;
 
     const dekking = Math.round((opwek / s.verbruik) * 100);
     const co2 = Math.round(opwek * CO2_PER_KWH);
     const p = s.paneel;
 
-    const tvtTekst = terugverdientijd === null
-      ? "meer dan 40 jaar"
-      : `${terugverdientijd.toFixed(1).replace(".", ",")} jaar`;
+    const getal = (t) => t.toFixed(1).replace(".", ",");
+    const jaren = (t) => t === null ? "meer dan 40 jaar" : `${getal(t)} jaar`;
+    // Bewust een bereik en geen enkel getal: zie Rekenkern.bandbreedte.
+    const tvtTekst = band.laag === null ? "meer dan 40 jaar"
+      : band.hoog === null ? `vanaf ${getal(band.laag)} jaar`
+      : getal(band.laag) === getal(band.hoog) ? jaren(band.laag)
+      : `${getal(band.laag)} tot ${getal(band.hoog)} jaar`;
 
     const overdimensionering = opwek > s.verbruik * 1.3;
 
     el("resultaatInhoud").innerHTML = `
       <div class="resultaat-groot">${tvtTekst}</div>
-      <p class="hint" style="margin: 0 0 var(--ruimte-14);">geschatte terugverdientijd${s.kostenGeschat ? " (bij geschatte installatiekosten)" : ""}</p>
+      <p class="hint" style="margin: 0 0 var(--ruimte-14);">terugverdientijd, middenscenario ${jaren(terugverdientijd)}. Het bereik komt van dezelfde som met een ongunstige en een gunstige set aannames: stroomprijs 15% hoger of lager, opbrengst 8% lager of 5% hoger, eigen verbruik 15% lager of hoger${s.kostenGeschat ? ", en de geschatte investering 20% hoger of 5% lager. Heb je een offerte? Vul de systeemprijs in, dan wordt het bereik smaller" : ""}.</p>
       <div class="resultaat-rij"><span>Opgesteld vermogen</span><b>${kwhFmt.format(s.wpTotaal)} Wp (${s.aantal} × ${p ? p.vermogen_wp : 440} Wp)</b></div>
       <div class="resultaat-rij"><span>Jaaropbrengst (jaar 1)</span><b>${kwhFmt.format(opwek)} kWh</b></div>
       <div class="resultaat-rij"><span>Dekking van je verbruik</span><b>${dekking}%</b></div>

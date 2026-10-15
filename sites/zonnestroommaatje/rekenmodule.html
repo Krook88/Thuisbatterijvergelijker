@@ -15,11 +15,12 @@
   <meta property="og:site_name" content="Zonnestroommaatje.nl">
   <meta name="twitter:card" content="summary_large_image">
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="stylesheet" href="assets/style.css?v=20261015f">
-  <script src="assets/iconen.js?v=20261015f" defer></script>
-  <script src="assets/prijs.js?v=20261015f" defer></script>
-  <script src="assets/rekenmodule.js?v=20261015f" defer></script>
-  <script src="assets/nav.js?v=20261015f" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20261015g">
+  <script src="assets/iconen.js?v=20261015g" defer></script>
+  <script src="assets/prijs.js?v=20261015g" defer></script>
+  <script src="assets/rekenkern.js?v=20261015g" defer></script>
+  <script src="assets/rekenmodule.js?v=20261015g" defer></script>
+  <script src="assets/nav.js?v=20261015g" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=1">
   <style>
@@ -45,7 +46,7 @@
     .resultaat-rij b { text-align: right; }
   </style>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261015f"></script>
+  <script defer src="/assets/teller.js?v=20261015g"></script>
 </head>
 <body>
 
@@ -137,23 +138,23 @@
 
       <details class="geavanceerd">
         <summary>Aannames aanpassen (stroomprijs, eigen verbruik, installatiekosten)</summary>
-        <p class="hint">Ik reken standaard met: stroomprijs € 0,30 per kWh, terugleververgoeding € 0,05, terugleverkosten € 0,02 per teruggeleverde kWh, 35% direct eigen verbruik en 0,4% opbrengstverlies per jaar door veroudering. Wijkt jouw situatie af? Pas het hier aan; het resultaat rekent direct mee.</p>
+        <p class="hint">Ik reken standaard met: stroomprijs € 0,30 per kWh, vanaf 2027 netto € 0,01 terugleververgoeding zonder terugleverkosten (wat leveranciers aankondigen), in 2026 nog € 0,13 terugleverkosten bij een vast of variabel contract, 35% direct eigen verbruik en 0,4% opbrengstverlies per jaar door veroudering. Wijkt jouw situatie af? Pas het hier aan; het resultaat rekent direct mee.</p>
         <div class="veld-rij">
           <div class="veld">
             <label for="stroomprijs">Stroomprijs (€ per kWh)</label>
             <input type="number" id="stroomprijs" min="0.05" max="1" step="0.01" value="0.30">
           </div>
           <div class="veld">
-            <label for="vergoeding">Terugleververgoeding (€ per kWh)</label>
-            <input type="number" id="vergoeding" min="0" max="0.5" step="0.01" value="0.05">
-            <span class="hint">Wat je leverancier na 2027 betaalt voor teruggeleverde stroom</span>
+            <label for="vergoeding">Terugleververgoeding vanaf 2027 (€ per kWh)</label>
+            <input type="number" id="vergoeding" min="0" max="0.5" step="0.01" value="0.01">
+            <span class="hint">Vast of variabel: aangekondigd 0 tot 0,03 netto. Dynamisch: de uurprijs, indicatief 0,04 tot 0,06</span>
           </div>
         </div>
         <div class="veld-rij">
           <div class="veld">
-            <label for="terugleverkosten">Terugleverkosten (€ per kWh)</label>
-            <input type="number" id="terugleverkosten" min="0" max="0.2" step="0.01" value="0.02">
-            <span class="hint">Sommige leveranciers rekenen kosten per teruggeleverde kWh</span>
+            <label for="terugleverkosten">Terugleverkosten vanaf 2027 (€ per kWh)</label>
+            <input type="number" id="terugleverkosten" min="0" max="0.2" step="0.01" value="0">
+            <span class="hint">De leveranciers die iets voor 2027 aankondigden schrappen ze; vul je eigen bedrag in als jouw leverancier ze blijft rekenen</span>
           </div>
           <div class="veld">
             <label for="eigenverbruik">Direct eigen verbruik (%)</label>
@@ -181,10 +182,11 @@
     <p>De berekening is bewust eenvoudig en controleerbaar. Dit zijn de stappen en aannames:</p>
     <ul>
       <li><b>Jaaropbrengst.</b> Aantal panelen × wattpiek × opbrengstfactor. De factor hangt af van dakligging en schaduw, van 0,95 kWh per Wp per jaar (zuiddak zonder schaduw) tot 0,65 (noorddak). Dit sluit aan bij de vuistregel van circa 0,85 tot 0,95 kWh per Wp voor gunstig gelegen daken in Nederland (bron: Milieu Centraal).</li>
-      <li><b>Tot en met 2026 (saldering).</b> Teruggeleverde stroom mag je wegstrepen tegen afgenomen stroom. Elke opgewekte kWh tot je jaarverbruik is dan de volledige stroomprijs waard; alles daarboven levert de terugleververgoeding op. Over teruggeleverde stroom rekenen sommige leveranciers terugleverkosten; die trek ik af.</li>
+      <li><b>Tot en met 2026 (saldering).</b> Teruggeleverde stroom mag je wegstrepen tegen afgenomen stroom. Elke opgewekte kWh tot je jaarverbruik is dan de volledige stroomprijs waard; alles daarboven levert de terugleververgoeding op. Over teruggeleverde stroom rekenen leveranciers met een vast of variabel contract nu terugleverkosten, doorgaans € 0,11 tot € 0,15 per kWh (ik reken met € 0,13); die trek ik af.</li>
       <li><b>Vanaf 2027 (geen saldering).</b> Alleen stroom die je <i>direct zelf verbruikt</i> is de volledige stroomprijs waard. De rest lever je terug voor de terugleververgoeding, minus eventuele terugleverkosten. Het percentage direct eigen verbruik is instelbaar; 30 tot 40% is gebruikelijk zonder batterij.</li>
       <li><b>Veroudering.</b> Panelen leveren elk jaar iets minder; ik reken met 0,4% per jaar, in lijn met de garanties van moderne N-type panelen.</li>
       <li><b>Terugverdientijd.</b> Ik tel de besparing per jaar op (rest van 2026 nog met saldering, daarna zonder) tot de investering is terugverdiend. Stroomprijzen houd ik constant; stijgen die, dan verdien je sneller terug.</li>
+      <li><b>Een bereik, geen enkel getal.</b> Hoe de stroomprijs zich ontwikkelt, hoeveel jouw dak precies opbrengt en hoeveel je direct zelf verbruikt, weet niemand vooraf. Daarom reken ik dezelfde som ook door met een ongunstige en een gunstige set: stroomprijs 15% lager of hoger, opbrengst 8% lager of 5% hoger, eigen verbruik 15% lager of hoger, en zolang je geen eigen systeemprijs invult de investering 20% hoger of 5% lager. Het middenscenario staat eronder.</li>
       <li><b>Installatiekosten.</b> Zonder eigen invoer schat ik: paneelprijs × aantal panelen + € 1.200 vaste kosten + € 130 per paneel voor montage, omvormer en bekabeling. Vraag altijd meerdere offertes aan; werkelijke prijzen verschillen per dak en regio.</li>
     </ul>
     <div class="noot">Deze berekening is een indicatie, geen offerte of financieel advies. Werkelijke opbrengsten hangen af van het weer, je dak, de installatie en toekomstige energieprijzen en regelgeving.</div>
