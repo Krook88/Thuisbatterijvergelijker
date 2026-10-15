@@ -18,7 +18,13 @@
   const LEVENSDUUR_JAAR = Rekenkern.LEVENSDUUR_JAAR;
   const HYBRIDE_SCOP = Rekenkern.HYBRIDE_SCOP;
   const ALLEL_SCOP = Rekenkern.ALLEL_SCOP;
-  const jaren = (t) => t === null ? "meer dan 40 jaar" : `${t.toFixed(1).replace(".", ",")} jaar`;
+  const getal = (t) => t.toFixed(1).replace(".", ",");
+  const jaren = (t) => t === null ? "meer dan 40 jaar" : `${getal(t)} jaar`;
+  // Bewust een bereik en geen enkel getal: zie Rekenkern.bandbreedte.
+  const bereik = (laag, hoog) => laag === null ? "meer dan 40 jaar"
+    : hoog === null ? `vanaf ${getal(laag)} jaar`
+    : getal(laag) === getal(hoog) ? `${getal(laag)} jaar`
+    : `${getal(laag)} tot ${getal(hoog)} jaar`;
 
   let pompen = [];
 
@@ -68,7 +74,8 @@
     const s = invoer();
     if (!s.w) return;
 
-    const r = Rekenkern.bereken({ ...s, pomp: s.w });
+    const band = Rekenkern.bandbreedte({ ...s, pomp: s.w });
+    const r = band.verwacht;
     const { gasBespaard, stroomKwh, vastrechtBesparing, besparingJaar, netto, prijsOnbekend, tvt, besparingLevensduur } = r;
     s.installatie = r.installatie;
     s.installatieGeschat = r.installatieGeschat;
@@ -109,12 +116,10 @@
       </div>`;
 
     el("resultaatInhoud").innerHTML = `
-      <div class="resultaat-groot">${k && !prijsOnbekend ? jaren(k.tvt) : tvtTekst}</div>
+      <div class="resultaat-groot">${prijsOnbekend ? tvtTekst : k ? bereik(band.ketelLaag, band.ketelHoog) : bereik(band.laag, band.hoog)}</div>
       <p class="hint" style="margin: 0 0 var(--ruimte-14);">${prijsOnbekend
         ? `van deze warmtepomp heb ik nog geen winkelprijs, dus de investering is onbekend. De besparing per jaar hieronder klopt wel: die hangt alleen af van je verbruik en de tarieven.`
-        : k
-          ? `geschatte terugverdientijd van de meerprijs ten opzichte van een nieuwe cv-ketel${s.installatieGeschat ? " (bij geschatte installatiekosten)" : ""}`
-          : `geschatte terugverdientijd${s.installatieGeschat ? " (bij geschatte installatiekosten)" : ""}`}</p>
+        : `${k ? "terugverdientijd van de meerprijs ten opzichte van een nieuwe cv-ketel" : "terugverdientijd"}, middenscenario ${jaren(k ? k.tvt : tvt)}. Het bereik komt van dezelfde som met een ongunstige en een gunstige set aannames: gas- en stroomprijs 15% hoger of lager, het rendement 10% lager of 8% hoger${s.installatieGeschat ? ", en de geschatte installatie 40% duurder of 10% goedkoper" : ""}.`}</p>
       ${k ? ketelBlok(k, s, netto, tvt, prijsOnbekend) : ""}
       <div class="resultaat-rij"><span>Warmtepomp</span><b>${escapeHtml(s.w.merk)} ${escapeHtml(s.w.model)} (${s.type === "hybride" ? "hybride" : "all-electric"})</b></div>
       <div class="resultaat-rij"><span>Toestel ${prijsOnbekend ? "" : (s.beste && !s.beste.is_richtprijs ? `<small>(laagste prijs, bij ${escapeHtml(s.beste.winkel)})</small>` : "<small>(richtprijs)</small>")}</span><b>${prijsOnbekend ? "prijs onbekend" : eurFmt.format(s.toestelPrijs)}</b></div>

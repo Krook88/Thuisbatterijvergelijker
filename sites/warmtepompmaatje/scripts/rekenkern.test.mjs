@@ -25,7 +25,7 @@ test("de keuzehulp en de rekenmodule rekenen met dezelfde kern", () => {
   // rendementen. Geen van beide mag hem nog zelf uitrekenen.
   for (const bestand of ["advies.js", "rekenmodule.js"]) {
     const code = readFileSync(new URL(`../assets/${bestand}`, import.meta.url), "utf8");
-    assert.match(code, /Rekenkern\.bereken\(/, `${bestand} gebruikt de rekenkern niet`);
+    assert.match(code, /Rekenkern\.(bereken|bandbreedte)\(/, `${bestand} gebruikt de rekenkern niet`);
     assert.doesNotMatch(code, /\*\s*8\.8\b|KWH_PER_M3\s*=/, `${bestand} rekent zelf gas om naar warmte`);
   }
 });
@@ -102,4 +102,31 @@ test("elke pomp in de gegevens levert een rekenbare uitkomst", () => {
     assert.ok(Number.isFinite(r.besparingJaar), `${w.id}: besparing is geen getal`);
     assert.ok(r.scop > 2 && r.scop < 6, `${w.id}: rendement ${r.scop} is onwaarschijnlijk`);
   }
+});
+
+test("de terugverdientijd is een bereik dat het middenscenario omsluit", () => {
+  // Eén getal met een decimaal deed alsof de gasprijs over vijftien jaar vaststaat.
+  const invoer = { type: "all-electric", gas: 1500, gasAf: true, toestelPrijs: 9000, isde: 3000 };
+  const b = Rekenkern.bandbreedte(invoer);
+  assert.ok(b.laag < b.verwacht.tvt && b.verwacht.tvt < b.hoog, `${b.laag} < ${b.verwacht.tvt} < ${b.hoog}`);
+  assert.equal(b.verwacht.tvt, Rekenkern.bereken(invoer).tvt, "het midden is de gewone som");
+});
+
+test("een eigen installatiebedrag schuift niet mee in het bereik", () => {
+  // Een bedrag uit een offerte is geen aanname meer.
+  const b = Rekenkern.bandbreedte({ type: "hybride", toestelPrijs: 4000, installatie: 3000 });
+  assert.equal(b.ongunstig.installatie, 3000);
+  assert.equal(b.gunstig.installatie, 3000);
+  const geschat = Rekenkern.bandbreedte({ type: "hybride", toestelPrijs: 4000 });
+  assert.ok(geschat.ongunstig.installatie > geschat.verwacht.installatie);
+});
+
+test("het bereik geldt ook tegenover een nieuwe ketel", () => {
+  const b = Rekenkern.bandbreedte({ type: "all-electric", gas: 1500, gasAf: true, toestelPrijs: 9000, isde: 3000, ketelVervangen: true });
+  assert.ok(b.ketelLaag < b.verwacht.tegenoverKetel.tvt && b.verwacht.tegenoverKetel.tvt < b.ketelHoog);
+});
+
+test("verdient de ongunstige kant zich niet terug, dan is er geen bovengrens", () => {
+  const b = Rekenkern.bandbreedte({ type: "hybride", gas: 400, toestelPrijs: 9000 });
+  assert.equal(b.hoog, null);
 });
