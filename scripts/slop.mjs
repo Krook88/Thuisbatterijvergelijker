@@ -416,6 +416,30 @@ for (const site of teDoen) {
   }
 }
 
+/* Tekst die pas in de browser ontstaat
+
+   De pagina's hierboven zijn de HTML zoals hij op schijf staat. Wat de
+   keuzehulp en de rekenmodule zelf opbouwen, staat daar niet in, en dus zag
+   deze controle het niet. Zo stond "liet 53 modellen afvallen — daar is op
+   dit moment geen model voor" op het scherm terwijl npm run slop groen gaf.
+
+   Daarom ook de scripts onder assets/, zonder hun commentaar: wat in een
+   commentaar staat leest geen bezoeker. Alleen het streepje, want de andere
+   controles hebben hele zinnen nodig en die zitten in een script in stukken. */
+const zonderCommentaar = (js) => js
+  .replace(/\/\*[\s\S]*?\*\//g, " ")
+  .replace(/(^|[^:"'`\\])\/\/[^\n]*/g, "$1");
+for (const site of teDoen) {
+  const map = join(SITES_MAP, site, "assets");
+  if (!existsSync(map)) continue;
+  for (const naam of readdirSync(map).filter((n) => n.endsWith(".js")).sort()) {
+    const js = zonderCommentaar(readFileSync(join(map, naam), "utf8"));
+    for (const treffer of js.match(KASTLIJNTJE) || []) {
+      gebreken.push({ waar: `${site}/assets/${naam}`, soort: "kastlijntje", melding: `"${treffer}" in tekst die het script op het scherm zet` });
+    }
+  }
+}
+
 /* Zinnen die op meerdere sites letterlijk hetzelfde zijn. Sommige horen dat te
    zijn - een uitspraak over onafhankelijkheid moet overal hetzelfde luiden -
    dus die staan in een lijst die een mens bijhoudt. Wat er niet in staat is

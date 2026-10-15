@@ -51,6 +51,10 @@
     isde: 0,
     pomp: null,                      // { scop, scop_conditie } of null
     ketelVervangen: false,
+    // Voor de bandbreedte: het rendement en de geschatte installatiekosten
+    // schuiven mee met de ongunstige of gunstige kant. 1 = middenscenario.
+    scopFactor: 1,
+    installatieFactor: 1,
     // Een nieuwe cv-ketel inclusief plaatsing kost volgens de Consumentenbond
     // 1.600 tot 3.400 euro (peildatum augustus 2026); dit is ruwweg het midden.
     ketelprijs: 2500,
@@ -80,7 +84,7 @@
     const gas = Math.max(0, s.gas);
 
     const scopEigen = eigenScop(s.pomp);
-    const scop = scopEigen || (allel ? ALLEL_SCOP : HYBRIDE_SCOP);
+    const scop = (scopEigen || (allel ? ALLEL_SCOP : HYBRIDE_SCOP)) * s.scopFactor;
 
     let gasBespaard, stroomKwh;
     if (!allel) {
@@ -101,7 +105,11 @@
     const besparingJaar = gasBespaard * s.gasprijs + vastrechtBesparing - stroomKwh * s.stroomprijs;
 
     const installatieGeschat = !(s.installatie > 0);
-    const installatie = installatieGeschat ? INSTALLATIE[allel ? "all-electric" : "hybride"] : s.installatie;
+    // Alleen een geschatte installatie schuift mee: een bedrag uit een offerte
+    // is geen aanname meer.
+    const installatie = installatieGeschat
+      ? INSTALLATIE[allel ? "all-electric" : "hybride"] * s.installatieFactor
+      : s.installatie;
     const prijsOnbekend = typeof s.toestelPrijs !== "number";
     const investering = (prijsOnbekend ? 0 : s.toestelPrijs) + installatie + (gasAf ? s.afsluitkosten : 0);
     const netto = Math.max(0, investering - s.isde);
@@ -144,10 +152,50 @@
     };
   }
 
+  /* ------------------------------------------------------------------
+     Bandbreedte
+
+     Eén getal met een decimaal ("7,0 jaar") suggereert een precisie die deze
+     som niet heeft. De gasprijs kan over vijftien jaar alle kanten op, het
+     rendement in een echte woning hangt af van de inregeling, en de
+     installatie is een schatting zolang er geen offerte ligt. Batterijmaatje
+     toont daarom al een bereik; deze module nu ook.
+
+     De marges zijn bewust bescheiden: normale onzekerheid, niet het uiterste.
+     De installatie heeft de breedste en scheefste marge, omdat offertes in de
+     praktijk vaker boven de schatting uitkomen dan eronder.
+     ------------------------------------------------------------------ */
+  const MARGES = {
+    gasprijs: [0.85, 1.15],
+    stroomprijs: [1.15, 0.85],
+    scopFactor: [0.9, 1.08],
+    installatieFactor: [1.4, 0.9],
+  };
+
+  function metMarge(basis, kant) {
+    const uit = Object.assign({}, STANDAARD, basis);
+    for (const veld of Object.keys(MARGES)) uit[veld] = uit[veld] * MARGES[veld][kant];
+    return uit;
+  }
+
+  function bandbreedte(invoer) {
+    const verwacht = bereken(invoer);
+    const ongunstig = bereken(metMarge(invoer, 0));
+    const gunstig = bereken(metMarge(invoer, 1));
+    const ketel = (r) => (r.tegenoverKetel ? r.tegenoverKetel.tvt : null);
+    return {
+      verwacht, ongunstig, gunstig,
+      // null aan de bovenkant: de ongunstige kant verdient zich binnen
+      // MAX_JAAR niet terug, dus is er geen bovengrens om te noemen.
+      laag: gunstig.tvt, hoog: ongunstig.tvt,
+      ketelLaag: ketel(gunstig), ketelHoog: ketel(ongunstig),
+    };
+  }
+
   return {
     AANDEEL_VERWARMING, KWH_PER_M3, HYBRIDE_DEKKING, HYBRIDE_SCOP, ALLEL_SCOP,
     PRAKTIJKFACTOR, TAPWATER_COP, INSTALLATIE, LEVENSDUUR_JAAR, MAX_JAAR,
-    STANDAARD,
-    eigenScop, terugverdientijd, bereken,
+    STANDAARD, MARGES,
+    eigenScop, terugverdientijd, bereken, bandbreedte,
   };
 });

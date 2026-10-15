@@ -444,7 +444,8 @@
       .slice(0, 2);
     const zinnen = gesorteerd.map(([sleutel, aantal]) => {
       const [wat, wat_dan] = AFVAL_UITLEG[sleutel];
-      return `<li><b>${escapeHtml(wat)}</b> liet ${aantal} ${aantal === 1 ? "model" : "modellen"} afvallen — ${escapeHtml(wat_dan)}</li>`;
+      const advies = wat_dan.charAt(0).toUpperCase() + wat_dan.slice(1);
+      return `<li><b>${escapeHtml(wat)}</b> liet ${aantal} ${aantal === 1 ? "model" : "modellen"} afvallen. ${escapeHtml(advies)}.</li>`;
     });
     return `
       <h2 class="advies-kop">Geen batterij die aan al je antwoorden voldoet</h2>
