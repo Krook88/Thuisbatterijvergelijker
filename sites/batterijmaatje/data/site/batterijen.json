@@ -2703,7 +2703,9 @@
       "noodstroom_uitleg": "De omvormer heeft een aparte back-upuitgang van 3.680 tot 6.000 VA, afhankelijk van de omvormermaat. Welke groepen doorwerken bij een storing bepaalt de installateur.",
       "opmerkingen": "Dysun is een Nederlands bedrijf (B.V. sinds 2021) dat zelf niet installeert; je vraagt een offerte aan en Dysun koppelt je aan een partnerinstallateur, voorlopig vooral in Limburg en Noord-Brabant. Zonder die gecertificeerde installateur vervalt de garantie. De datasheet noemt 4,75 kWh bruikbaar per module van 5,12 kWh, terwijl de opgegeven ontlaaddiepte van 95% op 4,86 kWh zou uitkomen; ik reken met de lagere 4,75. Op de omvormer zit 5 jaar garantie, op de modules 10. CB-certificaat IEC 62619: JPTUV-178391 (TÜV Rheinland, oktober 2025).",
       "product_url": "https://dysun.energy/product/flexvolt-one/",
-      "totaalprijs_toelichting": "Een prijs inclusief installatie heb ik niet; Dysun geeft alleen de adviesprijs van het toestel (4.317 euro excl. btw, 5.224 incl. btw). De installatie loopt via een partnerinstallateur die zelf offreert."
+      "totaalprijs_toelichting": "Een prijs inclusief installatie heb ik niet; Dysun geeft alleen de adviesprijs van het toestel (4.317 euro excl. btw, 5.224 incl. btw). De installatie loopt via een partnerinstallateur die zelf offreert.",
+      "afbeelding": "assets/producten/dysun-flexvolt-one-lv.webp",
+      "afbeelding_bron": "foto: Dysun Energy"
     },
     {
       "id": "dysun-flexvolt-one-hv",
@@ -2757,7 +2759,9 @@
       "noodstroom_uitleg": "De omvormer heeft een aparte back-upuitgang van 8.000 tot 12.000 VA, afhankelijk van de omvormermaat. Welke groepen doorwerken bij een storing bepaalt de installateur.",
       "opmerkingen": "De 3-fase uitvoering van de FlexVolt One, met modules van 3,8 kWh (LFP volgens de brochure; de datasheet zegt alleen lithium-ion). Dysun installeert zelf niet en koppelt je aan een partnerinstallateur, voorlopig vooral in Limburg en Noord-Brabant; zonder die gecertificeerde installateur vervalt de garantie. De datasheet noemt per module 3,8 kWh zowel als totale als bruikbare capaciteit, bij 95% ontlaaddiepte, en dat kan niet allebei kloppen. Ik zet de 11,4 kWh daarom als nominaal neer. Op de omvormer zit 5 jaar garantie, op de modules 10. CB-certificaat IEC 62619: JPTUV-183500 (TÜV Rheinland, maart 2026).",
       "product_url": "https://dysun.energy/product/flexvolt-one-hv-thuisbatterij/",
-      "totaalprijs_toelichting": "Een prijs inclusief installatie heb ik niet; Dysun geeft alleen de adviesprijs van het toestel (5.341 euro excl. btw, 6.463 incl. btw). De installatie loopt via een partnerinstallateur die zelf offreert."
+      "totaalprijs_toelichting": "Een prijs inclusief installatie heb ik niet; Dysun geeft alleen de adviesprijs van het toestel (5.341 euro excl. btw, 6.463 incl. btw). De installatie loopt via een partnerinstallateur die zelf offreert.",
+      "afbeelding": "assets/producten/dysun-flexvolt-one-hv.webp",
+      "afbeelding_bron": "foto: Dysun Energy"
     }
   ]
 }
