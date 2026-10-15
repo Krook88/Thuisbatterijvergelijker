@@ -92,6 +92,7 @@
     bruikbaar: "inpBruikbaar", rend: "inpRendement", zon: "inpZonDagen",
     mis: "inpMismatch", cycli: "inpCycli", onbalans: "inpOnbalans",
     verbruik: "inpVerbruik", standby: "inpStandby", degr: "inpDegradatie",
+    teruglevering: "inpTeruglevering", afname: "inpAfname",
   };
 
   // De waarden zoals de pagina ze zelf meelevert. Wat daaraan gelijk is, hoeft
@@ -178,6 +179,8 @@
       extraOnbalans: getal("inpOnbalans", 0),
       standbyWatt: getal("inpStandby", 10),
       jaarVerbruik: getal("inpVerbruik", 2900),
+      teruglevering: getal("inpTeruglevering", 0),
+      afname: getal("inpAfname", 0),
       degradatiePct: getal("inpDegradatie", 2),
       btwRoute: el("inpBtw") ? el("inpBtw").value : "incl",
       // Het vermogen komt uit de gegevens, niet uit een veld: het is een
@@ -324,7 +327,10 @@
     }
 
     if (r.teGroot) {
-      waarschuwingen.push(`<b>Deze batterij is waarschijnlijk te groot voor je verbruik.</b> Met ${numFmt.format(i.jaarVerbruik)} kWh per jaar maakt je huishouden buiten de zonuren maar zo'n ${eenDec.format(r.maxOntladingPerDag)} kWh per dag op, terwijl deze batterij er ${eenDec.format(r.bruikbareCap)} kWh in kwijt kan. De berekening telt daarom alleen mee wat je er echt uit haalt; een kleinere (goedkopere) batterij geeft vaak een kortere terugverdientijd.`);
+      waarschuwingen.push(`<b>Deze batterij is waarschijnlijk te groot voor je verbruik.</b> ${r.metJaarnota.afname ? `Met ${numFmt.format(i.afname)} kWh afname uit het net per jaar haal je` : `Met ${numFmt.format(i.jaarVerbruik)} kWh per jaar maakt je huishouden buiten de zonuren`} maar zo'n ${eenDec.format(r.maxOntladingPerDag)} kWh per dag op, terwijl deze batterij er ${eenDec.format(r.bruikbareCap)} kWh in kwijt kan. De berekening telt daarom alleen mee wat je er echt uit haalt; een kleinere (goedkopere) batterij geeft vaak een kortere terugverdientijd.`);
+    }
+    if (r.metJaarnota.teruglevering || r.metJaarnota.afname) {
+      kanttekeningen.push(`Gerekend met ${[r.metJaarnota.teruglevering && "de teruglevering", r.metJaarnota.afname && "de afname"].filter(Boolean).join(" en ")} van je jaarnota in plaats van een schatting${r.metJaarnota.teruglevering ? "; het aantal panelen en het direct eigen verbruik tellen dan niet meer mee" : ""}.`);
     }
     if (i.contract === "vast" && !i.heeftPv) {
       waarschuwingen.push("Zonder zonnepanelen en zonder dynamisch contract kan een thuisbatterij vrijwel niets verdienen: er valt niets op te slaan en geen prijsverschil te benutten.");
@@ -704,6 +710,7 @@
     const heeftPv = el("inpPv").value === "ja";
     el("pvVelden").style.display = heeftPv ? "" : "none";
     el("veldPanelen").style.display = heeftPv ? "" : "none";
+    el("veldJaarnota").style.display = heeftPv ? "" : "none";
     bereken();
   }
 

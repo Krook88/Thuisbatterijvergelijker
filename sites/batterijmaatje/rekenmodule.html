@@ -18,12 +18,12 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="stylesheet" href="assets/style.css?v=20261015d">
-  <script src="assets/dagmaat.js?v=20261015d" defer></script>
-  <script src="assets/prijs.js?v=20261015d" defer></script>
-  <script src="assets/rekenkern.js?v=20261015d" defer></script>
-  <script src="assets/rekenmodule.js?v=20261015d" defer></script>
-  <script src="assets/nav.js?v=20261015d" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20261015f">
+  <script src="assets/dagmaat.js?v=20261015f" defer></script>
+  <script src="assets/prijs.js?v=20261015f" defer></script>
+  <script src="assets/rekenkern.js?v=20261015f" defer></script>
+  <script src="assets/rekenmodule.js?v=20261015f" defer></script>
+  <script src="assets/nav.js?v=20261015f" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <style>
@@ -46,7 +46,7 @@
     #resultaat { position: sticky; top: 84px; }
   </style>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261015d"></script>
+  <script defer src="/assets/teller.js?v=20261015f"></script>
 </head>
 <body>
 
@@ -123,6 +123,22 @@
           <span class="hint">Een schatting is prima; ik reken 350 kWh per paneel per jaar</span>
         </div>
       </div>
+      <details class="geavanceerd" id="veldJaarnota">
+        <summary>Heb je je jaarnota bij de hand? (optioneel, nauwkeuriger)</summary>
+        <p class="hint">Op je jaarafrekening staan twee getallen die ik anders moet schatten: hoeveel stroom je teruglevert en hoeveel je uit het net haalt. Vul je ze in, dan rekent de module daarmee in plaats van met het aantal panelen en een gemiddeld eigen verbruik.</p>
+        <div class="veld-rij">
+          <div class="veld">
+            <label for="inpTeruglevering">Teruglevering (kWh per jaar)</label>
+            <input type="number" id="inpTeruglevering" min="0" step="50" placeholder="bijv. 2400">
+            <span class="hint">Soms "teruggeleverd" of "levering aan het net"; tel normaal en dal bij elkaar op</span>
+          </div>
+          <div class="veld">
+            <label for="inpAfname">Afname uit het net (kWh per jaar)</label>
+            <input type="number" id="inpAfname" min="0" step="50" placeholder="bijv. 1900">
+            <span class="hint">Het verbruik vóór verrekening met je teruglevering; tel normaal en dal bij elkaar op</span>
+          </div>
+        </div>
+      </details>
 
       <h2>3. Wat voor energiecontract heb je?</h2>
       <div class="veld">

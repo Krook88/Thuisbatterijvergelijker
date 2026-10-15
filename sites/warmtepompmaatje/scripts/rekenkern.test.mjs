@@ -130,3 +130,17 @@ test("verdient de ongunstige kant zich niet terug, dan is er geen bovengrens", (
   const b = Rekenkern.bandbreedte({ type: "hybride", gas: 400, toestelPrijs: 9000 });
   assert.equal(b.hoog, null);
 });
+
+test("toestel plus geschatte installatie komt uit bij de totaalprijs van Milieu Centraal", () => {
+  // All-electric stond op 4.500 euro installatie; met de middelste
+  // toestelprijs kwam de som 1.400 euro onder Milieu Centraal uit.
+  for (const type of ["hybride", "all-electric"]) {
+    const prijzen = pompen.filter((w) => w.type === type)
+      .map((w) => { const a = (w.aanbiedingen || []).map((o) => o.prijs_eur).filter(Number.isFinite); return a.length ? Math.min(...a) : w.richtprijs_eur; })
+      .filter(Number.isFinite).sort((a, b) => a - b);
+    const mediaan = prijzen[Math.floor(prijzen.length / 2)];
+    const totaal = mediaan + Rekenkern.INSTALLATIE[type];
+    const doel = Rekenkern.MILIEU_CENTRAAL_TOTAAL[type];
+    assert.ok(Math.abs(totaal - doel) / doel <= 0.15, `${type}: ${mediaan} + ${Rekenkern.INSTALLATIE[type]} = ${totaal}, Milieu Centraal ${doel}`);
+  }
+});

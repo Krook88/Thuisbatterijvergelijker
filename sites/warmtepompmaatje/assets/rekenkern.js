@@ -30,7 +30,14 @@
   // deze factor brengt een labelwaarde op diezelfde noemer.
   const PRAKTIJKFACTOR = 0.87;
   const TAPWATER_COP = 2.5;          // warm water en koken via boilervat en inductie
-  const INSTALLATIE = { hybride: 2500, "all-electric": 4500 };
+  /* Geschatte installatie, zonder toestel. Afgeleid van de totaalprijzen die
+     Milieu Centraal noemt (circa 6.200 euro hybride, 12.000 all-electric,
+     inclusief plaatsing) min de mediaan van de toestelprijzen in
+     data/warmtepompen.json. All-electric stond op 4.500; met de mediaan van
+     6.899 kwam de som 1.400 euro onder Milieu Centraal uit. rekenkern.test.mjs
+     bewaakt dat de optelling in de buurt blijft. */
+  const MILIEU_CENTRAAL_TOTAAL = { hybride: 6200, "all-electric": 12000 };
+  const INSTALLATIE = { hybride: 2500, "all-electric": 5000 };
   const LEVENSDUUR_JAAR = 15;        // gemiddelde levensduur van een warmtepomp
   const CO2_PER_M3 = 1.78;           // kg CO2 per m3 aardgas (co2emissiefactoren.nl)
   const CO2_PER_KWH = 0.27;          // kg CO2 per kWh Nederlandse stroommix (indicatie)
@@ -195,7 +202,7 @@
   return {
     AANDEEL_VERWARMING, KWH_PER_M3, HYBRIDE_DEKKING, HYBRIDE_SCOP, ALLEL_SCOP,
     PRAKTIJKFACTOR, TAPWATER_COP, INSTALLATIE, LEVENSDUUR_JAAR, MAX_JAAR,
-    STANDAARD, MARGES,
+    STANDAARD, MARGES, MILIEU_CENTRAAL_TOTAAL,
     eigenScop, terugverdientijd, bereken, bandbreedte,
   };
 });
