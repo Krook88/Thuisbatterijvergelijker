@@ -1,27 +1,23 @@
-Onderwerp: FlexVolt One: een paar vragen over de datasheets
+Onderwerp: FlexVolt One: vier vragen over de datasheets
 
 Beste [naam],
 
 Dank voor de gegevens. De FlexVolt One LV en HV staan inmiddels op
-Batterijmaatje. Een paar punten sluiten niet op elkaar aan; zou je ze willen
-nalopen?
+Batterijmaatje. Om ze zuiver te vergelijken mis ik nog vier dingen:
 
-1. Bij welke omvormer horen de adviesprijzen (LV: 3,6/5/6 kW, HV: 8/10/12 kW)?
-2. LV: 4,75 kWh bruikbaar per module past niet bij 95% DoD (4,86 kWh). Welke
-   klopt?
-3. HV: 3,8 kWh staat als totale én bruikbare capaciteit. Wat is bruikbaar?
-4. HV: datasheet zegt lithium-ion, brochure LFP. Welke is het?
-5. HV: 6 modules is 22,8 kWh (brochure) of 22,7 kWh (datasheet)?
-6. HV: 0,5C naast 37 A (= 1C bij 37 Ah). Wat is het continue vermogen bij
-   3 modules?
-7. De HV-datasheet bevat waarden uit de LV-versie (44,8–56,5 V, 100–400 Ah,
-   3.680/5.000/6.000 W, 280 V) en MPPT-bereik en startspanning lijken
-   omgewisseld. Kun je de juiste waarden geven?
-8. "Uitbreidbaar tot 81,6 kWh" in de brochure: hoe verhoudt zich dat tot
-   max. 20,4 (LV) en 22,8 kWh (HV)?
-9. Mag ik de productafbeeldingen uit de datasheets gebruiken, met
-   "foto: Dysun Energy"?
-10. Zijn er winkels die de FlexVolt One met een openbare prijs verkopen?
+1. **Prijs en omvormer.** Welke FlexAmp One zit in de adviesprijzen (LV 3,6, 5
+   of 6 kW; HV 8, 10 of 12 kW), en wat kost een grotere omvormer extra?
+2. **Bruikbare capaciteit per module.** LV: 4,75 kWh, terwijl 95% DoD op
+   4,86 kWh uitkomt. HV: 3,8 kWh staat als totale én als bruikbare capaciteit.
+   Wat is per module echt bruikbaar?
+3. **Ontlaadvermogen HV.** De datasheet noemt 0,5C en 37 A; bij 37 Ah per
+   module is dat 1C. Wat levert een systeem met 3 modules continu?
+4. **Celchemie HV.** De datasheet zegt lithium-ion, de brochure LFP. Welke is
+   het?
+
+Verder lijkt de HV-datasheet een paar regels uit de LV-versie te bevatten
+(44,8–56,5 V, 100–400 Ah, 3.680/5.000/6.000 W, 280 V), en staan MPPT-bereik en
+startspanning omgewisseld. Heb je een gecorrigeerde versie?
 
 Met vriendelijke groet,
 
