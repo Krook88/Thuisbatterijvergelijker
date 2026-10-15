@@ -1012,14 +1012,13 @@ let CIJFERS = null;
   const beweging = Uitleg.prijsbeweging(verloop, { dagen: 30 });
 
   /* De rekenhulp rekent met dezelfde aannames als de rekenmodule. Die staan in
-     assets/rekenmodule.js en rekenmodule.html; hier worden ze daaruit gelezen,
+     assets/rekenkern.js en rekenmodule.html; hier worden ze daaruit gelezen,
      zodat er geen tweede kopie is die stil kan gaan afwijken. */
-  const rmJs = readFileSync(join(ROOT, "assets", "rekenmodule.js"), "utf8");
+  const Rekenkern = createRequire(import.meta.url)("../assets/rekenkern.js");
   const rmHtml = readFileSync(join(ROOT, "rekenmodule.html"), "utf8");
   const constante = (naam) => {
-    const m = new RegExp(`const ${naam} = ([0-9.]+);`).exec(rmJs);
-    if (!m) throw new Error(`rekenmodule.js mist ${naam}; de rekenhulp op uitleg.html leunt erop`);
-    return Number(m[1]);
+    if (typeof Rekenkern[naam] !== "number") throw new Error(`rekenkern.js mist ${naam}; de rekenhulp op uitleg.html leunt erop`);
+    return Rekenkern[naam];
   };
   const standaard = (id) => {
     const m = new RegExp(`id="${id}"[^>]*value="([0-9.]+)"`).exec(rmHtml);

@@ -362,6 +362,32 @@
     return `<div class="koppelgemak"><span class="uitleg"><b>Terugverdientijd:</b> ${bereik}, bij ongeveer ${eurFmt.format(r.totaal)} per jaar. Indicatie op basis van je antwoorden; <a href="${escapeHtml(rekenmoduleLink(b))}">pas de aannames aan</a>.</span></div>`;
   }
 
+  /* Eerst dit: overstappen
+
+     Wie panelen heeft en een vast contract, kan ook in 2027 bij een
+     leverancier zitten die terugleverkosten blijft rekenen. Dat kost dan meer
+     dan een batterij oplevert, en het is op te lossen zonder te investeren.
+     De keuzehulp vraagt niet naar de leverancier, dus het bedrag is een
+     voorbeeld met de huidige gemiddelde terugleverkosten; de rekenmodule
+     doet het per leverancier. */
+  const TERUGLEVERKOSTEN_NU = 0.12;
+  const TERUGLEVERVERGOEDING_NU = 0.05;
+
+  function overstapTip(maat) {
+    if (typeof Rekenkern === "undefined" || maat.basis !== "pv" || maat.dynamisch) return "";
+    const z = Rekenkern.zonderBatterij({
+      heeftPv: true,
+      contract: "vast",
+      opwek: getal("advOpwek", 3500),
+      jaarVerbruik: getal("advVerbruik", 2900),
+      terugleverKosten: TERUGLEVERKOSTEN_NU,
+      terugleverVergoeding: TERUGLEVERVERGOEDING_NU,
+    });
+    if (!z || z.besparing < 10) return "";
+    return `<div class="info-kader"><b>Eerst dit: kijk naar je energiecontract.</b>
+      Je levert ongeveer ${kwhFmt.format(z.teruggeleverd)} kWh per jaar terug. Blijft je leverancier daar ook na 2027 terugleverkosten voor rekenen (nu gemiddeld € 0,12 per kWh), dan kost je dat zo'n ${eurFmt.format(z.besparing)} per jaar. Overstappen haalt dat weg zonder investering. De terugverdientijden hieronder gaan al uit van een contract zonder terugleverkosten; <a href="rekenmodule.html#leveranciersTabel">bekijk per leverancier wat die voor 2027 heeft aangekondigd</a>.</div>`;
+  }
+
   function waaromTekst(b, maat) {
     const redenen = [];
     if (Math.abs(b.capaciteit_kwh - maat.kern) / Math.max(maat.kern, 1) <= 0.3) {
@@ -507,6 +533,7 @@
       ${heeftPv ? `<div class="waarschuwing-kader">${new Date() < new Date("2027-01-01")
         ? "Let op: tot en met 31 december 2026 geldt de salderingsregeling nog, waardoor opslaan van eigen zonnestroom financieel weinig oplevert. Dit advies kijkt naar de situatie daarna."
         : "De salderingsregeling is per 1 januari 2027 vervallen: eigen zonnestroom opslaan levert nu wél op, want teruggeleverde stroom brengt nog maar een paar cent per kWh op."}</div>` : ""}
+      ${overstapTip(maat)}
       ${totaal === 0 ? geenTreffers(afval) : `
       <h2 class="advies-kop">Drie kanten van de keuze</h2>
       <p class="advies-kop-uitleg">Van de ${totaal} batterijen die bij jouw antwoorden passen, toon ik niet de beste drie maar de beste op drie verschillende vragen. Dat scheelt: een ranglijst levert vrijwel altijd drie vergelijkbare buren op, terwijl deze drie elk iets anders goed doen.</p>`}

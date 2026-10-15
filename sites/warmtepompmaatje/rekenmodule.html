@@ -15,12 +15,13 @@
   <meta property="og:image" content="https://warmtepompmaatje.nl/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="stylesheet" href="assets/style.css?v=20261015a">
-  <script src="assets/iconen.js?v=20261015a" defer></script>
-  <script src="assets/condities.js?v=20261015a" defer></script>
-  <script src="assets/prijs.js?v=20261015a" defer></script>
-  <script src="assets/rekenmodule.js?v=20261015a" defer></script>
-  <script src="assets/nav.js?v=20261015a" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20261015c">
+  <script src="assets/iconen.js?v=20261015c" defer></script>
+  <script src="assets/condities.js?v=20261015c" defer></script>
+  <script src="assets/prijs.js?v=20261015c" defer></script>
+  <script src="assets/rekenkern.js?v=20261015c" defer></script>
+  <script src="assets/rekenmodule.js?v=20261015c" defer></script>
+  <script src="assets/nav.js?v=20261015c" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <style>
     .reken-indeling { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ruimte-20); align-items: start; margin: var(--ruimte-28) 0 var(--ruimte-40); }
@@ -58,7 +59,7 @@
     .vgl-verschil { margin: var(--ruimte-6) 0 0; font-size: var(--tekst-15); font-weight: 800; color: var(--kleur-primair-donker); }
   </style>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261015a"></script>
+  <script defer src="/assets/teller.js?v=20261015c"></script>
 </head>
 <body>
 
@@ -124,6 +125,15 @@
         <span class="hint">Dan vervallen de vaste gaskosten van circa € 350 per jaar. Let op: koken moet dan elektrisch, en het afsluiten zelf kost eenmalig circa € 500 tot € 1.200.</span>
       </div>
 
+      <div class="veld">
+        <label for="ketelStaat">Je cv-ketel</label>
+        <select id="ketelStaat">
+          <option value="werkt">Werkt nog goed</option>
+          <option value="vervangen">Moet toch vervangen worden (oud of kapot)</option>
+        </select>
+        <span class="hint">Moet hij toch vervangen worden, dan vergelijk ik met een nieuwe cv-ketel en telt alleen de meerprijs</span>
+      </div>
+
       <details class="geavanceerd">
         <summary>Aannames aanpassen (energieprijzen, installatiekosten)</summary>
         <p class="hint los">Ik reken standaard met: gasprijs € 1,45 per m³, stroomprijs € 0,30 per kWh, € 350 vaste gaskosten per jaar en € 700 eenmalige afsluitkosten. De installatie schat ik op € 2.500 (hybride) of € 4.500 (all-electric, inclusief boiler). Wijkt jouw situatie of offerte af? Pas het hier aan; het resultaat rekent direct mee.</p>
@@ -149,6 +159,11 @@
             <input type="number" id="afsluitkosten" min="0" max="2000" step="50" value="700">
             <span class="hint">Wat de netbeheerder rekent voor het verwijderen van de aansluiting</span>
           </div>
+        </div>
+        <div class="veld">
+          <label for="ketelprijs">Prijs nieuwe cv-ketel (€, incl. plaatsing)</label>
+          <input type="number" id="ketelprijs" min="0" max="10000" step="100" value="2500">
+          <span class="hint">Alleen gebruikt als je ketel toch vervangen moet worden; vaak € 1.600 tot € 3.400</span>
         </div>
         <div class="veld">
           <label for="installatiekosten">Installatiekosten (€, excl. het toestel)</label>
@@ -198,6 +213,7 @@
       <li><b>Van het gas af.</b> Zeg je bij all-electric de gasaansluiting op, dan vervallen de vaste gaskosten (circa € 350 per jaar, verschilt per netbeheerder en leverancier) en reken ik eenmalige afsluitkosten mee (circa € 500 tot € 1.200; ik neem € 700).</li>
       <li><b>Subsidie.</b> De ISDE-indicatie per pomp trek ik van de investering af. Het exacte bedrag hangt af van de meldcode; controleer het bij <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/warmtepomp" target="_blank" rel="noopener">RVO</a> of op mijn <a href="subsidie.html">subsidiepagina</a>.</li>
       <li><b>Terugverdientijd.</b> Netto investering (toestel + installatie + eventuele afsluitkosten − ISDE) gedeeld door de besparing per jaar. Energieprijzen houd ik constant; stijgt de gasprijs harder dan de stroomprijs, dan verdien je sneller terug. Heb je een dynamisch contract en een slim aangestuurde pomp, dan ligt de gemiddelde stroomprijs vaak wat lager, dus pas hem aan onder "Aannames aanpassen". Onderhoudskosten laat ik buiten de som, omdat die voor een warmtepomp en een cv-ketel vergelijkbaar zijn (circa € 100 tot € 200 per jaar).</li>
+      <li><b>Je ketel moet toch vervangen worden.</b> Dan kies je niet tussen een warmtepomp en niets doen, maar tussen een warmtepomp en een nieuwe cv-ketel, en telt alleen de meerprijs. Een nieuwe ketel inclusief plaatsing kost volgens de <a href="https://selectra.nl/energie/verwarming/cv-ketel" target="_blank" rel="noopener">Consumentenbond via Selectra</a> € 1.600 tot € 3.400; ik reken met € 2.500. Bij all-electric trek ik dat bedrag van de investering af. Bij een hybride niet: die werkt naast een ketel, dus de nieuwe ketel koop je in beide gevallen, en de totale uitgave is ketel plus pomp.</li>
       <li><b>Levensduur.</b> Een warmtepomp gaat gemiddeld 15 tot 20 jaar mee; ik reken de totale besparing over 15 jaar. Is de terugverdientijd langer, dan waarschuw ik daarvoor.</li>
       <li><b>Installatiekosten.</b> Zonder eigen invoer schat ik € 2.500 (hybride) of € 4.500 (all-electric, inclusief boilervat en aanpassingen). Dat sluit aan bij de totaalprijzen die Milieu Centraal noemt: circa € 6.200 voor een hybride en circa € 12.000 voor all-electric, inclusief installatie. Vraag altijd meerdere offertes aan; werkelijke prijzen verschillen per huis en regio.</li>
       <li><b>CO₂.</b> Vermeden uitstoot: bespaard gas × 1,78 kg per m³, minus extra stroom × 0,27 kg per kWh (bron: co2emissiefactoren.nl).</li>

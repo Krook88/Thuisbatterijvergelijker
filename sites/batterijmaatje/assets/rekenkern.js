@@ -82,14 +82,34 @@
   // goedkope nachturen en loopt de gemiddelde laadprijs op.
   const LAADUREN_GRENS = 4;
 
+  /* ------------------------------------------------------------------
+     Teruglevering vanaf 2027, per contractsoort
+
+     De module zegt te rekenen met de situatie na de saldering, maar telde de
+     terugleverkosten van 2026 (0,12) plus een vergoeding van 0,05 als winst
+     van de batterij. Netto kostte elke teruggeleverde kWh daarmee 7 cent. De
+     leveranciers die voor 2027 iets hebben aangekondigd (Budget, Essent, Oxxio,
+     Vattenfall) komen netto uit tussen 0 en 3 cent vergoeding: de kosten
+     vervallen, de vergoeding wordt een paar cent. Met de oude standaard lag de
+     opbrengst van een batterij bij een vast contract een kwart te hoog.
+
+     Het getal voor "vast" is de mediaan van die aankondigingen;
+     rekenkern.test.mjs bewaakt dat het met data/leveranciers.json blijft
+     kloppen. Dynamisch blijft 0,05 vergoeding zonder kosten.
+     ------------------------------------------------------------------ */
+  const TERUGLEVERING = {
+    vast: { terugleverVergoeding: 0.01, terugleverKosten: 0 },
+    dynamisch: { terugleverVergoeding: 0.05, terugleverKosten: 0 },
+  };
+
   const STANDAARD = {
     heeftPv: true,
     contract: "vast",
     opwek: 3500,
     eigenVerbruikPct: 30,
     stroomprijs: 0.30,
-    terugleverVergoeding: 0.05,
-    terugleverKosten: 0.12,
+    terugleverVergoeding: TERUGLEVERING.vast.terugleverVergoeding,
+    terugleverKosten: TERUGLEVERING.vast.terugleverKosten,
     laadprijs: 0.15,
     ontlaadwaarde: 0.30,
     investering: 0,
@@ -136,8 +156,48 @@
     return gemiddeldOverschot * (1 - Math.exp(-ruimte / gemiddeldOverschot));
   }
 
+  /* De standaard voor teruglevering hangt aan het contract. Zonder dit kreeg
+     de keuzehulp, die geen tarieven meegeeft, bij een dynamisch contract de
+     terugleverkosten van een vast contract erbij. */
+  function metStandaard(invoer) {
+    const contract = invoer && invoer.contract === "dynamisch" ? "dynamisch" : "vast";
+    return Object.assign({}, STANDAARD, TERUGLEVERING[contract], invoer);
+  }
+
+  /* Wat rekent deze leverancier vanaf 2027 voor een teruggeleverde kWh?
+     Geeft null als er niets is aangekondigd. Is maar een van de twee bedragen
+     bekend, dan vult de rest aan met de huidige terugleverkosten of de
+     standaardvergoeding, en zegt "volledig" dat het een mengsel is. */
+  function teruglevering2027(l) {
+    if (!l) return null;
+    const v = l.terugleververgoeding_2027_per_kwh;
+    const k = l.terugleverkosten_2027_per_kwh;
+    const heeftV = typeof v === "number", heeftK = typeof k === "number";
+    if (!heeftV && !heeftK) return null;
+    const soort = l.contract === "dynamisch" ? "dynamisch" : "vast";
+    return {
+      terugleverVergoeding: heeftV ? v : TERUGLEVERING[soort].terugleverVergoeding,
+      terugleverKosten: heeftK ? k : (typeof l.terugleverkosten_per_kwh_indicatie === "number" ? l.terugleverkosten_per_kwh_indicatie : 0),
+      volledig: heeftV && heeftK,
+    };
+  }
+
+  /* De mediaan van wat leveranciers met een volledige aankondiging netto
+     vergoeden (vergoeding min kosten). Bron voor TERUGLEVERING.vast. */
+  function mediaanNetto2027(leveranciers) {
+    const netto = (leveranciers || [])
+      .filter((l) => l.contract === "vast-variabel")
+      .map(teruglevering2027)
+      .filter((t) => t && t.volledig)
+      .map((t) => t.terugleverVergoeding - t.terugleverKosten)
+      .sort((a, b) => a - b);
+    if (!netto.length) return null;
+    const m = Math.floor(netto.length / 2);
+    return netto.length % 2 ? netto[m] : (netto[m - 1] + netto[m]) / 2;
+  }
+
   function bereken(invoer) {
-    const i = Object.assign({}, STANDAARD, invoer);
+    const i = metStandaard(invoer);
 
     const heeftPv = i.heeftPv;
     const opwek = heeftPv ? i.opwek : 0;
@@ -229,6 +289,42 @@
   }
 
   /* ------------------------------------------------------------------
+     Eerst dit: overstappen zonder batterij
+
+     Wie terugleverkosten betaalt, ziet die in deze som terug als opbrengst
+     van de batterij: elke kWh die hij opslaat, hoeft hij niet tegen kosten
+     terug te leveren. Maar dat voordeel is ook te halen zonder één euro te
+     investeren, door over te stappen naar een contract zonder die kosten. In
+     een voorbeeld met 3.500 kWh opwek en 0,12 terugleverkosten leverde
+     overstappen meer op dan de batterij zelf.
+
+     Deze functie geeft daarom twee getallen: wat overstappen alleen al
+     scheelt, en wat de batterij dáárna nog toevoegt. Het tweede is de eerlijke
+     opbrengst van de batterij. Het alternatief rekent met de standaard voor
+     een vast contract in 2027 (TERUGLEVERING.vast), niet met nul kosten en
+     een hoge vergoeding: dat is wat de markt nu aankondigt.
+
+     null als er niets te halen valt: geen panelen, al een dynamisch contract,
+     of geen netto kosten op teruglevering die het alternatief niet heeft.
+     ------------------------------------------------------------------ */
+  function zonderBatterij(invoer) {
+    const i = metStandaard(invoer);
+    if (!i.heeftPv || i.contract === "dynamisch" || !(i.opwek > 0)) return null;
+    const alt = TERUGLEVERING.vast;
+    const verschilPerKwh = (i.terugleverKosten - i.terugleverVergoeding) -
+      (alt.terugleverKosten - alt.terugleverVergoeding);
+    if (!(verschilPerKwh > 0)) return null;
+    const teruggeleverd = i.opwek * (1 - i.eigenVerbruikPct / 100);
+    const naOverstap = bereken(Object.assign({}, invoer, alt));
+    return {
+      teruggeleverd,
+      verschilPerKwh,
+      besparing: teruggeleverd * verschilPerKwh,
+      naOverstap,
+    };
+  }
+
+  /* ------------------------------------------------------------------
      Opgetelde besparing en terugverdientijd, mét degradatie
 
      Een batterij levert in jaar tien minder dan in jaar één. De zustermodule
@@ -287,7 +383,7 @@
   }
 
   function bandbreedte(invoer) {
-    const i = Object.assign({}, STANDAARD, invoer);
+    const i = metStandaard(invoer);
     const ongunstig = bereken(metMarge(i, 0));
     const gunstig = bereken(metMarge(i, 1));
     return {
@@ -309,7 +405,12 @@
     PIEKUREN,
     LAADUREN_GRENS,
     STANDAARD,
+    TERUGLEVERING,
     MARGES,
+    metStandaard,
+    teruglevering2027,
+    mediaanNetto2027,
+    zonderBatterij,
     opgevangenPerDag,
     bereken,
     besparingNa,
