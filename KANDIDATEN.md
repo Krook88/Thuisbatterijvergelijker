@@ -235,3 +235,28 @@ een winkel die we kunnen volgen, en de velden die deze site onderscheidend
 maken — koppeling met zonnepanelen, Homey, Home Assistant, geschiktheid voor
 een dynamisch contract. Die staan zelden in een datasheet en komen uit
 productpagina's, en die kan ik van hieruit niet lezen.
+
+---
+
+## Dysun Energy FlexVolt One LV en HV, opgenomen 15 oktober 2026
+
+Aangedragen door Dysun per mail, met datasheets en brochure. Twee regels:
+LV (1-fase, 2 modules als richtmaat) en HV (3-fase, 3 modules). Prijzen zijn
+de adviesprijs van Dysun excl. btw en installatie; geen andere winkel gevonden.
+
+Wat in de documentatie niet klopt of ontbreekt, nog na te vragen bij Dysun:
+
+- LV: 4,75 kWh bruikbaar per 5,12 kWh-module past niet bij 95% DoD (4,86).
+- LV: bij welke omvormer (3,6, 5 of 6 kW) horen de adviesprijzen?
+- LV: 4 modules is 20,48 kWh, mail en datasheet zeggen 20,4.
+- HV: datasheet noemt 3,8 kWh als totale én bruikbare capaciteit bij 95% DoD.
+- HV: datasheet zegt "lithium-ion", brochure LFP.
+- HV: 6 modules is 22,8 kWh (brochure), datasheet en mail 22,7.
+- HV: laadvermogen "0,5C" naast 37 A; bij 3,8 kWh / 102,4 V is 37 A juist 1C.
+- HV-datasheet heeft regels uit de LV-versie: werkspanning 44,8-56,5 V,
+  100-400 Ah, "nominale uitgangsstroom 3680/5000/6000 W", 280 V AC (380?).
+- HV-datasheet: MPPT-bereik (150 V) en startspanning (150-950 V) omgewisseld;
+  "max. PV-ingangsspanning" staat in W (ook bij LV).
+- Brochure: HV "uitbreidbaar tot 81,6 kWh" past niet bij max. 6 modules.
+- Bij welke omvormermaat (8, 10 of 12 kW) horen de HV-prijzen?
+- CB-certificaten JPTUV-178391 en JPTUV-183500 niet zelf kunnen nakijken.

@@ -2650,6 +2650,114 @@
       "zoeknamen": [
         "Dyness thuisbatterij 16.1 kWh"
       ]
+    },
+    {
+      "id": "dysun-flexvolt-one-lv",
+      "merk": "Dysun Energy",
+      "type": "hybride",
+      "installatie": "installateur",
+      "prijs_datum": "2026-10-15",
+      "richtprijs_btw_inbegrepen": false,
+      "prijs_bron": "adviesprijs van Dysun Energy voor de eindklant, per e-mail aan mij, stand 15 oktober 2026",
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Geen winkel met een openbare prijs gevonden (nagezocht op 15 oktober 2026); Dysun verkoopt via partnerinstallateurs. Het bedrag is de adviesprijs van de fabrikant.",
+      "prijs_uit_offerte": true,
+      "koppeling_gemak": 3,
+      "homey": null,
+      "home_assistant": null,
+      "dynamisch_contract": {
+        "status": "ja",
+        "tekst": "Het ingebouwde EMS in de FlexAmp-omvormer stuurt standaard op de day-ahead prijzen en laadt in de goedkope uren (opgave Dysun)"
+      },
+      "app": "Dysun-app en webportaal; optioneel FlexGrid HEMS (hems.dysun.energy)",
+      "onbalans": {
+        "status": "ja",
+        "via": [
+          {
+            "partij": "Dysun Energy",
+            "dienst": "FlexGrid HEMS (op het SmartgridOne-platform van Eniris)",
+            "bron": "https://dysun.energy/product/flexgrid/"
+          }
+        ],
+        "toelichting": "Volgens Dysun kan het optionele FlexGrid HEMS handelen op de onbalansmarkt en ook een warmtepomp en laadpaal aansturen. Onder welke voorwaarden en met welke leverancier heb ik niet nagegaan."
+      },
+      "garantie_jaar": 10,
+      "cycli": "7.000 (garantie: 70% van de bruikbare capaciteit na 7.000 cycli bij 0,5C, 25 °C en 95% ontlaaddiepte)",
+      "noodstroom": true,
+      "ip_klasse": "IP66",
+      "buiten_toelichting": "batterijmodules en omvormer IP66 volgens de datasheet, met verwarmingsmodule; geschikt voor binnen en buiten",
+      "totaalprijs_van_eur": null,
+      "totaalprijs_tot_eur": null,
+      "aanbiedingen": [],
+      "model": "FlexVolt One LV (2 modules, 10,24 kWh)",
+      "capaciteit_kwh": 9.5,
+      "capaciteit_soort": "bruikbaar",
+      "capaciteit_nominaal_kwh": 10.24,
+      "uitbreidbaar_tot_kwh": 19,
+      "vermogen_kw": null,
+      "vermogen_bron": "De omvormer is er in 3,68, 5 en 6 kW (FlexAmp One 3.6, 5 en 6); bij welke maat de adviesprijs hoort, staat er niet bij. Een LV-module laadt en ontlaadt volgens de datasheet maximaal 5,12 kW.",
+      "fase": "1-fase",
+      "richtprijs_eur": 4317,
+      "prijs_omvat": "excl. btw, excl. installatie; all-in-one met ingebouwde hybride omvormer en 2 batterijmodules. Andere maten: 1 module 2.855, 3 modules 5.778, 4 modules 7.240 euro (excl. btw)",
+      "zonnepanelen_koppeling": "Alles in één kast. De hybride omvormer (FlexAmp One) zit erin en je panelen gaan rechtstreeks op de 2 MPPT-ingangen (120 tot 480 V, tot 10 kW paneelvermogen bij de 5 en 6 kW-omvormer). Heb je al zonnepanelen met een eigen omvormer, dan vervangt dit die meestal; een lijst met externe omvormers waar hij naast kan, heeft Dysun niet.",
+      "noodstroom_uitleg": "De omvormer heeft een aparte back-upuitgang van 3.680 tot 6.000 VA, afhankelijk van de omvormermaat. Welke groepen doorwerken bij een storing bepaalt de installateur.",
+      "opmerkingen": "Dysun is een Nederlands bedrijf (B.V. sinds 2021) dat zelf niet installeert; je vraagt een offerte aan en Dysun koppelt je aan een partnerinstallateur, voorlopig vooral in Limburg en Noord-Brabant. Zonder die gecertificeerde installateur vervalt de garantie. De datasheet noemt 4,75 kWh bruikbaar per module van 5,12 kWh, terwijl de opgegeven ontlaaddiepte van 95% op 4,86 kWh zou uitkomen; ik reken met de lagere 4,75. Op de omvormer zit 5 jaar garantie, op de modules 10. CB-certificaat IEC 62619: JPTUV-178391 (TÜV Rheinland, oktober 2025).",
+      "product_url": "https://dysun.energy/product/flexvolt-one/",
+      "totaalprijs_toelichting": "Een prijs inclusief installatie heb ik niet; Dysun geeft alleen de adviesprijs van het toestel (4.317 euro excl. btw, 5.224 incl. btw). De installatie loopt via een partnerinstallateur die zelf offreert."
+    },
+    {
+      "id": "dysun-flexvolt-one-hv",
+      "merk": "Dysun Energy",
+      "type": "hybride",
+      "installatie": "installateur",
+      "prijs_datum": "2026-10-15",
+      "richtprijs_btw_inbegrepen": false,
+      "prijs_bron": "adviesprijs van Dysun Energy voor de eindklant, per e-mail aan mij, stand 15 oktober 2026",
+      "prijs_controle": "handmatig",
+      "prijs_controle_reden": "Geen winkel met een openbare prijs gevonden (nagezocht op 15 oktober 2026); Dysun verkoopt via partnerinstallateurs. Het bedrag is de adviesprijs van de fabrikant.",
+      "prijs_uit_offerte": true,
+      "koppeling_gemak": 3,
+      "homey": null,
+      "home_assistant": null,
+      "dynamisch_contract": {
+        "status": "ja",
+        "tekst": "Het ingebouwde EMS in de FlexAmp-omvormer stuurt standaard op de day-ahead prijzen en laadt in de goedkope uren (opgave Dysun)"
+      },
+      "app": "Dysun-app en webportaal; optioneel FlexGrid HEMS (hems.dysun.energy)",
+      "onbalans": {
+        "status": "ja",
+        "via": [
+          {
+            "partij": "Dysun Energy",
+            "dienst": "FlexGrid HEMS (op het SmartgridOne-platform van Eniris)",
+            "bron": "https://dysun.energy/product/flexgrid/"
+          }
+        ],
+        "toelichting": "Volgens Dysun kan het optionele FlexGrid HEMS handelen op de onbalansmarkt en ook een warmtepomp en laadpaal aansturen. Onder welke voorwaarden en met welke leverancier heb ik niet nagegaan."
+      },
+      "garantie_jaar": 10,
+      "cycli": "7.000 (garantie: 70% van de bruikbare capaciteit na 7.000 cycli bij 0,5C, 25 °C en 95% ontlaaddiepte)",
+      "noodstroom": true,
+      "ip_klasse": "IP66",
+      "buiten_toelichting": "batterijmodules en omvormer IP66 volgens de datasheet, met verwarmingsmodule; geschikt voor binnen en buiten",
+      "totaalprijs_van_eur": null,
+      "totaalprijs_tot_eur": null,
+      "aanbiedingen": [],
+      "model": "FlexVolt One HV (3 modules, 11,4 kWh)",
+      "capaciteit_kwh": 11.4,
+      "capaciteit_soort": "nominaal",
+      "capaciteit_nominaal_kwh": 11.4,
+      "uitbreidbaar_tot_kwh": 22.8,
+      "vermogen_kw": null,
+      "vermogen_bron": "De omvormer is er in 8, 10 en 12 kW (FlexAmp One 8, 10 en 12); bij welke maat de adviesprijs hoort, staat er niet bij. Wat de batterij zelf levert, is uit de datasheet niet op te maken (0,5C naast 37 A, wat bij 3 modules 5,7 of 11,4 kW geeft).",
+      "fase": "3-fase",
+      "richtprijs_eur": 5341,
+      "prijs_omvat": "excl. btw, excl. installatie; all-in-one met ingebouwde 3-fase hybride omvormer en 3 batterijmodules. Andere maten: 4 modules 6.461, 5 modules 7.581, 6 modules 8.700 euro (excl. btw)",
+      "zonnepanelen_koppeling": "Alles in één kast. De 3-fase hybride omvormer (FlexAmp One) zit erin en je panelen gaan rechtstreeks op de 2 MPPT-ingangen (150 tot 950 V, tot 18 kW paneelvermogen bij de 12 kW-omvormer). Heb je al zonnepanelen met een eigen omvormer, dan vervangt dit die meestal; een lijst met externe omvormers waar hij naast kan, heeft Dysun niet.",
+      "noodstroom_uitleg": "De omvormer heeft een aparte back-upuitgang van 8.000 tot 12.000 VA, afhankelijk van de omvormermaat. Welke groepen doorwerken bij een storing bepaalt de installateur.",
+      "opmerkingen": "De 3-fase uitvoering van de FlexVolt One, met modules van 3,8 kWh (LFP volgens de brochure; de datasheet zegt alleen lithium-ion). Dysun installeert zelf niet en koppelt je aan een partnerinstallateur, voorlopig vooral in Limburg en Noord-Brabant; zonder die gecertificeerde installateur vervalt de garantie. De datasheet noemt per module 3,8 kWh zowel als totale als bruikbare capaciteit, bij 95% ontlaaddiepte, en dat kan niet allebei kloppen. Ik zet de 11,4 kWh daarom als nominaal neer. Op de omvormer zit 5 jaar garantie, op de modules 10. CB-certificaat IEC 62619: JPTUV-183500 (TÜV Rheinland, maart 2026).",
+      "product_url": "https://dysun.energy/product/flexvolt-one-hv-thuisbatterij/",
+      "totaalprijs_toelichting": "Een prijs inclusief installatie heb ik niet; Dysun geeft alleen de adviesprijs van het toestel (5.341 euro excl. btw, 6.463 incl. btw). De installatie loopt via een partnerinstallateur die zelf offreert."
     }
   ]
 }
