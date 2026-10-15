@@ -481,6 +481,24 @@
       return;
     }
 
+    /* Te weinig overschot voor welke batterij dan ook
+
+       Met één paneel of een balkonpaneel komt het maatadvies onder de kleinste
+       batterij in de vergelijking uit. Dan viel alles af op "de geadviseerde
+       accugrootte", en zei de keuzehulp dat het advies klopte maar er geen
+       model voor was. Het eerlijke antwoord is een ander: met zo weinig over
+       loont een batterij niet, hoe klein ook. */
+    const kleinste = Math.min(...batterijen.filter((b) => b.capaciteit_kwh > 0).map((b) => b.capaciteit_kwh));
+    if (maat.basis === "pv" && Number.isFinite(kleinste) && maat.hoog * BAND_BOVEN < kleinste) {
+      doel.innerHTML = `
+        <div class="waarschuwing-kader"><b>Eerlijk advies: met zo weinig zonnestroom over loont een batterij (nog) niet.</b>
+        Je panelen leveren op een zomerse dag ongeveer ${kwhFmt.format(maat.dagOverschotZomer)} kWh meer op dan je direct gebruikt. Zelfs de kleinste batterij in de vergelijking (${kwhFmt.format(kleinste)} kWh) zou het grootste deel van het jaar half leeg blijven, en verdient zich dan niet terug.
+        ${maat.dynamisch
+          ? `Met je dynamische contract kan een batterij ook verdienen aan prijsverschillen tussen uren. Of dat genoeg is, reken je na in de <a href="rekenmodule.html">rekenhulp</a>.`
+          : `Komen er meer panelen bij of stap je over op een dynamisch contract, kom dan terug. Wil je het toch narekenen? Gebruik de <a href="rekenmodule.html">rekenhulp</a>.`}</div>`;
+      return;
+    }
+
     const { top, totaal, afval } = match(maat);
 
     const maatUitleg = maat.basis === "pv"
