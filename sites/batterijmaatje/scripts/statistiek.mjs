@@ -17,7 +17,7 @@
  */
 
 import { readdirSync, readFileSync, writeFileSync, statSync } from "node:fs";
-import { join } from "node:path";
+import { join, relative } from "node:path";
 
 export const STATISTIEK_TAG = '<script defer src="/_vercel/insights/script.js"></script>';
 
@@ -38,6 +38,19 @@ export function metStatistiek(html, versie) {
   return uit;
 }
 
+/* Pagina's die zelf niet meetellen: de statistiekenpagina is voor de beheerder,
+   en elk bezoek daar zou de cijfers ophogen die je er komt bekijken. Paden
+   relatief aan de map van de site. */
+export const NIET_TELLEN = new Set(["statistieken.html"]);
+
+/** De pagina zonder de tags van Vercel en de eigen teller. */
+export function zonderStatistiek(html) {
+  return html
+    .split("\n")
+    .filter((r) => !r.includes(STATISTIEK_TAG) && !TELLER_PATROON.test(r))
+    .join("\n");
+}
+
 /** Alle .html-bestanden van een site, zonder node_modules en verborgen mappen. */
 export function htmlBestanden(root) {
   const uit = [];
@@ -53,12 +66,13 @@ export function htmlBestanden(root) {
   return uit;
 }
 
-/** Zet de tags op elke pagina van de site. Geeft het aantal aangepaste pagina's. */
+/** Zet de tags op elke pagina van de site, behalve op die in NIET_TELLEN. Geeft het aantal aangepaste pagina's. */
 export function zetStatistiekOveral(root, versie) {
   let aangepast = 0;
   for (const pad of htmlBestanden(root)) {
     const oud = readFileSync(pad, "utf8");
-    const nieuw = metStatistiek(oud, versie);
+    const telt = !NIET_TELLEN.has(relative(root, pad).replaceAll("\\", "/"));
+    const nieuw = telt ? metStatistiek(oud, versie) : zonderStatistiek(oud);
     if (nieuw !== oud) { writeFileSync(pad, nieuw, "utf8"); aangepast++; }
   }
   return aangepast;

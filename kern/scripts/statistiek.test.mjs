@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, resolve, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { metStatistiek, htmlBestanden, STATISTIEK_TAG, TELLER_PATROON } from "./statistiek.mjs";
+import { metStatistiek, zonderStatistiek, htmlBestanden, NIET_TELLEN, STATISTIEK_TAG, TELLER_PATROON } from "./statistiek.mjs";
 
 test("de tag komt één keer vlak voor </head>", () => {
   const uit = metStatistiek("<html><head><title>x</title></head><body></body></html>");
@@ -24,9 +24,16 @@ test("elke pagina van deze site telt mee in de statistieken", () => {
   // van een product zonder actuele prijs.
   const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
   if (!/sites[\\/][^\\/]+$/.test(root)) return;
-  const zonder = htmlBestanden(root).filter((p) => {
+  const fout = htmlBestanden(root).filter((p) => {
     const html = readFileSync(p, "utf8");
-    return !html.includes(STATISTIEK_TAG) || !TELLER_PATROON.test(html);
+    const heeft = html.includes(STATISTIEK_TAG) && TELLER_PATROON.test(html);
+    const geen = !html.includes(STATISTIEK_TAG) && !TELLER_PATROON.test(html);
+    return NIET_TELLEN.has(relative(root, p).replaceAll("\\", "/")) ? !geen : !heeft;
   });
-  assert.deepEqual(zonder.map((p) => relative(root, p)), [], "draai npm run genereer");
+  assert.deepEqual(fout.map((p) => relative(root, p)), [], "draai npm run genereer");
+});
+
+test("zonderStatistiek haalt beide tags weg en laat de rest staan", () => {
+  const met = metStatistiek("<html><head>\n  <title>x</title>\n</head></html>", "20261015a");
+  assert.equal(zonderStatistiek(met), "<html><head>\n  <title>x</title>\n</head></html>");
 });
