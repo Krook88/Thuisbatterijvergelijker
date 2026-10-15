@@ -41,10 +41,12 @@ function magProberen(ip) {
   return eerder.length < POGINGEN;
 }
 
+// Spaties en regeleinden aan de randen tellen niet mee: die komen er makkelijk
+// bij als je het wachtwoord in Vercel of in het veld plakt.
 function juistWachtwoord(gegeven) {
-  const echt = process.env.DASHBOARD_WACHTWOORD || "";
+  const echt = (process.env.DASHBOARD_WACHTWOORD || "").trim();
   if (!echt) return false;
-  const a = crypto.createHash("sha256").update(String(gegeven || "")).digest();
+  const a = crypto.createHash("sha256").update(String(gegeven || "").trim()).digest();
   const b = crypto.createHash("sha256").update(echt).digest();
   return crypto.timingSafeEqual(a, b);
 }
@@ -137,7 +139,7 @@ module.exports = async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
   res.setHeader("X-Robots-Tag", "noindex");
   if (req.method !== "POST") { res.status(405).json({ fout: "alleen POST" }); return; }
-  if (!process.env.DASHBOARD_WACHTWOORD) { res.status(503).json({ fout: "Er is nog geen DASHBOARD_WACHTWOORD ingesteld in Vercel." }); return; }
+  if (!(process.env.DASHBOARD_WACHTWOORD || "").trim()) { res.status(503).json({ fout: "Er is nog geen DASHBOARD_WACHTWOORD ingesteld in Vercel." }); return; }
 
   const ip = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim() || "onbekend";
   if (!magProberen(ip)) { res.status(429).json({ fout: "Te vaak een verkeerd wachtwoord. Probeer het over een kwartier opnieuw." }); return; }
