@@ -5,6 +5,11 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/statistieken",
+      "destination": "/statistieken.html",
+      "permanent": false
+    },
+    {
       "source": "/batterij/deye-rw-m61-set.html",
       "destination": "/index.html",
       "permanent": true
