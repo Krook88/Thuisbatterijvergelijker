@@ -247,18 +247,52 @@ test("bij gelijke prijs per kWh loopt de terugverdientijd op met de maat", () =>
    De standaardwaarden moeten bij de gegevens van de site passen
    ------------------------------------------------------------------ */
 
-test("de standaard terugleverkosten passen bij wat leveranciers echt rekenen", () => {
-  // De oude standaard was 0,02 per kWh. Geen enkele leverancier in
-  // data/leveranciers.json zat daar in de buurt: vast en variabel staan op
-  // 0,11 tot 0,15, dynamisch op 0. Een standaardwaarde die bij niemand hoort,
-  // hoort er niet te staan.
-  const vast = leveranciers
-    .filter((l) => l.contract === "vast-variabel" && typeof l.terugleverkosten_per_kwh_indicatie === "number")
-    .map((l) => l.terugleverkosten_per_kwh_indicatie);
-  assert.ok(vast.length >= 5, "te weinig leveranciers om een zinnige standaard op te baseren");
-  const laagste = Math.min(...vast), hoogste = Math.max(...vast);
-  assert.ok(Rekenkern.STANDAARD.terugleverKosten >= laagste && Rekenkern.STANDAARD.terugleverKosten <= hoogste,
-    `standaard ${Rekenkern.STANDAARD.terugleverKosten} valt buiten ${laagste} tot ${hoogste}`);
+test("de standaard voor teruglevering bij een vast contract volgt de aankondigingen voor 2027", () => {
+  // De module zegt te rekenen met de situatie na de saldering, maar telde de
+  // terugleverkosten van 2026 (0,12) plus 0,05 vergoeding: netto 7 cent kosten
+  // per teruggeleverde kWh, als opbrengst van de batterij. De leveranciers die
+  // voor 2027 iets aankondigden, komen netto uit rond nul. Daardoor lag de
+  // opbrengst bij een vast contract een kwart te hoog.
+  const mediaan = Rekenkern.mediaanNetto2027(leveranciers);
+  assert.ok(mediaan !== null, "geen enkele leverancier met een volledige aankondiging voor 2027");
+  const t = Rekenkern.TERUGLEVERING.vast;
+  assert.equal(rond(t.terugleverVergoeding - t.terugleverKosten, 2), rond(mediaan, 2),
+    "de standaard voor een vast contract wijkt af van de mediaan in data/leveranciers.json");
+  assert.equal(Rekenkern.STANDAARD.terugleverKosten, t.terugleverKosten);
+  assert.equal(Rekenkern.STANDAARD.terugleverVergoeding, t.terugleverVergoeding);
+});
+
+test("een dynamisch contract krijgt zonder opgave geen terugleverkosten", () => {
+  // De keuzehulp geeft geen tarieven mee. Hij kreeg daardoor bij een
+  // dynamisch contract de 0,12 terugleverkosten van een vast contract erbij.
+  const r = Rekenkern.bereken({ contract: "dynamisch", capaciteit: 5, investering: 2500 });
+  assert.equal(r.invoer.terugleverKosten, 0);
+  assert.equal(r.invoer.terugleverVergoeding, Rekenkern.TERUGLEVERING.dynamisch.terugleverVergoeding);
+});
+
+test("de 2027-bedragen in leveranciers.json passen bij de tekst ernaast", () => {
+  for (const l of leveranciers) {
+    const t = Rekenkern.teruglevering2027(l);
+    if (t) assert.ok(l.vanaf_2027, `${l.id} heeft 2027-bedragen maar geen aankondiging in vanaf_2027`);
+    if (l.contract === "dynamisch") assert.equal(t, null, `${l.id}: dynamisch hoort geen 2027-bedragen te hebben`);
+  }
+});
+
+test("overstappen zonder batterij wordt los van de batterij gerekend", () => {
+  // Met 0,12 terugleverkosten leverde alleen overstappen in dit voorbeeld meer
+  // op dan de batterij. Dat hoort de bezoeker te zien, en de batterij hoort
+  // daarna alleen te krijgen wat hij zelf toevoegt.
+  const invoer = { capaciteit: 5, investering: 2500, opwek: 3500, terugleverKosten: 0.12, terugleverVergoeding: 0.05 };
+  const z = Rekenkern.zonderBatterij(invoer);
+  assert.ok(z, "met terugleverkosten hoort er een alternatief te zijn");
+  assert.equal(rond(z.teruggeleverd), 2450);
+  assert.ok(z.besparing > z.naOverstap.totaal, "hier levert overstappen meer op dan wat de batterij daarna toevoegt");
+  assert.ok(z.naOverstap.totaal < Rekenkern.bereken(invoer).totaal, "na overstap voegt de batterij minder toe");
+
+  // Niets te halen: standaard vast contract, dynamisch, of geen panelen.
+  assert.equal(Rekenkern.zonderBatterij({ capaciteit: 5, investering: 2500 }), null);
+  assert.equal(Rekenkern.zonderBatterij({ ...invoer, contract: "dynamisch" }), null);
+  assert.equal(Rekenkern.zonderBatterij({ ...invoer, heeftPv: false }), null);
 });
 
 test("de standaard is een vast contract, niet de gunstigste variant", () => {

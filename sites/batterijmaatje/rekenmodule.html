@@ -18,12 +18,12 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="stylesheet" href="assets/style.css?v=20261015a">
-  <script src="assets/dagmaat.js?v=20261015a" defer></script>
-  <script src="assets/prijs.js?v=20261015a" defer></script>
-  <script src="assets/rekenkern.js?v=20261015a" defer></script>
-  <script src="assets/rekenmodule.js?v=20261015a" defer></script>
-  <script src="assets/nav.js?v=20261015a" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20261015b">
+  <script src="assets/dagmaat.js?v=20261015b" defer></script>
+  <script src="assets/prijs.js?v=20261015b" defer></script>
+  <script src="assets/rekenkern.js?v=20261015b" defer></script>
+  <script src="assets/rekenmodule.js?v=20261015b" defer></script>
+  <script src="assets/nav.js?v=20261015b" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <style>
@@ -46,7 +46,7 @@
     #resultaat { position: sticky; top: 84px; }
   </style>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261015a"></script>
+  <script defer src="/assets/teller.js?v=20261015b"></script>
 </head>
 <body>
 
@@ -152,7 +152,7 @@
 
       <details class="geavanceerd">
         <summary>Alle getallen bekijken of aanpassen (optioneel)</summary>
-        <p class="hint">Ik reken standaard met: stroomprijs € 0,30 per kWh, terugleververgoeding € 0,05, terugleverkosten € 0,12 bij een vast of variabel contract (en € 0 bij een dynamisch contract), en bij een dynamisch contract laden voor € 0,15 en ontladen ter waarde van € 0,30. Wijkt jouw situatie af? Pas het hier aan; het resultaat rekent direct mee.</p>
+        <p class="hint">Ik reken standaard met: stroomprijs € 0,30 per kWh, voor teruglevering netto € 0,01 vergoeding zonder terugleverkosten bij een vast of variabel contract (de mediaan van wat leveranciers voor 2027 aankondigen) en € 0,05 bij een dynamisch contract, en bij een dynamisch contract laden voor € 0,15 en ontladen ter waarde van € 0,30. Wijkt jouw situatie af? Pas het hier aan; het resultaat rekent direct mee.</p>
 
         <div class="veld-rij">
           <div class="veld">
@@ -189,14 +189,14 @@
           </div>
           <div class="veld">
             <label for="inpTeruglever">Terugleververgoeding vanaf 2027 (€ per kWh)</label>
-            <input type="number" id="inpTeruglever" value="0.05" min="0" step="0.01">
-            <span class="hint">Indicatief 0,04 tot 0,06</span>
+            <input type="number" id="inpTeruglever" value="0.01" min="0" step="0.01">
+            <span class="hint">Vast of variabel: aangekondigd 0 tot 0,03 netto. Dynamisch: de uurprijs, indicatief 0,04 tot 0,06</span>
           </div>
         </div>
         <div class="veld">
           <label for="inpTerugleverkosten">Terugleverkosten (€ per teruggeleverde kWh)</label>
-          <input type="number" id="inpTerugleverkosten" value="0.13" min="0" step="0.01">
-          <span class="hint">Wordt ingevuld op basis van je contracttype (dynamisch rekent doorgaans niets, vast of variabel gemiddeld € 0,12) en van je leverancierskeuze hierboven. Je eigen contract is leidend; vul 0 in als je leverancier ze niet rekent</span>
+          <input type="number" id="inpTerugleverkosten" value="0" min="0" step="0.01">
+          <span class="hint">Wordt ingevuld op basis van je contracttype en je leverancierskeuze hierboven. Dynamisch rekent niets; bij vast of variabel schrappen de leveranciers die iets voor 2027 aankondigden ze, terwijl andere nu nog gemiddeld € 0,12 rekenen. Je eigen contract is leidend; vul 0 in als je leverancier ze niet rekent</span>
         </div>
 
         <div id="dynVelden">

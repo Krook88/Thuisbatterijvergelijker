@@ -274,6 +274,8 @@ bijgewerkt. Het aantal staat ook in lopende tekst en wordt door
 | `terugleverkosten_per_kwh_indicatie` | getal | euro per kWh; 0 = geen |
 | `terugleververgoeding_omschrijving` | tekst | |
 | `vanaf_2027` | tekst of `null` | aangekondigde wijziging na de saldering |
+| `terugleververgoeding_2027_per_kwh` | getal of `null` | aangekondigde (netto) vergoeding vanaf 2027; `null` = niet bekend |
+| `terugleverkosten_2027_per_kwh` | getal of `null` | aangekondigde terugleverkosten vanaf 2027; 0 = geschrapt, `null` = niet bekend. De mediaan van leveranciers met beide bedragen is de standaard in `rekenkern.js` (bewaakt door `rekenkern.test.mjs`) |
 | `kanttekening` | tekst of `null` | |
 | `bron` | URL | ook in de linkcontrole |
 | `peildatum` | `"JJJJ"` of `"JJJJ-MM"` | |
