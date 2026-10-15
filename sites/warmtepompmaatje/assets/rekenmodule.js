@@ -13,25 +13,18 @@
   const eurFmt = new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
   const numFmt = new Intl.NumberFormat("nl-NL", { maximumFractionDigits: 0 });
 
-  // Vaste aannames (toegelicht op de pagina onder "Hoe rekenen wij?")
-  const AANDEEL_VERWARMING = 0.75;   // circa 75% van het gas gaat naar verwarming (Milieu Centraal)
-  const KWH_PER_M3 = 8.8;            // nuttige warmte per m3 gas via een moderne cv-ketel
-  const HYBRIDE_DEKKING = 0.6;       // aandeel van de totale warmtevraag dat een hybride overneemt (gelijk aan de keuzehulp)
-  const HYBRIDE_SCOP = 4.5;          // hybride draait vooral op gunstige momenten
-  const ALLEL_SCOP = 4.0;            // all-electric praktijkrendement voor verwarming
-
-  // De labelwaarde is optimistisch: gemeten op een testbank bij 35 graden
-  // aanvoer en gemiddeld klimaat. In een echte woning ligt het lager door
-  // stilstandsverliezen, tapwater tussendoor en een installatie die zelden
-  // perfect is ingeregeld. De vaste getallen hierboven zijn praktijkwaarden;
-  // deze factor brengt een labelwaarde op diezelfde noemer.
-  const PRAKTIJKFACTOR = 0.87;
-  const TAPWATER_COP = 2.5;          // warm water en koken via boilervat en inductie
-  const INSTALLATIE_HYBRIDE = 2500;  // schatting montage en inregelen
-  const INSTALLATIE_ALLEL = 4500;    // schatting montage, boiler en aanpassingen
-  const LEVENSDUUR_JAAR = 15;        // gemiddelde levensduur van een warmtepomp
-  const CO2_PER_M3 = 1.78;           // kg CO2 per m3 aardgas (co2emissiefactoren.nl)
-  const CO2_PER_KWH = 0.27;          // kg CO2 per kWh Nederlandse stroommix (indicatie)
+  // De som zelf staat in assets/rekenkern.js, gedeeld met de keuzehulp en
+  // getest door scripts/rekenkern.test.mjs. Dit bestand doet het scherm.
+  const LEVENSDUUR_JAAR = Rekenkern.LEVENSDUUR_JAAR;
+  const HYBRIDE_SCOP = Rekenkern.HYBRIDE_SCOP;
+  const ALLEL_SCOP = Rekenkern.ALLEL_SCOP;
+  const getal = (t) => t.toFixed(1).replace(".", ",");
+  const jaren = (t) => t === null ? "meer dan 40 jaar" : `${getal(t)} jaar`;
+  // Bewust een bereik en geen enkel getal: zie Rekenkern.bandbreedte.
+  const bereik = (laag, hoog) => laag === null ? "meer dan 40 jaar"
+    : hoog === null ? `vanaf ${getal(laag)} jaar`
+    : getal(laag) === getal(hoog) ? `${getal(laag)} jaar`
+    : `${getal(laag)} tot ${getal(hoog)} jaar`;
 
   let pompen = [];
 
@@ -70,9 +63,10 @@
       // meegerekend en kwam er een veel te rooskleurig antwoord uit - juist bij
       // pompen waarvan wij de prijs nog niet hebben.
       toestelPrijs: vergelijkPrijs(beste),
-      installatie: eigenInstallatie > 0 ? eigenInstallatie : (type === "hybride" ? INSTALLATIE_HYBRIDE : INSTALLATIE_ALLEL),
-      installatieGeschat: eigenInstallatie <= 0,
+      installatie: eigenInstallatie > 0 ? eigenInstallatie : null,
       isde: w ? (w.isde_indicatie_eur || 0) : 0,
+      ketelVervangen: el("ketelStaat").value === "vervangen",
+      ketelprijs: Number(el("ketelprijs").value) || Rekenkern.STANDAARD.ketelprijs,
     };
   }
 
@@ -80,61 +74,16 @@
     const s = invoer();
     if (!s.w) return;
 
-    // Warmtevraag opsplitsen: circa 75% verwarming, 25% warm water en koken
-    const verwarmingGas = s.gas * AANDEEL_VERWARMING;
-    const restGas = s.gas - verwarmingGas;
-
-    // Het rendement van deze pomp, niet van een gemiddelde pomp.
-    //
-    // Hier stond een vast getal voor elke pomp. Daardoor gaf de rekenmodule
-    // voor elke all-electric pomp exact dezelfde besparing, terwijl de
-    // keuzehulp er een as "Zuinigst" op baseert - twee modules die elkaar op
-    // dezelfde site tegenspreken.
-    //
-    // Alleen gebruiken als vaststaat bij welke aanvoertemperatuur de SCOP
-    // geldt. Bij 55 graden ligt hij ruim een punt lager dan bij 35, en zonder
-    // die vermelding zou een pomp met een gunstig ogend getal een te mooie
-    // terugverdientijd krijgen. Staat het niet vast, dan rekent hij met de
-    // praktijkwaarde en zegt de pagina dat erbij.
-    const eigenScop = s.w && typeof s.w.scop === "number" && String(s.w.scop_conditie) === "35"
-      ? s.w.scop * PRAKTIJKFACTOR
-      : null;
-    const gebruikteScop = {
-      hybride: eigenScop || HYBRIDE_SCOP,
-      allel: eigenScop || ALLEL_SCOP,
-      eigen: eigenScop !== null,
-    };
-
-    let gasBespaard, stroomKwh;
-    if (s.type === "hybride") {
-      // De hybride neemt circa 60% van de totale warmtevraag over (circa 80% van de
-      // verwarming; warm water en piekkou blijven bij de ketel), gelijk aan de keuzehulp
-      gasBespaard = s.gas * HYBRIDE_DEKKING;
-      stroomKwh = (gasBespaard * KWH_PER_M3) / gebruikteScop.hybride;
-    } else {
-      // All-electric vervangt alles: verwarming via de pomp, warm water via het boilervat
-      gasBespaard = s.gas;
-      stroomKwh = (verwarmingGas * KWH_PER_M3) / gebruikteScop.allel + (restGas * KWH_PER_M3) / TAPWATER_COP;
-    }
-
-    const vastrechtBesparing = s.gasAf ? s.vastrecht : 0;
-    const besparingJaar = gasBespaard * s.gasprijs + vastrechtBesparing - stroomKwh * s.stroomprijs;
-
-    const investering = (s.toestelPrijs || 0) + s.installatie + (s.gasAf ? s.afsluitkosten : 0);
-    const netto = Math.max(0, investering - s.isde);
-
-    // Zonder toestelprijs is de investering onbekend, en dan is elke
-    // terugverdientijd verzonnen. De besparing per jaar hangt daar niet van af
-    // en blijft dus wel staan; alleen de terugverdientijd niet.
-    const prijsOnbekend = typeof s.toestelPrijs !== "number";
-    const tvt = !prijsOnbekend && besparingJaar > 0 ? netto / besparingJaar : null;
-    const tvtTekst = prijsOnbekend
-      ? "niet te berekenen"
-      : (tvt === null || tvt > 40 ? "meer dan 40 jaar" : `${tvt.toFixed(1).replace(".", ",")} jaar`);
-
-    const besparingLevensduur = besparingJaar * LEVENSDUUR_JAAR;
-    const co2 = Math.round(gasBespaard * CO2_PER_M3 - stroomKwh * CO2_PER_KWH);
-    const gasOver = Math.round(s.gas - gasBespaard);
+    const band = Rekenkern.bandbreedte({ ...s, pomp: s.w });
+    const r = band.verwacht;
+    const { gasBespaard, stroomKwh, vastrechtBesparing, besparingJaar, netto, prijsOnbekend, tvt, besparingLevensduur } = r;
+    s.installatie = r.installatie;
+    s.installatieGeschat = r.installatieGeschat;
+    const gebruikteScop = { hybride: r.scop, allel: r.scop, eigen: r.eigenScop };
+    const tvtTekst = prijsOnbekend ? "niet te berekenen" : jaren(tvt);
+    const co2 = Math.round(r.co2);
+    const gasOver = Math.round(r.gasOver);
+    const k = r.tegenoverKetel;
 
     // Staafdiagram voor en na: energiekosten voor verwarming, warm water en koken.
     // "Voor" is de huidige situatie met cv-ketel; "na" met de gekozen warmtepomp.
@@ -167,10 +116,11 @@
       </div>`;
 
     el("resultaatInhoud").innerHTML = `
-      <div class="resultaat-groot">${tvtTekst}</div>
+      <div class="resultaat-groot">${prijsOnbekend ? tvtTekst : k ? bereik(band.ketelLaag, band.ketelHoog) : bereik(band.laag, band.hoog)}</div>
       <p class="hint" style="margin: 0 0 var(--ruimte-14);">${prijsOnbekend
         ? `van deze warmtepomp heb ik nog geen winkelprijs, dus de investering is onbekend. De besparing per jaar hieronder klopt wel: die hangt alleen af van je verbruik en de tarieven.`
-        : `geschatte terugverdientijd${s.installatieGeschat ? " (bij geschatte installatiekosten)" : ""}`}</p>
+        : `${k ? "terugverdientijd van de meerprijs ten opzichte van een nieuwe cv-ketel" : "terugverdientijd"}, middenscenario ${jaren(k ? k.tvt : tvt)}. Het bereik komt van dezelfde som met een ongunstige en een gunstige set aannames: gas- en stroomprijs 15% hoger of lager, het rendement 10% lager of 8% hoger${s.installatieGeschat ? ", en de geschatte installatie 40% duurder of 10% goedkoper" : ""}.${s.installatieGeschat ? " Heb je een offerte? Vul het installatiebedrag in onder \"Aannames aanpassen\", dan wordt het bereik smaller." : ""}`}</p>
+      ${k ? ketelBlok(k, s, netto, tvt, prijsOnbekend) : ""}
       <div class="resultaat-rij"><span>Warmtepomp</span><b>${escapeHtml(s.w.merk)} ${escapeHtml(s.w.model)} (${s.type === "hybride" ? "hybride" : "all-electric"})</b></div>
       <div class="resultaat-rij"><span>Toestel ${prijsOnbekend ? "" : (s.beste && !s.beste.is_richtprijs ? `<small>(laagste prijs, bij ${escapeHtml(s.beste.winkel)})</small>` : "<small>(richtprijs)</small>")}</span><b>${prijsOnbekend ? "prijs onbekend" : eurFmt.format(s.toestelPrijs)}</b></div>
       ${Prijs.prijsToelichting(s.beste) ? `<p class="hint" style="margin: 0 0 var(--ruimte-6);">${escapeHtml(Prijs.prijsToelichting(s.beste))}</p>` : ""}
@@ -193,6 +143,20 @@
       <p style="margin-top: var(--ruimte-14);"><a href="pomp/${encodeURIComponent(s.w.id)}.html">Alle details van de ${escapeHtml(s.w.merk)} ${escapeHtml(s.w.model)} ${Iconen.svg("pijl-rechts")}</a></p>
       <p class="hint" style="margin-top: var(--ruimte-10);">Indicatie op basis van jouw invoer en mijn aannames; geen offerte of financieel advies.</p>
     `;
+  }
+
+  /* Je ketel moet toch vervangen worden: dan is de vraag niet "warmtepomp of
+     niets", maar "warmtepomp of een nieuwe ketel". Dit blok zegt wat dat
+     verschil kost, en bij een hybride dat de ketel er hoe dan ook bij komt. */
+  function ketelBlok(k, s, netto, tvt, prijsOnbekend) {
+    const eur = eurFmt.format;
+    if (prijsOnbekend) {
+      return `<div class="hint" style="margin: 0 0 var(--ruimte-14);background:var(--kleur-primair-licht);border-radius:var(--radius-klein);padding: var(--ruimte-10);"><b>Tegenover een nieuwe cv-ketel van ${eur(k.ketelprijs)}.</b> Zonder toestelprijs is de meerprijs niet te berekenen.</div>`;
+    }
+    const tekst = k.ketelBlijftNodig
+      ? `Een hybride werkt naast een cv-ketel, dus die nieuwe ketel van ${eur(k.ketelprijs)} koop je in beide gevallen. Je totale uitgave wordt ${eur(k.totaleUitgave)}; de meerprijs ten opzichte van alleen een nieuwe ketel blijft de pomp zelf (${eur(k.meerprijs)}). Overweeg ook all-electric: dan vervalt die ketel.`
+      : `Je ketel moet toch vervangen worden, dus deze pomp kost je ${eur(k.meerprijs)} meer dan een nieuwe cv-ketel van ${eur(k.ketelprijs)}. Die meerprijs verdien je terug in ${jaren(k.tvt)}, tegenover ${jaren(tvt)} als je de hele investering tegenover niets zet.`;
+    return `<div class="hint" style="margin: 0 0 var(--ruimte-14);background:var(--kleur-primair-licht);border-radius:var(--radius-klein);padding: var(--ruimte-10);"><b>Tegenover een nieuwe cv-ketel.</b> ${tekst}</div>`;
   }
 
   function toonGasAfVeld() {
@@ -224,8 +188,9 @@
       if (gevraagd && pompen.some((w) => w.id === gevraagd)) select.value = gevraagd;
       const gevraagdGas = Number(params.get("gas"));
       if (gevraagdGas >= 300 && gevraagdGas <= 6000) el("gasverbruik").value = gevraagdGas;
+      if (params.get("ketel") === "vervangen") el("ketelStaat").value = "vervangen";
 
-      ["keuzePomp", "gasverbruik", "gasprijs", "stroomprijs", "vastrecht", "afsluitkosten", "installatiekosten"].forEach((id) => {
+      ["keuzePomp", "gasverbruik", "gasprijs", "stroomprijs", "vastrecht", "afsluitkosten", "installatiekosten", "ketelStaat", "ketelprijs"].forEach((id) => {
         el(id).addEventListener("input", bereken);
         el(id).addEventListener("change", bereken);
       });

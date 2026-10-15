@@ -82,14 +82,34 @@
   // goedkope nachturen en loopt de gemiddelde laadprijs op.
   const LAADUREN_GRENS = 4;
 
+  /* ------------------------------------------------------------------
+     Teruglevering vanaf 2027, per contractsoort
+
+     De module zegt te rekenen met de situatie na de saldering, maar telde de
+     terugleverkosten van 2026 (0,12) plus een vergoeding van 0,05 als winst
+     van de batterij. Netto kostte elke teruggeleverde kWh daarmee 7 cent. De
+     leveranciers die voor 2027 iets hebben aangekondigd (Budget, Essent, Oxxio,
+     Vattenfall) komen netto uit tussen 0 en 3 cent vergoeding: de kosten
+     vervallen, de vergoeding wordt een paar cent. Met de oude standaard lag de
+     opbrengst van een batterij bij een vast contract een kwart te hoog.
+
+     Het getal voor "vast" is de mediaan van die aankondigingen;
+     rekenkern.test.mjs bewaakt dat het met data/leveranciers.json blijft
+     kloppen. Dynamisch blijft 0,05 vergoeding zonder kosten.
+     ------------------------------------------------------------------ */
+  const TERUGLEVERING = {
+    vast: { terugleverVergoeding: 0.01, terugleverKosten: 0 },
+    dynamisch: { terugleverVergoeding: 0.05, terugleverKosten: 0 },
+  };
+
   const STANDAARD = {
     heeftPv: true,
     contract: "vast",
     opwek: 3500,
     eigenVerbruikPct: 30,
     stroomprijs: 0.30,
-    terugleverVergoeding: 0.05,
-    terugleverKosten: 0.12,
+    terugleverVergoeding: TERUGLEVERING.vast.terugleverVergoeding,
+    terugleverKosten: TERUGLEVERING.vast.terugleverKosten,
     laadprijs: 0.15,
     ontlaadwaarde: 0.30,
     investering: 0,
@@ -102,6 +122,10 @@
     extraOnbalans: 0,
     standbyWatt: 10,
     jaarVerbruik: 2900,
+    // Van de jaarnota, in kWh per jaar. 0 = niet ingevuld; dan schat de kern
+    // ze uit opwek, direct eigen verbruik en jaarverbruik.
+    teruglevering: 0,
+    afname: 0,
     degradatiePct: 2,
     btwRoute: "incl",
     // null = onbekend vermogen, dan begrenst de kern er niet op
@@ -136,8 +160,57 @@
     return gemiddeldOverschot * (1 - Math.exp(-ruimte / gemiddeldOverschot));
   }
 
+  /* De standaard voor teruglevering hangt aan het contract. Zonder dit kreeg
+     de keuzehulp, die geen tarieven meegeeft, bij een dynamisch contract de
+     terugleverkosten van een vast contract erbij. */
+  function metStandaard(invoer) {
+    const contract = invoer && invoer.contract === "dynamisch" ? "dynamisch" : "vast";
+    return Object.assign({}, STANDAARD, TERUGLEVERING[contract], invoer);
+  }
+
+  /* Wat rekent deze leverancier vanaf 2027 voor een teruggeleverde kWh?
+     Geeft null als er niets is aangekondigd. Is maar een van de twee bedragen
+     bekend, dan vult de rest aan met de huidige terugleverkosten of de
+     standaardvergoeding, en zegt "volledig" dat het een mengsel is. */
+  function teruglevering2027(l) {
+    if (!l) return null;
+    const v = l.terugleververgoeding_2027_per_kwh;
+    const k = l.terugleverkosten_2027_per_kwh;
+    const heeftV = typeof v === "number", heeftK = typeof k === "number";
+    if (!heeftV && !heeftK) return null;
+    const soort = l.contract === "dynamisch" ? "dynamisch" : "vast";
+    return {
+      terugleverVergoeding: heeftV ? v : TERUGLEVERING[soort].terugleverVergoeding,
+      terugleverKosten: heeftK ? k : (typeof l.terugleverkosten_per_kwh_indicatie === "number" ? l.terugleverkosten_per_kwh_indicatie : 0),
+      volledig: heeftV && heeftK,
+    };
+  }
+
+  /* De mediaan van wat leveranciers met een volledige aankondiging netto
+     vergoeden (vergoeding min kosten). Bron voor TERUGLEVERING.vast. */
+  function mediaanNetto2027(leveranciers) {
+    const netto = (leveranciers || [])
+      .filter((l) => l.contract === "vast-variabel")
+      .map(teruglevering2027)
+      .filter((t) => t && t.volledig)
+      .map((t) => t.terugleverVergoeding - t.terugleverKosten)
+      .sort((a, b) => a - b);
+    if (!netto.length) return null;
+    const m = Math.floor(netto.length / 2);
+    return netto.length % 2 ? netto[m] : (netto[m - 1] + netto[m]) / 2;
+  }
+
+  /* Wat er per jaar teruggaat naar het net. De teruglevering op de jaarnota
+     is gemeten; de rest is een schatting uit het aantal panelen en een
+     aandeel direct eigen verbruik dat per huis sterk verschilt. */
+  function overschotVan(i) {
+    if (!i.heeftPv) return 0;
+    if (i.teruglevering > 0) return i.teruglevering;
+    return i.opwek * (1 - i.eigenVerbruikPct / 100);
+  }
+
   function bereken(invoer) {
-    const i = Object.assign({}, STANDAARD, invoer);
+    const i = metStandaard(invoer);
 
     const heeftPv = i.heeftPv;
     const opwek = heeftPv ? i.opwek : 0;
@@ -149,11 +222,17 @@
     const bruikbareCap = i.capaciteit * (i.bruikbaarPct / 100);
     // Wat het huishouden per dag buiten de zonuren kan opmaken, aan de
     // uitgaande kant (wat er uit de batterij komt).
-    const maxOntladingPerDag = (i.jaarVerbruik / 365) * AANDEEL_BUITEN_ZON;
+    //
+    // Staat de afname op de jaarnota, dan is dat de betere maat: een batterij
+    // kan nooit meer vervangen dan je uit het net haalt, en met panelen valt
+    // die afname vrijwel helemaal buiten de zonuren. Zonder jaarnota blijft
+    // het een schatting uit het totale verbruik.
+    const metAfname = i.afname > 0;
+    const maxOntladingPerDag = metAfname ? i.afname / 365 : (i.jaarVerbruik / 365) * AANDEEL_BUITEN_ZON;
     // Diezelfde grens, teruggerekend naar de ingaande kant.
     const ruimtePerDag = Math.min(bruikbareCap, rendement > 0 ? maxOntladingPerDag / rendement : 0);
 
-    const teGroot = bruikbareCap > 0 && i.jaarVerbruik > 0 &&
+    const teGroot = bruikbareCap > 0 && (metAfname || i.jaarVerbruik > 0) &&
       bruikbareCap * rendement > maxOntladingPerDag * 1.15;
 
     /* De ingevoerde investering is altijd incl. btw (zie prijs.js). Bij het
@@ -166,7 +245,7 @@
     /* 1. Zelfverbruik-opslag */
     let overschot = 0, opslagJaar = 0, opbrengstZelf = 0, waardePerKwh = 0;
     if (heeftPv && bruikbareCap > 0 && i.zonDagen > 0) {
-      overschot = opwek * (1 - eigenVerbruik);
+      overschot = overschotVan(i);
       const perDag = opgevangenPerDag(overschot / i.zonDagen, ruimtePerDag);
       opslagJaar = perDag * i.zonDagen * mismatch;
       // Elke opgeslagen kWh vervangt inkoop (x rendement wegens omzetverlies),
@@ -215,6 +294,7 @@
       invoer: i,
       btwRoute, netInvestering, btwVoordeel,
       laaduren, vermogenKnelt,
+      metJaarnota: { teruglevering: heeftPv && i.teruglevering > 0, afname: metAfname },
       laadurenKnelt: laaduren > LAADUREN_GRENS,
       bruikbareCap, maxOntladingPerDag, ruimtePerDag, teGroot,
       overschot, opslagJaar, opbrengstZelf, waardePerKwh,
@@ -225,6 +305,42 @@
       spreadOptimistisch: i.contract === "dynamisch" && spread > SPREAD_GRENS,
       terugverdientijd: terugverdientijd(totaal, netInvestering, i.degradatiePct / 100),
       geleverdPerJaar: opslagJaar * rendement + arbDagen * ontladenPerDag,
+    };
+  }
+
+  /* ------------------------------------------------------------------
+     Eerst dit: overstappen zonder batterij
+
+     Wie terugleverkosten betaalt, ziet die in deze som terug als opbrengst
+     van de batterij: elke kWh die hij opslaat, hoeft hij niet tegen kosten
+     terug te leveren. Maar dat voordeel is ook te halen zonder één euro te
+     investeren, door over te stappen naar een contract zonder die kosten. In
+     een voorbeeld met 3.500 kWh opwek en 0,12 terugleverkosten leverde
+     overstappen meer op dan de batterij zelf.
+
+     Deze functie geeft daarom twee getallen: wat overstappen alleen al
+     scheelt, en wat de batterij dáárna nog toevoegt. Het tweede is de eerlijke
+     opbrengst van de batterij. Het alternatief rekent met de standaard voor
+     een vast contract in 2027 (TERUGLEVERING.vast), niet met nul kosten en
+     een hoge vergoeding: dat is wat de markt nu aankondigt.
+
+     null als er niets te halen valt: geen panelen, al een dynamisch contract,
+     of geen netto kosten op teruglevering die het alternatief niet heeft.
+     ------------------------------------------------------------------ */
+  function zonderBatterij(invoer) {
+    const i = metStandaard(invoer);
+    if (!i.heeftPv || i.contract === "dynamisch" || !(overschotVan(i) > 0)) return null;
+    const alt = TERUGLEVERING.vast;
+    const verschilPerKwh = (i.terugleverKosten - i.terugleverVergoeding) -
+      (alt.terugleverKosten - alt.terugleverVergoeding);
+    if (!(verschilPerKwh > 0)) return null;
+    const teruggeleverd = overschotVan(i);
+    const naOverstap = bereken(Object.assign({}, invoer, alt));
+    return {
+      teruggeleverd,
+      verschilPerKwh,
+      besparing: teruggeleverd * verschilPerKwh,
+      naOverstap,
     };
   }
 
@@ -287,7 +403,7 @@
   }
 
   function bandbreedte(invoer) {
-    const i = Object.assign({}, STANDAARD, invoer);
+    const i = metStandaard(invoer);
     const ongunstig = bereken(metMarge(i, 0));
     const gunstig = bereken(metMarge(i, 1));
     return {
@@ -309,7 +425,12 @@
     PIEKUREN,
     LAADUREN_GRENS,
     STANDAARD,
+    TERUGLEVERING,
     MARGES,
+    metStandaard,
+    teruglevering2027,
+    mediaanNetto2027,
+    zonderBatterij,
     opgevangenPerDag,
     bereken,
     besparingNa,

@@ -362,6 +362,32 @@
     return `<div class="koppelgemak"><span class="uitleg"><b>Terugverdientijd:</b> ${bereik}, bij ongeveer ${eurFmt.format(r.totaal)} per jaar. Indicatie op basis van je antwoorden; <a href="${escapeHtml(rekenmoduleLink(b))}">pas de aannames aan</a>.</span></div>`;
   }
 
+  /* Eerst dit: overstappen
+
+     Wie panelen heeft en een vast contract, kan ook in 2027 bij een
+     leverancier zitten die terugleverkosten blijft rekenen. Dat kost dan meer
+     dan een batterij oplevert, en het is op te lossen zonder te investeren.
+     De keuzehulp vraagt niet naar de leverancier, dus het bedrag is een
+     voorbeeld met de huidige gemiddelde terugleverkosten; de rekenmodule
+     doet het per leverancier. */
+  const TERUGLEVERKOSTEN_NU = 0.12;
+  const TERUGLEVERVERGOEDING_NU = 0.05;
+
+  function overstapTip(maat) {
+    if (typeof Rekenkern === "undefined" || maat.basis !== "pv" || maat.dynamisch) return "";
+    const z = Rekenkern.zonderBatterij({
+      heeftPv: true,
+      contract: "vast",
+      opwek: getal("advOpwek", 3500),
+      jaarVerbruik: getal("advVerbruik", 2900),
+      terugleverKosten: TERUGLEVERKOSTEN_NU,
+      terugleverVergoeding: TERUGLEVERVERGOEDING_NU,
+    });
+    if (!z || z.besparing < 10) return "";
+    return `<div class="info-kader"><b>Eerst dit: kijk naar je energiecontract.</b>
+      Je levert ongeveer ${kwhFmt.format(z.teruggeleverd)} kWh per jaar terug. Blijft je leverancier daar ook na 2027 terugleverkosten voor rekenen (nu gemiddeld € 0,12 per kWh), dan kost je dat zo'n ${eurFmt.format(z.besparing)} per jaar. Overstappen haalt dat weg zonder investering. De terugverdientijden hieronder gaan al uit van een contract zonder terugleverkosten; <a href="rekenmodule.html#leveranciersTabel">bekijk per leverancier wat die voor 2027 heeft aangekondigd</a>.</div>`;
+  }
+
   function waaromTekst(b, maat) {
     const redenen = [];
     if (Math.abs(b.capaciteit_kwh - maat.kern) / Math.max(maat.kern, 1) <= 0.3) {
@@ -418,7 +444,8 @@
       .slice(0, 2);
     const zinnen = gesorteerd.map(([sleutel, aantal]) => {
       const [wat, wat_dan] = AFVAL_UITLEG[sleutel];
-      return `<li><b>${escapeHtml(wat)}</b> liet ${aantal} ${aantal === 1 ? "model" : "modellen"} afvallen — ${escapeHtml(wat_dan)}</li>`;
+      const advies = wat_dan.charAt(0).toUpperCase() + wat_dan.slice(1);
+      return `<li><b>${escapeHtml(wat)}</b> liet ${aantal} ${aantal === 1 ? "model" : "modellen"} afvallen. ${escapeHtml(advies)}.</li>`;
     });
     return `
       <h2 class="advies-kop">Geen batterij die aan al je antwoorden voldoet</h2>
@@ -451,6 +478,24 @@
         <div class="waarschuwing-kader"><b>Eerlijk advies: wacht nog even met een batterij.</b>
         Zonder zonnepanelen en zonder dynamisch energiecontract valt er niets op te slaan en geen prijsverschil te benutten; een thuisbatterij verdient zich dan vrijwel zeker niet terug.
         Overweeg eerst een dynamisch contract of zonnepanelen, en kom daarna terug. Lees ook <a href="regelgeving.html">wat de regels betekenen</a>.</div>`;
+      return;
+    }
+
+    /* Te weinig overschot voor welke batterij dan ook
+
+       Met één paneel of een balkonpaneel komt het maatadvies onder de kleinste
+       batterij in de vergelijking uit. Dan viel alles af op "de geadviseerde
+       accugrootte", en zei de keuzehulp dat het advies klopte maar er geen
+       model voor was. Het eerlijke antwoord is een ander: met zo weinig over
+       loont een batterij niet, hoe klein ook. */
+    const kleinste = Math.min(...batterijen.filter((b) => b.capaciteit_kwh > 0).map((b) => b.capaciteit_kwh));
+    if (maat.basis === "pv" && Number.isFinite(kleinste) && maat.hoog * BAND_BOVEN < kleinste) {
+      doel.innerHTML = `
+        <div class="waarschuwing-kader"><b>Eerlijk advies: met zo weinig zonnestroom over loont een batterij (nog) niet.</b>
+        Je panelen leveren op een zomerse dag ongeveer ${kwhFmt.format(maat.dagOverschotZomer)} kWh meer op dan je direct gebruikt. Zelfs de kleinste batterij in de vergelijking (${kwhFmt.format(kleinste)} kWh) zou het grootste deel van het jaar half leeg blijven, en verdient zich dan niet terug.
+        ${maat.dynamisch
+          ? `Met je dynamische contract kan een batterij ook verdienen aan prijsverschillen tussen uren. Of dat genoeg is, reken je na in de <a href="rekenmodule.html">rekenhulp</a>.`
+          : `Komen er meer panelen bij of stap je over op een dynamisch contract, kom dan terug. Wil je het toch narekenen? Gebruik de <a href="rekenmodule.html">rekenhulp</a>.`}</div>`;
       return;
     }
 
@@ -507,6 +552,7 @@
       ${heeftPv ? `<div class="waarschuwing-kader">${new Date() < new Date("2027-01-01")
         ? "Let op: tot en met 31 december 2026 geldt de salderingsregeling nog, waardoor opslaan van eigen zonnestroom financieel weinig oplevert. Dit advies kijkt naar de situatie daarna."
         : "De salderingsregeling is per 1 januari 2027 vervallen: eigen zonnestroom opslaan levert nu wél op, want teruggeleverde stroom brengt nog maar een paar cent per kWh op."}</div>` : ""}
+      ${overstapTip(maat)}
       ${totaal === 0 ? geenTreffers(afval) : `
       <h2 class="advies-kop">Drie kanten van de keuze</h2>
       <p class="advies-kop-uitleg">Van de ${totaal} batterijen die bij jouw antwoorden passen, toon ik niet de beste drie maar de beste op drie verschillende vragen. Dat scheelt: een ranglijst levert vrijwel altijd drie vergelijkbare buren op, terwijl deze drie elk iets anders goed doen.</p>`}

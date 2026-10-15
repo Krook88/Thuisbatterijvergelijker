@@ -11,6 +11,8 @@
       "terugleverkosten_per_kwh_indicatie": 0.11,
       "terugleververgoeding_omschrijving": "geen concreet bedrag gevonden (2026)",
       "vanaf_2027": "aangekondigd: netto vergoeding ca. € 0,026 per kWh",
+      "terugleververgoeding_2027_per_kwh": 0.026,
+      "terugleverkosten_2027_per_kwh": 0,
       "kanttekening": "Geen terugleverkosten bij het dynamische of combi-contract van Budget.",
       "bron": "https://www.budgetthuis.nl/energie/terugleverkosten",
       "peildatum": "2026-02"
@@ -24,6 +26,8 @@
       "terugleverkosten_per_kwh_indicatie": 0.115,
       "terugleververgoeding_omschrijving": "ca. € 0,07 per kWh (bronnen niet eensluidend)",
       "vanaf_2027": null,
+      "terugleververgoeding_2027_per_kwh": null,
+      "terugleverkosten_2027_per_kwh": null,
       "kanttekening": "Bronnen spreken elkaar tegen over model en vergoeding; controleer je eigen contract. Geen terugleverkosten bij het dynamische contract.",
       "bron": "https://www.coolblue.nl/energiecontracten/advies/hoe-werken-terugleverkosten-coolblue-energie",
       "peildatum": "2026-06"
@@ -37,6 +41,8 @@
       "terugleverkosten_per_kwh_indicatie": 0.14,
       "terugleververgoeding_omschrijving": "ca. € 0,151 per kWh",
       "vanaf_2027": null,
+      "terugleververgoeding_2027_per_kwh": null,
+      "terugleverkosten_2027_per_kwh": null,
       "kanttekening": "Bronnen spreken elkaar tegen over het exacte bedrag; controleer je eigen contract.",
       "bron": "https://www.eneco.nl/klantenservice/terugleverkosten/",
       "peildatum": "2026-06"
@@ -50,6 +56,8 @@
       "terugleverkosten_per_kwh_indicatie": 0.117,
       "terugleververgoeding_omschrijving": "ca. € 0,130 per kWh",
       "vanaf_2027": null,
+      "terugleververgoeding_2027_per_kwh": null,
+      "terugleverkosten_2027_per_kwh": null,
       "kanttekening": null,
       "bron": "https://www.engie.nl/product-advies/zonnepanelen/orientatie/terugleverkosten",
       "peildatum": "2026-07"
@@ -63,6 +71,8 @@
       "terugleverkosten_per_kwh_indicatie": 0.13,
       "terugleververgoeding_omschrijving": "€ 0,15 per kWh",
       "vanaf_2027": "aangekondigd: netto vergoeding ca. € 0,0025 per kWh",
+      "terugleververgoeding_2027_per_kwh": 0.0025,
+      "terugleverkosten_2027_per_kwh": 0,
       "kanttekening": "Indicatie per kWh is omgerekend uit de staffel; het echte bedrag hangt af van je jaarlijkse teruglevering.",
       "bron": "https://www.essent.nl/klantenservice/contract/terugleverkosten",
       "peildatum": "2026"
@@ -76,6 +86,8 @@
       "terugleverkosten_per_kwh_indicatie": 0.116,
       "terugleververgoeding_omschrijving": "€ 0,145 per kWh",
       "vanaf_2027": "aangekondigd: terugleverkosten dalen naar € 0,052 per kWh",
+      "terugleververgoeding_2027_per_kwh": null,
+      "terugleverkosten_2027_per_kwh": 0.052,
       "kanttekening": null,
       "bron": "https://www.greenchoice.nl/klantenservice/terugleverkosten/",
       "peildatum": "2026"
@@ -89,6 +101,8 @@
       "terugleverkosten_per_kwh_indicatie": 0.14,
       "terugleververgoeding_omschrijving": "ca. € 0,138 per kWh (bronnen niet eensluidend)",
       "vanaf_2027": null,
+      "terugleververgoeding_2027_per_kwh": null,
+      "terugleverkosten_2027_per_kwh": null,
       "kanttekening": "Geen terugleverkosten bij het dynamische contract van Mega (opslag € 0,0182 per kWh).",
       "bron": "https://www.mega.nl/veelgestelde-vragen-energiecontract/",
       "peildatum": "2026-07"
@@ -102,6 +116,8 @@
       "terugleverkosten_per_kwh_indicatie": 0.14,
       "terugleververgoeding_omschrijving": "ca. € 0,152 per kWh",
       "vanaf_2027": "aangekondigd: netto vergoeding ca. € 0,011 per kWh",
+      "terugleververgoeding_2027_per_kwh": 0.011,
+      "terugleverkosten_2027_per_kwh": 0,
       "kanttekening": "Geen terugleverkosten bij het dynamische contract van Oxxio.",
       "bron": "https://www.oxxio.nl/klantenservice/terugleverkosten/",
       "peildatum": "2026-07"
@@ -115,6 +131,8 @@
       "terugleverkosten_per_kwh_indicatie": 0.15,
       "terugleververgoeding_omschrijving": "€ 0,16 (vast) tot € 0,17 (variabel) per kWh, alleen over het surplus",
       "vanaf_2027": "aangekondigd: vergoeding ca. € 0,054 tot € 0,061 per kWh",
+      "terugleververgoeding_2027_per_kwh": 0.058,
+      "terugleverkosten_2027_per_kwh": null,
       "kanttekening": "Indicatie per kWh is omgerekend uit de staffel. Geen terugleverkosten bij het dynamische contract (€ 4,50/mnd vast, opslag € 0,02 per kWh).",
       "bron": "https://vandebron.nl/blog/vaste-terugleveringskosten",
       "peildatum": "2026"
@@ -128,6 +146,8 @@
       "terugleverkosten_per_kwh_indicatie": 0.12,
       "terugleververgoeding_omschrijving": "indicatief € 0,04 tot € 0,07 per kWh, afhankelijk van contract",
       "vanaf_2027": "aangekondigd: netto vergoeding ca. € 0,0024 per kWh",
+      "terugleververgoeding_2027_per_kwh": 0.0024,
+      "terugleverkosten_2027_per_kwh": 0,
       "kanttekening": "Indicatie per kWh is gebaseerd op de oude staffel (2024); de actuele staffel per mei 2026 kon niet worden geverifieerd.",
       "bron": "https://www.vattenfall.nl/zonnepanelen/vaste-terugleverkosten/",
       "peildatum": "2026-05"
@@ -141,6 +161,8 @@
       "terugleverkosten_per_kwh_indicatie": 0,
       "terugleververgoeding_omschrijving": "uurprijs; vaste kosten ca. € 5,50 tot € 8,50/mnd (bronnen verschillen), opslag € 0,022 per kWh",
       "vanaf_2027": null,
+      "terugleververgoeding_2027_per_kwh": null,
+      "terugleverkosten_2027_per_kwh": null,
       "kanttekening": "Geen eigen batterij-aansturing gevonden.",
       "bron": "https://www.anwb.nl/energie/dynamisch-energiecontract-zonnepanelen",
       "peildatum": "2026-05"
@@ -154,6 +176,8 @@
       "terugleverkosten_per_kwh_indicatie": 0,
       "terugleververgoeding_omschrijving": "spotprijs; vaste kosten € 7,00/mnd, opslag € 0,02178 per kWh",
       "vanaf_2027": null,
+      "terugleververgoeding_2027_per_kwh": null,
+      "terugleverkosten_2027_per_kwh": null,
       "kanttekening": "Geen eigen batterij-aansturing; eigen systeem (Homey, Home Assistant of fabrikant-app) nodig.",
       "bron": "https://www.easyenergy.com/dynamische-energie/prijzen",
       "peildatum": "2026-07"
@@ -167,6 +191,8 @@
       "terugleverkosten_per_kwh_indicatie": 0,
       "terugleververgoeding_omschrijving": "uurprijs, met bonus bij slim terugleveren; vaste kosten ca. € 4,99 tot € 7,00/mnd (bronnen verschillen)",
       "vanaf_2027": null,
+      "terugleververgoeding_2027_per_kwh": null,
+      "terugleverkosten_2027_per_kwh": null,
       "kanttekening": "Batterij-aansturing 'Slim Handelen': winstdeling 85% klant / 15% Frank, geen servicekosten.",
       "bron": "https://www.frankenergie.nl/nl/terugleverkosten",
       "peildatum": "2026-06"
@@ -180,6 +206,8 @@
       "terugleverkosten_per_kwh_indicatie": 0,
       "terugleververgoeding_omschrijving": "beursprijs; met NextSolar-zonnebonus 1,5x de beursprijs (max. 6.000 kWh/jaar, tussen 6:00 en 22:00). Vaste kosten € 5,99/mnd, opslag € 0,021 per kWh",
       "vanaf_2027": null,
+      "terugleververgoeding_2027_per_kwh": null,
+      "terugleverkosten_2027_per_kwh": null,
       "kanttekening": "Slimme batterij-aansturing met opbrengstverdeling 85% klant / 15% NextEnergy.",
       "bron": "https://www.nextenergy.nl/zonnepanelen",
       "peildatum": "2026-07"
@@ -193,6 +221,8 @@
       "terugleverkosten_per_kwh_indicatie": 0,
       "terugleververgoeding_omschrijving": "kwartierprijs (beursprijs); vaste leverkosten € 6,99/mnd, verkoopvergoeding € 0,018 per kWh",
       "vanaf_2027": null,
+      "terugleververgoeding_2027_per_kwh": null,
+      "terugleverkosten_2027_per_kwh": null,
       "kanttekening": "Eigen Homevolt-batterij met aansturing binnen het abonnement; Grid Rewards-opbrengsten wisselen.",
       "bron": "https://tibber.com/nl/stroomprijs",
       "peildatum": "2026-10"
@@ -206,6 +236,8 @@
       "terugleverkosten_per_kwh_indicatie": 0,
       "terugleververgoeding_omschrijving": "uurprijs met bonus; vaste kosten ca. € 5,75 tot € 6,25/mnd (bronnen verschillen), opslag € 0,019 per kWh",
       "vanaf_2027": null,
+      "terugleververgoeding_2027_per_kwh": null,
+      "terugleverkosten_2027_per_kwh": null,
       "kanttekening": "Powerplay-batterijsturing vereist Zonneplan als leverancier; ingehouden marge niet openbaar.",
       "bron": "https://www.zonneplan.nl/energie/zonnepanelen/terugleverkosten-dynamisch-contract",
       "peildatum": "2026-07"

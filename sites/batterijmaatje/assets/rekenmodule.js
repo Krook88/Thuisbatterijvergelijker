@@ -28,9 +28,9 @@
      draait: wie daarna nog location.search leest, ziet de gedeelde link niet
      meer maar de zojuist weggeschreven versie. */
   let beginParams = null;
-  // Heeft de bezoeker de terugleverkosten zelf aangeraakt? Zo ja, dan laat de
-  // module dat veld met rust bij een contractwissel.
-  let terugleverkostenAangeraakt = false;
+  // Heeft de bezoeker de terugleverkosten of -vergoeding zelf aangeraakt? Zo
+  // ja, dan laat de module die velden met rust bij een contractwissel.
+  let terugleveringAangeraakt = false;
 
   // De investering waarmee gerekend wordt is de vergelijkprijs incl. btw: een
   // particulier betaalt nu eenmaal btw, dus rekenen met een prijs excl. btw
@@ -48,38 +48,27 @@
   }
 
   /* ------------------------------------------------------------------
-     Terugleverkosten horen bij het contract
+     Teruglevering hoort bij het contract
 
-     Leveranciers met een dynamisch contract rekenen geen terugleverkosten;
-     leveranciers met een vast of variabel contract wel, en fors. Eén vaste
-     standaardwaarde van 0,02 hoorde dus bij niemand. Het bedrag hieronder is
-     de mediaan uit data/leveranciers.json, zodat het meebeweegt als die tabel
-     wordt bijgewerkt.
+     Een dynamisch contract rekent geen terugleverkosten en vergoedt de
+     uurprijs; bij een vast of variabel contract hebben de leveranciers die al
+     iets aankondigden voor 2027 de kosten geschrapt en een vergoeding van een
+     paar cent overgelaten. De bedragen staan in de rekenkern
+     (Rekenkern.TERUGLEVERING), zodat de keuzehulp met dezelfde rekent.
      ------------------------------------------------------------------ */
-  const TERUGLEVERKOSTEN_VAST_TERUGVAL = 0.12;
-
-  function standaardTerugleverkosten(contract) {
-    if (contract === "dynamisch") return 0;
-    const lijst = (leveranciersData?.leveranciers || [])
-      .filter((l) => l.contract === "vast-variabel" && typeof l.terugleverkosten_per_kwh_indicatie === "number")
-      .map((l) => l.terugleverkosten_per_kwh_indicatie)
-      .sort((a, b) => a - b);
-    if (!lijst.length) return TERUGLEVERKOSTEN_VAST_TERUGVAL;
-    const m = Math.floor(lijst.length / 2);
-    const mediaan = lijst.length % 2 ? lijst[m] : (lijst[m - 1] + lijst[m]) / 2;
-    return Math.round(mediaan * 100) / 100;
-  }
-
-  function pasTerugleverkostenAan() {
-    if (terugleverkostenAangeraakt) return;
-    const waarde = String(standaardTerugleverkosten(el("inpContract").value));
-    el("inpTerugleverkosten").value = waarde;
+  function pasTerugleveringAan() {
+    if (terugleveringAangeraakt) return;
+    const soort = el("inpContract").value === "dynamisch" ? "dynamisch" : "vast";
+    const t = Rekenkern.TERUGLEVERING[soort];
+    el("inpTeruglever").value = String(t.terugleverVergoeding);
+    el("inpTerugleverkosten").value = String(t.terugleverKosten);
     /* Dit is nu de geldende standaard voor dit contracttype, en die hangt aan
-       leveranciers.json en niet aan het value-attribuut in de HTML. Zonder
-       deze regel zou schrijfUrl() een bedrag dat toevallig gelijk is aan het
-       HTML-attribuut weglaten uit de link, waarna de ontvanger de mediaan
+       de rekenkern en niet aan het value-attribuut in de HTML. Zonder deze
+       regels zou schrijfUrl() een bedrag dat toevallig gelijk is aan het
+       HTML-attribuut weglaten uit de link, waarna de ontvanger de standaard
        ingevuld kreeg in plaats van het gedeelde bedrag. */
-    standaardWaarden.inpTerugleverkosten = waarde;
+    standaardWaarden.inpTeruglever = el("inpTeruglever").value;
+    standaardWaarden.inpTerugleverkosten = el("inpTerugleverkosten").value;
   }
 
   /* ------------------------------------------------------------------
@@ -103,6 +92,7 @@
     bruikbaar: "inpBruikbaar", rend: "inpRendement", zon: "inpZonDagen",
     mis: "inpMismatch", cycli: "inpCycli", onbalans: "inpOnbalans",
     verbruik: "inpVerbruik", standby: "inpStandby", degr: "inpDegradatie",
+    teruglevering: "inpTeruglevering", afname: "inpAfname",
   };
 
   // De waarden zoals de pagina ze zelf meelevert. Wat daaraan gelijk is, hoeft
@@ -145,7 +135,7 @@
       if (veld.tagName === "SELECT" && !Array.from(veld.options).some((o) => o.value === waarde)) continue;
       veld.value = waarde;
       gezet = true;
-      if (id === "inpTerugleverkosten") terugleverkostenAangeraakt = true;
+      if (id === "inpTerugleverkosten" || id === "inpTeruglever") terugleveringAangeraakt = true;
     }
     return gezet;
   }
@@ -175,8 +165,8 @@
       opwek: heeftPv ? getal("inpOpwek", 3500) : 0,
       eigenVerbruikPct: getal("inpEigenVerbruik", 30),
       stroomprijs: getal("inpStroomprijs", 0.30),
-      terugleverVergoeding: getal("inpTeruglever", 0.05),
-      terugleverKosten: getal("inpTerugleverkosten", 0.12),
+      terugleverVergoeding: getal("inpTeruglever", Rekenkern.STANDAARD.terugleverVergoeding),
+      terugleverKosten: getal("inpTerugleverkosten", Rekenkern.STANDAARD.terugleverKosten),
       laadprijs: getal("inpLaadprijs", 0.15),
       ontlaadwaarde: getal("inpOntlaadwaarde", 0.30),
       investering: getal("inpInvestering", 0),
@@ -189,6 +179,8 @@
       extraOnbalans: getal("inpOnbalans", 0),
       standbyWatt: getal("inpStandby", 10),
       jaarVerbruik: getal("inpVerbruik", 2900),
+      teruglevering: getal("inpTeruglevering", 0),
+      afname: getal("inpAfname", 0),
       degradatiePct: getal("inpDegradatie", 2),
       btwRoute: el("inpBtw") ? el("inpBtw").value : "incl",
       // Het vermogen komt uit de gegevens, niet uit een veld: het is een
@@ -335,7 +327,10 @@
     }
 
     if (r.teGroot) {
-      waarschuwingen.push(`<b>Deze batterij is waarschijnlijk te groot voor je verbruik.</b> Met ${numFmt.format(i.jaarVerbruik)} kWh per jaar maakt je huishouden buiten de zonuren maar zo'n ${eenDec.format(r.maxOntladingPerDag)} kWh per dag op, terwijl deze batterij er ${eenDec.format(r.bruikbareCap)} kWh in kwijt kan. De berekening telt daarom alleen mee wat je er echt uit haalt; een kleinere (goedkopere) batterij geeft vaak een kortere terugverdientijd.`);
+      waarschuwingen.push(`<b>Deze batterij is waarschijnlijk te groot voor je verbruik.</b> ${r.metJaarnota.afname ? `Met ${numFmt.format(i.afname)} kWh afname uit het net per jaar haal je` : `Met ${numFmt.format(i.jaarVerbruik)} kWh per jaar maakt je huishouden buiten de zonuren`} maar zo'n ${eenDec.format(r.maxOntladingPerDag)} kWh per dag op, terwijl deze batterij er ${eenDec.format(r.bruikbareCap)} kWh in kwijt kan. De berekening telt daarom alleen mee wat je er echt uit haalt; een kleinere (goedkopere) batterij geeft vaak een kortere terugverdientijd.`);
+    }
+    if (r.metJaarnota.teruglevering || r.metJaarnota.afname) {
+      kanttekeningen.push(`Gerekend met ${[r.metJaarnota.teruglevering && "de teruglevering", r.metJaarnota.afname && "de afname"].filter(Boolean).join(" en ")} van je jaarnota in plaats van een schatting${r.metJaarnota.teruglevering ? "; het aantal panelen en het direct eigen verbruik tellen dan niet meer mee" : ""}.`);
     }
     if (i.contract === "vast" && !i.heeftPv) {
       waarschuwingen.push("Zonder zonnepanelen en zonder dynamisch contract kan een thuisbatterij vrijwel niets verdienen: er valt niets op te slaan en geen prijsverschil te benutten.");
@@ -421,6 +416,7 @@
 
     doel.innerHTML = `
       <div style="text-align:center;padding: var(--ruimte-10) 0 var(--ruimte-20);">${oordeel}</div>
+      ${overstapBlok(i)}
       ${grafiek}
       <div style="overflow-x:auto;">
       <table class="vergelijk-tabel" style="min-width:0;">
@@ -450,6 +446,29 @@
     `;
     const deel = el("deelKnop");
     if (deel) deel.addEventListener("click", kopieerLink);
+  }
+
+  /* ------------------------------------------------------------------
+     Eerst dit: overstappen zonder batterij
+
+     Betaalt de bezoeker netto voor teruglevering, dan telt dat in de som als
+     opbrengst van de batterij. Maar overstappen haalt hetzelfde voordeel
+     zonder investering. Dit blok zet dat getal vóór de grafiek, met wat de
+     batterij daarna nog toevoegt. Onder de tien euro per jaar zwijgt het:
+     dan is het geen advies maar ruis.
+     ------------------------------------------------------------------ */
+  function overstapBlok(i) {
+    const z = Rekenkern.zonderBatterij(i);
+    if (!z || z.besparing < 10) return "";
+    const na = z.naOverstap;
+    const daarna = na.totaal > 0 && na.terugverdientijd != null
+      ? `Stap je eerst over, dan voegt de batterij daar nog ${eurFmt.format(na.totaal)} per jaar aan toe, en verdient hij zich in ${jaarFmt.format(na.terugverdientijd)} jaar terug (middenscenario).`
+      : "Stap je eerst over, dan levert de batterij met deze invoer per saldo niets meer op.";
+    return `<div class="info-kader" style="margin: 0 0 var(--ruimte-14);">
+      <b>Eerst dit: overstappen scheelt ${eurFmt.format(z.besparing)} per jaar, zonder batterij.</b>
+      Je levert ongeveer ${numFmt.format(z.teruggeleverd)} kWh per jaar terug en betaalt daar met deze tarieven netto ${eur2Fmt.format(z.verschilPerKwh)} per kWh meer voor dan bij een contract zonder terugleverkosten. Een deel van de opbrengst hieronder is dus ook te halen door van contract te wisselen. ${daarna}
+      <a href="#leveranciersTabel">Bekijk welke leveranciers wat rekenen</a>.
+    </div>`;
   }
 
   /* ------------------------------------------------------------------
@@ -638,13 +657,30 @@
       el("inpContract").value = past;
       toggleContractVelden({ stil: true });
     }
-    if (l.terugleverkosten_per_kwh_indicatie != null) {
-      el("inpTerugleverkosten").value = l.terugleverkosten_per_kwh_indicatie;
-      // Een leverancierskeuze is een expliciete keuze; een latere
-      // contractwissel mag dit bedrag niet zomaar overschrijven.
-      terugleverkostenAangeraakt = true;
+    /* Rekenen met wat de leverancier voor 2027 heeft aangekondigd, want dat
+       is de situatie waar deze module over gaat. Heeft hij niets
+       aangekondigd, dan blijven de huidige terugleverkosten staan, en zegt
+       de hint dat ze in 2027 kunnen vervallen. */
+    const t2027 = Rekenkern.teruglevering2027(l);
+    let over2027;
+    if (t2027) {
+      el("inpTeruglever").value = t2027.terugleverVergoeding;
+      el("inpTerugleverkosten").value = t2027.terugleverKosten;
+      over2027 = `Voor 2027 aangekondigd: ${l.vanaf_2027.replace(/^aangekondigd:\s*/, "")}; daarmee reken ik` +
+        (t2027.volledig ? "." : ", aangevuld met het huidige of standaardbedrag voor wat nog niet bekend is.");
+    } else {
+      if (l.terugleverkosten_per_kwh_indicatie != null) {
+        el("inpTerugleverkosten").value = l.terugleverkosten_per_kwh_indicatie;
+      }
+      el("inpTeruglever").value = Rekenkern.TERUGLEVERING[past].terugleverVergoeding;
+      over2027 = past === "dynamisch"
+        ? "Bij een dynamisch contract krijg je voor teruglevering de uurprijs."
+        : `Nu: ${l.terugleverkosten_omschrijving}. Voor 2027 is nog niets aangekondigd, dus ik reken met de huidige terugleverkosten; andere leveranciers schrappen ze dan.`;
     }
-    hint.textContent = `Ingevuld: ${past === "dynamisch" ? "dynamisch contract" : "vast of variabel contract"}, ${l.terugleverkosten_omschrijving}. ` +
+    // Een leverancierskeuze is een expliciete keuze; een latere
+    // contractwissel mag deze bedragen niet zomaar overschrijven.
+    terugleveringAangeraakt = true;
+    hint.textContent = `Ingevuld: ${past === "dynamisch" ? "dynamisch contract" : "vast of variabel contract"}. ${over2027} ` +
       (l.kanttekening ? l.kanttekening + " " : "") +
       `(peildatum ${l.peildatum}; indicatie, je contract is leidend)`;
     bereken();
@@ -674,6 +710,7 @@
     const heeftPv = el("inpPv").value === "ja";
     el("pvVelden").style.display = heeftPv ? "" : "none";
     el("veldPanelen").style.display = heeftPv ? "" : "none";
+    el("veldJaarnota").style.display = heeftPv ? "" : "none";
     bereken();
   }
 
@@ -700,7 +737,7 @@
     const past = l.contract === "dynamisch" ? "dynamisch" : "vast";
     if (past === el("inpContract").value) return;
     sel.value = "";
-    terugleverkostenAangeraakt = false;
+    terugleveringAangeraakt = false;
     el("leverancierHint").textContent =
       `${l.naam} levert geen ${el("inpContract").value === "dynamisch" ? "dynamisch" : "vast of variabel"} contract, dus die keuze is vervallen. Kies eventueel opnieuw je leverancier.`;
   }
@@ -709,7 +746,7 @@
     const dyn = el("inpContract").value === "dynamisch";
     el("dynVelden").style.display = dyn ? "" : "none";
     if (!opties || !opties.stil) vergeetLeverancierBijWissel();
-    pasTerugleverkostenAan();
+    pasTerugleveringAan();
     if (!opties || !opties.stil) bereken();
   }
 
@@ -773,7 +810,7 @@
       if (uitUrl && sel && Array.from(sel.options).some((o) => o.value === uitUrl)) {
         sel.value = uitUrl;
       }
-      pasTerugleverkostenAan();
+      pasTerugleveringAan();
     } catch (err) {
       console.error("Leverancierstarieven konden niet geladen worden:", err);
       const doel = el("leveranciersTabel");
@@ -786,7 +823,8 @@
     el("inpPanelen").addEventListener("input", panelenNaarOpwek);
     el("inpPv").addEventListener("change", togglePvVelden);
     el("inpContract").addEventListener("change", () => toggleContractVelden());
-    el("inpTerugleverkosten").addEventListener("input", () => { terugleverkostenAangeraakt = true; });
+    el("inpTerugleverkosten").addEventListener("input", () => { terugleveringAangeraakt = true; });
+    el("inpTeruglever").addEventListener("input", () => { terugleveringAangeraakt = true; });
     document.querySelectorAll("#rekenformulier input, #rekenformulier select").forEach((inp) => {
       inp.addEventListener("input", bereken);
     });
