@@ -44,8 +44,8 @@
       smartHome: el("smartHome").value,         // geen | home_assistant | homey
       zon: el("checkZon").checked,
       batterij: el("checkBatterij").checked,
-      gasprijs: 1.45,
-      stroomprijs: 0.30,
+      gasprijs: Rekenkern.STANDAARD.gasprijs,
+      stroomprijs: Rekenkern.STANDAARD.stroomprijs,
     };
   }
 
@@ -89,19 +89,10 @@
      ------------------------------------------------------------------ */
 
   function besparing(s, type) {
-    // 1 m3 gas levert circa 8,8 kWh nuttige warmte via een moderne cv-ketel.
-    // Dezelfde vuistregels als de rekenmodule (terugverdientijd).
-    let gasBespaard, stroomKwh;
-    if (type === "hybride") {
-      gasBespaard = s.gas * 0.6;                          // circa 60% van de totale warmtevraag
-      stroomKwh = (gasBespaard * 8.8) / 4.5;              // hybride draait vooral op gunstige momenten
-    } else {
-      gasBespaard = s.gas;                                // all-electric vervangt alles
-      const verwarmingGas = s.gas * 0.75;                 // circa 75% verwarming (Milieu Centraal)
-      stroomKwh = (verwarmingGas * 8.8) / 4.0 + ((s.gas - verwarmingGas) * 8.8) / 2.5; // warm water via boilervat
-    }
-    const nettoPerJaar = gasBespaard * s.gasprijs - stroomKwh * s.stroomprijs;
-    return { gasBespaard: Math.round(gasBespaard), stroomKwh: Math.round(stroomKwh), nettoPerJaar: Math.round(nettoPerJaar) };
+    // Dezelfde som als de rekenmodule: assets/rekenkern.js. Zonder gekozen
+    // pomp rekent die met het praktijkrendement van een gemiddelde pomp.
+    const r = Rekenkern.bereken({ type, gas: s.gas, gasprijs: s.gasprijs, stroomprijs: s.stroomprijs });
+    return { gasBespaard: Math.round(r.gasBespaard), stroomKwh: Math.round(r.stroomKwh), nettoPerJaar: Math.round(r.besparingJaar) };
   }
 
   /* ------------------------------------------------------------------
@@ -317,7 +308,8 @@
       <div class="advies-samenvatting">
         <div class="groot">${advies.type === "hybride" ? "Hybride warmtepomp" : "All-electric warmtepomp"}</div>
         <p style="margin: var(--ruimte-6) 0 0;">${advies.reden}</p>
-        <p style="margin: var(--ruimte-6) 0 0;">Indicatie: circa <b>${numFmt.format(b.gasBespaard)} m³ gas minder</b> per jaar, tegen circa ${numFmt.format(b.stroomKwh)} kWh extra stroom. Netto besparing: <b>circa ${eurFmt.format(b.nettoPerJaar)} per jaar</b> (≈ ${eurFmt.format(b.nettoPerJaar / 12)} per maand).</p>
+        <p style="margin: var(--ruimte-6) 0 0;">Indicatie: circa <b>${numFmt.format(b.gasBespaard)} m³ gas minder</b> per jaar, tegen circa ${numFmt.format(b.stroomKwh)} kWh extra stroom. Netto besparing: <b>circa ${eurFmt.format(b.nettoPerJaar)} per jaar</b> (≈ ${eurFmt.format(b.nettoPerJaar / 12)} per maand), voor een gemiddelde pomp; met het rendement van een specifieke pomp rekent de knop "Terugverdientijd".</p>
+        ${s.cvKetel === "oud" ? `<p class="hint" style="margin: var(--ruimte-6) 0 0;">Je ketel is toch aan vervanging toe. Dan is de vraag niet wat een warmtepomp kost, maar wat hij méér kost dan een nieuwe cv-ketel (circa ${eurFmt.format(Rekenkern.STANDAARD.ketelprijs)}). De knop "Terugverdientijd" bij elke pomp rekent daarmee.${advies.type === "hybride" ? " Een hybride werkt naast een ketel, dus die nieuwe ketel koop je er dan wel bij." : ""}</p>` : ""}
         ${s.zon ? `<p class="hint" style="margin: var(--ruimte-6) 0 0;">${Iconen.svg("zon")} Met zonnepanelen wordt het voordeliger: een slim aangestuurde pomp draait extra wanneer je panelen stroom over hebben. Daarom weeg ik slimme aansturing zwaarder mee.</p>` : ""}
         ${s.batterij ? `<p class="hint" style="margin: var(--ruimte-6) 0 0;">${Iconen.svg("batterij")} Met een thuisbatterij loont slimme aansturing dubbel: de pomp verwarmt op momenten dat stroom goedkoop is of de batterij vol zit. Daarom weeg ik slimme aansturing zwaarder mee. Nog geen batterij? Vergelijk ze op <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a>.</p>` : ""}
         ${s.buren === "dichtbij" ? `<p class="hint" style="margin: var(--ruimte-6) 0 0;">${Iconen.svg("stil")} Omdat je buren dichtbij wonen, weeg ik het geluid van de buitenunit zwaar mee. Op de erfgrens geldt in de nacht een eis van 40 dB.</p>` : ""}
@@ -334,7 +326,7 @@
           <div class="reden">${redenVoor(w, s)}</div>
           <p style="margin: var(--ruimte-6) 0 0;font-size:var(--tekst-15);">${beste && !beste.is_richtprijs ? `laagste prijs <b>${eurFmt.format(vergelijkPrijs(beste))}</b>, goedkoopst bij <a href="${escapeHtml(beste.url || "")}" target="_blank" rel="noopener">${escapeHtml(beste.winkel)}</a>` : `richtprijs <b>${beste ? eurFmt.format(vergelijkPrijs(beste)) : "?"}</b>`} · ISDE-subsidie circa <b>${w.isde_indicatie_eur ? eurFmt.format(w.isde_indicatie_eur) : "?"}</b> · netto circa <b>${eurFmt.format(netto)}</b> voor het toestel (excl. installatie)</p>
           ${Prijs.prijsToelichting(beste) ? `<p class="hint" style="margin: var(--ruimte-4) 0 0;font-size:var(--tekst-15);">${escapeHtml(Prijs.prijsToelichting(beste))}</p>` : ""}
-          <p style="margin: var(--ruimte-6) 0 0;">${beste && !beste.is_richtprijs && beste.url ? `<a class="knop" style="padding: var(--ruimte-6) var(--ruimte-14);font-size:var(--tekst-15);" href="${escapeHtml(beste.url)}" target="_blank" rel="noopener">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a> ` : ""}<a class="knop knop-secundair" style="padding: var(--ruimte-6) var(--ruimte-14);font-size:var(--tekst-15);" href="rekenmodule.html?pomp=${encodeURIComponent(w.id)}&gas=${s.gas}">Terugverdientijd ${Iconen.svg("pijl-rechts")}</a> <a class="knop knop-secundair" style="padding: var(--ruimte-6) var(--ruimte-14);font-size:var(--tekst-15);" href="pomp/${encodeURIComponent(w.id)}.html">Alle details ${Iconen.svg("pijl-rechts")}</a></p>
+          <p style="margin: var(--ruimte-6) 0 0;">${beste && !beste.is_richtprijs && beste.url ? `<a class="knop" style="padding: var(--ruimte-6) var(--ruimte-14);font-size:var(--tekst-15);" href="${escapeHtml(beste.url)}" target="_blank" rel="noopener">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a> ` : ""}<a class="knop knop-secundair" style="padding: var(--ruimte-6) var(--ruimte-14);font-size:var(--tekst-15);" href="rekenmodule.html?pomp=${encodeURIComponent(w.id)}&gas=${s.gas}${s.cvKetel === "oud" ? "&ketel=vervangen" : ""}">Terugverdientijd ${Iconen.svg("pijl-rechts")}</a> <a class="knop knop-secundair" style="padding: var(--ruimte-6) var(--ruimte-14);font-size:var(--tekst-15);" href="pomp/${encodeURIComponent(w.id)}.html">Alle details ${Iconen.svg("pijl-rechts")}</a></p>
         </div>`;
       }).join("")}
       ${smartRegel ? `<p style="margin: var(--ruimte-10) 0 0;font-size:var(--tekst-15);">${Iconen.svg("huis")} ${smartRegel}</p>` : ""}
