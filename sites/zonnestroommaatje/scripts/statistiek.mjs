@@ -21,19 +21,30 @@ import { join, relative } from "node:path";
 
 export const STATISTIEK_TAG = '<script defer src="/_vercel/insights/script.js"></script>';
 
+/* Eigen bezoeken uitzetten, per browser en per site. Wie een pagina opent met
+   #niet-tellen achter het adres, krijgt "va-disable" in localStorage; met
+   #wel-tellen gaat dat er weer af. Vercel leest het niet zelf: de beforeSend
+   hieronder laat dan elk bericht vallen, zoals de uitleg van Vercel het doet
+   (vercel.com/docs/analytics/redacting-sensitive-data). Dit moet vóór het
+   script van Vercel staan, en niet uitgesteld, anders is de eerste
+   paginaweergave al weg. assets/teller.js kijkt naar dezelfde sleutel. */
+export const UITZET_TAG = '<script>(function(){function t(){try{var h=location.hash;if(h=="#niet-tellen")localStorage.setItem("va-disable","1");else if(h=="#wel-tellen")localStorage.removeItem("va-disable")}catch(e){}}t();addEventListener("hashchange",t);window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){try{if(localStorage.getItem("va-disable"))return null}catch(x){}return e})})()</script>';
+
 /* De eigen teller voor doorklikken en verblijfstijd (assets/teller.js), met
    het ?v=-stempel van de site zodat 'npm run stempel' hem meeneemt. */
 export const TELLER_PATROON = /<script defer src="\/assets\/teller\.js\?v=[A-Za-z0-9]+"><\/script>/;
 export const tellerTag = (versie) => `<script defer src="/assets/teller.js?v=${versie}"></script>`;
 
 /**
- * De pagina met beide tags erin, vlak voor </head>. Verandert niets als ze er
- * al staan. Zonder versie komt alleen de tag van Vercel erin.
+ * De pagina met de tags erin, vlak voor </head>, en de uitzetter vlak voor
+ * het script van Vercel. Verandert niets als ze er al staan. Zonder versie
+ * komt de eigen teller er niet bij.
  */
 export function metStatistiek(html, versie) {
   if (!html.includes("</head>")) return html;
   let uit = html;
   if (!uit.includes(STATISTIEK_TAG)) uit = uit.replace("</head>", `  ${STATISTIEK_TAG}\n</head>`);
+  if (!uit.includes(UITZET_TAG)) uit = uit.replace(STATISTIEK_TAG, `${UITZET_TAG}\n  ${STATISTIEK_TAG}`);
   if (versie && !TELLER_PATROON.test(uit)) uit = uit.replace("</head>", `  ${tellerTag(versie)}\n</head>`);
   return uit;
 }
@@ -43,11 +54,11 @@ export function metStatistiek(html, versie) {
    relatief aan de map van de site. */
 export const NIET_TELLEN = new Set(["statistieken.html"]);
 
-/** De pagina zonder de tags van Vercel en de eigen teller. */
+/** De pagina zonder de tags van Vercel, de uitzetter en de eigen teller. */
 export function zonderStatistiek(html) {
   return html
     .split("\n")
-    .filter((r) => !r.includes(STATISTIEK_TAG) && !TELLER_PATROON.test(r))
+    .filter((r) => !r.includes(STATISTIEK_TAG) && !r.includes(UITZET_TAG) && !TELLER_PATROON.test(r))
     .join("\n");
 }
 

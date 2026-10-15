@@ -7,8 +7,8 @@
   <meta name="robots" content="noindex">
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="stylesheet" href="assets/style.css?v=20261015f">
-  <script src="assets/nav.js?v=20261015f" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20261015g">
+  <script src="assets/nav.js?v=20261015g" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
 </head>
@@ -83,6 +83,15 @@
   <p class="st-melding" id="st-status" role="status"></p>
   <div id="st-uitkomst" hidden></div>
 
+  <h2>Mijn eigen bezoeken</h2>
+  <p class="st-melding">Per browser en per site uit te zetten. Een link opent de site in een nieuw tabblad en onthoudt de keuze op dit apparaat.</p>
+  <p class="st-melding" id="st-eigen"></p>
+  <div class="st-tegels">
+    <section class="st-kaart"><h3>Batterijmaatje</h3><p><a href="https://batterijmaatje.nl/#niet-tellen" target="_blank" rel="noopener">Niet meetellen</a> · <a href="https://batterijmaatje.nl/#wel-tellen" target="_blank" rel="noopener">Weer meetellen</a></p></section>
+    <section class="st-kaart"><h3>Warmtepompmaatje</h3><p><a href="https://warmtepompmaatje.nl/#niet-tellen" target="_blank" rel="noopener">Niet meetellen</a> · <a href="https://warmtepompmaatje.nl/#wel-tellen" target="_blank" rel="noopener">Weer meetellen</a></p></section>
+    <section class="st-kaart"><h3>Zonnestroommaatje</h3><p><a href="https://zonnestroommaatje.nl/#niet-tellen" target="_blank" rel="noopener">Niet meetellen</a> · <a href="https://zonnestroommaatje.nl/#wel-tellen" target="_blank" rel="noopener">Weer meetellen</a></p></section>
+  </div>
+
   <script>
   (function () {
     "use strict";
@@ -99,6 +108,16 @@
     var uit = document.getElementById("st-uitkomst");
 
     try { var bewaard = sessionStorage.getItem("st-wachtwoord"); if (bewaard) { veld.value = bewaard; } } catch (e) {}
+
+    function eigenStatus() {
+      var uit = false;
+      try { uit = !!localStorage.getItem("va-disable"); } catch (e) {}
+      document.getElementById("st-eigen").textContent = uit
+        ? "Op batterijmaatje.nl telt deze browser nu niet mee."
+        : "Op batterijmaatje.nl telt deze browser nu nog mee.";
+    }
+    eigenStatus();
+    window.addEventListener("focus", eigenStatus);
 
     function el(tag, attrs, kinderen) {
       var n = document.createElement(tag);

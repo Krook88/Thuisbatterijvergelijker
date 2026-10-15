@@ -340,6 +340,11 @@ komen, land, apparaat en browser. Op het gratis abonnement gaat het dashboard
   `DASHBOARD_WACHTWOORD`. De functie `api/statistieken.js` haalt de
   bezoekcijfers bij Vercel op met `STATISTIEK_TOKEN` (een toegangssleutel van
   Vercel) en leest de eigen teller uit Redis.
+- Eigen bezoeken tellen niet mee na `#niet-tellen` achter een adres: de
+  browser krijgt `va-disable` in localStorage, de uitzetter vóór het script van
+  Vercel laat dan alles vallen en de teller stuurt niets. `#wel-tellen` draait
+  het terug. De links per site staan op de statistiekenpagina, die zelf nooit
+  meetelt (`NIET_TELLEN` in `kern/scripts/statistiek.mjs`).
 - Wat er gemeten wordt, staat op `privacy.html` van elke site. Meet je meer,
   pas dan eerst die pagina aan.
 
