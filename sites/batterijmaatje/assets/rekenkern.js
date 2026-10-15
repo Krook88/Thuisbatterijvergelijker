@@ -122,6 +122,10 @@
     extraOnbalans: 0,
     standbyWatt: 10,
     jaarVerbruik: 2900,
+    // Van de jaarnota, in kWh per jaar. 0 = niet ingevuld; dan schat de kern
+    // ze uit opwek, direct eigen verbruik en jaarverbruik.
+    teruglevering: 0,
+    afname: 0,
     degradatiePct: 2,
     btwRoute: "incl",
     // null = onbekend vermogen, dan begrenst de kern er niet op
@@ -196,6 +200,15 @@
     return netto.length % 2 ? netto[m] : (netto[m - 1] + netto[m]) / 2;
   }
 
+  /* Wat er per jaar teruggaat naar het net. De teruglevering op de jaarnota
+     is gemeten; de rest is een schatting uit het aantal panelen en een
+     aandeel direct eigen verbruik dat per huis sterk verschilt. */
+  function overschotVan(i) {
+    if (!i.heeftPv) return 0;
+    if (i.teruglevering > 0) return i.teruglevering;
+    return i.opwek * (1 - i.eigenVerbruikPct / 100);
+  }
+
   function bereken(invoer) {
     const i = metStandaard(invoer);
 
@@ -209,11 +222,17 @@
     const bruikbareCap = i.capaciteit * (i.bruikbaarPct / 100);
     // Wat het huishouden per dag buiten de zonuren kan opmaken, aan de
     // uitgaande kant (wat er uit de batterij komt).
-    const maxOntladingPerDag = (i.jaarVerbruik / 365) * AANDEEL_BUITEN_ZON;
+    //
+    // Staat de afname op de jaarnota, dan is dat de betere maat: een batterij
+    // kan nooit meer vervangen dan je uit het net haalt, en met panelen valt
+    // die afname vrijwel helemaal buiten de zonuren. Zonder jaarnota blijft
+    // het een schatting uit het totale verbruik.
+    const metAfname = i.afname > 0;
+    const maxOntladingPerDag = metAfname ? i.afname / 365 : (i.jaarVerbruik / 365) * AANDEEL_BUITEN_ZON;
     // Diezelfde grens, teruggerekend naar de ingaande kant.
     const ruimtePerDag = Math.min(bruikbareCap, rendement > 0 ? maxOntladingPerDag / rendement : 0);
 
-    const teGroot = bruikbareCap > 0 && i.jaarVerbruik > 0 &&
+    const teGroot = bruikbareCap > 0 && (metAfname || i.jaarVerbruik > 0) &&
       bruikbareCap * rendement > maxOntladingPerDag * 1.15;
 
     /* De ingevoerde investering is altijd incl. btw (zie prijs.js). Bij het
@@ -226,7 +245,7 @@
     /* 1. Zelfverbruik-opslag */
     let overschot = 0, opslagJaar = 0, opbrengstZelf = 0, waardePerKwh = 0;
     if (heeftPv && bruikbareCap > 0 && i.zonDagen > 0) {
-      overschot = opwek * (1 - eigenVerbruik);
+      overschot = overschotVan(i);
       const perDag = opgevangenPerDag(overschot / i.zonDagen, ruimtePerDag);
       opslagJaar = perDag * i.zonDagen * mismatch;
       // Elke opgeslagen kWh vervangt inkoop (x rendement wegens omzetverlies),
@@ -275,6 +294,7 @@
       invoer: i,
       btwRoute, netInvestering, btwVoordeel,
       laaduren, vermogenKnelt,
+      metJaarnota: { teruglevering: heeftPv && i.teruglevering > 0, afname: metAfname },
       laadurenKnelt: laaduren > LAADUREN_GRENS,
       bruikbareCap, maxOntladingPerDag, ruimtePerDag, teGroot,
       overschot, opslagJaar, opbrengstZelf, waardePerKwh,
@@ -309,12 +329,12 @@
      ------------------------------------------------------------------ */
   function zonderBatterij(invoer) {
     const i = metStandaard(invoer);
-    if (!i.heeftPv || i.contract === "dynamisch" || !(i.opwek > 0)) return null;
+    if (!i.heeftPv || i.contract === "dynamisch" || !(overschotVan(i) > 0)) return null;
     const alt = TERUGLEVERING.vast;
     const verschilPerKwh = (i.terugleverKosten - i.terugleverVergoeding) -
       (alt.terugleverKosten - alt.terugleverVergoeding);
     if (!(verschilPerKwh > 0)) return null;
-    const teruggeleverd = i.opwek * (1 - i.eigenVerbruikPct / 100);
+    const teruggeleverd = overschotVan(i);
     const naOverstap = bereken(Object.assign({}, invoer, alt));
     return {
       teruggeleverd,

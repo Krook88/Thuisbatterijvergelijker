@@ -440,3 +440,36 @@ test("alleen het apparaat verschilt als je twee batterijen vergelijkt", () => {
   assert.ok(klein.terugverdientijd < groot.terugverdientijd,
     "de goedkope plug-in verdient zich hier sneller terug dan het dure systeem");
 });
+
+/* ------------------------------------------------------------------
+   De jaarnota gaat voor de schatting
+   ------------------------------------------------------------------ */
+
+test("de teruglevering van de jaarnota vervangt de schatting uit panelen", () => {
+  // Het aandeel direct eigen verbruik verschilt per huis van 20 tot 50%, en
+  // daarmee het overschot met een factor twee. De jaarnota meet het.
+  const basis = { capaciteit: 5, investering: 2500, opwek: 3500 };
+  const meer = Rekenkern.bereken({ ...basis, teruglevering: 3000 });
+  const minder = Rekenkern.bereken({ ...basis, teruglevering: 1000 });
+  assert.equal(meer.overschot, 3000);
+  assert.ok(meer.opbrengstZelf > minder.opbrengstZelf);
+  assert.equal(meer.metJaarnota.teruglevering, true);
+  assert.equal(Rekenkern.bereken(basis).metJaarnota.teruglevering, false);
+});
+
+test("de afname begrenst wat de batterij per dag kan vervangen", () => {
+  const r = Rekenkern.bereken({ capaciteit: 10, investering: 5000, afname: 730 });
+  assert.equal(r.maxOntladingPerDag, 2);
+  assert.equal(r.teGroot, true, "10 kWh bij 2 kWh afname per dag is te groot");
+});
+
+test("zonder panelen telt een ingevulde teruglevering niet", () => {
+  const r = Rekenkern.bereken({ heeftPv: false, contract: "dynamisch", capaciteit: 5, investering: 2500, teruglevering: 3000 });
+  assert.equal(r.overschot, 0);
+  assert.equal(r.metJaarnota.teruglevering, false);
+});
+
+test("overstappen rekent met de teruglevering van de jaarnota", () => {
+  const z = Rekenkern.zonderBatterij({ capaciteit: 5, investering: 2500, terugleverKosten: 0.12, terugleverVergoeding: 0.05, teruglevering: 1000 });
+  assert.equal(z.teruggeleverd, 1000);
+});
