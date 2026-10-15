@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistieken | Batterijmaatje.nl</title>
+  <meta name="robots" content="noindex">
+  <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="assets/style.css?v=20261015a">
+  <script src="assets/nav.js?v=20261015a" defer></script>
+  <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/assets/teller.js?v=20261015a"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="index.html">
+      <span class="logo-icoon"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 7-3 5h4l-3 5" /> <path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935" /> <path d="M22 14v-4" /> <path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936" /></svg></span>
+      <span>Batterij<b>maatje</b></span>
+    </a>
+    <button class="menu-knop" type="button" aria-expanded="false" aria-controls="hoofdnav" aria-label="Menu openen"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></svg></button>
+    <nav class="hoofdnav" id="hoofdnav">
+      <a href="index.html">Thuisbatterijen</a>
+      <a href="advies.html">Keuzehulp</a>
+      <a href="rekenmodule.html">Terugverdientijd</a>
+      <a href="uitleg.html">Uitleg</a>
+      <details class="nav-meer">
+        <summary>Meer ▾</summary>
+        <div class="nav-meer-paneel">
+          <a href="regelgeving.html">Regels &amp; subsidies</a>
+          <a href="thuisbatterij-met-stekker.html">Batterij met stekker</a>
+          <a href="wat-kost-een-thuisbatterij.html">Wat kost er een?</a>
+          <a href="nu-kopen-of-wachten.html">Nu kopen of wachten?</a>
+          <a href="beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a>
+          <a href="beste-thuisbatterij-homey.html">Beste voor Homey</a>
+          <a href="over-ons.html">Over mij</a>
+          <a href="contact.html">Contact</a>
+          <a href="steun.html" class="nav-steun"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></svg> Steun deze site</a>
+        </div>
+      </details>
+    </nav>
+  </div>
+</header>
+
+<main class="content-pagina statistieken">
+  <style>
+    .statistieken { max-width: 72rem; }
+    .st-form { display: flex; flex-wrap: wrap; gap: .75rem; align-items: end; margin: 1rem 0 1.5rem; }
+    .st-form label { display: grid; gap: .25rem; font-size: .9rem; color: var(--kleur-tekst-licht); }
+    .st-form input, .st-form select { font: inherit; padding: .45rem .6rem; border: 1px solid var(--kleur-rand); border-radius: 6px; background: var(--kleur-wit); color: var(--kleur-tekst); }
+    .st-melding { color: var(--kleur-tekst-licht); }
+    .st-melding.st-fout { color: var(--kleur-rood); }
+    .st-tegels { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); margin: 1rem 0; }
+    .st-kaart { border: 1px solid var(--kleur-rand); border-radius: 8px; padding: 1rem; background: var(--kleur-wit); min-width: 0; }
+    .st-kaart h3 { margin: 0 0 .5rem; font-size: 1rem; }
+    .st-getal { font-size: 1.8rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .st-sub { color: var(--kleur-tekst-licht); font-size: .85rem; margin: .25rem 0 0; }
+    .st-raster { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+    .st-tabel { width: 100%; border-collapse: collapse; font-size: .85rem; font-variant-numeric: tabular-nums; table-layout: fixed; }
+    .st-tabel th, .st-tabel td { padding: .3rem 0 .3rem .5rem; text-align: right; border-bottom: 1px solid var(--kleur-rand); }
+    .st-tabel th:first-child, .st-tabel td:first-child { text-align: left; padding-left: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 55%; }
+    .st-tabel th { color: var(--kleur-tekst-licht); font-weight: 600; }
+    .st-balk { display: flex; height: .9rem; border-radius: 4px; overflow: hidden; background: var(--kleur-rand); margin: .4rem 0; }
+    .st-balk span { display: block; height: 100%; }
+    .st-legenda { display: flex; flex-wrap: wrap; gap: .25rem .75rem; font-size: .8rem; color: var(--kleur-tekst-licht); }
+    .st-legenda i { display: inline-block; width: .7rem; height: .7rem; border-radius: 2px; margin-right: .3rem; vertical-align: -1px; }
+    .st-grafiek svg { display: block; width: 100%; height: auto; }
+    .st-leeg { color: var(--kleur-tekst-licht); font-size: .85rem; }
+  </style>
+
+  <h1>Statistieken</h1>
+  <p class="st-melding">Bezoek, doorklikken en leestijd van de drie maatjes. Alleen voor de beheerder.</p>
+
+  <form class="st-form" id="st-form" autocomplete="on">
+    <label>Wachtwoord <input id="st-wachtwoord" type="password" autocomplete="current-password" required></label>
+    <label>Periode
+      <select id="st-dagen"><option value="7">7 dagen</option><option value="14">14 dagen</option><option value="30">30 dagen</option></select>
+    </label>
+    <button class="knop" type="submit">Bekijken</button>
+  </form>
+  <p class="st-melding" id="st-status" role="status"></p>
+  <div id="st-uitkomst" hidden></div>
+
+  <script>
+  (function () {
+    "use strict";
+    var KLEUR = { bat: "#0f766e", pomp: "#b45309", zon: "#2563eb" };
+    var NAAM = { bat: "Batterijmaatje", pomp: "Warmtepompmaatje", zon: "Zonnestroommaatje" };
+    var BLOKJES = ["0-10s", "10-30s", "30s-2m", "2-10m", "10m+"];
+    var BLOKKLEUR = ["#cbd5e1", "#94a3b8", "#0f766e", "#0b5a54", "#063b37"];
+    var getal = new Intl.NumberFormat("nl-NL");
+    var dagFmt = new Intl.DateTimeFormat("nl-NL", { day: "numeric", month: "short", timeZone: "UTC" });
+    var form = document.getElementById("st-form");
+    var veld = document.getElementById("st-wachtwoord");
+    var dagenVeld = document.getElementById("st-dagen");
+    var status = document.getElementById("st-status");
+    var uit = document.getElementById("st-uitkomst");
+
+    try { var bewaard = sessionStorage.getItem("st-wachtwoord"); if (bewaard) { veld.value = bewaard; } } catch (e) {}
+
+    function el(tag, attrs, kinderen) {
+      var n = document.createElement(tag);
+      if (attrs) for (var k in attrs) { if (k === "tekst") n.textContent = attrs[k]; else n.setAttribute(k, attrs[k]); }
+      (kinderen || []).forEach(function (c) { if (c) n.append(c); });
+      return n;
+    }
+    function tabel(koppen, rijen) {
+      if (!rijen.length) return el("p", { "class": "st-leeg", tekst: "Nog niets gemeten in deze periode." });
+      var t = el("table", { "class": "st-tabel" });
+      t.append(el("thead", null, [el("tr", null, koppen.map(function (k) { return el("th", { tekst: k }); }))]));
+      t.append(el("tbody", null, rijen.map(function (r) {
+        return el("tr", null, r.map(function (c) { var td = el("td", { tekst: c }); td.title = c; return td; }));
+      })));
+      return t;
+    }
+    function kaart(titel, inhoud) { return el("section", { "class": "st-kaart" }, [el("h3", { tekst: titel })].concat(inhoud)); }
+    function tijdTekst(sec) {
+      if (!isFinite(sec)) return "-";
+      sec = Math.round(sec);
+      return sec < 60 ? sec + " s" : Math.floor(sec / 60) + " min " + (sec % 60) + " s";
+    }
+
+    function grafiek(sites, lijst) {
+      var W = 640, H = 200, ml = 36, mr = 8, mt = 8, mb = 22;
+      var max = 1;
+      sites.forEach(function (s) { (s.perDag || []).forEach(function (r) { if (r.bezoekers > max) max = r.bezoekers; }); });
+      var x = function (i) { return ml + (lijst.length > 1 ? i * (W - ml - mr) / (lijst.length - 1) : 0); };
+      var y = function (v) { return mt + (H - mt - mb) * (1 - v / max); };
+      var ns = "http://www.w3.org/2000/svg";
+      var svg = document.createElementNS(ns, "svg");
+      svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+      svg.setAttribute("role", "img");
+      svg.setAttribute("aria-label", "Bezoekers per dag per site");
+      function lijn(x1, y1, x2, y2, kleur) { var l = document.createElementNS(ns, "line"); l.setAttribute("x1", x1); l.setAttribute("y1", y1); l.setAttribute("x2", x2); l.setAttribute("y2", y2); l.setAttribute("stroke", kleur); svg.append(l); }
+      function tekst(xp, yp, t, anker) { var e = document.createElementNS(ns, "text"); e.setAttribute("x", xp); e.setAttribute("y", yp); e.setAttribute("font-size", "11"); e.setAttribute("fill", "currentColor"); e.setAttribute("text-anchor", anker || "middle"); e.textContent = t; svg.append(e); }
+      [0, Math.round(max / 2), max].forEach(function (v) { lijn(ml, y(v), W - mr, y(v), "#e2e8f0"); tekst(ml - 6, y(v) + 4, getal.format(v), "end"); });
+      var stap = Math.ceil(lijst.length / 6);
+      lijst.forEach(function (d, i) { if (i % stap === 0) tekst(x(i), H - 6, dagFmt.format(new Date(d + "T00:00:00Z"))); });
+      sites.forEach(function (s) {
+        if (!s.perDag) return;
+        var per = {}; s.perDag.forEach(function (r) { per[r.dag] = r.bezoekers; });
+        var p = document.createElementNS(ns, "polyline");
+        p.setAttribute("points", lijst.map(function (d, i) { return x(i) + "," + y(per[d] || 0); }).join(" "));
+        p.setAttribute("fill", "none"); p.setAttribute("stroke", KLEUR[s.id]); p.setAttribute("stroke-width", "2"); p.setAttribute("stroke-linejoin", "round");
+        svg.append(p);
+      });
+      return el("div", { "class": "st-grafiek" }, [svg]);
+    }
+    function legenda(ids) {
+      return el("p", { "class": "st-legenda" }, ids.map(function (id, i) {
+        var kleur = typeof id === "string" && KLEUR[id] ? KLEUR[id] : BLOKKLEUR[i];
+        var i2 = el("i"); i2.style.background = kleur;
+        return el("span", null, [i2, document.createTextNode(NAAM[id] || id)]);
+      }));
+    }
+    function verdeling(blokjes, n) {
+      var balk = el("div", { "class": "st-balk", role: "img", "aria-label": "Verdeling van de leestijd" });
+      BLOKJES.forEach(function (b, i) { var s = el("span"); s.style.width = (n ? 100 * (blokjes[b] || 0) / n : 0) + "%"; s.style.background = BLOKKLEUR[i]; s.title = b + ": " + (blokjes[b] || 0); balk.append(s); });
+      return balk;
+    }
+
+    function toon(d) {
+      uit.replaceChildren();
+      var lijst = d.periode.lijst;
+      var som = { b: 0, w: 0 };
+      var tegels = el("div", { "class": "st-tegels" });
+      d.sites.forEach(function (s) {
+        if (s.totaal) { som.b += s.totaal.bezoekers; som.w += s.totaal.weergaven; }
+        tegels.append(kaart(s.naam, s.fout ? [el("p", { "class": "st-melding st-fout", tekst: "Niet geladen: " + s.fout })] : [
+          el("div", { "class": "st-getal", tekst: getal.format(s.totaal.bezoekers) }),
+          el("p", { "class": "st-sub", tekst: "bezoekers, " + getal.format(s.totaal.weergaven) + " weergaven" })]));
+      });
+      tegels.prepend(kaart("Samen, laatste " + d.periode.dagen + " dagen", [
+        el("div", { "class": "st-getal", tekst: getal.format(som.b) }),
+        el("p", { "class": "st-sub", tekst: "bezoekers, " + getal.format(som.w) + " weergaven" })]));
+      uit.append(el("h2", { tekst: "Bezoek" }), tegels,
+        kaart("Bezoekers per dag", [legenda(["bat", "pomp", "zon"]), grafiek(d.sites, lijst)]));
+
+      // Doorklikken
+      var t = d.teller || {};
+      uit.append(el("h2", { tekst: "Waar ze naartoe gaan" }));
+      if (!t.ingesteld) {
+        uit.append(el("p", { "class": "st-melding", tekst: "De eigen teller heeft nog geen opslag. Koppel Upstash Redis aan het project batterijmaatje in Vercel." }));
+      } else if (t.fout) {
+        uit.append(el("p", { "class": "st-melding st-fout", tekst: "Niet geladen: " + t.fout }));
+      } else {
+        var perDomein = {}, perProduct = {};
+        t.kliks.forEach(function (k) {
+          perDomein[k.domein] = (perDomein[k.domein] || 0) + k.aantal;
+          if (k.product) { var s = NAAM[k.site] + " | " + k.product; perProduct[s] = perProduct[s] || {}; perProduct[s][k.domein] = (perProduct[s][k.domein] || 0) + k.aantal; }
+        });
+        var domeinRijen = Object.keys(perDomein).sort(function (a, b) { return perDomein[b] - perDomein[a]; }).slice(0, 15)
+          .map(function (k) { return [k, getal.format(perDomein[k])]; });
+        var productRijen = Object.keys(perProduct).map(function (k) {
+          var dom = perProduct[k], tot = 0, top = "";
+          Object.keys(dom).forEach(function (w) { tot += dom[w]; if (!top || dom[w] > dom[top]) top = w; });
+          return [k, top, tot];
+        }).sort(function (a, b) { return b[2] - a[2]; }).slice(0, 15).map(function (r) { return [r[0], r[1], getal.format(r[2])]; });
+        uit.append(el("div", { "class": "st-raster" }, [
+          kaart("Naar welke sites", [tabel(["Domein", "Klikken"], domeinRijen)]),
+          kaart("Vanaf welk product", [tabel(["Site en product", "Meest naar", "Klikken"], productRijen)])]));
+      }
+
+      // Verblijfstijd
+      uit.append(el("h2", { tekst: "Hoe lang ze blijven" }));
+      if (t.ingesteld && !t.fout) {
+        var perSite = {};
+        t.tijd.forEach(function (r) {
+          var s = perSite[r.site] = perSite[r.site] || { n: 0, sec: 0, blokjes: {} };
+          s.n += r.n; s.sec += r.sec;
+          BLOKJES.forEach(function (b) { s.blokjes[b] = (s.blokjes[b] || 0) + (r.blokjes[b] || 0); });
+        });
+        var kaarten = ["bat", "pomp", "zon"].map(function (id) {
+          var s = perSite[id];
+          if (!s || !s.n) return kaart(NAAM[id], [el("p", { "class": "st-leeg", tekst: "Nog niets gemeten in deze periode." })]);
+          return kaart(NAAM[id], [
+            el("div", { "class": "st-getal", tekst: tijdTekst(s.sec / s.n) }),
+            el("p", { "class": "st-sub", tekst: "gemiddeld per pagina, over " + getal.format(s.n) + " paginabezoeken" }),
+            verdeling(s.blokjes, s.n)]);
+        });
+        uit.append(legenda(BLOKJES), el("div", { "class": "st-tegels" }, kaarten));
+        var paginaRijen = t.tijd.slice(0, 20).map(function (r) {
+          var lang = (r.blokjes["30s-2m"] || 0) + (r.blokjes["2-10m"] || 0) + (r.blokjes["10m+"] || 0);
+          return [NAAM[r.site] + " " + r.pagina, getal.format(r.n), tijdTekst(r.sec / r.n), Math.round(100 * lang / r.n) + "%"];
+        });
+        uit.append(kaart("Per pagina", [tabel(["Pagina", "Bezoeken", "Gemiddeld", "Langer dan 30 s"], paginaRijen)]));
+      }
+
+      // Per site
+      uit.append(el("h2", { tekst: "Per site" }));
+      uit.append(el("div", { "class": "st-raster" }, d.sites.filter(function (s) { return !s.fout; }).map(function (s) {
+        return kaart(s.naam, [
+          el("h4", { tekst: "Meest gelezen" }),
+          tabel(["Pagina", "Bezoekers", "Weergaven"], s.paginas.map(function (r) { return [r.pagina === "Others" ? "Overige" : r.pagina, getal.format(r.bezoekers), getal.format(r.weergaven)]; })),
+          el("h4", { tekst: "Komt vandaan" }),
+          tabel(["Site", "Bezoekers", "Weergaven"], s.herkomst.map(function (r) { return [r.herkomst || "Direct of onbekend", getal.format(r.bezoekers), getal.format(r.weergaven)]; })),
+          el("h4", { tekst: "Apparaat" }),
+          tabel(["Soort", "Bezoekers", "Weergaven"], s.apparaat.map(function (r) { return [({ desktop: "Computer", mobile: "Telefoon", tablet: "Tablet" })[r.apparaat] || r.apparaat || "Onbekend", getal.format(r.bezoekers), getal.format(r.weergaven)]; }))]);
+      })));
+      if (d.fouten && d.fouten.length) uit.append(el("p", { "class": "st-melding st-fout", tekst: "Niet alles kwam binnen: " + d.fouten.join("; ") }));
+      uit.hidden = false;
+    }
+
+    async function laad() {
+      status.classList.remove("st-fout");
+      status.textContent = "Bezig met ophalen...";
+      try {
+        var res = await fetch("/api/statistieken", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ wachtwoord: veld.value, dagen: Number(dagenVeld.value) }) });
+        var d = await res.json().catch(function () { return {}; });
+        if (!res.ok) { status.classList.add("st-fout"); status.textContent = d.fout || ("Er ging iets mis (HTTP " + res.status + ")."); uit.hidden = true; return; }
+        try { sessionStorage.setItem("st-wachtwoord", veld.value); } catch (e) {}
+        status.textContent = "Bijgewerkt om " + new Date().toLocaleTimeString("nl-NL", { hour: "2-digit", minute: "2-digit" }) + ".";
+        toon(d);
+      } catch (e) {
+        status.classList.add("st-fout");
+        status.textContent = "Kon de gegevens niet ophalen. Controleer je verbinding en probeer het opnieuw.";
+      }
+    }
+    form.addEventListener("submit", function (e) { e.preventDefault(); laad(); });
+    dagenVeld.addEventListener("change", function () { if (veld.value) laad(); });
+    if (veld.value) laad();
+  })();
+  </script>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <b><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 7-3 5h4l-3 5" /> <path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935" /> <path d="M22 14v-4" /> <path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936" /></svg> Batterijmaatje</b>
+    <p><a href="index.html">Thuisbatterijen</a> · <a href="uitleg.html">Uitleg</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="regelgeving.html">Regels &amp; subsidies</a> · <a href="beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="over-ons.html">Over mij</a> · <a href="contact.html">Contact</a> · <a href="steun.html">Steun deze site</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

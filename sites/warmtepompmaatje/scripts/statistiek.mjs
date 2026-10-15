@@ -21,10 +21,21 @@ import { join } from "node:path";
 
 export const STATISTIEK_TAG = '<script defer src="/_vercel/insights/script.js"></script>';
 
-/** De pagina met de tag erin, vlak voor </head>. Verandert niets als hij er al staat. */
-export function metStatistiek(html) {
-  if (html.includes(STATISTIEK_TAG) || !html.includes("</head>")) return html;
-  return html.replace("</head>", `  ${STATISTIEK_TAG}\n</head>`);
+/* De eigen teller voor doorklikken en verblijfstijd (assets/teller.js), met
+   het ?v=-stempel van de site zodat 'npm run stempel' hem meeneemt. */
+export const TELLER_PATROON = /<script defer src="\/assets\/teller\.js\?v=[A-Za-z0-9]+"><\/script>/;
+export const tellerTag = (versie) => `<script defer src="/assets/teller.js?v=${versie}"></script>`;
+
+/**
+ * De pagina met beide tags erin, vlak voor </head>. Verandert niets als ze er
+ * al staan. Zonder versie komt alleen de tag van Vercel erin.
+ */
+export function metStatistiek(html, versie) {
+  if (!html.includes("</head>")) return html;
+  let uit = html;
+  if (!uit.includes(STATISTIEK_TAG)) uit = uit.replace("</head>", `  ${STATISTIEK_TAG}\n</head>`);
+  if (versie && !TELLER_PATROON.test(uit)) uit = uit.replace("</head>", `  ${tellerTag(versie)}\n</head>`);
+  return uit;
 }
 
 /** Alle .html-bestanden van een site, zonder node_modules en verborgen mappen. */
@@ -42,12 +53,12 @@ export function htmlBestanden(root) {
   return uit;
 }
 
-/** Zet de tag op elke pagina van de site. Geeft het aantal aangepaste pagina's. */
-export function zetStatistiekOveral(root) {
+/** Zet de tags op elke pagina van de site. Geeft het aantal aangepaste pagina's. */
+export function zetStatistiekOveral(root, versie) {
   let aangepast = 0;
   for (const pad of htmlBestanden(root)) {
     const oud = readFileSync(pad, "utf8");
-    const nieuw = metStatistiek(oud);
+    const nieuw = metStatistiek(oud, versie);
     if (nieuw !== oud) { writeFileSync(pad, nieuw, "utf8"); aangepast++; }
   }
   return aangepast;

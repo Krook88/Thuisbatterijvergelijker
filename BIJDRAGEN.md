@@ -331,6 +331,15 @@ komen, land, apparaat en browser. Op het gratis abonnement gaat het dashboard
   `kern/scripts/statistiek.mjs`. De proef "elke pagina van deze site telt mee"
   faalt als er een pagina zonder staat.
 - Het dashboard toont standaard de productieomgeving; bezoeken aan een preview tellen daar niet mee.
-- Wat er gemeten wordt, staat op `privacy.html` van elke site. Meet je meer
-  (bijvoorbeeld klikken op een winkelknop), pas dan eerst die pagina aan.
+- Doorklikken naar andere sites en de leestijd per pagina telt een eigen
+  teller, want Vercel doet dat alleen in Pro: `assets/teller.js` (uit kern)
+  stuurt een kort bericht naar `batterijmaatje.nl/api/teller`, dat totalen per
+  dag optelt in Upstash Redis (`api/_opslag.js`). Zonder die opslag doet de
+  teller niets.
+- Alles samen staat op `batterijmaatje.nl/statistieken`, achter
+  `DASHBOARD_WACHTWOORD`. De functie `api/statistieken.js` haalt de
+  bezoekcijfers bij Vercel op met `STATISTIEK_TOKEN` (een toegangssleutel van
+  Vercel) en leest de eigen teller uit Redis.
+- Wat er gemeten wordt, staat op `privacy.html` van elke site. Meet je meer,
+  pas dan eerst die pagina aan.
 

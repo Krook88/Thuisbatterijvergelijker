@@ -1152,7 +1152,7 @@ const urls = [...vast, ...pompen.map((w) => ({ loc: `${SITE}/pomp/${w.id}.html`,
 // geschreven zijn (zie kern/scripts/statistiek.mjs). Vóór de sitemap, want die
 // vergelijkt de pagina's met gisteren, en zonder tag zou elke gegenereerde
 // pagina elke dag als veranderd gelden.
-const metTag = zetStatistiekOveral(ROOT);
+const metTag = zetStatistiekOveral(ROOT, ASSET_VERSIE);
 if (metTag) console.log(`statistiekscript op ${metTag} pagina('s) gezet`);
 const lastmodVoor = lastmodMaker(ROOT, SITE, STAND_VOOR, VANDAAG);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
