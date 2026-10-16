@@ -15,8 +15,8 @@
    ontvanger (batterijmaatje.nl/api/teller) telt alleen totalen per dag op.
    Zie privacy.html.
 
-   Staat "va-disable" in localStorage (gezet met #niet-tellen, zie
-   UITZET_TAG in scripts/statistiek.mjs), dan stuurt hij niets.
+   Staat het tellen uit voor deze browser (#niet-tellen, zie UITZET_TAG in
+   scripts/statistiek.mjs), dan stuurt hij niets.
    ========================================================================== */
 (function () {
   "use strict";
@@ -30,6 +30,7 @@
   if (!site) return;
 
   function uitgezet() {
+    if (typeof window.maatjeTeltNiet === "function") return window.maatjeTeltNiet();
     try { return !!localStorage.getItem("va-disable"); } catch (e) { return false; }
   }
 

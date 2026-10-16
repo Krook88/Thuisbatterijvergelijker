@@ -18,10 +18,10 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="stylesheet" href="assets/style.css?v=20261015g">
-  <script src="assets/nav.js?v=20261015g" defer></script>
-  <script src="assets/dagmaat.js?v=20261015g" defer></script>
-  <script src="assets/uitleg.js?v=20261015g" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20261016a">
+  <script src="assets/nav.js?v=20261016a" defer></script>
+  <script src="assets/dagmaat.js?v=20261016a" defer></script>
+  <script src="assets/uitleg.js?v=20261016a" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <style>
@@ -55,7 +55,7 @@
       "@id": "https://batterijmaatje.nl/uitleg.html#artikel",
       "headline": "Hoe werkt een thuisbatterij? Uitleg met actuele cijfers",
       "description": "Hoe een thuisbatterij werkt, of je zonnepanelen nodig hebt en of je hem moet aanmelden. Met de cijfers van 55 batterijen, elke dag bijgewerkt.",
-      "dateModified": "2026-10-15",
+      "dateModified": "2026-10-16",
       "inLanguage": "nl-NL",
       "mainEntityOfPage": "https://batterijmaatje.nl/uitleg.html",
       "author": {
@@ -396,9 +396,9 @@
   ]
 }
   </script>
-  <script>(function(){function t(){try{var h=location.hash;if(h=="#niet-tellen")localStorage.setItem("va-disable","1");else if(h=="#wel-tellen")localStorage.removeItem("va-disable")}catch(e){}}t();addEventListener("hashchange",t);window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){try{if(localStorage.getItem("va-disable"))return null}catch(x){}return e})})()</script>
+  <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261015g"></script>
+  <script defer src="/assets/teller.js?v=20261016a"></script>
 </head>
 <body>
 
@@ -436,7 +436,7 @@
 
   <h1>Hoe werkt een thuisbatterij? Eenvoudige uitleg</h1>
   <p class="intro">In gewone taal, zonder dat je iets van elektrotechniek hoeft te weten. Alle voorbeelden hieronder komen uit de <span data-cijfer="aantal">55</span> batterijen die op deze site staan, dus je kunt ze nalopen in de <a href="index.html">vergelijker</a>. Onderaan staan <span data-cijfer="woorden">33</span> woorden uitgelegd die je in folders en offertes tegenkomt.</p>
-  <p class="bijgewerkt-regel">Bijgewerkt op <time data-bijgewerkt data-stand="09e3b99c94b1" datetime="2026-10-15">15 oktober 2026</time>. Alle getallen komen elke dag vers uit de prijscontrole van de batterijen.</p>
+  <p class="bijgewerkt-regel">Bijgewerkt op <time data-bijgewerkt data-stand="91c9585ef64e" datetime="2026-10-16">16 oktober 2026</time>. Alle getallen komen elke dag vers uit de prijscontrole van de batterijen.</p>
 
   <div class="kort-antwoord" data-vraag="Hoe werkt een thuisbatterij?">
     <p class="kort-label">Kort antwoord</p>
@@ -446,7 +446,7 @@
   <!-- blok:markt -->
   <section class="markt" id="markt" aria-labelledby="markt-kop">
     <h2 id="markt-kop">De thuisbatterij in cijfers</h2>
-    <p class="markt-stand">De site rekent deze cijfers elke dag opnieuw uit de vergelijker. Laatst veranderd op <time datetime="2026-10-15">15 oktober 2026</time>.</p>
+    <p class="markt-stand">De site rekent deze cijfers elke dag opnieuw uit de vergelijker. Laatst veranderd op <time datetime="2026-10-16">16 oktober 2026</time>.</p>
     <dl class="markt-cijfers">
       <div class="markt-cijfer" id="cijfer-aantal"><dt>Thuisbatterijen in de vergelijker</dt><dd><span class="markt-getal">55</span><span class="markt-noot">42 met een actuele winkelprijs, 36 met stekker</span></dd></div>
       <div class="markt-cijfer" id="cijfer-per-kwh"><dt>Mediaanprijs per kWh opslag</dt><dd><span class="markt-getal">€ 357</span><span class="markt-noot">over 42 modellen met een winkelprijs, incl. btw</span></dd></div>

@@ -343,8 +343,12 @@ komen, land, apparaat en browser. Op het gratis abonnement gaat het dashboard
 - Eigen bezoeken tellen niet mee na `#niet-tellen` achter een adres: de
   browser krijgt `va-disable` in localStorage, de uitzetter vóór het script van
   Vercel laat dan alles vallen en de teller stuurt niets. `#wel-tellen` draait
-  het terug. De links per site staan op de statistiekenpagina, die zelf nooit
-  meetelt (`NIET_TELLEN` in `kern/scripts/statistiek.mjs`).
+  het terug. De statistiekenpagina, die zelf nooit meetelt (`NIET_TELLEN` in
+  `kern/scripts/statistiek.mjs`), heeft per site een schakelaar met de stand.
+  Voor de twee andere domeinen opent die een klein venster met
+  `privacy.html#niet-tellen`, `#wel-tellen` of `#teller-stand`; dat meldt de
+  stand terug aan batterijmaatje.nl en sluit zich. Op `privacy.html` staat de
+  stand ook, in het element met `data-teller-stand`.
 - Wat er gemeten wordt, staat op `privacy.html` van elke site. Meet je meer,
   pas dan eerst die pagina aan.
 

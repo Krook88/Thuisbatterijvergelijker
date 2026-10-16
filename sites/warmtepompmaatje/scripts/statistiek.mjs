@@ -27,8 +27,33 @@ export const STATISTIEK_TAG = '<script defer src="/_vercel/insights/script.js"><
    hieronder laat dan elk bericht vallen, zoals de uitleg van Vercel het doet
    (vercel.com/docs/analytics/redacting-sensitive-data). Dit moet vóór het
    script van Vercel staan, en niet uitgesteld, anders is de eerste
-   paginaweergave al weg. assets/teller.js kijkt naar dezelfde sleutel. */
-export const UITZET_TAG = '<script>(function(){function t(){try{var h=location.hash;if(h=="#niet-tellen")localStorage.setItem("va-disable","1");else if(h=="#wel-tellen")localStorage.removeItem("va-disable")}catch(e){}}t();addEventListener("hashchange",t);window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){try{if(localStorage.getItem("va-disable"))return null}catch(x){}return e})})()</script>';
+   paginaweergave al weg. assets/teller.js vraagt maatjeTeltNiet().
+
+   De schakelaar op batterijmaatje.nl/statistieken kan de opslag van de andere
+   twee domeinen niet lezen; die opent de site in een klein venster met een van
+   de drie adressen hieronder. Het venster meldt de stand terug aan
+   batterijmaatje.nl (postMessage, alleen naar dat domein) en sluit zich. Zo'n
+   bezoek telt zelf ook niet mee. Een element met data-teller-stand (op
+   privacy.html) krijgt de stand als tekst. */
+const UITZET_JS = [
+  '(function(){',
+  'var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;',
+  'function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}',
+  'function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";',
+  'document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}',
+  'function t(){var h=location.hash;',
+  'try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}',
+  'if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}',
+  'if(document.readyState!="loading")toon()}',
+  't();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);',
+  'window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};',
+  'window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};',
+  'window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})',
+  '})()',
+].join("");
+export const UITZET_TAG = `<script>${UITZET_JS}</script>`;
+/* Elke uitzetter, ook een oudere versie, zodat een nieuwe hem vervangt. */
+export const UITZET_PATROON = /<script>\(function\(\)\{[^\n]*va-disable[^\n]*<\/script>/;
 
 /* De eigen teller voor doorklikken en verblijfstijd (assets/teller.js), met
    het ?v=-stempel van de site zodat 'npm run stempel' hem meeneemt. */
@@ -44,7 +69,11 @@ export function metStatistiek(html, versie) {
   if (!html.includes("</head>")) return html;
   let uit = html;
   if (!uit.includes(STATISTIEK_TAG)) uit = uit.replace("</head>", `  ${STATISTIEK_TAG}\n</head>`);
-  if (!uit.includes(UITZET_TAG)) uit = uit.replace(STATISTIEK_TAG, `${UITZET_TAG}\n  ${STATISTIEK_TAG}`);
+  if (!uit.includes(UITZET_TAG)) {
+    uit = UITZET_PATROON.test(uit)
+      ? uit.replace(UITZET_PATROON, () => UITZET_TAG)
+      : uit.replace(STATISTIEK_TAG, () => `${UITZET_TAG}\n  ${STATISTIEK_TAG}`);
+  }
   if (versie && !TELLER_PATROON.test(uit)) uit = uit.replace("</head>", `  ${tellerTag(versie)}\n</head>`);
   return uit;
 }
@@ -58,7 +87,7 @@ export const NIET_TELLEN = new Set(["statistieken.html"]);
 export function zonderStatistiek(html) {
   return html
     .split("\n")
-    .filter((r) => !r.includes(STATISTIEK_TAG) && !r.includes(UITZET_TAG) && !TELLER_PATROON.test(r))
+    .filter((r) => !r.includes(STATISTIEK_TAG) && !UITZET_PATROON.test(r) && !TELLER_PATROON.test(r))
     .join("\n");
 }
 

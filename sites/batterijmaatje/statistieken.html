@@ -7,8 +7,8 @@
   <meta name="robots" content="noindex">
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="stylesheet" href="assets/style.css?v=20261015g">
-  <script src="assets/nav.js?v=20261015g" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20261016a">
+  <script src="assets/nav.js?v=20261016a" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
 </head>
@@ -84,13 +84,8 @@
   <div id="st-uitkomst" hidden></div>
 
   <h2>Mijn eigen bezoeken</h2>
-  <p class="st-melding">Per browser en per site uit te zetten. Een link opent de site in een nieuw tabblad en onthoudt de keuze op dit apparaat.</p>
-  <p class="st-melding" id="st-eigen"></p>
-  <div class="st-tegels">
-    <section class="st-kaart"><h3>Batterijmaatje</h3><p><a href="https://batterijmaatje.nl/#niet-tellen" target="_blank" rel="noopener">Niet meetellen</a> · <a href="https://batterijmaatje.nl/#wel-tellen" target="_blank" rel="noopener">Weer meetellen</a></p></section>
-    <section class="st-kaart"><h3>Warmtepompmaatje</h3><p><a href="https://warmtepompmaatje.nl/#niet-tellen" target="_blank" rel="noopener">Niet meetellen</a> · <a href="https://warmtepompmaatje.nl/#wel-tellen" target="_blank" rel="noopener">Weer meetellen</a></p></section>
-    <section class="st-kaart"><h3>Zonnestroommaatje</h3><p><a href="https://zonnestroommaatje.nl/#niet-tellen" target="_blank" rel="noopener">Niet meetellen</a> · <a href="https://zonnestroommaatje.nl/#wel-tellen" target="_blank" rel="noopener">Weer meetellen</a></p></section>
-  </div>
+  <p class="st-melding">Per site en per browser in te stellen. Voor warmtepompmaatje en zonnestroommaatje opent een knop die site heel even in een klein venster, want alleen daar kan de keuze bewaard worden. Sta pop-ups toe voor batterijmaatje.nl als er niets gebeurt.</p>
+  <div class="st-tegels" id="st-eigen"></div>
 
   <script>
   (function () {
@@ -109,15 +104,65 @@
 
     try { var bewaard = sessionStorage.getItem("st-wachtwoord"); if (bewaard) { veld.value = bewaard; } } catch (e) {}
 
-    function eigenStatus() {
-      var uit = false;
-      try { uit = !!localStorage.getItem("va-disable"); } catch (e) {}
-      document.getElementById("st-eigen").textContent = uit
-        ? "Op batterijmaatje.nl telt deze browser nu niet mee."
-        : "Op batterijmaatje.nl telt deze browser nu nog mee.";
+    /* Eigen bezoeken aan en uit. Batterijmaatje deelt de opslag met deze
+       pagina; de andere twee sites niet. Die openen in een klein venster met
+       #niet-tellen, #wel-tellen of #teller-stand, en melden de stand terug
+       (zie UITZET_TAG in scripts/statistiek.mjs). De laatst gemelde stand
+       blijft hier bewaard, met het tijdstip. */
+    var EIGEN = [
+      { host: "batterijmaatje.nl", naam: "Batterijmaatje", hier: true },
+      { host: "warmtepompmaatje.nl", naam: "Warmtepompmaatje" },
+      { host: "zonnestroommaatje.nl", naam: "Zonnestroommaatje" },
+    ];
+    var wacht = {};
+    var tijdFmt = new Intl.DateTimeFormat("nl-NL", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+    function stand(s) {
+      try {
+        if (s.hier) return { teller: localStorage.getItem("va-disable") ? "uit" : "aan" };
+        return JSON.parse(localStorage.getItem("st-stand-" + s.host) || "null");
+      } catch (e) { return null; }
     }
-    eigenStatus();
-    window.addEventListener("focus", eigenStatus);
+    function eigen() {
+      var vak = document.getElementById("st-eigen");
+      vak.replaceChildren();
+      EIGEN.forEach(function (s) {
+        var st = stand(s);
+        var tekst = wacht[s.host] === "tegen" ? "De browser hield het venster tegen. Sta pop-ups toe voor batterijmaatje.nl en probeer het opnieuw." :
+          wacht[s.host] ? "Even geduld, het venster meldt zo de stand." :
+          !st ? "Nog niet gecontroleerd op deze browser." :
+          (st.teller === "uit" ? "Telt niet mee." : "Telt mee.") + (st.tijd ? " Gemeld op " + tijdFmt.format(new Date(st.tijd)) + "." : "");
+        var knop = el("button", { "class": "knop", type: "button", tekst: st && st.teller === "uit" ? "Weer meetellen" : "Niet meetellen" });
+        knop.addEventListener("click", function () { zet(s, st && st.teller === "uit" ? "wel-tellen" : "niet-tellen"); });
+        var inhoud = [el("p", { "class": "st-getal", tekst: !st ? "?" : st.teller === "uit" ? "Uit" : "Aan" }), el("p", { "class": "st-sub", tekst: tekst }), knop];
+        if (!s.hier) {
+          var controle = el("button", { "class": "knop knop-secundair", type: "button", tekst: "Controleer" });
+          controle.addEventListener("click", function () { zet(s, "teller-stand"); });
+          inhoud.push(document.createTextNode(" "), controle);
+        }
+        vak.append(kaart(s.naam, inhoud));
+      });
+    }
+    function zet(s, wat) {
+      if (s.hier) {
+        try { if (wat === "niet-tellen") localStorage.setItem("va-disable", "1"); else localStorage.removeItem("va-disable"); } catch (e) {}
+        eigen();
+        return;
+      }
+      var venster = window.open("https://" + s.host + "/privacy.html#" + wat, "st-" + s.host, "width=480,height=360");
+      if (!venster) { wacht[s.host] = "tegen"; eigen(); return; }
+      wacht[s.host] = true;
+      eigen();
+      setTimeout(function () { if (wacht[s.host] === true) { wacht[s.host] = false; eigen(); } }, 8000);
+    }
+    window.addEventListener("message", function (e) {
+      var s = EIGEN.filter(function (x) { return e.origin === "https://" + x.host || e.origin === "https://www." + x.host; })[0];
+      if (!s || s.hier || !e.data || (e.data.teller !== "aan" && e.data.teller !== "uit")) return;
+      try { localStorage.setItem("st-stand-" + s.host, JSON.stringify({ teller: e.data.teller, tijd: Date.now() })); } catch (x) {}
+      wacht[s.host] = false;
+      eigen();
+    });
+    window.addEventListener("focus", eigen);
+    eigen();
 
     function el(tag, attrs, kinderen) {
       var n = document.createElement(tag);
