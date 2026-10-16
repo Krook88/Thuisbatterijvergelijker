@@ -51,6 +51,8 @@ const PAD = /^\/[A-Za-z0-9._\/-]{0,119}$/;
 /** De Redis-opdrachten voor één bericht, of null als het bericht niet deugt. */
 function teOpdrachten(g, dag) {
   if (!g || !SITES.has(g.s)) return null;
+  // De statistiekenpagina is voor de beheerder en telt niet mee.
+  if (/^\/statistieken(\.html)?$/.test(String(g.b || ""))) return null;
   if (g.t === "klik") {
     if (!DOMEIN.test(String(g.w || "")) || !PRODUCT.test(String(g.p || "")) || !PAD.test(String(g.b || ""))) return null;
     const sleutel = `klik:${dag}`;

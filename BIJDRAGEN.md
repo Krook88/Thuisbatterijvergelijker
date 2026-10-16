@@ -340,6 +340,22 @@ komen, land, apparaat en browser. Op het gratis abonnement gaat het dashboard
   `DASHBOARD_WACHTWOORD`. De functie `api/statistieken.js` haalt de
   bezoekcijfers bij Vercel op met `STATISTIEK_TOKEN` (een toegangssleutel van
   Vercel) en leest de eigen teller uit Redis.
+- Eigen bezoeken tellen niet mee na `#niet-tellen` achter een adres: de
+  browser krijgt `va-disable` in localStorage, de uitzetter vóór het script van
+  Vercel laat dan alles vallen en de teller stuurt niets. `#wel-tellen` draait
+  het terug. De statistiekenpagina, die zelf nooit meetelt (`NIET_TELLEN` in
+  `kern/scripts/statistiek.mjs`), heeft per site een schakelaar met de stand.
+  Voor de twee andere domeinen opent die een klein venster met
+  `privacy.html#niet-tellen`, `#wel-tellen` of `#teller-stand`; dat meldt de
+  stand terug aan batterijmaatje.nl en sluit zich. Op `privacy.html` staat de
+  stand ook, in het element met `data-teller-stand`.
+- Vercel bewaart op het gratis abonnement 31 dagen. Voor het verloop per week
+  kopieert `api/bewaar-bezoek.js` elke dag de dagcijfers naar Redis
+  (`bezoek:<site>`, zonder vervaldatum); de cron staat in `vercel.json` en het
+  dashboard doet het ook bij het openen, hooguit één keer per uur. De
+  statistiekenpagina zelf filtert `api/_bezoek.js` overal uit, ook uit de
+  totalen. Zet je `CRON_SECRET` in Vercel, dan accepteert de functie alleen
+  de aanroep van Vercel zelf.
 - Wat er gemeten wordt, staat op `privacy.html` van elke site. Meet je meer,
   pas dan eerst die pagina aan.
 

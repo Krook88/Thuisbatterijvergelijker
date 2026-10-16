@@ -14,6 +14,9 @@
    Geen cookies, niets op je apparaat, geen kenmerk dat jou herkent. De
    ontvanger (batterijmaatje.nl/api/teller) telt alleen totalen per dag op.
    Zie privacy.html.
+
+   Staat het tellen uit voor deze browser (#niet-tellen, zie UITZET_TAG in
+   scripts/statistiek.mjs), dan stuurt hij niets.
    ========================================================================== */
 (function () {
   "use strict";
@@ -26,7 +29,13 @@
   // Alleen de live sites tellen; een preview of een lokale kopie niet.
   if (!site) return;
 
+  function uitgezet() {
+    if (typeof window.maatjeTeltNiet === "function") return window.maatjeTeltNiet();
+    try { return !!localStorage.getItem("va-disable"); } catch (e) { return false; }
+  }
+
   function stuur(gegevens) {
+    if (uitgezet()) return;
     gegevens.s = site;
     var tekst = JSON.stringify(gegevens);
     try {
