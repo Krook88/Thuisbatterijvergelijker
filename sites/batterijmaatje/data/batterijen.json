@@ -2808,7 +2808,11 @@
       "vermogen_bron": "Dyness-datasheet: 7,168 kW aanbevolen laad- en ontlaadvermogen, 10,24 kW maximaal",
       "zoeknamen": [
         "Dyness thuisbatterij 16.1 kWh"
-      ]
+      ],
+      "afbeelding": "assets/producten/dyness-powerbrick-plus.webp",
+      "afbeelding_bron": "foto: solarboss.ie",
+      "afbeelding_herkomst": "https://solarboss.ie/cdn/shop/files/qianshi_1200x1200.png?v=1791978209",
+      "afbeelding_via": "https://solarboss.ie/products/dyness-powerbrick-plus-16-07kwh"
     },
     {
       "id": "dysun-flexvolt-one-lv",
