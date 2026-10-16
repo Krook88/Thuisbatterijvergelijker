@@ -3,6 +3,9 @@
   "framework": null,
   "cleanUrls": false,
   "trailingSlash": false,
+  "crons": [
+    { "path": "/api/bewaar-bezoek", "schedule": "23 4 * * *" }
+  ],
   "redirects": [
     {
       "source": "/statistieken",

@@ -12,20 +12,15 @@
      STATISTIEK_TOKEN      een toegangssleutel van Vercel (Account Settings ->
                            Tokens), met leesrechten op het team. VERCEL_TOKEN
                            werkt ook.
-   Plus de opslag uit api/_opslag.js voor doorklikken en verblijfstijd.
+   Plus de opslag uit api/_opslag.js voor doorklikken, verblijfstijd en het
+   verloop over langere tijd (zie api/_bezoek.js).
    ========================================================================== */
 
 "use strict";
 
 const crypto = require("node:crypto");
 const { instellingen, opdrachten } = require("./_opslag");
-
-const TEAM = "team_3Q2FvBRGQODhAhXNG1l8Rh5l";
-const SITES = [
-  { id: "bat", naam: "Batterijmaatje", project: "prj_zysv4GAPccLancOMdcQfFfYsOOZD" },
-  { id: "pomp", naam: "Warmtepompmaatje", project: "prj_DXkh8j1iPy1Wni7ZPSnMgkFi37sU" },
-  { id: "zon", naam: "Zonnestroommaatje", project: "prj_GMOVA08i5ouj51He5vIuuAn1mRt5" },
-];
+const { TEAM, SITES, niet, vercel, dagVan, bewaarHooguitPerUur, verloop } = require("./_bezoek");
 const PERIODES = [7, 14, 30];
 const BLOKJES = ["0-10s", "10-30s", "30s-2m", "2-10m", "10m+"];
 
@@ -66,19 +61,6 @@ function venster(dagen) {
   return { since: start.toISOString(), until: nu.toISOString(), dagen: lijst };
 }
 
-async function vercel(pad, params) {
-  const token = process.env.STATISTIEK_TOKEN || process.env.VERCEL_TOKEN;
-  if (!token) throw new Error("geen STATISTIEK_TOKEN ingesteld");
-  const zoek = new URLSearchParams();
-  for (const [k, v] of Object.entries(params)) for (const w of [].concat(v)) zoek.append(k, w);
-  const res = await fetch(`https://api.vercel.com${pad}?${zoek}`, {
-    headers: { Authorization: `Bearer ${token}` },
-    signal: AbortSignal.timeout(8000),
-  });
-  if (!res.ok) throw new Error(`Vercel gaf HTTP ${res.status}`);
-  return (await res.json()).data;
-}
-
 async function bezoek(site, v) {
   const basis = { projectId: site.project, teamId: TEAM, since: v.since, until: v.until };
   const per = (by, limit) => vercel("/v1/query/web-analytics/visits/aggregate", { ...basis, by, limit });
@@ -88,8 +70,8 @@ async function bezoek(site, v) {
   ]);
   return {
     totaal: { bezoekers: totaal.visitors || 0, weergaven: totaal.pageviews || 0 },
-    perDag: perDag.map((r) => ({ dag: String(r.timestamp || r.day || "").slice(0, 10), bezoekers: r.visitors, weergaven: r.pageviews })),
-    paginas: paginas.map((r) => ({ pagina: r.requestPath, bezoekers: r.visitors, weergaven: r.pageviews })),
+    perDag: perDag.map((r) => ({ dag: dagVan(r), bezoekers: r.visitors, weergaven: r.pageviews })),
+    paginas: paginas.filter((r) => !niet(r.requestPath)).map((r) => ({ pagina: r.requestPath, bezoekers: r.visitors, weergaven: r.pageviews })),
     herkomst: herkomst.map((r) => ({ herkomst: r.referrerHostname || "", bezoekers: r.visitors, weergaven: r.pageviews })),
     apparaat: apparaat.map((r) => ({ apparaat: r.deviceType || "", bezoekers: r.visitors, weergaven: r.pageviews })),
   };
@@ -108,6 +90,8 @@ async function eigenTeller(v) {
   const tijd = new Map();
   antwoorden.forEach((r, i) => {
     for (const [veld, n] of Object.entries(paren(r))) {
+      // De statistiekenpagina zelf telt niet; zie api/_bezoek.js.
+      if (niet(veld.split("|")[i % 2 === 0 ? 3 : 1])) continue;
       if (i % 2 === 0) {
         kliks.set(veld, (kliks.get(veld) || 0) + n);
       } else {
@@ -164,5 +148,12 @@ module.exports = async function handler(req, res) {
     fouten.push(`Eigen teller: ${f.message}`);
     teller = { ingesteld: true, fout: f.message };
   }
-  res.status(200).json({ periode: { dagen, since: v.since, until: v.until, lijst: v.dagen }, sites, teller, fouten });
+  let lang = null;
+  try {
+    await bewaarHooguitPerUur();
+    lang = await verloop();
+  } catch (f) {
+    fouten.push(`Verloop: ${f.message}`);
+  }
+  res.status(200).json({ periode: { dagen, since: v.since, until: v.until, lijst: v.dagen }, sites, teller, verloop: lang, fouten });
 };

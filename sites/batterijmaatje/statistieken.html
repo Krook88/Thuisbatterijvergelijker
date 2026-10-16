@@ -201,7 +201,7 @@
       function tekst(xp, yp, t, anker) { var e = document.createElementNS(ns, "text"); e.setAttribute("x", xp); e.setAttribute("y", yp); e.setAttribute("font-size", "11"); e.setAttribute("fill", "currentColor"); e.setAttribute("text-anchor", anker || "middle"); e.textContent = t; svg.append(e); }
       [0, Math.round(max / 2), max].forEach(function (v) { lijn(ml, y(v), W - mr, y(v), "#e2e8f0"); tekst(ml - 6, y(v) + 4, getal.format(v), "end"); });
       var stap = Math.ceil(lijst.length / 6);
-      lijst.forEach(function (d, i) { if (i % stap === 0) tekst(x(i), H - 6, dagFmt.format(new Date(d + "T00:00:00Z"))); });
+      lijst.forEach(function (d, i) { if (i % stap === 0) tekst(x(i), H - 6, dagFmt.format(new Date(d + "T00:00:00Z")), lijst.length > 1 && x(i) > W - mr - 30 ? "end" : "middle"); });
       sites.forEach(function (s) {
         if (!s.perDag) return;
         var per = {}; s.perDag.forEach(function (r) { per[r.dag] = r.bezoekers; });
@@ -209,9 +209,58 @@
         p.setAttribute("points", lijst.map(function (d, i) { return x(i) + "," + y(per[d] || 0); }).join(" "));
         p.setAttribute("fill", "none"); p.setAttribute("stroke", KLEUR[s.id]); p.setAttribute("stroke-width", "2"); p.setAttribute("stroke-linejoin", "round");
         svg.append(p);
+        if (lijst.length <= 16) lijst.forEach(function (d, i) {
+          var c = document.createElementNS(ns, "circle");
+          c.setAttribute("cx", x(i)); c.setAttribute("cy", y(per[d] || 0)); c.setAttribute("r", "4"); c.setAttribute("fill", KLEUR[s.id]);
+          var t = document.createElementNS(ns, "title"); t.textContent = NAAM[s.id] + ", " + dagFmt.format(new Date(d + "T00:00:00Z")) + ": " + getal.format(per[d] || 0);
+          c.append(t); svg.append(c);
+        });
       });
       return el("div", { "class": "st-grafiek" }, [svg]);
     }
+    /* Verloop per week, uit de dagcijfers die de site zelf bewaart (Vercel
+       houdt op het gratis abonnement maar 31 dagen bij). De dagen van de
+       gekozen periode komen er vers bij, zodat vandaag ook meetelt. */
+    function maandagVan(dag) {
+      var d = new Date(dag + "T00:00:00Z");
+      d.setUTCDate(d.getUTCDate() - (d.getUTCDay() + 6) % 7);
+      return d.toISOString().slice(0, 10);
+    }
+    function verloopKaart(d) {
+      if (!d.verloop) return kaart("Verloop per week", [el("p", { "class": "st-leeg", tekst: "Het verloop heeft de opslag nodig. Koppel Upstash Redis aan het project batterijmaatje in Vercel." })]);
+      var perSite = {}, eerste = null, laatste = null;
+      d.sites.forEach(function (s) {
+        var dagen = {};
+        (d.verloop[s.id] || []).forEach(function (r) { dagen[r.dag] = r.bezoekers; });
+        (s.perDag || []).forEach(function (r) { if (r.dag) dagen[r.dag] = r.bezoekers; });
+        var weken = {};
+        Object.keys(dagen).forEach(function (dag) {
+          var w = maandagVan(dag);
+          weken[w] = (weken[w] || 0) + (dagen[dag] || 0);
+          if (!eerste || dag < eerste) eerste = dag;
+          if (!laatste || dag > laatste) laatste = dag;
+        });
+        perSite[s.id] = weken;
+      });
+      if (!eerste) return kaart("Verloop per week", [el("p", { "class": "st-leeg", tekst: "Nog niets bewaard." })]);
+      var lijst = [];
+      for (var w = maandagVan(eerste); w <= maandagVan(laatste);) {
+        lijst.push(w);
+        var n = new Date(w + "T00:00:00Z"); n.setUTCDate(n.getUTCDate() + 7); w = n.toISOString().slice(0, 10);
+      }
+      var reeksen = d.sites.map(function (s) {
+        return { id: s.id, perDag: lijst.map(function (w) { return { dag: w, bezoekers: perSite[s.id][w] || 0 }; }) };
+      });
+      var rijen = lijst.slice().reverse().map(function (w) {
+        return [dagFmt.format(new Date(w + "T00:00:00Z"))].concat(reeksen.map(function (r) { return getal.format(perSite[r.id][w] || 0); }));
+      });
+      return kaart("Verloop per week, sinds " + dagFmt.format(new Date(eerste + "T00:00:00Z")), [
+        legenda(["bat", "pomp", "zon"]),
+        grafiek(reeksen, lijst),
+        el("p", { "class": "st-sub", tekst: "Bezoekers per dag, opgeteld per week (maandag tot en met zondag). Wie op twee dagen terugkomt, telt dus twee keer. De lopende week is nog niet compleet." }),
+        el("details", null, [el("summary", { tekst: "Als tabel" }), tabel(["Week van", "Batterij", "Warmtepomp", "Zonnestroom"], rijen)])]);
+    }
+
     function legenda(ids) {
       return el("p", { "class": "st-legenda" }, ids.map(function (id, i) {
         var kleur = typeof id === "string" && KLEUR[id] ? KLEUR[id] : BLOKKLEUR[i];
@@ -241,9 +290,13 @@
         el("p", { "class": "st-sub", tekst: "bezoekers, " + getal.format(som.w) + " weergaven" })]));
       uit.append(el("h2", { tekst: "Bezoek" }), tegels,
         kaart("Bezoekers per dag", [legenda(["bat", "pomp", "zon"]), grafiek(d.sites, lijst)]));
+      uit.append(verloopKaart(d));
 
       // Doorklikken
       var t = d.teller || {};
+      var stat = /^\/statistieken(\.html)?$/;
+      if (t.kliks) t.kliks = t.kliks.filter(function (k) { return !stat.test(k.pagina); });
+      if (t.tijd) t.tijd = t.tijd.filter(function (r) { return !stat.test(r.pagina); });
       uit.append(el("h2", { tekst: "Waar ze naartoe gaan" }));
       if (!t.ingesteld) {
         uit.append(el("p", { "class": "st-melding", tekst: "De eigen teller heeft nog geen opslag. Koppel Upstash Redis aan het project batterijmaatje in Vercel." }));

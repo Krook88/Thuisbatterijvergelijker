@@ -31,3 +31,9 @@ test("wat de teller niet herkent, telt niet", () => {
   assert.equal(teOpdrachten({ s: "bat", t: "iets", b: "/a" }, "d"), null);
   assert.equal(teOpdrachten(null, "d"), null);
 });
+
+test("de statistiekenpagina telt niet mee", () => {
+  assert.equal(teOpdrachten({ s: "bat", t: "tijd", b: "/statistieken.html", d: 20 }, "d"), null);
+  assert.equal(teOpdrachten({ s: "bat", t: "klik", w: "a.nl", p: "", b: "/statistieken" }, "d"), null);
+  assert.notEqual(teOpdrachten({ s: "bat", t: "tijd", b: "/statistieken-uitleg.html", d: 20 }, "d"), null);
+});

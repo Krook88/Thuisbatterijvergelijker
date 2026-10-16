@@ -349,6 +349,13 @@ komen, land, apparaat en browser. Op het gratis abonnement gaat het dashboard
   `privacy.html#niet-tellen`, `#wel-tellen` of `#teller-stand`; dat meldt de
   stand terug aan batterijmaatje.nl en sluit zich. Op `privacy.html` staat de
   stand ook, in het element met `data-teller-stand`.
+- Vercel bewaart op het gratis abonnement 31 dagen. Voor het verloop per week
+  kopieert `api/bewaar-bezoek.js` elke dag de dagcijfers naar Redis
+  (`bezoek:<site>`, zonder vervaldatum); de cron staat in `vercel.json` en het
+  dashboard doet het ook bij het openen, hooguit één keer per uur. De
+  statistiekenpagina zelf filtert `api/_bezoek.js` overal uit, ook uit de
+  totalen. Zet je `CRON_SECRET` in Vercel, dan accepteert de functie alleen
+  de aanroep van Vercel zelf.
 - Wat er gemeten wordt, staat op `privacy.html` van elke site. Meet je meer,
   pas dan eerst die pagina aan.
 
