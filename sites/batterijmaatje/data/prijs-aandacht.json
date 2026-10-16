@@ -1,34 +1,34 @@
 {
-  "bijgewerkt": "2026-10-15",
+  "bijgewerkt": "2026-10-16",
   "punten": {
     "onbereikbaar|saj-h2-5k-s2-10kwh|Thuisbatterij Outlet": {
       "sinds": "2026-10-15",
       "soort": "onbereikbaar",
       "tekst": "saj-h2-5k-s2-10kwh @ Thuisbatterij Outlet: HTTP 404",
-      "bevestigd": false
+      "bevestigd": true
     },
     "onbereikbaar|sungrow-sbr096|Thuisbatterij Outlet": {
       "sinds": "2026-10-15",
       "soort": "onbereikbaar",
       "tekst": "sungrow-sbr096 @ Thuisbatterij Outlet: HTTP 404",
-      "bevestigd": false
+      "bevestigd": true
     },
     "verouderd|anker-solix-solarbank-3-pro|richtprijs": {
       "sinds": "2026-10-06",
       "soort": "verouderd",
-      "tekst": "anker-solix-solarbank-3-pro @ richtprijs: €1199 (30 dagen)",
+      "tekst": "anker-solix-solarbank-3-pro @ richtprijs: €1199 (31 dagen)",
       "bevestigd": true
     },
     "verouderd|ecoflow-stream-ac-pro|richtprijs": {
       "sinds": "2026-08-26",
       "soort": "verouderd",
-      "tekst": "ecoflow-stream-ac-pro @ richtprijs: €700 (71 dagen)",
+      "tekst": "ecoflow-stream-ac-pro @ richtprijs: €700 (72 dagen)",
       "bevestigd": true
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (91 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (92 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
