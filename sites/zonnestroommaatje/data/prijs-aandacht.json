@@ -1,46 +1,46 @@
 {
-  "bijgewerkt": "2026-10-15",
+  "bijgewerkt": "2026-10-16",
   "punten": {
+    "onbereikbaar|enphase-iq8|Zonnige Winkel": {
+      "sinds": "2026-10-16",
+      "soort": "onbereikbaar",
+      "tekst": "enphase-iq8 @ Zonnige Winkel: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|goodwe-et|Zonnige Winkel": {
+      "sinds": "2026-10-16",
+      "soort": "onbereikbaar",
+      "tekst": "goodwe-et @ Zonnige Winkel: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|solaredge-home-wave|Zonnige Winkel": {
+      "sinds": "2026-10-16",
+      "soort": "onbereikbaar",
+      "tekst": "solaredge-home-wave @ Zonnige Winkel: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|solis-s6-hybride|Zonnige Winkel": {
+      "sinds": "2026-10-16",
+      "soort": "onbereikbaar",
+      "tekst": "solis-s6-hybride @ Zonnige Winkel: fetch failed",
+      "bevestigd": false
+    },
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (86 dagen)",
+      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (87 dagen)",
       "bevestigd": true
     },
     "verouderd|maxeon-6-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "maxeon-6-440 @ richtprijs: €230 (86 dagen)",
+      "tekst": "maxeon-6-440 @ richtprijs: €230 (87 dagen)",
       "bevestigd": true
     },
     "verouderd|ulica-440-full-black|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "ulica-440-full-black @ richtprijs: €55 (86 dagen)",
-      "bevestigd": true
-    },
-    "zonder prijs|enphase-iq8|Zonnige Winkel": {
-      "sinds": "2026-10-10",
-      "soort": "geweigerd",
-      "tekst": "enphase-iq8 @ Zonnige Winkel: HTTP 403",
-      "bevestigd": true
-    },
-    "zonder prijs|goodwe-et|Zonnige Winkel": {
-      "sinds": "2026-10-10",
-      "soort": "geweigerd",
-      "tekst": "goodwe-et @ Zonnige Winkel: HTTP 403",
-      "bevestigd": true
-    },
-    "zonder prijs|solaredge-home-wave|Zonnige Winkel": {
-      "sinds": "2026-10-10",
-      "soort": "geweigerd",
-      "tekst": "solaredge-home-wave @ Zonnige Winkel: HTTP 403",
-      "bevestigd": true
-    },
-    "zonder prijs|solis-s6-hybride|Zonnige Winkel": {
-      "sinds": "2026-10-10",
-      "soort": "geweigerd",
-      "tekst": "solis-s6-hybride @ Zonnige Winkel: HTTP 403",
+      "tekst": "ulica-440-full-black @ richtprijs: €55 (87 dagen)",
       "bevestigd": true
     }
   }
