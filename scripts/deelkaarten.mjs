@@ -48,6 +48,13 @@ const SITES = [
     kleur: { primair: "#0f766e", inkt: "#0a3733", accent: "#f59e0b" },
     soort: "Thuisbatterij",
     onderregel: "Prijzen per winkel, koppelingen en terugverdientijd",
+    uitslagen: {
+      "reken-loont": { doel: "rekenmodule.html", titel: "Een thuisbatterij verdient zich bij mij terug", toon: "ja" },
+      "reken-twijfel": { doel: "rekenmodule.html", titel: "Een thuisbatterij is bij mij een twijfelgeval", toon: "twijfel" },
+      "reken-niet": { doel: "rekenmodule.html", titel: "Een thuisbatterij loont bij mij (nog) niet", toon: "nee" },
+      "advies-match": { doel: "advies.html", titel: "Ik weet welke thuisbatterij bij mijn huis past", toon: "ja", woord: "Advies op maat" },
+      "advies-niet": { doel: "advies.html", titel: "Eerlijk advies: bij mij loont een thuisbatterij (nog) niet", toon: "nee" },
+    },
     titel: (b) => zonderHaakjes(naam(b)),
     feiten: (b) => [
       b.capaciteit_kwh && `${nl(b.capaciteit_kwh)} kWh bruikbaar`,
@@ -63,6 +70,13 @@ const SITES = [
     kleur: { primair: "#c2410c", inkt: "#431407", accent: "#f59e0b" },
     soort: "Warmtepomp",
     onderregel: "Prijs, ISDE-subsidie, geluid en slimme koppeling",
+    uitslagen: {
+      "reken-loont": { doel: "rekenmodule.html", titel: "Een warmtepomp verdient zich bij mij terug", toon: "ja" },
+      "reken-twijfel": { doel: "rekenmodule.html", titel: "Een warmtepomp is bij mij een twijfelgeval", toon: "twijfel" },
+      "reken-niet": { doel: "rekenmodule.html", titel: "Een warmtepomp verdient zich bij mij niet terug", toon: "nee" },
+      "advies-hybride": { doel: "advies.html", titel: "Bij mijn huis past een hybride warmtepomp", toon: "ja", woord: "Hybride" },
+      "advies-all-electric": { doel: "advies.html", titel: "Bij mijn huis past een all-electric warmtepomp", toon: "ja", woord: "All-electric" },
+    },
     titel: (w) => zonderHaakjes(naam(w)),
     feiten: (w) => [
       w.type === "hybride" ? "Hybride" : "All-electric",
@@ -78,6 +92,12 @@ const SITES = [
     kleur: { primair: "#0369a1", inkt: "#0b3a5c", accent: "#f59e0b" },
     soort: "Zonnepaneel",
     onderregel: "Prijzen per winkel, garantie en opbrengst",
+    uitslagen: {
+      "reken-loont": { doel: "rekenmodule.html", titel: "Zonnepanelen verdienen zich bij mij terug", toon: "ja" },
+      "reken-twijfel": { doel: "rekenmodule.html", titel: "Zonnepanelen zijn bij mij een twijfelgeval", toon: "twijfel" },
+      "reken-niet": { doel: "rekenmodule.html", titel: "Zonnepanelen verdienen zich bij mij niet terug", toon: "nee" },
+      "advies": { doel: "advies.html", titel: "Ik weet hoeveel zonnepanelen bij mijn huis passen", toon: "ja", woord: "Advies op maat" },
+    },
     titel: (p) => zonderHaakjes(naam(p)),
     feiten: (p) => [
       p.vermogen_wp && `${p.vermogen_wp} Wp`,
@@ -102,10 +122,32 @@ const alsData = (pad) => {
   return `data:${MIME[ext] || "application/octet-stream"};base64,${readFileSync(pad).toString("base64")}`;
 };
 
-function kaartHtml(cfg, p, siteMap, iconen) {
-  const feiten = cfg.feiten(p).filter(Boolean).slice(0, 3);
+/* Wat er op het plaatje van een product staat. */
+function productKaart(cfg, p, siteMap) {
   const foto = p.afbeelding && !/^https?:/i.test(p.afbeelding) && existsSync(join(siteMap, p.afbeelding))
-    ? alsData(join(siteMap, p.afbeelding)) : null;
+    ? join(siteMap, p.afbeelding) : null;
+  return { soort: cfg.soort, titel: cfg.titel(p), feiten: cfg.feiten(p).filter(Boolean).slice(0, 3),
+    onder: cfg.onderregel, foto, icoon: cfg.icoon };
+}
+
+/* En op dat van een uitslag. Eén plaatje per soort uitslag, niet per
+   berekening: deze sites hebben geen server die een plaatje met jouw getallen
+   tekent. De getallen staan in het bericht dat de deler meestuurt. */
+const TOON = {
+  ja: { icoon: "ja", kleur: "#15803d", vlak: "#dcfce7", woord: "Loont" },
+  twijfel: { icoon: "deels", kleur: "#b45309", vlak: "#fef3c7", woord: "Twijfelgeval" },
+  nee: { icoon: "nee", kleur: "#b91c1c", vlak: "#fee2e2", woord: "Loont (nog) niet" },
+};
+function uitslagKaart(cfg, u) {
+  return { soort: u.doel === "advies.html" ? "Uitslag keuzehulp" : "Uitslag rekenhulp", titel: u.titel, feiten: [],
+    onder: "Wat is het bij jou? Reken het na met je eigen getallen", foto: null,
+    icoon: TOON[u.toon].icoon, kleur: TOON[u.toon].kleur, vlak: TOON[u.toon].vlak,
+    woord: u.woord || TOON[u.toon].woord };
+}
+
+function kaartHtml(cfg, kaart, siteMap, iconen) {
+  const feiten = kaart.feiten;
+  const foto = kaart.foto ? alsData(kaart.foto) : null;
   const font = alsData(join(siteMap, "assets/fonts/figtree-variable.woff2"));
   const k = cfg.kleur;
   return `<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8"><style>
@@ -129,18 +171,21 @@ h1 { font-size: 64px; line-height: 1.05; font-weight: 800; margin-top: 14px; ove
   align-items: center; justify-content: center; overflow: hidden; }
 .beeld img { width: 100%; height: 100%; object-fit: contain; padding: 30px; }
 .beeld.leeg { background: rgba(255,255,255,.08); border: 2px solid rgba(255,255,255,.18); }
-.beeld.leeg svg { width: 220px; height: 220px; color: ${k.accent}; }
+.beeld.leeg svg { width: 220px; height: 220px; color: ${kaart.kleur || k.accent}; }
+.beeld.uitslag { background: ${kaart.vlak}; border: 0; flex-direction: column; gap: 18px; }
+.beeld.uitslag svg { width: 200px; height: 200px; }
+.woord { font-size: 46px; font-weight: 800; color: ${kaart.kleur}; text-align: center; padding: 0 24px; }
 </style></head><body>
 <div class="tekst">
-  <div class="soort">${esc(cfg.soort)}</div>
-  <h1 id="titel">${esc(cfg.titel(p))}</h1>
+  <div class="soort">${esc(kaart.soort)}</div>
+  <h1 id="titel">${esc(kaart.titel)}</h1>
   <div class="feiten">${feiten.map((f) => `<span class="feit">${esc(f)}</span>`).join("")}</div>
   <div class="voet">
-    <div class="onder">${esc(cfg.onderregel)}</div>
+    <div class="onder">${esc(kaart.onder)}</div>
     <div class="domein">${iconen.svg(cfg.icoon)}${esc(cfg.domein)}</div>
   </div>
 </div>
-<div class="beeld${foto ? "" : " leeg"}">${foto ? `<img src="${foto}" alt="">` : iconen.svg(cfg.icoon)}</div>
+<div class="beeld${foto ? "" : " leeg"}${kaart.kleur ? " uitslag" : ""}">${foto ? `<img src="${foto}" alt="">` : iconen.svg(kaart.icoon)}${kaart.woord ? `<div class="woord">${esc(kaart.woord)}</div>` : ""}</div>
 <script>
   /* Lange paneelnamen: maak de kop kleiner tot hij in drie regels past. */
   const h = document.getElementById("titel");
@@ -153,10 +198,57 @@ h1 { font-size: 64px; line-height: 1.05; font-weight: 800; margin-top: 14px; ove
 /* De vingerafdruk dekt alles wat op het plaatje komt, plus de opmaak zelf: een
    wijziging in dit script maakt dus vanzelf alle plaatjes opnieuw. */
 const SCRIPT_HASH = createHash("sha1").update(readFileSync(fileURLToPath(import.meta.url))).digest("hex");
-function vingerafdruk(cfg, p, siteMap) {
-  const h = createHash("sha1").update(SCRIPT_HASH).update(JSON.stringify([cfg.titel(p), cfg.feiten(p)]));
-  if (p.afbeelding && existsSync(join(siteMap, p.afbeelding))) h.update(readFileSync(join(siteMap, p.afbeelding)));
+function vingerafdruk(kaart) {
+  const h = createHash("sha1").update(SCRIPT_HASH).update(JSON.stringify(kaart));
+  if (kaart.foto) h.update(readFileSync(kaart.foto));
   return h.digest("hex").slice(0, 16);
+}
+
+/* Een gedeelde uitslag wijst naar /uitslag/<sleutel>.html met de invoer als
+   parameters. Die pagina is er alleen voor het voorbeeld in WhatsApp en
+   Facebook, die geen JavaScript draaien en dus de og-tags lezen. Een bezoeker
+   gaat meteen door naar de rekenhulp of keuzehulp, met dezelfde parameters,
+   en ziet daar de echte uitkomst - ook als iemand de link heeft aangepast. */
+function schrijfUitslagpaginas(cfg, siteMap, lijst) {
+  const map = join(siteMap, "uitslag");
+  mkdirSync(map, { recursive: true });
+  const site = `https://${cfg.domein.toLowerCase()}`;
+  const bekend = new Set();
+  for (const [sleutel, u] of Object.entries(cfg.uitslagen)) {
+    const id = `uitslag-${sleutel}`;
+    const hulp = u.doel === "advies.html" ? "keuzehulp" : "rekenhulp";
+    const omschrijving = `Iemand deelde de uitslag van de ${hulp} op ${cfg.domein}. Vul je eigen getallen in en zie wat het bij jou is. Gratis, zonder account.`;
+    const beeld = lijst[id] ? `${site}/assets/deel/${id}.jpg?v=${lijst[id]}` : `${site}/assets/og-image.png`;
+    bekend.add(`${sleutel}.html`);
+    writeFileSync(join(map, `${sleutel}.html`), `<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${esc(u.titel)}</title>
+  <meta name="robots" content="noindex, follow">
+  <meta name="description" content="${esc(omschrijving)}">
+  <link rel="canonical" href="${site}/${u.doel}">
+  <meta property="og:title" content="${esc(u.titel)}">
+  <meta property="og:description" content="${esc(omschrijving)}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${site}/uitslag/${sleutel}.html">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:image" content="${beeld}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="${esc(u.titel)}">
+  <meta property="og:site_name" content="${esc(cfg.domein)}">
+  <meta name="twitter:card" content="summary_large_image">
+  <script>location.replace("/${u.doel}" + location.search + location.hash);</script>
+</head>
+<body>
+  <p>Je wordt doorgestuurd naar de <a href="/${u.doel}">${hulp}</a>.</p>
+</body>
+</html>
+`);
+  }
+  for (const f of readdirSync(map)) if (!bekend.has(f)) rmSync(join(map, f));
 }
 
 let pw;
@@ -186,17 +278,27 @@ for (const cfg of SITES) {
   const metPagina = producten.filter((p) => existsSync(join(siteMap, cfg.map, `${p.id}.html`)));
   const ids = new Set(metPagina.map((p) => p.id));
 
-  for (const p of metPagina) {
-    if (ALLEEN.length && !ALLEEN.includes(p.id)) continue;
-    const afdruk = vingerafdruk(cfg, p, siteMap);
-    const doel = join(uitMap, `${p.id}.jpg`);
-    if (!ALLES && lijst[p.id] === afdruk && existsSync(doel)) { ongewijzigd++; continue; }
-    await pagina.setContent(kaartHtml(cfg, p, siteMap, iconen), { waitUntil: "load" });
+  // De kaart van een uitslag heet uitslag-<sleutel>, zodat hij nooit botst met
+  // een product-id.
+  const kaarten = [
+    ...metPagina.map((p) => [p.id, productKaart(cfg, p, siteMap)]),
+    ...Object.entries(cfg.uitslagen).map(([sleutel, u]) => [`uitslag-${sleutel}`, uitslagKaart(cfg, u)]),
+  ];
+  for (const [id] of kaarten) ids.add(id);
+
+  for (const [id, kaart] of kaarten) {
+    if (ALLEEN.length && !ALLEEN.includes(id)) continue;
+    const afdruk = vingerafdruk(kaart);
+    const doel = join(uitMap, `${id}.jpg`);
+    if (!ALLES && lijst[id] === afdruk && existsSync(doel)) { ongewijzigd++; continue; }
+    await pagina.setContent(kaartHtml(cfg, kaart, siteMap, iconen), { waitUntil: "load" });
     await pagina.evaluate(() => document.fonts.ready);
     writeFileSync(doel, await pagina.screenshot({ type: "jpeg", quality: 84 }));
-    lijst[p.id] = afdruk;
+    lijst[id] = afdruk;
     gemaakt++;
   }
+
+  schrijfUitslagpaginas(cfg, siteMap, lijst);
 
   // Plaatjes van producten die geen pagina meer hebben, ruimen we op.
   if (!ALLEEN.length) {

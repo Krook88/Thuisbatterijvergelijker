@@ -140,19 +140,6 @@
     return gezet;
   }
 
-  async function kopieerLink() {
-    const knop = el("deelKnop");
-    if (!knop) return;
-    try {
-      await navigator.clipboard.writeText(location.href);
-      knop.textContent = "Link gekopieerd";
-    } catch (err) {
-      // Zonder klembordrechten is de link nog steeds uit de adresbalk te halen.
-      knop.textContent = "Kopieer hem uit de adresbalk";
-    }
-    setTimeout(() => { knop.textContent = "Kopieer link naar deze berekening"; }, 2500);
-  }
-
   /* ------------------------------------------------------------------
      Invoer verzamelen en doorrekenen
      ------------------------------------------------------------------ */
@@ -207,8 +194,9 @@
     const tweede = tweedeBatterij
       ? { batterij: tweedeBatterij, resultaat: Rekenkern.bereken(invoerMetBatterij(i, tweedeBatterij)) }
       : null;
-    toonResultaat(Rekenkern.bereken(i), Rekenkern.bandbreedte(i), tweede);
+    // Eerst de adresbalk: de deellink onder de uitslag neemt die over.
     schrijfUrl();
+    toonResultaat(Rekenkern.bereken(i), Rekenkern.bandbreedte(i), tweede);
   }
 
   /* ------------------------------------------------------------------
@@ -301,6 +289,7 @@
     }
 
     let oordeel = "";
+    let bereikTekst = null;
     // Twee soorten meldingen: opvallende waarschuwingen die over déze invoer
     // gaan (max 1 a 2 gele kaders), en vaste kanttekeningen die bij elke
     // berekening gelden en compact in één inklapbaar blok staan.
@@ -320,6 +309,7 @@
             ? `${jaarFmt.format(band.laag)} tot ${jaarFmt.format(band.hoog)} jaar`
             : `vanaf ${jaarFmt.format(band.laag)} jaar`)
         : `${jaarFmt.format(t)} jaar`;
+      bereikTekst = bereik;
       oordeel = `<div style="font-size:var(--tekst-28);font-weight:800;color:${kleur};">${bereik}</div>
         <div class="datum-stempel">terugverdientijd, met ${eurFmt.format(r.totaal)} opbrengst per jaar (middenscenario ${jaarFmt.format(t)} jaar)</div>`;
       if (t > 15) waarschuwingen.push('De berekende terugverdientijd is langer dan de levensduur die vaak wordt aangehouden (10 tot 15 jaar). Met deze invoer verdient de batterij zichzelf waarschijnlijk niet terug. Lees ook: <a href="uitleg.html#waarom-toch">is een thuisbatterij het waard bij een lange terugverdientijd?</a>');
@@ -442,10 +432,26 @@
         <summary>Kanttekeningen bij deze berekening (${kanttekeningen.length})</summary>
         <ul>${kanttekeningen.map((k) => `<li>${k}</li>`).join("")}</ul>
       </details>` : ""}
-      <p style="margin: var(--ruimte-14) 0 0;"><button type="button" id="deelKnop" class="knop knop-secundair" style="font-size:var(--tekst-15);">Kopieer link naar deze berekening</button></p>
     `;
-    const deel = el("deelKnop");
-    if (deel) deel.addEventListener("click", kopieerLink);
+    deelUitslag(r, bereikTekst);
+  }
+
+  /* De uitslag doorsturen, ook als hij tegenvalt: "bij mij loont het niet"
+     is net zo goed iets wat de buurman wil weten. De drempels zijn die van
+     de kleur hierboven: groen tot 8 jaar, oranje tot 15, daarboven rood. */
+  function deelUitslag(r, bereikTekst) {
+    if (!window.Delen) return;
+    const t = r.terugverdientijd;
+    const b = gekozenBatterij;
+    const volledig = b && (b.model.toLowerCase().startsWith(b.merk.toLowerCase()) ? b.model : `${b.merk} ${b.model}`);
+    const naam = b ? `de ${volledig.replace(/\s*\([^)]*\)\s*$/, "")}` : "een thuisbatterij";
+    const sleutel = t == null || t > 15 ? "reken-niet" : t > 8 ? "reken-twijfel" : "reken-loont";
+    const kern = t == null
+      ? `met mijn getallen levert ${naam} per saldo niets op.`
+      : t > 15
+        ? `${naam} verdient zich bij mij pas in ${bereikTekst} terug, langer dan hij meegaat.`
+        : `${naam} verdient zich bij mij terug in ${bereikTekst} (${eurFmt.format(r.totaal)} per jaar).`;
+    Delen.uitslag(el("resultaat"), { sleutel, bericht: `Ik heb het nagerekend op Batterijmaatje: ${kern} Wat is het bij jou?` });
   }
 
   /* ------------------------------------------------------------------

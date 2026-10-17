@@ -337,9 +337,17 @@
       </div>
       <p class="hint" style="margin-top: var(--ruimte-10);">Dit advies is een startpunt, geen offerte of warmteverliesberekening. Laat een installateur altijd het vermogen bepalen; een te grote pomp pendelt en een te kleine wordt duur. <a href="javascript:window.print()">${Iconen.svg("printen")} Advies afdrukken</a></p>
     `;
+    if (window.Delen) {
+      Delen.schrijfUrl(el("adviesformulier"));
+      Delen.uitslag(el("adviesInhoud"), {
+        sleutel: advies.type === "hybride" ? "advies-hybride" : "advies-all-electric",
+        bericht: `Volgens de keuzehulp op Warmtepompmaatje past bij mijn huis een ${advies.type === "hybride" ? "hybride" : "all-electric"} warmtepomp, goed voor zo'n ${eurFmt.format(b.nettoPerJaar)} besparing per jaar. Wat is het bij jou?`,
+      });
+    }
   }
 
   async function init() {
+    if (window.Delen) Delen.onthoud(el("adviesformulier"));
     try {
       const res = await fetch("data/site/warmtepompen.json", { cache: "no-cache" });
       if (!res.ok) throw new Error("HTTP " + res.status);
@@ -352,6 +360,7 @@
       el("checkBatterij").addEventListener("change", startAdvies);
       const knop = document.querySelector("[data-start-advies]");
       if (knop) knop.addEventListener("click", startAdvies);
+      if (window.Delen && Delen.herstel(el("adviesformulier"))) startAdvies();
     } catch (err) {
       el("adviesInhoud").innerHTML = '<p class="hint">De gegevens konden niet worden geladen. Vernieuw de pagina of probeer het later opnieuw.</p>';
       console.error("Fout bij laden warmtepompen.json:", err);

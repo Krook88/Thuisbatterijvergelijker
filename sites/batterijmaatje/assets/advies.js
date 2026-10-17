@@ -466,6 +466,13 @@
     render();
   }
 
+  /* De uitslag doorsturen, ook het eerlijke "wacht nog even". */
+  function deel(doel, sleutel, kern) {
+    if (!window.Delen) return;
+    Delen.schrijfUrl(el("adviesFormulier"));
+    Delen.uitslag(doel, { sleutel, bericht: `${kern} Wat is het bij jou?` });
+  }
+
   function render() {
     if (!gestart) return;
     const doel = el("adviesResultaat");
@@ -478,6 +485,7 @@
         <div class="waarschuwing-kader"><b>Eerlijk advies: wacht nog even met een batterij.</b>
         Zonder zonnepanelen en zonder dynamisch energiecontract valt er niets op te slaan en geen prijsverschil te benutten; een thuisbatterij verdient zich dan vrijwel zeker niet terug.
         Overweeg eerst een dynamisch contract of zonnepanelen, en kom daarna terug. Lees ook <a href="regelgeving.html">wat de regels betekenen</a>.</div>`;
+      deel(doel, "advies-niet", "Eerlijk advies van de keuzehulp op Batterijmaatje: zonder zonnepanelen en zonder dynamisch contract loont een thuisbatterij bij mij niet.");
       return;
     }
 
@@ -496,6 +504,7 @@
         ${maat.dynamisch
           ? `Met je dynamische contract kan een batterij ook verdienen aan prijsverschillen tussen uren. Of dat genoeg is, reken je na in de <a href="rekenmodule.html">rekenhulp</a>.`
           : `Komen er meer panelen bij of stap je over op een dynamisch contract, kom dan terug. Wil je het toch narekenen? Gebruik de <a href="rekenmodule.html">rekenhulp</a>.`}</div>`;
+      deel(doel, "advies-niet", `Eerlijk advies van de keuzehulp op Batterijmaatje: met ${kwhFmt.format(maat.dagOverschotZomer)} kWh zonnestroom over op een zomerdag loont een thuisbatterij bij mij (nog) niet.`);
       return;
     }
 
@@ -559,6 +568,7 @@
       ${kaarten}
       <p class="advies-naar-vergelijker"><a href="index.html">Bekijk alle batterijen in de vergelijker</a></p>
     `;
+    deel(doel, "advies-match", `Volgens de keuzehulp op Batterijmaatje past bij mijn huis een thuisbatterij van ${kwhFmt.format(maat.laag)} tot ${kwhFmt.format(maat.hoog)} kWh${top.length ? `, bijvoorbeeld de ${top[0].b.merk} ${top[0].b.model}` : ""}.`);
   }
 
   /* ------------------------------------------------------------------
@@ -591,6 +601,7 @@
     } catch (err) {
       console.error("Batterijen konden niet geladen worden:", err);
     }
+    if (window.Delen) Delen.onthoud(el("adviesFormulier"));
     koppelPresets();
     document.querySelectorAll("#adviesFormulier input, #adviesFormulier select").forEach((inp) => {
       inp.addEventListener("input", startAdvies);
@@ -598,6 +609,8 @@
     });
     const knop = document.querySelector("[data-start-advies]");
     if (knop) knop.addEventListener("click", startAdvies);
+    // Een gedeelde uitslag: zet de antwoorden terug en toon meteen het advies.
+    if (window.Delen && Delen.herstel(el("adviesFormulier"))) startAdvies();
   }
 
   document.addEventListener("DOMContentLoaded", init);

@@ -417,9 +417,17 @@
 
       <p class="hint" style="margin-top: var(--ruimte-14);">Alle ${panelen.length} panelen zelf vergelijken? <a href="index.html">Naar de vergelijker ${Iconen.svg("pijl-rechts")}</a></p>
     `;
+    if (window.Delen) {
+      Delen.schrijfUrl(el("adviesformulier"));
+      Delen.uitslag(el("adviesInhoud"), {
+        sleutel: "advies",
+        bericht: `Volgens de keuzehulp op Zonnestroommaatje passen bij mijn huis ${aantalGeadviseerd} zonnepanelen (circa ${numFmt.format(wpGeadviseerd)} Wp), goed voor zo'n ${numFmt.format(opbrengst)} kWh per jaar. Wat is het bij jou?`,
+      });
+    }
   }
 
   async function init() {
+    if (window.Delen) Delen.onthoud(el("adviesformulier"));
     try {
       const res = await fetch("data/site/panelen.json", { cache: "no-cache" });
       if (!res.ok) throw new Error("HTTP " + res.status);
@@ -442,6 +450,7 @@
 
       const knop = document.querySelector("[data-start-advies]");
       if (knop) knop.addEventListener("click", startAdvies);
+      if (window.Delen && Delen.herstel(el("adviesformulier"))) startAdvies();
     } catch (err) {
       el("adviesInhoud").innerHTML = '<p class="hint">De paneelgegevens konden niet worden geladen. Vernieuw de pagina of probeer het later opnieuw.</p>';
       console.error("Fout bij laden panelen.json:", err);

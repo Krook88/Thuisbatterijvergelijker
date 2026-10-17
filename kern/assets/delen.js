@@ -11,6 +11,14 @@
 
    De link die gedeeld wordt is de canonieke URL, zonder parameters. Een klik
    op wa.me is een klik naar een andere site, dus die telt teller.js al mee.
+
+   Daarnaast de uitslag van de rekenhulp en de keuzehulp (window.Delen):
+   - schrijfUrl en herstel zetten de invoer van een formulier in de link en
+     halen hem er weer uit, zodat wie de link opent dezelfde uitslag ziet;
+   - uitslag zet onder een uitslag een deelblok. De link wijst naar
+     /uitslag/<sleutel>.html: een pagina met een voorbeeldplaatje dat bij de
+     soort uitslag past (loont, twijfelgeval, loont niet), die de bezoeker
+     meteen doorstuurt naar de hulp zelf. Zie scripts/deelkaarten.mjs.
    ========================================================================== */
 (function () {
   "use strict";
@@ -47,7 +55,9 @@
   }
 
   function zetOp(blok) {
-    var url = canoniek();
+    if (!blok || blok.__klaar) return;
+    blok.__klaar = true;
+    var url = blok.getAttribute("data-url") || canoniek();
     var tekst = blok.getAttribute("data-tekst") || document.title;
     var whatsapp = blok.querySelector(".delen-whatsapp");
     var kopieerKnop = blok.querySelector(".delen-kopieer");
@@ -76,6 +86,108 @@
       });
     }
   }
+
+  /* ------------------------------------------------------------------
+     Invoer van een formulier in de link
+     ------------------------------------------------------------------ */
+
+  // Elk veld krijgt als sleutel zijn id. Een vinkje zonder id (de apparaten
+  // op de keuzehulp van batterijmaatje) krijgt zijn volgnummer.
+  function velden(root) {
+    var lijst = [];
+    var naamloos = 0;
+    var alle = root.querySelectorAll("input, select, textarea");
+    for (var i = 0; i < alle.length; i++) {
+      var v = alle[i];
+      if (v.type === "button" || v.type === "submit" || v.type === "hidden") continue;
+      lijst.push([v.id || "v" + naamloos++, v]);
+    }
+    return lijst;
+  }
+
+  function waardeVan(v) {
+    return v.type === "checkbox" || v.type === "radio" ? (v.checked ? "1" : "0") : v.value;
+  }
+
+  // Wat er stond voordat de bezoeker iets deed. Alleen wat daarvan afwijkt
+  // komt in de link, dan blijft hij kort.
+  function onthoud(root) {
+    var uit = {};
+    velden(root).forEach(function (paar) { uit[paar[0]] = waardeVan(paar[1]); });
+    root.__standaard = uit;
+  }
+
+  // behoud: parameters die geen veld zijn maar wel meetellen (de omvormer die
+  // de keuzehulp van zonnestroommaatje meegeeft aan de rekenhulp).
+  function schrijfUrl(root, behoud) {
+    var standaard = root.__standaard || {};
+    var oud = new URLSearchParams(location.search);
+    var params = new URLSearchParams();
+    (behoud || []).forEach(function (k) { if (oud.has(k)) params.set(k, oud.get(k)); });
+    velden(root).forEach(function (paar) {
+      var w = waardeVan(paar[1]);
+      if (w !== "" && w !== standaard[paar[0]]) params.set(paar[0], w);
+    });
+    var vraag = params.toString();
+    try {
+      history.replaceState(null, "", vraag ? "?" + vraag : location.pathname);
+    } catch (e) { /* vanaf file:// mag de URL niet herschreven worden */ }
+  }
+
+  /* Zet de velden uit de link terug. Geeft terug of er iets gezet is.
+     De change-events gaan af zodat de pagina velden toont of verbergt die
+     ervan afhangen; daarna nog een keer zetten, omdat zo'n event soms een
+     ander veld invult (het aantal personen zet het jaarverbruik). De aanroeper
+     rekent daarna zelf opnieuw. */
+  function herstel(root) {
+    var params = new URLSearchParams(location.search);
+    var lijst = velden(root).filter(function (paar) { return params.has(paar[0]); });
+    if (!lijst.length) return false;
+    function zet() {
+      lijst.forEach(function (paar) {
+        var v = paar[1];
+        var w = params.get(paar[0]);
+        if (v.type === "checkbox" || v.type === "radio") { v.checked = w === "1"; return; }
+        if (v.tagName === "SELECT" && !Array.prototype.some.call(v.options, function (o) { return o.value === w; })) return;
+        v.value = w;
+      });
+    }
+    zet();
+    lijst.forEach(function (paar) { paar[1].dispatchEvent(new Event("change", { bubbles: true })); });
+    zet();
+    return true;
+  }
+
+  /* ------------------------------------------------------------------
+     Deelblok onder een uitslag
+     ------------------------------------------------------------------ */
+
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  /* doel: het element waar de uitslag in staat; het blok komt eronder.
+     sleutel: welke /uitslag/-pagina (bepaalt het voorbeeldplaatje).
+     bericht: de zin met de uitkomst die in het WhatsApp-bericht komt. */
+  function uitslag(doel, opties) {
+    if (!doel) return;
+    var oud = doel.querySelector(".delen-uitslag");
+    if (oud) oud.parentNode.removeChild(oud);
+    var url = location.protocol === "file:" ? location.href
+      : location.origin + "/uitslag/" + opties.sleutel + ".html" + location.search;
+    var wa = "https://wa.me/?text=" + encodeURIComponent(opties.bericht + " " + url);
+    doel.insertAdjacentHTML("beforeend",
+      '<div class="delen delen-uitslag" data-delen data-url="' + esc(url) + '" data-tekst="' + esc(opties.bericht) + '">' +
+      '<span class="delen-vraag">' + esc(opties.vraag || "Benieuwd wat het bij een ander is? Stuur je uitslag door.") + "</span>" +
+      '<span class="delen-knoppen">' +
+      '<a class="knop knop-secundair delen-whatsapp" href="' + esc(wa) + '" target="_blank" rel="noopener">Stuur via WhatsApp</a>' +
+      '<button type="button" class="knop knop-secundair delen-systeem" hidden>Delen</button>' +
+      '<button type="button" class="knop knop-secundair delen-kopieer" hidden>Kopieer link</button>' +
+      "</span></div>");
+    zetOp(doel.querySelector(".delen-uitslag"));
+  }
+
+  window.Delen = { onthoud: onthoud, schrijfUrl: schrijfUrl, herstel: herstel, uitslag: uitslag };
 
   function start() {
     var blokken = document.querySelectorAll("[data-delen]");

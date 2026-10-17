@@ -143,6 +143,22 @@
       <p style="margin-top: var(--ruimte-14);"><a href="pomp/${encodeURIComponent(s.w.id)}.html">Alle details van de ${escapeHtml(s.w.merk)} ${escapeHtml(s.w.model)} ${Iconen.svg("pijl-rechts")}</a></p>
       <p class="hint" style="margin-top: var(--ruimte-10);">Indicatie op basis van jouw invoer en mijn aannames; geen offerte of financieel advies.</p>
     `;
+    if (window.Delen) {
+      Delen.schrijfUrl(el("rekenformulier"));
+      if (!prijsOnbekend) deelUitslag(s, k ? k.tvt : tvt, k ? bereik(band.ketelLaag, band.ketelHoog) : bereik(band.laag, band.hoog), besparingJaar, !!k);
+    }
+  }
+
+  /* De uitslag doorsturen, ook als hij tegenvalt. Tot 10 jaar heet het
+     terugverdienen, tot de levensduur een twijfelgeval, daarna niet. Zonder
+     prijs is er geen terugverdientijd en dus niets om door te sturen. */
+  function deelUitslag(s, t, bereikTekst, besparingJaar, tegenoverKetel) {
+    const naam = `de ${s.w.merk} ${s.w.model}`;
+    const sleutel = t === null || t > LEVENSDUUR_JAAR ? "reken-niet" : t > 10 ? "reken-twijfel" : "reken-loont";
+    const kern = sleutel === "reken-niet"
+      ? `${naam} verdient zich bij mij niet terug binnen de levensduur van ${LEVENSDUUR_JAAR} jaar.`
+      : `${naam} verdient zich bij mij terug in ${bereikTekst}${tegenoverKetel ? " (de meerprijs boven een nieuwe cv-ketel)" : ""}, en bespaart ${eurFmt.format(besparingJaar)} per jaar.`;
+    Delen.uitslag(el("resultaatInhoud"), { sleutel, bericht: `Ik heb het nagerekend op Warmtepompmaatje: ${kern} Wat is het bij jou?` });
   }
 
   /* Je ketel moet toch vervangen worden: dan is de vraag niet "warmtepomp of
@@ -183,6 +199,7 @@
       }).join("");
 
       // Voorselectie via ?pomp=<id> (vanuit de vergelijker en de keuzehulp)
+      if (window.Delen) Delen.onthoud(el("rekenformulier"));
       const params = new URLSearchParams(location.search);
       const gevraagd = params.get("pomp");
       if (gevraagd && pompen.some((w) => w.id === gevraagd)) select.value = gevraagd;
@@ -197,6 +214,7 @@
       el("keuzePomp").addEventListener("change", () => { toonGasAfVeld(); bereken(); });
       el("checkGasAf").addEventListener("change", bereken);
 
+      if (window.Delen) Delen.herstel(el("rekenformulier"));
       toonGasAfVeld();
       bereken();
     } catch (err) {

@@ -151,6 +151,21 @@
       ${p ? `<p style="margin-top: var(--ruimte-14);"><a href="paneel/${encodeURIComponent(p.id)}.html">Alle details van de ${escapeHtml(naamVan(p))} ${Iconen.svg("pijl-rechts")}</a></p>` : ""}
       <p class="hint" style="margin-top: var(--ruimte-10);">Indicatie op basis van jouw invoer en mijn aannames; geen financieel advies.</p>
     `;
+    if (window.Delen) {
+      Delen.schrijfUrl(el("rekenformulier"), ["omvormer"]);
+      deelUitslag(s, terugverdientijd, tvtTekst);
+    }
+  }
+
+  /* De uitslag doorsturen, ook als hij tegenvalt. Tot 10 jaar heet het
+     terugverdienen, tot 25 jaar (de productgarantie die de meeste panelen
+     hier hebben) een twijfelgeval, daarna niet. */
+  function deelUitslag(s, t, tvtTekst) {
+    const sleutel = t === null || t > 25 ? "reken-niet" : t > 10 ? "reken-twijfel" : "reken-loont";
+    const kern = sleutel === "reken-niet"
+      ? `${s.aantal} zonnepanelen verdienen zich bij mij pas in ${tvtTekst} terug.`
+      : `${s.aantal} zonnepanelen verdienen zich bij mij terug in ${tvtTekst}.`;
+    Delen.uitslag(el("resultaatInhoud"), { sleutel, bericht: `Ik heb het nagerekend op Zonnestroommaatje: ${kern} Wat is het bij jou?` });
   }
 
   function escapeHtml(str) {
@@ -179,6 +194,7 @@
 
       // Voorselectie via ?paneel=<id>&aantal=<n> (vanuit de vergelijker,
       // paneelpagina's en de systeem-samensteller)
+      if (window.Delen) Delen.onthoud(el("rekenformulier"));
       const params = new URLSearchParams(location.search);
       const gevraagd = params.get("paneel");
       if (gevraagd && panelen.some((p) => p.id === gevraagd)) select.value = gevraagd;
@@ -195,6 +211,7 @@
         el(id).addEventListener("change", bereken);
       });
 
+      if (window.Delen) Delen.herstel(el("rekenformulier"));
       bereken();
     } catch (err) {
       el("resultaatInhoud").innerHTML = '<p class="hint">De paneelgegevens konden niet worden geladen. Vernieuw de pagina of probeer het later opnieuw.</p>';
