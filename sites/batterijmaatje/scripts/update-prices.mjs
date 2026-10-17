@@ -318,12 +318,29 @@ async function updateAanbieding(batterij, aanbieding) {
 const fabrikantErbij = [];
 const fabrikantAfwijkend = [];
 
+function hostVan(url) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "").toLowerCase();
+  } catch {
+    return null;
+  }
+}
+
 async function probeerFabrikant(batterij) {
   const url = batterij.product_url;
   if (typeof url !== "string" || !/^https?:/.test(url)) return false;
   if (batterij.prijs_controle === "handmatig") return false;
   const aanbiedingen = batterij.aanbiedingen || [];
-  if (aanbiedingen.some((a) => a && a.url === url)) return false;
+  // Alleen als het echt de fabrikant is. Bij de Voltdeer en de HYXi wijst
+  // product_url naar stekkerdeal.nl, en dat "(officieel)" noemen is precies
+  // de verkeerde naam onder een prijs. Het merk moet in de domeinnaam staan:
+  // marstek.nl, ankersolix.com, aegthuisbatterij.nl.
+  const host = hostVan(url);
+  const merk = String(batterij.merk || "").toLowerCase().split(/\s+/)[0].replace(/[^a-z0-9]/g, "");
+  if (!host || merk.length < 2 || !host.replace(/[^a-z0-9.]/g, "").includes(merk)) return false;
+  // En niet als die site er al in staat, onder een ander adres: Marstek.nl
+  // (officieel) bij de Venus E 3.0, Anker SOLIX (officieel) bij de Solarbank 4.
+  if (aanbiedingen.some((a) => a && hostVan(a.url) === host)) return false;
 
   const leverbaar = aanbiedingen.filter((a) => a && typeof a.prijs_eur === "number" && a.niet_leverbaar !== true);
   const ijk = leverbaar.length ? Math.min(...leverbaar.map((a) => a.prijs_eur)) : batterij.richtprijs_eur;
