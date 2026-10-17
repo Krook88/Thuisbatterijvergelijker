@@ -260,17 +260,14 @@
      Resultaat tonen
      ------------------------------------------------------------------ */
 
-  /* Tot wanneer de terugverdientijd groen is: binnen de fabrieksgarantie van
-     de gekozen batterij. Bij 44 van de 60 batterijen hier is dat 10 jaar, bij
-     een paar maar 2 tot 7. Een batterij die zich pas na de garantie
-     terugverdient, rekent erop dat hij langer meegaat dan beloofd; dat is
-     oranje, tot 15 jaar, de bovenkant van de 10 tot 15 jaar waar fabrikanten
-     mee rekenen. Daarboven rood. Zonder gekozen batterij: 10 jaar. */
+  /* De kleur van de terugverdientijd volgt de levensduur waar fabrikanten
+     mee rekenen: 10 tot 15 jaar. Tot 10 jaar is de batterij vrijwel zeker
+     terugverdiend voor hij op is (groen). Tussen 10 en 15 hangt het ervan af
+     of hij lang meegaat (oranje). Daarboven haalt hij het niet (rood).
+     De garantie is iets anders: die zegt wat de fabrikant belooft, niet hoe
+     lang hij meegaat, en staat apart als kanttekening onder de uitslag. */
+  const LEVENSDUUR_MIN = 10;
   const LEVENSDUUR_MAX = 15;
-  function groenTot() {
-    const g = gekozenBatterij ? gekozenBatterij.garantie_jaar : null;
-    return typeof g === "number" && g > 0 ? Math.min(g, LEVENSDUUR_MAX) : 10;
-  }
 
   function toonResultaat(r, band, tweede) {
     const doel = el("resultaat");
@@ -312,7 +309,7 @@
       oordeel = "<b>Met deze invoer levert de batterij per saldo niets op.</b> Controleer of het contracttype en de prijzen kloppen.";
     } else {
       const t = r.terugverdientijd;
-      const kleur = t <= groenTot() ? "var(--kleur-groen)" : t <= LEVENSDUUR_MAX ? "var(--kleur-accent)" : "var(--kleur-rood)";
+      const kleur = t <= LEVENSDUUR_MIN ? "var(--kleur-groen)" : t <= LEVENSDUUR_MAX ? "var(--kleur-accent)" : "var(--kleur-rood)";
       // Bewust een bereik en geen enkel getal: dezelfde batterij komt op 4 of
       // op 12 jaar uit, afhankelijk van aannames die niemand vooraf kent. Eén
       // getal met een decimaal doet alsof die onzekerheid er niet is.
@@ -325,7 +322,7 @@
       oordeel = `<div style="font-size:var(--tekst-28);font-weight:800;color:${kleur};">${bereik}</div>
         <div class="datum-stempel">terugverdientijd, met ${eurFmt.format(r.totaal)} opbrengst per jaar (middenscenario ${jaarFmt.format(t)} jaar)</div>`;
       if (t > LEVENSDUUR_MAX) waarschuwingen.push('De berekende terugverdientijd is langer dan de levensduur die vaak wordt aangehouden (10 tot 15 jaar). Met deze invoer verdient de batterij zichzelf waarschijnlijk niet terug. Lees ook: <a href="uitleg.html#waarom-toch">is een thuisbatterij het waard bij een lange terugverdientijd?</a>');
-      else if (t > 10) waarschuwingen.push('De terugverdientijd nadert de verwachte levensduur van de batterij (10 tot 15 jaar). Reken jezelf niet rijk en vergelijk meerdere scenario\'s. Lees ook: <a href="uitleg.html#waarom-toch">is een thuisbatterij het waard bij een lange terugverdientijd?</a>');
+      else if (t > LEVENSDUUR_MIN) waarschuwingen.push('De terugverdientijd nadert de verwachte levensduur van de batterij (10 tot 15 jaar). Reken jezelf niet rijk en vergelijk meerdere scenario\'s. Lees ook: <a href="uitleg.html#waarom-toch">is een thuisbatterij het waard bij een lange terugverdientijd?</a>');
     }
 
     if (r.teGroot) {
@@ -450,20 +447,20 @@
 
   /* De uitslag doorsturen, ook als hij tegenvalt: "bij mij loont het niet"
      is net zo goed iets wat de buurman wil weten. De drempels zijn die van
-     de kleur hierboven (zie groenTot). */
+     de kleur hierboven (zie LEVENSDUUR_MIN en LEVENSDUUR_MAX). */
   function deelUitslag(r, bereikTekst) {
     if (!window.Delen) return;
     const t = r.terugverdientijd;
     const b = gekozenBatterij;
     const volledig = b && (b.model.toLowerCase().startsWith(b.merk.toLowerCase()) ? b.model : `${b.merk} ${b.model}`);
     const naam = b ? `de ${volledig.replace(/\s*\([^)]*\)\s*$/, "")}` : "een thuisbatterij";
-    const sleutel = t == null || t > LEVENSDUUR_MAX ? "reken-niet" : t > groenTot() ? "reken-twijfel" : "reken-loont";
+    const sleutel = t == null || t > LEVENSDUUR_MAX ? "reken-niet" : t > LEVENSDUUR_MIN ? "reken-twijfel" : "reken-loont";
     // bereikTekst is "6 tot 9 jaar" of "vanaf 14 jaar"; de zin moet bij allebei kloppen.
     const kern = t == null
       ? `Met mijn getallen levert ${naam} per saldo niets op.`
       : `Terugverdientijd van ${naam} bij mij: ${bereikTekst} (${eurFmt.format(r.totaal)} per jaar)` +
         (sleutel === "reken-niet" ? ", langer dan hij meegaat."
-          : sleutel === "reken-twijfel" ? `, langer dan de garantie van ${groenTot()} jaar.` : ".");
+          : sleutel === "reken-twijfel" ? ", dus alleen als hij lang meegaat." : ".");
     Delen.uitslag(el("resultaat"), { sleutel, bericht: `Ik heb het nagerekend op Batterijmaatje. ${kern} Wat is het bij jou?` });
   }
 
