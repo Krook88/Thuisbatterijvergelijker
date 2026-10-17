@@ -128,9 +128,9 @@ const geenPrijs = [];
 // geen scriptfout, maar een prijs waar nooit een bron-URL bij is gezet.
 const zonderAdres = [];
 
-// Aanbiedingen waarvan vandaag een bedrag is bevestigd, ook in een droge run
-// (die zet geen datum). updateRichtprijs leest hieruit of de fabrikantpagina
-// iets opleverde.
+// Aanbiedingen waarvan vandaag een bedrag is bevestigd, met dat bedrag, ook in
+// een droge run (die zet geen datum). probeerFabrikant leest hieruit of de
+// fabrikantpagina iets opleverde.
 const vandaagBevestigd = new WeakMap();
 
 function naamVan(batterij) {
@@ -318,6 +318,30 @@ async function updateAanbieding(batterij, aanbieding) {
 const fabrikantErbij = [];
 const fabrikantAfwijkend = [];
 
+// Fabrikantpagina's die deze run al een uitkomst gaven. updateRichtprijs slaat
+// die over: bij de EcoFlow Stream AC Pro is prijs_bron_url dezelfde pagina, en
+// anders stond een afwijkend bedrag twee keer in het overzicht.
+const fabrikantBezocht = new Set();
+
+// Het domein zonder subdomein: nl.ecoflow.com en eu.ecoflow.com zijn dezelfde
+// winkel. Grof (co.uk wordt "co.uk"), maar dat komt in deze data niet voor.
+function domeinVan(url) {
+  const host = hostVan(url);
+  return host ? host.split(".").slice(-2).join(".") : null;
+}
+
+function geenProductpagina(url) {
+  let pad;
+  try {
+    pad = new URL(url).pathname.toLowerCase();
+  } catch {
+    return true;
+  }
+  if (/incl-|-set\b|bundel|pakket|\/collections?\//.test(pad)) return true;
+  const kaal = pad.replace(/^\/(nl|en|de|be|nl-nl|nl_nl|nl-be|en-gb|eu)(?=\/|$)/, "").replace(/\//g, "");
+  return kaal.length < 3;
+}
+
 function hostVan(url) {
   try {
     return new URL(url).hostname.replace(/^www\./, "").toLowerCase();
@@ -338,12 +362,23 @@ async function probeerFabrikant(batterij) {
   const host = hostVan(url);
   const merk = String(batterij.merk || "").toLowerCase().split(/\s+/)[0].replace(/[^a-z0-9]/g, "");
   if (!host || merk.length < 2 || !host.replace(/[^a-z0-9.]/g, "").includes(merk)) return false;
-  // En niet als die site er al in staat, onder een ander adres: Marstek.nl
-  // (officieel) bij de Venus E 3.0, Anker SOLIX (officieel) bij de Solarbank 4.
-  if (aanbiedingen.some((a) => a && hostVan(a.url) === host)) return false;
+  // En niet als die site er al in staat, onder een ander adres of subdomein:
+  // Marstek.nl (officieel) bij de Venus E 3.0, Anker SOLIX (officieel) bij de
+  // Solarbank 4, en eu.ecoflow.com naast nl.ecoflow.com.
+  if (aanbiedingen.some((a) => a && domeinVan(a.url) === domeinVan(url))) return false;
+  // Geen set- of overzichtspagina. De Venus D wijst naar "...-incl-p1-meter/",
+  // de Indevolt naar een collectie en de Huawei naar de homepage: een bedrag
+  // daarvan hoort niet als losse batterijprijs in de lijst.
+  if (geenProductpagina(url)) return false;
 
-  const leverbaar = aanbiedingen.filter((a) => a && typeof a.prijs_eur === "number" && a.niet_leverbaar !== true);
-  const ijk = leverbaar.length ? Math.min(...leverbaar.map((a) => a.prijs_eur)) : batterij.richtprijs_eur;
+  // IJken op wat de bezoeker nu ziet, incl. btw. Een prijs met installatie of
+  // een prijs die mensenwerk is, zegt niets over de losse batterij: bij de
+  // Sigenergy is de enige winkel Frank Energie, excl. btw en mét installatie.
+  const vergelijkbaar = aanbiedingen.filter((a) => a && typeof a.prijs_eur === "number" && a.niet_leverbaar !== true
+    && a.prijs_controle !== "handmatig" && !/installatie/i.test(`${a.winkel || ""} ${a.omvat || ""}`));
+  const ijk = vergelijkbaar.length
+    ? Math.min(...vergelijkbaar.map((a) => (a.btw_inbegrepen === false ? Math.round(a.prijs_eur * 1.21) : a.prijs_eur)))
+    : aanbiedingen.some((a) => a && a.niet_leverbaar !== true) ? null : batterij.richtprijs_eur;
   if (typeof ijk !== "number") return false;
 
   const proef = { winkel: `${batterij.merk} (officieel)`, url, prijs_eur: ijk };
@@ -352,21 +387,29 @@ async function probeerFabrikant(batterij) {
   await updateAanbieding(batterij, proef);
   await new Promise((r) => setTimeout(r, 1500));
   const afwijking = teControleren.length > lengtes[3] ? teControleren[teControleren.length - 1] : null;
+  // Zegt de pagina "excl. btw", dan staat het bedrag 21% te laag op de site
+  // als we hem stil toevoegen. Dan liever niet, en wel melden.
+  const btwAnders = btwTwijfel.length > lengtes[4];
   lijsten.forEach((l, i) => { l.length = lengtes[i]; });
 
-  if (afwijking) {
-    fabrikantAfwijkend.push({ id: batterij.id, winkel: proef.winkel, ijk, nieuw: afwijking.nieuw, url });
+  const gevonden = vandaagBevestigd.get(proef);
+  if (afwijking || (btwAnders && typeof gevonden === "number")) {
+    fabrikantAfwijkend.push({
+      id: batterij.id, winkel: proef.winkel, ijk, nieuw: afwijking ? afwijking.nieuw : gevonden, url,
+      reden: afwijking ? "buiten de marge" : "pagina zegt excl. btw",
+    });
+    fabrikantBezocht.add(url);
     return false;
   }
-  if (!vandaagBevestigd.has(proef) || proef.niet_leverbaar) return false;
+  if (typeof gevonden !== "number" || proef.niet_leverbaar) return false;
 
-  const prijs = vandaagBevestigd.get(proef);
+  fabrikantBezocht.add(url);
   if (!DROOG) {
     if (!batterij.aanbiedingen) batterij.aanbiedingen = [];
-    batterij.aanbiedingen.unshift({ winkel: proef.winkel, prijs_eur: prijs, url, datum: VANDAAG });
+    batterij.aanbiedingen.unshift({ winkel: proef.winkel, prijs_eur: gevonden, url, datum: VANDAAG });
   }
-  fabrikantErbij.push({ id: batterij.id, winkel: proef.winkel, prijs, url });
-  console.log(`  + ${batterij.id}: ${proef.winkel} verkoopt hem zelf voor €${prijs}${DROOG ? " (droge run, niet toegevoegd)" : ", toegevoegd als aanbieding"}`);
+  fabrikantErbij.push({ id: batterij.id, winkel: proef.winkel, prijs: gevonden, url });
+  console.log(`  + ${batterij.id}: ${proef.winkel} verkoopt hem zelf voor €${gevonden}${DROOG ? " (droge run, niet toegevoegd)" : ", toegevoegd als aanbieding"}`);
   return true;
 }
 
@@ -431,7 +474,7 @@ async function main() {
     const bruikbaar = (batterij.aanbiedingen || []).filter(
       (a) => a && typeof a.prijs_eur === "number" && a.niet_leverbaar !== true,
     );
-    if (!bruikbaar.length) {
+    if (!bruikbaar.length && !fabrikantBezocht.has(batterij.prijs_bron_url)) {
       if (await updateRichtprijs(batterij)) wijzigingen++;
       await new Promise((r) => setTimeout(r, 1500));
     }
@@ -515,9 +558,9 @@ async function main() {
     "De productpagina van de fabrikant toonde een prijs binnen de marge van de laagste winkelprijs of de richtprijs. Hij staat nu als aanbieding in de lijst en loopt vanaf morgen gewoon mee. Even nakijken of het bedrag bij de losse batterij hoort en niet bij een set.",
     ["Batterij", "Winkel", "Prijs", "Link"], (g) => [g.id, g.winkel, `€ ${g.prijs}`, g.url]);
 
-  meld(fabrikantAfwijkend, "fabrikantprijs(en) buiten de marge",
-    "De fabrikant toont een bedrag dat te ver van de winkelprijs of richtprijs ligt om zonder meer over te nemen. Vaak een set of een ander getal op de pagina; soms een echte prijs die de richtprijs moet bijstellen. Klopt hij, zet hem dan met de hand als aanbieding.",
-    ["Batterij", "Winkel", "Ijkprijs", "Gevonden", "Link"], (g) => [g.id, g.winkel, `€ ${g.ijk}`, `€ ${g.nieuw}`, g.url]);
+  meld(fabrikantAfwijkend, "fabrikantprijs(en) niet overgenomen",
+    "De fabrikant toont een bedrag dat te ver van de winkelprijs of richtprijs ligt, of de pagina zegt dat het excl. btw is. Vaak een set of een ander getal op de pagina; soms een echte prijs die de richtprijs moet bijstellen. Klopt hij, zet hem dan met de hand als aanbieding (met btw_inbegrepen: false waar nodig).",
+    ["Batterij", "Winkel", "Ijkprijs", "Gevonden", "Reden", "Link"], (g) => [g.id, g.winkel, `€ ${g.ijk}`, `€ ${g.nieuw}`, g.reden, g.url]);
 
   meld(zonderAdres, "richtprijs(en) zonder bron-URL",
     "Hier valt niets te automatiseren: er staat geen adres bij waar dit bedrag vandaan komt, dus geen enkel script kan het bevestigen. Zet er een `prijs_bron_url` bij die naar een pagina met dit bedrag wijst, dan loopt hij vanaf morgen mee in de dagelijkse ronde. Kan dat niet - een offerte, een schatting - zet dan `\"prijs_controle\": \"handmatig\"` erbij, zodat duidelijk is dat dit mensenwerk blijft.",
