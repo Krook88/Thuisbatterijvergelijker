@@ -2938,6 +2938,66 @@
       "afbeelding": "assets/producten/dysun-flexvolt-one-hv.webp",
       "afbeelding_bron": "foto: Dysun Energy",
       "vermogen_conditie": "continu"
+    },
+    {
+      "id": "hoymiles-hibattery-4020-ac",
+      "merk": "Hoymiles",
+      "model": "HiBattery 4020 AC (4,02 kWh)",
+      "capaciteit_kwh": 4.02,
+      "uitbreidbaar_tot_kwh": 16.08,
+      "vermogen_kw": 2.5,
+      "type": "plug-in",
+      "fase": "1-fase",
+      "richtprijs_eur": 1199,
+      "prijs_omvat": "incl. btw, stekkerklaar; excl. P1-meter",
+      "prijs_datum": "2026-10-17",
+      "installatie": "zelf",
+      "zonnepanelen_koppeling": "AC-gekoppeld: hij gaat in het stopcontact naast je bestaande omvormer, van welk merk ook, en stuurt op een P1-meter (die van Hoymiles, of een Shelly of everHome EcoTracker). Panelen rechtstreeks aansluiten kan niet.",
+      "koppeling_gemak": 5,
+      "homey": null,
+      "home_assistant": null,
+      "dynamisch_contract": "De Hoymiles-app stuurt op weer en stroomprijzen (winkelopgave bij Homees en AboutWatt); welke leveranciers worden ondersteund, heb ik niet kunnen vaststellen",
+      "app": "Hoymiles S-Miles Home",
+      "garantie_jaar": 10,
+      "cycli": "8.000 bij 70% restcapaciteit (fabrieksopgave)",
+      "opmerkingen": "De stekkerbatterij van de omvormermaker Hoymiles, met 4,02 kWh per module en tot vier modules op elkaar (16,08 kWh). Aan het stopcontact levert hij 800 W, op een eigen groep 2,5 kW, en er zit een aparte aansluiting voor noodstroom op. De behuizing is IP66 en verwarmt zichzelf, dus buiten mag. Hoymiles noemt alleen 4,02 kWh en geen bruikbare capaciteit, dus dat getal staat hier als nominaal. Elektramat zet IP65 in de adresregel en IP66 in de tekst, en AboutWatt schrijft in de specificatietabel 42 in plaats van 4,02 kWh; de rest van hun pagina zegt 4,02.",
+      "product_url": "https://www.hoymiles.com/nl/products/hibattery-4020-ac.html",
+      "aanbiedingen": [
+        {
+          "winkel": "AboutWatt",
+          "prijs_eur": 1145,
+          "url": "https://aboutwatt.com/en-nl/products/hoymiles-hibattery-4020-ac",
+          "datum": null
+        },
+        {
+          "winkel": "Elektramat",
+          "prijs_eur": 1148,
+          "url": "https://www.elektramat.nl/hoymiles-thuisbatterij-met-stekker-4-02-kwh-hb4020-ac/",
+          "datum": null
+        },
+        {
+          "winkel": "Homees",
+          "prijs_eur": 1199,
+          "url": "https://www.homees.nl/hoymiles-hibattery-4020-ac-26/",
+          "datum": null
+        }
+      ],
+      "totaalprijs_van_eur": null,
+      "totaalprijs_tot_eur": null,
+      "totaalprijs_toelichting": "zelf te installeren; een P1-meter komt erbij als je die nog niet hebt",
+      "noodstroom": true,
+      "noodstroom_uitleg": "Aparte off-grid aansluiting tot 2.500 W (opgave Homees en AboutWatt).",
+      "ip_klasse": "IP66",
+      "buiten_toelichting": "binnen en buiten, werkt van -20 tot 55 °C met zelfverwarming (opgave AboutWatt en Homees)",
+      "capaciteit_soort": "nominaal",
+      "capaciteit_nominaal_kwh": 4.02,
+      "vermogen_conditie": "max",
+      "vermogen_bron": "800 W via het stopcontact en 2.500 W op een eigen groep (Hoymiles en winkels); dit getal is het maximum op een eigen groep",
+      "zoeknamen": [
+        "HB-4020-AC",
+        "HB4020-AC",
+        "Hoymiles - HB-4020-AC Plug-in thuisbatterij"
+      ]
     }
   ]
 }
