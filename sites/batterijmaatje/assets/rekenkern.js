@@ -359,6 +359,18 @@
     return som;
   }
 
+  /* Hoe een terugverdientijd beoordeeld wordt, overal op de site: de kleur
+     in de rekenhulp, de regel in de keuzehulp en het plaatje bij een gedeelde
+     uitslag. Gemeten aan de 10 tot 15 jaar die een thuisbatterij meegaat:
+     tot 5 jaar ruim terugverdiend, tot 12 jaar terugverdiend met weinig
+     marge, daarboven dicht bij of voorbij het moment dat hij op is. Geen
+     terugverdientijd (hij levert per saldo niets op) telt als slecht. */
+  const OORDEEL = { goedTot: 5, matigTot: 12 };
+  function oordeel(t) {
+    if (t == null || !Number.isFinite(t)) return "slecht";
+    return t <= OORDEEL.goedTot ? "goed" : t <= OORDEEL.matigTot ? "matig" : "slecht";
+  }
+
   function terugverdientijd(jaarOpbrengst, investering, degradatie) {
     if (!(jaarOpbrengst > 0) || !(investering > 0)) return null;
     let som = 0;
@@ -427,6 +439,8 @@
     STANDAARD,
     TERUGLEVERING,
     MARGES,
+    OORDEEL,
+    oordeel,
     metStandaard,
     teruglevering2027,
     mediaanNetto2027,

@@ -473,3 +473,15 @@ test("overstappen rekent met de teruglevering van de jaarnota", () => {
   const z = Rekenkern.zonderBatterij({ capaciteit: 5, investering: 2500, terugleverKosten: 0.12, terugleverVergoeding: 0.05, teruglevering: 1000 });
   assert.equal(z.teruggeleverd, 1000);
 });
+
+// De grenzen van het oordeel gelden overal: kleur in de rekenhulp, regel in
+// de keuzehulp, plaatje bij een gedeelde uitslag. Tot 5 jaar goed, tot 12
+// matig, daarboven of zonder terugverdientijd slecht.
+test("oordeel over de terugverdientijd: groen tot 5, oranje tot 12, daarboven rood", () => {
+  assert.equal(Rekenkern.oordeel(4.9), "goed");
+  assert.equal(Rekenkern.oordeel(5), "goed");
+  assert.equal(Rekenkern.oordeel(5.1), "matig");
+  assert.equal(Rekenkern.oordeel(12), "matig");
+  assert.equal(Rekenkern.oordeel(12.1), "slecht");
+  assert.equal(Rekenkern.oordeel(null), "slecht");
+});
