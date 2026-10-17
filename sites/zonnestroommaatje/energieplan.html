@@ -17,11 +17,12 @@
   <meta property="og:site_name" content="Zonnestroommaatje.nl">
   <meta name="twitter:card" content="summary_large_image">
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="stylesheet" href="assets/style.css?v=20261017i">
-  <script src="assets/iconen.js?v=20261017i" defer></script>
-  <script src="assets/prijs.js?v=20261017i" defer></script>
-  <script src="assets/energieplan.js?v=20261017i" defer></script>
-  <script src="assets/nav.js?v=20261017i" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20261017n">
+  <script src="assets/iconen.js?v=20261017n" defer></script>
+  <script src="assets/prijs.js?v=20261017n" defer></script>
+  <script src="assets/oordeel.js?v=20261017n" defer></script>
+  <script src="assets/energieplan.js?v=20261017n" defer></script>
+  <script src="assets/nav.js?v=20261017n" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <style>
     .reken-indeling { display: grid; grid-template-columns: 380px 1fr; gap: var(--ruimte-20); align-items: start; margin: var(--ruimte-28) 0 var(--ruimte-40); }
@@ -41,6 +42,8 @@
     .plan-samenvatting { background: var(--kleur-primair-licht); border-radius: var(--radius); padding: var(--ruimte-14) var(--ruimte-20); margin-bottom: var(--ruimte-14); }
     .plan-totalen { display: flex; flex-direction: column; gap: var(--ruimte-4); font-size: var(--tekst-15); }
     .plan-stap { border: 1px solid var(--kleur-rand); border-radius: var(--radius); padding: var(--ruimte-14) var(--ruimte-14); margin-top: var(--ruimte-10); background: var(--kleur-wit); }
+    /* Een stap die zich bij deze getallen niet terugverdient: wel tonen, niet meetellen. */
+    .plan-stap-niet { border-style: dashed; background: var(--kleur-achtergrond); }
     .plan-stap-kop { display: flex; align-items: center; gap: var(--ruimte-10); flex-wrap: wrap; }
     .plan-stap-kop h3 { margin: 0; font-size: var(--tekst-17); min-width: 0; }
     .plan-nummer { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--kleur-primair); color: #fff; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; font-size: var(--tekst-15); }
@@ -61,7 +64,7 @@
   </style>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261017i"></script>
+  <script defer src="/assets/teller.js?v=20261017n"></script>
 </head>
 <body>
 

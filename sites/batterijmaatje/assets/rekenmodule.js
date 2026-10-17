@@ -260,9 +260,7 @@
      Resultaat tonen
      ------------------------------------------------------------------ */
 
-  // De grenzen van het oordeel staan in Rekenkern.OORDEEL; dit is wat het in
-  // de rekenhulp betekent.
-  const KLEUR = { goed: "var(--kleur-groen)", matig: "var(--kleur-accent)", slecht: "var(--kleur-rood)" };
+  // De grenzen van het oordeel staan in assets/oordeel.js (via Rekenkern.oordeel).
   const UITSLAG = { goed: "reken-loont", matig: "reken-twijfel", slecht: "reken-niet" };
 
   function toonResultaat(r, band, tweede) {
@@ -305,7 +303,7 @@
       oordeel = "<b>Met deze invoer levert de batterij per saldo niets op.</b> Controleer of het contracttype en de prijzen kloppen.";
     } else {
       const t = r.terugverdientijd;
-      const kleur = KLEUR[Rekenkern.oordeel(t)];
+      const kleur = Oordeel.KLEUR[Rekenkern.oordeel(t)];
       // Bewust een bereik en geen enkel getal: dezelfde batterij komt op 4 of
       // op 12 jaar uit, afhankelijk van aannames die niemand vooraf kent. Eén
       // getal met een decimaal doet alsof die onzekerheid er niet is.

@@ -135,7 +135,7 @@
     const overdimensionering = opwek > s.verbruik * 1.3;
 
     el("resultaatInhoud").innerHTML = `
-      <div class="resultaat-groot">${tvtTekst}</div>
+      <div class="resultaat-groot" style="color:${Oordeel.KLEUR[Oordeel.van("zonnepanelen", terugverdientijd)]};">${tvtTekst}</div>
       <p class="hint" style="margin: 0 0 var(--ruimte-14);">geschatte terugverdientijd${s.kostenGeschat ? " (bij geschatte installatiekosten)" : ""}</p>
       <div class="resultaat-rij"><span>Opgesteld vermogen</span><b>${kwhFmt.format(s.wpTotaal)} Wp (${s.aantal} × ${p ? p.vermogen_wp : 440} Wp)</b></div>
       <div class="resultaat-rij"><span>Jaaropbrengst (jaar 1)</span><b>${kwhFmt.format(opwek)} kWh</b></div>
@@ -157,15 +157,15 @@
     }
   }
 
-  /* De uitslag doorsturen, ook als hij tegenvalt. Tot 10 jaar heet het
-     terugverdienen, tot 25 jaar (de productgarantie die de meeste panelen
-     hier hebben) een twijfelgeval, daarna niet. */
+  /* De uitslag doorsturen, ook als hij tegenvalt. Het oordeel komt uit
+     assets/oordeel.js, net als de kleur hierboven. */
   function deelUitslag(s, t, tvtTekst) {
-    const sleutel = t === null || t > 25 ? "reken-niet" : t > 10 ? "reken-twijfel" : "reken-loont";
-    const kern = sleutel === "reken-niet"
-      ? `${s.aantal} zonnepanelen verdienen zich bij mij pas in ${tvtTekst} terug.`
-      : `${s.aantal} zonnepanelen verdienen zich bij mij terug in ${tvtTekst}.`;
-    Delen.uitslag(el("resultaatInhoud"), { sleutel, bericht: `Ik heb het nagerekend op Zonnestroommaatje: ${kern} Wat is het bij jou?` });
+    const o = Oordeel.van("zonnepanelen", t);
+    const sleutel = { goed: "reken-loont", matig: "reken-twijfel", slecht: "reken-niet" }[o];
+    const kern = `Terugverdientijd van ${s.aantal} zonnepanelen bij mij: ${tvtTekst}` +
+      (o === "slecht" ? ", dicht bij of voorbij de 25 jaar dat panelen meegaan."
+        : o === "matig" ? ", met weinig marge op de 25 jaar dat panelen meegaan." : ".");
+    Delen.uitslag(el("resultaatInhoud"), { sleutel, bericht: `Ik heb het nagerekend op Zonnestroommaatje. ${kern} Wat is het bij jou?` });
   }
 
   function escapeHtml(str) {

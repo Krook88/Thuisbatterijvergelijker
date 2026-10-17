@@ -116,7 +116,7 @@
       </div>`;
 
     el("resultaatInhoud").innerHTML = `
-      <div class="resultaat-groot">${prijsOnbekend ? tvtTekst : k ? bereik(band.ketelLaag, band.ketelHoog) : bereik(band.laag, band.hoog)}</div>
+      <div class="resultaat-groot"${prijsOnbekend ? "" : ` style="color:${Oordeel.KLEUR[Oordeel.van("warmtepomp", k ? k.tvt : tvt)]};"`}>${prijsOnbekend ? tvtTekst : k ? bereik(band.ketelLaag, band.ketelHoog) : bereik(band.laag, band.hoog)}</div>
       <p class="hint" style="margin: 0 0 var(--ruimte-14);">${prijsOnbekend
         ? `van deze warmtepomp heb ik nog geen winkelprijs, dus de investering is onbekend. De besparing per jaar hieronder klopt wel: die hangt alleen af van je verbruik en de tarieven.`
         : `${k ? "terugverdientijd van de meerprijs ten opzichte van een nieuwe cv-ketel" : "terugverdientijd"}, middenscenario ${jaren(k ? k.tvt : tvt)}. Het bereik komt van dezelfde som met een ongunstige en een gunstige set aannames: gas- en stroomprijs 15% hoger of lager, het rendement 10% lager of 8% hoger${s.installatieGeschat ? ", en de geschatte installatie 40% duurder of 10% goedkoper" : ""}.${s.installatieGeschat ? " Heb je een offerte? Vul het installatiebedrag in onder \"Aannames aanpassen\", dan wordt het bereik smaller." : ""}`}</p>
@@ -138,7 +138,7 @@
       <div class="resultaat-rij"><span>Netto voordeel over ${LEVENSDUUR_JAAR} jaar</span><b>${eurFmt.format(besparingLevensduur - netto)}</b></div>
       <div class="resultaat-rij"><span>Vermeden CO₂-uitstoot per jaar <small>(indicatie)</small></span><b>circa ${numFmt.format(co2)} kg</b></div>
       ${voorNaDiagram}
-      ${tvt !== null && tvt > LEVENSDUUR_JAAR ? `<p class="hint" style="margin-top: var(--ruimte-10);background:var(--kleur-accent-licht);border-radius:var(--radius-klein);padding: var(--ruimte-10) var(--ruimte-10);">${Iconen.svg("let-op")} De terugverdientijd is langer dan de gemiddelde levensduur van ${LEVENSDUUR_JAAR} jaar. Financieel is dit dan vooral een duurzame keuze. Check of een goedkopere pomp, een hybride of eerst isoleren beter uitpakt; de <a href="advies.html">keuzehulp</a> helpt daarbij.</p>` : ""}
+      ${!prijsOnbekend && Oordeel.van("warmtepomp", k ? k.tvt : tvt) === "slecht" ? `<p class="hint" style="margin-top: var(--ruimte-10);background:var(--kleur-accent-licht);border-radius:var(--radius-klein);padding: var(--ruimte-10) var(--ruimte-10);">${Iconen.svg("let-op")} Een terugverdientijd van meer dan ${Oordeel.GRENZEN.warmtepomp.matigTot} jaar komt dicht bij of voorbij de ${Oordeel.GRENZEN.warmtepomp.levensduur} dat een warmtepomp meegaat. Financieel is dit dan vooral een duurzame keuze. Check of een goedkopere pomp, een hybride of eerst isoleren beter uitpakt; de <a href="advies.html">keuzehulp</a> helpt daarbij.</p>` : ""}
       ${s.type === "all-electric" && !s.gasAf ? `<p class="hint" style="margin-top: var(--ruimte-10);">${Iconen.svg("tip")} Laat je de gasaansluiting aan (bijvoorbeeld om op gas te koken), dan blijf je circa ${eurFmt.format(s.vastrecht)} per jaar aan vaste gaskosten betalen. Die zijn hier niet als besparing meegerekend.</p>` : ""}
       <p style="margin-top: var(--ruimte-14);"><a href="pomp/${encodeURIComponent(s.w.id)}.html">Alle details van de ${escapeHtml(s.w.merk)} ${escapeHtml(s.w.model)} ${Iconen.svg("pijl-rechts")}</a></p>
       <p class="hint" style="margin-top: var(--ruimte-10);">Indicatie op basis van jouw invoer en mijn aannames; geen offerte of financieel advies.</p>
@@ -149,16 +149,18 @@
     }
   }
 
-  /* De uitslag doorsturen, ook als hij tegenvalt. Tot 10 jaar heet het
-     terugverdienen, tot de levensduur een twijfelgeval, daarna niet. Zonder
-     prijs is er geen terugverdientijd en dus niets om door te sturen. */
+  /* De uitslag doorsturen, ook als hij tegenvalt. Het oordeel komt uit
+     assets/oordeel.js, net als de kleur hierboven. Zonder prijs is er geen
+     terugverdientijd en dus niets om door te sturen. */
   function deelUitslag(s, t, bereikTekst, besparingJaar, tegenoverKetel) {
     const naam = `de ${s.w.merk} ${s.w.model}`;
-    const sleutel = t === null || t > LEVENSDUUR_JAAR ? "reken-niet" : t > 10 ? "reken-twijfel" : "reken-loont";
-    const kern = sleutel === "reken-niet"
-      ? `${naam} verdient zich bij mij niet terug binnen de levensduur van ${LEVENSDUUR_JAAR} jaar.`
-      : `${naam} verdient zich bij mij terug in ${bereikTekst}${tegenoverKetel ? " (de meerprijs boven een nieuwe cv-ketel)" : ""}, en bespaart ${eurFmt.format(besparingJaar)} per jaar.`;
-    Delen.uitslag(el("resultaatInhoud"), { sleutel, bericht: `Ik heb het nagerekend op Warmtepompmaatje: ${kern} Wat is het bij jou?` });
+    const o = Oordeel.van("warmtepomp", t);
+    const sleutel = { goed: "reken-loont", matig: "reken-twijfel", slecht: "reken-niet" }[o];
+    const levensduur = Oordeel.GRENZEN.warmtepomp.levensduur;
+    const kern = `Terugverdientijd van ${naam} bij mij: ${bereikTekst}${tegenoverKetel ? " (de meerprijs boven een nieuwe cv-ketel)" : ""}, ${eurFmt.format(besparingJaar)} besparing per jaar` +
+      (o === "slecht" ? `, dicht bij of voorbij de ${levensduur} dat een warmtepomp meegaat.`
+        : o === "matig" ? `, met weinig marge op de ${levensduur} dat een warmtepomp meegaat.` : ".");
+    Delen.uitslag(el("resultaatInhoud"), { sleutel, bericht: `Ik heb het nagerekend op Warmtepompmaatje. ${kern} Wat is het bij jou?` });
   }
 
   /* Je ketel moet toch vervangen worden: dan is de vraag niet "warmtepomp of

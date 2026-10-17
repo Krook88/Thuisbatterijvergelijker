@@ -39,7 +39,9 @@
 
   function invoer() {
     return {
-      gas: Math.max(0, Number(el("gasverbruik").value) || 1200),
+      // Een leeg veld is "weet ik niet" (1.200 m³), maar 0 is 0: wie al van het
+      // gas af is, kreeg anders een warmtepomp die 1.200 m³ gas bespaarde.
+      gas: el("gasverbruik").value === "" ? 1200 : Math.max(0, Number(el("gasverbruik").value) || 0),
       stroom: Math.max(500, Number(el("stroomverbruik").value) || 2900),
       dak: el("dak").value,                     // klein | gemiddeld | groot
       isolatie: el("isolatie").value,           // goed | redelijk | matig
@@ -108,6 +110,7 @@
               ? "Je huis is goed geïsoleerd: all-electric kan de ketel volledig vervangen en je kunt helemaal van het gas af."
               : "Met redelijke isolatie en (deels) vloerverwarming kan all-electric, mits de installateur het warmteverlies doorrekent.")
           : `${s.isolatie === "matig" ? "Bij matige isolatie" : "Met alleen radiatoren"} is hybride de veilige route: circa 60% gasbesparing, de ketel vangt piekkou en warm water op.` + (s.cvKetel === "oud" ? " Let op: je ketel is aan vervanging toe; reken een nieuwe mee of overweeg all-electric na isoleren." : "")) + geluidZin,
+        soort: "warmtepomp",
         bedragen: { investering, subsidie: wp.isde, besparing },
         knoppen: [
           { tekst: `Doe de warmtepomp-keuzehulp ${Iconen.svg("pijl-rechts")}`, url: "https://warmtepompmaatje.nl/advies.html", extern: true },
@@ -133,6 +136,7 @@
       stappen.push({
         icoon: Iconen.svg("zon"), titel: `Zonnepanelen: ${aantal} panelen (${numFmt.format(aantal * WP_PANEEL)} Wp)`,
         advies: `Gedimensioneerd op je stroomverbruik ná de warmtepomp (${numFmt.format(verbruikNa)} kWh per jaar${gewenst > aantal ? `; je dak begrenst het aantal op ${aantal}` : ""}). Jaaropbrengst circa ${numFmt.format(opwek)} kWh.`,
+        soort: "zonnepanelen",
         bedragen: { investering, subsidie: 0, besparing },
         knoppen: [
           { tekst: `Vergelijk zonnepanelen ${Iconen.svg("pijl-rechts")}`, url: "index.html" },
@@ -153,6 +157,7 @@
       stappen.push({
         icoon: Iconen.svg("batterij"), titel: `Thuisbatterij: circa ${capaciteit} kWh`,
         advies: `${pompKwh > 0 || s.heeftPomp ? "Met een warmtepomp past een wat grotere batterij om de avond te overbruggen. " : ""}De batterij vangt je middagopwek op voor de avond en kan met een dynamisch contract extra verdienen op goedkope uren (die bonus reken ik hier niet mee).`,
+        soort: "batterij",
         bedragen: { investering, subsidie: 0, besparing },
         knoppen: [{ tekst: `Doe de batterij-keuzehulp ${Iconen.svg("pijl-rechts")}`, url: "https://batterijmaatje.nl/advies.html", extern: true }],
       });
@@ -160,7 +165,7 @@
 
     // Stap 5: dynamisch energiecontract (gratis stap; alleen zinvol met iets
     // slims om te sturen: warmtepomp of thuisbatterij, nu of in het plan)
-    const krijgtPomp = pompKwh > 0, krijgtBatterij = stappen.some((st) => st.icoon === Iconen.svg("batterij"));
+    const krijgtPomp = pompKwh > 0, krijgtBatterij = stappen.some((st) => st.soort === "batterij" && stapOordeel(st).oordeel !== "slecht");
     if (s.contract !== "dynamisch" && (krijgtPomp || krijgtBatterij || s.heeftPomp || s.heeftBatterij)) {
       const flex = [
         (krijgtPomp || s.heeftPomp) && "je warmtepomp kan het boilervat opwarmen op de goedkoopste uren",
@@ -184,15 +189,30 @@
      Renderen
      ------------------------------------------------------------------ */
 
+  /* Per stap een terugverdientijd met hetzelfde oordeel als op de
+     zustersites (assets/oordeel.js): elk apparaat gemeten aan zijn eigen
+     levensduur. Eén totaal voor het hele plan verstopte een batterij die
+     zich niet terugverdient achter een warmtepomp die dat wel doet. */
+  const DUIDING = { goed: "ruim binnen de levensduur", matig: "met weinig marge op de levensduur", slecht: "loont bij deze getallen (nog) niet" };
+  function stapOordeel(stap) {
+    const b = stap.bedragen;
+    if (!b || !stap.soort) return null;
+    const tvt = b.besparing > 0 ? b.investering / b.besparing : null;
+    return { tvt, oordeel: Oordeel.van(stap.soort, tvt) };
+  }
+  const jaar = (t) => t === null ? "niet terug" : `${t.toFixed(1).replace(".", ",")} jaar`;
+
   function stapKaart(stap, nummer) {
     const b = stap.bedragen;
+    const o = stapOordeel(stap);
     return `
-    <div class="plan-stap">
+    <div class="plan-stap${o && o.oordeel === "slecht" ? " plan-stap-niet" : ""}">
       <div class="plan-stap-kop"><span class="plan-nummer">${nummer}</span><span class="plan-icoon">${stap.icoon}</span><h3>${stap.titel}</h3></div>
-      <p class="plan-advies">${stap.advies}</p>
+      <p class="plan-advies">${o && o.oordeel === "slecht" ? `<b>Bij deze getallen verdient ${({ batterij: "een thuisbatterij", warmtepomp: "een warmtepomp", zonnepanelen: "zonnepanelen" })[stap.soort]} zich niet terug binnen de levensduur, en telt deze stap niet mee in het totaal hierboven.</b> Kom hierop terug als de prijzen dalen of je situatie verandert. ` : ""}${stap.advies}</p>
       ${b ? `<div class="plan-bedragen">
         <span>Investering${b.subsidie ? " na subsidie" : ""}: <b>${eurFmt.format(b.investering)}</b>${b.subsidie ? ` <small>(ISDE − ${eurFmt.format(b.subsidie)} verrekend)</small>` : ""}</span>
         <span>Besparing: <b>${eurFmt.format(b.besparing)} per jaar</b></span>
+        ${o ? `<span>Terugverdientijd: <b style="color:${Oordeel.KLEUR[o.oordeel]};">${jaar(o.tvt)}</b> <small>(${DUIDING[o.oordeel]}; een ${({ zonnepanelen: "zonnepaneel", batterij: "thuisbatterij", warmtepomp: "warmtepomp" })[stap.soort]} gaat ${Oordeel.GRENZEN[stap.soort].levensduur} mee)</small></span>` : ""}
       </div>` : ""}
       <p class="plan-knoppen">${stap.knoppen.map((k) => `<a class="knop knop-secundair" href="${k.url}"${k.extern ? ' target="_blank" rel="noopener"' : ""}>${k.tekst}</a>`).join(" ")}</p>
     </div>`;
@@ -202,7 +222,10 @@
     const s = invoer();
     const { stappen } = planStappen(s);
 
-    const metBedragen = stappen.filter((st) => st.bedragen);
+    // Het totaal telt alleen de stappen die zich binnen hun levensduur
+    // terugverdienen; een stap die dat niet doet staat er wel, met de reden.
+    const nietLonend = stappen.filter((st) => { const o = stapOordeel(st); return o && o.oordeel === "slecht"; });
+    const metBedragen = stappen.filter((st) => st.bedragen && !nietLonend.includes(st));
     const totInvestering = metBedragen.reduce((t, st) => t + st.bedragen.investering, 0);
     const totBesparing = metBedragen.reduce((t, st) => t + st.bedragen.besparing, 0);
     const tvt = totBesparing > 0 ? totInvestering / totBesparing : null;
@@ -219,7 +242,7 @@
       : `
       ${metBedragen.length ? `<div class="plan-samenvatting">
         <div class="resultaat-groot">${tvt === null ? "?" : tvt.toFixed(1).replace(".", ",") + " jaar"}</div>
-        <p class="hint" style="margin: 0 0 var(--ruimte-10);">terugverdientijd van het hele plan</p>
+        <p class="hint" style="margin: 0 0 var(--ruimte-10);">terugverdientijd van ${nietLonend.length ? `het plan zonder ${nietLonend.map((st) => ({ batterij: "de thuisbatterij", warmtepomp: "de warmtepomp", zonnepanelen: "de zonnepanelen" })[st.soort]).join(" en ")}, die bij deze getallen niet ${nietLonend.length > 1 ? "lonen" : "loont"}` : "het hele plan"}</p>
         <div class="plan-totalen">
           <span>Totale investering (na subsidie): <b>${eurFmt.format(totInvestering)}</b></span>
           <span>Totale besparing: <b>${eurFmt.format(totBesparing)} per jaar</b> <small>(≈ ${eurFmt.format(totBesparing / 12)} per maand)</small></span>

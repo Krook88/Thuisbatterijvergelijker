@@ -359,17 +359,12 @@
     return som;
   }
 
-  /* Hoe een terugverdientijd beoordeeld wordt, overal op de site: de kleur
-     in de rekenhulp, de regel in de keuzehulp en het plaatje bij een gedeelde
-     uitslag. Gemeten aan de 10 tot 15 jaar die een thuisbatterij meegaat:
-     tot 5 jaar ruim terugverdiend, tot 12 jaar terugverdiend met weinig
-     marge, daarboven dicht bij of voorbij het moment dat hij op is. Geen
-     terugverdientijd (hij levert per saldo niets op) telt als slecht. */
-  const OORDEEL = { goedTot: 5, matigTot: 12 };
-  function oordeel(t) {
-    if (t == null || !Number.isFinite(t)) return "slecht";
-    return t <= OORDEEL.goedTot ? "goed" : t <= OORDEEL.matigTot ? "matig" : "slecht";
-  }
+  /* Het oordeel over een terugverdientijd (groen, oranje, rood) komt uit
+     assets/oordeel.js, gedeeld met de zustersites. Die moet in de browser
+     vóór dit bestand geladen zijn. */
+  const Oordeel = typeof module === "object" && module.exports ? require("./oordeel.js") : self.Oordeel;
+  const OORDEEL = Oordeel.GRENZEN.batterij;
+  const oordeel = (t) => Oordeel.van("batterij", t);
 
   function terugverdientijd(jaarOpbrengst, investering, degradatie) {
     if (!(jaarOpbrengst > 0) || !(investering > 0)) return null;

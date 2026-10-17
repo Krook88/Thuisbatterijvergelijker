@@ -363,7 +363,7 @@
     // op het middenscenario; dat getal staat erbij, anders lijkt "vanaf 7 jaar"
     // in tegenspraak met "voorbij de levensduur".
     const o = Rekenkern.oordeel(r.terugverdientijd);
-    const kleur = { goed: "var(--kleur-groen)", matig: "var(--kleur-accent-donker)", slecht: "var(--kleur-rood)" }[o];
+    const kleur = Oordeel.KLEUR[o];
     const duiding = { goed: "ruim terugverdiend", matig: "weinig marge op 10 tot 15 jaar levensduur", slecht: "dicht bij of voorbij de levensduur" }[o];
     return `<div class="koppelgemak"><span class="uitleg"><b>Terugverdientijd:</b> <b style="color:${kleur};">${bereik}</b> (midden ${jaarFmt.format(r.terugverdientijd)} jaar: ${duiding}), bij ongeveer ${eurFmt.format(r.totaal)} per jaar. Indicatie op basis van je antwoorden; <a href="${escapeHtml(rekenmoduleLink(b))}">pas de aannames aan</a>.</span></div>`;
   }
