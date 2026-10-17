@@ -128,6 +128,11 @@ const geenPrijs = [];
 // geen scriptfout, maar een prijs waar nooit een bron-URL bij is gezet.
 const zonderAdres = [];
 
+// Aanbiedingen waarvan vandaag een bedrag is bevestigd, ook in een droge run
+// (die zet geen datum). updateRichtprijs leest hieruit of de fabrikantpagina
+// iets opleverde.
+const vandaagBevestigd = new WeakSet();
+
 function naamVan(batterij) {
   return `${batterij.merk || ""} ${batterij.model || ""}`.trim();
 }
@@ -268,6 +273,7 @@ async function updateAanbieding(batterij, aanbieding) {
       return false;
     }
     const veranderd = nieuw !== aanbieding.prijs_eur;
+    vandaagBevestigd.add(aanbieding);
     if (!DROOG) {
       aanbieding.prijs_eur = nieuw;
       aanbieding.datum = VANDAAG;
@@ -302,13 +308,39 @@ async function updateAanbieding(batterij, aanbieding) {
  * uitkomst daarna terug.
  */
 async function updateRichtprijs(batterij) {
+  /* Zonder prijs_bron_url proberen we de fabrikantpagina. De Anker Solarbank 3
+     Pro stond een maand als "richtprijs zonder bron-URL" in het overzicht,
+     terwijl product_url naar de Anker-shop wees met precies dat bedrag erop.
+     Bij een fabrikant zonder webshop levert dit niets op, en dan blijft alles
+     zoals het was: dezelfde melding, geen extra rijen in de andere lijsten. */
+  const terugval = !batterij.prijs_bron_url && typeof batterij.product_url === "string";
   const bron = {
-    winkel: batterij.prijs_bron || "richtprijs",
-    url: batterij.prijs_bron_url,
+    winkel: batterij.prijs_bron || (terugval ? `${batterij.merk} (fabrikantpagina)` : "richtprijs"),
+    url: batterij.prijs_bron_url || (terugval ? batterij.product_url : undefined),
     prijs_eur: batterij.richtprijs_eur,
     btw_inbegrepen: batterij.btw_inbegrepen,
     prijs_controle: batterij.prijs_controle,
   };
+  if (terugval && controleerbaar(bron) && typeof bron.prijs_eur === "number") {
+    // Wat de fabrikantpagina oplevert aan meldingen, telt alleen als hij een
+    // prijs gaf. Anders zou elke fabrikant zonder shop elke dag als "pagina
+    // zonder leesbaar bedrag" in het overzicht staan.
+    const lijsten = [geenPrijs, geweigerd, kapotteLinks, teControleren, btwTwijfel];
+    const lengtes = lijsten.map((l) => l.length);
+    const veranderd = await updateAanbieding(batterij, bron);
+    if (vandaagBevestigd.has(bron)) {
+      if (!DROOG) {
+        batterij.richtprijs_eur = bron.prijs_eur;
+        batterij.prijs_datum = bron.datum;
+        batterij.prijs_bron_url = batterij.product_url;
+        if (!batterij.prijs_bron) batterij.prijs_bron = bron.winkel;
+      }
+      return veranderd;
+    }
+    lijsten.forEach((l, i) => { l.length = lengtes[i]; });
+    zonderAdres.push({ id: batterij.id, prijs: batterij.richtprijs_eur, bron: batterij.prijs_bron || "?", datum: batterij.prijs_datum || "?" });
+    return false;
+  }
   if (!controleerbaar(bron)) {
     // Alleen melden als er iets te bewaken valt: een product zonder prijs kan
     // geen verouderde prijs tonen, en een prijs die als mensenwerk is
