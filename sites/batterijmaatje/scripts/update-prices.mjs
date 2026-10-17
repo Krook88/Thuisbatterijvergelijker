@@ -131,7 +131,7 @@ const zonderAdres = [];
 // Aanbiedingen waarvan vandaag een bedrag is bevestigd, ook in een droge run
 // (die zet geen datum). updateRichtprijs leest hieruit of de fabrikantpagina
 // iets opleverde.
-const vandaagBevestigd = new WeakSet();
+const vandaagBevestigd = new WeakMap();
 
 function naamVan(batterij) {
   return `${batterij.merk || ""} ${batterij.model || ""}`.trim();
@@ -273,7 +273,7 @@ async function updateAanbieding(batterij, aanbieding) {
       return false;
     }
     const veranderd = nieuw !== aanbieding.prijs_eur;
-    vandaagBevestigd.add(aanbieding);
+    vandaagBevestigd.set(aanbieding, nieuw);
     if (!DROOG) {
       aanbieding.prijs_eur = nieuw;
       aanbieding.datum = VANDAAG;
@@ -298,6 +298,62 @@ async function updateAanbieding(batterij, aanbieding) {
 }
 
 /**
+ * Verkoopt de fabrikant zelf? Elke dag even kijken op product_url.
+ *
+ * De Anker Solarbank 3 Pro stond een maand zonder winkel, met een richtprijs
+ * die nergens werd nagekeken, terwijl product_url naar de Anker-shop wees met
+ * precies dat bedrag erop. Dat geldt voor meer merken die direct verkopen
+ * (Anker, Zendure, Marstek, Jackery): de fabrikant is een winkel die we al
+ * kennen en alleen niet bezochten.
+ *
+ * Staat de pagina nog niet als aanbieding in de lijst, dan halen we hem op met
+ * dezelfde regels als een gewone winkel. Een bedrag binnen de marge van de
+ * laagste winkelprijs (of, zonder winkel, de richtprijs) wordt een aanbieding
+ * "<merk> (officieel)" en loopt vanaf dan gewoon mee. Een bedrag daarbuiten is
+ * vaak iets anders - een bundel, een besparing per jaar - en komt alleen in
+ * het overzicht. Geen bedrag of uitverkocht: stil overslaan, want de meeste
+ * fabrikanten van installateursbatterijen hebben geen shop, en die zouden
+ * anders elke dag in de lijst "pagina zonder leesbaar bedrag" staan.
+ */
+const fabrikantErbij = [];
+const fabrikantAfwijkend = [];
+
+async function probeerFabrikant(batterij) {
+  const url = batterij.product_url;
+  if (typeof url !== "string" || !/^https?:/.test(url)) return false;
+  if (batterij.prijs_controle === "handmatig") return false;
+  const aanbiedingen = batterij.aanbiedingen || [];
+  if (aanbiedingen.some((a) => a && a.url === url)) return false;
+
+  const leverbaar = aanbiedingen.filter((a) => a && typeof a.prijs_eur === "number" && a.niet_leverbaar !== true);
+  const ijk = leverbaar.length ? Math.min(...leverbaar.map((a) => a.prijs_eur)) : batterij.richtprijs_eur;
+  if (typeof ijk !== "number") return false;
+
+  const proef = { winkel: `${batterij.merk} (officieel)`, url, prijs_eur: ijk };
+  const lijsten = [geenPrijs, geweigerd, kapotteLinks, teControleren, btwTwijfel, nietMeerLeverbaar, weerLeverbaar];
+  const lengtes = lijsten.map((l) => l.length);
+  await updateAanbieding(batterij, proef);
+  await new Promise((r) => setTimeout(r, 1500));
+  const afwijking = teControleren.length > lengtes[3] ? teControleren[teControleren.length - 1] : null;
+  lijsten.forEach((l, i) => { l.length = lengtes[i]; });
+
+  if (afwijking) {
+    fabrikantAfwijkend.push({ id: batterij.id, winkel: proef.winkel, ijk, nieuw: afwijking.nieuw, url });
+    return false;
+  }
+  if (!vandaagBevestigd.has(proef) || proef.niet_leverbaar) return false;
+
+  const prijs = vandaagBevestigd.get(proef);
+  if (!DROOG) {
+    if (!batterij.aanbiedingen) batterij.aanbiedingen = [];
+    batterij.aanbiedingen.unshift({ winkel: proef.winkel, prijs_eur: prijs, url, datum: VANDAAG });
+  }
+  fabrikantErbij.push({ id: batterij.id, winkel: proef.winkel, prijs, url });
+  console.log(`  + ${batterij.id}: ${proef.winkel} verkoopt hem zelf voor €${prijs}${DROOG ? " (droge run, niet toegevoegd)" : ", toegevoegd als aanbieding"}`);
+  return true;
+}
+
+/**
  * Een richtprijs zonder winkel. Die heeft geen aanbieding en werd daarom nooit
  * bezocht: het script liep alleen langs aanbiedingen, en de prijsdatum bleef
  * staan op de dag dat iemand het bedrag met de hand invulde.
@@ -308,39 +364,13 @@ async function updateAanbieding(batterij, aanbieding) {
  * uitkomst daarna terug.
  */
 async function updateRichtprijs(batterij) {
-  /* Zonder prijs_bron_url proberen we de fabrikantpagina. De Anker Solarbank 3
-     Pro stond een maand als "richtprijs zonder bron-URL" in het overzicht,
-     terwijl product_url naar de Anker-shop wees met precies dat bedrag erop.
-     Bij een fabrikant zonder webshop levert dit niets op, en dan blijft alles
-     zoals het was: dezelfde melding, geen extra rijen in de andere lijsten. */
-  const terugval = !batterij.prijs_bron_url && typeof batterij.product_url === "string";
   const bron = {
-    winkel: batterij.prijs_bron || (terugval ? `${batterij.merk} (fabrikantpagina)` : "richtprijs"),
-    url: batterij.prijs_bron_url || (terugval ? batterij.product_url : undefined),
+    winkel: batterij.prijs_bron || "richtprijs",
+    url: batterij.prijs_bron_url,
     prijs_eur: batterij.richtprijs_eur,
     btw_inbegrepen: batterij.btw_inbegrepen,
     prijs_controle: batterij.prijs_controle,
   };
-  if (terugval && controleerbaar(bron) && typeof bron.prijs_eur === "number") {
-    // Wat de fabrikantpagina oplevert aan meldingen, telt alleen als hij een
-    // prijs gaf. Anders zou elke fabrikant zonder shop elke dag als "pagina
-    // zonder leesbaar bedrag" in het overzicht staan.
-    const lijsten = [geenPrijs, geweigerd, kapotteLinks, teControleren, btwTwijfel];
-    const lengtes = lijsten.map((l) => l.length);
-    const veranderd = await updateAanbieding(batterij, bron);
-    if (vandaagBevestigd.has(bron)) {
-      if (!DROOG) {
-        batterij.richtprijs_eur = bron.prijs_eur;
-        batterij.prijs_datum = bron.datum;
-        batterij.prijs_bron_url = batterij.product_url;
-        if (!batterij.prijs_bron) batterij.prijs_bron = bron.winkel;
-      }
-      return veranderd;
-    }
-    lijsten.forEach((l, i) => { l.length = lengtes[i]; });
-    zonderAdres.push({ id: batterij.id, prijs: batterij.richtprijs_eur, bron: batterij.prijs_bron || "?", datum: batterij.prijs_datum || "?" });
-    return false;
-  }
   if (!controleerbaar(bron)) {
     // Alleen melden als er iets te bewaken valt: een product zonder prijs kan
     // geen verouderde prijs tonen, en een prijs die als mensenwerk is
@@ -368,6 +398,7 @@ async function main() {
       if (await updateAanbieding(batterij, aanbieding)) wijzigingen++;
       await new Promise((r) => setTimeout(r, 1500)); // beleefde pauze tussen requests
     }
+    if (await probeerFabrikant(batterij)) wijzigingen++;
     /* Een batterij zonder bruikbare aanbieding toont de richtprijs, en die
        hoort dus ook gecontroleerd te worden.
 
@@ -462,6 +493,14 @@ async function main() {
   meld(geenPrijs, "pagina('s) zonder leesbaar bedrag",
     "Deze pagina's kwamen binnen, maar er stond geen bedrag in dat aan dit product te koppelen was. Meestal vult de winkel de prijs pas in de browser in. Dat gaat niet vanzelf over: zolang dit hier staat, veroudert die prijs elke dag verder.",
     ["Batterij", "Winkel", "Prijs in de data", "Link"], (g) => [g.id, g.winkel, `€ ${g.prijs}`, g.url]);
+
+  meld(fabrikantErbij, DROOG ? "fabrikant(en) die zelf verkopen (droge run, niet toegevoegd)" : "fabrikant(en) als winkel toegevoegd",
+    "De productpagina van de fabrikant toonde een prijs binnen de marge van de laagste winkelprijs of de richtprijs. Hij staat nu als aanbieding in de lijst en loopt vanaf morgen gewoon mee. Even nakijken of het bedrag bij de losse batterij hoort en niet bij een set.",
+    ["Batterij", "Winkel", "Prijs", "Link"], (g) => [g.id, g.winkel, `€ ${g.prijs}`, g.url]);
+
+  meld(fabrikantAfwijkend, "fabrikantprijs(en) buiten de marge",
+    "De fabrikant toont een bedrag dat te ver van de winkelprijs of richtprijs ligt om zonder meer over te nemen. Vaak een set of een ander getal op de pagina; soms een echte prijs die de richtprijs moet bijstellen. Klopt hij, zet hem dan met de hand als aanbieding.",
+    ["Batterij", "Winkel", "Ijkprijs", "Gevonden", "Link"], (g) => [g.id, g.winkel, `€ ${g.ijk}`, `€ ${g.nieuw}`, g.url]);
 
   meld(zonderAdres, "richtprijs(en) zonder bron-URL",
     "Hier valt niets te automatiseren: er staat geen adres bij waar dit bedrag vandaan komt, dus geen enkel script kan het bevestigen. Zet er een `prijs_bron_url` bij die naar een pagina met dit bedrag wijst, dan loopt hij vanaf morgen mee in de dagelijkse ronde. Kan dat niet - een offerte, een schatting - zet dan `\"prijs_controle\": \"handmatig\"` erbij, zodat duidelijk is dat dit mensenwerk blijft.",
