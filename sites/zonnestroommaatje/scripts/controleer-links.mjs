@@ -83,6 +83,9 @@ function controleerIntern() {
 
     for (const ruw of verwijzingen(html)) {
       if (/^(https?:|mailto:|tel:|data:|#|\/\/)/i.test(ruw)) continue;
+      // Vercel levert /_vercel/insights/script.js bij de uitrol; het staat niet
+      // in de repo en is dus geen kapotte link.
+      if (ruw.startsWith("/_vercel/")) continue;
 
       // Ankers en cachebusters horen niet bij de bestandsnaam
       const pad = ruw.split("#")[0].split("?")[0];
