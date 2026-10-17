@@ -97,7 +97,7 @@ const SITES = [
       "reken-twijfel": { doel: "rekenmodule.html", titel: "Zonnepanelen zijn bij mij een twijfelgeval", toon: "twijfel" },
       "reken-niet": { doel: "rekenmodule.html", titel: "Zonnepanelen verdienen zich bij mij niet terug", toon: "nee" },
       "advies": { doel: "advies.html", titel: "Ik weet hoeveel zonnepanelen bij mijn huis passen", toon: "ja", woord: "Advies op maat" },
-      "plan": { doel: "energieplan.html", titel: "Mijn energieplan: zo maak ik mijn huis stap voor stap duurzaam", toon: "ja", woord: "Mijn plan" },
+      "plan": { doel: "energieplan.html", titel: "Zoveel bespaar ik met mijn energieplan", toon: "ja", woord: "Zie mijn plan" },
     },
     titel: (p) => zonderHaakjes(naam(p)),
     feiten: (p) => [

@@ -301,32 +301,23 @@
       ${stappen.map((st, i) => stapKaart(st, i + 1)).join("")}
       <p class="hint" style="margin-top: var(--ruimte-10);">Indicatie op basis van vuistregels en gemiddelde prijzen; geen offerte of financieel advies. Per stap rekent de gekoppelde tool het exact voor je door. <a href="javascript:window.print()">${Iconen.svg("printen")} Plan afdrukken</a></p>
     `;
-    deelPlan(stappen, nietLonend, metBedragen.length ? { tvt, totBesparing } : null, allesGedaan);
+    deelPlan(metBedragen.length ? { totBesparing } : null, allesGedaan);
   }
 
   /* Het plan doorsturen. De invoer gaat mee in de link (assets/delen.js),
-     dus wie hem opent ziet hetzelfde plan; het bericht noemt de stappen met
-     hun terugverdientijd, en ook wat bij jou niet loont. */
-  const NAAM = { warmtepomp: "warmtepomp", zonnepanelen: "zonnepanelen", batterij: "thuisbatterij" };
-  function deelPlan(stappen, nietLonend, totaal, allesGedaan) {
+     dus wie hem opent ziet hetzelfde plan. Het bericht zelf is kort en
+     noemt alleen wat het oplevert: de rest staat achter de link. */
+  function deelPlan(totaal, allesGedaan) {
     if (!window.Delen) return;
     Delen.schrijfUrl(el("planFormulier"));
     if (allesGedaan) return;
-    const lonend = stappen.filter((st) => st.soort && !nietLonend.includes(st)).map((st) => {
-      const o = stapOordeel(st);
-      const wat = st.soort === "zonnepanelen" ? st.titel.replace(/^Zonnepanelen: (\d+) panelen.*$/, "$1 zonnepanelen") : NAAM[st.soort];
-      return `${wat} (${jaar(o.tvt)})`;
-    });
-    const niet = nietLonend.map((st) => (st.soort === "zonnepanelen" ? "" : "een ") + NAAM[st.soort]);
-    const delen = [
-      lonend.length ? `Mijn energieplan op Zonnestroommaatje: ${lonend.join(", ")}` : "Mijn energieplan op Zonnestroommaatje",
-      niet.length ? `; ${niet.join(" en ")} ${niet.length > 1 ? "lonen" : "loont"} bij mij (nog) niet` : "",
-      totaal ? `. Samen ${eurFmt.format(totaal.totBesparing)} per jaar besparing${totaal.tvt !== null ? `, terugverdiend in ${jaar(totaal.tvt)}` : ""}.` : ".",
-    ];
+    const bericht = totaal && totaal.totBesparing > 0
+      ? `Met mijn energieplan bespaar ik ${eurFmt.format(totaal.totBesparing)} per jaar. Zie mijn plan:`
+      : "Zo ziet mijn energieplan eruit. Zie mijn plan:";
     Delen.uitslag(el("planInhoud"), {
       sleutel: "plan",
-      vraag: "Benieuwd wat het bij een ander is? Stuur je plan door.",
-      bericht: `${delen.join("")} Wat is het bij jou?`,
+      vraag: "Laat anderen zien wat jouw plan oplevert.",
+      bericht,
     });
   }
 

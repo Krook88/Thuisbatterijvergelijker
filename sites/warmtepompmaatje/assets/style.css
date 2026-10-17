@@ -2,8 +2,8 @@
    Warmtepompmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20261017s");
-@import url("vergelijker.css?v=20261017s");
+@import url("maatlat.css?v=20261017t");
+@import url("vergelijker.css?v=20261017t");
 
 :root {
   --kleur-primair: #c2410c;
