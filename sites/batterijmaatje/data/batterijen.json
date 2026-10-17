@@ -289,7 +289,9 @@
       "fase": "1-fase",
       "richtprijs_eur": 1199,
       "prijs_omvat": "incl. btw, zelf te installeren",
-      "prijs_datum": "2026-09-15",
+      "prijs_bron": "Anker SOLIX (officieel, oktober 2026)",
+      "prijs_bron_url": "https://www.ankersolix.com/nl/products/a17c5",
+      "prijs_datum": "2026-10-17",
       "installatie": "zelf",
       "zonnepanelen_koppeling": "Twee manieren tegelijk: 4 MPPT-ingangen (tot 3.600 W) voor panelen die je er rechtstreeks op hangt, bijvoorbeeld op een balkon of klein dak, én tot 800 W AC-teruglevering via het stopcontact naast je bestaande systeem. Sturen doet hij op je slimme meter, gekoppeld in de app.",
       "koppeling_gemak": 4,
@@ -302,6 +304,12 @@
       "opmerkingen": "Begin met een enkele unit en groei door: met 5 extra accu's kom je op ongeveer 16,1 kWh. LiFePO4-cellen en IP65, dus buiten hangen mag. Anker bracht medio 2026 de Solarbank 4 E5000 Pro en de Solarbank Max AC uit, maar deze 3 blijft in het assortiment als instapmodel, tegen een verlaagde adviesprijs van circa 1.599 euro.",
       "product_url": "https://www.ankersolix.com/nl/products/a17c5",
       "aanbiedingen": [
+        {
+          "winkel": "Anker SOLIX (officieel)",
+          "prijs_eur": 1199,
+          "url": "https://www.ankersolix.com/nl/products/a17c5",
+          "datum": "2026-10-17"
+        },
         {
           "winkel": "bol.com",
           "prijs_eur": 1099,
@@ -797,19 +805,9 @@
       "app": "iSolarCloud",
       "garantie_jaar": 10,
       "cycli": null,
-      "opmerkingen": "Modulair opgebouwd uit 3 modules van 3,2 kWh, per toren uit te breiden tot 25,6 kWh. Het bedrag hier is de winkelprijs excl. btw (3.293 euro, afgeprijsd van 3.698 euro) omgerekend naar incl. btw; compleet geïnstalleerd zit je indicatief op 5.500 tot 7.000 euro. Ik ben in juli 2026 overgestapt op Thuisbatterij Outlet als bron, omdat de vorige winkel geautomatiseerde prijscontroles blokkeert.",
+      "opmerkingen": "Modulair opgebouwd uit 3 modules van 3,2 kWh, per toren uit te breiden tot 25,6 kWh. Het bedrag hier is de winkelprijs excl. btw (3.293 euro, afgeprijsd van 3.698 euro) omgerekend naar incl. btw; compleet geïnstalleerd zit je indicatief op 5.500 tot 7.000 euro. Thuisbatterij Outlet, sinds juli 2026 de winkel waar ik de prijs nakeek, heeft hem begin oktober 2026 van de site gehaald; er staat nu geen winkel met een prijs bij.",
       "product_url": "https://en.sungrowpower.com/productDetail/2255/battery-sbr064-096-128-160-192-224-256",
-      "aanbiedingen": [
-        {
-          "winkel": "Thuisbatterij Outlet",
-          "prijs_eur": 3695,
-          "url": "https://thuisbatterijoutlet.eu/product/sungrow-sbr-hoogspannings-lfp-batterij-96kw-sbr096/",
-          "datum": "2026-10-05",
-          "niet_leverbaar": true,
-          "niet_leverbaar_door": "pagina weg",
-          "weg_sinds": "2026-10-07"
-        }
-      ],
+      "aanbiedingen": [],
       "totaalprijs_van_eur": 5500,
       "totaalprijs_tot_eur": 7000,
       "totaalprijs_toelichting": "indicatie compleet geinstalleerd incl. omvormer en btw",
@@ -1280,15 +1278,6 @@
       "opmerkingen": "Ook gewoon via bol.com te bestellen. De ingebouwde 'AI Savings'-sturing laadt en ontlaadt automatisch op de voordeligste momenten. Lees de garantievoorwaarden wel even door: een internetverbinding en het bijhouden van firmware-updates zijn verplicht. En bij installateursshops staan de prijzen soms excl. btw.",
       "product_url": "https://www.saj-electric.com/h2-series",
       "aanbiedingen": [
-        {
-          "winkel": "Thuisbatterij Outlet",
-          "prijs_eur": 4566,
-          "url": "https://thuisbatterijoutlet.eu/product/saj-h2-5k-s2-10kwh-all-in-one-solution/",
-          "datum": "2026-10-05",
-          "niet_leverbaar": true,
-          "niet_leverbaar_door": "pagina weg",
-          "weg_sinds": "2026-10-07"
-        },
         {
           "winkel": "bol.com",
           "prijs_eur": 4566,
@@ -2808,7 +2797,11 @@
       "vermogen_bron": "Dyness-datasheet: 7,168 kW aanbevolen laad- en ontlaadvermogen, 10,24 kW maximaal",
       "zoeknamen": [
         "Dyness thuisbatterij 16.1 kWh"
-      ]
+      ],
+      "afbeelding": "assets/producten/dyness-powerbrick-plus.webp",
+      "afbeelding_bron": "foto: Solarboss",
+      "afbeelding_herkomst": "https://solarboss.ie/cdn/shop/files/qianshi_1200x1200.png?v=1791978209",
+      "afbeelding_via": "https://solarboss.ie/products/dyness-powerbrick-plus-16-07kwh"
     },
     {
       "id": "dysun-flexvolt-one-lv",
