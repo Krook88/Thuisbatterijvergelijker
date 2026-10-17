@@ -148,6 +148,28 @@ schrijven, en is de eerste vraag niet hoe we hem beschrijven maar of hij op de
 site hoort. Ik heb ook een prijs van €3.499 gezien; die kan niet kloppen voor
 2,12 kWh en heb ik daarom niet overgenomen.
 
+### Hoymiles HiBattery 4020 AC — opgenomen 17 oktober 2026
+
+Gemeld door de modellenzoeker op bol.com als "HB-4020-AC" (ook als set met
+P1-meter). Opgenomen als `hoymiles-hibattery-4020-ac`.
+
+| | |
+| --- | --- |
+| capaciteit | 4,02 kWh per module (nominaal; bruikbaar niet opgegeven), tot 4 modules (16,08 kWh) |
+| vermogen | 800 W via het stopcontact, 2.500 W op een eigen groep, aparte noodstroomaansluiting |
+| cycli | ≥ 8.000 bij 70% restcapaciteit |
+| garantie | 10 jaar |
+| overig | LiFePO4 (314 Ah), IP66, -20 tot 55 °C met zelfverwarming, 42 kg |
+| prijs (17-10) | AboutWatt € 1.145, Elektramat € 1.148, Homees € 1.199; de Hoymiles-shop (DE) "vanaf € 1.390,29" |
+
+Bronnen: hoymiles.com/nl (productpagina), de winkelpagina's hierboven
+(werkstroom *Wat staat er op een winkelpagina*, run 105). Tegenstrijdig:
+Elektramat zet IP65 in de URL en IP66 in de tekst; AboutWatt schrijft in de
+specificatietabel 42 kWh / 168 kWh, elders 4,02 / 16,08. Niet vastgesteld:
+bruikbare capaciteit, Home Assistant (een gids noemt open MQTT, niet
+bevestigd), Homey. De kleinere **HiBattery 1920 AC (HB-1920-AC-SV, 1,92 kWh)**
+staat ook in de meldingen; nog niet uitgezocht.
+
 ### Nog niet uitgezocht
 
 `Growatt SPH5000 + 15,3 kWh` — een set van omvormer en batterij. De winkeltitel
