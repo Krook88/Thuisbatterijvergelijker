@@ -140,7 +140,7 @@
      ander veld invult (het aantal personen zet het jaarverbruik). De aanroeper
      rekent daarna zelf opnieuw. */
   function herstel(root) {
-    var params = new URLSearchParams(location.search);
+    var params = leesCompact(root, new URLSearchParams(location.search));
     var lijst = velden(root).filter(function (paar) { return params.has(paar[0]); });
     if (!lijst.length) return false;
     function zet() {
@@ -159,6 +159,66 @@
   }
 
   /* ------------------------------------------------------------------
+     Korte deellink
+
+     Met de veldnamen erin werd een gedeeld energieplan een link van bijna
+     200 tekens. Voor de deellink krijgt elk veld daarom zijn volgnummer (één
+     teken, base 36) in plaats van zijn naam, een keuzelijst het nummer van
+     de optie, en een vinkje alleen zijn nummer (omgezet ten opzichte van de
+     standaard). Bijvoorbeeld c=k7_0900_12200_51 in plaats van
+     gasverbruik=900&stroomverbruik=2200&woning=hoek.
+
+     Het eerste stuk is een vingerafdruk van de veldenlijst. Verandert het
+     formulier later, dan klopt die niet meer en negeert de pagina de oude
+     link, in plaats van waarden in de verkeerde velden te zetten.
+     ------------------------------------------------------------------ */
+
+  function vingerafdruk(lijst) {
+    var h = 0;
+    var tekst = lijst.map(function (paar) { return paar[0]; }).join(",");
+    for (var i = 0; i < tekst.length; i++) h = (h * 31 + tekst.charCodeAt(i)) % 1296;
+    return ("0" + h.toString(36)).slice(-2);
+  }
+
+  function compact(root) {
+    var lijst = velden(root);
+    if (lijst.length > 36) return null;
+    var standaard = root.__standaard || {};
+    var stukken = [vingerafdruk(lijst)];
+    lijst.forEach(function (paar, i) {
+      var v = paar[1];
+      var w = waardeVan(v);
+      if (w === "" || w === standaard[paar[0]]) return;
+      var nr = i.toString(36);
+      if (v.type === "checkbox" || v.type === "radio") stukken.push(nr);
+      else if (v.tagName === "SELECT") stukken.push(nr + v.selectedIndex.toString(36));
+      else stukken.push(nr + encodeURIComponent(w).replace(/_/g, "%5F"));
+    });
+    return stukken.length > 1 ? stukken.join("_") : "";
+  }
+
+  // Zet een c=-parameter om in gewone veldparameters; zonder c, of met een
+  // c van een ander formulier, blijven de parameters zoals ze zijn.
+  function leesCompact(root, params) {
+    var c = params.get("c");
+    if (!c) return params;
+    var lijst = velden(root);
+    var stukken = c.split("_");
+    if (stukken.shift() !== vingerafdruk(lijst)) return params;
+    var standaard = root.__standaard || {};
+    var uit = new URLSearchParams();
+    stukken.forEach(function (stuk) {
+      var paar = lijst[parseInt(stuk.charAt(0), 36)];
+      if (!paar) return;
+      var v = paar[1], rest = stuk.slice(1);
+      if (v.type === "checkbox" || v.type === "radio") uit.set(paar[0], standaard[paar[0]] === "1" ? "0" : "1");
+      else if (v.tagName === "SELECT") { var o = v.options[parseInt(rest, 36)]; if (o) uit.set(paar[0], o.value); }
+      else uit.set(paar[0], decodeURIComponent(rest));
+    });
+    return uit;
+  }
+
+  /* ------------------------------------------------------------------
      Deelblok onder een uitslag
      ------------------------------------------------------------------ */
 
@@ -168,13 +228,26 @@
 
   /* doel: het element waar de uitslag in staat; het blok komt eronder.
      sleutel: welke /uitslag/-pagina (bepaalt het voorbeeldplaatje).
-     bericht: de zin met de uitkomst die in het WhatsApp-bericht komt. */
+     bericht: de zin met de uitkomst die in het WhatsApp-bericht komt.
+     formulier: het formulier met de invoer, voor de korte link; zonder gaat
+     de adresbalk mee zoals hij is (de rekenhulp van batterijmaatje houdt die
+     zelf bij).
+     /u/<sleutel> is een herschrijving naar /uitslag/<sleutel>.html (vercel.json). */
   function uitslag(doel, opties) {
     if (!doel) return;
     var oud = doel.querySelector(".delen-uitslag");
     if (oud) oud.parentNode.removeChild(oud);
+    var c = opties.formulier ? compact(opties.formulier) : null;
+    var vraag = c === null ? location.search : c ? "?c=" + c : "";
+    // Parameters die geen veld zijn maar wel meetellen (opties.behoud).
+    if (c !== null) {
+      var nu = new URLSearchParams(location.search);
+      (opties.behoud || []).forEach(function (k) {
+        if (nu.has(k)) vraag += (vraag ? "&" : "?") + k + "=" + encodeURIComponent(nu.get(k));
+      });
+    }
     var url = location.protocol === "file:" ? location.href
-      : location.origin + "/uitslag/" + opties.sleutel + ".html" + location.search;
+      : location.origin + "/u/" + opties.sleutel + vraag;
     var wa = "https://wa.me/?text=" + encodeURIComponent(opties.bericht + " " + url);
     doel.insertAdjacentHTML("beforeend",
       '<div class="delen delen-uitslag" data-delen data-url="' + esc(url) + '" data-tekst="' + esc(opties.bericht) + '">' +

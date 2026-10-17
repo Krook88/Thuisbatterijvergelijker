@@ -420,6 +420,7 @@
     if (window.Delen) {
       Delen.schrijfUrl(el("adviesformulier"));
       Delen.uitslag(el("adviesInhoud"), {
+        formulier: el("adviesformulier"),
         sleutel: "advies",
         bericht: `Volgens de keuzehulp op Zonnestroommaatje passen bij mijn huis ${aantalGeadviseerd} zonnepanelen (circa ${numFmt.format(wpGeadviseerd)} Wp), goed voor zo'n ${numFmt.format(opbrengst)} kWh per jaar. Wat is het bij jou?`,
       });

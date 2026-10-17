@@ -340,6 +340,7 @@
     if (window.Delen) {
       Delen.schrijfUrl(el("adviesformulier"));
       Delen.uitslag(el("adviesInhoud"), {
+        formulier: el("adviesformulier"),
         sleutel: advies.type === "hybride" ? "advies-hybride" : "advies-all-electric",
         bericht: `Volgens de keuzehulp op Warmtepompmaatje past bij mijn huis een ${advies.type === "hybride" ? "hybride" : "all-electric"} warmtepomp, goed voor zo'n ${eurFmt.format(b.nettoPerJaar)} besparing per jaar. Wat is het bij jou?`,
       });

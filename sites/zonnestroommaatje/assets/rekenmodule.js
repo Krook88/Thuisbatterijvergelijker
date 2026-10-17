@@ -165,7 +165,7 @@
     const kern = `Terugverdientijd van ${s.aantal} zonnepanelen bij mij: ${tvtTekst}` +
       (o === "slecht" ? ", dicht bij of voorbij de 25 jaar dat panelen meegaan."
         : o === "matig" ? ", met weinig marge op de 25 jaar dat panelen meegaan." : ".");
-    Delen.uitslag(el("resultaatInhoud"), { sleutel, bericht: `Ik heb het nagerekend op Zonnestroommaatje. ${kern} Wat is het bij jou?` });
+    Delen.uitslag(el("resultaatInhoud"), { sleutel, bericht: `Ik heb het nagerekend op Zonnestroommaatje. ${kern} Wat is het bij jou?`, formulier: el("rekenformulier"), behoud: ["omvormer"] });
   }
 
   function escapeHtml(str) {

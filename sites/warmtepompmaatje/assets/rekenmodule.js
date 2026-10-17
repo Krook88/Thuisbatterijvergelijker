@@ -160,7 +160,7 @@
     const kern = `Terugverdientijd van ${naam} bij mij: ${bereikTekst}${tegenoverKetel ? " (de meerprijs boven een nieuwe cv-ketel)" : ""}, ${eurFmt.format(besparingJaar)} besparing per jaar` +
       (o === "slecht" ? `, dicht bij of voorbij de ${levensduur} dat een warmtepomp meegaat.`
         : o === "matig" ? `, met weinig marge op de ${levensduur} dat een warmtepomp meegaat.` : ".");
-    Delen.uitslag(el("resultaatInhoud"), { sleutel, bericht: `Ik heb het nagerekend op Warmtepompmaatje. ${kern} Wat is het bij jou?` });
+    Delen.uitslag(el("resultaatInhoud"), { sleutel, bericht: `Ik heb het nagerekend op Warmtepompmaatje. ${kern} Wat is het bij jou?`, formulier: el("rekenformulier") });
   }
 
   /* Je ketel moet toch vervangen worden: dan is de vraag niet "warmtepomp of

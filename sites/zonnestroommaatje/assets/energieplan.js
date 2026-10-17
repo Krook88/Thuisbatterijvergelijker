@@ -325,6 +325,7 @@
       ? `Met mijn energieplan bespaar ik ${eurFmt.format(totaal.totBesparing)} per jaar. Zie mijn plan:`
       : "Zo ziet mijn energieplan eruit. Zie mijn plan:";
     Delen.uitslag(el("planInhoud"), {
+      formulier: el("planFormulier"),
       sleutel: totaal ? planSleutel(totaal.totBesparing) : "plan",
       vraag: "Laat anderen zien wat jouw plan oplevert.",
       bericht,

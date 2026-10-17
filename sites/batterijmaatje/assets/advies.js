@@ -476,7 +476,7 @@
   function deel(doel, sleutel, kern) {
     if (!window.Delen) return;
     Delen.schrijfUrl(el("adviesFormulier"));
-    Delen.uitslag(doel, { sleutel, bericht: `${kern} Wat is het bij jou?` });
+    Delen.uitslag(doel, { sleutel, bericht: `${kern} Wat is het bij jou?`, formulier: el("adviesFormulier") });
   }
 
   function render() {
