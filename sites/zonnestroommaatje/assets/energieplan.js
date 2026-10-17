@@ -307,6 +307,16 @@
   /* Het plan doorsturen. De invoer gaat mee in de link (assets/delen.js),
      dus wie hem opent ziet hetzelfde plan. Het bericht zelf is kort en
      noemt alleen wat het oplevert: de rest staat achter de link. */
+  // Er is een deelplaatje per € 100 besparing, tot € 5.000 (zie
+  // scripts/deelkaarten.mjs, PLAN_STAP en PLAN_MAX). Het bedrag eronder komt
+  // erop: "ruim € 2.500" bij € 2.558.
+  const PLAN_STAP = 100;
+  const PLAN_MAX = 5000;
+  function planSleutel(besparing) {
+    const n = Math.min(PLAN_MAX, Math.floor(besparing / PLAN_STAP) * PLAN_STAP);
+    return n >= PLAN_STAP ? `plan-${n}` : "plan";
+  }
+
   function deelPlan(totaal, allesGedaan) {
     if (!window.Delen) return;
     Delen.schrijfUrl(el("planFormulier"));
@@ -315,7 +325,7 @@
       ? `Met mijn energieplan bespaar ik ${eurFmt.format(totaal.totBesparing)} per jaar. Zie mijn plan:`
       : "Zo ziet mijn energieplan eruit. Zie mijn plan:";
     Delen.uitslag(el("planInhoud"), {
-      sleutel: "plan",
+      sleutel: totaal ? planSleutel(totaal.totBesparing) : "plan",
       vraag: "Laat anderen zien wat jouw plan oplevert.",
       bericht,
     });

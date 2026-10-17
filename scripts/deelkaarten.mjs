@@ -36,6 +36,25 @@ const nl = (n) => String(n).replace(".", ",");
 const naam = (p) => p.model.toLowerCase().startsWith(p.merk.toLowerCase()) ? p.model : `${p.merk} ${p.model}`;
 const zonderHaakjes = (s) => s.replace(/\s*\([^)]*\)\s*$/, "").trim();
 
+/* Het energieplan deelt wat het bespaart, en dat bedrag hoort op het
+   plaatje. Een plaatje per bezoeker kan niet zonder server, dus er is er een
+   per € 100, van € 100 tot € 5.000; het plan kiest het bedrag eronder
+   ("ruim € 2.500" bij € 2.558). Het precieze bedrag staat in het bericht.
+   Houd PLAN_STAP en PLAN_MAX gelijk aan die in assets/energieplan.js. */
+const PLAN_STAP = 100;
+const PLAN_MAX = 5000;
+function planBedragen() {
+  const uit = {};
+  for (let n = PLAN_STAP; n <= PLAN_MAX; n += PLAN_STAP) {
+    const bedrag = "€\u00a0" + n.toLocaleString("nl-NL");
+    // titel: voor WhatsApp en Facebook (og:title). Op het plaatje zelf staat
+    // het bedrag groot rechts, dus links een kortere kop.
+    uit[`plan-${n}`] = { doel: "energieplan.html", titel: `Met mijn energieplan bespaar ik ruim ${bedrag} per jaar`,
+      kaartTitel: "Zoveel bespaar ik met mijn energieplan", toon: "ja", bedrag, woord: "per jaar" };
+  }
+  return uit;
+}
+
 /* Per site: waar de producten staan, waar hun pagina's staan, en welke drie
    gegevens op het plaatje komen. Dat laatste is domeinkennis en verschilt per
    site, daarom staat dit hier en niet in kern/. */
@@ -98,6 +117,7 @@ const SITES = [
       "reken-niet": { doel: "rekenmodule.html", titel: "Zonnepanelen verdienen zich bij mij niet terug", toon: "nee" },
       "advies": { doel: "advies.html", titel: "Ik weet hoeveel zonnepanelen bij mijn huis passen", toon: "ja", woord: "Advies op maat" },
       "plan": { doel: "energieplan.html", titel: "Zoveel bespaar ik met mijn energieplan", toon: "ja", woord: "Zie mijn plan" },
+      ...planBedragen(),
     },
     titel: (p) => zonderHaakjes(naam(p)),
     feiten: (p) => [
@@ -144,10 +164,10 @@ const TOON = {
   nee: { icoon: "nee", kleur: "#b91c1c", vlak: "#fee2e2", woord: "Loont (nog) niet" },
 };
 function uitslagKaart(cfg, u) {
-  return { soort: SOORT[u.doel], titel: u.titel, feiten: [],
+  return { soort: SOORT[u.doel], titel: u.kaartTitel || u.titel, feiten: [],
     onder: "Wat is het bij jou? Reken het na met je eigen getallen", foto: null,
     icoon: TOON[u.toon].icoon, kleur: TOON[u.toon].kleur, vlak: TOON[u.toon].vlak,
-    woord: u.woord || TOON[u.toon].woord };
+    woord: u.woord || TOON[u.toon].woord, bedrag: u.bedrag || null };
 }
 
 function kaartHtml(cfg, kaart, siteMap, iconen) {
@@ -179,6 +199,8 @@ h1 { font-size: 64px; line-height: 1.05; font-weight: 800; margin-top: 14px; ove
 .beeld.leeg svg { width: 220px; height: 220px; color: ${kaart.kleur || k.accent}; }
 .beeld.uitslag { background: ${kaart.vlak}; border: 0; flex-direction: column; gap: 18px; }
 .beeld.uitslag svg { width: 200px; height: 200px; }
+.bedrag { font-size: 30px; font-weight: 700; color: ${kaart.kleur}; }
+.bedrag b { display: block; font-size: 96px; line-height: 1; font-weight: 800; letter-spacing: -0.02em; margin-top: 6px; }
 .woord { font-size: 46px; font-weight: 800; color: ${kaart.kleur}; text-align: center; padding: 0 24px; }
 </style></head><body>
 <div class="tekst">
@@ -190,7 +212,7 @@ h1 { font-size: 64px; line-height: 1.05; font-weight: 800; margin-top: 14px; ove
     <div class="domein">${iconen.svg(cfg.icoon)}${esc(cfg.domein)}</div>
   </div>
 </div>
-<div class="beeld${foto ? "" : " leeg"}${kaart.kleur ? " uitslag" : ""}">${foto ? `<img src="${foto}" alt="">` : iconen.svg(kaart.icoon)}${kaart.woord ? `<div class="woord">${esc(kaart.woord)}</div>` : ""}</div>
+<div class="beeld${foto ? "" : " leeg"}${kaart.kleur ? " uitslag" : ""}">${foto ? `<img src="${foto}" alt="">` : kaart.bedrag ? `<div class="bedrag woord">ruim<b>${esc(kaart.bedrag)}</b></div>` : iconen.svg(kaart.icoon)}${kaart.woord ? `<div class="woord">${esc(kaart.woord)}</div>` : ""}</div>
 <script>
   /* Lange paneelnamen: maak de kop kleiner tot hij in drie regels past. */
   const h = document.getElementById("titel");
