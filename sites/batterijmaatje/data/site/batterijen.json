@@ -8,7 +8,7 @@
       "merk": "Marstek",
       "model": "Venus E 3.0 (4,6 kWh bruikbaar)",
       "capaciteit_kwh": 4.6,
-      "uitbreidbaar_tot_kwh": 15.36,
+      "uitbreidbaar_tot_kwh": 13.8,
       "vermogen_kw": 2.5,
       "type": "plug-in",
       "fase": "1-fase",
@@ -986,7 +986,7 @@
       "merk": "SolaX",
       "model": "Triple Power T-BAT H 5.8 (5,22 kWh bruikbaar)",
       "capaciteit_kwh": 5.22,
-      "uitbreidbaar_tot_kwh": 23.2,
+      "uitbreidbaar_tot_kwh": 20.88,
       "vermogen_kw": null,
       "type": "hybride",
       "fase": "1- of 3-fase (afhankelijk van X1/X3-omvormer)",
@@ -1549,7 +1549,7 @@
       "merk": "AEG",
       "model": "SolarCube AS-BBL09 (4,32 kWh bruikbaar)",
       "capaciteit_kwh": 4.32,
-      "uitbreidbaar_tot_kwh": 14.4,
+      "uitbreidbaar_tot_kwh": 12.96,
       "vermogen_kw": 2.4,
       "type": "plug-in",
       "fase": "1-fase",
@@ -1610,7 +1610,7 @@
       "merk": "Sunpura",
       "model": "S4800 AC (4,32 kWh bruikbaar)",
       "capaciteit_kwh": 4.32,
-      "uitbreidbaar_tot_kwh": 14.4,
+      "uitbreidbaar_tot_kwh": 12.96,
       "vermogen_kw": 0.8,
       "type": "plug-in",
       "fase": "1-fase",
@@ -1645,11 +1645,7 @@
       "capaciteit_nominaal_kwh": 4.8,
       "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "stopcontact",
-      "vermogen_bron": "Teruglevering aan het stopcontact is bij dit model beperkt tot 800 W",
-      "afbeelding": "assets/producten/sunpura-s4800.webp",
-      "afbeelding_bron": "foto: Sunpura",
-      "afbeelding_herkomst": "https://sunpuraenergy.nl/cdn/shop/files/S2400_All-In-One_-_front_view_-_3.png?v=1784618697&width=900",
-      "afbeelding_via": "https://sunpuraenergy.nl/en"
+      "vermogen_bron": "Teruglevering aan het stopcontact is bij dit model beperkt tot 800 W"
     },
     {
       "id": "marstek-venus-e-4",
@@ -2328,7 +2324,7 @@
       "vermogen_conditie": "stopcontact",
       "vermogen_bron": "800 W aan het net en 1.500 W off-grid en bij laden, volgens StekkerDeal",
       "afbeelding": "assets/producten/hyxi-halo.webp",
-      "afbeelding_bron": "foto: HYXi",
+      "afbeelding_bron": "foto: StekkerDeal",
       "afbeelding_herkomst": "https://stekkerdeal.nl/product-images/HYXi_Halo.png",
       "afbeelding_via": "https://stekkerdeal.nl/products/hyxi-halo/"
     },
@@ -2588,7 +2584,7 @@
         "Energy Bank 9.7 kWh"
       ],
       "afbeelding": "assets/producten/solaredge-home-battery-400v.webp",
-      "afbeelding_bron": "foto: SolarEdge",
+      "afbeelding_bron": "foto: Wattuneed",
       "afbeelding_herkomst": "https://www.wattuneed.com/39875-product_main_2x/accu-solaredge-home-battery-10-kwh-bat-10k1ps0b-01.jpg",
       "afbeelding_via": "https://www.wattuneed.com/nl/lithium-zonnebatterijen/25980-accu-solaredge-home-battery-10-kwh-bat-10k1ps0b-01-0768563817625.html"
     },
