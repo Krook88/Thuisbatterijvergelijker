@@ -13,7 +13,9 @@
 
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory();
-  else root.Rekenkern = factory();
+  // Ook onder een eigen naam: het energieplan op zonnestroommaatje laadt de
+  // rekenkern van de batterij en die van de warmtepomp naast elkaar.
+  else { const a = factory(); root.Rekenkern = a; root.RekenkernWarmtepomp = a; }
 })(typeof self !== "undefined" ? self : globalThis, function () {
   "use strict";
 

@@ -17,16 +17,14 @@
   // Gas- en stroomprijs zijn standaardwaarden; de bezoeker kan ze aanpassen.
   const VERGOEDING = 0.05;          // terugleververgoeding vanaf 2027, euro per kWh
   const TERUGLEVERKOSTEN = 0.02;    // euro per teruggeleverde kWh
-  const KWH_PER_M3 = 8.8;           // nuttige warmte per m3 gas
   const VASTRECHT_GAS = 350;        // vaste gaskosten per jaar
-  const AFSLUITKOSTEN = 700;        // eenmalig, bij van het gas af
-  // Warmtepomp-indicaties (afgerond op de wpm-rekenmodule en ISDE 2026)
+  // Warmtepomp: toestel en ISDE voor een gemiddelde pomp van elk type. De
+  // installatie, de afsluitkosten en de som zelf komen uit de rekenkern van
+  // warmtepompmaatje (assets/rekenkern-warmtepomp.js), zodat "Bereken exact"
+  // op hetzelfde bedrag uitkomt.
   const WP = {
-    hybride: { toestel: 3300, installatie: 2500, isde: 2100, label: "hybride warmtepomp" },
-    // Installatie gelijk aan de schatting van de warmtepomp-rekenhulp
-    // (warmtepompmaatje.nl/assets/rekenkern.js, INSTALLATIE), zodat "Bereken
-    // exact" op hetzelfde bedrag uitkomt. Stond eerst op 4.500.
-    allel: { toestel: 7300, installatie: 5000, isde: 3000, label: "all-electric warmtepomp" },
+    hybride: { toestel: 3300, isde: 2100, label: "hybride warmtepomp" },
+    allel: { toestel: 7300, isde: 3000, label: "all-electric warmtepomp" },
   };
   // Zonnepanelen (zelfde schatting als onze rekenmodule)
   const WP_PANEEL = 440;            // wattpiek per paneel
@@ -92,19 +90,29 @@
     if (!s.heeftPomp && s.gas >= 300) {
       const allElectric = s.cvKetel === "geen" || s.isolatie === "goed" || (s.isolatie === "redelijk" && s.afgifte !== "radiatoren");
       const wp = allElectric ? WP.allel : WP.hybride;
-      let gasBespaard;
-      if (allElectric) {
-        gasBespaard = s.gas;
-        const verwarmingGas = s.gas * 0.75;
-        pompKwh = (verwarmingGas * KWH_PER_M3) / 4.0 + ((s.gas - verwarmingGas) * KWH_PER_M3) / 2.5;
-        gasNa = 0; vastrechtNa = 0;
-      } else {
-        gasBespaard = s.gas * 0.6;
-        pompKwh = (gasBespaard * KWH_PER_M3) / 4.5;
-        gasNa = s.gas - gasBespaard;
-      }
-      const investering = wp.toestel + wp.installatie + (allElectric ? AFSLUITKOSTEN : 0) - wp.isde;
-      const besparing = gasBespaard * s.gasprijs + (allElectric ? VASTRECHT_GAS : 0) - pompKwh * s.stroomprijs;
+      // Dezelfde som als de rekenhulp van warmtepompmaatje (geleend als
+      // assets/rekenkern-warmtepomp.js), met een gemiddelde pomp van dit type.
+      const W = window.RekenkernWarmtepomp;
+      const r = W.bereken(Object.assign({}, W.STANDAARD, {
+        type: allElectric ? "all-electric" : "hybride",
+        gas: s.gas, gasprijs: s.gasprijs, stroomprijs: s.stroomprijs, vastrecht: VASTRECHT_GAS,
+        toestelPrijs: wp.toestel, isde: wp.isde, gasAf: allElectric,
+        ketelVervangen: s.cvKetel === "oud",
+      }));
+      pompKwh = r.stroomKwh;
+      gasNa = r.gasOver;
+      if (allElectric) vastrechtNa = 0;
+      const k = r.tegenoverKetel;
+      const investering = r.netto;
+      const besparing = r.besparingJaar;
+      // Is de ketel toch op, dan telt bij all-electric alleen de meerprijs
+      // boven een nieuwe ketel; een hybride heeft die ketel er hoe dan ook bij nodig.
+      const tvt = k ? k.tvt : r.tvt;
+      const ketelZin = k
+        ? (allElectric
+          ? ` Je ketel is toch aan vervanging toe: de terugverdientijd telt alleen wat dit méér kost dan een nieuwe cv-ketel (circa ${eurFmt.format(k.ketelprijs)}).`
+          : ` Je ketel is aan vervanging toe, en een hybride werkt naast een ketel: reken een nieuwe erbij (circa ${eurFmt.format(k.ketelprijs)}), of overweeg all-electric na isoleren.`)
+        : "";
       const geluidZin = s.woning !== "vrijstaand" ? " Kies een stille buitenunit: met buren op de erfgrens geldt in de nacht een eis van 40 dB." : "";
       stappen.push({
         icoon: Iconen.svg("aanbieding"), titel: `Warmtepomp: ${wp.label}`,
@@ -114,9 +122,9 @@
             : s.isolatie === "goed"
               ? "Je huis is goed geïsoleerd: all-electric kan de ketel volledig vervangen en je kunt helemaal van het gas af."
               : "Met redelijke isolatie en (deels) vloerverwarming kan all-electric, mits de installateur het warmteverlies doorrekent.")
-          : `${s.isolatie === "matig" ? "Bij matige isolatie" : "Met alleen radiatoren"} is hybride de veilige route: circa 60% gasbesparing, de ketel vangt piekkou en warm water op.` + (s.cvKetel === "oud" ? " Let op: je ketel is aan vervanging toe; reken een nieuwe mee of overweeg all-electric na isoleren." : "")) + geluidZin,
+          : `${s.isolatie === "matig" ? "Bij matige isolatie" : "Met alleen radiatoren"} is hybride de veilige route: circa 60% gasbesparing, de ketel vangt piekkou en warm water op.`) + ketelZin + geluidZin,
         soort: "warmtepomp",
-        bedragen: { investering, subsidie: wp.isde, besparing },
+        bedragen: { investering, subsidie: wp.isde, besparing, tvt },
         knoppen: [
           { tekst: `Doe de warmtepomp-keuzehulp ${Iconen.svg("pijl-rechts")}`, url: "https://warmtepompmaatje.nl/advies.html", extern: true },
           { tekst: `Bereken exact ${Iconen.svg("pijl-rechts")}`, url: `https://warmtepompmaatje.nl/rekenmodule.html?gas=${s.gas}`, extern: true },
@@ -157,16 +165,42 @@
 
     // Stap 4: thuisbatterij (alleen zinvol met panelen)
     if (!s.heeftBatterij && (opwek > 0 || s.heeftPanelen)) {
-      const capaciteit = pompKwh > 0 || s.heeftPomp ? 10 : 7;
-      const investering = capaciteit * BATTERIJ_EUR_PER_KWH;
-      // De batterij verhoogt het eigen verbruik van je opwek met circa 25 procentpunt
-      const extraEigen = Math.min(opwek * 0.25, Math.max(0, verbruikNa - opwek * eigenPct));
-      const besparing = extraEigen * (s.stroomprijs - (VERGOEDING - TERUGLEVERKOSTEN));
+      // Grootte zoals de keuzehulp van batterijmaatje: niet meer opslaan dan
+      // je zomers overhoudt, en niet meer dan je 's avonds en 's nachts
+      // gebruikt. Afgerond op een halve kWh.
+      const B = window.RekenkernBatterij;
+      const avondNacht = (verbruikNa / 365) * B.AANDEEL_BUITEN_ZON;
+      const dagOverschotZomer = ((opwek * 0.7) / 365) * 1.5;
+      const capaciteit = Math.max(2, Math.round(Math.min(dagOverschotZomer, Math.max(avondNacht, 1)) * 2) / 2);
+      const investering = Math.round(capaciteit * BATTERIJ_EUR_PER_KWH);
+      // En de opbrengst met de rekenkern van batterijmaatje (geleend als
+      // assets/rekenkern-batterij.js), dus hetzelfde getal als de rekenhulp daar.
+      const r = B.bereken(B.metStandaard({
+        heeftPv: true,
+        contract: s.contract === "dynamisch" ? "dynamisch" : "vast",
+        opwek, jaarVerbruik: verbruikNa, eigenVerbruikPct: Math.round(eigenPct * 100),
+        capaciteit, investering, stroomprijs: s.stroomprijs, ontlaadwaarde: s.stroomprijs,
+      }));
+      const besparing = r.totaal;
+      const tvt = r.terugverdientijd;
+      // Met een vast contract is dezelfde batterij vaak een ander verhaal dan
+      // met een dynamisch; dat verschil hoort de bezoeker te zien.
+      const dyn = s.contract === "dynamisch" ? null : B.bereken(B.metStandaard({
+        heeftPv: true, contract: "dynamisch",
+        opwek, jaarVerbruik: verbruikNa, eigenVerbruikPct: Math.round(eigenPct * 100),
+        capaciteit, investering, stroomprijs: s.stroomprijs, ontlaadwaarde: s.stroomprijs,
+      }));
+      const kwh1 = (n) => String(Math.round(n * 10) / 10).replace(".", ",");
       stappen.push({
-        icoon: Iconen.svg("batterij"), titel: `Thuisbatterij: circa ${capaciteit} kWh`,
-        advies: `${pompKwh > 0 || s.heeftPomp ? "Met een warmtepomp past een wat grotere batterij om de avond te overbruggen. " : ""}De batterij vangt je middagopwek op voor de avond en kan met een dynamisch contract extra verdienen op goedkope uren (die bonus reken ik hier niet mee).`,
+        icoon: Iconen.svg("batterij"), titel: `Thuisbatterij: circa ${kwh1(capaciteit)} kWh`,
+        advies: `Afgestemd op wat je zomers overhoudt (circa ${kwh1(dagOverschotZomer)} kWh per dag) en wat je 's avonds en 's nachts gebruikt (circa ${kwh1(avondNacht)} kWh per dag). ` +
+          (s.contract === "dynamisch"
+            ? "Met je dynamische contract telt ook slim laden op goedkope uren mee."
+            : dyn && dyn.terugverdientijd !== null
+              ? `Met een dynamisch contract laadt hij ook op goedkope uren: dan ${eurFmt.format(dyn.totaal)} per jaar en een terugverdientijd van ${String(Math.round(dyn.terugverdientijd * 10) / 10).replace(".", ",")} jaar. Hierboven reken ik met je huidige contract.`
+              : "Met een dynamisch contract kan hij extra verdienen op goedkope uren; met je huidige contract reken ik dat niet mee."),
         soort: "batterij",
-        bedragen: { investering, subsidie: 0, besparing },
+        bedragen: { investering, subsidie: 0, besparing, tvt },
         knoppen: [{ tekst: `Doe de batterij-keuzehulp ${Iconen.svg("pijl-rechts")}`, url: "https://batterijmaatje.nl/advies.html", extern: true }],
       });
     }
@@ -205,7 +239,10 @@
   function stapOordeel(stap) {
     const b = stap.bedragen;
     if (!b || !stap.soort) return null;
-    const tvt = b.besparing > 0 ? b.investering / b.besparing : null;
+    // De warmtepomp en de batterij geven hun eigen terugverdientijd mee (uit
+    // hun rekenkern, met veroudering en de ketel), zodat hij gelijk is aan de
+    // rekenhulp; de panelen rekenen hier eenvoudig.
+    const tvt = b.tvt !== undefined ? b.tvt : (b.besparing > 0 ? b.investering / b.besparing : null);
     return { tvt, oordeel: Oordeel.van(stap.soort, tvt) };
   }
   const jaar = (t) => t === null ? "niet terug" : `${t.toFixed(1).replace(".", ",")} jaar`;

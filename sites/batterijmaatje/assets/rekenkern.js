@@ -34,7 +34,9 @@
 (function (root, factory) {
   const api = factory();
   if (typeof module === "object" && module.exports) module.exports = api;
-  else root.Rekenkern = api;
+  // Ook onder een eigen naam: het energieplan op zonnestroommaatje laadt de
+  // rekenkern van de batterij en die van de warmtepomp naast elkaar.
+  else { const a = api; root.Rekenkern = a; root.RekenkernBatterij = a; }
 })(typeof self !== "undefined" ? self : globalThis, function () {
   "use strict";
 

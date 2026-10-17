@@ -68,6 +68,36 @@ for (const site of sites) {
   }
 }
 
+/* Uitgeleend: een bestand dat bij één site hoort maar ook op een andere
+   nodig is. Het energieplan op zonnestroommaatje rekent de thuisbatterij en
+   de warmtepomp door, en deed dat met eigen vuistregels die afweken van de
+   rekenhulpen van de zustersites: wie op "Bereken exact" klikte, zag een
+   ander getal. Nu draait het plan dezelfde rekenkern.
+
+   Waarom niet in kern/: kern/ is voor wat alle drie de sites delen, en de
+   rekensom van een batterij is van batterijmaatje. Die site blijft de bron;
+   de kopie heet anders, zodat duidelijk is dat hij geleend is, en deze
+   controle faalt zodra hij afwijkt. */
+const UITGELEEND = [
+  { van: "batterijmaatje/assets/rekenkern.js", naar: "zonnestroommaatje/assets/rekenkern-batterij.js" },
+  { van: "warmtepompmaatje/assets/rekenkern.js", naar: "zonnestroommaatje/assets/rekenkern-warmtepomp.js" },
+];
+
+for (const { van, naar } of UITGELEEND) {
+  const bron = join(SITES, van);
+  const doel = join(SITES, naar);
+  const gelijk = existsSync(doel) && Buffer.compare(readFileSync(bron), readFileSync(doel)) === 0;
+  if (gelijk) continue;
+  const [site, ...rest] = naar.split("/");
+  if (CONTROLEER) {
+    afwijkend.push({ site, rel: rest.join("/"), reden: existsSync(doel) ? `wijkt af van sites/${van}` : `ontbreekt (kopie van sites/${van})` });
+  } else {
+    writeFileSync(doel, readFileSync(bron));
+    console.log(`  ${naar} bijgewerkt vanuit sites/${van}`);
+    gekopieerd++;
+  }
+}
+
 /**
  * Loopt de cache-versie van een site nog gelijk?
  *

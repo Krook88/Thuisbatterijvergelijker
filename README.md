@@ -55,6 +55,14 @@ blijven staan: die lezen `TITEL_MAX` en het merkachtervoegsel van hun eigen
 site, en dan kost delen meer dan het oplevert. Tien regels kopiëren is goedkoper
 dan tien regels met drie parameters.
 
+Eén uitzondering: twee bestanden horen bij één site maar zijn ook elders
+nodig. Het energieplan op zonnestroommaatje rekent met de rekenkern van
+batterijmaatje en die van warmtepompmaatje. Die staan daar als
+`assets/rekenkern-batterij.js` en `assets/rekenkern-warmtepomp.js`; de bron
+blijft `sites/<site>/assets/rekenkern.js`. `npm run kern:verdeel` kopieert ze
+mee en `kern:controleer` faalt als een kopie afwijkt (lijst `UITGELEEND` in
+`scripts/kern-verdelen.mjs`).
+
 Wijzig je iets aan een gedeeld bestand, doe dat dan in `kern/` en draai
 `npm run kern:verdeel`. Hoort een wijziging bij één site, haal dat bestand dan
 uit `kern/` en leg in de commit vast waarom het niet langer gedeeld is.

@@ -17,12 +17,14 @@
   <meta property="og:site_name" content="Zonnestroommaatje.nl">
   <meta name="twitter:card" content="summary_large_image">
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="stylesheet" href="assets/style.css?v=20261017o">
-  <script src="assets/iconen.js?v=20261017o" defer></script>
-  <script src="assets/prijs.js?v=20261017o" defer></script>
-  <script src="assets/oordeel.js?v=20261017o" defer></script>
-  <script src="assets/energieplan.js?v=20261017o" defer></script>
-  <script src="assets/nav.js?v=20261017o" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20261017q">
+  <script src="assets/iconen.js?v=20261017q" defer></script>
+  <script src="assets/prijs.js?v=20261017q" defer></script>
+  <script src="assets/oordeel.js?v=20261017q" defer></script>
+  <script src="assets/rekenkern-batterij.js?v=20261017q" defer></script>
+  <script src="assets/rekenkern-warmtepomp.js?v=20261017q" defer></script>
+  <script src="assets/energieplan.js?v=20261017q" defer></script>
+  <script src="assets/nav.js?v=20261017q" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <style>
     .reken-indeling { display: grid; grid-template-columns: 380px 1fr; gap: var(--ruimte-20); align-items: start; margin: var(--ruimte-28) 0 var(--ruimte-40); }
@@ -43,7 +45,7 @@
     .plan-totalen { display: flex; flex-direction: column; gap: var(--ruimte-4); font-size: var(--tekst-15); }
     .plan-stap { border: 1px solid var(--kleur-rand); border-radius: var(--radius); padding: var(--ruimte-14) var(--ruimte-14); margin-top: var(--ruimte-10); background: var(--kleur-wit); }
     /* Een stap die zich bij deze getallen niet terugverdient: wel tonen, niet meetellen. */
-    .plan-stap-niet { border-style: dashed; background: var(--kleur-achtergrond); }
+    .plan-stap-niet { border-style: dashed; border-width: 2px; }
     .plan-stap-kop { display: flex; align-items: center; gap: var(--ruimte-10); flex-wrap: wrap; }
     .plan-stap-kop h3 { margin: 0; font-size: var(--tekst-17); min-width: 0; }
     .plan-nummer { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--kleur-primair); color: #fff; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; font-size: var(--tekst-15); }
@@ -64,7 +66,7 @@
   </style>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261017o"></script>
+  <script defer src="/assets/teller.js?v=20261017q"></script>
 </head>
 <body>
 
@@ -247,9 +249,9 @@
     <p>Het plan gebruikt dezelfde vuistregels als de keuzehulpen en rekenmodules van de drie maatje-sites, zodat de bedragen overal kloppen. De kern:</p>
     <ul>
       <li><b>Volgorde.</b> Eerst isoleren, dan duurzaam verwarmen, dan opwekken, dan opslaan, de gangbare volgorde van Milieu Centraal en RVO, omdat elke stap de volgende kleiner maakt. Isolatie vergelijk ik zelf niet; daarvoor verwijs ik naar de <a href="https://www.verbeterjehuis.nl/verbetercheck" target="_blank" rel="noopener">Verbetercheck van Milieu Centraal</a>.</li>
-      <li><b>Warmtepomp.</b> Goede isolatie, geen cv-ketel, of redelijke isolatie mét (deels) vloerverwarming: all-electric (indicatie € 7.300 toestel + € 5.000 installatie − € 3.000 ISDE, vaste gaskosten vervallen). Anders hybride (€ 3.300 + € 2.500 − € 2.100 ISDE, circa 60% gasbesparing). Zelfde regels als de <a href="https://warmtepompmaatje.nl/advies.html" target="_blank" rel="noopener">keuzehulp</a> en <a href="https://warmtepompmaatje.nl/rekenmodule.html" target="_blank" rel="noopener">terugverdientijd-berekening van Warmtepompmaatje</a>. Woon je niet vrijstaand, dan wijs ik op de geluidseis van 40 dB op de erfgrens.</li>
+      <li><b>Warmtepomp.</b> Goede isolatie, geen cv-ketel, of redelijke isolatie mét (deels) vloerverwarming: all-electric (indicatie € 7.300 toestel + € 5.000 installatie − € 3.000 ISDE, vaste gaskosten vervallen). Anders hybride (€ 3.300 + € 2.500 − € 2.100 ISDE, circa 60% gasbesparing). Zelfde regels als de <a href="https://warmtepompmaatje.nl/advies.html" target="_blank" rel="noopener">keuzehulp</a>, en dezelfde som als de <a href="https://warmtepompmaatje.nl/rekenmodule.html" target="_blank" rel="noopener">terugverdientijd-berekening van Warmtepompmaatje</a>; is je ketel aan vervanging toe, dan telt bij all-electric alleen de meerprijs boven een nieuwe ketel. Woon je niet vrijstaand, dan wijs ik op de geluidseis van 40 dB op de erfgrens.</li>
       <li><b>Zonnepanelen.</b> Gedimensioneerd op je stroomverbruik ná de warmtepomp (dus inclusief de extra kWh), begrensd door je dak. Ik reken met 440 Wp-panelen, 0,9 kWh per Wp, gemiddelde paneelprijs uit mijn vergelijker plus montage, en de regels zonder saldering: 35% direct eigen verbruik (45% met slim aangestuurde warmtepomp), teruglevering € 0,05 minus € 0,02 kosten.</li>
-      <li><b>Thuisbatterij.</b> Vuistregel circa 10 kWh bij een warmtepomp, anders 7 kWh, tegen circa € 350 per kWh (bron: <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a>). De batterij verhoogt het eigen verbruik van je opwek met circa 25 procentpunt; winst uit dynamische handel reken ik bewust niet mee.</li>
+      <li><b>Thuisbatterij.</b> Even groot als de <a href="https://batterijmaatje.nl/advies.html" target="_blank" rel="noopener">keuzehulp van Batterijmaatje</a> zou adviseren: niet meer dan je op een zomerdag overhoudt, en niet meer dan je 's avonds en 's nachts gebruikt. De opbrengst komt uit dezelfde som als de <a href="https://batterijmaatje.nl/rekenmodule.html" target="_blank" rel="noopener">rekenhulp daar</a>, met je eigen contract; heb je een vast contract, dan zie je erbij wat een dynamisch contract zou opleveren. De prijs is een richtprijs van circa € 350 per kWh inclusief gangbare installatie.</li>
       <li><b>Dynamisch contract.</b> Heb je straks een warmtepomp of batterij, dan adviseer ik een dynamisch contract te overwegen, want met slimme sturing verschuift je verbruik naar goedkope uren. Die winst reken ik bewust niet mee in de bedragen (het is een bonus, en zonder slimme sturing kan dynamisch ook tegenvallen). Bron: <a href="https://www.milieucentraal.nl/energie-besparen/inzicht-in-je-energierekening/energiecontracten-welke-zijn-er/" target="_blank" rel="noopener">Milieu Centraal</a>.</li>
       <li><b>Prijzen.</b> Standaard gas € 1,45 per m³ en stroom € 0,30 per kWh; onder "Je eigen energieprijzen" vul je je eigen tarieven in. Vaste gaskosten € 350 per jaar, prijzen constant gehouden.</li>
       <li><b>Per stap exact.</b> Dit plan is een kompas, geen offerte. Elke stap linkt naar de keuzehulp of rekenmodule die het exact doorrekent met actuele, dagelijks gecontroleerde winkelprijzen.</li>
