@@ -260,6 +260,18 @@
      Resultaat tonen
      ------------------------------------------------------------------ */
 
+  /* Tot wanneer de terugverdientijd groen is: binnen de fabrieksgarantie van
+     de gekozen batterij. Bij 44 van de 60 batterijen hier is dat 10 jaar, bij
+     een paar maar 2 tot 7. Een batterij die zich pas na de garantie
+     terugverdient, rekent erop dat hij langer meegaat dan beloofd; dat is
+     oranje, tot 15 jaar, de bovenkant van de 10 tot 15 jaar waar fabrikanten
+     mee rekenen. Daarboven rood. Zonder gekozen batterij: 10 jaar. */
+  const LEVENSDUUR_MAX = 15;
+  function groenTot() {
+    const g = gekozenBatterij ? gekozenBatterij.garantie_jaar : null;
+    return typeof g === "number" && g > 0 ? Math.min(g, LEVENSDUUR_MAX) : 10;
+  }
+
   function toonResultaat(r, band, tweede) {
     const doel = el("resultaat");
     const i = r.invoer;
@@ -300,7 +312,7 @@
       oordeel = "<b>Met deze invoer levert de batterij per saldo niets op.</b> Controleer of het contracttype en de prijzen kloppen.";
     } else {
       const t = r.terugverdientijd;
-      const kleur = t <= 8 ? "var(--kleur-groen)" : t <= 15 ? "var(--kleur-accent)" : "var(--kleur-rood)";
+      const kleur = t <= groenTot() ? "var(--kleur-groen)" : t <= LEVENSDUUR_MAX ? "var(--kleur-accent)" : "var(--kleur-rood)";
       // Bewust een bereik en geen enkel getal: dezelfde batterij komt op 4 of
       // op 12 jaar uit, afhankelijk van aannames die niemand vooraf kent. Eén
       // getal met een decimaal doet alsof die onzekerheid er niet is.
@@ -312,7 +324,7 @@
       bereikTekst = bereik;
       oordeel = `<div style="font-size:var(--tekst-28);font-weight:800;color:${kleur};">${bereik}</div>
         <div class="datum-stempel">terugverdientijd, met ${eurFmt.format(r.totaal)} opbrengst per jaar (middenscenario ${jaarFmt.format(t)} jaar)</div>`;
-      if (t > 15) waarschuwingen.push('De berekende terugverdientijd is langer dan de levensduur die vaak wordt aangehouden (10 tot 15 jaar). Met deze invoer verdient de batterij zichzelf waarschijnlijk niet terug. Lees ook: <a href="uitleg.html#waarom-toch">is een thuisbatterij het waard bij een lange terugverdientijd?</a>');
+      if (t > LEVENSDUUR_MAX) waarschuwingen.push('De berekende terugverdientijd is langer dan de levensduur die vaak wordt aangehouden (10 tot 15 jaar). Met deze invoer verdient de batterij zichzelf waarschijnlijk niet terug. Lees ook: <a href="uitleg.html#waarom-toch">is een thuisbatterij het waard bij een lange terugverdientijd?</a>');
       else if (t > 10) waarschuwingen.push('De terugverdientijd nadert de verwachte levensduur van de batterij (10 tot 15 jaar). Reken jezelf niet rijk en vergelijk meerdere scenario\'s. Lees ook: <a href="uitleg.html#waarom-toch">is een thuisbatterij het waard bij een lange terugverdientijd?</a>');
     }
 
@@ -438,20 +450,21 @@
 
   /* De uitslag doorsturen, ook als hij tegenvalt: "bij mij loont het niet"
      is net zo goed iets wat de buurman wil weten. De drempels zijn die van
-     de kleur hierboven: groen tot 8 jaar, oranje tot 15, daarboven rood. */
+     de kleur hierboven (zie groenTot). */
   function deelUitslag(r, bereikTekst) {
     if (!window.Delen) return;
     const t = r.terugverdientijd;
     const b = gekozenBatterij;
     const volledig = b && (b.model.toLowerCase().startsWith(b.merk.toLowerCase()) ? b.model : `${b.merk} ${b.model}`);
     const naam = b ? `de ${volledig.replace(/\s*\([^)]*\)\s*$/, "")}` : "een thuisbatterij";
-    const sleutel = t == null || t > 15 ? "reken-niet" : t > 8 ? "reken-twijfel" : "reken-loont";
+    const sleutel = t == null || t > LEVENSDUUR_MAX ? "reken-niet" : t > groenTot() ? "reken-twijfel" : "reken-loont";
+    // bereikTekst is "6 tot 9 jaar" of "vanaf 14 jaar"; de zin moet bij allebei kloppen.
     const kern = t == null
-      ? `met mijn getallen levert ${naam} per saldo niets op.`
-      : t > 15
-        ? `${naam} verdient zich bij mij pas in ${bereikTekst} terug, langer dan hij meegaat.`
-        : `${naam} verdient zich bij mij terug in ${bereikTekst} (${eurFmt.format(r.totaal)} per jaar).`;
-    Delen.uitslag(el("resultaat"), { sleutel, bericht: `Ik heb het nagerekend op Batterijmaatje: ${kern} Wat is het bij jou?` });
+      ? `Met mijn getallen levert ${naam} per saldo niets op.`
+      : `Terugverdientijd van ${naam} bij mij: ${bereikTekst} (${eurFmt.format(r.totaal)} per jaar)` +
+        (sleutel === "reken-niet" ? ", langer dan hij meegaat."
+          : sleutel === "reken-twijfel" ? `, langer dan de garantie van ${groenTot()} jaar.` : ".");
+    Delen.uitslag(el("resultaat"), { sleutel, bericht: `Ik heb het nagerekend op Batterijmaatje. ${kern} Wat is het bij jou?` });
   }
 
   /* ------------------------------------------------------------------
