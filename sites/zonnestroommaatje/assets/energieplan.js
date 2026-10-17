@@ -14,8 +14,7 @@
   const numFmt = new Intl.NumberFormat("nl-NL", { maximumFractionDigits: 0 });
 
   // Vaste aannames, gelijk aan de rekenmodules van de zustersites
-  const GASPRIJS = 1.45;            // euro per m3
-  const STROOMPRIJS = 0.30;         // euro per kWh
+  // Gas- en stroomprijs zijn standaardwaarden; de bezoeker kan ze aanpassen.
   const VERGOEDING = 0.05;          // terugleververgoeding vanaf 2027, euro per kWh
   const TERUGLEVERKOSTEN = 0.02;    // euro per teruggeleverde kWh
   const KWH_PER_M3 = 8.8;           // nuttige warmte per m3 gas
@@ -24,14 +23,16 @@
   // Warmtepomp-indicaties (afgerond op de wpm-rekenmodule en ISDE 2026)
   const WP = {
     hybride: { toestel: 3300, installatie: 2500, isde: 2100, label: "hybride warmtepomp" },
-    allel: { toestel: 7300, installatie: 4500, isde: 3000, label: "all-electric warmtepomp" },
+    // Installatie gelijk aan de schatting van de warmtepomp-rekenhulp
+    // (warmtepompmaatje.nl/assets/rekenkern.js, INSTALLATIE), zodat "Bereken
+    // exact" op hetzelfde bedrag uitkomt. Stond eerst op 4.500.
+    allel: { toestel: 7300, installatie: 5000, isde: 3000, label: "all-electric warmtepomp" },
   };
   // Zonnepanelen (zelfde schatting als onze rekenmodule)
   const WP_PANEEL = 440;            // wattpiek per paneel
   const OPBRENGST_FACTOR = 0.9;     // kWh per Wp per jaar (zuidoost/zuidwest)
   const VASTE_INSTALLATIE = 1200;   // omvormer, bekabeling, voorrijden
   const KOSTEN_PER_PANEEL = 130;    // montage per paneel
-  const DAK_MAX = { klein: 8, gemiddeld: 12, groot: 20 };
   // Thuisbatterij (vuistregels, bron: Batterijmaatje)
   const BATTERIJ_EUR_PER_KWH = 350; // richtprijs per kWh capaciteit, incl. gangbare installatie
 
@@ -43,7 +44,7 @@
       // gas af is, kreeg anders een warmtepomp die 1.200 m³ gas bespaarde.
       gas: el("gasverbruik").value === "" ? 1200 : Math.max(0, Number(el("gasverbruik").value) || 0),
       stroom: Math.max(500, Number(el("stroomverbruik").value) || 2900),
-      dak: el("dak").value,                     // klein | gemiddeld | groot
+      dakMax: Math.max(1, Math.round(Number(el("dak").value) || 12)), // panelen die passen
       isolatie: el("isolatie").value,           // goed | redelijk | matig
       cvKetel: el("cvKetel").value,             // recent | oud | geen
       afgifte: el("afgifte").value,             // vloer | mix | radiatoren
@@ -52,6 +53,10 @@
       heeftPanelen: el("checkHeeftPanelen").checked,
       heeftPomp: el("checkHeeftPomp").checked,
       heeftBatterij: el("checkHeeftBatterij").checked,
+      // Leeg = onbekend; dan de oude aanname (90% van het verbruik).
+      opwekNu: el("opwekNu").value === "" ? null : Math.max(0, Number(el("opwekNu").value) || 0),
+      gasprijs: Number(el("gasprijs").value) > 0 ? Number(el("gasprijs").value) : 1.45,
+      stroomprijs: Number(el("stroomprijs").value) > 0 ? Number(el("stroomprijs").value) : 0.30,
     };
   }
 
@@ -99,7 +104,7 @@
         gasNa = s.gas - gasBespaard;
       }
       const investering = wp.toestel + wp.installatie + (allElectric ? AFSLUITKOSTEN : 0) - wp.isde;
-      const besparing = gasBespaard * GASPRIJS + (allElectric ? VASTRECHT_GAS : 0) - pompKwh * STROOMPRIJS;
+      const besparing = gasBespaard * s.gasprijs + (allElectric ? VASTRECHT_GAS : 0) - pompKwh * s.stroomprijs;
       const geluidZin = s.woning !== "vrijstaand" ? " Kies een stille buitenunit: met buren op de erfgrens geldt in de nacht een eis van 40 dB." : "";
       stappen.push({
         icoon: Iconen.svg("aanbieding"), titel: `Warmtepomp: ${wp.label}`,
@@ -125,14 +130,15 @@
     if (!s.heeftPanelen) {
       const perPaneel = WP_PANEEL * OPBRENGST_FACTOR; // kWh per paneel per jaar
       const gewenst = Math.ceil(verbruikNa / perPaneel);
-      const aantal = Math.max(6, Math.min(DAK_MAX[s.dak] || 12, gewenst));
+      // Minstens 6 panelen, tenzij het dak er minder heeft.
+      const aantal = Math.min(s.dakMax, Math.max(6, gewenst));
       opwek = Math.round(aantal * perPaneel);
       if (pompKwh > 0) eigenPct = 0.45; // een slim aangestuurde pomp verhoogt het eigen verbruik
       const prijsPaneel = gemiddeldePaneelprijs();
       const investering = prijsPaneel * aantal + VASTE_INSTALLATIE + KOSTEN_PER_PANEEL * aantal;
       const eigen = Math.min(opwek * eigenPct, verbruikNa);
       const teruggeleverd = opwek - eigen;
-      const besparing = eigen * STROOMPRIJS + teruggeleverd * (VERGOEDING - TERUGLEVERKOSTEN);
+      const besparing = eigen * s.stroomprijs + teruggeleverd * (VERGOEDING - TERUGLEVERKOSTEN);
       stappen.push({
         icoon: Iconen.svg("zon"), titel: `Zonnepanelen: ${aantal} panelen (${numFmt.format(aantal * WP_PANEEL)} Wp)`,
         advies: `Gedimensioneerd op je stroomverbruik ná de warmtepomp (${numFmt.format(verbruikNa)} kWh per jaar${gewenst > aantal ? `; je dak begrenst het aantal op ${aantal}` : ""}). Jaaropbrengst circa ${numFmt.format(opwek)} kWh.`,
@@ -144,7 +150,9 @@
         ],
       });
     } else {
-      opwek = Math.round(s.stroom * 0.9); // aanname: bestaande panelen dekken het huidige verbruik grotendeels
+      // Wat de bezoeker invult; anders de aanname dat de bestaande panelen het
+      // huidige verbruik grotendeels dekken.
+      opwek = s.opwekNu !== null ? s.opwekNu : Math.round(s.stroom * 0.9);
     }
 
     // Stap 4: thuisbatterij (alleen zinvol met panelen)
@@ -153,7 +161,7 @@
       const investering = capaciteit * BATTERIJ_EUR_PER_KWH;
       // De batterij verhoogt het eigen verbruik van je opwek met circa 25 procentpunt
       const extraEigen = Math.min(opwek * 0.25, Math.max(0, verbruikNa - opwek * eigenPct));
-      const besparing = extraEigen * (STROOMPRIJS - (VERGOEDING - TERUGLEVERKOSTEN));
+      const besparing = extraEigen * (s.stroomprijs - (VERGOEDING - TERUGLEVERKOSTEN));
       stappen.push({
         icoon: Iconen.svg("batterij"), titel: `Thuisbatterij: circa ${capaciteit} kWh`,
         advies: `${pompKwh > 0 || s.heeftPomp ? "Met een warmtepomp past een wat grotere batterij om de avond te overbruggen. " : ""}De batterij vangt je middagopwek op voor de avond en kan met een dynamisch contract extra verdienen op goedkope uren (die bonus reken ik hier niet mee).`,
@@ -231,7 +239,7 @@
     const tvt = totBesparing > 0 ? totInvestering / totBesparing : null;
 
     // Voor/na: energiekosten per jaar (na = voor minus alle besparingen, dus altijd consistent)
-    const voor = s.gas * GASPRIJS + (s.gas > 0 ? VASTRECHT_GAS : 0) + s.stroom * STROOMPRIJS;
+    const voor = s.gas * s.gasprijs + (s.gas > 0 ? VASTRECHT_GAS : 0) + s.stroom * s.stroomprijs;
     const na = Math.max(0, voor - totBesparing);
     const maxT = Math.max(voor, na) || 1;
 
@@ -267,6 +275,13 @@
       el(id).addEventListener("input", bereken);
       el(id).addEventListener("change", bereken);
     });
+    ["opwekNu", "gasprijs", "stroomprijs"].forEach((id) => {
+      el(id).addEventListener("input", bereken);
+      el(id).addEventListener("change", bereken);
+    });
+    const toonOpwek = () => { el("opwekVeld").hidden = !el("checkHeeftPanelen").checked; };
+    el("checkHeeftPanelen").addEventListener("change", toonOpwek);
+    toonOpwek();
     ["checkHeeftPanelen", "checkHeeftPomp", "checkHeeftBatterij"].forEach((id) => el(id).addEventListener("change", bereken));
     bereken();
   }
