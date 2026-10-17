@@ -280,8 +280,8 @@
     },
     {
       "id": "anker-solix-solarbank-3-pro",
-      "merk": "Anker SOLIX",
-      "model": "Solarbank 3 E2700 Pro (2,69 kWh)",
+      "merk": "Anker",
+      "model": "SOLIX Solarbank 3 E2700 Pro (2,69 kWh)",
       "capaciteit_kwh": 2.69,
       "uitbreidbaar_tot_kwh": 16.1,
       "vermogen_kw": 0.8,
