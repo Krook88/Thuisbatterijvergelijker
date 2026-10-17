@@ -2,8 +2,8 @@
    Warmtepompmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20261016a");
-@import url("vergelijker.css?v=20261016a");
+@import url("maatlat.css?v=20261017a");
+@import url("vergelijker.css?v=20261017a");
 
 :root {
   --kleur-primair: #c2410c;
@@ -1781,3 +1781,10 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 /* De ene zin die het stappenblok bevatte en die nergens anders stond. */
 .hero-naschrift { margin: var(--ruimte-20) 0 0; }
 
+
+/* Deelknoppen op een productpagina (kern/assets/delen.js). Een rustige regel
+   onder de prijs: wie twijfelt, stuurt de pagina door aan de buurman. */
+.delen { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruimte-10) var(--ruimte-14); margin: var(--ruimte-20) 0; padding: var(--ruimte-14) 0; border-top: 1px solid var(--kleur-rand); border-bottom: 1px solid var(--kleur-rand); }
+.delen-vraag { font-weight: 600; color: var(--kleur-tekst); }
+.delen-knoppen { display: flex; flex-wrap: wrap; gap: var(--ruimte-10); }
+.delen [hidden] { display: none; }

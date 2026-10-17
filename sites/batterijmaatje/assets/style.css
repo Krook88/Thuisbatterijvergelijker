@@ -2,8 +2,8 @@
    Thuisbatterijvergelijker.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20261016a");
-@import url("vergelijker.css?v=20261016a");
+@import url("maatlat.css?v=20261017a");
+@import url("vergelijker.css?v=20261017a");
 
 :root {
   --kleur-primair: #0f766e;
@@ -2146,3 +2146,10 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 }
 
 .dagmaat-label { display: block; margin-top: var(--ruimte-2); font-size: var(--tekst-12); font-weight: 600; color: var(--kleur-tekst-licht); }
+
+/* Deelknoppen op een productpagina (kern/assets/delen.js). Een rustige regel
+   onder de prijs: wie twijfelt, stuurt de pagina door aan de buurman. */
+.delen { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruimte-10) var(--ruimte-14); margin: var(--ruimte-20) 0; padding: var(--ruimte-14) 0; border-top: 1px solid var(--kleur-rand); border-bottom: 1px solid var(--kleur-rand); }
+.delen-vraag { font-weight: 600; color: var(--kleur-tekst); }
+.delen-knoppen { display: flex; flex-wrap: wrap; gap: var(--ruimte-10); }
+.delen [hidden] { display: none; }

@@ -153,6 +153,15 @@ jobs:
         working-directory: sites/batterijmaatje
         run: npm run vermogens
 
+      # Elk product met een pagina krijgt een eigen deelplaatje voor WhatsApp en
+      # Facebook. Alleen nieuwe of gewijzigde producten worden opnieuw gemaakt
+      # (zie scripts/deelkaarten.mjs). Vóór de generator, want die kijkt welk
+      # plaatje er is. Faalt dit, dan valt de pagina terug op het algemene.
+      - name: Deelplaatjes bijwerken
+        if: steps.keuze.outputs.doen == 'true' && github.event.inputs.droog != 'true'
+        continue-on-error: true
+        run: node scripts/deelkaarten.mjs --site ${{ matrix.site }}
+
       - name: Pagina's en sitemap herbouwen
         if: steps.keuze.outputs.doen == 'true' && github.event.inputs.droog != 'true'
         working-directory: sites/${{ matrix.site }}

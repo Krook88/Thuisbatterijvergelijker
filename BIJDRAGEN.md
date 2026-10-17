@@ -174,6 +174,12 @@ batterijen, een paneel en een warmtepomp op 7 oktober 2026).
    `sitemap.xml`. Vergelijkingspagina's ("X vs Y") staan als lijst
    `VERGELIJKINGEN` in de generator; die breid je met de hand uit.
 
+   Het deelplaatje (wat WhatsApp en Facebook tonen als iemand de pagina
+   deelt) maakt de dagelijkse prijsupdate vanzelf, een dag nadat de pagina er
+   staat. Meteen kan ook: `npm run deelkaarten -- --alleen <id>` in de wortel
+   en daarna opnieuw `npm run genereer`. Nodig is playwright
+   (`npm i --no-save playwright`).
+
 8. **Tellingen in de tekst.** Handgeschreven pagina's noemen aantallen ("de 57
    batterijen hier"). `tellingen.test.mjs` controleert alleen een deel:
    - batterijmaatje: alleen "<n> thuisbatterijen" en "<n> energieleveranciers"

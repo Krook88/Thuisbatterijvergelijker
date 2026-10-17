@@ -17,6 +17,7 @@ import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
 import { verdeel, verborgenPagina, aantalWinkels } from "./zichtbaar.mjs";
 import { zetStatistiekOveral } from "./statistiek.mjs";
 import * as Uitleg from "./uitleg.mjs";
+import { deelbeeldMaker, delenHtml } from "./delen.mjs";
 
 // Dezelfde icoonset als de browser gebruikt, zodat een icoon op een
 // gegenereerde pagina identiek is aan datzelfde icoon in de vergelijker.
@@ -70,6 +71,7 @@ function kortOmschrijving(tekst, maximum = OMSCHRIJVING_MAX) {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const SITE = "https://zonnestroommaatje.nl";
+const deelbeeld = deelbeeldMaker(ROOT, SITE);
 const VANDAAG = new Date().toISOString().slice(0, 10);
 /* Het jaartal in een titel is een verskeurmerk: "(2026)" nodigt uit tot
    klikken zolang het 2026 is, en werkt op 1 januari tegen ons. Daarom komt het
@@ -381,7 +383,7 @@ const FOOTER = `
 // Wikkelt een of meer JSON-LD-strings elk in een eigen <script>-blok
 const wrapLd = (...jsons) => jsons.filter(Boolean).map((j) => `<script type="application/ld+json">\n${j}\n  </script>`).join("\n  ");
 
-function kop(titel, metaDesc, canoniek, ld = "") {
+function kop(titel, metaDesc, canoniek, ld = "", product = null) {
   // titel mag een reeks varianten zijn, van lang naar kort: besteTitel pakt de
   // eerste die binnen de ruimte van Google past. Een enkele string blijft
   // werken en krijgt hooguit het achtervoegsel als het past.
@@ -397,12 +399,12 @@ function kop(titel, metaDesc, canoniek, ld = "") {
   <link rel="canonical" href="${canoniek}">
   <meta property="og:title" content="${esc(socialTitel)}">
   <meta property="og:description" content="${esc(metaDesc)}">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="${product ? "product" : "website"}">
   <meta property="og:url" content="${canoniek}">
   <meta property="og:locale" content="nl_NL">
-  <meta property="og:image" content="${SITE}/assets/og-image.png">
+  ${product ? deelbeeld(product.id, product.alt) : `<meta property="og:image" content="${SITE}/assets/og-image.png">
   <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  <meta property="og:image:height" content="630">`}
   <meta property="og:site_name" content="Zonnestroommaatje.nl">
   <meta name="twitter:card" content="summary_large_image">
   ${ld}
@@ -423,6 +425,9 @@ ${FOOTER}
 </body>
 </html>
 `;
+
+// Productpagina's krijgen de deelknoppen; die hebben assets/delen.js nodig.
+const staartProduct = staart.replace("</body>", `<script src="/assets/delen.js?v=${ASSET_VERSIE}" defer></script>\n</body>`);
 
 /* ------------------------------------------------------------------
    Productpagina per paneel
@@ -455,7 +460,8 @@ function pagina(p) {
      volledigeNaam(p)],
     metaDesc,
     `${SITE}/paneel/${esc(p.id)}.html`,
-    wrapLd(productLd(p), breadcrumbLd(p))
+    wrapLd(productLd(p), breadcrumbLd(p)),
+    { id: p.id, alt: `${volledigeNaam(p)}, zonnepaneel van ${p.vermogen_wp} Wp` }
   )}
 
 <main class="content-pagina">
@@ -482,6 +488,11 @@ function pagina(p) {
       <a class="knop knop-secundair" href="/rekenmodule.html?paneel=${encodeURIComponent(p.id)}">Bereken terugverdientijd</a>
     </p>
   </div>
+
+  ${delenHtml({
+    url: `${SITE}/paneel/${p.id}.html`,
+    bericht: `Kijk, de ${volledigeNaam(p)}: ${p.vermogen_wp} Wp, ${nl(p.rendement_pct)}% rendement${beste ? `, vanaf ${eur(Prijs.vergelijkPrijs(beste))}` : ""}. Prijzen per winkel en garantie:`,
+  })}
 
   ${(() => {
     const g = PrijsGrafiek.grafiekHtml(p.id, { naam: `${p.merk} ${p.model}` });
@@ -537,7 +548,7 @@ function pagina(p) {
   ${p.product_url ? `<p>De gegevens van de fabrikant zelf vind je op de <a href="${esc(p.product_url)}" target="_blank" rel="noopener">officiële website van ${esc(p.merk)}</a>.</p>` : ""}
 
 </main>
-${staart}`;
+${staartProduct}`;
 }
 
 /* ------------------------------------------------------------------

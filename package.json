@@ -23,6 +23,7 @@
     "winkelpagina": "node scripts/winkelpagina.mjs",
     "bronnen": "node scripts/bronnen-nakijken.mjs",
     "fotos": "node scripts/productfotos.mjs",
+    "deelkaarten": "node scripts/deelkaarten.mjs",
     "menubreedte": "node scripts/menubreedte.mjs",
     "controle": "npm run kern:controleer && node scripts/cachestempel.mjs --controleer && npm test && npm run dataschema && npm run modellen && npm run workflows && npm run datums && npm run llms && npm run slop && npm run keuring && npm run menubreedte && npm run dode-regels"
   }

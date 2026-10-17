@@ -2,8 +2,8 @@
    Zonnepaneelmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20261016a");
-@import url("vergelijker.css?v=20261016a");
+@import url("maatlat.css?v=20261017a");
+@import url("vergelijker.css?v=20261017a");
 
 :root {
   --kleur-primair: #0369a1;
@@ -1815,3 +1815,10 @@ a.icoon-kaart { text-decoration: none; color: inherit; }
   border-radius: var(--radius);
 }
 
+
+/* Deelknoppen op een productpagina (kern/assets/delen.js). Een rustige regel
+   onder de prijs: wie twijfelt, stuurt de pagina door aan de buurman. */
+.delen { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruimte-10) var(--ruimte-14); margin: var(--ruimte-20) 0; padding: var(--ruimte-14) 0; border-top: 1px solid var(--kleur-rand); border-bottom: 1px solid var(--kleur-rand); }
+.delen-vraag { font-weight: 600; color: var(--kleur-tekst); }
+.delen-knoppen { display: flex; flex-wrap: wrap; gap: var(--ruimte-10); }
+.delen [hidden] { display: none; }

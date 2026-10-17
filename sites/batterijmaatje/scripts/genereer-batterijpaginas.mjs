@@ -16,6 +16,7 @@ import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
 import { verdeel, verborgenPagina, aantalWinkels } from "./zichtbaar.mjs";
 import { zetStatistiekOveral } from "./statistiek.mjs";
 import * as Uitleg from "./uitleg.mjs";
+import { deelbeeldMaker, delenHtml } from "./delen.mjs";
 
 // Dezelfde prijslogica en iconen als de browser gebruikt, zodat een
 // batterijpagina nooit een ander bedrag of ander icoon toont dan de vergelijker.
@@ -47,6 +48,7 @@ const ICOON_LOGO = Iconen.svg("batterij", { klasse: "icoon-groot" });
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const SITE = "https://batterijmaatje.nl";
+const deelbeeld = deelbeeldMaker(ROOT, SITE);
 const VANDAAG = new Date().toISOString().slice(0, 10);
 /* Het jaartal in een titel is een verskeurmerk: "(2026)" nodigt uit tot
    klikken zolang het 2026 is, en werkt op 1 januari tegen ons. Daarom komt het
@@ -511,9 +513,7 @@ function pagina(b) {
   <meta property="og:type" content="product">
   <meta property="og:url" content="${SITE}/batterij/${esc(b.id)}.html">
   <meta property="og:locale" content="nl_NL">
-  <meta property="og:image" content="${SITE}/assets/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  ${deelbeeld(b.id, `${volledigeNaam(b)}, thuisbatterij van ${capaciteitInTekst(b)}`)}
   <meta property="og:site_name" content="Batterijmaatje.nl">
   <meta name="twitter:card" content="summary_large_image">
   <script type="application/ld+json">
@@ -557,6 +557,11 @@ ${NAV_HTML}
       <a class="knop knop-secundair" href="/rekenmodule.html?batterij=${encodeURIComponent(b.id)}">Bereken terugverdientijd</a>
     </p>
   </div>
+
+  ${delenHtml({
+    url: `${SITE}/batterij/${b.id}.html`,
+    bericht: `Kijk, de ${kortenaam}: thuisbatterij van ${capaciteitInTekst(b)}${beste ? `, nu vanaf ${eur(Prijs.vergelijkPrijs(beste))}` : ""}. Prijzen per winkel en of hij bij je zonnepanelen past:`,
+  })}
 
   ${(() => {
     const g = PrijsGrafiek.grafiekHtml(b.id, { naam: `${b.merk} ${b.model}` });
@@ -632,6 +637,7 @@ ${VOET_HTML}
      jaarverbruik dat de bezoeker eerder invulde, en laat het veld daarin
      werken. Het heeft geen ander bestand nodig. -->
 <script src="/assets/dagmaat.js?v=${ASSET_VERSIE}" defer></script>
+<script src="/assets/delen.js?v=${ASSET_VERSIE}" defer></script>
 <script src="/assets/prijsgrafiek.js?v=${ASSET_VERSIE}" defer></script>
 <script src="/assets/nav.js?v=${ASSET_VERSIE}" defer></script>
 </body>

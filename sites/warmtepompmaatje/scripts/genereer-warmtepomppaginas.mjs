@@ -14,6 +14,7 @@ import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
 import { verdeel, verborgenPagina, aantalWinkels } from "./zichtbaar.mjs";
 import { zetStatistiekOveral } from "./statistiek.mjs";
 import * as Uitleg from "./uitleg.mjs";
+import { deelbeeldMaker, delenHtml } from "./delen.mjs";
 
 // Dezelfde icoonset als de browser gebruikt, zodat een pomppagina nooit een
 // ander icoon toont dan de vergelijker.
@@ -80,6 +81,7 @@ const ICOON_LOGO = Iconen.svg("warmte", { klasse: "icoon-groot" });
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://warmtepompmaatje.nl";
+const deelbeeld = deelbeeldMaker(ROOT, SITE);
 
 /* Versienummer achter css/js-links: dwingt browsers om na een wijziging het
    nieuwe bestand op te halen in plaats van een oude kopie uit de cache.
@@ -689,7 +691,7 @@ function pompPagina(w) {
   <meta property="og:url" content="${SITE}/pomp/${esc(w.id)}.html">
   <meta property="og:locale" content="nl_NL">
   <meta property="og:site_name" content="Warmtepompmaatje.nl">
-  <meta property="og:image" content="${SITE}/assets/og-image.png">
+  ${deelbeeld(w.id, `${naam}, ${w.type === "hybride" ? "hybride" : "all-electric"} warmtepomp`)}
   <meta name="twitter:card" content="summary_large_image">
   ${productLd(w)}
   <script>document.documentElement.classList.add("js")</script>
@@ -697,6 +699,7 @@ function pompPagina(w) {
   <script src="../assets/iconen.js?v=${ASSET_VERSIE}" defer></script>
   <script src="../assets/prijsgrafiek.js?v=${ASSET_VERSIE}" defer></script>
   <script src="../assets/nav.js?v=${ASSET_VERSIE}" defer></script>
+  <script src="../assets/delen.js?v=${ASSET_VERSIE}" defer></script>
   <link rel="icon" href="../assets/favicon.svg?v=1" type="image/svg+xml">
   <style>
     .product-indeling { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; margin: 20px 0 40px; }
@@ -804,6 +807,11 @@ ${kop("index", true)}
       </p>
     </div>
   </div>
+
+  ${delenHtml({
+    url: `${SITE}/pomp/${w.id}.html`,
+    bericht: `Kijk, de ${naam}: ${w.type === "hybride" ? "hybride" : "all-electric"} warmtepomp${w.isde_indicatie_eur ? `, ISDE-subsidie circa ${eur(w.isde_indicatie_eur)}` : ""}. Prijs, geluid en subsidie op een rij:`,
+  })}
 
   <section class="content-pagina aansluitend">
     ${variantenBlok(w)}
