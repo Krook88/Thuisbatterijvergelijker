@@ -97,6 +97,7 @@ const SITES = [
       "reken-twijfel": { doel: "rekenmodule.html", titel: "Zonnepanelen zijn bij mij een twijfelgeval", toon: "twijfel" },
       "reken-niet": { doel: "rekenmodule.html", titel: "Zonnepanelen verdienen zich bij mij niet terug", toon: "nee" },
       "advies": { doel: "advies.html", titel: "Ik weet hoeveel zonnepanelen bij mijn huis passen", toon: "ja", woord: "Advies op maat" },
+      "plan": { doel: "energieplan.html", titel: "Mijn energieplan: zo maak ik mijn huis stap voor stap duurzaam", toon: "ja", woord: "Mijn plan" },
     },
     titel: (p) => zonderHaakjes(naam(p)),
     feiten: (p) => [
@@ -133,13 +134,17 @@ function productKaart(cfg, p, siteMap) {
 /* En op dat van een uitslag. Eén plaatje per soort uitslag, niet per
    berekening: deze sites hebben geen server die een plaatje met jouw getallen
    tekent. De getallen staan in het bericht dat de deler meestuurt. */
+/* Hoe de hulp heet, naar de pagina waar de uitslag vandaan komt. */
+const HULP = { "advies.html": "keuzehulp", "rekenmodule.html": "rekenhulp", "energieplan.html": "energieplan" };
+const SOORT = { "advies.html": "Uitslag keuzehulp", "rekenmodule.html": "Uitslag rekenhulp", "energieplan.html": "Energieplan" };
+
 const TOON = {
   ja: { icoon: "ja", kleur: "#15803d", vlak: "#dcfce7", woord: "Loont" },
   twijfel: { icoon: "deels", kleur: "#b45309", vlak: "#fef3c7", woord: "Twijfelgeval" },
   nee: { icoon: "nee", kleur: "#b91c1c", vlak: "#fee2e2", woord: "Loont (nog) niet" },
 };
 function uitslagKaart(cfg, u) {
-  return { soort: u.doel === "advies.html" ? "Uitslag keuzehulp" : "Uitslag rekenhulp", titel: u.titel, feiten: [],
+  return { soort: SOORT[u.doel], titel: u.titel, feiten: [],
     onder: "Wat is het bij jou? Reken het na met je eigen getallen", foto: null,
     icoon: TOON[u.toon].icoon, kleur: TOON[u.toon].kleur, vlak: TOON[u.toon].vlak,
     woord: u.woord || TOON[u.toon].woord };
@@ -216,8 +221,11 @@ function schrijfUitslagpaginas(cfg, siteMap, lijst) {
   const bekend = new Set();
   for (const [sleutel, u] of Object.entries(cfg.uitslagen)) {
     const id = `uitslag-${sleutel}`;
-    const hulp = u.doel === "advies.html" ? "keuzehulp" : "rekenhulp";
-    const omschrijving = `Iemand deelde de uitslag van de ${hulp} op ${cfg.domein}. Vul je eigen getallen in en zie wat het bij jou is. Gratis, zonder account.`;
+    const hulp = HULP[u.doel];
+    const deHulp = hulp === "energieplan" ? "het energieplan" : `de ${hulp}`;
+    const omschrijving = hulp === "energieplan"
+      ? `Iemand deelde een energieplan van ${cfg.domein}. Vul je eigen huis in en zie welke stappen bij jou lonen. Gratis, zonder account.`
+      : `Iemand deelde de uitslag van de ${hulp} op ${cfg.domein}. Vul je eigen getallen in en zie wat het bij jou is. Gratis, zonder account.`;
     const beeld = lijst[id] ? `${site}/assets/deel/${id}.jpg?v=${lijst[id]}` : `${site}/assets/og-image.png`;
     bekend.add(`${sleutel}.html`);
     writeFileSync(join(map, `${sleutel}.html`), `<!DOCTYPE html>
@@ -243,7 +251,7 @@ function schrijfUitslagpaginas(cfg, siteMap, lijst) {
   <script>location.replace("/${u.doel}" + location.search + location.hash);</script>
 </head>
 <body>
-  <p>Je wordt doorgestuurd naar de <a href="/${u.doel}">${hulp}</a>.</p>
+  <p>Je wordt doorgestuurd naar ${deHulp.replace(hulp, `<a href="/${u.doel}">${hulp}</a>`)}.</p>
 </body>
 </html>
 `);
