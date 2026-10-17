@@ -362,7 +362,7 @@ function geluidPagina() {
   const gemeten = opGeluid.filter((w) => w.geluid_db != null && heeftBuitenunit(w));
   const stilste = gemeten[0];
   const luidste = gemeten[gemeten.length - 1];
-  const haalt40OpDrie = gemeten.filter((w) => geluidsdruk(w, 3) <= 40).length;
+  const haalt40OpDrie = gemeten.filter((w) => geluidsdrukOp(w, 3) <= 40).length; // zoals de tabel het toont, afgerond
   const binnen = pompen.filter((w) => !heeftBuitenunit(w));
 
   const titel = "Warmtepomp geluid: normen, dB en de erfgrens";
