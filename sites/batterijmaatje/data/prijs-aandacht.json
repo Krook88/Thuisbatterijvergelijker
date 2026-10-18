@@ -1,10 +1,16 @@
 {
-  "bijgewerkt": "2026-10-17",
+  "bijgewerkt": "2026-10-18",
   "punten": {
+    "onbereikbaar|dyness-powerbox-g2|Zonnige Winkel": {
+      "sinds": "2026-10-18",
+      "soort": "onbereikbaar",
+      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: fetch failed",
+      "bevestigd": false
+    },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (93 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (94 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
@@ -23,12 +29,6 @@
       "sinds": "2026-10-08",
       "soort": "geweigerd",
       "tekst": "aeg-solarcube-48 @ AH Voordeelshop: HTTP 403",
-      "bevestigd": true
-    },
-    "zonder prijs|dyness-powerbox-g2|Zonnige Winkel": {
-      "sinds": "2026-10-10",
-      "soort": "zonder bedrag",
-      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: geen leesbaar bedrag",
       "bevestigd": true
     }
   }
