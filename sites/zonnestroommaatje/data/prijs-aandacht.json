@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-10-17",
+  "bijgewerkt": "2026-10-18",
   "punten": {
     "onbereikbaar|enphase-iq8|Zonnige Winkel": {
       "sinds": "2026-10-16",
@@ -28,19 +28,19 @@
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (88 dagen)",
+      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (89 dagen)",
       "bevestigd": true
     },
     "verouderd|maxeon-6-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "maxeon-6-440 @ richtprijs: €230 (88 dagen)",
+      "tekst": "maxeon-6-440 @ richtprijs: €230 (89 dagen)",
       "bevestigd": true
     },
     "verouderd|ulica-440-full-black|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "ulica-440-full-black @ richtprijs: €55 (88 dagen)",
+      "tekst": "ulica-440-full-black @ richtprijs: €55 (89 dagen)",
       "bevestigd": true
     }
   }
