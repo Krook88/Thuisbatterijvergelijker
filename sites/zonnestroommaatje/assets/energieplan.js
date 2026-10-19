@@ -15,8 +15,10 @@
 
   // Vaste aannames, gelijk aan de rekenmodules van de zustersites
   // Gas- en stroomprijs zijn standaardwaarden; de bezoeker kan ze aanpassen.
-  const VERGOEDING = 0.05;          // terugleververgoeding vanaf 2027, euro per kWh
-  const TERUGLEVERKOSTEN = 0.02;    // euro per teruggeleverde kWh
+  // Teruglevering vanaf 2027: dezelfde getallen als de rekenmodule, uit
+  // assets/rekenkern.js. Hier stond een eigen 0,05 min 0,02.
+  const VERGOEDING = RekenkernZon.TERUGLEVERING_2027.vergoeding;
+  const TERUGLEVERKOSTEN = RekenkernZon.TERUGLEVERING_2027.terugleverkosten;
   const VASTRECHT_GAS = 350;        // vaste gaskosten per jaar
   // Warmtepomp: toestel en ISDE voor een gemiddelde pomp van elk type. De
   // installatie, de afsluitkosten en de som zelf komen uit de rekenkern van
