@@ -354,15 +354,15 @@ const NAV = `
       <details class="nav-meer">
         <summary>Meer ${Iconen.svg("chevron")}</summary>
         <div class="nav-meer-paneel">
-          <a href="/energieplan.html">Jouw energieplan</a>
+          <span class="nav-meer-kop">Achtergrond</span>
           <a href="/uitleg.html">Uitleg</a>
-          <a href="/waar-zonnepanelen-kopen.html">Waar koop je panelen?</a>
           <a href="/hebben-zonnepanelen-nog-zin.html">Loont het nog?</a>
           <a href="/regelgeving.html">Regels &amp; subsidies</a>
+          <span class="nav-meer-kop">Kiezen</span>
+          <a href="/energieplan.html">Jouw energieplan</a>
+          <a href="/waar-zonnepanelen-kopen.html">Waar koop je panelen?</a>
           <a href="/beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a>
           <a href="/beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a>
-          <a href="/over-ons.html">Over mij</a>
-          <a href="/contact.html">Contact</a>
           <a href="/steun.html" class="nav-steun"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></svg> Steun deze site</a>
         </div>
       </details>

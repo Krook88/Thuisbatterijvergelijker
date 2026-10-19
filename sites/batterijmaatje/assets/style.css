@@ -2,8 +2,8 @@
    Thuisbatterijvergelijker.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20261017v");
-@import url("vergelijker.css?v=20261017v");
+@import url("maatlat.css?v=20261019a");
+@import url("vergelijker.css?v=20261019a");
 
 :root {
   --kleur-primair: #0f766e;
@@ -1905,6 +1905,19 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
    staat op de accentkleur en niet op de merkkleur, zodat het bij het
    steunblok hoort en niet bij de navigatie eromheen. */
 .hoofdnav .nav-meer-paneel a.nav-steun { display: flex; align-items: center; gap: var(--ruimte-6); }
+/* Kopjes in het Meer-menu: negen losse links lazen als een opsomming zonder
+   ordening. Over mij, Contact en Privacy staan in de voet. */
+.hoofdnav .nav-meer-kop {
+  padding: var(--ruimte-10) var(--ruimte-10) var(--ruimte-2);
+  font-size: var(--tekst-12);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--kleur-tekst-licht);
+}
+.hoofdnav .nav-meer-kop ~ .nav-meer-kop,
+.hoofdnav .nav-meer-kop ~ a.nav-steun { margin-top: var(--ruimte-6); border-top: 1px solid var(--kleur-rand); }
+.hoofdnav .nav-meer-kop ~ a.nav-steun { padding-top: var(--ruimte-14); }
 .hoofdnav .nav-meer-paneel a.nav-steun .icoon { color: var(--kleur-accent-donker); }
 
 /* --------------------------------------------------------------------------
