@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-10-19",
+  "bijgewerkt": "2026-10-20",
   "punten": {
     "onbereikbaar|dewarmte-pomp-ao|Woonwijzerwinkel": {
       "sinds": "2026-10-14",
@@ -7,16 +7,10 @@
       "tekst": "dewarmte-pomp-ao @ Woonwijzerwinkel: HTTP 404",
       "bevestigd": true
     },
-    "onbereikbaar|itho-amber-95|Installmat": {
-      "sinds": "2026-10-19",
-      "soort": "onbereikbaar",
-      "tekst": "itho-amber-95 @ Installmat: fetch failed",
-      "bevestigd": false
-    },
     "verouderd|daikin-altherma-3|KliMate": {
       "sinds": "2026-09-22",
       "soort": "verouderd",
-      "tekst": "daikin-altherma-3 @ KliMate: €5414 (48 dagen)",
+      "tekst": "daikin-altherma-3 @ KliMate: €5414 (49 dagen)",
       "bevestigd": true
     },
     "zonder prijs|daikin-altherma-3|KliMate": {
@@ -24,6 +18,12 @@
       "soort": "geweigerd",
       "tekst": "daikin-altherma-3 @ KliMate: HTTP 403",
       "bevestigd": true
+    },
+    "zonder prijs|itho-amber-95|Installmat": {
+      "sinds": "2026-10-20",
+      "soort": "zonder bedrag",
+      "tekst": "itho-amber-95 @ Installmat: geen leesbaar bedrag",
+      "bevestigd": false
     },
     "zonder prijs|toshiba-estia-r290|Intercool": {
       "sinds": "2026-10-04",
