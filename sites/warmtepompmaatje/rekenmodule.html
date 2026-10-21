@@ -64,6 +64,54 @@
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
   <script defer src="/assets/teller.js?v=20261021a"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Wat is de terugverdientijd van een warmtepomp?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Bij 1.200 m³ gas per jaar rekent deze module voor een hybride warmtepomp met 6,2 tot 19,2 jaar en voor all-electric met 5,2 tot 14,9 jaar, inclusief ISDE-subsidie. Het grootste verschil maakt je gasverbruik. De besparing groeit ongeveer mee met het gas dat je nu stookt, dus bij 600 m³ duurt het ruwweg twee keer zo lang. Een warmtepomp gaat gemiddeld 15 tot 20 jaar mee."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Hoeveel bespaar je per jaar met een warmtepomp?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Bij 1.200 m³ gas, gas van 1,45 euro per m³ en stroom van 0,30 euro per kWh bespaart een hybride ongeveer € 622 per jaar en all-electric ongeveer € 1.204. Bij all-electric telt daarin mee dat de vaste gaskosten van circa 350 euro per jaar vervallen als je de gasaansluiting laat afsluiten."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Verdient een hybride of een all-electric warmtepomp zich sneller terug?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In het rekenvoorbeeld hierboven komt de hybride op 9,1 jaar en all-electric op 7,5 jaar (middenscenario). All-electric kost meer, met circa 5.000 euro installatie tegen 2.500 euro voor een hybride, maar bespaart ook ongeveer twee keer zoveel. Moet je cv-ketel binnenkort toch vervangen, dan valt de rekensom extra gunstig uit voor all-electric, want dan telt alleen de meerprijs ten opzichte van een nieuwe ketel. Een all-electric pomp vraagt wel een goed geïsoleerd huis; laat een installateur dat beoordelen met een warmteverliesberekening."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Hoeveel ISDE-subsidie krijg je voor een warmtepomp?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Voor de pompen in mijn vergelijker ligt de ISDE-indicatie tussen € 1.675 en € 3.925, afhankelijk van het vermogen en de meldcode op de lijst van RVO. De rekenmodule trekt het bedrag van de gekozen pomp automatisch van de investering af. Hoe je de subsidie aanvraagt en waar je op moet letten, staat op mijn pagina over ISDE-subsidie."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Verdient een warmtepomp sneller terug met zonnepanelen?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Minder dan je zou denken. Een warmtepomp verbruikt het meeste stroom van november tot en met maart, als zonnepanelen weinig opwekken. Tot en met 2026 kun je zomeroverschot nog wegstrepen tegen winterverbruik via de salderingsregeling; vanaf 1 januari 2027 kan dat niet meer. Reken daarom met de stroomprijs die je in de winter echt betaalt en vul die in onder \"Aannames aanpassen\". Met een dynamisch contract en een pomp die op goedkope uren stookt, kan die prijs lager uitvallen dan de standaard van 0,30 euro per kWh."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -97,7 +145,7 @@
 
 <section class="hero">
   <div class="container">
-    <h1>Wat levert een warmtepomp jou op?</h1>
+    <h1>Terugverdientijd van een warmtepomp berekenen</h1>
     <p>Bereken de gasbesparing per jaar, de extra stroomkosten en de terugverdientijd voor jouw huis. Met de ISDE-subsidie meegerekend en, bij all-electric, de vaste gaskosten die vervallen. Alle aannames zijn instelbaar en onderbouwd.</p>
   </div>
 </section>
@@ -223,6 +271,57 @@
       <li><b>Installatiekosten.</b> Zonder eigen invoer schat ik € 2.500 (hybride) of € 5.000 (all-electric, inclusief boilervat en aanpassingen). Zo kom ik met de middelste toestelprijs in de vergelijker (circa € 4.000 hybride, € 6.900 all-electric) uit in de buurt van de totaalprijzen die Milieu Centraal noemt: circa € 6.200 voor een hybride van 4 kW en circa € 12.000 voor all-electric van 8 kW, inclusief plaatsing. Vraag altijd meerdere offertes aan; werkelijke prijzen verschillen per huis en regio.</li>
       <li><b>CO₂.</b> Vermeden uitstoot: bespaard gas × 1,78 kg per m³, minus extra stroom × 0,27 kg per kWh (bron: co2emissiefactoren.nl).</li>
     </ul>
+    <h2 id="rekenvoorbeeld">Rekenvoorbeeld bij 1.200 m³ gas per jaar</h2>
+    <p>Een huis dat 1.200 m³ gas per jaar stookt, doorgerekend met de standaardwaarden van deze module: gas <span data-cijfer="rh-gasprijs">1,45</span> euro per m³ en stroom <span data-cijfer="rh-stroomprijs">0,30</span> euro per kWh. De toestelprijzen komen uit de dagelijkse prijscontrole, dus deze tabel rekent elke dag opnieuw.</p>
+    <!-- blok:rekenvoorbeeld -->
+    <div class="schuifbaar">
+    <table class="vergelijk-tabel compact">
+      <thead><tr><th>Onderdeel</th><th class="bedrag">Hybride: <a href="pomp/inventum-ecolution-combi.html">Inventum Ecolution Combi 50</a></th><th class="bedrag">All-electric: <a href="pomp/bosch-compress-5800i.html">Bosch Compress 5800i AW</a></th></tr></thead>
+      <tbody>
+        <tr><td>Toestel, laagste prijs in de vergelijker (incl. btw)</td><td class="bedrag">€ 4.843</td><td class="bedrag">€ 5.695</td></tr>
+        <tr><td>Installatie (mijn schatting)</td><td class="bedrag">€ 2.500</td><td class="bedrag">€ 5.000</td></tr>
+        <tr><td>Gasaansluiting laten afsluiten</td><td class="bedrag">blijft</td><td class="bedrag">€ 700</td></tr>
+        <tr><td>ISDE-subsidie</td><td class="bedrag">− € 1.675</td><td class="bedrag">− € 2.375</td></tr>
+        <tr><td><b>Netto investering</b></td><td class="bedrag"><b>€ 5.668</b></td><td class="bedrag"><b>€ 9.020</b></td></tr>
+        <tr><td>Gas bespaard per jaar</td><td class="bedrag">720 m³</td><td class="bedrag">1.200 m³</td></tr>
+        <tr><td>Extra stroom per jaar</td><td class="bedrag">1.410 kWh</td><td class="bedrag">2.950 kWh</td></tr>
+        <tr><td>Vaste gaskosten die vervallen</td><td class="bedrag">nee</td><td class="bedrag">€ 350 per jaar</td></tr>
+        <tr><td><b>Besparing per jaar</b></td><td class="bedrag"><b>€ 622</b></td><td class="bedrag"><b>€ 1.204</b></td></tr>
+        <tr><td>Terugverdientijd, middenscenario</td><td class="bedrag">9,1 jaar</td><td class="bedrag">7,5 jaar</td></tr>
+        <tr><td>Bereik (ongunstig tot gunstig)</td><td class="bedrag">6,2 tot 19,2 jaar</td><td class="bedrag">5,2 tot 14,9 jaar</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Moet je cv-ketel toch vervangen, dan telt bij all-electric alleen de meerprijs ten opzichte van een nieuwe ketel van € 2.500. Dat is € 6.520, en dan verdient de Bosch Compress 5800i AW zich in 5,4 jaar terug. <a href="rekenmodule.html?pomp=inventum-ecolution-combi">Open de hybride</a> of <a href="rekenmodule.html?pomp=bosch-compress-5800i&amp;ketel=vervangen">de all-electric</a> in de rekenmodule en vul je eigen gasverbruik in.</p>
+  <!-- /blok:rekenvoorbeeld -->
+
+    <h2 id="veelgestelde-vragen">Veelgestelde vragen over de terugverdientijd</h2>
+
+    <details class="faq-item">
+      <summary>Wat is de terugverdientijd van een warmtepomp?</summary>
+      <p>Bij 1.200 m³ gas per jaar rekent deze module voor een hybride warmtepomp met <span data-cijfer="vb-h-laag">6,2</span> tot <span data-cijfer="vb-h-hoog">19,2</span> jaar en voor all-electric met <span data-cijfer="vb-a-laag">5,2</span> tot <span data-cijfer="vb-a-hoog">14,9</span> jaar, inclusief ISDE-subsidie. Het grootste verschil maakt je gasverbruik. De besparing groeit ongeveer mee met het gas dat je nu stookt, dus bij 600 m³ duurt het ruwweg twee keer zo lang. Een warmtepomp gaat gemiddeld 15 tot 20 jaar mee.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Hoeveel bespaar je per jaar met een warmtepomp?</summary>
+      <p>Bij 1.200 m³ gas, gas van 1,45 euro per m³ en stroom van 0,30 euro per kWh bespaart een hybride ongeveer <span data-cijfer="vb-h-besparing">€ 622</span> per jaar en all-electric ongeveer <span data-cijfer="vb-a-besparing">€ 1.204</span>. Bij all-electric telt daarin mee dat de vaste gaskosten van circa 350 euro per jaar vervallen als je de gasaansluiting laat afsluiten.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Verdient een hybride of een all-electric warmtepomp zich sneller terug?</summary>
+      <p>In het rekenvoorbeeld hierboven komt de hybride op <span data-cijfer="vb-h-tvt">9,1</span> jaar en all-electric op <span data-cijfer="vb-a-tvt">7,5</span> jaar (middenscenario). All-electric kost meer, met circa 5.000 euro installatie tegen 2.500 euro voor een hybride, maar bespaart ook ongeveer twee keer zoveel. Moet je cv-ketel binnenkort toch vervangen, dan valt de rekensom extra gunstig uit voor all-electric, want dan telt alleen de meerprijs ten opzichte van een nieuwe ketel. Een all-electric pomp vraagt wel een goed geïsoleerd huis; laat een installateur dat beoordelen met een warmteverliesberekening.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Hoeveel ISDE-subsidie krijg je voor een warmtepomp?</summary>
+      <p>Voor de pompen in mijn vergelijker ligt de ISDE-indicatie tussen <span data-cijfer="isde-min">€ 1.675</span> en <span data-cijfer="isde-max">€ 3.925</span>, afhankelijk van het vermogen en de meldcode op de lijst van RVO. De rekenmodule trekt het bedrag van de gekozen pomp automatisch van de investering af. Hoe je de subsidie aanvraagt en waar je op moet letten, staat op mijn pagina over <a href="subsidie.html">ISDE-subsidie</a>.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Verdient een warmtepomp sneller terug met zonnepanelen?</summary>
+      <p>Minder dan je zou denken. Een warmtepomp verbruikt het meeste stroom van november tot en met maart, als zonnepanelen weinig opwekken. Tot en met 2026 kun je zomeroverschot nog wegstrepen tegen winterverbruik via de salderingsregeling; vanaf 1 januari 2027 kan dat niet meer. Reken daarom met de stroomprijs die je in de winter echt betaalt en vul die in onder "Aannames aanpassen". Met een dynamisch contract en een pomp die op goedkope uren stookt, kan die prijs lager uitvallen dan de standaard van 0,30 euro per kWh.</p>
+    </details>
+
     <div class="noot">Deze berekening is een indicatie, geen offerte of financieel advies. De werkelijke besparing hangt af van je huis, je stookgedrag, de installatie en toekomstige energieprijzen. Laat een installateur altijd het benodigde vermogen bepalen met een warmteverliesberekening.</div>
     <p class="bron-lijst">Bronnen: <a href="https://www.milieucentraal.nl/energie-besparen/duurzaam-verwarmen/warmtepomp/" target="_blank" rel="noopener">Milieu Centraal over warmtepompen en kosten</a> · <a href="https://www.milieucentraal.nl/energie-besparen/inzicht-in-je-energierekening/gemiddeld-energieverbruik/" target="_blank" rel="noopener">Milieu Centraal over gemiddeld energieverbruik</a> · <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/warmtepomp" target="_blank" rel="noopener">RVO over de ISDE-subsidie</a> · <a href="https://co2emissiefactoren.nl/" target="_blank" rel="noopener">CO₂-emissiefactoren</a>. Zie ook mijn pagina <a href="subsidie.html">Subsidie</a>.</p>
   </section>

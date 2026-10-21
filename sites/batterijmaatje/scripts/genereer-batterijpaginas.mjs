@@ -1434,14 +1434,32 @@ console.log(`${data.batterijen.length} batterijpagina's gegenereerd in /batterij
 /* De pagina's van wat er nu niet op staat. Het adres blijft bestaan, want er
    kan elders naar gelinkt zijn, maar het is een korte pagina met noindex. */
 const HTML_404 = readFileSync(resolve(ROOT, "404.html"), "utf8");
+/* Wie via Google op zo'n pagina komt, zocht dit type batterij. Drie modellen
+   die wel op de site staan, van hetzelfde type en zo dicht mogelijk bij de
+   capaciteit, zijn dan een beter vervolg dan alleen de knop naar de lijst. */
+function alternatieven(b) {
+  const prijs = (x) => { const a = bestePrijs(x); return a ? Prijs.vergelijkPrijs(a) : null; };
+  const afstand = (x) => Math.abs((x.capaciteit_kwh || 0) - (b.capaciteit_kwh || 0));
+  return ZICHTBAAR
+    .filter((x) => x.type === b.type && x.capaciteit_kwh && prijs(x))
+    .sort((x, y) => afstand(x) - afstand(y) || prijs(x) - prijs(y))
+    .slice(0, 3)
+    .map((x) => {
+      const naam = volledigeNaam(x);
+      const kwh = /kWh/.test(naam) ? "" : ` (${String(x.capaciteit_kwh).replace(".", ",")} kWh)`;
+      return `de <a href="/batterij/${esc(x.id)}.html">${esc(naam)}</a>${kwh} voor ${eur(prijs(x))}`;
+    });
+}
 for (const { product: b } of VERBORGEN) {
   const naam = volledigeNaam(b);
+  const anders = alternatieven(b);
   writeFileSync(resolve(ROOT, "batterij", `${b.id}.html`), verborgenPagina(HTML_404, {
     titel: `${naam} | Batterijmaatje.nl`,
     kop: `De ${naam} staat er nu niet op`,
     alineas: [
       `In mijn vergelijker staan alleen thuisbatterijen waarvan een winkel de prijs in de afgelopen 14 weken heeft bevestigd. Voor de ${esc(naam)} heb ik zo'n prijs nu niet, en zonder actuele prijs kun je hem niet eerlijk naast de andere ${ZICHTBAAR.length} leggen.`,
       "Duikt er weer een winkel met een bevestigde prijs op, dan staat hij er de dag daarna vanzelf weer bij.",
+      ...(anders.length ? [`Van hetzelfde type en het dichtst bij ${String(b.capaciteit_kwh).replace(".", ",")} kWh staan wel in de vergelijker ${anders.length > 1 ? `${anders.slice(0, -1).join(", ")} en ${anders.at(-1)}` : anders[0]}.`] : []),
     ],
     terug: { href: "/", tekst: "Naar de vergelijker" },
   }), "utf8");
@@ -1722,7 +1740,7 @@ let CIJFERS = null;
 /* De met de hand geschreven pagina's met aantallen erin. Die tellen de
    batterijen die er nu op staan, dus ze worden elke dag ingevuld, en de
    FAQ-markup volgt de zichtbare antwoorden. */
-for (const bestand of ["index.html", "over-ons.html", "regelgeving.html", "steun.html"]) {
+for (const bestand of ["index.html", "over-ons.html", "regelgeving.html", "steun.html", "rekenmodule.html"]) {
   const pad = resolve(ROOT, bestand);
   const oud = readFileSync(pad, "utf8");
   const nieuw = Uitleg.faqVolgensTekst(Uitleg.vulCijfers(oud, CIJFERS, bestand));
