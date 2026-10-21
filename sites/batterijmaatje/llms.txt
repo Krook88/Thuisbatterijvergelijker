@@ -3,7 +3,7 @@
 > Onafhankelijke vergelijkingssite voor thuisbatterijen voor Nederlandse huishoudens. We vergelijken op prijs per kWh, capaciteit, type (plug-in, AC-gekoppeld of hybride), noodstroom en slimme koppeling met zonnepanelen, dynamisch contract, Homey en Home Assistant (Koppel-score). Prijzen worden dagelijks bijgewerkt met bronvermelding en er is geen betaalde plaatsing.
 
 ## Vergelijken en kiezen
-- [Thuisbatterijen vergelijken](https://batterijmaatje.nl/index.html): alle batterijen op prijs per kWh, capaciteit en Koppel-score.
+- [Thuisbatterijen vergelijken](https://batterijmaatje.nl/): alle batterijen op prijs per kWh, capaciteit en Koppel-score.
 - [Keuzehulp](https://batterijmaatje.nl/advies.html): advies op basis van verbruik, zonnepanelen en wensen.
 - [Beste thuisbatterij voor Home Assistant](https://batterijmaatje.nl/beste-thuisbatterij-home-assistant.html)
 - [Beste thuisbatterij voor Homey](https://batterijmaatje.nl/beste-thuisbatterij-homey.html)

@@ -23,6 +23,20 @@ const { instellingen, opdrachten } = require("./_opslag");
 const { TEAM, SITES, niet, vercel, dagVan, bewaarHooguitPerUur, verloop } = require("./_bezoek");
 const PERIODES = [7, 14, 30];
 const BLOKJES = ["0-10s", "10-30s", "30s-2m", "2-10m", "10m+"];
+const EIGEN = new Set(["batterijmaatje.nl", "warmtepompmaatje.nl", "zonnestroommaatje.nl"]);
+
+// "/index.html" en "/" zijn dezelfde pagina. Sinds 21 oktober stuurt de site
+// "/index.html" door naar "/", maar wat er daarvoor gemeten is staat er nog.
+const gewoon = (pad) => String(pad || "").replace(/\/index\.html$/, "/");
+
+function samen(rijen) {
+  const per = new Map();
+  for (const r of rijen) {
+    const al = per.get(r.pagina);
+    if (al) { al.bezoekers += r.bezoekers; al.weergaven += r.weergaven; } else per.set(r.pagina, { ...r });
+  }
+  return [...per.values()].sort((a, b) => b.bezoekers - a.bezoekers);
+}
 
 // Een wachtwoord raden kost tijd: per IP vijf pogingen per kwartier.
 const POGINGEN = 5;
@@ -71,7 +85,7 @@ async function bezoek(site, v) {
   return {
     totaal: { bezoekers: totaal.visitors || 0, weergaven: totaal.pageviews || 0 },
     perDag: perDag.map((r) => ({ dag: dagVan(r), bezoekers: r.visitors, weergaven: r.pageviews })),
-    paginas: paginas.filter((r) => !niet(r.requestPath)).map((r) => ({ pagina: r.requestPath, bezoekers: r.visitors, weergaven: r.pageviews })),
+    paginas: samen(paginas.filter((r) => !niet(r.requestPath)).map((r) => ({ pagina: gewoon(r.requestPath), bezoekers: r.visitors, weergaven: r.pageviews }))),
     herkomst: herkomst.map((r) => ({ herkomst: r.referrerHostname || "", bezoekers: r.visitors, weergaven: r.pageviews })),
     apparaat: apparaat.map((r) => ({ apparaat: r.deviceType || "", bezoekers: r.visitors, weergaven: r.pageviews })),
   };
@@ -89,13 +103,19 @@ async function eigenTeller(v) {
   const kliks = new Map();
   const tijd = new Map();
   antwoorden.forEach((r, i) => {
-    for (const [veld, n] of Object.entries(paren(r))) {
+    for (const [ruw, n] of Object.entries(paren(r))) {
+      const delen = ruw.split("|");
+      const plek = i % 2 === 0 ? 3 : 1;
       // De statistiekenpagina zelf telt niet; zie api/_bezoek.js.
-      if (niet(veld.split("|")[i % 2 === 0 ? 3 : 1])) continue;
+      if (niet(delen[plek])) continue;
+      // Doorklikken naar de eigen sites zijn geen winkelbezoek (de teller
+      // stuurt ze sinds 21 oktober niet meer).
+      if (i % 2 === 0 && EIGEN.has(delen[1])) continue;
+      delen[plek] = gewoon(delen[plek]);
+      const veld = delen.join("|");
       if (i % 2 === 0) {
         kliks.set(veld, (kliks.get(veld) || 0) + n);
       } else {
-        const delen = veld.split("|");
         const soort = delen.pop();
         const sleutel = delen.join("|");
         const rij = tijd.get(sleutel) || { n: 0, sec: 0, blokjes: Object.fromEntries(BLOKJES.map((b) => [b, 0])) };

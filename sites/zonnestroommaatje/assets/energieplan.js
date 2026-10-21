@@ -155,7 +155,7 @@
         soort: "zonnepanelen",
         bedragen: { investering, subsidie: 0, besparing },
         knoppen: [
-          { tekst: `Vergelijk zonnepanelen ${Iconen.svg("pijl-rechts")}`, url: "index.html" },
+          { tekst: `Vergelijk zonnepanelen ${Iconen.svg("pijl-rechts")}`, url: "/" },
           { tekst: `Bereken exact ${Iconen.svg("pijl-rechts")}`, url: `rekenmodule.html?aantal=${aantal}` },
         ],
       });

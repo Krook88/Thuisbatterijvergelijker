@@ -46,8 +46,9 @@
     } catch (e) { /* dan telt deze niet mee */ }
   }
 
+  // "/index.html" en "/" zijn dezelfde pagina; tel ze als "/".
   function pagina() {
-    return (location.pathname || "/").slice(0, 120);
+    return (location.pathname || "/").replace(/\/index\.html$/, "/").slice(0, 120);
   }
 
   function product(el) {
@@ -64,7 +65,9 @@
     try { doel = new URL(a.href, location.href); } catch (x) { return; }
     if (doel.protocol !== "https:" && doel.protocol !== "http:") return;
     var domein = doel.hostname.replace(/^www\./, "");
-    if (domein === host) return;
+    // De drie eigen sites zijn geen winkel; dat verkeer staat al bij
+    // "Komt vandaan" in Vercel.
+    if (domein === host || SITES[domein]) return;
     stuur({ t: "klik", w: domein, p: product(a), b: pagina() });
   }
   document.addEventListener("click", klik, true);
