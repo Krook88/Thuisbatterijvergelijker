@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-10-20",
+  "bijgewerkt": "2026-10-21",
   "punten": {
     "onbereikbaar|enphase-iq8|Zonnige Winkel": {
       "sinds": "2026-10-16",
@@ -28,32 +28,20 @@
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (91 dagen)",
+      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (92 dagen)",
       "bevestigd": true
     },
     "verouderd|maxeon-6-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "maxeon-6-440 @ richtprijs: €230 (91 dagen)",
+      "tekst": "maxeon-6-440 @ richtprijs: €230 (92 dagen)",
       "bevestigd": true
     },
     "verouderd|ulica-440-full-black|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "ulica-440-full-black @ richtprijs: €55 (91 dagen)",
+      "tekst": "ulica-440-full-black @ richtprijs: €55 (92 dagen)",
       "bevestigd": true
-    },
-    "zonder prijs|dmegc-440-glas-glas|Stroomwinkel": {
-      "sinds": "2026-10-20",
-      "soort": "zonder bedrag",
-      "tekst": "dmegc-440-glas-glas @ Stroomwinkel: geen leesbaar bedrag",
-      "bevestigd": false
-    },
-    "zonder prijs|growatt-min-xh|WarmteBeheer": {
-      "sinds": "2026-10-20",
-      "soort": "geweigerd",
-      "tekst": "growatt-min-xh @ WarmteBeheer: HTTP 403",
-      "bevestigd": false
     }
   }
 }
