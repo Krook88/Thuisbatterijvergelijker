@@ -171,6 +171,50 @@ function zekerScore(p) {
   return score;
 }
 
+/* Hoe een paneel het doet tegenover de rest van de vergelijker. Een
+   datasheet staat overal; de plaats tussen de andere panelen staat alleen
+   hier, en die verschuift vanzelf mee als er panelen of prijzen bijkomen. */
+const MAATSTAVEN = [
+  { naam: "Prijs per Wp", waarde: (p) => prijsPerWp(p), hoger: false, toon: (v) => eurWp(v) },
+  { naam: "Rendement", waarde: (p) => p.rendement_pct, hoger: true, toon: (v) => `${nl(v)}%` },
+  { naam: "Productgarantie", waarde: (p) => p.garantie_product_jaar, hoger: true, toon: (v) => `${v} jaar` },
+  { naam: "Vermogen na 25 jaar", waarde: (p) => p.vermogen_behoud_25j_pct, hoger: true, toon: (v) => `${nl(v)}%` },
+  { naam: "Warmteverlies per °C", waarde: (p) => p.temp_coefficient, hoger: true, toon: (v) => `${nl(v)}%` },
+];
+
+function verhoudingHtml(p) {
+  const rijen = MAATSTAVEN.map((m) => {
+    const eigen = m.waarde(p);
+    const met = data.panelen.filter((x) => typeof m.waarde(x) === "number");
+    if (typeof eigen !== "number" || met.length < 3) return null;
+    const beter = (a, b) => (m.hoger ? a > b : a < b);
+    const plaats = 1 + met.filter((x) => beter(m.waarde(x), eigen)).length;
+    const top = met.reduce((a, b) => (beter(m.waarde(b), m.waarde(a)) ? b : a));
+    return { m, eigen, plaats, n: met.length, top };
+  }).filter(Boolean);
+  if (!rijen.length) return "";
+  const sterkst = rijen.reduce((a, b) => (b.plaats / b.n < a.plaats / a.n ? b : a));
+  const zwakst = rijen.reduce((a, b) => (b.plaats / b.n > a.plaats / a.n ? b : a));
+  const eigenPerWp = prijsPerWp(p);
+  const voordeliger = eigenPerWp ? data.panelen
+    .filter((x) => x.id !== p.id && prijsPerWp(x) && prijsPerWp(x) < eigenPerWp && (x.rendement_pct || 0) >= (p.rendement_pct || 0))
+    .sort((a, b) => prijsPerWp(a) - prijsPerWp(b)).slice(0, 2) : [];
+  const naam = esc(volledigeNaam(p));
+  const link = (x) => `de <a href="/paneel/${esc(x.id)}.html">${esc(volledigeNaam(x))}</a> (${eurWp(prijsPerWp(x))} per Wp, ${nl(x.rendement_pct)}%)`;
+  return `<h2>Zo verhoudt hij zich tot de andere ${data.panelen.length - 1}</h2>
+  <div class="tabel-wrap">
+    <table class="vergelijk-tabel compact">
+      <thead><tr><th>Eigenschap</th><th>Dit paneel</th><th>Plaats</th><th>Beste in de vergelijker</th></tr></thead>
+      <tbody>${rijen.map((r) => `
+        <tr><td>${r.m.naam}</td><td>${r.m.toon(r.eigen)}</td><td>${r.plaats} van ${r.n}</td><td>${r.plaats === 1 ? "dit paneel" : `<a href="/paneel/${esc(r.top.id)}.html">${esc(volledigeNaam(r.top))}</a>, ${r.m.toon(r.m.waarde(r.top))}`}</td></tr>`).join("")}
+      </tbody>
+    </table>
+  </div>
+  <p>Het sterkste punt van de ${naam} is ${sterkst.m.naam.toLowerCase()} (plaats ${sterkst.plaats} van ${sterkst.n}), het zwakste ${zwakst.m.naam.toLowerCase()} (plaats ${zwakst.plaats} van ${zwakst.n}). ${voordeliger.length
+    ? `Per wattpiek goedkoper met minstens hetzelfde rendement zijn ${voordeliger.map(link).join(" en ")}.`
+    : `Geen enkel ander paneel in de vergelijker is per wattpiek goedkoper met minstens hetzelfde rendement van ${nl(p.rendement_pct)}%.`}</p>`;
+}
+
 function zekerScoreBadge(p) {
   const score = zekerScore(p);
   const klasse = score >= 5 ? "zeker-hoog" : score >= 3 ? "zeker-midden" : "zeker-laag";
@@ -535,6 +579,8 @@ function pagina(p) {
 
   ${p.opmerkingen ? `<h2>Goed om te weten</h2><p>${esc(p.opmerkingen)}</p>` : ""}
 
+  ${verhoudingHtml(p)}
+
   ${VERGELIJKINGEN.filter((v) => v.a === p.id || v.b === p.id).length ? `<h2>Vergelijk met alternatieven</h2>
   <ul>
     ${VERGELIJKINGEN.filter((v) => v.a === p.id || v.b === p.id).map((v) => {
@@ -556,6 +602,103 @@ ${staartProduct}`;
    zodat prijzen en volgorde automatisch actueel blijven.
    ------------------------------------------------------------------ */
 
+/* Rekenwerk voor de twee gidsen. Alles komt uit data.panelen, zodat de tekst
+   meebeweegt met prijzen en nieuwe panelen in plaats van stil te verouderen. */
+const mediaan = (getallen) => {
+  const g = getallen.filter((n) => typeof n === "number").sort((a, b) => a - b);
+  if (!g.length) return null;
+  const m = Math.floor(g.length / 2);
+  return g.length % 2 ? g[m] : (g[m - 1] + g[m]) / 2;
+};
+const oppervlak = (p) => {
+  const [l, b] = String(p.afmetingen_mm || "").split(/\s*[×x]\s*/).map(Number);
+  return l && b ? (l * b) / 1e6 : null;
+};
+const m2 = (n) => n.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const KWH_PER_WP_ZUID = 0.9; // dezelfde aanname als "Wat levert dit paneel op?"
+const STROOMPRIJS = 0.3;
+const paneelLink = (p) => `<a href="/paneel/${esc(p.id)}.html">${esc(volledigeNaam(p))}</a>`;
+
+function kleinDak(lijst) {
+  const DAK = 15;
+  const metMaat = lijst.filter((p) => oppervlak(p) && prijsPerWp(p));
+  const hoog = metMaat[0];
+  const laag = metMaat[metMaat.length - 1];
+  const opp = metMaat.map(oppervlak);
+  const [amin, amax] = [Math.min(...opp), Math.max(...opp)];
+  const passen = Math.floor(DAK / amax);
+  const wpHoog = passen * hoog.vermogen_wp;
+  const wpLaag = passen * laag.vermogen_wp;
+  const kwhVerschil = Math.round((wpHoog - wpLaag) * KWH_PER_WP_ZUID);
+  const kostHoog = passen * Prijs.vergelijkPrijs(bestePrijs(hoog));
+  const kostLaag = passen * Prijs.vergelijkPrijs(bestePrijs(laag));
+  const meer = kostHoog - kostLaag;
+  const perJaar = kwhVerschil * STROOMPRIJS;
+  const topgroep = metMaat.filter((p) => p.rendement_pct >= 22.5);
+  const voordelig = [...topgroep].sort((a, b) => prijsPerWp(a) - prijsPerWp(b))[0];
+  const terugMeer = meer > 0 && perJaar > 0 ? `De meerprijs van ${eur(meer)} heb je bij ${eurWp(STROOMPRIJS)} per kWh die je zelf verbruikt in ongeveer ${nl(Math.round(meer / perJaar * 10) / 10)} jaar terug.`
+    : `De panelen met het hoogste rendement zijn hier zelfs ${eur(-meer)} goedkoper, dus dan is de keuze snel gemaakt.`;
+  const extra = `<h2>Wat een hoger rendement oplevert op ${DAK} m²</h2>
+  <p>De panelen in deze lijst zijn bijna even groot, van ${m2(amin)} tot ${m2(amax)} m² per stuk. Op een dakvlak van ${DAK} m² passen er dus ongeveer evenveel, zo'n ${passen}, en het verschil zit in de wattpiek per paneel. Met ${passen} keer de ${paneelLink(hoog)} (${nl(hoog.rendement_pct)}%) kom je op ${getal(wpHoog)} Wp, met ${passen} keer de ${paneelLink(laag)} (${nl(laag.rendement_pct)}%) op ${getal(wpLaag)} Wp. Op een gunstig zuiddak scheelt dat ongeveer ${getal(kwhVerschil)} kWh per jaar.</p>
+  <p>Die ${passen} panelen kosten samen ${eur(kostHoog)} tegen ${eur(kostLaag)}. ${terugMeer} Hoeveel panelen er echt op jouw dak passen, hangt af van de vorm, de randafstand en schoorstenen of dakramen.</p>
+  ${voordelig ? `<p>Wil je veel vermogen zonder de hoofdprijs, kijk dan naar de ${paneelLink(voordelig)}. Hij is het goedkoopst per wattpiek onder de ${topgroep.length} modellen met 22,5% rendement of meer, met ${eurWp(prijsPerWp(voordelig))} per Wp bij ${nl(voordelig.rendement_pct)}% rendement.</p>` : ""}`;
+  const vragen = [
+    { v: "Hoeveel zonnepanelen passen op een klein dak?", a: `Een paneel in deze vergelijker meet ${m2(amin)} tot ${m2(amax)} m². Op ${DAK} m² bruikbaar dakvlak passen er zo'n ${passen}. Houd rekening met een randafstand van enkele tientallen centimeters en met dakramen of een schoorsteen; een installateur meet dat ter plekke in.` },
+    { v: "Is een zonnepaneel met een hoger rendement de meerprijs waard?", a: `Op ${DAK} m² levert de ${volledigeNaam(hoog)} ongeveer ${getal(kwhVerschil)} kWh per jaar meer op dan de ${volledigeNaam(laag)}. ${terugMeer.replace(/<[^>]+>/g, "")} Op een groot dak, waar ruimte geen grens is, kun je beter goedkopere panelen bijleggen.` },
+    { v: "Wat is het verschil tussen het vermogen en het rendement van een zonnepaneel?", a: `Het vermogen in wattpiek zegt wat één paneel levert onder testomstandigheden, het rendement hoeveel daarvan per vierkante meter. De ${volledigeNaam(hoog)} haalt ${nl(hoog.rendement_pct)}%, ongeveer ${Math.round(hoog.rendement_pct * 10)} Wp per m². Op een klein dak telt het rendement, op een groot dak de prijs per wattpiek.` },
+  ];
+  return { extra, vragen };
+}
+
+function glasGlas() {
+  const gg = data.panelen.filter((p) => p.uitvoering === "glas-glas");
+  const gf = data.panelen.filter((p) => p.uitvoering !== "glas-glas");
+  const med = (lijst, f) => mediaan(lijst.map(f));
+  const r = {
+    perWp: [med(gg, prijsPerWp), med(gf, prijsPerWp)],
+    garantie: [med(gg, (p) => p.garantie_product_jaar), med(gf, (p) => p.garantie_product_jaar)],
+    behoud: [med(gg, (p) => p.vermogen_behoud_25j_pct), med(gf, (p) => p.vermogen_behoud_25j_pct)],
+    gewicht: [med(gg, (p) => p.gewicht_kg), med(gf, (p) => p.gewicht_kg)],
+  };
+  const rij = (label, [a, b], toon) => `<tr><td>${label}</td><td>${toon(a)}</td><td>${toon(b)}</td></tr>`;
+  const jr = (n) => `${nl(n)} jaar`;
+  const pct = (n) => `${nl(Math.round(n * 10) / 10)}%`;
+  const kg = (n) => `${nl(Math.round(n * 10) / 10)} kg`;
+  const SET_WP = 4400;
+  const prijsVerschil = Math.round((r.perWp[0] - r.perWp[1]) * SET_WP);
+  const kgVerschil = Math.round((r.gewicht[0] - r.gewicht[1]) * 10 * 10) / 10;
+  // Of glas-glas hier ook op papier beter scoort, hangt van de data af; de zin
+  // volgt wat er staat in plaats van te herhalen wat er vaak over gezegd wordt.
+  const gelijk = r.garantie[0] === r.garantie[1] && Math.abs(r.behoud[0] - r.behoud[1]) < 0.3;
+  const zekerheidZin = gelijk
+    ? `Op productgarantie en vermogen na 25 jaar maakt de uitvoering in deze vergelijker weinig uit, met in de mediaan ${jr(r.garantie[0])} tegen ${jr(r.garantie[1])} en ${pct(r.behoud[0])} tegen ${pct(r.behoud[1])}. Het voordeel van glas-glas zit dus in de bouw zelf, want glas aan twee kanten houdt vocht beter buiten dan folie.`
+    : `In de mediaan is de productgarantie ${jr(r.garantie[0])} voor glas-glas tegen ${jr(r.garantie[1])} voor glas-folie, en het vermogen na 25 jaar ${pct(r.behoud[0])} tegen ${pct(r.behoud[1])}.`;
+  const goedkoopst = [...gg].filter(prijsPerWp).sort((a, b) => prijsPerWp(a) - prijsPerWp(b))[0];
+  const langst = [...gg].sort((a, b) => (b.garantie_product_jaar || 0) - (a.garantie_product_jaar || 0) || prijsPerWp(a) - prijsPerWp(b))[0];
+  const prijsZin = prijsVerschil > 0 ? `Voor een set van ${getal(SET_WP)} Wp, tien panelen van 440 Wp, betaal je bij de mediaanprijs zo'n ${eur(prijsVerschil)} meer voor glas-glas.`
+    : `Voor een set van ${getal(SET_WP)} Wp, tien panelen van 440 Wp, is glas-glas bij de mediaanprijs zelfs ${eur(-prijsVerschil)} goedkoper.`;
+  const extra = `<h2>Glas-glas tegenover glas-folie in deze vergelijker</h2>
+  <div class="tabel-wrap">
+    <table class="vergelijk-tabel compact">
+      <thead><tr><th>Mediaan</th><th>Glas-glas (${gg.length})</th><th>Glas-folie (${gf.length})</th></tr></thead>
+      <tbody>
+        ${rij("Prijs per Wp", r.perWp, eurWp)}
+        ${rij("Productgarantie", r.garantie, jr)}
+        ${rij("Vermogen na 25 jaar", r.behoud, pct)}
+        ${rij("Gewicht per paneel", r.gewicht, kg)}
+      </tbody>
+    </table>
+  </div>
+  <p>${prijsZin} ${zekerheidZin} Tien glas-glas panelen wegen samen ongeveer ${nl(kgVerschil)} kg ${kgVerschil >= 0 ? "meer" : "minder"}, wat op een plat dak met ballast kan meetellen.</p>
+  <p>De goedkoopste glas-glas per wattpiek is nu de ${paneelLink(goedkoopst)} met ${eurWp(prijsPerWp(goedkoopst))} per Wp. De langste productgarantie onder de glas-glas panelen heeft de ${paneelLink(langst)}, ${langst.garantie_product_jaar} jaar.</p>`;
+  const vragen = [
+    { v: "Zijn glas-glas zonnepanelen beter?", a: `Ze zijn steviger gebouwd, want glas aan beide kanten houdt vocht beter buiten en beschermt de cellen tegen microscheurtjes. Of dat terugkomt in de garantie, verschilt per fabrikant. In deze vergelijker is de mediaan productgarantie voor glas-glas ${jr(r.garantie[0])} tegen ${jr(r.garantie[1])} voor glas-folie, en het vermogen na 25 jaar ${pct(r.behoud[0])} tegen ${pct(r.behoud[1])}.` },
+    { v: "Wat kost een glas-glas zonnepaneel extra?", a: `De mediaanprijs is ${eurWp(r.perWp[0])} per Wp voor glas-glas tegen ${eurWp(r.perWp[1])} voor glas-folie. ${prijsZin}` },
+    { v: "Zijn glas-glas zonnepanelen zwaarder?", a: `In deze vergelijker weegt een glas-glas paneel in de mediaan ${kg(r.gewicht[0])}, een glas-folie paneel ${kg(r.gewicht[1])}. Voor tien panelen is dat ongeveer ${nl(Math.abs(kgVerschil))} kg verschil. Op een schuin pannendak maakt dat zelden uit, op een plat dak met ballast laat je de dakbelasting nakijken.` },
+  ];
+  return { extra, vragen };
+}
+
 const OVERZICHTEN = [
   {
     bestand: "beste-zonnepanelen-klein-dak.html",
@@ -564,6 +707,7 @@ const OVERZICHTEN = [
     intro: "Past je gewenste vermogen niet zomaar op je dak, dan telt elke vierkante meter. Het rendement van een paneel bepaalt direct hoeveel wattpiek er per m² past: 22% rendement is circa 220 Wp per m². Back-contact panelen zijn hier de koningen, maar je betaalt er iets meer voor. Hieronder alle panelen uit mijn vergelijker, gesorteerd op opbrengst per vierkante meter.",
     selecteer: (lijst) => [...lijst].sort((a, b) => (b.rendement_pct || 0) - (a.rendement_pct || 0)),
     voetnoot: "Tip: reken eerst uit hoeveel wattpiek je nodig hebt met de keuzehulp; misschien past een gewone middenklasser prima en bespaar je honderden euro's.",
+    verdieping: kleinDak,
   },
   {
     bestand: "beste-glas-glas-zonnepanelen.html",
@@ -571,9 +715,10 @@ const OVERZICHTEN = [
     metaDesc: "Glas-glas zonnepanelen vergeleken op prijs per Wp, garanties en rendement. Waarom glas-glas langer meegaat en wat het tegenwoordig kost.",
     // Geteld in plaats van opgeschreven: hier stond "7 van de 14", en dat klopte
     // tot er een paneel bij kwam.
-    intro: `Bij een glas-glas paneel liggen de cellen tussen twee lagen glas in plaats van glas en kunststof folie. Dat beschermt beter tegen vocht en microscheurtjes, vertraagt veroudering en levert vaak langere garanties op. Sinds fabrikanten dun gehard glas gebruiken, is het verschil in prijs en gewicht met foliepanelen klein; ${data.panelen.filter((p) => p.uitvoering === "glas-glas").length} van de ${data.panelen.length} panelen op deze site zijn glas-glas. Hieronder alle glas-glas panelen uit mijn vergelijker, gesorteerd op prijs per wattpiek.`,
+    intro: `Bij een glas-glas paneel liggen de cellen tussen twee lagen glas in plaats van glas en kunststof folie. Dat beschermt beter tegen vocht en microscheurtjes en vertraagt veroudering. Sinds fabrikanten dun gehard glas gebruiken, is het verschil in prijs en gewicht met foliepanelen klein; ${data.panelen.filter((p) => p.uitvoering === "glas-glas").length} van de ${data.panelen.length} panelen op deze site zijn glas-glas. Hieronder alle glas-glas panelen uit mijn vergelijker, gesorteerd op prijs per wattpiek.`,
     selecteer: (lijst) => lijst.filter((p) => p.uitvoering === "glas-glas").sort((a, b) => (prijsPerWp(a) || Infinity) - (prijsPerWp(b) || Infinity)),
     voetnoot: "Lees ook de uitleg over glas-glas en glas-folie in mijn woordenlijst.",
+    verdieping: glasGlas,
   },
 ];
 
@@ -609,6 +754,12 @@ function overzichtTabel(lijst) {
 
 function overzichtsPagina(cfg) {
   const lijst = cfg.selecteer(data.panelen);
+  const { extra = "", vragen = [] } = cfg.verdieping ? cfg.verdieping(lijst) : {};
+  const faqLd = vragen.length ? JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": vragen.map((q) => ({ "@type": "Question", "name": q.v, "acceptedAnswer": { "@type": "Answer", "text": q.a } })),
+  }, null, 2) : "";
   const itemList = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -621,7 +772,7 @@ function overzichtsPagina(cfg) {
     })),
   }, null, 2);
 
-  return `${kop(cfg.titel, cfg.metaDesc, `${SITE}/${cfg.bestand}`, wrapLd(itemList))}
+  return `${kop(cfg.titel, cfg.metaDesc, `${SITE}/${cfg.bestand}`, wrapLd(itemList, faqLd))}
 
 <main class="container leespagina">
   <p class="datum-stempel"><a href="/">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
@@ -629,6 +780,12 @@ function overzichtsPagina(cfg) {
   <p class="datum-stempel">Automatisch samengesteld uit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
   <p>${esc(cfg.intro)}</p>
   ${overzichtTabel(lijst)}
+  ${extra}
+  ${vragen.length ? `<h2 id="veelgestelde-vragen">Veelgestelde vragen</h2>
+  ${vragen.map((q) => `<details class="faq-item">
+    <summary>${esc(q.v)}</summary>
+    <p>${esc(q.a)}</p>
+  </details>`).join("\n  ")}` : ""}
   <p>${esc(cfg.voetnoot)} Zie de <a href="/advies.html">keuzehulp</a> en de <a href="/uitleg.html#woordenlijst">woordenlijst</a>.</p>
   <div class="noot">Prijzen zijn indicatieve richtprijzen; de prijs en specificaties op de website van de aanbieder zijn altijd leidend. Deze pagina wordt automatisch herbouwd vanuit mijn <a href="/">vergelijker</a>.</div>
 </main>
