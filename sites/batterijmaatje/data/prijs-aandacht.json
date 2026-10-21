@@ -1,16 +1,16 @@
 {
-  "bijgewerkt": "2026-10-20",
+  "bijgewerkt": "2026-10-21",
   "punten": {
-    "onbereikbaar|dyness-powerbox-g2|Zonnige Winkel": {
-      "sinds": "2026-10-18",
-      "soort": "onbereikbaar",
-      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: fetch failed",
-      "bevestigd": true
+    "te controleren|hyxi-halo|Stekker-batterij.nl": {
+      "sinds": "2026-10-21",
+      "soort": "te controleren",
+      "tekst": "hyxi-halo @ Stekker-batterij.nl: €619 → €1950 (+215%)",
+      "bevestigd": false
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (96 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (97 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
@@ -30,6 +30,18 @@
       "soort": "geweigerd",
       "tekst": "aeg-solarcube-48 @ AH Voordeelshop: HTTP 403",
       "bevestigd": true
+    },
+    "zonder prijs|dyness-powerbox-g2|Zonnige Winkel": {
+      "sinds": "2026-10-21",
+      "soort": "zonder bedrag",
+      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: geen leesbaar bedrag",
+      "bevestigd": false
+    },
+    "zonder prijs|dyness-powerbrick-plus|NKON": {
+      "sinds": "2026-10-21",
+      "soort": "geweigerd",
+      "tekst": "dyness-powerbrick-plus @ NKON: HTTP 403",
+      "bevestigd": false
     },
     "zonder prijs|samduo-nex-e6000|Stekker-batterij.nl": {
       "sinds": "2026-10-19",
