@@ -415,7 +415,7 @@
         <p style="margin: var(--ruimte-6) 0 0;font-size:var(--tekst-15);">Batterijen vergelijken op prijs per kWh, noodstroom en slimme aansturing doe je op mijn zustersite: <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl ${Iconen.svg("pijl-rechts")}</a> Verwarm je (straks) met een warmtepomp, dan benut die je zonnestroom extra goed; vergelijk warmtepompen op <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje ${Iconen.svg("pijl-rechts")}</a></p>
       </div>` : ""}
 
-      <p class="hint" style="margin-top: var(--ruimte-14);">Alle ${panelen.length} panelen zelf vergelijken? <a href="index.html">Naar de vergelijker ${Iconen.svg("pijl-rechts")}</a></p>
+      <p class="hint" style="margin-top: var(--ruimte-14);">Alle ${panelen.length} panelen zelf vergelijken? <a href="/">Naar de vergelijker ${Iconen.svg("pijl-rechts")}</a></p>
     `;
     if (window.Delen) {
       Delen.schrijfUrl(el("adviesformulier"));

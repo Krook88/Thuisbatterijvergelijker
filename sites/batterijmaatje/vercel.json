@@ -11,6 +11,11 @@
   ],
   "redirects": [
     {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
       "source": "/statistieken",
       "destination": "/statistieken.html",
       "permanent": false

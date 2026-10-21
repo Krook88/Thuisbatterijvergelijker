@@ -340,13 +340,13 @@ function breadcrumbLd(p) {
 const NAV = `
 <header class="site-header">
   <div class="container">
-    <a class="logo" href="/index.html">
+    <a class="logo" href="/">
       <span class="logo-icoon">${Iconen.svg("zon")}</span>
       <span>Zonnestroom<b>maatje</b></span>
     </a>
     <button class="menu-knop" type="button" aria-expanded="false" aria-controls="hoofdnav" aria-label="Menu openen"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></svg></button>
     <nav class="hoofdnav" id="hoofdnav">
-      <a href="/index.html">Zonnepanelen</a>
+      <a href="/">Zonnepanelen</a>
       <a href="/omvormers.html">Omvormers</a>
       <a href="/systeem.html">Samenstellen</a>
       <a href="/advies.html">Keuzehulp</a>
@@ -375,7 +375,7 @@ const FOOTER = `
   <div class="container">
     <b>${Iconen.svg("zon")} Zonnestroommaatje</b>
     <p>Onafhankelijke vergelijking van zonnepanelen voor Nederlandse huishoudens. Zustersite van <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen) en <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a> (warmtepompen).</p>
-    <p><a href="/index.html">Zonnepanelen</a> · <a href="/omvormers.html">Omvormers</a> · <a href="/systeem.html">Samenstellen</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/energieplan.html">Jouw energieplan</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="/hebben-zonnepanelen-nog-zin.html">Loont het nog?</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a> · <a href="/beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a> · <a href="/over-ons.html">Over mij</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="/">Zonnepanelen</a> · <a href="/omvormers.html">Omvormers</a> · <a href="/systeem.html">Samenstellen</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/energieplan.html">Jouw energieplan</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="/hebben-zonnepanelen-nog-zin.html">Loont het nog?</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a> · <a href="/beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a> · <a href="/over-ons.html">Over mij</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. Prijzen zijn indicatief; de prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -466,7 +466,7 @@ function pagina(p) {
 
 <main class="content-pagina">
 
-  <p class="datum-stempel"><a href="/index.html">Zonnepanelen</a> › ${esc(volledigeNaam(p))}</p>
+  <p class="datum-stempel"><a href="/">Zonnepanelen</a> › ${esc(volledigeNaam(p))}</p>
   <div class="product-kop">
     <div class="product-kop-tekst">
       <h1>${merkLogoHtml(p.merk)}${esc(volledigeNaam(p))}</h1>
@@ -543,7 +543,7 @@ function pagina(p) {
     }).join("\n    ")}
   </ul>` : ""}
 
-  <p>Twijfel je of dit paneel bij je past? Doe de <a href="/advies.html">keuzehulp</a> voor een advies op maat, of <a href="/index.html">vergelijk alle zonnepanelen</a> op prijs per Wp, rendement en Zeker-score.</p>
+  <p>Twijfel je of dit paneel bij je past? Doe de <a href="/advies.html">keuzehulp</a> voor een advies op maat, of <a href="/">vergelijk alle zonnepanelen</a> op prijs per Wp, rendement en Zeker-score.</p>
 
   ${p.product_url ? `<p>De gegevens van de fabrikant zelf vind je op de <a href="${esc(p.product_url)}" target="_blank" rel="noopener">officiële website van ${esc(p.merk)}</a>.</p>` : ""}
 
@@ -624,13 +624,13 @@ function overzichtsPagina(cfg) {
   return `${kop(cfg.titel, cfg.metaDesc, `${SITE}/${cfg.bestand}`, wrapLd(itemList))}
 
 <main class="container leespagina">
-  <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
+  <p class="datum-stempel"><a href="/">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
   <h1>${esc(cfg.titel)}</h1>
   <p class="datum-stempel">Automatisch samengesteld uit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
   <p>${esc(cfg.intro)}</p>
   ${overzichtTabel(lijst)}
   <p>${esc(cfg.voetnoot)} Zie de <a href="/advies.html">keuzehulp</a> en de <a href="/uitleg.html#woordenlijst">woordenlijst</a>.</p>
-  <div class="noot">Prijzen zijn indicatieve richtprijzen; de prijs en specificaties op de website van de aanbieder zijn altijd leidend. Deze pagina wordt automatisch herbouwd vanuit mijn <a href="/index.html">vergelijker</a>.</div>
+  <div class="noot">Prijzen zijn indicatieve richtprijzen; de prijs en specificaties op de website van de aanbieder zijn altijd leidend. Deze pagina wordt automatisch herbouwd vanuit mijn <a href="/">vergelijker</a>.</div>
 </main>
 ${staart}`;
 }
@@ -695,7 +695,7 @@ function nogZinPagina() {
   return `${kop([titel, "Hebben zonnepanelen nog zin?"], metaDesc, `${SITE}/${NOG_ZIN_BESTAND}`, wrapLd(itemList))}
 
 <main class="container leespagina">
-  <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
+  <p class="datum-stempel"><a href="/">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
   <h1>${esc(titel)}</h1>
   <p class="datum-stempel">Automatisch bijgewerkt vanuit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
@@ -816,7 +816,7 @@ function vergelijkingsPagina(v) {
                  `${kortePaneelnaam(A)} vs ${kortePaneelnaam(B)}`], metaDesc, `${SITE}/vergelijk/${esc(v.slug)}.html`, wrapLd(itemList))}
 
 <main class="container leespagina">
-  <p class="datum-stempel"><a href="/index.html">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
+  <p class="datum-stempel"><a href="/">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
   <h1>${esc(naam(A))} vs ${esc(naam(B))}</h1>
   <p class="datum-stempel">Op basis van dezelfde feiten als mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
   <p>Twee veelvergeleken zonnepanelen naast elkaar. Onder de tabel staan de belangrijkste verschillen op een rij. Vetgedrukt betekent: op dit punt objectief in het voordeel.</p>
@@ -889,7 +889,7 @@ for (const { product: p } of VERBORGEN) {
       `Ik zet een paneel alleen in de vergelijker als er een prijs bij hoort die in de afgelopen 14 weken nog is bevestigd. Voor het ${esc(naam)} heb ik die nu niet, en een prijs per wattpiek van maanden terug zegt weinig naast die van de ${ZICHTBAAR.length} andere panelen.`,
       "Bevestigt een winkel de prijs weer, dan staat het paneel er de volgende dag vanzelf weer tussen.",
     ],
-    terug: { href: "/index.html", tekst: "Naar alle panelen" },
+    terug: { href: "/", tekst: "Naar alle panelen" },
   }), "utf8");
 }
 if (VERBORGEN.length) console.log(`${VERBORGEN.length} paneelpagina's zonder actuele prijs als korte pagina geschreven`);
@@ -917,7 +917,7 @@ for (const v of VERGELIJKINGEN_WEG) {
     titel: "Vergelijking | Zonnestroommaatje.nl",
     kop: "Deze vergelijking staat er nu niet op",
     alineas: ["Voor een van de twee panelen heb ik geen prijs die in de laatste 14 weken bij een winkel is bevestigd, dus naast elkaar zetten heeft nu geen zin."],
-    terug: { href: "/index.html", tekst: "Naar alle panelen" },
+    terug: { href: "/", tekst: "Naar alle panelen" },
   }), "utf8");
 }
 

@@ -320,7 +320,7 @@
     if (!matches.length) { doel.hidden = true; return; }
     doel.hidden = false;
     doel.innerHTML = `${Iconen.svg("zon")} Ook gevonden in de <b>panelen-vergelijker</b>: ` +
-      matches.map((p) => `<a href="index.html?zoek=${encodeURIComponent(zoek)}">${escapeHtml(p.merk)} ${escapeHtml(p.model)}</a>`).join(" · ");
+      matches.map((p) => `<a href="/?zoek=${encodeURIComponent(zoek)}">${escapeHtml(p.merk)} ${escapeHtml(p.model)}</a>`).join(" · ");
   }
 
   function render() {

@@ -232,13 +232,13 @@ function kop(actief, diepte) {
   const p = diepte ? "../" : "";
   return `<header class="site-header">
   <div class="container">
-    <a class="logo" href="${p}index.html">
+    <a class="logo" href="/">
       <span class="logo-icoon">${ICOON_LOGO}</span>
       <span>Warmtepomp<b>maatje</b></span>
     </a>
     <button class="menu-knop" type="button" aria-expanded="false" aria-controls="hoofdnav" aria-label="Menu openen"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></svg></button>
     <nav class="hoofdnav" id="hoofdnav">
-      <a href="${p}index.html"${actief === "index" ? ' class="actief"' : ""}>Warmtepompen</a>
+      <a href="/"${actief === "index" ? ' class="actief"' : ""}>Warmtepompen</a>
       <a href="${p}advies.html">Keuzehulp</a>
       <a href="${p}rekenmodule.html">Terugverdientijd</a>
       <a href="${p}uitleg.html">Uitleg</a>
@@ -265,7 +265,7 @@ function voet(diepte) {
   <div class="container">
     <b>${Iconen.svg("warmte")} Warmtepompmaatje</b>
     <p>Onafhankelijke vergelijking van warmtepompen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen).</p>
-    <p><a href="${p}index.html">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}warmtepomp-geluid.html">Geluid</a> · <a href="${p}monoblock-of-split.html">Monoblock of split</a> · <a href="${p}index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="${p}over-ons.html">Over mij</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}steun.html">Steun deze site</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="/">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}warmtepomp-geluid.html">Geluid</a> · <a href="${p}monoblock-of-split.html">Monoblock of split</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="${p}over-ons.html">Over mij</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}steun.html">Steun deze site</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties zijn indicaties; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -414,7 +414,7 @@ ${itemList}
 ${kop("", false)}
 
 <main class="container leespagina">
-  <p class="datum-stempel"><a href="index.html">${Iconen.svg("pijl-links")} Alle warmtepompen vergelijken</a></p>
+  <p class="datum-stempel"><a href="/">${Iconen.svg("pijl-links")} Alle warmtepompen vergelijken</a></p>
   <h1>Warmtepomp en geluid</h1>
   <p class="datum-stempel">Samengesteld uit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
@@ -461,7 +461,7 @@ ${kop("", false)}
     <li><a href="advies.html">Keuzehulp</a>: welke warmtepomp bij jouw huis past, hybride of all-electric.</li>
     <li><a href="uitleg.html">Uitleg</a>: hoe een warmtepomp werkt, in gewone taal.</li>
     <li><a href="subsidie.html">ISDE-subsidie</a>: wat je terugkrijgt en hoe je het aanvraagt.</li>
-    <li><a href="index.html">Alle warmtepompen</a>: vergelijken op prijs, subsidie, rendement en geluid.</li>
+    <li><a href="/">Alle warmtepompen</a>: vergelijken op prijs, subsidie, rendement en geluid.</li>
   </ul>
 
   <div class="noot">De omrekening naar afstand op deze pagina is een vuistregel om mee te kunnen kiezen, geen toetsing aan de wet. Voor die toetsing geldt de berekening uit de Omgevingsregeling; vraag je installateur daarom vóór de plaatsing.</div>
@@ -593,7 +593,7 @@ ${itemList}
 ${kop("", false)}
 
 <main class="container leespagina">
-  <p class="datum-stempel"><a href="index.html">${Iconen.svg("pijl-links")} Alle warmtepompen vergelijken</a></p>
+  <p class="datum-stempel"><a href="/">${Iconen.svg("pijl-links")} Alle warmtepompen vergelijken</a></p>
   <h1>Monoblock of split?</h1>
   <p class="datum-stempel">Samengesteld uit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
 
@@ -729,7 +729,7 @@ function pompPagina(w) {
 ${kop("index", true)}
 
 <main class="container">
-  <p class="breadcrumb"><a href="../index.html">Warmtepompen</a> › ${esc(naam)}</p>
+  <p class="breadcrumb"><a href="/">Warmtepompen</a> › ${esc(naam)}</p>
   <h1 class="pomp-titel">${esc(naam)}</h1>
   ${fotoBlok(w, naam)}
   <p class="pomp-ondertitel">${w.type === "hybride" ? "Hybride warmtepomp (werkt samen met je cv-ketel)" : "All-electric warmtepomp (vervangt de cv-ketel volledig)"}${w.voorbeeld_variant ? ` · prijzen voor: ${esc(w.voorbeeld_variant)}` : ""}</p>
@@ -791,7 +791,7 @@ ${kop("index", true)}
         <dt>${Iconen.svg(driewaardig(w.home_assistant).status === "ja" ? "ja" : driewaardig(w.home_assistant).status === "deels" ? "deels" : "nee")} Home Assistant <span class="koppel-punten">${driewaardig(w.home_assistant).status === "ja" ? 2 : driewaardig(w.home_assistant).status === "deels" ? 1 : 0}<span class="van">/2</span></span></dt><dd>${esc(driewaardig(w.home_assistant).tekst)}</dd>
         <dt>${Iconen.svg(driewaardig(w.homey).status === "ja" ? "ja" : driewaardig(w.homey).status === "deels" ? "deels" : "nee")} Homey <span class="koppel-punten">${driewaardig(w.homey).status === "ja" ? 2 : driewaardig(w.homey).status === "deels" ? 1 : 0}<span class="van">/2</span></span></dt><dd>${esc(driewaardig(w.homey).tekst)}</dd>
       </dl>
-      <p class="hint los">Integraties veranderen per firmware- en appversie; controleer de actuele status vóór aankoop. <a href="../index.html#koppel-score">Zo werkt de Koppel-score ${Iconen.svg("pijl-rechts")}</a></p>
+      <p class="hint los">Integraties veranderen per firmware- en appversie; controleer de actuele status vóór aankoop. <a href="/#koppel-score">Zo werkt de Koppel-score ${Iconen.svg("pijl-rechts")}</a></p>
     </div>
 
     <div class="product-paneel">
@@ -833,7 +833,7 @@ ${kop("index", true)}
           Zonnestroommaatje tonen dit blok al op elke productpagina. */
     w.opmerkingen ? `<h2>Goed om te weten</h2>
     <p>${esc(w.opmerkingen)}</p>` : ""}
-    <p>Twijfel je nog over het type of het merk? Doe de <a href="../advies.html">keuzehulp</a>, of zet deze pomp naast twee andere in de <a href="../index.html">vergelijker</a> (vink "vergelijk" aan op maximaal drie kaarten).</p>
+    <p>Twijfel je nog over het type of het merk? Doe de <a href="../advies.html">keuzehulp</a>, of zet deze pomp naast twee andere in de <a href="/">vergelijker</a> (vink "vergelijk" aan op maximaal drie kaarten).</p>
   </section>
 </main>
 
@@ -862,7 +862,7 @@ for (const { product: w } of VERBORGEN) {
       `Een warmtepomp komt in mijn vergelijker als ik een prijs heb die in de laatste 14 weken bij een winkel of fabrikant is bevestigd. Bij de ${esc(naam)} lukt dat op dit moment niet, en met een oude prijs ernaast zou de vergelijking met de ${pompen.length} andere pompen scheef lopen.`,
       "Zodra er weer een bevestigde prijs is, komt hij de volgende dag vanzelf terug.",
     ],
-    terug: { href: "/index.html", tekst: "Naar alle warmtepompen" },
+    terug: { href: "/", tekst: "Naar alle warmtepompen" },
   }), "utf8");
 }
 if (VERBORGEN.length) console.log(`${VERBORGEN.length} pomppagina's zonder actuele prijs als korte pagina geschreven`);

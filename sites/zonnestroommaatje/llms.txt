@@ -3,7 +3,7 @@
 > Onafhankelijke vergelijkingssite voor zonnepanelen en omvormers voor Nederlandse huishoudens. We vergelijken op prijs per wattpiek, rendement, glas-glas uitvoering en garanties (Zeker-score), en op slimme koppeling met omvormer, thuisbatterij en warmtepomp (Koppel-score). Alle prijzen worden dagelijks bijgewerkt en zijn inclusief bronvermelding. Er is geen betaalde plaatsing: de volgorde is puur op de eigenschappen gebaseerd.
 
 ## Vergelijken en kiezen
-- [Zonnepanelen vergelijken](https://zonnestroommaatje.nl/index.html): alle panelen op prijs per wattpiek, rendement en garantie.
+- [Zonnepanelen vergelijken](https://zonnestroommaatje.nl/): alle panelen op prijs per wattpiek, rendement en garantie.
 - [Omvormers vergelijken](https://zonnestroommaatje.nl/omvormers.html): omvormers met de Koppel-score voor slim energiebeheer.
 - [Compleet systeem samenstellen](https://zonnestroommaatje.nl/systeem.html): panelen, omvormer en opslag als één systeem.
 - [Keuzehulp](https://zonnestroommaatje.nl/advies.html): persoonlijk advies op basis van dak, verbruik en wensen.

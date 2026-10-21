@@ -458,7 +458,7 @@
       <div class="waarschuwing-kader">
         <p>Het maatadvies hierboven klopt, maar er staat op dit moment geen model in de vergelijking dat aan álle voorwaarden voldoet. Meestal ligt dat aan één antwoord:</p>
         <ul>${zinnen.join("") || "<li>de combinatie van je antwoorden is te smal</li>"}</ul>
-        <p>Pas er één aan en het advies verschijnt direct. Of <a href="index.html">bekijk alle batterijen in de vergelijker</a> en filter daar zelf.</p>
+        <p>Pas er één aan en het advies verschijnt direct. Of <a href="/">bekijk alle batterijen in de vergelijker</a> en filter daar zelf.</p>
       </div>`;
   }
 
@@ -522,7 +522,7 @@
 
     let kaarten = "";
     if (!top.length) {
-      kaarten = '<div class="leeg-melding">Geen batterijen gevonden die aan al je eisen voldoen. Verruim je budget of laat een smart home-eis los; of bekijk <a href="index.html">de volledige vergelijker</a>.</div>';
+      kaarten = '<div class="leeg-melding">Geen batterijen gevonden die aan al je eisen voldoen. Verruim je budget of laat een smart home-eis los; of bekijk <a href="/">de volledige vergelijker</a>.</div>';
     } else {
       kaarten = `<div class="kaarten-grid advies-grid">` + top.map(({ b, prijs, perKwh, perKwhCompleet, as, asUitleg, compleetBekend }, i) => `
         <article class="batterij-kaart">
@@ -572,7 +572,7 @@
       <h2 class="advies-kop">Drie kanten van de keuze</h2>
       <p class="advies-kop-uitleg">Van de ${totaal} batterijen die bij jouw antwoorden passen, toon ik niet de beste drie maar de beste op drie verschillende vragen. Dat scheelt: een ranglijst levert vrijwel altijd drie vergelijkbare buren op, terwijl deze drie elk iets anders goed doen.</p>`}
       ${kaarten}
-      <p class="advies-naar-vergelijker"><a href="index.html">Bekijk alle batterijen in de vergelijker</a></p>
+      <p class="advies-naar-vergelijker"><a href="/">Bekijk alle batterijen in de vergelijker</a></p>
     `;
     deel(doel, "advies-match", `Volgens de keuzehulp op Batterijmaatje past bij mijn huis een thuisbatterij van ${kwhFmt.format(maat.laag)} tot ${kwhFmt.format(maat.hoog)} kWh${top.length ? `, bijvoorbeeld de ${top[0].b.merk} ${top[0].b.model}` : ""}.`);
   }

@@ -3,7 +3,7 @@
 > Onafhankelijke vergelijkingssite voor warmtepompen voor Nederlandse huishoudens. We vergelijken op prijs, ISDE-subsidie, geluid (dB), rendement (SCOP), koudemiddel en slimme koppeling met zonnepanelen en thuisbatterij (Koppel-score). We maken onderscheid tussen hybride en all-electric warmtepompen en geven per situatie aan wat past. Prijzen worden dagelijks bijgewerkt met bronvermelding en er is geen betaalde plaatsing.
 
 ## Vergelijken en kiezen
-- [Warmtepompen vergelijken](https://warmtepompmaatje.nl/index.html): alle warmtepompen op prijs, geluid, SCOP en Koppel-score.
+- [Warmtepompen vergelijken](https://warmtepompmaatje.nl/): alle warmtepompen op prijs, geluid, SCOP en Koppel-score.
 - [Keuzehulp](https://warmtepompmaatje.nl/advies.html): advies op basis van woning, cv-ketel, afgifte (radiatoren of vloerverwarming) en koppeling met een thuisbatterij.
 
 ## Rekenen
