@@ -50,6 +50,46 @@
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
   <script defer src="/assets/teller.js?v=20261021a"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Hoe bereken je de terugverdientijd van een thuisbatterij?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Tel op wat de batterij per jaar oplevert met het opslaan van eigen zonnestroom en met slim laden op uurprijzen, trek zijn eigen stroomverbruik eraf en deel de aanschafprijs door wat overblijft. In het rekenvoorbeeld hierboven is dat 1.299 euro tegen ongeveer 218 euro per jaar. Omdat de batterij elk jaar zo'n 2% capaciteit verliest, wordt de besparing langzaam kleiner, en daardoor komt het middenscenario op 6,3 jaar in plaats van 6,0."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is een thuisbatterij rendabel?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Dat hangt vooral af van drie dingen. Heb je een dynamisch contract, hoeveel zonnestroom lever je nu terug, en is de batterij niet groter dan wat je 's avonds en 's nachts verbruikt? CE Delft kwam voor Vereniging Eigen Huis uit op 6,5 tot 22 jaar, Berenschot op 4 tot 12 jaar. Bij de meeste batterijen in mijn vergelijker loopt de garantie na 10 jaar af, dus komt de module voor jouw situatie ver boven de 10 jaar uit, dan is dat een reden om te wachten of een kleinere batterij te kiezen."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Wat is het rendement van een thuisbatterij?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Daar zijn twee antwoorden op. Technisch krijg je van elke kWh die je erin stopt er ongeveer 0,9 kWh weer uit; met dat omzetverlies van 10% rekent deze module standaard. Financieel levert de batterij uit het rekenvoorbeeld ongeveer 218 euro per jaar op bij een aanschafprijs van 1.299 euro, zo'n 17% per jaar, maar dat percentage daalt mee met de capaciteit en geldt alleen zolang de batterij werkt."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Wat verandert er in 2027 aan de terugverdientijd?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Op 1 januari 2027 stopt de salderingsregeling. Tot die tijd mag je teruggeleverde zonnestroom wegstrepen tegen wat je inkoopt, en dan levert opslaan in een batterij weinig op. Daarna krijg je voor teruggeleverde stroom alleen een terugleververgoeding, naar verwachting 0,04 tot 0,06 euro per kWh, terwijl inkoop rond de 0,30 euro kost. Deze module rekent al met die situatie vanaf 2027."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -85,7 +125,7 @@
 
 <section class="hero">
   <div class="container">
-    <h1>Bereken de terugverdientijd voor jouw situatie</h1>
+    <h1>Terugverdientijd van een thuisbatterij berekenen</h1>
     <p>Vul je situatie in en zie direct wat een thuisbatterij per jaar kan opleveren en hoe snel je de investering terugverdient. Het model rekent met de situatie vanaf 2027, dus zonder salderingsregeling, en houdt rekening met je contracttype en met slim laden en ontladen op uurprijzen.</p>
   </div>
 </section>
@@ -341,6 +381,28 @@
     </table>
     </div>
     <p>Let wel: dit is een voorbeeld met gemiddelde aannames, geen belofte. Een groter gezin, een andere batterij of een vast contract geeft een heel andere uitkomst. <a href="rekenmodule.html?batterij=marstek-venus-e-3">Open dit voorbeeld in de rekenmodule</a> en pas de getallen aan naar jouw situatie; de grafiek en tabellen rekenen direct mee. Zet het contract daarbij op dynamisch, want de module gaat er standaard van uit dat je een vast of variabel tarief hebt.</p>
+
+    <h2 id="veelgestelde-vragen">Veelgestelde vragen over de terugverdientijd</h2>
+
+    <details class="faq-item">
+      <summary>Hoe bereken je de terugverdientijd van een thuisbatterij?</summary>
+      <p>Tel op wat de batterij per jaar oplevert met het opslaan van eigen zonnestroom en met slim laden op uurprijzen, trek zijn eigen stroomverbruik eraf en deel de aanschafprijs door wat overblijft. In het rekenvoorbeeld hierboven is dat 1.299 euro tegen ongeveer 218 euro per jaar. Omdat de batterij elk jaar zo'n 2% capaciteit verliest, wordt de besparing langzaam kleiner, en daardoor komt het middenscenario op 6,3 jaar in plaats van 6,0.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Is een thuisbatterij rendabel?</summary>
+      <p>Dat hangt vooral af van drie dingen. Heb je een dynamisch contract, hoeveel zonnestroom lever je nu terug, en is de batterij niet groter dan wat je 's avonds en 's nachts verbruikt? CE Delft kwam voor Vereniging Eigen Huis uit op 6,5 tot 22 jaar, Berenschot op 4 tot 12 jaar. Bij de meeste batterijen in mijn vergelijker loopt de garantie na 10 jaar af, dus komt de module voor jouw situatie ver boven de 10 jaar uit, dan is dat een reden om te wachten of een kleinere batterij te kiezen.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Wat is het rendement van een thuisbatterij?</summary>
+      <p>Daar zijn twee antwoorden op. Technisch krijg je van elke kWh die je erin stopt er ongeveer 0,9 kWh weer uit; met dat omzetverlies van 10% rekent deze module standaard. Financieel levert de batterij uit het rekenvoorbeeld ongeveer 218 euro per jaar op bij een aanschafprijs van 1.299 euro, zo'n 17% per jaar, maar dat percentage daalt mee met de capaciteit en geldt alleen zolang de batterij werkt.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Wat verandert er in 2027 aan de terugverdientijd?</summary>
+      <p>Op 1 januari 2027 stopt de salderingsregeling. Tot die tijd mag je teruggeleverde zonnestroom wegstrepen tegen wat je inkoopt, en dan levert opslaan in een batterij weinig op. Daarna krijg je voor teruggeleverde stroom alleen een terugleververgoeding, naar verwachting 0,04 tot 0,06 euro per kWh, terwijl inkoop rond de 0,30 euro kost. Deze module rekent al met die situatie vanaf 2027.</p>
+    </details>
 
     <h2 id="leveranciers">Terugleverkosten en vergoedingen per leverancier</h2>
     <p>Zodat je het niet zelf hoeft op te zoeken, staat hieronder wat de grootste leveranciers op dit moment rekenen voor teruggeleverde zonnestroom. Gemiddeld ging het in oktober 2025 om zo'n 300 euro per huishouden per jaar. Kies je leverancier hierboven in het formulier, dan vul ik het passende bedrag automatisch in.</p>

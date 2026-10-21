@@ -985,6 +985,7 @@ console.log(`${BOUWVORM_BESTAND} gegenereerd`);
 console.log(`${GELUID_BESTAND} gegenereerd (${pompen.filter((w) => w.geluid_db != null).length} van ${pompen.length} pompen met een opgegeven geluidsvermogen)`);
 
 let CIJFERS = null;
+let REKENVOORBEELD = null;
 /* ------------------------------------------------------------------
    uitleg.html: getallen, de markt in cijfers, de rekenhulp en de markup
    voor zoekmachines. Zie kern/scripts/uitleg.mjs.
@@ -1047,6 +1048,60 @@ let CIJFERS = null;
   };
   const st = som(reken.gas);
 
+  /* Het rekenvoorbeeld op rekenmodule.html: één hybride en één all-electric
+     pomp door dezelfde som als de module, met de standaardwaarden uit het
+     formulier. Prijzen veranderen elke dag, dus de getallen ook. De voorkeur
+     gaat naar de pompen waar het meest op gezocht wordt; staat er een niet
+     meer op, dan neemt de goedkoopste van dat type het over. */
+  const voorbeeldPomp = (voorkeur, type) => {
+    const metPrijs = pompen.filter((w) => w.type === type && prijsVan(w));
+    return metPrijs.find((w) => w.id === voorkeur) || metPrijs.sort((a, b) => prijsVan(a) - prijsVan(b))[0];
+  };
+  const jarenTekst = (t) => t === null ? "meer dan 40" : t.toFixed(1).replace(".", ",");
+  const voorbeeld = (w, extra) => {
+    const band = Rekenkern.bandbreedte({
+      type: w.type, gas: reken.gas, gasprijs: reken.gasprijs, stroomprijs: reken.stroomprijs,
+      vastrecht: standaard("vastrecht"), afsluitkosten: standaard("afsluitkosten"), ketelprijs: standaard("ketelprijs"),
+      pomp: w, toestelPrijs: prijsVan(w), isde: w.isde_indicatie_eur || 0, ...extra,
+    });
+    const r = band.verwacht;
+    return {
+      naam: esc(volledigeNaam(w)), url: `pomp/${esc(w.id)}.html`, id: esc(w.id),
+      prijs: eur(prijsVan(w)), installatie: eur(r.installatie), isde: eur(w.isde_indicatie_eur || 0),
+      netto: eur(r.netto), gas: nlGetal(Math.round(r.gasBespaard), 0), stroom: nlGetal(Math.round(r.stroomKwh / 10) * 10, 0),
+      besparing: eur(r.besparingJaar), tvt: jarenTekst(r.tvt), laag: jarenTekst(band.laag), hoog: jarenTekst(band.hoog),
+      meerprijs: r.tegenoverKetel ? eur(r.tegenoverKetel.meerprijs) : "", tvtKetel: r.tegenoverKetel ? jarenTekst(r.tegenoverKetel.tvt) : "",
+    };
+  };
+  const vbH = voorbeeld(voorbeeldPomp("inventum-ecolution-combi", "hybride"), {});
+  const vbA = voorbeeld(voorbeeldPomp("bosch-compress-5800i", "all-electric"), { gasAf: true, ketelVervangen: true });
+  const vbCijfers = {};
+  for (const [voor, vb] of [["vb-h", vbH], ["vb-a", vbA]]) {
+    for (const [k, v] of Object.entries(vb)) vbCijfers[`${voor}-${k}`] = v;
+  }
+  const rij = (label, h, a) => `        <tr><td>${label}</td><td class="bedrag">${h}</td><td class="bedrag">${a}</td></tr>`;
+  REKENVOORBEELD = `    <div class="schuifbaar">
+    <table class="vergelijk-tabel compact">
+      <thead><tr><th>Onderdeel</th><th class="bedrag">Hybride: <a href="${vbH.url}">${vbH.naam}</a></th><th class="bedrag">All-electric: <a href="${vbA.url}">${vbA.naam}</a></th></tr></thead>
+      <tbody>
+${[
+    rij("Toestel, laagste prijs in de vergelijker (incl. btw)", vbH.prijs, vbA.prijs),
+    rij("Installatie (mijn schatting)", vbH.installatie, vbA.installatie),
+    rij("Gasaansluiting laten afsluiten", "blijft", eur(standaard("afsluitkosten"))),
+    rij("ISDE-subsidie", `− ${vbH.isde}`, `− ${vbA.isde}`),
+    rij("<b>Netto investering</b>", `<b>${vbH.netto}</b>`, `<b>${vbA.netto}</b>`),
+    rij("Gas bespaard per jaar", `${vbH.gas} m³`, `${vbA.gas} m³`),
+    rij("Extra stroom per jaar", `${vbH.stroom} kWh`, `${vbA.stroom} kWh`),
+    rij("Vaste gaskosten die vervallen", "nee", `${eur(standaard("vastrecht"))} per jaar`),
+    rij("<b>Besparing per jaar</b>", `<b>${vbH.besparing}</b>`, `<b>${vbA.besparing}</b>`),
+    rij("Terugverdientijd, middenscenario", `${vbH.tvt} jaar`, `${vbA.tvt} jaar`),
+    rij("Bereik (ongunstig tot gunstig)", `${vbH.laag} tot ${vbH.hoog} jaar`, `${vbA.laag} tot ${vbA.hoog} jaar`),
+  ].join("\n")}
+      </tbody>
+    </table>
+    </div>
+    <p>Moet je cv-ketel toch vervangen, dan telt bij all-electric alleen de meerprijs ten opzichte van een nieuwe ketel van ${eur(standaard("ketelprijs"))}. Dat is ${vbA.meerprijs}, en dan verdient de ${vbA.naam} zich in ${vbA.tvtKetel} jaar terug. <a href="rekenmodule.html?pomp=${vbH.id}">Open de hybride</a> of <a href="rekenmodule.html?pomp=${vbA.id}&amp;ketel=vervangen">de all-electric</a> in de rekenmodule en vul je eigen gasverbruik in.</p>`;
+
   const cijfers = {
     "aantal": pompen.length,
     "prijs-n": prijzen.length,
@@ -1092,6 +1147,7 @@ let CIJFERS = null;
     "rh-scop": reken.scop.toFixed(1).replace(".", ","),
     "rh-gasprijs": reken.gasprijs.toFixed(2).replace(".", ","),
     "rh-stroomprijs": reken.stroomprijs.toFixed(2).replace(".", ","),
+    ...vbCijfers,
   };
 
   const marktCijfers = [
@@ -1134,10 +1190,12 @@ let CIJFERS = null;
 /* De met de hand geschreven pagina's met aantallen erin. Die tellen de pompen
    die er nu op staan, dus ze worden elke dag ingevuld, en de FAQ-markup van de
    voorpagina volgt de zichtbare antwoorden. */
-for (const bestand of ["index.html", "over-ons.html", "steun.html"]) {
+for (const bestand of ["index.html", "over-ons.html", "steun.html", "rekenmodule.html"]) {
   const pad = join(ROOT, bestand);
   const oud = readFileSync(pad, "utf8");
-  const nieuw = Uitleg.faqVolgensTekst(Uitleg.vulCijfers(oud, CIJFERS, bestand));
+  let nieuw = Uitleg.vulCijfers(oud, CIJFERS, bestand);
+  if (bestand === "rekenmodule.html") nieuw = Uitleg.vervangBlok(nieuw, "rekenvoorbeeld", REKENVOORBEELD);
+  nieuw = Uitleg.faqVolgensTekst(nieuw);
   if (nieuw !== oud) writeFileSync(pad, nieuw, "utf8");
 }
 
