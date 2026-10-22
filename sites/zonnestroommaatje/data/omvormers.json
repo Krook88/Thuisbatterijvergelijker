@@ -38,10 +38,7 @@
           "prijs_eur": 109,
           "url": "https://zonnigewinkel.nl/product/enphase-micro-omvormer-iq8hc/",
           "datum": "2026-10-09",
-          "btw_inbegrepen": false,
-          "weg_sinds": "2026-10-16",
-          "niet_leverbaar": true,
-          "niet_leverbaar_door": "pagina weg"
+          "btw_inbegrepen": false
         },
         {
           "winkel": "Winkelman Zonnepanelen",
@@ -173,10 +170,7 @@
           "prijs_eur": 370,
           "url": "https://zonnigewinkel.nl/product/solaredge-home-wave-omvormer-se5000h/",
           "datum": "2026-10-09",
-          "btw_inbegrepen": false,
-          "weg_sinds": "2026-10-16",
-          "niet_leverbaar": true,
-          "niet_leverbaar_door": "pagina weg"
+          "btw_inbegrepen": false
         }
       ],
       "samensteller": {
@@ -544,10 +538,7 @@
           "prijs_eur": 799,
           "url": "https://zonnigewinkel.nl/product/solis-omvormer-hybride-s6-eh1p5klpl-1-fase/",
           "datum": "2026-10-09",
-          "btw_inbegrepen": false,
-          "weg_sinds": "2026-10-16",
-          "niet_leverbaar": true,
-          "niet_leverbaar_door": "pagina weg"
+          "btw_inbegrepen": false
         }
       ],
       "prijs_datum": "2026-10-09",
@@ -715,7 +706,13 @@
           "prijs_eur": 1861,
           "url": "https://www.acculaders.nl/victron-multiplus-ii-48-5000-70-50-230v.html",
           "datum": "2026-10-07",
-          "omvat": "MultiPlus-II 48/5000/70-50; de meta-tag van de pagina noemt 669,95 euro, maar dat bedrag hoort niet bij dit toestel"
+          "omvat": "MultiPlus-II 48/5000/70-50; de meta-tag van de pagina noemt 669,95 euro, maar dat bedrag hoort niet bij dit toestel",
+          "afwijking": {
+            "prijs": 670,
+            "sinds": "2026-10-22",
+            "laatst": "2026-10-22",
+            "runs": 1
+          }
         }
       ],
       "prijs_datum": "2026-10-07",

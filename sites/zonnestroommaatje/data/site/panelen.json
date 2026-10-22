@@ -21,7 +21,7 @@
       "vermogen_behoud_25j_pct": 90.6,
       "temp_coefficient": -0.26,
       "richtprijs_eur": 170,
-      "prijs_datum": "2026-10-21",
+      "prijs_datum": "2026-10-22",
       "prijs_omvat": "prijs per paneel bij afname van minimaal 4 stuks, 0% btw bij levering voor een woning, excl. omvormer en installatie",
       "product_url": "https://aikosolar.com/",
       "opmerkingen": "Het krachtigste paneel in deze vergelijking, en het bijzondere zit in de maat: 490 Wp in dezelfde 1762 bij 1134 mm waar andere merken 440 tot 465 Wp uit halen. Met 24,5% rendement past er dus ruim 4% meer vermogen op hetzelfde dak dan met het beste alternatief hier (de DMEGC van 470 Wp), en dat is precies wat telt als je dak de beperking is. Daar komt 30 jaar productgarantie bij in plaats van de gebruikelijke 25, en een temperatuurcoëfficiënt van -0,26%/K: op een hete dag zakt hij minder weg dan de meeste panelen hier (alleen REC doet het beter). Hij is ook een van de duurste panelen hier, na de Maxeon. Per Wp valt dat mee; per paneel is het bijna drie keer de prijs van een gewone 440 Wp. Deze haalt geen volle Zeker-score omdat hij glas-folie is en geen glas-glas - de 30 jaar garantie zegt dat AIKO daar zelf niet nerveus van wordt.",
@@ -30,8 +30,7 @@
           "winkel": "Solar-NU",
           "prijs_eur": 170,
           "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1542/aiko-neostar-3s54-490w-abc-ntype-full-black-monofacial-single-glass-aiko-a490mce54mb-1762-x-1134-x-30mm--0332w.html",
-          "datum": "2026-10-21",
-          "weg_sinds": "2026-10-22"
+          "datum": "2026-10-22"
         }
       ]
     },
@@ -53,7 +52,7 @@
       "vermogen_behoud_25j_pct": 89.4,
       "temp_coefficient": -0.29,
       "richtprijs_eur": 104,
-      "prijs_datum": "2026-10-21",
+      "prijs_datum": "2026-10-22",
       "prijs_omvat": "prijs per paneel, 0% btw bij levering voor een woning, excl. omvormer en installatie",
       "product_url": "https://www.jasolar.com/",
       "opmerkingen": "Met 23,3% een van de hoogste rendementen bij de glas-glas panelen hier; alleen de DMEGC van 470 Wp zit met 23,5% hoger. Hij heeft de standaardmaat van 1762 bij 1134 mm. Bifaciaal, dus hij vangt ook licht dat van onderaf terugkaatst - op een zwart dak levert dat weinig, op een licht plat dak wel iets. Let op de achterzijde: die is wit glas, dus tussen de cellen zie je wit. Wil je een egaal zwart dak, kijk dan naar de Jinko 455 Wp of de AIKO.",
@@ -62,8 +61,7 @@
           "winkel": "Solar-NU",
           "prijs_eur": 104,
           "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1526/ja-solar-jam54d40lb-465w-bifacial-double-glass-half-cut-black-frame-jam54d40-465lb--1762-x-1134-x-30-nm-0217w.html",
-          "datum": "2026-10-21",
-          "weg_sinds": "2026-10-22"
+          "datum": "2026-10-22"
         }
       ],
       "afbeelding": "assets/producten/ja-solar-jam54d40-465.webp",
@@ -143,7 +141,12 @@
           "prijs_eur": 100,
           "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1500/jinko-solar-tiger-neo-455w-half-cut-full-black-dual-glass-ppe2-jkm455n-48hl4m-db-1762x1134x30mm-0213w.html",
           "datum": "2026-10-03",
-          "weg_sinds": "2026-10-22"
+          "afwijking": {
+            "prijs": 400,
+            "sinds": "2026-10-22",
+            "laatst": "2026-10-22",
+            "runs": 1
+          }
         }
       ]
     },
@@ -174,7 +177,13 @@
           "winkel": "Energiewaaier",
           "prijs_eur": 125,
           "url": "https://energiewaaier.nl/winkel/trina-solar-vertex-s-dual-glass-all-black-450wp/",
-          "datum": "2026-10-12"
+          "datum": "2026-10-12",
+          "afwijking": {
+            "prijs": 1699,
+            "sinds": "2026-10-22",
+            "laatst": "2026-10-22",
+            "runs": 1
+          }
         },
         {
           "winkel": "deBaKo",
@@ -220,7 +229,13 @@
           "winkel": "Stroomwinkel",
           "prijs_eur": 111,
           "url": "https://stroomwinkel.nl/dmegc-solar-panel-450wp-mono-full-black-glass-glass-1762x1134x30mm.html",
-          "datum": "2026-10-08"
+          "datum": "2026-10-08",
+          "afwijking": {
+            "prijs": 23,
+            "sinds": "2026-10-22",
+            "laatst": "2026-10-22",
+            "runs": 1
+          }
         },
         {
           "winkel": "SolarKopen",
@@ -409,7 +424,7 @@
       "vermogen_behoud_25j_pct": 89.4,
       "temp_coefficient": -0.3,
       "richtprijs_eur": 85,
-      "prijs_datum": "2026-10-21",
+      "prijs_datum": "2026-10-22",
       "prijs_omvat": "prijs per paneel, 0% btw bij levering voor een woning, excl. omvormer en installatie",
       "product_url": "https://alius.nl/",
       "opmerkingen": "Merk van de Nederlandse distributeur Alius: productie in Azië, maar Nederlandse garantieafhandeling en support. Glas-glas en bifaciaal, met 30 jaar garantie op product en vermogen (bij sommige varianten tot 35 jaar). Populair bij installateurs vanwege de prijs-kwaliteitverhouding.",
@@ -418,8 +433,7 @@
           "winkel": "Solar-NU",
           "prijs_eur": 130,
           "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1445/denim-n-type-440w-all-black-glas-glas-bifacial-zonnepaneel-u-n3-440-bbg-108h-1762x1134x30mm-0259w.html",
-          "datum": "2026-10-21",
-          "weg_sinds": "2026-10-22"
+          "datum": "2026-10-22"
         }
       ],
       "afbeelding": "assets/producten/denim-440-full-black.webp",
@@ -591,7 +605,7 @@
       "vermogen_behoud_25j_pct": 89.4,
       "temp_coefficient": -0.29,
       "richtprijs_eur": 128,
-      "prijs_datum": "2026-10-21",
+      "prijs_datum": "2026-10-22",
       "prijs_omvat": "prijs per paneel, 0% btw bij levering voor een woning, excl. omvormer en installatie",
       "product_url": "https://www.dmegcsolar.com/",
       "opmerkingen": "Het hoogste vermogen dat DMEGC in de gewone maat van 1762 mm levert, 470 Wp tegen 450 Wp voor het glas-glaspaneel van DMEGC dat hier al staat. Op een vol dak is dat ruim 4% meer zonder de indeling te veranderen. Het datasheet noemt de serie bifaciaal, maar deze uitvoering heeft een zwarte achterkant en Solar-NU verkoopt hem als enkelzijdig; reken dus niet op opbrengst van de achterkant. Per Wp is hij duidelijk duurder dan de 450.",
@@ -600,8 +614,7 @@
           "winkel": "Solar-NU",
           "prijs_eur": 128,
           "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1524/dmegc-zonnepaneel-470wp-mono-full-black-n-type-glassglass-20mm-mono-facial-hc-30mm-met-mc4-evo-2a-1762x1134x30mm-0260w.html",
-          "datum": "2026-10-21",
-          "weg_sinds": "2026-10-22"
+          "datum": "2026-10-22"
         }
       ],
       "afbeelding": "assets/producten/dmegc-470-glas-glas.webp",
@@ -627,7 +640,7 @@
       "vermogen_behoud_25j_pct": 89.4,
       "temp_coefficient": -0.3,
       "richtprijs_eur": 140,
-      "prijs_datum": "2026-10-21",
+      "prijs_datum": "2026-10-22",
       "prijs_omvat": "prijs per paneel, 0% btw bij levering voor een woning, excl. omvormer en installatie; bij 10 stuks 136,71 euro per paneel",
       "product_url": "https://www.jinkosolar.com/",
       "opmerkingen": "Let op de maat, want dit paneel is 1903 mm lang, 14 cm langer dan de 1762 mm van bijna alle andere panelen in deze lijst. Op een dak dat op die kleinere maat is ingedeeld, past hij dus niet vanzelf. Dat verklaart ook het vermogen: het rendement per vierkante meter is lager dan bij de Tiger Neo van 440 en 455 Wp. Verder een zilveren frame en 12 jaar productgarantie, tegen 25 jaar bij de Tiger Neo full black. Voor een groter dak met ruimte over, niet voor wie zoveel mogelijk op een klein dak wil.",
@@ -636,8 +649,7 @@
           "winkel": "Solar-NU",
           "prijs_eur": 137,
           "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/groot-hoogvermogen-panelen/detail/1311/jinko-solar-tiger-neo-470w-half-cut-silver-frame---jkm470n-60hl4-v-1903113430mm-0282w.html",
-          "datum": "2026-10-21",
-          "weg_sinds": "2026-10-22"
+          "datum": "2026-10-22"
         }
       ],
       "afbeelding": "assets/producten/jinko-tiger-neo-470.webp",
@@ -663,7 +675,7 @@
       "vermogen_behoud_25j_pct": 89.4,
       "temp_coefficient": -0.29,
       "richtprijs_eur": 113,
-      "prijs_datum": "2026-10-21",
+      "prijs_datum": "2026-10-22",
       "prijs_omvat": "prijs per paneel bij afname van minimaal 4 stuks, 0% btw bij levering voor een woning, excl. omvormer en installatie",
       "product_url": "https://www.dmegcsolar.com/",
       "opmerkingen": "Glas-glas met een doorzichtige achterkant en een zwart frame, en daardoor echt tweezijdig. Licht dat via de achterkant binnenkomt levert extra op, vooral op een plat dak of carport boven een lichte ondergrond. Daarin verschilt hij van de 470 Wp van DMEGC in deze lijst, die een zwarte achterkant heeft. Op een schuin dak met de achterkant tegen de pannen win je er weinig mee. De winkel rekent per 4 stuks af.",
@@ -672,8 +684,7 @@
           "winkel": "Solar-NU",
           "prijs_eur": 113,
           "url": "https://www.solar-nu-webshop.nl/webshop/zonnepanelen-pv/glas-glas-panelen/detail/1499/dmegc-zonnepaneel-460wp-transparant--black-frame-n-type-glassglass-20mm-bifacial-hc-mc4-evo-2a-dm460g12rt-b48hbt-1762x1134x30-0235w.html",
-          "datum": "2026-10-21",
-          "weg_sinds": "2026-10-22"
+          "datum": "2026-10-22"
         }
       ],
       "afbeelding": "assets/producten/dmegc-460-bifaciaal.webp",
