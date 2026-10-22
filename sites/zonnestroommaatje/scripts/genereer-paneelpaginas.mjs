@@ -16,6 +16,7 @@ import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
 import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
 import { verdeel, verborgenPagina, aantalWinkels } from "./zichtbaar.mjs";
 import { zetStatistiekOveral } from "./statistiek.mjs";
+import { zetVoorladenOveral } from "./voorladen.mjs";
 import * as Uitleg from "./uitleg.mjs";
 import { deelbeeldMaker, delenHtml } from "./delen.mjs";
 
@@ -1340,6 +1341,9 @@ const urls = [
 // pagina elke dag als veranderd gelden.
 const metTag = zetStatistiekOveral(ROOT, ASSET_VERSIE);
 if (metTag) console.log(`statistiekscript op ${metTag} pagina('s) gezet`);
+// Preload-hints voor de @imports van style.css; zie kern/scripts/voorladen.mjs.
+const metHint = zetVoorladenOveral(ROOT);
+if (metHint) console.log(`preload-hints op ${metHint} pagina('s) gezet`);
 const lastmodVoor = lastmodMaker(ROOT, SITE, STAND_VOOR, VANDAAG);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
   urls.map((u) => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${lastmodVoor(u.loc)}</lastmod>\n    <changefreq>${u.freq}</changefreq>\n    <priority>${u.prio}</priority>\n  </url>`).join("\n") +
