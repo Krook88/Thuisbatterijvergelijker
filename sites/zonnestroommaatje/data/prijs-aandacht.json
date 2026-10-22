@@ -1,6 +1,30 @@
 {
-  "bijgewerkt": "2026-10-21",
+  "bijgewerkt": "2026-10-22",
   "punten": {
+    "onbereikbaar|aiko-neostar-3s-490|Solar-NU": {
+      "sinds": "2026-10-22",
+      "soort": "onbereikbaar",
+      "tekst": "aiko-neostar-3s-490 @ Solar-NU: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|denim-440-full-black|Solar-NU": {
+      "sinds": "2026-10-22",
+      "soort": "onbereikbaar",
+      "tekst": "denim-440-full-black @ Solar-NU: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|dmegc-460-bifaciaal|Solar-NU": {
+      "sinds": "2026-10-22",
+      "soort": "onbereikbaar",
+      "tekst": "dmegc-460-bifaciaal @ Solar-NU: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|dmegc-470-glas-glas|Solar-NU": {
+      "sinds": "2026-10-22",
+      "soort": "onbereikbaar",
+      "tekst": "dmegc-470-glas-glas @ Solar-NU: fetch failed",
+      "bevestigd": false
+    },
     "onbereikbaar|enphase-iq8|Zonnige Winkel": {
       "sinds": "2026-10-16",
       "soort": "onbereikbaar",
@@ -12,6 +36,24 @@
       "soort": "onbereikbaar",
       "tekst": "goodwe-et @ Zonnige Winkel: fetch failed",
       "bevestigd": true
+    },
+    "onbereikbaar|ja-solar-jam54d40-465|Solar-NU": {
+      "sinds": "2026-10-22",
+      "soort": "onbereikbaar",
+      "tekst": "ja-solar-jam54d40-465 @ Solar-NU: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|jinko-tiger-neo-455|Solar-NU": {
+      "sinds": "2026-10-22",
+      "soort": "onbereikbaar",
+      "tekst": "jinko-tiger-neo-455 @ Solar-NU: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|jinko-tiger-neo-470|Solar-NU": {
+      "sinds": "2026-10-22",
+      "soort": "onbereikbaar",
+      "tekst": "jinko-tiger-neo-470 @ Solar-NU: fetch failed",
+      "bevestigd": false
     },
     "onbereikbaar|solaredge-home-wave|Zonnige Winkel": {
       "sinds": "2026-10-16",
@@ -28,19 +70,19 @@
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (92 dagen)",
+      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (93 dagen)",
       "bevestigd": true
     },
     "verouderd|maxeon-6-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "maxeon-6-440 @ richtprijs: €230 (92 dagen)",
+      "tekst": "maxeon-6-440 @ richtprijs: €230 (93 dagen)",
       "bevestigd": true
     },
     "verouderd|ulica-440-full-black|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "ulica-440-full-black @ richtprijs: €55 (92 dagen)",
+      "tekst": "ulica-440-full-black @ richtprijs: €55 (93 dagen)",
       "bevestigd": true
     }
   }
