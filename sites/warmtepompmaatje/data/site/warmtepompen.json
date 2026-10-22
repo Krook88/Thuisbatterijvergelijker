@@ -1478,6 +1478,52 @@
       "geluid_db": 60
     },
     {
+      "id": "dewarmte-pomp-ao",
+      "merk": "DeWarmte",
+      "model": "Pomp AO",
+      "type": "all-electric",
+      "voorbeeld_variant": "Pomp AO (2 tot 8 kW)",
+      "vermogen_kw": 6,
+      "scop": 4.9,
+      "scop_toelichting": "SCOP 4,9; ontworpen voor het bestaande cv-net van Nederlandse woningen",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; DeWarmte noemt 45 dB zonder de grootheid erbij, en hun grotere Pomp MP staat op 53 dB geluidsvermogen - die 45 is dus niet zonder meer vergelijkbaar",
+      "koudemiddel": "R32",
+      "tapwater": "via de cv-ketel of een aparte boiler",
+      "isde_indicatie_eur": 2375,
+      "isde_meldcode": "KA22291",
+      "sturing": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld welke open aansturing deze unit biedt."
+      },
+      "home_assistant": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "homey": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "opmerkingen": "Nederlands merk uit Delft dat snel groeit, met een opgegeven SCOP van 4,9 en uitvoeringen van 2 tot 8 kW. Het toestel is gemaakt om aan te sluiten op je bestaande cv-net, dus je hoeft je radiatoren niet eerst te vervangen, en je kunt hem flexibel rond de woning plaatsen.",
+      "product_url": "https://www.dewarmte.nl/",
+      "aanbiedingen": [
+        {
+          "winkel": "Woonwijzerwinkel",
+          "url": "https://www.woonwijzerwinkel.nl/verwarmen-en-koelen/warmtepompen/all-electric-warmtepomp/de-warmte-pomp-a0-all-electric-warmtepomp/",
+          "prijs_eur": 9999,
+          "datum": "2026-10-22",
+          "omvat": "Woonwijzerwinkel verkoopt de Pomp AO alleen inclusief installatie; dit is de vanaf-prijs voor de kleinste uitvoering, voor aftrek van de ISDE-subsidie."
+        }
+      ],
+      "vermogen_conditie": "Prated",
+      "scop_conditie": "onbekend",
+      "prijs_datum": "2026-10-13",
+      "afbeelding": "assets/producten/dewarmte-pomp-ao.webp",
+      "afbeelding_bron": "foto: DeWarmte",
+      "afbeelding_herkomst": "https://a.storyblok.com/f/258866/616x341/ca9e934488/pomp-ao-atmos-12.png",
+      "garantie_jaar": 2,
+      "garantie_toelichting": "standaard volgens dewarmte.nl, met storingshulp op afstand; langer kan tegen betaling"
+    },
+    {
       "id": "panasonic-aquarea-wxg",
       "merk": "Panasonic",
       "model": "Aquarea Bi-bloc WXG",

@@ -814,6 +814,30 @@ export function prijsUitPagina(html, naam, opties = {}) {
   return { prijs: null, hoe: null, btw: null };
 }
 
+/**
+ * Een andere route als de gewone een onwaarschijnlijk bedrag geeft.
+ *
+ * De vaste volgorde van prijsUitPagina pakt soms het verkeerde bedrag, en tot
+ * oktober 2026 was de enige oplossing een mens die prijs_route bij de
+ * aanbieding zette. Stekker-batterij.nl toonde de Hyxi Halo zichtbaar voor
+ * € 749, maar het prijsveld in de pagina hoorde bij de 6 kWh-uitvoering en gaf
+ * € 1.950. Dit probeert de andere routes in dezelfde volgorde en geeft de
+ * eerste terug waarvan het bedrag wel past (past() beslist, meestal "binnen een
+ * kwart van de vorige prijs"). De aanroeper onthoudt de route, zodat het de
+ * volgende dag meteen goed gaat.
+ *
+ * Alleen voor aanbiedingen zonder vaste route: die is met reden gekozen.
+ */
+export function andereRoute(html, naam, opties, behalve, past) {
+  const routes = ["structured data", "json in de pagina", "meta-tag", "prijsveld in de pagina", "zichtbare tekst"];
+  for (const route of routes) {
+    if (behalve && String(behalve).startsWith(route)) continue;
+    const uit = prijsUitPagina(html, naam, { ...opties, route });
+    if (uit.prijs && past(uit.prijs)) return { ...uit, route };
+  }
+  return null;
+}
+
 /* ------------------------------------------------------------------
    Wat staat er eigenlijk op deze pagina
    ------------------------------------------------------------------ */

@@ -1550,12 +1550,10 @@
       "aanbiedingen": [
         {
           "winkel": "Woonwijzerwinkel",
-          "url": "https://www.woonwijzerwinkel.nl/product/pomp-ao-van-dewarmte/",
-          "prijs_eur": 3400,
-          "datum": "2026-10-13",
-          "weg_sinds": "2026-10-14",
-          "niet_leverbaar": true,
-          "niet_leverbaar_door": "pagina weg"
+          "url": "https://www.woonwijzerwinkel.nl/verwarmen-en-koelen/warmtepompen/all-electric-warmtepomp/de-warmte-pomp-a0-all-electric-warmtepomp/",
+          "prijs_eur": 9999,
+          "datum": "2026-10-22",
+          "omvat": "Woonwijzerwinkel verkoopt de Pomp AO alleen inclusief installatie; dit is de vanaf-prijs voor de kleinste uitvoering, voor aftrek van de ISDE-subsidie."
         }
       ],
       "vermogen_conditie": "Prated",

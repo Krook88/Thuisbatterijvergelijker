@@ -2250,9 +2250,10 @@
       "aanbiedingen": [
         {
           "winkel": "Stekker-batterij.nl",
-          "prijs_eur": 619,
+          "prijs_eur": 749,
           "url": "https://stekker-batterij.nl/product/hyxi-halo-3-kwh-opslag/",
-          "datum": "2026-10-20"
+          "datum": "2026-10-22",
+          "prijs_route": "zichtbare tekst"
         },
         {
           "winkel": "Stralend Groen",

@@ -34,10 +34,11 @@
 import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { haalPagina, haalMetBrowser, sluitBrowser, browserBeschikbaar, prijsUitPagina, controleerbaar, btwVolgensPagina } from "./prijs-uitlezen.mjs";
+import { haalPagina, haalMetBrowser, sluitBrowser, browserBeschikbaar, prijsUitPagina, andereRoute, controleerbaar, btwVolgensPagina } from "./prijs-uitlezen.mjs";
 import { voorraadVolgensWinkel, verwerkVoorraad, meldBereikbaarheid, paginaWeg } from "./voorraad.mjs";
 import { bolApiPrijs, bolBeschikbaar } from "./bol.mjs";
 import { vergelijk, leesBekend, schrijfBekend, meldAandacht } from "./prijs-aandacht.mjs";
+import { sprong, hersteld, referentie } from "./prijs-sprong.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_PAD = resolve(__dirname, "../data/batterijen.json");
@@ -234,6 +235,18 @@ async function updateAanbieding(batterij, aanbieding) {
       }
       nieuw = uit.prijs;
       hoe = uit.hoe ? `${uit.hoe}${viaBrowser ? ", via de browser" : ""}` : uit.hoe;
+      // Geeft de gewone route een bedrag dat niet bij de vorige prijs past,
+      // dan eerst de andere routes proberen; zie andereRoute in
+      // prijs-uitlezen.mjs. Een vaste route blijft vast.
+      if (nieuw && !aanbieding.prijs_route && aanbieding.prijs_eur && !plausibel(nieuw, aanbieding.prijs_eur)) {
+        const ander = andereRoute(html, naamVan(batterij), { ...GRENZEN, variant: aanbieding.prijs_variant }, uit.hoe, (p) => plausibel(p, aanbieding.prijs_eur));
+        if (ander) {
+          console.log(`  ↻ ${batterij.id} @ ${aanbieding.winkel}: ${uit.hoe} gaf €${nieuw}, ${ander.route} geeft €${ander.prijs}; die route wordt onthouden`);
+          if (!DROOG) aanbieding.prijs_route = ander.route;
+          nieuw = ander.prijs;
+          hoe = `${ander.route}${viaBrowser ? ", via de browser" : ""}, andere route`;
+        }
+      }
 
       // Zegt de pagina eenduidig iets anders over btw dan wij, dan is dat het
       // melden waard. Zonder veld gaan wij uit van incl. btw.
@@ -268,9 +281,18 @@ async function updateAanbieding(batterij, aanbieding) {
     }
     if (!plausibel(nieuw, aanbieding.prijs_eur)) {
       const verschil = Math.round((nieuw / aanbieding.prijs_eur - 1) * 100);
-      console.log(`  ! ${batterij.id} @ ${aanbieding.winkel}: gevonden prijs €${nieuw} wijkt ${verschil > 0 ? "+" : ""}${verschil}% af van €${aanbieding.prijs_eur}, overgeslagen`);
-      teControleren.push({ id: batterij.id, winkel: aanbieding.winkel, oud: aanbieding.prijs_eur, nieuw, verschil, url: aanbieding.url });
-      return false;
+      // Wat er met een aanhoudende sprong gebeurt: zie kern/scripts/prijs-sprong.mjs.
+      const ref = referentie(batterij.aanbiedingen, aanbieding, (a) => a.prijs_eur, batterij.richtprijs_eur);
+      const besluit = sprong(aanbieding, nieuw, ref, VANDAAG);
+      if (besluit !== "overnemen") {
+        console.log(`  ! ${batterij.id} @ ${aanbieding.winkel}: gevonden prijs €${nieuw} wijkt ${verschil > 0 ? "+" : ""}${verschil}% af van €${aanbieding.prijs_eur}, ${besluit === "wachten" ? `overgeslagen (${aanbieding.afwijking.runs}e run)` : "uit de vergelijking gehaald"}`);
+        if (besluit === "uitgezet") nietMeerLeverbaar.push({ id: batterij.id, winkel: aanbieding.winkel, url: aanbieding.url, reden: `prijs wijkt af: €${nieuw} tegen €${ref ?? "?"} elders` });
+        if (besluit === "wachten") teControleren.push({ id: batterij.id, winkel: aanbieding.winkel, oud: aanbieding.prijs_eur, nieuw, verschil, url: aanbieding.url });
+        return false;
+      }
+      console.log(`  ✓ ${batterij.id} @ ${aanbieding.winkel}: €${nieuw} drie runs gezien en in lijn met €${ref} elders, overgenomen`);
+    } else if (hersteld(aanbieding)) {
+      weerLeverbaar.push({ id: batterij.id, winkel: aanbieding.winkel, url: aanbieding.url });
     }
     const veranderd = nieuw !== aanbieding.prijs_eur;
     vandaagBevestigd.set(aanbieding, nieuw);

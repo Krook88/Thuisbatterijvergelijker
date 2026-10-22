@@ -36,6 +36,7 @@ import { voorraadVolgensWinkel, verwerkVoorraad, meldBereikbaarheid, paginaWeg }
 import { bolApiPrijs, bolBeschikbaar } from "./bol.mjs";
 import { nieuweSignalen, noteerFout, haalMetTerugval, verzamelVerouderd, puntenVan, toonSignalen } from "./prijs-signalen.mjs";
 import { vergelijk, leesBekend, schrijfBekend, meldAandacht } from "./prijs-aandacht.mjs";
+import { sprong, hersteld, referentie } from "./prijs-sprong.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -135,8 +136,17 @@ async function updateAanbieding(pomp, aanbieding, grenzen, verdacht, signalen) {
       ? (aanbieding.btw_inbegrepen === false ? Math.round(aanbieding.prijs_eur * BTW) : aanbieding.prijs_eur)
       : null;
     if (!plausibel(nieuw, oudVergelijk, grenzen)) {
-      console.log(`  ! ${pomp.id} @ ${aanbieding.winkel}: gevonden prijs €${nieuw} niet plausibel t.o.v. €${oudVergelijk}, overgeslagen`);
-      return false;
+      // Wat er met een aanhoudende sprong gebeurt: zie kern/scripts/prijs-sprong.mjs.
+      const inclBtw = (a) => typeof a.prijs_eur !== "number" ? null : a.btw_inbegrepen === false ? Math.round(a.prijs_eur * BTW) : a.prijs_eur;
+      const ref = referentie(pomp.aanbiedingen, aanbieding, inclBtw, Prijs.vergelijkPrijs(Prijs.richtprijsAlsAanbieding(pomp)));
+      const besluit = oudVergelijk && nieuw >= grenzen.min && nieuw <= grenzen.max ? sprong(aanbieding, nieuw, ref, VANDAAG) : "wachten";
+      if (besluit !== "overnemen") {
+        console.log(`  ! ${pomp.id} @ ${aanbieding.winkel}: gevonden prijs €${nieuw} niet plausibel t.o.v. €${oudVergelijk}, ${besluit === "uitgezet" ? "uit de vergelijking gehaald" : "overgeslagen"}`);
+        return false;
+      }
+      console.log(`  ✓ ${pomp.id} @ ${aanbieding.winkel}: €${nieuw} drie runs gezien en in lijn met €${ref} elders, overgenomen`);
+    } else {
+      hersteld(aanbieding);
     }
 
     // Een prijs die ver van de richtprijs ligt, dekt bijna altijd iets anders

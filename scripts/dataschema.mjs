@@ -37,7 +37,7 @@ const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const AANBIEDING_VELDEN = new Set([
   "winkel", "url", "prijs_eur", "datum", "btw_inbegrepen", "omvat",
   "prijs_controle", "prijs_controle_reden", "niet_leverbaar", "niet_leverbaar_door",
-  "niet_leverbaar_reden", "weg_sinds", "prijs_route", "prijs_variant", "ean", "affiliate_url",
+  "niet_leverbaar_reden", "weg_sinds", "afwijking", "prijs_route", "prijs_variant", "ean", "affiliate_url",
 ]);
 
 const ROUTES = new Set([
@@ -88,10 +88,14 @@ export function controleerAanbieding(o, site) {
   if ("btw_inbegrepen" in o && o.btw_inbegrepen !== false) fout.push("btw_inbegrepen mag alleen false zijn (of weg)");
   if ("niet_leverbaar" in o && o.niet_leverbaar !== true) fout.push("niet_leverbaar mag alleen true zijn (of weg)");
   if ("niet_leverbaar_door" in o) {
-    if (!["voorraad", "pagina weg"].includes(o.niet_leverbaar_door)) fout.push(`niet_leverbaar_door onbekend (${JSON.stringify(o.niet_leverbaar_door)})`);
+    if (!["voorraad", "pagina weg", "prijs wijkt af"].includes(o.niet_leverbaar_door)) fout.push(`niet_leverbaar_door onbekend (${JSON.stringify(o.niet_leverbaar_door)})`);
     if (o.niet_leverbaar !== true) fout.push("niet_leverbaar_door zonder niet_leverbaar");
   }
   if ("weg_sinds" in o && !isDatum(o.weg_sinds)) fout.push("weg_sinds is geen JJJJ-MM-DD");
+  if ("afwijking" in o) {
+    const a = o.afwijking;
+    if (!a || typeof a.prijs !== "number" || !isDatum(a.sinds) || !isDatum(a.laatst) || !Number.isInteger(a.runs)) fout.push("afwijking moet { prijs, sinds, laatst, runs } zijn");
+  }
   if ("prijs_controle" in o && o.prijs_controle !== "handmatig") fout.push(`prijs_controle mag alleen "handmatig" zijn`);
   if ("prijs_route" in o) {
     if (!ROUTES.has(o.prijs_route)) fout.push(`prijs_route onbekend (${JSON.stringify(o.prijs_route)})`);
