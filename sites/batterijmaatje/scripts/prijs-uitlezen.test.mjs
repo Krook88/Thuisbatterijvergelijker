@@ -25,6 +25,7 @@ import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import {
   andereHostvorm,
+  andereRoute,
   ankerWoorden,
   haalPagina,
   parsePrijsWaarde,
@@ -266,6 +267,20 @@ test("een benoemd prijsveld gaat vóór een euroteken in de tekst", () => {
   const uit = prijsUitPagina(html, "Bosch Compress 5800i");
   assert.equal(uit.prijs, 5695);
   assert.equal(uit.hoe, "prijsveld in de pagina");
+});
+
+test("geeft de gewone route een onwaarschijnlijk bedrag, dan telt de eerste andere route die past", () => {
+  // Stekker-batterij.nl, oktober 2026: het prijsveld hoorde bij de 6 kWh-
+  // uitvoering, zichtbaar stond de 3 kWh voor € 749.
+  const html = `<script>{"price":1950}</script><h1>Hyxi Halo 3 kWh opslag</h1><p>Hyxi Halo 3 kWh opslag € 749,00</p>`;
+  const gewoon = prijsUitPagina(html, "Hyxi Halo (3 kWh)", { min: 300, max: 30000 });
+  assert.equal(gewoon.prijs, 1950);
+  const past = (p) => p >= 619 * 0.75 && p <= 619 * 1.25;
+  const ander = andereRoute(html, "Hyxi Halo (3 kWh)", { min: 300, max: 30000 }, gewoon.hoe, past);
+  assert.equal(ander.prijs, 749);
+  assert.equal(ander.route, "zichtbare tekst");
+  // Past geen enkele route, dan is er geen andere route.
+  assert.equal(andereRoute(html, "Hyxi Halo (3 kWh)", { min: 300, max: 30000 }, gewoon.hoe, () => false), null);
 });
 
 /* ------------------------------------------------------------------

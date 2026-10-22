@@ -24,6 +24,7 @@ import { voorraadVolgensWinkel, verwerkVoorraad, meldBereikbaarheid, paginaWeg }
 import { bolApiPrijs, bolBeschikbaar } from "./bol.mjs";
 import { nieuweSignalen, noteerFout, haalMetTerugval, verzamelVerouderd, puntenVan, toonSignalen } from "./prijs-signalen.mjs";
 import { vergelijk, leesBekend, schrijfBekend, meldAandacht } from "./prijs-aandacht.mjs";
+import { sprong, hersteld, referentie } from "./prijs-sprong.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -145,8 +146,16 @@ async function updateAanbieding(paneel, aanbieding, grenzen, signalen) {
       return false;
     }
     if (!plausibel(nieuw, aanbieding.prijs_eur, grenzen)) {
-      console.log(`  ! ${paneel.id} @ ${aanbieding.winkel}: gevonden prijs €${nieuw} niet plausibel t.o.v. €${aanbieding.prijs_eur}, overgeslagen`);
-      return false;
+      // Wat er met een aanhoudende sprong gebeurt: zie kern/scripts/prijs-sprong.mjs.
+      const ref = referentie(paneel.aanbiedingen, aanbieding, (a) => a.prijs_eur, paneel.richtprijs_eur);
+      const besluit = aanbieding.prijs_eur && nieuw >= grenzen.min && nieuw <= grenzen.max ? sprong(aanbieding, nieuw, ref, VANDAAG) : "wachten";
+      if (besluit !== "overnemen") {
+        console.log(`  ! ${paneel.id} @ ${aanbieding.winkel}: gevonden prijs €${nieuw} niet plausibel t.o.v. €${aanbieding.prijs_eur}, ${besluit === "uitgezet" ? "uit de vergelijking gehaald" : "overgeslagen"}`);
+        return false;
+      }
+      console.log(`  ✓ ${paneel.id} @ ${aanbieding.winkel}: €${nieuw} drie runs gezien en in lijn met €${ref} elders, overgenomen`);
+    } else {
+      hersteld(aanbieding);
     }
     const veranderd = nieuw !== aanbieding.prijs_eur;
     aanbieding.prijs_eur = nieuw;
