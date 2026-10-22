@@ -792,6 +792,7 @@ ${kop("index", true)}
         <dt>${Iconen.svg(driewaardig(w.homey).status === "ja" ? "ja" : driewaardig(w.homey).status === "deels" ? "deels" : "nee")} Homey <span class="koppel-punten">${driewaardig(w.homey).status === "ja" ? 2 : driewaardig(w.homey).status === "deels" ? 1 : 0}<span class="van">/2</span></span></dt><dd>${esc(driewaardig(w.homey).tekst)}</dd>
       </dl>
       <p class="hint los">Integraties veranderen per firmware- en appversie; controleer de actuele status vóór aankoop. <a href="/#koppel-score">Zo werkt de Koppel-score ${Iconen.svg("pijl-rechts")}</a></p>
+      <p class="hint">Wil je hem op eigen zonnestroom laten draaien? Met het <a href="https://zonnestroommaatje.nl/energieplan.html" target="_blank" rel="noopener">energieplan op Zonnestroommaatje</a> reken je warmtepomp, panelen en thuisbatterij samen door.</p>
     </div>
 
     <div class="product-paneel">

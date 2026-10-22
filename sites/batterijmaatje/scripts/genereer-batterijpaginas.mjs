@@ -172,6 +172,17 @@ function kortOmschrijving(tekst, maximum = OMSCHRIJVING_MAX) {
 const naamZonderHaakjes = (b) => volledigeNaam(b).replace(/\s*\([^)]*\)\s*$/, "").trim();
 
 const bestePrijs = Prijs.beste;
+
+/* Een verwijzing naar de zustersite waar hij de lezer verder helpt. Een
+   hybride batterij hangt aan de omvormer, dus daar gaat het om; bij een
+   stekkerbatterij is de vraag eerder wat de panelen na 2027 nog opleveren. */
+const ZON = "https://zonnestroommaatje.nl";
+function zonLink(b) {
+  if (b.type === "hybride") {
+    return `<p>Of een hybride batterij bij je huidige installatie past, hangt af van je omvormer. Op Zonnestroommaatje <a href="${ZON}/omvormers.html" target="_blank" rel="noopener">vergelijk ik omvormers</a> op batterijkoppeling, schaduw en slimme aansturing.</p>`;
+  }
+  return `<p>Hoeveel zonnestroom er na 1 januari 2027 overblijft om op te slaan, reken ik door op Zonnestroommaatje, onder <a href="${ZON}/hebben-zonnepanelen-nog-zin.html" target="_blank" rel="noopener">hebben zonnepanelen nog zin?</a></p>`;
+}
 const perKwhInclBtw = Prijs.prijsPerKwh;
 
 function driewaardig(v) {
@@ -595,6 +606,7 @@ ${NAV_HTML}
   <h2>Koppeling met zonnepanelen</h2>
   <p>${waardering(b.koppeling_gemak, 5)} <span class="waardering-uitleg">aansluitgemak op je bestaande zonnepanelen</span></p>
   <p>${esc(b.zonnepanelen_koppeling || "")}</p>
+  ${zonLink(b)}
 
   <h2>Smart home en slim aansturen</h2>
   <p class="badge-rij">${koppelScoreBadge(b)} ${badge("Homey", homey)} ${badge("Home Assistant", ha)} ${badge("Dynamisch contract", dyn)}</p>
