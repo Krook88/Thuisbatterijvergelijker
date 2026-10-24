@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-10-23",
+  "bijgewerkt": "2026-10-24",
   "punten": {
     "onbereikbaar|itho-amber-95|Installmat": {
       "sinds": "2026-10-21",
@@ -10,13 +10,19 @@
     "verouderd|daikin-altherma-3|KliMate": {
       "sinds": "2026-09-22",
       "soort": "verouderd",
-      "tekst": "daikin-altherma-3 @ KliMate: €5414 (52 dagen)",
+      "tekst": "daikin-altherma-3 @ KliMate: €5414 (53 dagen)",
       "bevestigd": true
     },
-    "zonder prijs|atag-energion-m-hybrid|CV Totaal": {
-      "sinds": "2026-10-23",
-      "soort": "geweigerd",
-      "tekst": "atag-energion-m-hybrid @ CV Totaal: HTTP 403",
+    "verouderd|toshiba-estia-r290|Intercool": {
+      "sinds": "2026-10-24",
+      "soort": "verouderd",
+      "tekst": "toshiba-estia-r290 @ Intercool: €8107 (21 dagen)",
+      "bevestigd": false
+    },
+    "verouderd|vaillant-arotherm-plus|richtprijs": {
+      "sinds": "2026-10-24",
+      "soort": "verouderd",
+      "tekst": "vaillant-arotherm-plus @ richtprijs: €7300 (21 dagen)",
       "bevestigd": false
     },
     "zonder prijs|daikin-altherma-3|KliMate": {
@@ -24,18 +30,6 @@
       "soort": "geweigerd",
       "tekst": "daikin-altherma-3 @ KliMate: HTTP 403",
       "bevestigd": true
-    },
-    "zonder prijs|daikin-altherma-hybrid|Coen+": {
-      "sinds": "2026-10-23",
-      "soort": "geweigerd",
-      "tekst": "daikin-altherma-hybrid @ Coen+: HTTP 403",
-      "bevestigd": false
-    },
-    "zonder prijs|samsung-ehs-mono-ht|CV Totaal": {
-      "sinds": "2026-10-23",
-      "soort": "geweigerd",
-      "tekst": "samsung-ehs-mono-ht @ CV Totaal: HTTP 403",
-      "bevestigd": false
     },
     "zonder prijs|toshiba-estia-r290|Intercool": {
       "sinds": "2026-10-04",
