@@ -1,52 +1,52 @@
 {
-  "bijgewerkt": "2026-10-23",
+  "bijgewerkt": "2026-10-24",
   "punten": {
-    "onbereikbaar|enphase-iq8|Zonnige Winkel": {
-      "sinds": "2026-10-23",
-      "soort": "onbereikbaar",
-      "tekst": "enphase-iq8 @ Zonnige Winkel: fetch failed",
-      "bevestigd": false
-    },
-    "onbereikbaar|goodwe-et|Zonnige Winkel": {
-      "sinds": "2026-10-23",
-      "soort": "onbereikbaar",
-      "tekst": "goodwe-et @ Zonnige Winkel: fetch failed",
-      "bevestigd": false
-    },
-    "onbereikbaar|solaredge-home-wave|Zonnige Winkel": {
-      "sinds": "2026-10-23",
-      "soort": "onbereikbaar",
-      "tekst": "solaredge-home-wave @ Zonnige Winkel: fetch failed",
-      "bevestigd": false
-    },
-    "onbereikbaar|solis-s6-hybride|Zonnige Winkel": {
-      "sinds": "2026-10-23",
-      "soort": "onbereikbaar",
-      "tekst": "solis-s6-hybride @ Zonnige Winkel: fetch failed",
-      "bevestigd": false
-    },
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (94 dagen)",
+      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (95 dagen)",
       "bevestigd": true
+    },
+    "verouderd|jinko-tiger-neo-455|richtprijs": {
+      "sinds": "2026-10-24",
+      "soort": "verouderd",
+      "tekst": "jinko-tiger-neo-455 @ richtprijs: €100 (21 dagen)",
+      "bevestigd": false
     },
     "verouderd|maxeon-6-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "maxeon-6-440 @ richtprijs: €230 (94 dagen)",
+      "tekst": "maxeon-6-440 @ richtprijs: €230 (95 dagen)",
       "bevestigd": true
     },
     "verouderd|ulica-440-full-black|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "ulica-440-full-black @ richtprijs: €55 (94 dagen)",
+      "tekst": "ulica-440-full-black @ richtprijs: €55 (95 dagen)",
       "bevestigd": true
     },
-    "zonder prijs|sungrow-sh|CV Totaal": {
-      "sinds": "2026-10-23",
-      "soort": "geweigerd",
-      "tekst": "sungrow-sh @ CV Totaal: HTTP 403",
+    "zonder prijs|enphase-iq8|Zonnige Winkel": {
+      "sinds": "2026-10-24",
+      "soort": "zonder bedrag",
+      "tekst": "enphase-iq8 @ Zonnige Winkel: geen leesbaar bedrag",
+      "bevestigd": false
+    },
+    "zonder prijs|goodwe-et|Zonnige Winkel": {
+      "sinds": "2026-10-24",
+      "soort": "zonder bedrag",
+      "tekst": "goodwe-et @ Zonnige Winkel: geen leesbaar bedrag",
+      "bevestigd": false
+    },
+    "zonder prijs|solaredge-home-wave|Zonnige Winkel": {
+      "sinds": "2026-10-24",
+      "soort": "zonder bedrag",
+      "tekst": "solaredge-home-wave @ Zonnige Winkel: geen leesbaar bedrag",
+      "bevestigd": false
+    },
+    "zonder prijs|solis-s6-hybride|Zonnige Winkel": {
+      "sinds": "2026-10-24",
+      "soort": "zonder bedrag",
+      "tekst": "solis-s6-hybride @ Zonnige Winkel: geen leesbaar bedrag",
       "bevestigd": false
     }
   }
