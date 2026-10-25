@@ -14,7 +14,7 @@ import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
 import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
-import { verdeel, verborgenPagina, aantalWinkels } from "./zichtbaar.mjs";
+import { verdeel, verborgenPagina, aantalWinkels, zonderPrijsHtml, zetZonderPrijs } from "./zichtbaar.mjs";
 import { zetStatistiekOveral } from "./statistiek.mjs";
 import { zetVoorladenOveral } from "./voorladen.mjs";
 import * as Uitleg from "./uitleg.mjs";
@@ -1109,7 +1109,7 @@ const gesorteerdePanelen = Kaart.standaardVolgorde(data.panelen);
 // komt te staan. Zet je hier kaarten neer terwijl de browser meteen daarna
 // regels tekent, dan ziet de bezoeker het beeld een keer omklappen en krijgt
 // een zoekmachine iets anders te zien dan een mens.
-const kaarten = Kaart.lijstHtml(gesorteerdePanelen, { merkLogos: data.merk_logos, groepeer: true, groepNaam: "Zeker-score" });
+const kaarten = Kaart.lijstHtml(gesorteerdePanelen, { merkLogos: data.merk_logos });
 
 // ItemList vertelt de zoekmachine dat dit een gerangschikte lijst producten is
 // en welke pagina bij elk item hoort.
@@ -1117,7 +1117,7 @@ const itemLijst = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Zonnepanelen vergeleken",
-  description: "Alle vergeleken zonnepanelen, gerangschikt op Zeker-score.",
+  description: "Alle vergeleken zonnepanelen, gerangschikt op prijs per wattpiek.",
   numberOfItems: gesorteerdePanelen.length,
   itemListElement: gesorteerdePanelen.map((p, i) => ({
     "@type": "ListItem",
@@ -1193,6 +1193,8 @@ index = index.replace(
   `$1${data.panelen.length}$2`,
 );
 
+// Wat er niet in de lijst staat, en waarom (zie zichtbaar.mjs).
+index = zetZonderPrijs(index, zonderPrijsHtml(VERBORGEN, { meervoud: "modellen", pad: "paneel", naamVan: volledigeNaam }));
 writeFileSync(resolve(ROOT, "index.html"), index, "utf8");
 console.log(`index.html: ${gesorteerdePanelen.length} kaarten voorgerenderd en ItemList bijgewerkt`);
 

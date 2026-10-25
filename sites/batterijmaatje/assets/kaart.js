@@ -84,6 +84,23 @@
     return Prijs.isOmgerekend(a) ? `${naam} (omgerekend naar incl. btw)` : naam;
   }
 
+  // Cycli en aansluiting staan als getal en vaste waarde in de data, zodat de
+  // vergelijker erop kan sorteren en filteren; de toelichting komt erachter.
+  const FASE_LABEL = { "1-fase": "1-fase", "3-fase": "3-fase", "beide": "1- of 3-fase" };
+  function faseTekst(b) {
+    if (!b || !b.fase) return "";
+    return (FASE_LABEL[b.fase] || b.fase) + (b.fase_toelichting ? ` (${b.fase_toelichting})` : "");
+  }
+  function cycliTekst(b) {
+    if (!b || !b.cycli) return "";
+    return b.cycli_toelichting || new Intl.NumberFormat("nl-NL").format(b.cycli);
+  }
+  const eurCentFmt = new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  function perOpgeslagenKwhTekst(b) {
+    const v = Prijs.prijsPerOpgeslagenKwh(b);
+    return v === null ? "" : `${eurCentFmt.format(v)} per opgeslagen kWh`;
+  }
+
   // Kooplink: de commissielink (affiliate) als die er is, anders de gewone
   // productlink. De dagelijkse prijscontrole gebruikt altijd de gewone url.
   function koopUrl(a) {
@@ -125,7 +142,7 @@
   /* Waar dat cijfer vandaan komt.
 
      De Koppel-score is het enige getal op deze site dat wij zelf bedenken, en
-     sinds de vergelijker er standaard op sorteert bepaalt hij ook de volgorde.
+     wie erop sorteert laat hem de volgorde bepalen.
      Een cijfer dat de volgorde bepaalt en dat niemand kan narekenen, is
      precies waar een vergelijker zijn geloofwaardigheid verliest: dan is het
      niet te onderscheiden van een cijfer dat zo gewogen is dat er uitkomt wat
@@ -323,22 +340,16 @@
         </div>`;
   }
 
-  // De volgorde waarin de vergelijker begint: beste prijs per kWh bovenaan.
-  // De generator gebruikt dezelfde volgorde, zodat de voorgerenderde kaarten
-  // gelijk staan aan wat de bezoeker ziet voordat hij iets aanraakt.
-  /* Dezelfde volgorde als app.js bij de standaardsortering, en dat moet ook:
-     wijkt de voorgerenderde lijst af, dan klapt hij om zodra javascript
-     binnen is en ziet een zoekmachine iets anders dan een mens.
+  /* De volgorde waarin de vergelijker begint, en de generator gebruikt hem
+     ook, zodat de voorgerenderde lijst gelijk staat aan wat app.js tekent.
 
-     Koppel-score eerst en prijs per kWh als het gelijkspel is. Op prijs per
-     kWh sorteren gaf een nummer 1 met score 2/6 onder een kop die belooft te
-     laten zien wat een batterij slim maakt; die twee spraken elkaar tegen. */
-  // Zelfde volgorde als app.js bij "koppel-score": binnen een score de laagste
-  // prijs per kWh, met onbekende en te oude prijzen achteraan.
+     Beste prijs per kWh bovenaan, met onbekende en te oude prijzen achteraan.
+     Tot oktober 2026 stond hier de Koppel-score voorop; een journalist en een
+     vergelijkingsreviewer vonden allebei dat een leek eerst wil zien wat
+     opslag kost, en de Koppel-score blijft een sorteeroptie. */
   function standaardVolgorde(lijst) {
     const sleutel = (b) => { const v = Prijs.prijsPerKwh(b); return (v && Number.isFinite(v) ? v : 1e9) + (Prijs.prijsTeOud(b) ? 1e6 : 0); };
-    return [...lijst].sort((a, b) =>
-      koppelScore(b) - koppelScore(a) || sleutel(a) - sleutel(b));
+    return [...lijst].sort((a, b) => sleutel(a) - sleutel(b) || koppelScore(b) - koppelScore(a));
   }
 
   /* De resultaatregel: dezelfde batterij, maar dan om kolommen te vergelijken
@@ -422,6 +433,7 @@
           ? `<a class="regel-bedrag cijfer" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="${escapeHtml(eurFmt.format(vergelijk))} bij ${escapeHtml(winkelNaam(beste) || "de winkel")}: naar de aanbieding van de ${escapeHtml(naamVan(b))}, opent in een nieuw tabblad">${eurFmt.format(vergelijk)}</a>`
           : `<span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>`}
         ${perKwh ? `<span class="regel-per cijfer">${eurFmt.format(perKwh)} per kWh opslag</span>` : ""}
+        ${perOpgeslagenKwhTekst(b) ? `<span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">${perOpgeslagenKwhTekst(b)}</span>` : ""}
         ${beste && beste.url && beste.winkel ? `<span class="regel-winkel">${/^richtprijs/i.test(beste.winkel) ? "" : "bij "}${escapeHtml(winkelNaam(beste))}</span>` : ""}
         ${ouderdomHtml(b)}
         ${beste && beste.url ? "" : `<a class="regel-details" href="batterij/${encodeURIComponent(b.id)}.html" aria-label="Alle details van de ${escapeHtml(naamVan(b))}">details</a>`}
@@ -550,9 +562,9 @@
         <dt>Dynamisch contract</dt><dd>${escapeHtml(driewaardig(b.dynamisch_contract).tekst)}</dd>
         <dt>Noodstroom bij stroomuitval</dt><dd>${escapeHtml(b.noodstroom_uitleg || vierwaardig(b.noodstroom).tekst)}</dd>
         ${b.opmerkingen ? `<dt>Goed om te weten</dt><dd>${escapeHtml(b.opmerkingen)}</dd>` : ""}
-        ${b.cycli ? `<dt>Laadcycli (garantie)</dt><dd>${escapeHtml(String(b.cycli))}</dd>` : ""}
+        ${b.cycli ? `<dt>Laadcycli (garantie)</dt><dd>${escapeHtml(cycliTekst(b))}</dd>` : ""}
         ${rendementHtml(b) ? `<dt>Rendement heen en terug</dt><dd>${rendementHtml(b)}</dd>` : ""}
-        ${b.fase ? `<dt>Aansluiting</dt><dd>${escapeHtml(b.fase)}</dd>` : ""}
+        ${b.fase ? `<dt>Aansluiting</dt><dd>${escapeHtml(faseTekst(b))}</dd>` : ""}
         ${b.app ? `<dt>App</dt><dd>${escapeHtml(b.app)}</dd>` : ""}
         ${(b.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${b.aanbiedingen.map((a) => `<li><span>${escapeHtml(winkelNaam(a))}</span><span><b>${eurFmt.format(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""}${a.omvat ? ` <small>${escapeHtml(a.omvat)}</small>` : ""} &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul></dd>` : ""}
         ${b.product_url ? `<dt>Productinformatie</dt><dd><a href="${escapeHtml(b.product_url)}" target="_blank" rel="noopener">${escapeHtml(productpaginaTekst(b))}</a></dd>` : ""}
@@ -563,6 +575,7 @@
           ${vanPrijs ? `<div class="van-prijs">${eurFmt.format(vanPrijs)}</div>` : ""}
           <div class="prijs${vergelijk !== null ? "" : " prijs-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Prijs op aanvraag"}</div>
           ${perKwh ? `<div class="prijs-per-kwh"${Prijs.capaciteitToelichting(b) ? ` title="Per kWh: ${Prijs.capaciteitToelichting(b)}"` : ""}>${eurFmt.format(perKwh)} per kWh opslag</div>` : ""}
+          ${perOpgeslagenKwhTekst(b) ? `<div class="prijs-per-kwh" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit">${perOpgeslagenKwhTekst(b)}</div>` : ""}
           ${ouderdomHtml(b)}
           ${beste && beste.is_richtprijs ? `<div class="prijs-winkel">richtprijs; op dit moment geen winkel met deze batterij</div>` : beste && beste.winkel ? `<div class="prijs-winkel">bij ${escapeHtml(winkelNaam(beste))}</div>` : ""}
           ${omgerekend ? `<div class="prijs-let-op">De winkel toont ${eurFmt.format(beste.prijs_eur)} <b>excl. btw</b>. Hierboven staat het bedrag incl. btw, zodat het te vergelijken is met de andere batterijen.</div>` : ""}
@@ -609,6 +622,9 @@
     waardering,
     standaardVolgorde,
     winkelNaam,
+    faseTekst,
+    cycliTekst,
+    perOpgeslagenKwhTekst,
     fotoHtml,
     kaartHtml,
     regelHtml,

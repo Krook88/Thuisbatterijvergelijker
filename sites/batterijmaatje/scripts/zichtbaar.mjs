@@ -114,3 +114,64 @@ export function verborgenPagina(html404, { titel, kop, alineas, terug }) {
   }
   return uit;
 }
+
+/* De producten die er niet op staan, onder de vergelijker genoemd.
+
+   Een reviewer zag "53 batterijen" in de kop terwijl er 60 in de gegevens
+   staan, zonder dat de site zegt waar de andere zeven zijn. Ze horen niet in
+   de lijst (zonder actuele prijs valt er niets af te wegen), maar wie een
+   model zoekt moet kunnen zien dat het bekend is en waarom het ontbreekt.
+   Een ingeklapt blok, buiten #resultaten, zodat app.js het laat staan. */
+const ZP_BEGIN = "<!-- zonder-prijs:begin -->";
+const ZP_EIND = "<!-- zonder-prijs:eind -->";
+
+function zpEsc(t) {
+  return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function redenTekst(reden) {
+  if (reden === "geen prijs") return "nog geen prijs gevonden";
+  if (reden === "prijs zonder bevestigde datum") return "prijs niet bevestigd";
+  const m = /^prijs (\d+) dagen oud/.exec(reden || "");
+  return m ? `laatste prijs ${m[1]} dagen oud` : String(reden || "");
+}
+
+/** Het blok als HTML, of "" als alles een prijs heeft. */
+export function zonderPrijsHtml(verborgen, { meervoud, pad, naamVan }) {
+  if (!verborgen || !verborgen.length) return "";
+  const n = verborgen.length;
+  const regels = [...verborgen]
+    .sort((a, b) => naamVan(a.product).localeCompare(naamVan(b.product), "nl"))
+    .map(({ product, reden }) => `      <li><a href="${zpEsc(pad)}/${encodeURIComponent(product.id)}.html">${zpEsc(naamVan(product))}</a> <small>(${zpEsc(redenTekst(reden))})</small></li>`)
+    .join("\n");
+  return `<details class="legenda zonder-prijs">
+    <summary>Nog ${n} ${meervoud} zonder actuele prijs</summary>
+    <p>Deze staan niet in de vergelijking, omdat er geen prijs is die in de afgelopen ${Math.round(HOUDBAAR_DAGEN / 7)} weken bevestigd is. Zodra er weer een winkelprijs is, staan ze er vanzelf weer tussen.</p>
+    <ul>
+${regels}
+    </ul>
+  </details>`;
+}
+
+/** Zet het blok in index.html: tussen de markeringen, of de eerste keer direct onder #resultaten. */
+export function zetZonderPrijs(html, blok) {
+  const inhoud = `${ZP_BEGIN}\n  ${blok}\n  ${ZP_EIND}`;
+  const b = html.indexOf(ZP_BEGIN);
+  const e = html.indexOf(ZP_EIND);
+  if (b !== -1 && e !== -1) return html.slice(0, b) + inhoud + html.slice(e + ZP_EIND.length);
+  // De sluittag van #resultaten zoeken door de divs te tellen; de opmaak
+  // eromheen verschilt per site.
+  const start = html.indexOf('<div id="resultaten">');
+  if (start === -1) throw new Error("zetZonderPrijs: geen #resultaten gevonden");
+  const tag = /<div\b|<\/div>/g;
+  tag.lastIndex = start;
+  let diepte = 0;
+  for (let m; (m = tag.exec(html));) {
+    diepte += m[0] === "</div>" ? -1 : 1;
+    if (diepte === 0) {
+      const na = m.index + m[0].length;
+      return `${html.slice(0, na)}\n  ${inhoud}${html.slice(na)}`;
+    }
+  }
+  throw new Error("zetZonderPrijs: #resultaten wordt niet gesloten");
+}

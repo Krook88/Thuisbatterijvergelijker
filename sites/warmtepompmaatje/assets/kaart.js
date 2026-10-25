@@ -124,7 +124,7 @@
   /* Waar dat cijfer vandaan komt.
 
      De Koppel-score is het enige getal op deze site dat wij zelf bedenken, en
-     sinds de vergelijker er standaard op sorteert bepaalt hij ook de volgorde.
+     wie erop sorteert laat hem de volgorde bepalen.
      Een cijfer dat de volgorde bepaalt en dat niemand kan narekenen, is
      precies waar een vergelijker zijn geloofwaardigheid verliest: dan is het
      niet te onderscheiden van een cijfer dat zo gewogen is dat er uitkomt wat
@@ -301,7 +301,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>${w.vermogen_kw ? String(w.vermogen_kw).replace(".", ",") + " kW" : "Onbekend"}</div>
-      <div class="regel-waarde cijfer" data-naam="Koudemiddel"><span class="regel-label">Koudemiddel</span><span title="${escapeHtml(w.koudemiddel || "")}">${escapeHtml((w.koudemiddel || "Onbekend").split(/[\s(]/)[0])}</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="${escapeHtml([w.scop_toelichting, w.scop_55_bron].filter(Boolean).join(" | "))}">${scopTekst(w)}</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>${w.geluid_db ? w.geluid_db + " dB(A)" : "Onbekend"}</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span>${PrijsGrafiek ? PrijsGrafiek.regelGrafiek(w.id) : ""}</div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -337,8 +337,18 @@
       + (open ? "" : `<button type="button" class="toon-alle" data-toon-alle>Toon alle ${aantal} warmtepompen</button>`);
   }
 
+  // Rendement in de lijst: de SCOP bij 35 °C (vloerverwarming) en bij 55 °C
+  // (radiatoren). Die laatste weegt bij een bestaand huis het zwaarst, maar
+  // fabrikanten noemen hem zelden; onbekend staat er dan ook zo.
+  const scopFmt = (v) => String(Math.round(v * 10) / 10).replace(".", ",");
+  function scopTekst(w) {
+    const s35 = typeof w.scop === "number" ? scopFmt(w.scop) : "?";
+    const s55 = typeof w.scop_55 === "number" ? scopFmt(w.scop_55) : "?";
+    return s35 === "?" && s55 === "?" ? "Onbekend" : `${s35} / ${s55}`;
+  }
+
   function lijstHtml(lijst, opties) {
-    const koppen = ["Model", "Vermogen", "Koudemiddel", "Geluid", "Prijsverloop", "Koppel-score", "Prijs"];
+    const koppen = ["Model", "Vermogen", "SCOP 35 / 55 °C", "Geluid", "Prijsverloop", "Koppel-score", "Prijs"];
     // Welke in deze lijst het goedkoopst is, over de lijst zoals hij nu
     // gefilterd is, zodat het kenmerk klopt met wat je ziet.
     let laagste = null;
@@ -445,9 +455,11 @@
   // te zien krijgt.
   function standaardVolgorde(lijst) {
     const prijsVan = (w) => { const b = vergelijkPrijs(bestePrijs(w)); return b == null ? Infinity : b; };
-    // Onbekende en te oude prijzen achteraan, net als in app.js.
-    const sleutel = (w) => (Number.isFinite(prijsVan(w)) ? prijsVan(w) : 1e9) + (Prijs.prijsTeOud(w) ? 1e6 : 0);
-    return [...lijst].sort((a, b) => koppelScore(b) - koppelScore(a) || sleutel(a) - sleutel(b));
+    // Zelfde volgorde als app.js bij de standaardsortering: de laagste prijs
+    // na aftrek van de ISDE eerst, onbekende en te oude prijzen achteraan.
+    // Tot oktober 2026 stond de Koppel-score voorop; die is nu een optie.
+    const sleutel = (w) => (Number.isFinite(prijsVan(w)) ? prijsVan(w) - (w.isde_indicatie_eur || 0) : 1e9) + (Prijs.prijsTeOud(w) ? 1e6 : 0);
+    return [...lijst].sort((a, b) => sleutel(a) - sleutel(b) || koppelScore(b) - koppelScore(a));
   }
 
   return {

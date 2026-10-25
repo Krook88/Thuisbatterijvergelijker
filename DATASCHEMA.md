@@ -168,10 +168,12 @@ Afgekeurde beelden staan in `scripts/afgewezen-fotos.json`, elk met een reden.
 | `vermogen_kw` | getal of `null` | 57/57 | Ontlaadvermogen. |
 | `vermogen_conditie` | tekst | 52/57 | `"continu"` (14), `"max"` (16: piek of off-grid maximum), `"stopcontact"` (8: de 800 W-grens van een gedeelde groep), `"vaste-aansluiting"` (2: het volle vermogen pas na een vaste aansluiting door een installateur, in het stopcontact 800 W), `"onbekend"` (12). Ontbreekt waar `vermogen_kw` `null` is. |
 | `vermogen_bron` | tekst | 39/57 | Waar de conditie op gebaseerd is; komt in de tooltip. |
-| `fase` | tekst | 57/57 | Meestal `"1-fase"`, `"3-fase"` of `"beide"`; soms een zin. |
+| `fase` | tekst | 60/60 | Alleen `"1-fase"`, `"3-fase"` of `"beide"` (het fasefilter leest het). |
+| `fase_toelichting` | tekst | 6/60 | Kanttekening bij de fase ("afhankelijk van de omvormer"). |
 | `installatie` | tekst | 57/57 | `"zelf"` of `"installateur"`. |
 | `garantie_jaar` | geheel getal of `null` | 57/57 | |
-| `cycli` | getal, tekst of `null` | 57/57 | Gemengd: `6000` of `"6.000 (fabrieksopgave)"`. De rekenmodule leest het getal eruit. |
+| `cycli` | geheel getal of `null` | 60/60 | Aantal laadcycli volgens de fabrikant; sorteerbaar en basis van de kosten per opgeslagen kWh. |
+| `cycli_toelichting` | tekst | 23/60 | De opgave zoals de bron hem noemt ("10.000 (tot 70% restcapaciteit)"). |
 | `ip_klasse` | tekst | 49/57 | `"IP65"` enz., of `"onbekend"`. |
 | `buiten_toelichting` | tekst | 49/57 | Mag hij buiten staan, en volgens wie. |
 | `noodstroom` | `true`, `false`, tekst of `null` | 57/57 | Tekst = "deels, met deze kanttekening". |
@@ -300,7 +302,10 @@ bijgewerkt. Het aantal staat ook in lopende tekst en wordt door
 | `scop_toelichting` | tekst | 33/33 | |
 | `geluid_db` | geheel getal | 26/33 | Geluidsvermogen buitenunit in dB(A), volgens label of datasheet. Geen nachtstand of geluidsdruk. |
 | `geluid_toelichting` | tekst | 33/33 | Is tevens het conditieveld bij `geluid_db`. |
-| `max_aanvoer_c` | geheel getal | 27/33 | |
+| `max_aanvoer_c` | geheel getal | 27/33 | Hoogste aanvoertemperatuur; vanaf 65 telt hij in het filter "geschikt voor radiatoren". |
+| `scop_55` | getal | 5/33 | SCOP bij 55 °C aanvoer, gemiddeld klimaat. Alleen uit een fabrieksopgave, energielabel of officieel register; een ηs wordt omgerekend met SCOP = (ηs + 3) × 0,025. |
+| `scop_55_bron` | tekst | 5/33 | Verplicht bij `scop_55`. |
+| `fase` | tekst | 15/33 | `"1-fase"`, `"3-fase"` of `"beide"`. Alleen gezet waar de typecode of de fabrikant het zegt. |
 | `koudemiddel` | tekst | 33/33 | `"R290 (natuurlijk)"`, `"R32"`, `"R410A (GWP 2088)"`, ... |
 | `tapwater` | tekst | 33/33 | |
 | `buitenunit` | `false` | 3/33 | Pompen zonder buitenunit (ventilatiewarmtepomp). |

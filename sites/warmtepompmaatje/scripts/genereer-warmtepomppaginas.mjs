@@ -11,7 +11,7 @@ import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
 import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
-import { verdeel, verborgenPagina, aantalWinkels } from "./zichtbaar.mjs";
+import { verdeel, verborgenPagina, aantalWinkels, zonderPrijsHtml, zetZonderPrijs } from "./zichtbaar.mjs";
 import { zetStatistiekOveral } from "./statistiek.mjs";
 import { zetVoorladenOveral } from "./voorladen.mjs";
 import * as Uitleg from "./uitleg.mjs";
@@ -751,6 +751,8 @@ ${kop("index", true)}
         ${specRij("Type", w.type === "hybride" ? "Hybride (naast de cv-ketel)" : "All-electric (van het gas af)")}
         ${specRij("Vermogen", w.vermogen_kw ? `${String(w.vermogen_kw).replace(".", ",")} kW${Condities.labelHtml("vermogen", w)}` : null)}
         ${specRij("Rendement (SCOP)", scopRij(w))}
+        ${specRij("Rendement bij 55 °C (radiatoren)", typeof w.scop_55 === "number" ? `SCOP ${String(w.scop_55).replace(".", ",")} <small>(${esc(w.scop_55_bron)})</small>` : `nog niet gevonden <small>(de fabrikant noemt alleen de waarde bij 35 °C)</small>`)}
+        ${specRij("Aansluiting", w.fase ? { "1-fase": "1-fase", "3-fase": "3-fase", "beide": "1- of 3-fase" }[w.fase] : null)}
         ${/* Het label hing vast op "buitenunit", en dat klopt niet voor een
               pomp die helemaal binnen staat: de Inventum Ecolution Combi en de
               Stiebel WPL ICS classic hebben er geen. Die kregen een
@@ -897,13 +899,13 @@ const gesorteerdePompen = Kaart.standaardVolgorde(data.warmtepompen);
 // komt te staan. Zet je hier kaarten neer terwijl de browser meteen daarna
 // regels tekent, dan ziet de bezoeker het beeld een keer omklappen en krijgt
 // een zoekmachine iets anders te zien dan een mens.
-const kaarten = Kaart.lijstHtml(gesorteerdePompen, { pompen: data.warmtepompen, groepeer: true, groepNaam: "Koppel-score" });
+const kaarten = Kaart.lijstHtml(gesorteerdePompen, { pompen: data.warmtepompen });
 
 const itemLijst = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Warmtepompen vergeleken",
-  description: "Alle vergeleken warmtepompen, gerangschikt op Koppel-score.",
+  description: "Alle vergeleken warmtepompen, gerangschikt op prijs na ISDE-subsidie.",
   numberOfItems: gesorteerdePompen.length,
   itemListElement: gesorteerdePompen.map((w, i) => ({
     "@type": "ListItem",
@@ -978,6 +980,8 @@ index = index.replace(
   `$1${pompen.length}$2`,
 );
 
+// Wat er niet in de lijst staat, en waarom (zie zichtbaar.mjs).
+index = zetZonderPrijs(index, zonderPrijsHtml(VERBORGEN, { meervoud: "modellen", pad: "pomp", naamVan: volledigeNaam }));
 writeFileSync(join(ROOT, "index.html"), index, "utf8");
 console.log(`index.html: ${gesorteerdePompen.length} kaarten voorgerenderd en ItemList bijgewerkt`);
 

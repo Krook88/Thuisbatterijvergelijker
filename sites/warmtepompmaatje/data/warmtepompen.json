@@ -57,6 +57,7 @@
         }
       ],
       "vermogen_conditie": "Prated",
+      "fase": "1-fase",
       "afbeelding": "assets/producten/remeha-elga-ace.webp",
       "afbeelding_bron": "foto: Remeha",
       "afbeelding_herkomst": "https://edge.sitecorecloud.io/bdrthermea1-platform-production-864a/media/Project/RemehaNL/RemehaNL/Images/Products/Elga-Ace-monoblock/elga-ace-monoblock-met-buiten-unit.png?h=972&amp;iar=0&amp;w=1728"
@@ -103,7 +104,8 @@
       ],
       "prijs_datum": "2026-10-25",
       "isde_meldcode": "KA14853",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "fase": "1-fase"
     },
     {
       "id": "quatt-hybrid",
@@ -148,7 +150,8 @@
         }
       ],
       "prijs_datum": "2026-10-25",
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "fase": "1-fase"
     },
     {
       "id": "intergas-xtend",
@@ -193,6 +196,7 @@
       "isde_meldcode": "KA22154",
       "prijs_datum": "2026-10-25",
       "vermogen_conditie": "Prated",
+      "fase": "1-fase",
       "afbeelding": "assets/producten/intergas-xtend.webp",
       "afbeelding_bron": "foto: Intergas",
       "afbeelding_herkomst": "https://www.intergas-verwarming.nl/app/uploads/2026/06/24-009-eco-5kw-v001-pev-250827-rangle-noshadow-opague-1024x1024.png",
@@ -282,6 +286,8 @@
         }
       ],
       "scop_conditie": "35",
+      "scop_55": 3.3,
+      "scop_55_bron": "SEAI HARP-register VWL 55/6 A: ηs 129% bij 55 °C, omgerekend SCOP 3,3",
       "vermogen_conditie": "Prated",
       "afbeelding": "assets/producten/vaillant-arotherm-plus.webp",
       "afbeelding_bron": "foto: Woon op Stroom",
@@ -424,7 +430,9 @@
       ],
       "prijs_datum": "2026-10-25",
       "vermogen_conditie": "Prated",
-      "scop_conditie": "35"
+      "scop_conditie": "35",
+      "scop_55": 3.7,
+      "scop_55_bron": "EU-energielabel S2125-8: ηs 146% bij 55 °C (gemiddeld klimaat), omgerekend SCOP 3,7"
     },
     {
       "id": "mitsubishi-ecodan",
@@ -492,7 +500,9 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "onbekend"
+      "scop_conditie": "onbekend",
+      "scop_55": 3.43,
+      "scop_55_bron": "Mitsubishi Electric-datasheet PUZ-WZ60VAA (januari 2025): SCOP 3,43 bij 55 °C"
     },
     {
       "id": "daikin-altherma-3",
@@ -737,7 +747,10 @@
       "prijs_datum": "2026-10-25",
       "isde_meldcode": "KA29289",
       "vermogen_conditie": "Prated",
-      "scop_conditie": "35"
+      "fase": "1-fase",
+      "scop_conditie": "35",
+      "scop_55": 3.86,
+      "scop_55_bron": "LG-productpagina (HM071HF, 1-fase): SCOP 3,86 bij 55 °C, ηs 151%"
     },
     {
       "id": "samsung-ehs-mono-ht",
@@ -801,6 +814,8 @@
       ],
       "vermogen_conditie": "Prated",
       "scop_conditie": "35",
+      "scop_55": 3.22,
+      "scop_55_bron": "MCS-registratie AE080BXYDEG: SCOP 3,22 bij 55 °C",
       "afbeelding": "assets/producten/samsung-ehs-mono-ht.webp",
       "afbeelding_bron": "foto: Coen+",
       "afbeelding_herkomst": "https://www.coen-plus.nl/media/catalog/product/cache/6517c62f5899ad6aa0ba23ceb3eeff97/s/a/samsung_ehs1.jpg"
@@ -929,6 +944,7 @@
       ],
       "scop_conditie": "35",
       "vermogen_conditie": "Prated",
+      "fase": "1-fase",
       "afbeelding": "assets/producten/stiebel-wpl-a07.webp",
       "afbeelding_bron": "foto: Stiebel Eltron",
       "afbeelding_herkomst": "https://www.stiebel-eltron.nl/content/dam/ste/products/article_picture/pic00009/pic00009953-00.png",
@@ -1128,6 +1144,7 @@
       "garantie_toelichting": "2 jaar volledig op onderdelen, plus 3 jaar op onderdelen met een ingevulde garantiekaart; arbeidsloon alleen de eerste 2 jaar, volgens de garantiebepalingen van Inventum",
       "opmerkingen": "Een buitenbeentje, want dit is een ventilatiewarmtepomp die warmte uit je afgezogen binnenlucht haalt in plaats van uit de buitenlucht. Daarom geen buitenunit en geen geluid in de tuin; binnen maakt hij 48 dB(A). Het vermogen van 2 kW (zoals op de ISDE-lijst) is klein - hij ondersteunt je cv-ketel, hij vervangt hem niet.",
       "vermogen_conditie": "Prated",
+      "fase": "1-fase",
       "afbeelding": "assets/producten/inventum-ecolution-combi.webp",
       "afbeelding_bron": "foto: Inventum",
       "afbeelding_herkomst": "https://inventum-com.s3.eu-central-1.amazonaws.com/thumbnail/69/2c/55/1700034642/73a22317-7155-417d-ac21-e93e51540a9f.jpg_280x280.jpg"
@@ -1269,6 +1286,7 @@
         }
       ],
       "vermogen_conditie": "Prated",
+      "fase": "1-fase",
       "afbeelding": "assets/producten/atag-energion-m-hybrid.webp",
       "afbeelding_bron": "foto: Coen+",
       "afbeelding_herkomst": "https://www.coen-plus.nl/media/catalog/product/cache/3380650127d143eec657262365bd2ea0/a/t/atag_energion_buiten_50_1_2.jpg"
@@ -1321,6 +1339,7 @@
       ],
       "prijs_datum": "2026-10-25",
       "vermogen_conditie": "Prated",
+      "fase": "1-fase",
       "afbeelding": "assets/producten/itho-vincent-v45-hybride.webp",
       "afbeelding_bron": "foto: Itho Daalderop",
       "afbeelding_herkomst": "https://ithodaalderop.compano.com/Data/Environments/000001/Attachment/Bijlage/A02_Warmtepompen/A02_02_Lucht/A02_02_06_Vincent/A02_02_06_01_Vincent/B01_01_PPI/03-00659_Vincent_Front_Schaduw_1200x1200px.jpg",
@@ -1608,7 +1627,8 @@
           "meldcode": "KA28310"
         }
       ],
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "fase": "3-fase"
     },
     {
       "id": "panasonic-aquarea-wxg",
@@ -1680,6 +1700,7 @@
       ],
       "prijs_datum": "2026-10-24",
       "vermogen_conditie": "Prated",
+      "fase": "3-fase",
       "afbeelding": "assets/producten/panasonic-aquarea-wxg.webp",
       "afbeelding_bron": "foto: Multi-Import",
       "afbeelding_herkomst": "https://www.multi-import.nl/media/catalog/product/cache/6517c62f5899ad6aa0ba23ceb3eeff97/w/h/wh-wxg09me8_2_1.jpg",
@@ -1743,6 +1764,7 @@
         }
       ],
       "vermogen_conditie": "Prated",
+      "fase": "3-fase",
       "afbeelding": "assets/producten/stiebel-wpl-a13.webp",
       "afbeelding_bron": "foto: Stiebel Eltron",
       "afbeelding_herkomst": "https://www.stiebel-eltron.nl/content/dam/ste/products/article_picture/pic-0012/pic-00122339.png",
@@ -1919,6 +1941,7 @@
       ],
       "prijs_datum": "2026-10-25",
       "vermogen_conditie": "Prated",
+      "fase": "3-fase",
       "afbeelding": "assets/producten/bosch-compress-5800i-12.webp",
       "afbeelding_bron": "foto: Bosch",
       "afbeelding_herkomst": "https://www.nefit-bosch.nl/ocsmedia/optimized/1600x99999/o546932v389_Compress_5800i_6800i_AW_v14.webp",
@@ -1970,7 +1993,8 @@
           "meldcode": "KA32008"
         }
       ],
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "fase": "3-fase"
     },
     {
       "id": "stiebel-wpl-25-ac",
@@ -1980,6 +2004,7 @@
       "voorbeeld_variant": "WPL 25 AC (monoblock buitenopstelling, 13 kW)",
       "vermogen_kw": 13,
       "vermogen_conditie": "Prated",
+      "fase": "3-fase",
       "scop": 4.76,
       "scop_conditie": "35",
       "scop_toelichting": "labelwaarde bij 35 °C aanvoer volgens EN 14825, opgave van de fabrikant",

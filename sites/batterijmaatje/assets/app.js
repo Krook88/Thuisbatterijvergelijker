@@ -11,7 +11,7 @@
     meta: {},
     weergave: "lijst", // of "kaarten" of "tabel"
     verbruik: Dagmaat.lees(), // jaarverbruik voor de dagmaat, uit localStorage of de url
-    sortering: "koppel-score",
+    sortering: "prijs-per-kwh",
     alles: false,
     tabelSortKolom: null,
     tabelSortRichting: 1,
@@ -22,6 +22,7 @@
       capaciteit: "alle",
       installatie: "alle",
       merk: "alle",
+      fase: "alle",
       homey: false,
       homeAssistant: false,
       dynamisch: false,
@@ -81,7 +82,7 @@
 
   /* Filter- en sorteerstatus in de URL: back-navigatie behoudt de context en
      een gefilterde lijst is deelbaar als link. */
-  const FILTER_KEYS = ["type", "capaciteit", "installatie", "merk"];
+  const FILTER_KEYS = ["type", "capaciteit", "installatie", "merk", "fase"];
   const CHECK_KEYS = [["homey", "homey"], ["homeAssistant", "ha"], ["dynamisch", "dynamisch"], ["officieel", "officieel"], ["noodstroom", "noodstroom"], ["aanbieding", "aanbieding"]];
 
   function syncUrl() {
@@ -90,7 +91,7 @@
     if (f.zoek.trim()) p.set("zoek", f.zoek.trim());
     FILTER_KEYS.forEach((k) => { if (f[k] !== "alle") p.set(k, f[k]); });
     CHECK_KEYS.forEach(([k, kort]) => { if (f[k]) p.set(kort, "1"); });
-    if (state.sortering !== "koppel-score") p.set("sorteer", state.sortering);
+    if (state.sortering !== "prijs-per-kwh") p.set("sorteer", state.sortering);
     const qs = p.toString();
     history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
   }
@@ -106,6 +107,7 @@
     zet("zoekVeld", state.filters.zoek);
     zet("filterType", state.filters.type); zet("filterCapaciteit", state.filters.capaciteit);
     zet("filterMerk", state.filters.merk);
+    zet("filterFase", state.filters.fase);
     zetAansluiting(state.filters.installatie);
     zetVerbruik(state.verbruik, false);
     zet("sorteer", state.sortering);
@@ -133,6 +135,8 @@
       if (!komtOvereen(b, f.zoek)) return false;
       if (f.type !== "alle" && b.type !== f.type) return false;
       if (f.merk !== "alle" && b.merk !== f.merk) return false;
+      // "beide" past op allebei; een onbekende aansluiting laat ik staan.
+      if (f.fase !== "alle" && b.fase && b.fase !== "beide" && b.fase !== f.fase) return false;
       if (!capaciteitInBereik(b.capaciteit_kwh || 0, f.capaciteit)) return false;
       if (f.installatie === "zelf" && b.installatie !== "zelf") return false;
       if (f.installatie === "installateur" && b.installatie !== "installateur") return false;
@@ -156,7 +160,9 @@
       case "totaalprijs": kopie.sort((a, b) => (a.totaalprijs_van_eur || Infinity) - (b.totaalprijs_van_eur || Infinity)); break;
       // Zonder prijs (Infinity) achteraan, niet bovenaan.
       case "prijs-aflopend": kopie.sort((a, b) => (prijsVan(b) === Infinity ? 0 : prijsVan(b)) - (prijsVan(a) === Infinity ? 0 : prijsVan(a))); break;
-      case "prijs-per-kwh": kopie.sort((a, b) => sleutel(a, prijsPerKwh(a)) - sleutel(b, prijsPerKwh(b))); break;
+      case "per-opgeslagen-kwh": kopie.sort((a, b) => sleutel(a, Prijs.prijsPerOpgeslagenKwh(a)) - sleutel(b, Prijs.prijsPerOpgeslagenKwh(b))); break;
+      case "cycli": kopie.sort((a, b) => (b.cycli || 0) - (a.cycli || 0)); break;
+      case "prijs-per-kwh": kopie.sort((a, b) => sleutel(a, prijsPerKwh(a)) - sleutel(b, prijsPerKwh(b)) || koppelScore(b) - koppelScore(a)); break;
       case "capaciteit": kopie.sort((a, b) => (b.capaciteit_kwh || 0) - (a.capaciteit_kwh || 0)); break;
       case "koppelgemak": kopie.sort((a, b) => (b.koppeling_gemak || 0) - (a.koppeling_gemak || 0)); break;
       case "koppel-score": kopie.sort((a, b) => koppelScore(b) - koppelScore(a) || sleutel(a, prijsPerKwh(a)) - sleutel(b, prijsPerKwh(b))); break;
@@ -180,6 +186,7 @@
     { key: "prijs", label: "Prijs incl. btw", getal: true, get: vergelijkPrijs },
     { key: "totaal", label: "Totaal (indicatie)", getal: true, get: (b) => b.totaalprijs_van_eur || Infinity },
     { key: "perkwh", label: "€/kWh", getal: true, get: (b) => prijsPerKwh(b) || Infinity },
+    { key: "opgeslagen", label: "€/kWh cycli", getal: true, get: (b) => Prijs.prijsPerOpgeslagenKwh(b) || Infinity },
     { key: "koppeling", label: "PV-koppeling", get: (b) => b.koppeling_gemak || 0 },
     { key: "slim", label: "Koppel-score", get: (b) => koppelScore(b) },
     { key: "homey", label: "Homey", get: (b) => driewaardig(b.homey).status },
@@ -218,6 +225,7 @@
             <td class="tabel-prijs getal" title="${escapeHtml([b.prijs_omvat, Prijs.prijsToelichting(beste)].filter(Boolean).join(" | "))}">${Prijs.vergelijkPrijs(beste) !== null ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "n.b."}${heeftKorting(b) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
             <td class="getal" title="${escapeHtml(b.totaalprijs_toelichting || "")}">${totaalprijsTekst(b) || "op aanvraag"}</td>
             <td class="getal"${Prijs.capaciteitToelichting(b) ? ` title="Per kWh: ${escapeHtml(Prijs.capaciteitToelichting(b))}"` : ""}>${perKwh ? eurFmt.format(perKwh) : "n.b."}</td>
+            <td class="getal" title="Prijs gedeeld door laadcycli maal capaciteit${b.cycli ? ` (${new Intl.NumberFormat("nl-NL").format(b.cycli)} cycli)` : ""}">${Prijs.prijsPerOpgeslagenKwh(b) !== null ? Kaart.perOpgeslagenKwhTekst(b).replace(" per opgeslagen kWh", "") : "n.b."}</td>
             <td title="${escapeHtml(b.zonnepanelen_koppeling || "")}">${Kaart.waardering(b.koppeling_gemak, 5)}</td>
             <td title="Punten voor Homey, Home Assistant en dynamisch contract"><b>${koppelScore(b)}/6</b></td>
             <td>${checkCel(b.homey)}</td>
@@ -402,10 +410,10 @@
     // De keuzelijst "Wie sluit hem aan" is uit het filterpaneel gehaald: de
     // knoppen boven de lijst deden hetzelfde, en twee bedieningen voor één
     // filter is er één te veel. Wie hem terugzet, hoeft hier niets te doen.
-    ["filterType", "filterCapaciteit", "filterInstallatie", "filterMerk"].forEach((id) => {
+    ["filterType", "filterCapaciteit", "filterInstallatie", "filterMerk", "filterFase"].forEach((id) => {
       if (!el(id)) return;
       el(id).addEventListener("change", (e) => {
-        const map = { filterType: "type", filterCapaciteit: "capaciteit", filterInstallatie: "installatie", filterMerk: "merk" };
+        const map = { filterType: "type", filterCapaciteit: "capaciteit", filterInstallatie: "installatie", filterMerk: "merk", filterFase: "fase" };
         if (map[id] === "installatie") zetAansluiting(e.target.value);
         else state.filters[map[id]] = e.target.value;
         render();
@@ -446,10 +454,11 @@
     }
 
     el("resetFilters").addEventListener("click", () => {
-      state.filters = { zoek: "", type: "alle", capaciteit: "alle", installatie: "alle", merk: "alle", homey: false, homeAssistant: false, dynamisch: false, officieel: false, noodstroom: false, aanbieding: false };
+      state.filters = { zoek: "", type: "alle", capaciteit: "alle", installatie: "alle", merk: "alle", fase: "alle", homey: false, homeAssistant: false, dynamisch: false, officieel: false, noodstroom: false, aanbieding: false };
       el("zoekVeld").value = "";
       el("filterType").value = "alle"; el("filterCapaciteit").value = "alle";
       zetAansluiting("alle"); el("filterMerk").value = "alle";
+      if (el("filterFase")) el("filterFase").value = "alle";
       ["checkHomey", "checkHA", "checkDynamisch", "checkOfficieel", "checkNoodstroom", "checkAanbieding"].forEach((id) => { el(id).checked = false; });
       officieelBijwerken();
       render();
