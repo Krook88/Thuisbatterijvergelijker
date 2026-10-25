@@ -18,12 +18,12 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="assets/maatlat.css?v=20261025c" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261025c" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261025c">
-  <script src="assets/nav.js?v=20261025c" defer></script>
-  <script src="assets/dagmaat.js?v=20261025c" defer></script>
-  <script src="assets/uitleg.js?v=20261025c" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261025d" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261025d" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261025d">
+  <script src="assets/nav.js?v=20261025d" defer></script>
+  <script src="assets/dagmaat.js?v=20261025d" defer></script>
+  <script src="assets/uitleg.js?v=20261025d" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <style>
@@ -104,7 +104,7 @@
           "name": "Hoe werkt slimme aansturing van een thuisbatterij?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Slim aansturen betekent dat de batterij zelf bepaalt wanneer hij laadt en levert, op basis van de uurprijzen van morgen. Die liggen elke middag voor de volgende dag vast. Van de 53 modellen hier doen er 16 dat met de eigen app; bij 30 kan het via een omweg zoals Home Assistant, Homey of je energieleverancier."
+            "text": "Slim aansturen betekent dat de batterij zelf bepaalt wanneer hij laadt en levert, op basis van de uurprijzen van morgen. Die liggen elke middag voor de volgende dag vast. Van de 53 modellen hier doen er 16 dat met de eigen app; bij 28 kan het via een omweg zoals Home Assistant, Homey of je energieleverancier."
           }
         },
         {
@@ -400,7 +400,7 @@
   </script>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261025c"></script>
+  <script defer src="/assets/teller.js?v=20261025d"></script>
 </head>
 <body>
 
@@ -438,7 +438,7 @@
 
   <h1>Hoe werkt een thuisbatterij? Eenvoudige uitleg</h1>
   <p class="intro">In gewone taal, zonder dat je iets van elektrotechniek hoeft te weten. Alle voorbeelden hieronder komen uit de <span data-cijfer="aantal">53</span> batterijen die op deze site staan, dus je kunt ze nalopen in de <a href="/">vergelijker</a>. Onderaan staan <span data-cijfer="woorden">33</span> woorden uitgelegd die je in folders en offertes tegenkomt.</p>
-  <p class="bijgewerkt-regel">Bijgewerkt op <time data-bijgewerkt data-stand="c116be503f3a" datetime="2026-10-25">25 oktober 2026</time>. Alle getallen komen elke dag vers uit de prijscontrole van de batterijen.</p>
+  <p class="bijgewerkt-regel">Bijgewerkt op <time data-bijgewerkt data-stand="559621b05d31" datetime="2026-10-25">25 oktober 2026</time>. Alle getallen komen elke dag vers uit de prijscontrole van de batterijen.</p>
 
   <div class="kort-antwoord" data-vraag="Hoe werkt een thuisbatterij?">
     <p class="kort-label">Kort antwoord</p>
@@ -455,7 +455,7 @@
       <div class="markt-cijfer" id="cijfer-goedkoopst-per-kwh"><dt>Goedkoopste per kWh</dt><dd><span class="markt-getal">€ 126</span><span class="markt-noot"><a href="batterij/dyness-powerbrick-plus.html">Dyness PowerBrick Plus (16 kWh)</a></span></dd></div>
       <div class="markt-cijfer" id="cijfer-prijsrange"><dt>Van goedkoopst tot duurst</dt><dd><span class="markt-getal">€ 445 tot € 9.000</span><span class="markt-noot">laagste prijs per model, incl. btw</span></dd></div>
       <div class="markt-cijfer" id="cijfer-prijsbeweging"><dt>Prijzen in 30 dagen</dt><dd><span class="markt-getal">2 goedkoper, 3 duurder</span><span class="markt-noot">van 21 modellen die al 30 dagen gevolgd worden; grootste daling 6% bij <a href="batterij/indevolt-solidflex-3000.html">Indevolt SolidFlex 3000 AC (1,8 kWh)</a></span></dd></div>
-      <div class="markt-cijfer" id="cijfer-dynamisch"><dt>Stuurt zelf op uurprijzen</dt><dd><span class="markt-getal">16 van 53</span><span class="markt-noot">bij nog eens 30 kan het via een omweg</span></dd></div>
+      <div class="markt-cijfer" id="cijfer-dynamisch"><dt>Stuurt zelf op uurprijzen</dt><dd><span class="markt-getal">16 van 53</span><span class="markt-noot">bij nog eens 28 kan het via een omweg</span></dd></div>
       <div class="markt-cijfer" id="cijfer-noodstroom"><dt>Noodstroom bij een storing</dt><dd><span class="markt-getal">27 van 53</span><span class="markt-noot">14 alleen met extra hardware, 2 niet</span></dd></div>
     </dl>
     <p class="markt-voet">Alle bedragen incl. btw, uit de dagelijkse prijscontrole. Elk cijfer heeft een eigen link.</p>
@@ -533,7 +533,7 @@
   <div class="stap"><span class="nummer">1</span><div><b>Overdag: de zon schijnt.</b><p>Je zonnepanelen maken meer stroom dan je huis op dat moment gebruikt. Dat overschot gaat de batterij in. De <a href="rekenmodule.html">rekenhulp</a> gaat uit van 350 kWh per paneel per jaar, waarvan een huishouden zonder batterij ongeveer 30 procent meteen zelf opmaakt.</p></div></div>
   <div class="stap"><span class="nummer">2</span><div><b>De batterij raakt vol.</b><p>Een <a href="#p1-meter">P1-meter</a> in je meterkast leest af hoeveel je huis op dit moment gebruikt en opwekt, en geeft dat door aan de batterij. Zo weet hij wanneer hij moet laden en wanneer hij moet stoppen. Bij de <span data-cijfer="stekker">35</span> modellen die je zelf in het stopcontact prikt zit die meter er lang niet altijd bij; bij de HomeWizard kost hij ongeveer 35 euro extra.</p></div></div>
   <div class="stap"><span class="nummer">3</span><div><b>'s Avonds: de zon is weg.</b><p>Je zet de televisie aan, kookt en doet de was. Nu komt de stroom uit de batterij en niet van het net. Om die 5,6 kWh van een gemiddelde avond en nacht te dekken heb je bruto zo'n 6 kWh nodig, want een batterij levert nooit zijn volle inhoud.</p></div></div>
-  <div class="stap"><span class="nummer">4</span><div><b>'s Nachts: de batterij is leeg of bijna leeg.</b><p>Morgen begint het opnieuw. Met een contract met uurprijzen (een "dynamisch contract") slaat de batterij 's nachts ook goedkope stroom van het net in. Van de <span data-cijfer="aantal">53</span> modellen hier doen er <span data-cijfer="dyn-ja">16</span> dat volledig zelf; bij <span data-cijfer="dyn-deels">30</span> andere kan het wel, maar loopt het via een omweg zoals Home Assistant of een externe aansturing.</p></div></div>
+  <div class="stap"><span class="nummer">4</span><div><b>'s Nachts: de batterij is leeg of bijna leeg.</b><p>Morgen begint het opnieuw. Met een contract met uurprijzen (een "dynamisch contract") slaat de batterij 's nachts ook goedkope stroom van het net in. Van de <span data-cijfer="aantal">53</span> modellen hier doen er <span data-cijfer="dyn-ja">16</span> dat volledig zelf; bij <span data-cijfer="dyn-deels">28</span> andere kan het wel, maar loopt het via een omweg zoals Home Assistant of een externe aansturing.</p></div></div>
 
   <h2 id="zonder-zonnepanelen">Heb je zonnepanelen nodig voor een thuisbatterij?</h2>
   <div class="kort-antwoord" data-vraag="Heb je zonnepanelen nodig voor een thuisbatterij?">
@@ -609,7 +609,7 @@
   <h2 id="vast-of-dynamisch">Vast of dynamisch contract: wat is het verschil?</h2>
   <div class="kort-antwoord" data-vraag="Hoe werkt slimme aansturing van een thuisbatterij?">
     <p class="kort-label">Kort antwoord</p>
-    <p>Slim aansturen betekent dat de batterij zelf bepaalt wanneer hij laadt en levert, op basis van de uurprijzen van morgen. Die liggen elke middag voor de volgende dag vast. Van de <span data-cijfer="aantal">53</span> modellen hier doen er <span data-cijfer="dyn-ja">16</span> dat met de eigen app; bij <span data-cijfer="dyn-deels">30</span> kan het via een omweg zoals Home Assistant, Homey of je energieleverancier.</p>
+    <p>Slim aansturen betekent dat de batterij zelf bepaalt wanneer hij laadt en levert, op basis van de uurprijzen van morgen. Die liggen elke middag voor de volgende dag vast. Van de <span data-cijfer="aantal">53</span> modellen hier doen er <span data-cijfer="dyn-ja">16</span> dat met de eigen app; bij <span data-cijfer="dyn-deels">28</span> kan het via een omweg zoals Home Assistant, Homey of je energieleverancier.</p>
   </div>
   <p>Bij een <b>vast (of variabel) contract</b> betaal je elk uur van de dag dezelfde stroomprijs. Bij een <b>dynamisch contract</b> verandert die prijs ieder uur, en van dat verschil leeft een slimme batterij. In de voorbeelddag hieronder zakt de prijs midden op de dag naar 14 cent en loopt hij in de avondspits op naar 41 cent, terwijl het vaste tarief de hele dag 30 cent blijft.</p>
 

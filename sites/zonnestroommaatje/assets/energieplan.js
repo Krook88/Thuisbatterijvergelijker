@@ -26,10 +26,16 @@
   // installatie, de afsluitkosten en de som zelf komen uit de rekenkern van
   // warmtepompmaatje (assets/rekenkern-warmtepomp.js), zodat "Bereken exact"
   // op hetzelfde bedrag uitkomt.
+  // De ISDE is de mediaan van de indicaties op warmtepompmaatje (oktober
+  // 2026: 7 hybride en 26 all-electric pompen). Hier stond 2.100 en 3.000,
+  // hoger dan wat die site per pomp noemt.
   const WP = {
-    hybride: { toestel: 3300, isde: 2100, label: "hybride warmtepomp" },
-    allel: { toestel: 7300, isde: 3000, label: "all-electric warmtepomp" },
+    hybride: { toestel: 3300, isde: 1925, label: "hybride warmtepomp" },
+    allel: { toestel: 7300, isde: 2575, label: "all-electric warmtepomp" },
   };
+  // Koop je na 2026, dan daalt de ISDE voor lucht-water pompen van 225 naar
+  // 120 euro per kW (RVO, voorlopige bedragen). Dat staat in het advies.
+  const ISDE_2027_ZIN = " De subsidie geldt voor aankoop tot en met 31 december 2026; daarna daalt het bedrag per kW bijna met de helft.";
   // Zonnepanelen (zelfde schatting als onze rekenmodule)
   const WP_PANEEL = 440;            // wattpiek per paneel
   const OPBRENGST_FACTOR = 0.9;     // kWh per Wp per jaar (zuidoost/zuidwest)
@@ -129,7 +135,7 @@
             : s.isolatie === "goed"
               ? "Je huis is goed geïsoleerd: all-electric kan de ketel volledig vervangen en je kunt helemaal van het gas af."
               : "Met redelijke isolatie en (deels) vloerverwarming kan all-electric, mits de installateur het warmteverlies doorrekent.")
-          : `${s.isolatie === "matig" ? "Bij matige isolatie" : "Met alleen radiatoren"} is hybride de veilige route: circa 60% gasbesparing, de ketel vangt piekkou en warm water op.`) + ketelZin + geluidZin,
+          : `${s.isolatie === "matig" ? "Bij matige isolatie" : "Met alleen radiatoren"} is hybride de veilige route: circa 60% gasbesparing, de ketel vangt piekkou en warm water op.`) + ketelZin + geluidZin + ISDE_2027_ZIN,
         soort: "warmtepomp",
         bedragen: { investering, subsidie: wp.isde, besparing, tvt },
         knoppen: [

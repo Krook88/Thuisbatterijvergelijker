@@ -280,6 +280,17 @@
   // null zolang de prijs vers genoeg is, zodat de aanroeper niets van de grens
   // hoeft te weten. Het opmaken van de datum blijft hierbuiten: dat doet de
   // kaart al, en twee datumopmakers gaan een keer uit elkaar lopen.
+  /* Na zestig dagen zonder bevestiging telt een prijs niet meer mee in de
+     volgorde op prijs en voor het kenmerk "laagste prijs": hij staat er nog,
+     met zijn datum, maar achter de prijzen die wel actueel zijn. Reviewers
+     vonden prijzen van juli bovenaan een lijst die "dagelijks gecontroleerd"
+     heet. */
+  const PRIJS_TE_OUD_NA_DAGEN = 60;
+  function prijsTeOud(item, nu) {
+    const dagen = prijsOuderdom(item, nu);
+    return dagen !== null && dagen > PRIJS_TE_OUD_NA_DAGEN;
+  }
+
   function prijsOuderdomLabel(item, nu) {
     const dagen = prijsOuderdom(item, nu);
     if (dagen === null || dagen < PRIJS_OUD_NA_DAGEN) return null;
@@ -292,6 +303,7 @@
     prijsDatum,
     prijsOuderdom,
     prijsOuderdomLabel,
+    prijsTeOud,
     inclusiefBtw,
     vergelijkPrijs,
     isOmgerekend,

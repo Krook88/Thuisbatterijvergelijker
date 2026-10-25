@@ -604,7 +604,7 @@
       "uitbreidbaar_tot_kwh": 40.5,
       "vermogen_kw": 11.04,
       "type": "hybride",
-      "fase": "1-fase",
+      "fase": "1-fase (de volle 11,04 kW vraagt een zware 1-fase-aansluiting; op een gewone groep van 25 A is het circa 5,75 kW)",
       "richtprijs_eur": 7497,
       "prijs_omvat": "alleen hardware; compleet geïnstalleerd incl. btw ca. 9.500 tot 11.500 euro",
       "prijs_datum": "2026-10-25",
@@ -808,7 +808,10 @@
       "koppeling_gemak": 2,
       "homey": "Officiële Homey-app 'Sungrow' (cloud via iSolarCloud, vooral monitoring)",
       "home_assistant": "Via 'Sungrow SHx Modbus' (lokaal via LAN/WiNet-S, incl. batterijsturing)",
-      "dynamisch_contract": "Beperkt: geen breed uitgerolde eigen handelsmodus in NL; sturing op dynamische prijzen praktisch via Home Assistant, EVCC of een extern EMS",
+      "dynamisch_contract": {
+        "status": "nee",
+        "tekst": "Beperkt: geen breed uitgerolde eigen handelsmodus in NL; sturing op dynamische prijzen praktisch via Home Assistant, EVCC of een extern EMS"
+      },
       "app": "iSolarCloud",
       "garantie_jaar": 10,
       "cycli": null,
@@ -844,9 +847,15 @@
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Hij doet niets in zijn eentje: je hebt een compatibele hybride omvormer nodig van bijvoorbeeld Fronius (GEN24), SMA, GoodWe, KOSTAL of Sungrow. Bij een bestaand systeem betekent dat meestal je omvormer vervangen, of er een AC-gekoppelde bij zetten.",
       "koppeling_gemak": 2,
-      "homey": "Geen eigen BYD-app; monitoring en sturing via de Homey-app van de gekoppelde omvormer",
+      "homey": {
+        "status": "deels",
+        "tekst": "Geen eigen BYD-app; monitoring en sturing via de Homey-app van de gekoppelde omvormer"
+      },
       "home_assistant": "Via HACS 'byd_battery_box' (lokaal Modbus, uitlezen); sturing via de omvormer-integratie",
-      "dynamisch_contract": "Geen eigen dynamische sturing; afhankelijk van het EMS van de gekoppelde omvormer of Home Assistant",
+      "dynamisch_contract": {
+        "status": "nee",
+        "tekst": "Geen eigen dynamische sturing; afhankelijk van het EMS van de gekoppelde omvormer of Home Assistant"
+      },
       "app": "BYD Be Connect (configuratie); dagelijkse monitoring via de omvormer-app",
       "garantie_jaar": 10,
       "cycli": null,
@@ -1021,7 +1030,10 @@
       "koppeling_gemak": 2,
       "homey": false,
       "home_assistant": "Via HACS 'ha-lg-ess' (lokale API, bij LG ESS-omvormers); bij Fronius/SMA/GoodWe loopt de integratie via die omvormer",
-      "dynamisch_contract": "Geen eigen dynamische sturing; afhankelijk van het EMS van de gekoppelde omvormer of Home Assistant",
+      "dynamisch_contract": {
+        "status": "nee",
+        "tekst": "Geen eigen dynamische sturing; afhankelijk van het EMS van de gekoppelde omvormer of Home Assistant"
+      },
       "app": "LG EnerVu of de app van de gekoppelde omvormer",
       "garantie_jaar": 10,
       "cycli": null,

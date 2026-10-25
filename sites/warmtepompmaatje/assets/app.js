@@ -141,8 +141,10 @@
     const kopie = [...lijst];
     const prijsVan = (w) => { const b = vergelijkPrijs(bestePrijs(w)); return b == null ? Infinity : b; };
     const scopBekend = (w) => typeof w.scop === "number";
+    // Onbekend of te oud (zie Prijs.prijsTeOud) achter de actuele prijzen.
+    const sleutel = (w) => (Number.isFinite(prijsVan(w)) ? prijsVan(w) : 1e9) + (Prijs.prijsTeOud(w) ? 1e6 : 0);
     switch (state.sortering) {
-      case "prijs-oplopend": kopie.sort((a, b) => prijsVan(a) - prijsVan(b)); break;
+      case "prijs-oplopend": kopie.sort((a, b) => sleutel(a) - sleutel(b)); break;
       case "subsidie": kopie.sort((a, b) => (b.isde_indicatie_eur || 0) - (a.isde_indicatie_eur || 0)); break;
       // Onbekend onderaan, maar als onbekend en niet als "luid".
       case "geluid": kopie.sort((a, b) => (geluidBekend(a) && geluidBekend(b) ? a.geluid_db - b.geluid_db : geluidBekend(a) ? -1 : geluidBekend(b) ? 1 : 0)); break;
@@ -151,7 +153,7 @@
       // rendement van nul hebben. Een pomp waarvan de fabrikant het getal niet
       // publiceert is niet de slechtste van de lijst; hij is onbekend.
       case "rendement": kopie.sort((a, b) => (scopBekend(a) && scopBekend(b) ? b.scop - a.scop : scopBekend(a) ? -1 : scopBekend(b) ? 1 : 0)); break;
-      case "koppel-score": kopie.sort((a, b) => koppelScore(b) - koppelScore(a) || prijsVan(a) - prijsVan(b)); break;
+      case "koppel-score": kopie.sort((a, b) => koppelScore(b) - koppelScore(a) || sleutel(a) - sleutel(b)); break;
     }
     return kopie;
   }

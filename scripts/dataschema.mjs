@@ -133,6 +133,13 @@ export function controleerBestand(data, { site, lijst }) {
     // Als tekst is "false" waar, en dan blijft een product zonder actuele prijs
     // op de site staan (kern/scripts/zichtbaar.mjs vergelijkt met true).
     if ("prijs_uit_offerte" in p && p.prijs_uit_offerte !== true) meld("prijs_uit_offerte mag alleen true zijn; laat het veld anders weg");
+    // Koppel-score: losse tekst telt als "deels" (1 punt). Een tekst die met
+    // "geen" of "niet" begint zegt het tegendeel; dan hoort er een object met
+    // status "nee" (of "deels") te staan, anders krijgt hij een punt dat hij
+    // volgens zijn eigen uitleg niet verdient.
+    if (site === "batterijmaatje") for (const veld of ["homey", "home_assistant", "dynamisch_contract"]) {
+      if (typeof p[veld] === "string" && /^(geen|niet|nee)\b/i.test(p[veld].trim())) meld(`${veld} begint met "${p[veld].trim().split(/\s/)[0]}"; gebruik {status, tekst}`);
+    }
     for (const [veld, waarden] of Object.entries(vast)) {
       if (veld in p && p[veld] !== null && !waarden.includes(p[veld])) meld(`${veld} heeft een onbekende waarde (${JSON.stringify(p[veld])})`);
     }
