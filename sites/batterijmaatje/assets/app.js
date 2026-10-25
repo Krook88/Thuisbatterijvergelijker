@@ -149,14 +149,17 @@
   function gesorteerd(lijst) {
     const kopie = [...lijst];
     const prijsVan = vergelijkPrijs;
+    // Onbekend of te oud (zie Prijs.prijsTeOud) achter de actuele prijzen.
+    const sleutel = (b, v) => (v && Number.isFinite(v) ? v : 1e9) + (Prijs.prijsTeOud(b) ? 1e6 : 0);
     switch (state.sortering) {
-      case "prijs-oplopend": kopie.sort((a, b) => prijsVan(a) - prijsVan(b)); break;
+      case "prijs-oplopend": kopie.sort((a, b) => sleutel(a, prijsVan(a)) - sleutel(b, prijsVan(b))); break;
       case "totaalprijs": kopie.sort((a, b) => (a.totaalprijs_van_eur || Infinity) - (b.totaalprijs_van_eur || Infinity)); break;
-      case "prijs-aflopend": kopie.sort((a, b) => prijsVan(b) - prijsVan(a)); break;
-      case "prijs-per-kwh": kopie.sort((a, b) => (prijsPerKwh(a) || Infinity) - (prijsPerKwh(b) || Infinity)); break;
+      // Zonder prijs (Infinity) achteraan, niet bovenaan.
+      case "prijs-aflopend": kopie.sort((a, b) => (prijsVan(b) === Infinity ? 0 : prijsVan(b)) - (prijsVan(a) === Infinity ? 0 : prijsVan(a))); break;
+      case "prijs-per-kwh": kopie.sort((a, b) => sleutel(a, prijsPerKwh(a)) - sleutel(b, prijsPerKwh(b))); break;
       case "capaciteit": kopie.sort((a, b) => (b.capaciteit_kwh || 0) - (a.capaciteit_kwh || 0)); break;
       case "koppelgemak": kopie.sort((a, b) => (b.koppeling_gemak || 0) - (a.koppeling_gemak || 0)); break;
-      case "koppel-score": kopie.sort((a, b) => koppelScore(b) - koppelScore(a) || (prijsPerKwh(a) || Infinity) - (prijsPerKwh(b) || Infinity)); break;
+      case "koppel-score": kopie.sort((a, b) => koppelScore(b) - koppelScore(a) || sleutel(a, prijsPerKwh(a)) - sleutel(b, prijsPerKwh(b))); break;
     }
     return kopie;
   }

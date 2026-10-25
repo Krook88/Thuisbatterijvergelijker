@@ -176,7 +176,9 @@ function zekerScore(p) {
    datasheet staat overal; de plaats tussen de andere panelen staat alleen
    hier, en die verschuift vanzelf mee als er panelen of prijzen bijkomen. */
 const MAATSTAVEN = [
-  { naam: "Prijs per Wp", waarde: (p) => prijsPerWp(p), hoger: false, toon: (v) => eurWp(v) },
+  // Alleen echte winkelprijzen: een richtprijs zonder winkel stond hier anders
+  // als goedkoopste, terwijl je er nergens voor kunt bestellen.
+  { naam: "Prijs per Wp", waarde: (p) => (Kaart.isRichtprijs(p) ? null : prijsPerWp(p)), hoger: false, toon: (v) => eurWp(v) },
   { naam: "Rendement", waarde: (p) => p.rendement_pct, hoger: true, toon: (v) => `${nl(v)}%` },
   { naam: "Productgarantie", waarde: (p) => p.garantie_product_jaar, hoger: true, toon: (v) => `${v} jaar` },
   { naam: "Vermogen na 25 jaar", waarde: (p) => p.vermogen_behoud_25j_pct, hoger: true, toon: (v) => `${nl(v)}%` },
@@ -198,7 +200,7 @@ function verhoudingHtml(p) {
   const zwakst = rijen.reduce((a, b) => (b.plaats / b.n > a.plaats / a.n ? b : a));
   const eigenPerWp = prijsPerWp(p);
   const voordeliger = eigenPerWp ? data.panelen
-    .filter((x) => x.id !== p.id && prijsPerWp(x) && prijsPerWp(x) < eigenPerWp && (x.rendement_pct || 0) >= (p.rendement_pct || 0))
+    .filter((x) => x.id !== p.id && !Kaart.isRichtprijs(x) && prijsPerWp(x) && prijsPerWp(x) < eigenPerWp && (x.rendement_pct || 0) >= (p.rendement_pct || 0))
     .sort((a, b) => prijsPerWp(a) - prijsPerWp(b)).slice(0, 2) : [];
   const naam = esc(volledigeNaam(p));
   const link = (x) => `de <a href="/paneel/${esc(x.id)}.html">${esc(volledigeNaam(x))}</a> (${eurWp(prijsPerWp(x))} per Wp, ${nl(x.rendement_pct)}%)`;

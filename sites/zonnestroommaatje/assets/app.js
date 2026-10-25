@@ -156,7 +156,8 @@
     const prijsVan = (p) => { const b = bestePrijs(p); return b ? Prijs.vergelijkPrijs(b) : Infinity; };
     switch (state.sortering) {
       case "prijs-oplopend": kopie.sort((a, b) => Kaart.prijsSleutel(a, prijsVan(a)) - Kaart.prijsSleutel(b, prijsVan(b))); break;
-      case "prijs-aflopend": kopie.sort((a, b) => prijsVan(b) - prijsVan(a)); break;
+      // Zonder prijs (Infinity) achteraan, niet bovenaan.
+      case "prijs-aflopend": kopie.sort((a, b) => (prijsVan(b) === Infinity ? 0 : prijsVan(b)) - (prijsVan(a) === Infinity ? 0 : prijsVan(a))); break;
       case "prijs-per-wp": kopie.sort((a, b) => Kaart.prijsSleutel(a, prijsPerWp(a)) - Kaart.prijsSleutel(b, prijsPerWp(b))); break;
       case "vermogen": kopie.sort((a, b) => (b.vermogen_wp || 0) - (a.vermogen_wp || 0)); break;
       case "rendement": kopie.sort((a, b) => (b.rendement_pct || 0) - (a.rendement_pct || 0)); break;

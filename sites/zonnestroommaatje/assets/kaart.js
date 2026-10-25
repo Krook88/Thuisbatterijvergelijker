@@ -56,7 +56,7 @@
   // Zonder dat stonden in oktober 2026 twee richtprijzen van juli bovenaan
   // als goedkoopste per Wp.
   const isRichtprijs = (p) => { const b = bestePrijs(p); return !!(b && b.is_richtprijs); };
-  const prijsSleutel = (p, prijs) => (prijs && Number.isFinite(prijs) ? prijs : 1e9) + (isRichtprijs(p) ? 1e6 : 0);
+  const prijsSleutel = (p, prijs) => (prijs && Number.isFinite(prijs) ? prijs : 1e9) + (isRichtprijs(p) || Prijs.prijsTeOud(p) ? 1e6 : 0);
 
   function escapeHtml(str) {
     return String(str == null ? "" : str)
@@ -267,7 +267,7 @@
     let laagste = null;
     for (const x of lijst) {
       const p = prijsPerWp(x);
-      if (p && !isRichtprijs(x) && (!laagste || p < laagste.p)) laagste = { id: x.id, p };
+      if (p && !isRichtprijs(x) && !Prijs.prijsTeOud(x) && (!laagste || p < laagste.p)) laagste = { id: x.id, p };
     }
     const o = { ...(opties || {}), goedkoopste: laagste && laagste.id };
     // Bij de sortering op de score een tussenkop per score; bij een andere

@@ -46,7 +46,7 @@
     const p = gekozenPaneel();
     const wpPerPaneel = p ? p.vermogen_wp : 440;
     const prijsPerPaneel = p ? (paneelPrijs(p) || 70) : 70;
-    const aantal = Math.max(1, Number(el("aantalPanelen").value) || 10);
+    const aantal = Math.max(1, Number(el("aantalPanelen").value) || 8);
     const eigenSysteemprijs = Number(el("systeemprijs").value) || 0;
     return {
       paneel: p,

@@ -561,7 +561,7 @@ ${NAV_HTML}
   </div>
 
   <div class="info-kader">
-    ${beste ? `<div class="info-prijs">${eur(Prijs.vergelijkPrijs(beste))} <span class="info-prijs-bron">incl. btw ${beste.is_richtprijs ? "(richtprijs; op dit moment geen winkel met deze batterij)" : `bij ${esc(beste.winkel)}`}${perKwh ? ` · ${eur(perKwh)} per kWh opslag` : ""}</span></div>${ouderdomHtml(b)}${Prijs.prijsToelichting(beste) ? `<div class="prijs-let-op">${esc(Prijs.prijsToelichting(beste))}</div>` : ""}` : "<div><b>Prijs op aanvraag</b></div>"}
+    ${beste ? `<div class="info-prijs">${eur(Prijs.vergelijkPrijs(beste))} <span class="info-prijs-bron">incl. btw ${beste.is_richtprijs ? "(richtprijs; op dit moment geen winkel met deze batterij)" : `bij ${esc(Kaart.winkelNaam(beste))}`}${perKwh ? ` · ${eur(perKwh)} per kWh opslag` : ""}</span></div>${ouderdomHtml(b)}${Prijs.prijsToelichting(beste) ? `<div class="prijs-let-op">${esc(Prijs.prijsToelichting(beste))}</div>` : ""}` : "<div><b>Prijs op aanvraag</b></div>"}
     ${b.prijs_omvat ? `<div class="info-dekking">Deze prijs dekt: ${esc(b.prijs_omvat)}</div>` : ""}
     <div class="info-totaal" title="${esc(b.totaalprijs_toelichting || "")}">Compleet gebruiksklaar (indicatie): <b>${totaal || "op aanvraag"}</b></div>
     <p class="info-acties">
@@ -709,7 +709,7 @@ function overzichtTabel(lijst, veld) {
       <tr>
         <td>${merkLogoHtml(b.merk)}<a href="/batterij/${esc(b.id)}.html"><b>${esc(volledigeNaam(b))}</b></a></td>
         <td class="niet-afbreken"${Prijs.capaciteitToelichting(b) ? ` title="${esc(Prijs.capaciteitToelichting(b))}"` : ""}>${nl(b.capaciteit_kwh)} kWh</td>
-        <td class="niet-afbreken">${beste ? `<b>${eur(Prijs.vergelijkPrijs(beste))}</b><br><small>bij ${esc(beste.winkel)}</small>` : "op aanvraag"}</td>
+        <td class="niet-afbreken">${beste ? `<b>${eur(Prijs.vergelijkPrijs(beste))}</b><br><small>bij ${esc(Kaart.winkelNaam(beste))}</small>` : "op aanvraag"}</td>
         <td class="niet-afbreken">${perKwh ? eur(perKwh) : "n.b."}</td>
         <td class="niet-afbreken"><b>${koppelScore(b)}/6</b></td>
         <td>${d.tekst && d.tekst !== "Ja" ? esc(d.tekst) : "Officiële ondersteuning"}</td>
@@ -865,7 +865,7 @@ function stekkerTabel(lijst) {
       <tr>
         <td>${merkLogoHtml(b.merk)}<a href="/batterij/${esc(b.id)}.html"><b>${esc(volledigeNaam(b))}</b></a></td>
         <td class="niet-afbreken"${Prijs.capaciteitToelichting(b) ? ` title="${esc(Prijs.capaciteitToelichting(b))}"` : ""}>${nl(b.capaciteit_kwh)} kWh</td>
-        <td class="niet-afbreken">${beste ? `<b>${eur(Prijs.vergelijkPrijs(beste))}</b><br><small>bij ${esc(beste.winkel)}</small>` : "op aanvraag"}</td>
+        <td class="niet-afbreken">${beste ? `<b>${eur(Prijs.vergelijkPrijs(beste))}</b><br><small>bij ${esc(Kaart.winkelNaam(beste))}</small>` : "op aanvraag"}</td>
         <td class="niet-afbreken">${perKwh ? eur(perKwh) : "n.b."}</td>
         <td class="niet-afbreken">${b.vermogen_kw ? `${nl(b.vermogen_kw)} kW` : "n.b."}</td>
         <td>${nood.status === "ja" ? `${Iconen.svg("ja")} Ja` : nood.status === "nee" ? `${Iconen.svg("nee")} Nee` : `~ ${esc(kortOmschrijving(nood.tekst, 90))}`}</td>
@@ -1389,7 +1389,7 @@ ${NAV_HTML}
       <th><a href="/batterij/${esc(B.id)}.html">${esc(naam(B))}</a></th>
     </tr></thead>
     <tbody>
-      ${rij("Beste prijs incl. btw", besteA ? `${eur(Prijs.vergelijkPrijs(besteA))}<br><small>bij ${esc(besteA.winkel)}</small>` : "op aanvraag", besteB ? `${eur(Prijs.vergelijkPrijs(besteB))}<br><small>bij ${esc(besteB.winkel)}</small>` : "op aanvraag")}
+      ${rij("Beste prijs incl. btw", besteA ? `${eur(Prijs.vergelijkPrijs(besteA))}<br><small>bij ${esc(Kaart.winkelNaam(besteA))}</small>` : "op aanvraag", besteB ? `${eur(Prijs.vergelijkPrijs(besteB))}<br><small>bij ${esc(Kaart.winkelNaam(besteB))}</small>` : "op aanvraag")}
       ${rij("Compleet gebruiksklaar (indicatie)", totaalprijsTekst(A) || "op aanvraag", totaalprijsTekst(B) || "op aanvraag")}
       ${rij("Prijs per kWh opslag", perA ? eur(perA) : "n.b.", perB ? eur(perB) : "n.b.", laagWint(perA, perB))}
       ${rij("Capaciteit", `${nl(A.capaciteit_kwh)} kWh${Prijs.capaciteitLabelHtml(A)}${A.uitbreidbaar_tot_kwh ? ` <small>(tot ${nl(A.uitbreidbaar_tot_kwh)})</small>` : ""}`, `${nl(B.capaciteit_kwh)} kWh${Prijs.capaciteitLabelHtml(B)}${B.uitbreidbaar_tot_kwh ? ` <small>(tot ${nl(B.uitbreidbaar_tot_kwh)})</small>` : ""}`)}

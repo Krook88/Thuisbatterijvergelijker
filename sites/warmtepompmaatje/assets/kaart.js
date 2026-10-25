@@ -344,7 +344,7 @@
     let laagste = null;
     for (const x of lijst) {
       const p = ((w) => Prijs.vergelijkPrijs(bestePrijs(w)))(x);
-      if (p && (!laagste || p < laagste.p)) laagste = { id: x.id, p };
+      if (p && !Prijs.prijsTeOud(x) && !(bestePrijs(x) || {}).is_richtprijs && (!laagste || p < laagste.p)) laagste = { id: x.id, p };
     }
     let stilste = null;
     for (const x of lijst) if (x.geluid_db && (!stilste || x.geluid_db < stilste.db)) stilste = { id: x.id, db: x.geluid_db };
@@ -445,7 +445,9 @@
   // te zien krijgt.
   function standaardVolgorde(lijst) {
     const prijsVan = (w) => { const b = vergelijkPrijs(bestePrijs(w)); return b == null ? Infinity : b; };
-    return [...lijst].sort((a, b) => koppelScore(b) - koppelScore(a) || prijsVan(a) - prijsVan(b));
+    // Onbekende en te oude prijzen achteraan, net als in app.js.
+    const sleutel = (w) => (Number.isFinite(prijsVan(w)) ? prijsVan(w) : 1e9) + (Prijs.prijsTeOud(w) ? 1e6 : 0);
+    return [...lijst].sort((a, b) => koppelScore(b) - koppelScore(a) || sleutel(a) - sleutel(b));
   }
 
   return {

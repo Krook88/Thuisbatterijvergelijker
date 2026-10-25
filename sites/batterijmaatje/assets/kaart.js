@@ -75,6 +75,15 @@
     return driewaardig(v);
   }
 
+  // De winkelnaam zoals de bezoeker hem leest. In de data staat bij twee
+  // groothandels "(prijs excl. btw)" in de naam; die naam is ook de sleutel in
+  // prijsverloop.json, dus hij blijft daar staan. Naast een bedrag dat al naar
+  // incl. btw is omgerekend las het alsof dat bedrag excl. btw was.
+  function winkelNaam(a) {
+    const naam = String((a && a.winkel) || "").replace(/\s*\(prijs excl\. btw\)/i, "");
+    return Prijs.isOmgerekend(a) ? `${naam} (omgerekend naar incl. btw)` : naam;
+  }
+
   // Kooplink: de commissielink (affiliate) als die er is, anders de gewone
   // productlink. De dagelijkse prijscontrole gebruikt altijd de gewone url.
   function koopUrl(a) {
@@ -324,10 +333,12 @@
      Koppel-score eerst en prijs per kWh als het gelijkspel is. Op prijs per
      kWh sorteren gaf een nummer 1 met score 2/6 onder een kop die belooft te
      laten zien wat een batterij slim maakt; die twee spraken elkaar tegen. */
+  // Zelfde volgorde als app.js bij "koppel-score": binnen een score de laagste
+  // prijs per kWh, met onbekende en te oude prijzen achteraan.
   function standaardVolgorde(lijst) {
+    const sleutel = (b) => { const v = Prijs.prijsPerKwh(b); return (v && Number.isFinite(v) ? v : 1e9) + (Prijs.prijsTeOud(b) ? 1e6 : 0); };
     return [...lijst].sort((a, b) =>
-      koppelScore(b) - koppelScore(a) ||
-      (Prijs.prijsPerKwh(a) || Infinity) - (Prijs.prijsPerKwh(b) || Infinity));
+      koppelScore(b) - koppelScore(a) || sleutel(a) - sleutel(b));
   }
 
   /* De resultaatregel: dezelfde batterij, maar dan om kolommen te vergelijken
@@ -408,10 +419,10 @@
               las als een verkooppagina, en het bedrag was er niet beter
               vindbaar door. Een prijsoverzicht linkt het bedrag. */ ""}
         ${beste && beste.url && vergelijk !== null
-          ? `<a class="regel-bedrag cijfer" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="${escapeHtml(eurFmt.format(vergelijk))} bij ${escapeHtml(beste.winkel || "de winkel")}: naar de aanbieding van de ${escapeHtml(naamVan(b))}, opent in een nieuw tabblad">${eurFmt.format(vergelijk)}</a>`
+          ? `<a class="regel-bedrag cijfer" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="${escapeHtml(eurFmt.format(vergelijk))} bij ${escapeHtml(winkelNaam(beste) || "de winkel")}: naar de aanbieding van de ${escapeHtml(naamVan(b))}, opent in een nieuw tabblad">${eurFmt.format(vergelijk)}</a>`
           : `<span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>`}
         ${perKwh ? `<span class="regel-per cijfer">${eurFmt.format(perKwh)} per kWh opslag</span>` : ""}
-        ${beste && beste.url && beste.winkel ? `<span class="regel-winkel">${/^richtprijs/i.test(beste.winkel) ? "" : "bij "}${escapeHtml(beste.winkel)}</span>` : ""}
+        ${beste && beste.url && beste.winkel ? `<span class="regel-winkel">${/^richtprijs/i.test(beste.winkel) ? "" : "bij "}${escapeHtml(winkelNaam(beste))}</span>` : ""}
         ${ouderdomHtml(b)}
         ${beste && beste.url ? "" : `<a class="regel-details" href="batterij/${encodeURIComponent(b.id)}.html" aria-label="Alle details van de ${escapeHtml(naamVan(b))}">details</a>`}
       </div>
@@ -444,8 +455,13 @@
       ${(() => {
         // Welke batterij in deze lijst het goedkoopst opslaat. Over de lijst
         // zoals hij nu gefilterd is, zodat het label klopt met wat je ziet.
+        // Alleen batterijen met een eigen omvormer (geen losse module voor een
+        // hybride omvormer) en een nagekeken bruikbare capaciteit dingen mee;
+        // anders won een module van 126 euro per kWh waar nog een omvormer
+        // van duizenden euro's bij moet.
         let laagste = null;
         for (const b of lijst) {
+          if (b.type === "hybride" || b.capaciteit_soort !== "bruikbaar" || Prijs.prijsTeOud(b)) continue;
           const p = Prijs.prijsPerKwh(b);
           if (p && (!laagste || p < laagste.p)) laagste = { id: b.id, p };
         }
@@ -538,7 +554,7 @@
         ${rendementHtml(b) ? `<dt>Rendement heen en terug</dt><dd>${rendementHtml(b)}</dd>` : ""}
         ${b.fase ? `<dt>Aansluiting</dt><dd>${escapeHtml(b.fase)}</dd>` : ""}
         ${b.app ? `<dt>App</dt><dd>${escapeHtml(b.app)}</dd>` : ""}
-        ${(b.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${b.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${eurFmt.format(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""}${a.omvat ? ` <small>${escapeHtml(a.omvat)}</small>` : ""} &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul></dd>` : ""}
+        ${(b.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${b.aanbiedingen.map((a) => `<li><span>${escapeHtml(winkelNaam(a))}</span><span><b>${eurFmt.format(a.prijs_eur)}</b>${Prijs.isOmgerekend(a) ? " <small>excl. btw</small>" : ""}${a.omvat ? ` <small>${escapeHtml(a.omvat)}</small>` : ""} &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul></dd>` : ""}
         ${b.product_url ? `<dt>Productinformatie</dt><dd><a href="${escapeHtml(b.product_url)}" target="_blank" rel="noopener">${escapeHtml(productpaginaTekst(b))}</a></dd>` : ""}
         ${b.prijs_datum ? `<dd class="datum-stempel prijs-gecontroleerd">Prijs gecontroleerd: ${escapeHtml(datumNL(b.prijs_datum))}</dd>` : ""}
       </div>
@@ -548,7 +564,7 @@
           <div class="prijs${vergelijk !== null ? "" : " prijs-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Prijs op aanvraag"}</div>
           ${perKwh ? `<div class="prijs-per-kwh"${Prijs.capaciteitToelichting(b) ? ` title="Per kWh: ${Prijs.capaciteitToelichting(b)}"` : ""}>${eurFmt.format(perKwh)} per kWh opslag</div>` : ""}
           ${ouderdomHtml(b)}
-          ${beste && beste.is_richtprijs ? `<div class="prijs-winkel">richtprijs; op dit moment geen winkel met deze batterij</div>` : beste && beste.winkel ? `<div class="prijs-winkel">bij ${escapeHtml(beste.winkel)}</div>` : ""}
+          ${beste && beste.is_richtprijs ? `<div class="prijs-winkel">richtprijs; op dit moment geen winkel met deze batterij</div>` : beste && beste.winkel ? `<div class="prijs-winkel">bij ${escapeHtml(winkelNaam(beste))}</div>` : ""}
           ${omgerekend ? `<div class="prijs-let-op">De winkel toont ${eurFmt.format(beste.prijs_eur)} <b>excl. btw</b>. Hierboven staat het bedrag incl. btw, zodat het te vergelijken is met de andere batterijen.</div>` : ""}
           ${beste && beste.omvat && b.richtprijs_eur ? `<div class="prijs-let-op">Deze winkelprijs is <b>${escapeHtml(beste.omvat)}</b>; de richtprijs van ${eurFmt.format(b.richtprijs_eur)} dekt meer. Het verschil is dus geen korting.</div>` : ""}
           ${b.prijs_omvat ? `<div class="prijs-winkel prijs-dekt">${escapeHtml(b.prijs_omvat)}</div>` : ""}
@@ -560,7 +576,7 @@
         </div>
       </div>
       <div class="kaart-acties">
-        ${beste && beste.url ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))} bij ${escapeHtml(beste.winkel || "de winkel")}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>` : (b.product_url ? `<a class="knop" href="${escapeHtml(b.product_url)}" target="_blank" rel="noopener" aria-label="Naar de aanbieder van de ${escapeHtml(naamVan(b))}">Naar aanbieder ${Iconen.svg("pijl-rechts")}</a>` : "")}
+        ${beste && beste.url ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))} bij ${escapeHtml(winkelNaam(beste) || "de winkel")}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>` : (b.product_url ? `<a class="knop" href="${escapeHtml(b.product_url)}" target="_blank" rel="noopener" aria-label="Naar de aanbieder van de ${escapeHtml(naamVan(b))}">Naar aanbieder ${Iconen.svg("pijl-rechts")}</a>` : "")}
         <a class="knop knop-secundair" href="rekenmodule.html?batterij=${encodeURIComponent(b.id)}" title="Bereken de terugverdientijd van deze batterij voor jouw situatie" aria-label="Bereken de terugverdientijd van de ${escapeHtml(naamVan(b))}">Terugverdientijd</a>
       </div>
       ${beste && beste.affiliate_url ? `<div class="datum-stempel commissie-melding">Dit is een commissielink: kost jou niets, beïnvloedt de vergelijking niet. <a href="over-ons.html">Uitleg</a></div>` : ""}
@@ -592,6 +608,7 @@
     sterren,
     waardering,
     standaardVolgorde,
+    winkelNaam,
     fotoHtml,
     kaartHtml,
     regelHtml,
