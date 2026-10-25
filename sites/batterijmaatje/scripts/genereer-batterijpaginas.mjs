@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
 import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
-import { verdeel, verborgenPagina, aantalWinkels } from "./zichtbaar.mjs";
+import { verdeel, verborgenPagina, aantalWinkels, zonderPrijsHtml, zetZonderPrijs } from "./zichtbaar.mjs";
 import { zetStatistiekOveral } from "./statistiek.mjs";
 import { zetVoorladenOveral } from "./voorladen.mjs";
 import * as Uitleg from "./uitleg.mjs";
@@ -590,11 +590,12 @@ ${NAV_HTML}
     ${specRij("Capaciteit", `${nl(b.capaciteit_kwh)} kWh${Prijs.capaciteitLabelHtml(b)}${b.capaciteit_nominaal_kwh && Math.abs(b.capaciteit_nominaal_kwh - b.capaciteit_kwh) >= 0.005 ? ` <small>(${nl(b.capaciteit_nominaal_kwh)} kWh bruto)</small>` : ""}${b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh)` : ""}`)}
     ${specRij("Vermogen", b.vermogen_kw ? `${nl(b.vermogen_kw)} kW${Prijs.vermogenLabelHtml(b)}` : null)}
     ${specRij("Type", `<a class="term-link" href="/uitleg.html#${esc(b.type)}" title="Wat betekent dit? Lees de uitleg in de woordenlijst">${esc(typeLabel)}</a>`)}
-    ${specRij("Aansluiting", esc(b.fase || ""))}
+    ${specRij("Aansluiting", esc(Kaart.faseTekst(b)))}
     ${specRij("Installatie", b.installatie === "zelf" ? "Zelf aan te sluiten (stopcontact)" : "Door installateur")}
     ${specRij("Beschermingsgraad", b.ip_klasse ? `<a class="term-link" href="/uitleg.html#ip-waarde" title="Wat zegt de IP-waarde? Lees de uitleg in de woordenlijst">${esc(b.ip_klasse)}</a>${b.buiten_toelichting ? ` <small>(${esc(b.buiten_toelichting)})</small>` : ""}` : null)}
     ${specRij("Garantie", b.garantie_jaar ? `${b.garantie_jaar} jaar` : null)}
-    ${specRij("Laadcycli", b.cycli ? esc(String(b.cycli)) : null)}
+    ${specRij("Laadcycli", b.cycli ? esc(Kaart.cycliTekst(b)) : null)}
+    ${specRij("Kosten per opgeslagen kWh", Kaart.perOpgeslagenKwhTekst(b) ? `${esc(Kaart.perOpgeslagenKwhTekst(b).replace(" per opgeslagen kWh", ""))} <small>(prijs gedeeld door laadcycli maal capaciteit)</small>` : null)}
     ${specRij("Rendement heen en terug", Kaart.rendementHtml(b) || `geen opgave gevonden <small>(<a class="term-link" href="/uitleg.html#rendement" title="Wat is het rendement van een thuisbatterij? Lees de uitleg">wat betekent dat?</a>)</small>`)}
     ${specRij("App", b.app ? `${esc(b.app)} <small>(<a class="term-link" href="/uitleg.html#fabrikant-app" title="Wat kan de app van de fabrikant? Lees de uitleg">wat kan zo'n app?</a>)</small>` : "")}
   </table>
@@ -1402,7 +1403,7 @@ ${NAV_HTML}
       ${rij("Noodstroom", `${badgeIcoon[noodA.status]} ${esc(noodA.status === "deels" ? noodA.tekst : noodA.status.charAt(0).toUpperCase() + noodA.status.slice(1))}`, `${badgeIcoon[noodB.status]} ${esc(noodB.status === "deels" ? noodB.tekst : noodB.status.charAt(0).toUpperCase() + noodB.status.slice(1))}`)}
       ${rij("Beschermingsgraad (IP)", A.ip_klasse ? `${esc(A.ip_klasse)}${A.buiten_toelichting ? `<br><small>${esc(A.buiten_toelichting)}</small>` : ""}` : "onbekend", B.ip_klasse ? `${esc(B.ip_klasse)}${B.buiten_toelichting ? `<br><small>${esc(B.buiten_toelichting)}</small>` : ""}` : "onbekend")}
       ${rij("Garantie", A.garantie_jaar ? `${A.garantie_jaar} jaar` : "n.b.", B.garantie_jaar ? `${B.garantie_jaar} jaar` : "n.b.", hoogWint(A.garantie_jaar, B.garantie_jaar))}
-      ${rij("Laadcycli", A.cycli ? esc(String(A.cycli)) : "n.b.", B.cycli ? esc(String(B.cycli)) : "n.b.")}
+      ${rij("Laadcycli", A.cycli ? esc(Kaart.cycliTekst(A)) : "n.b.", B.cycli ? esc(Kaart.cycliTekst(B)) : "n.b.")}
       ${rij("Rendement heen en terug", Kaart.rendementHtml(A) || "geen opgave gevonden", Kaart.rendementHtml(B) || "geen opgave gevonden")}
       ${rij("App", esc(A.app || "n.b."), esc(B.app || "n.b."))}
     </tbody>
@@ -1537,7 +1538,7 @@ const gesorteerdeBatterijen = Kaart.standaardVolgorde(data.batterijen);
 // komt te staan. Zet je hier kaarten neer terwijl de browser meteen daarna
 // regels tekent, dan ziet de bezoeker het beeld een keer omklappen en krijgt
 // een zoekmachine iets anders te zien dan een mens.
-const kaarten = Kaart.lijstHtml(gesorteerdeBatterijen, { merkLogos: data.merk_logos, groepeer: true });
+const kaarten = Kaart.lijstHtml(gesorteerdeBatterijen, { merkLogos: data.merk_logos });
 
 // ItemList vertelt de zoekmachine dat dit een gerangschikte lijst producten is
 // en welke pagina bij elk item hoort.
@@ -1545,7 +1546,7 @@ const itemLijst = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Thuisbatterijen vergeleken",
-  description: "Alle vergeleken thuisbatterijen, gerangschikt op Koppel-score.",
+  description: "Alle vergeleken thuisbatterijen, gerangschikt op prijs per kWh opslag.",
   numberOfItems: gesorteerdeBatterijen.length,
   itemListElement: gesorteerdeBatterijen.map((b, i) => ({
     "@type": "ListItem",
@@ -1623,6 +1624,8 @@ index = index.replace(
   `$1${datumNL(data.laatst_bijgewerkt || VANDAAG)}$2`,
 );
 
+// Wat er niet in de lijst staat, en waarom (zie zichtbaar.mjs).
+index = zetZonderPrijs(index, zonderPrijsHtml(VERBORGEN, { meervoud: "modellen", pad: "batterij", naamVan: volledigeNaam }));
 writeFileSync(resolve(ROOT, "index.html"), index, "utf8");
 console.log(`index.html: ${gesorteerdeBatterijen.length} kaarten voorgerenderd, teller en ItemList bijgewerkt`);
 

@@ -233,6 +233,18 @@
     return Math.round(prijs / b.capaciteit_kwh);
   }
 
+  /* Wat een opgeslagen kWh over de levensduur kost: de prijs gedeeld door
+     cycli maal capaciteit. Een goedkope batterij met weinig cycli kan zo
+     duurder uitvallen dan een duurdere die twee keer zo lang meegaat. Het is
+     een bovengrens van de levensduur (de fabrieksopgave, vaak tot 70 of 80%
+     restcapaciteit), dus het werkelijke bedrag ligt iets hoger. Alleen met
+     een actuele prijs en een bekend aantal cycli. */
+  function prijsPerOpgeslagenKwh(b) {
+    const prijs = vergelijkPrijs(beste(b));
+    if (!prijs || !b || !b.capaciteit_kwh || !Number.isInteger(b.cycli) || b.cycli <= 0) return null;
+    return Math.round((prijs / (b.cycli * b.capaciteit_kwh)) * 1000) / 1000;
+  }
+
   // Korte toevoeging achter de prijs, zodat de bezoeker ziet waaróm het bedrag
   // afwijkt van wat de winkel toont.
   function prijsToelichting(aanbieding) {
@@ -304,6 +316,7 @@
     prijsOuderdom,
     prijsOuderdomLabel,
     prijsTeOud,
+    prijsPerOpgeslagenKwh,
     inclusiefBtw,
     vergelijkPrijs,
     isOmgerekend,

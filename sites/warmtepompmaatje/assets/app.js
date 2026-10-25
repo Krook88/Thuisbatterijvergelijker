@@ -10,12 +10,12 @@
   const state = {
     pompen: [],
     weergave: "lijst", // of "kaarten" of "tabel"
-    sortering: "koppel-score",
+    sortering: "prijs-na-isde",
     alles: false,
     tabelSortKolom: null,
     tabelSortRichting: 1,
     vergelijkSelectie: [],
-    filters: { zoek: "", type: "alle", merk: "alle", r290: false, stil: false, homeAssistant: false, homey: false, officieel: false },
+    filters: { zoek: "", type: "alle", merk: "alle", vermogen: "alle", fase: "alle", r290: false, radiator: false, stil: false, homeAssistant: false, homey: false, officieel: false },
   };
 
   const el = (id) => document.getElementById(id);
@@ -81,8 +81,8 @@
      Filteren, sorteren en URL-status (deelbare links)
      ------------------------------------------------------------------ */
 
-  const FILTER_KEYS = ["type", "merk"];
-  const CHECK_KEYS = [["r290", "r290"], ["stil", "stil"], ["homeAssistant", "ha"], ["homey", "homey"], ["officieel", "officieel"]];
+  const FILTER_KEYS = ["type", "merk", "vermogen", "fase"];
+  const CHECK_KEYS = [["r290", "r290"], ["radiator", "radiator"], ["stil", "stil"], ["homeAssistant", "ha"], ["homey", "homey"], ["officieel", "officieel"]];
 
   function syncUrl() {
     const f = state.filters;
@@ -90,7 +90,7 @@
     FILTER_KEYS.forEach((k) => { if (f[k] !== "alle") p.set(k, f[k]); });
     if (f.zoek) p.set("zoek", f.zoek);
     CHECK_KEYS.forEach(([k, kort]) => { if (f[k]) p.set(kort, "1"); });
-    if (state.sortering !== "koppel-score") p.set("sorteer", state.sortering);
+    if (state.sortering !== "prijs-na-isde") p.set("sorteer", state.sortering);
     const qs = p.toString();
     history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
   }
@@ -103,9 +103,17 @@
     if (p.get("sorteer")) state.sortering = p.get("sorteer");
     const zet = (id, w) => { const n = el(id); if (n) n.value = w; };
     zet("filterType", state.filters.type); zet("filterMerk", state.filters.merk); zet("sorteer", state.sortering);
+    zet("filterVermogen", state.filters.vermogen); zet("filterFase", state.filters.fase);
     const vink = (id, w) => { const n = el(id); if (n) n.checked = w; };
-    vink("checkR290", state.filters.r290); vink("checkStil", state.filters.stil);
+    vink("checkR290", state.filters.r290); vink("checkStil", state.filters.stil); vink("checkRadiator", state.filters.radiator);
     vink("checkHa", state.filters.homeAssistant); vink("checkHomey", state.filters.homey); vink("checkOfficieel", state.filters.officieel);
+  }
+
+  function vermogenInBereik(kw, bereik) {
+    if (bereik === "alle" || typeof kw !== "number") return true;
+    if (bereik === "klein") return kw < 5;
+    if (bereik === "middel") return kw >= 5 && kw <= 8;
+    return kw > 8;
   }
 
   function gefilterd(opties) {
@@ -116,6 +124,11 @@
       if (f.type !== "alle" && w.type !== f.type) return false;
       if (f.merk !== "alle" && w.merk !== f.merk) return false;
       if (f.r290 && !isR290(w)) return false;
+      if (!vermogenInBereik(w.vermogen_kw, f.vermogen)) return false;
+      // Een pomp met een onbekende fase blijft staan; "beide" past op allebei.
+      if (f.fase !== "alle" && w.fase && w.fase !== "beide" && w.fase !== f.fase) return false;
+      // Bestaande radiatoren vragen meestal 55 tot 65 graden aanvoer.
+      if (f.radiator && !(w.max_aanvoer_c >= 65)) return false;
       if (f.stil && !negeerStil && !isStil(w)) return false;
       // Een vinkje laat "ja" en "deels" door; met "alleen officieel" erbij
       // telt alleen wat de fabrikant zelf ondersteunt.
@@ -143,8 +156,10 @@
     const scopBekend = (w) => typeof w.scop === "number";
     // Onbekend of te oud (zie Prijs.prijsTeOud) achter de actuele prijzen.
     const sleutel = (w) => (Number.isFinite(prijsVan(w)) ? prijsVan(w) : 1e9) + (Prijs.prijsTeOud(w) ? 1e6 : 0);
+    const naIsde = (w) => sleutel(w) - (Number.isFinite(prijsVan(w)) ? w.isde_indicatie_eur || 0 : 0);
     switch (state.sortering) {
       case "prijs-oplopend": kopie.sort((a, b) => sleutel(a) - sleutel(b)); break;
+      case "prijs-na-isde": kopie.sort((a, b) => naIsde(a) - naIsde(b) || koppelScore(b) - koppelScore(a)); break;
       case "subsidie": kopie.sort((a, b) => (b.isde_indicatie_eur || 0) - (a.isde_indicatie_eur || 0)); break;
       // Onbekend onderaan, maar als onbekend en niet als "luid".
       case "geluid": kopie.sort((a, b) => (geluidBekend(a) && geluidBekend(b) ? a.geluid_db - b.geluid_db : geluidBekend(a) ? -1 : geluidBekend(b) ? 1 : 0)); break;
@@ -341,10 +356,10 @@
   }
 
   function koppelEvents() {
-    [["filterType", "type"], ["filterMerk", "merk"]].forEach(([id, key]) => {
+    [["filterType", "type"], ["filterMerk", "merk"], ["filterVermogen", "vermogen"], ["filterFase", "fase"]].forEach(([id, key]) => {
       el(id).addEventListener("change", (e) => { state.filters[key] = e.target.value; render(); });
     });
-    [["checkR290", "r290"], ["checkStil", "stil"], ["checkHa", "homeAssistant"], ["checkHomey", "homey"], ["checkOfficieel", "officieel"]].forEach(([id, key]) => {
+    [["checkR290", "r290"], ["checkRadiator", "radiator"], ["checkStil", "stil"], ["checkHa", "homeAssistant"], ["checkHomey", "homey"], ["checkOfficieel", "officieel"]].forEach(([id, key]) => {
       el(id).addEventListener("change", (e) => { state.filters[key] = e.target.checked; officieelBijwerken(); render(); });
     });
     el("sorteer").addEventListener("change", (e) => { state.sortering = e.target.value; render(); });
@@ -360,9 +375,9 @@
 
     const reset = el("resetFilters");
     if (reset) reset.addEventListener("click", () => {
-      state.filters = { zoek: "", type: "alle", merk: "alle", r290: false, stil: false, homeAssistant: false, homey: false, officieel: false };
-      ["filterType", "filterMerk"].forEach((id) => { el(id).value = "alle"; });
-      ["checkR290", "checkStil", "checkHa", "checkHomey", "checkOfficieel"].forEach((id) => { el(id).checked = false; });
+      state.filters = { zoek: "", type: "alle", merk: "alle", vermogen: "alle", fase: "alle", r290: false, radiator: false, stil: false, homeAssistant: false, homey: false, officieel: false };
+      ["filterType", "filterMerk", "filterVermogen", "filterFase"].forEach((id) => { el(id).value = "alle"; });
+      ["checkR290", "checkRadiator", "checkStil", "checkHa", "checkHomey", "checkOfficieel"].forEach((id) => { el(id).checked = false; });
       officieelBijwerken();
       if (zoekVeld) zoekVeld.value = "";
       render();

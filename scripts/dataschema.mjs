@@ -55,11 +55,13 @@ const VASTE_WAARDEN = {
     rendement_soort: ["ac", "accu", "zonzijde"],
     type: ["plug-in", "ac-gekoppeld", "hybride"],
     installatie: ["zelf", "installateur"],
+    fase: ["1-fase", "3-fase", "beide"],
   },
   warmtepompmaatje: {
     vermogen_conditie: ["Prated", "A7/W35", "onbekend"],
     scop_conditie: ["35", "55", "onbekend"],
     type: ["hybride", "all-electric"],
+    fase: ["1-fase", "3-fase", "beide"],
   },
   zonnestroommaatje: {
     type: ["micro", "optimizer", "hybride", "string"],
@@ -140,6 +142,14 @@ export function controleerBestand(data, { site, lijst }) {
     if (site === "batterijmaatje") for (const veld of ["homey", "home_assistant", "dynamisch_contract"]) {
       if (typeof p[veld] === "string" && /^(geen|niet|nee)\b/i.test(p[veld].trim())) meld(`${veld} begint met "${p[veld].trim().split(/\s/)[0]}"; gebruik {status, tekst}`);
     }
+    // Getallen waarop de vergelijker sorteert; een toelichting hoort in het
+    // bijbehorende _toelichting-veld, anders sorteert "10.000 (fabrieksopgave)"
+    // als tekst.
+    for (const veld of ["cycli", "garantie_jaar"]) {
+      if (veld in p && p[veld] !== null && !(Number.isInteger(p[veld]) && p[veld] > 0)) meld(`${veld} is geen positief geheel getal (${JSON.stringify(p[veld])}); zet de tekst in ${veld === "cycli" ? "cycli_toelichting" : "garantie_toelichting"}`);
+    }
+    if ("scop_55" in p && !(typeof p.scop_55 === "number" && p.scop_55 > 1 && p.scop_55 < 7)) meld(`scop_55 is geen SCOP tussen 1 en 7 (${JSON.stringify(p.scop_55)})`);
+    if ("scop_55" in p && !(typeof p.scop_55_bron === "string" && p.scop_55_bron.trim())) meld("scop_55 zonder scop_55_bron");
     for (const [veld, waarden] of Object.entries(vast)) {
       if (veld in p && p[veld] !== null && !waarden.includes(p[veld])) meld(`${veld} heeft een onbekende waarde (${JSON.stringify(p[veld])})`);
     }

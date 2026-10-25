@@ -11,7 +11,7 @@
     omvormers: [],
     meta: {},
     weergave: "lijst", // of "kaarten" of "tabel"
-    sortering: "zeker-score",
+    sortering: "prijs-per-wp",
     alles: false,
     tabelSortKolom: null,
     tabelSortRichting: 1,
@@ -108,7 +108,7 @@
     FILTER_KEYS.forEach((k) => { if (f[k] !== "alle") p.set(k, f[k]); });
     if (f.zoek) p.set("zoek", f.zoek);
     CHECK_KEYS.forEach(([k, kort]) => { if (f[k]) p.set(kort, "1"); });
-    if (state.sortering !== "zeker-score") p.set("sorteer", state.sortering);
+    if (state.sortering !== "prijs-per-wp") p.set("sorteer", state.sortering);
     const qs = p.toString();
     history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
   }
@@ -158,7 +158,7 @@
       case "prijs-oplopend": kopie.sort((a, b) => Kaart.prijsSleutel(a, prijsVan(a)) - Kaart.prijsSleutel(b, prijsVan(b))); break;
       // Zonder prijs (Infinity) achteraan, niet bovenaan.
       case "prijs-aflopend": kopie.sort((a, b) => (prijsVan(b) === Infinity ? 0 : prijsVan(b)) - (prijsVan(a) === Infinity ? 0 : prijsVan(a))); break;
-      case "prijs-per-wp": kopie.sort((a, b) => Kaart.prijsSleutel(a, prijsPerWp(a)) - Kaart.prijsSleutel(b, prijsPerWp(b))); break;
+      case "prijs-per-wp": kopie.sort((a, b) => Kaart.prijsSleutel(a, prijsPerWp(a)) - Kaart.prijsSleutel(b, prijsPerWp(b)) || zekerScore(b) - zekerScore(a)); break;
       case "vermogen": kopie.sort((a, b) => (b.vermogen_wp || 0) - (a.vermogen_wp || 0)); break;
       case "rendement": kopie.sort((a, b) => (b.rendement_pct || 0) - (a.rendement_pct || 0)); break;
       case "garantie": kopie.sort((a, b) => (b.garantie_product_jaar || 0) - (a.garantie_product_jaar || 0)); break;

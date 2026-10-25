@@ -364,13 +364,13 @@
   }
 
 
-  // De volgorde waarin de vergelijker opent: hoogste Zeker-score eerst.
+  // De volgorde waarin de vergelijker opent: laagste prijs per Wp eerst.
   // De generator gebruikt dezelfde functie, zodat de voorgerenderde kaarten in
   // dezelfde volgorde staan als wat de bezoeker te zien krijgt.
   function standaardVolgorde(lijst) {
-    // Zelfde volgorde als de vergelijker opent: Zeker-score, en binnen een
-    // score de laagste prijs per Wp eerst.
-    return [...lijst].sort((a, b) => zekerScore(b) - zekerScore(a) || prijsSleutel(a, prijsPerWp(a)) - prijsSleutel(b, prijsPerWp(b)));
+    // Zelfde volgorde als de vergelijker opent: de laagste prijs per Wp eerst,
+    // richtprijzen en te oude prijzen achteraan. De Zeker-score is een optie.
+    return [...lijst].sort((a, b) => prijsSleutel(a, prijsPerWp(a)) - prijsSleutel(b, prijsPerWp(b)) || zekerScore(b) - zekerScore(a));
   }
 
   return {
