@@ -50,6 +50,13 @@
   const bestePrijs = (p) => Prijs.beste(p);
   const heeftKorting = (p) => Prijs.heeftKorting(p);
   const prijsPerWp = (p) => Prijs.prijsPerWp(p);
+  // Geen winkel gevonden, alleen een richtprijs met peildatum. Die staat apart:
+  // hij krijgt nooit het kenmerk "laagste prijs", heet in de lijst een
+  // richtprijs, en komt bij sorteren op prijs achter de echte winkelprijzen.
+  // Zonder dat stonden in oktober 2026 twee richtprijzen van juli bovenaan
+  // als goedkoopste per Wp.
+  const isRichtprijs = (p) => { const b = bestePrijs(p); return !!(b && b.is_richtprijs); };
+  const prijsSleutel = (p, prijs) => (prijs && Number.isFinite(prijs) ? prijs : 1e9) + (isRichtprijs(p) ? 1e6 : 0);
 
   function escapeHtml(str) {
     return String(str == null ? "" : str)
@@ -229,7 +236,7 @@
           ? `<a class="regel-bedrag cijfer" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="${escapeHtml(eurFmt.format(vergelijk))} bij ${escapeHtml(beste.winkel || "de winkel")}: naar de aanbieding van het ${escapeHtml(naamVan(p))}, opent in een nieuw tabblad">${eurFmt.format(vergelijk)}</a>`
           : `<span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>`}
         ${prijsPerWp(p) ? `<span class="regel-per cijfer">${new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", minimumFractionDigits: 2 }).format(prijsPerWp(p))} per Wp</span>` : ""}
-        ${beste && beste.url && beste.winkel ? `<span class="regel-winkel">${/^richtprijs/i.test(beste.winkel) ? "" : "bij "}${escapeHtml(beste.winkel)}</span>` : ""}
+        ${isRichtprijs(p) ? `<span class="regel-winkel">richtprijs, nog geen winkel</span>` : beste && beste.url && beste.winkel ? `<span class="regel-winkel">bij ${escapeHtml(beste.winkel)}</span>` : ""}
         ${ouderdomHtml(p)}
         ${beste && beste.url ? "" : `<a class="regel-details" href="paneel/${encodeURIComponent(p.id)}.html" aria-label="Alle details van het ${escapeHtml(naamVan(p))}">details</a>`}
       </div>
@@ -238,6 +245,21 @@
 
   /* De kop boven de regels. Staat los van de regel zodat hij een keer in de
      lijst staat en niet bij elk product. */
+
+  /* Lange lijsten tonen eerst de bovenste tien. De rest staat wel in de HTML
+     (zoekmachines volgen de links), maar ingeklapt achter één knop. Reviewers
+     vonden 40 regels onder elkaar te druk om een keuze te maken; wie verder
+     wil kijken klikt door. Pas boven de twaalf, zodat de knop nooit één of
+     twee regels verbergt. */
+  const TOON_EERST = 10;
+  function ingeklaptHtml(stukken, aantal, opties) {
+    if (aantal <= TOON_EERST + 2) return stukken.join("");
+    const open = opties && opties.alles;
+    return stukken.slice(0, TOON_EERST).join("")
+      + `<div class="regel-extra"${open ? "" : " hidden"}>${stukken.slice(TOON_EERST).join("")}</div>`
+      + (open ? "" : `<button type="button" class="toon-alle" data-toon-alle>Toon alle ${aantal} zonnepanelen</button>`);
+  }
+
   function lijstHtml(lijst, opties) {
     const koppen = ["Model", "Vermogen", "Rendement", "Uitvoering", "Prijsverloop", "Zeker-score", "Prijs"];
     // Welke in deze lijst het goedkoopst is, over de lijst zoals hij nu
@@ -245,13 +267,13 @@
     let laagste = null;
     for (const x of lijst) {
       const p = prijsPerWp(x);
-      if (p && (!laagste || p < laagste.p)) laagste = { id: x.id, p };
+      if (p && !isRichtprijs(x) && (!laagste || p < laagste.p)) laagste = { id: x.id, p };
     }
     const o = { ...(opties || {}), goedkoopste: laagste && laagste.id };
     // Bij de sortering op de score een tussenkop per score; bij een andere
     // sortering hebben groepen geen betekenis en blijft het een lijst.
     let vorige = null;
-    const regels = lijst.map((x, i) => {
+    const stukken = lijst.map((x, i) => {
       let kop = "";
       if (o.groepeer) {
         const score = zekerScore(x);
@@ -262,12 +284,12 @@
         }
       }
       return kop + regelHtml(x, o, i + 1);
-    }).join("");
+    });
     return `<div class="resultaat-lijst">
       <div class="resultaat-regel regel-kop" aria-hidden="true">
         <span></span>${koppen.map((k) => `<span>${k}</span>`).join("")}
       </div>
-      ${regels}
+      ${ingeklaptHtml(stukken, lijst.length, o)}
     </div>`;
   }
 
@@ -328,7 +350,7 @@
           <div class="prijs${beste ? "" : " prijs-onbekend"}">${beste ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "Prijs op aanvraag"}</div>
           ${perWp ? `<div class="prijs-per-kwh">${eurWpFmt.format(perWp)} per Wp</div>` : ""}
           ${ouderdomHtml(p)}
-          ${beste && beste.winkel ? `<div class="prijs-winkel">${beste.winkel.startsWith("richtprijs") ? beste.winkel : "bij " + escapeHtml(beste.winkel)}</div>` : ""}
+          ${isRichtprijs(p) ? `<div class="prijs-winkel">richtprijs, nog geen winkel gevonden</div>` : beste && beste.winkel ? `<div class="prijs-winkel">bij ${escapeHtml(beste.winkel)}</div>` : ""}
           ${p.prijs_omvat ? `<div class="prijs-winkel">${escapeHtml(p.prijs_omvat)}</div>` : ""}
         </div>
       </div>
@@ -342,11 +364,13 @@
   }
 
 
-  // De volgorde waarin de vergelijker opent: goedkoopste per wattpiek eerst.
+  // De volgorde waarin de vergelijker opent: hoogste Zeker-score eerst.
   // De generator gebruikt dezelfde functie, zodat de voorgerenderde kaarten in
   // dezelfde volgorde staan als wat de bezoeker te zien krijgt.
   function standaardVolgorde(lijst) {
-    return [...lijst].sort((a, b) => (prijsPerWp(a) || Infinity) - (prijsPerWp(b) || Infinity));
+    // Zelfde volgorde als de vergelijker opent: Zeker-score, en binnen een
+    // score de laagste prijs per Wp eerst.
+    return [...lijst].sort((a, b) => zekerScore(b) - zekerScore(a) || prijsSleutel(a, prijsPerWp(a)) - prijsSleutel(b, prijsPerWp(b)));
   }
 
   return {
@@ -366,6 +390,8 @@
     waardering,
     jaNeeBadge,
     bestePrijs,
+    isRichtprijs,
+    prijsSleutel,
     heeftKorting,
     prijsPerWp,
     kaartHtml,

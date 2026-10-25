@@ -11,6 +11,7 @@
     pompen: [],
     weergave: "lijst", // of "kaarten" of "tabel"
     sortering: "koppel-score",
+    alles: false,
     tabelSortKolom: null,
     tabelSortRichting: 1,
     vergelijkSelectie: [],
@@ -303,9 +304,10 @@
     if (!lijst.length) {
       doel.innerHTML = '<div class="leeg-melding">Geen warmtepompen gevonden met deze filters. Probeer een filter uit te zetten.</div>';
     } else if (state.weergave === "lijst") {
-      doel.innerHTML = Kaart.lijstHtml(lijst, { selectie: state.vergelijkSelectie, groepeer: state.sortering === "koppel-score", groepNaam: "Koppel-score" });
+      doel.innerHTML = Kaart.lijstHtml(lijst, { alles: state.alles, selectie: state.vergelijkSelectie, groepeer: state.sortering === "koppel-score", groepNaam: "Koppel-score" });
     } else if (state.weergave === "kaarten") {
-      doel.innerHTML = `<div class="kaarten-grid">${lijst.map(kaartHtml).join("")}</div>`;
+      doel.innerHTML = `<div class="kaarten-grid${!state.alles && lijst.length > 12 ? " ingeklapt" : ""}">${lijst.map(kaartHtml).join("")}</div>`
+        + (!state.alles && lijst.length > 12 ? `<button type="button" class="toon-alle" data-toon-alle>Toon alle ${lijst.length} warmtepompen</button>` : "");
     } else {
       doel.innerHTML = `<div class="tabel-wrap">${tabelHtml(lijst)}</div>`;
     }
@@ -344,6 +346,12 @@
       el(id).addEventListener("change", (e) => { state.filters[key] = e.target.checked; officieelBijwerken(); render(); });
     });
     el("sorteer").addEventListener("change", (e) => { state.sortering = e.target.value; render(); });
+    // "Toon alle": de lijst blijft daarna open, ook bij een andere sortering.
+    el("resultaten").addEventListener("click", (e) => {
+      if (!e.target.closest("[data-toon-alle]")) return;
+      state.alles = true;
+      render();
+    });
 
     const zoekVeld = el("zoekVeld");
     if (zoekVeld) zoekVeld.addEventListener("input", (e) => { state.filters.zoek = e.target.value; render(); });

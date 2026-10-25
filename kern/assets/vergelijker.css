@@ -885,3 +885,22 @@ section.markt h2 { margin: 0; }
    gemiddelde wil zien. */
 .advies-leeg { padding: var(--ruimte-20); background: var(--kleur-achtergrond); border: 1px dashed var(--kleur-rand); border-radius: var(--radius); }
 .advies-leeg p { margin: 0 0 var(--ruimte-10); }
+
+/* Lange lijsten: de eerste tien, de rest achter "Toon alle" (zie kaart.js,
+   ingeklaptHtml). In de kaartweergave doet de klasse op het raster het werk. */
+.kaarten-grid.ingeklapt > :nth-child(n+11) { display: none; }
+.toon-alle {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: var(--ruimte-10) var(--ruimte-14);
+  background: var(--kleur-wit);
+  border: 0;
+  border-top: 1px solid var(--kleur-rand);
+  color: var(--kleur-primair);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.toon-alle:hover { background: var(--kleur-primair-licht); }
+.kaarten-grid + .toon-alle { border: 1px solid var(--kleur-rand); border-radius: var(--radius); margin-bottom: var(--ruimte-40); }

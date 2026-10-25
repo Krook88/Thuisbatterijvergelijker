@@ -11,7 +11,8 @@
     omvormers: [],
     meta: {},
     weergave: "lijst", // of "kaarten" of "tabel"
-    sortering: "prijs-per-wp",
+    sortering: "zeker-score",
+    alles: false,
     tabelSortKolom: null,
     tabelSortRichting: 1,
     vergelijkSelectie: [],
@@ -107,7 +108,7 @@
     FILTER_KEYS.forEach((k) => { if (f[k] !== "alle") p.set(k, f[k]); });
     if (f.zoek) p.set("zoek", f.zoek);
     CHECK_KEYS.forEach(([k, kort]) => { if (f[k]) p.set(kort, "1"); });
-    if (state.sortering !== "prijs-per-wp") p.set("sorteer", state.sortering);
+    if (state.sortering !== "zeker-score") p.set("sorteer", state.sortering);
     const qs = p.toString();
     history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
   }
@@ -154,13 +155,13 @@
     const kopie = [...lijst];
     const prijsVan = (p) => { const b = bestePrijs(p); return b ? Prijs.vergelijkPrijs(b) : Infinity; };
     switch (state.sortering) {
-      case "prijs-oplopend": kopie.sort((a, b) => prijsVan(a) - prijsVan(b)); break;
+      case "prijs-oplopend": kopie.sort((a, b) => Kaart.prijsSleutel(a, prijsVan(a)) - Kaart.prijsSleutel(b, prijsVan(b))); break;
       case "prijs-aflopend": kopie.sort((a, b) => prijsVan(b) - prijsVan(a)); break;
-      case "prijs-per-wp": kopie.sort((a, b) => (prijsPerWp(a) || Infinity) - (prijsPerWp(b) || Infinity)); break;
+      case "prijs-per-wp": kopie.sort((a, b) => Kaart.prijsSleutel(a, prijsPerWp(a)) - Kaart.prijsSleutel(b, prijsPerWp(b))); break;
       case "vermogen": kopie.sort((a, b) => (b.vermogen_wp || 0) - (a.vermogen_wp || 0)); break;
       case "rendement": kopie.sort((a, b) => (b.rendement_pct || 0) - (a.rendement_pct || 0)); break;
       case "garantie": kopie.sort((a, b) => (b.garantie_product_jaar || 0) - (a.garantie_product_jaar || 0)); break;
-      case "zeker-score": kopie.sort((a, b) => zekerScore(b) - zekerScore(a) || (prijsPerWp(a) || Infinity) - (prijsPerWp(b) || Infinity)); break;
+      case "zeker-score": kopie.sort((a, b) => zekerScore(b) - zekerScore(a) || Kaart.prijsSleutel(a, prijsPerWp(a)) - Kaart.prijsSleutel(b, prijsPerWp(b))); break;
     }
     return kopie;
   }
@@ -317,9 +318,10 @@
     if (!lijst.length) {
       doel.innerHTML = '<div class="leeg-melding">Geen panelen gevonden met deze filters. Probeer een filter uit te zetten.</div>';
     } else if (state.weergave === "lijst") {
-      doel.innerHTML = Kaart.lijstHtml(lijst, { selectie: state.vergelijkSelectie, groepeer: state.sortering === "zeker-score", groepNaam: "Zeker-score" });
+      doel.innerHTML = Kaart.lijstHtml(lijst, { alles: state.alles, selectie: state.vergelijkSelectie, groepeer: state.sortering === "zeker-score", groepNaam: "Zeker-score" });
     } else if (state.weergave === "kaarten") {
-      doel.innerHTML = `<div class="kaarten-grid">${lijst.map(kaartHtml).join("")}</div>`;
+      doel.innerHTML = `<div class="kaarten-grid${!state.alles && lijst.length > 12 ? " ingeklapt" : ""}">${lijst.map(kaartHtml).join("")}</div>`
+        + (!state.alles && lijst.length > 12 ? `<button type="button" class="toon-alle" data-toon-alle>Toon alle ${lijst.length} zonnepanelen</button>` : "");
     } else {
       doel.innerHTML = `<div class="tabel-wrap">${tabelHtml(lijst)}</div>`;
     }
@@ -354,6 +356,12 @@
     });
 
     el("sorteer").addEventListener("change", (e) => { state.sortering = e.target.value; render(); });
+    // "Toon alle": de lijst blijft daarna open, ook bij een andere sortering.
+    el("resultaten").addEventListener("click", (e) => {
+      if (!e.target.closest("[data-toon-alle]")) return;
+      state.alles = true;
+      render();
+    });
 
     const zoekVeld = el("zoekVeld");
     if (zoekVeld) zoekVeld.addEventListener("input", (e) => { state.filters.zoek = e.target.value; render(); });

@@ -1107,7 +1107,7 @@ const gesorteerdePanelen = Kaart.standaardVolgorde(data.panelen);
 // komt te staan. Zet je hier kaarten neer terwijl de browser meteen daarna
 // regels tekent, dan ziet de bezoeker het beeld een keer omklappen en krijgt
 // een zoekmachine iets anders te zien dan een mens.
-const kaarten = Kaart.lijstHtml(gesorteerdePanelen, { merkLogos: data.merk_logos });
+const kaarten = Kaart.lijstHtml(gesorteerdePanelen, { merkLogos: data.merk_logos, groepeer: true, groepNaam: "Zeker-score" });
 
 // ItemList vertelt de zoekmachine dat dit een gerangschikte lijst producten is
 // en welke pagina bij elk item hoort.
@@ -1115,7 +1115,7 @@ const itemLijst = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Zonnepanelen vergeleken",
-  description: "Alle vergeleken zonnepanelen, gerangschikt op prijs per wattpiek.",
+  description: "Alle vergeleken zonnepanelen, gerangschikt op Zeker-score.",
   numberOfItems: gesorteerdePanelen.length,
   itemListElement: gesorteerdePanelen.map((p, i) => ({
     "@type": "ListItem",

@@ -15,16 +15,16 @@
   <meta property="og:image" content="https://warmtepompmaatje.nl/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="assets/maatlat.css?v=20261025b" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261025b" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261025b">
-  <script src="assets/iconen.js?v=20261025b" defer></script>
-  <script src="assets/condities.js?v=20261025b" defer></script>
-  <script src="assets/prijs.js?v=20261025b" defer></script>
-  <script src="assets/prijsgrafiek.js?v=20261025b" defer></script>
-  <script src="assets/kaart.js?v=20261025b" defer></script>
-  <script src="assets/app.js?v=20261025b" defer></script>
-  <script src="assets/nav.js?v=20261025b" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261025c" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261025c" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261025c">
+  <script src="assets/iconen.js?v=20261025c" defer></script>
+  <script src="assets/condities.js?v=20261025c" defer></script>
+  <script src="assets/prijs.js?v=20261025c" defer></script>
+  <script src="assets/prijsgrafiek.js?v=20261025c" defer></script>
+  <script src="assets/kaart.js?v=20261025c" defer></script>
+  <script src="assets/app.js?v=20261025c" defer></script>
+  <script src="assets/nav.js?v=20261025c" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <script type="application/ld+json">
   {
@@ -304,7 +304,7 @@
   </script>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261025b"></script>
+  <script defer src="/assets/teller.js?v=20261025c"></script>
 </head>
 <body>
 
@@ -339,7 +339,7 @@
 <section class="hero">
   <div class="container">
     <h1>Warmtepompen vergelijken, zonder offerteformulier vooraf</h1>
-    <p>Zoek je een warmtepomp, dan beland je meestal eerst bij een offerteformulier. Hier staan de pompen zelf, hybride en all-electric: prijs en ISDE-subsidie, geluid van de buitenunit, rendement, en of je hem met Home Assistant of Homey kunt aansturen (de <a href="#koppel-score">Koppel-score</a>).</p>
+    <p>Zoek je een warmtepomp, dan beland je meestal eerst bij een offerteformulier. Hier staan de pompen zelf naast elkaar: wat ze kosten, hoeveel subsidie je terugkrijgt, hoe hard de buitenunit klinkt en hoe zuinig ze stoken. Er zijn pompen die naast je cv-ketel werken (hybride) en pompen die de ketel helemaal vervangen (all-electric). Stuur je je huis slim aan, dan zie je ook of de pomp werkt met Homey of Home Assistant (de <a href="#koppel-score">Koppel-score</a>).</p>
     <div class="hero-badges">
       <span class="update-info"><b id="tellerPompen">26</b> warmtepompen</span>
       <span class="update-info">Bijgewerkt: <b id="updateDatum">25 oktober 2026</b></span>
@@ -749,7 +749,7 @@
         
         
       </div>
-    </article>
+    </article><div class="regel-extra" hidden>
     <article class="resultaat-regel" data-id="daikin-altherma-hybrid">
       <span class="regel-plek cijfer">11</span>
       <div class="regel-naam">
@@ -1229,7 +1229,7 @@
         
         
       </div>
-    </article>
+    </article></div><button type="button" class="toon-alle" data-toon-alle>Toon alle 26 warmtepompen</button>
     </div>
     <!-- kaarten:eind -->
     </div>

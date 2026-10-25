@@ -18,16 +18,16 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="assets/maatlat.css?v=20261025b" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261025b" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261025b">
-  <script src="assets/dagmaat.js?v=20261025b" defer></script>
-  <script src="assets/prijs.js?v=20261025b" defer></script>
-  <script src="assets/oordeel.js?v=20261025b" defer></script>
-  <script src="assets/rekenkern.js?v=20261025b" defer></script>
-  <script src="assets/delen.js?v=20261025b" defer></script>
-  <script src="assets/rekenmodule.js?v=20261025b" defer></script>
-  <script src="assets/nav.js?v=20261025b" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261025c" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261025c" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261025c">
+  <script src="assets/dagmaat.js?v=20261025c" defer></script>
+  <script src="assets/prijs.js?v=20261025c" defer></script>
+  <script src="assets/oordeel.js?v=20261025c" defer></script>
+  <script src="assets/rekenkern.js?v=20261025c" defer></script>
+  <script src="assets/delen.js?v=20261025c" defer></script>
+  <script src="assets/rekenmodule.js?v=20261025c" defer></script>
+  <script src="assets/nav.js?v=20261025c" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <style>
@@ -51,7 +51,7 @@
   </style>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261025b"></script>
+  <script defer src="/assets/teller.js?v=20261025c"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -337,6 +337,17 @@
 
   </div>
 
+  <!-- Steunblok direct onder de uitkomst: wie net zijn antwoord kreeg, is
+       het meest geneigd iets terug te doen. Zie README, kop "Steun-knop". -->
+  <aside class="steun-blok">
+    <span class="steun-icoon"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></svg></span>
+    <div class="steun-inhoud">
+      <b>Deze site draait op koffie</b>
+      <p>Batterijmaatje is een hobbyproject van één maker, gratis en zonder betaalmuur. Had je iets aan deze berekening?</p>
+      <p class="steun-actie"><a class="knop" href="steun.html"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></svg> Trakteer me op een koffie</a></p>
+    </div>
+  </aside>
+
   <section class="tekstsectie">
     <h2>Hoe rekent deze module?</h2>
     <p>Het model telt twee opbrengsten bij elkaar op, afhankelijk van je situatie, en trekt daar het eigen (standby-)verbruik van de batterij vanaf:</p>
@@ -422,14 +433,6 @@
     </ul>
   </section>
 
-  <aside class="steun-blok">
-    <span class="steun-icoon"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></svg></span>
-    <div class="steun-inhoud">
-      <b>Deze site draait op koffie</b>
-      <p>Batterijmaatje is een hobbyproject van één maker, gratis en zonder betaalmuur. Had je iets aan deze berekening?</p>
-      <p class="steun-actie"><a class="knop" href="steun.html"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></svg> Trakteer me op een koffie</a></p>
-    </div>
-  </aside>
 
 </main>
 
