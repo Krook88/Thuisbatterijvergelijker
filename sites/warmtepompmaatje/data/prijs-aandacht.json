@@ -1,35 +1,41 @@
 {
-  "bijgewerkt": "2026-10-24",
+  "bijgewerkt": "2026-10-25",
   "punten": {
-    "onbereikbaar|itho-amber-95|Installmat": {
-      "sinds": "2026-10-21",
-      "soort": "onbereikbaar",
-      "tekst": "itho-amber-95 @ Installmat: fetch failed",
-      "bevestigd": true
-    },
     "verouderd|daikin-altherma-3|KliMate": {
       "sinds": "2026-09-22",
       "soort": "verouderd",
-      "tekst": "daikin-altherma-3 @ KliMate: €5414 (53 dagen)",
+      "tekst": "daikin-altherma-3 @ KliMate: €5414 (54 dagen)",
       "bevestigd": true
     },
     "verouderd|toshiba-estia-r290|Intercool": {
       "sinds": "2026-10-24",
       "soort": "verouderd",
-      "tekst": "toshiba-estia-r290 @ Intercool: €8107 (21 dagen)",
-      "bevestigd": false
+      "tekst": "toshiba-estia-r290 @ Intercool: €8107 (22 dagen)",
+      "bevestigd": true
     },
     "verouderd|vaillant-arotherm-plus|richtprijs": {
       "sinds": "2026-10-24",
       "soort": "verouderd",
-      "tekst": "vaillant-arotherm-plus @ richtprijs: €7300 (21 dagen)",
-      "bevestigd": false
+      "tekst": "vaillant-arotherm-plus @ richtprijs: €7300 (22 dagen)",
+      "bevestigd": true
     },
     "zonder prijs|daikin-altherma-3|KliMate": {
       "sinds": "2026-09-02",
       "soort": "geweigerd",
       "tekst": "daikin-altherma-3 @ KliMate: HTTP 403",
       "bevestigd": true
+    },
+    "zonder prijs|itho-amber-95|Installmat": {
+      "sinds": "2026-10-25",
+      "soort": "zonder bedrag",
+      "tekst": "itho-amber-95 @ Installmat: geen leesbaar bedrag",
+      "bevestigd": false
+    },
+    "zonder prijs|panasonic-aquarea-wxg|Multi-Import": {
+      "sinds": "2026-10-25",
+      "soort": "zonder bedrag",
+      "tekst": "panasonic-aquarea-wxg @ Multi-Import: geen leesbaar bedrag",
+      "bevestigd": false
     },
     "zonder prijs|toshiba-estia-r290|Intercool": {
       "sinds": "2026-10-04",
