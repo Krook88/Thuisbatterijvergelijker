@@ -296,7 +296,9 @@ schrijven.
 Elke site heeft een `steun.html`: een korte pagina die om een kop koffie
 vraagt. Er wijzen vier dingen naartoe: een item in het "Meer"-menu (dus op elke
 pagina), een link in de voettekst, en een blok onderaan `index.html`,
-`advies.html`, `rekenmodule.html` en `over-ons.html`. Nederlandse bezoekers
+`advies.html` en `over-ons.html`. Op `rekenmodule.html` staat het blok direct
+onder de uitkomst, boven de uitleg: wie net zijn antwoord kreeg, heeft gekregen
+waarvoor hij kwam. Nederlandse bezoekers
 betalen met iDEAL, en daarvoor is een bunq.me-link gekozen: die is gratis,
 verloopt niet, kan zonder KvK-inschrijving en stuurt de bezoeker naar een
 betaalpagina in plaats van naar een betaalscript op de site zelf, en dat

@@ -420,6 +420,21 @@
 
   /* De kop boven de regels. Staat los van de regel zelf zodat hij een keer in
      de lijst staat en niet 41 keer. */
+
+  /* Lange lijsten tonen eerst de bovenste tien. De rest staat wel in de HTML
+     (zoekmachines volgen de links), maar ingeklapt achter één knop. Reviewers
+     vonden 40 regels onder elkaar te druk om een keuze te maken; wie verder
+     wil kijken klikt door. Pas boven de twaalf, zodat de knop nooit één of
+     twee regels verbergt. */
+  const TOON_EERST = 10;
+  function ingeklaptHtml(stukken, aantal, opties) {
+    if (aantal <= TOON_EERST + 2) return stukken.join("");
+    const open = opties && opties.alles;
+    return stukken.slice(0, TOON_EERST).join("")
+      + `<div class="regel-extra"${open ? "" : " hidden"}>${stukken.slice(TOON_EERST).join("")}</div>`
+      + (open ? "" : `<button type="button" class="toon-alle" data-toon-alle>Toon alle ${aantal} thuisbatterijen</button>`);
+  }
+
   function lijstHtml(lijst, opties) {
     const koppen = ["Model", "Capaciteit", "Vermogen", "Installatie", "Prijsverloop", "Koppel-score", "Prijs"];
     return `<div class="resultaat-lijst">
@@ -441,7 +456,7 @@
         // er in elke groep zitten. Bij een andere sortering hebben groepen
         // geen betekenis, dan blijft het één lijst.
         let vorige = null;
-        return lijst.map((b, i) => {
+        const stukken = lijst.map((b, i) => {
           let kop = "";
           if (o.groepeer) {
             const score = koppelScore(b);
@@ -452,7 +467,8 @@
             }
           }
           return kop + regelHtml(b, o, i + 1);
-        }).join("");
+        });
+        return ingeklaptHtml(stukken, lijst.length, o);
       })()}
     </div>`;
   }

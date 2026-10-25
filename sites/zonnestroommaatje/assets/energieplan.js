@@ -15,10 +15,12 @@
 
   // Vaste aannames, gelijk aan de rekenmodules van de zustersites
   // Gas- en stroomprijs zijn standaardwaarden; de bezoeker kan ze aanpassen.
-  // Teruglevering vanaf 2027: dezelfde getallen als de rekenmodule, uit
-  // assets/rekenkern.js. Hier stond een eigen 0,05 min 0,02.
-  const VERGOEDING = RekenkernZon.TERUGLEVERING_2027.vergoeding;
-  const TERUGLEVERKOSTEN = RekenkernZon.TERUGLEVERING_2027.terugleverkosten;
+  // Teruglevering vanaf 2027 hangt af van het contract. Vast of variabel:
+  // dezelfde netto vergoeding als de rekenmodule (assets/rekenkern.js).
+  // Dynamisch: de uurprijs, indicatief 0,04 tot 0,06, dus het midden. De
+  // bezoeker kan er een eigen bedrag voor invullen, ook een negatief.
+  const VERGOEDING_VAST = RekenkernZon.TERUGLEVERING_2027.vergoeding - RekenkernZon.TERUGLEVERING_2027.terugleverkosten;
+  const VERGOEDING_DYNAMISCH = 0.05;
   const VASTRECHT_GAS = 350;        // vaste gaskosten per jaar
   // Warmtepomp: toestel en ISDE voor een gemiddelde pomp van elk type. De
   // installatie, de afsluitkosten en de som zelf komen uit de rekenkern van
@@ -57,6 +59,9 @@
       opwekNu: el("opwekNu").value === "" ? null : Math.max(0, Number(el("opwekNu").value) || 0),
       gasprijs: Number(el("gasprijs").value) > 0 ? Number(el("gasprijs").value) : 1.45,
       stroomprijs: Number(el("stroomprijs").value) > 0 ? Number(el("stroomprijs").value) : 0.30,
+      vergoeding: el("vergoeding").value !== "" && Number.isFinite(Number(el("vergoeding").value))
+        ? Number(el("vergoeding").value)
+        : el("contract").value === "dynamisch" ? VERGOEDING_DYNAMISCH : VERGOEDING_VAST,
     };
   }
 
@@ -148,7 +153,7 @@
       const investering = prijsPaneel * aantal + VASTE_INSTALLATIE + KOSTEN_PER_PANEEL * aantal;
       const eigen = Math.min(opwek * eigenPct, verbruikNa);
       const teruggeleverd = opwek - eigen;
-      const besparing = eigen * s.stroomprijs + teruggeleverd * (VERGOEDING - TERUGLEVERKOSTEN);
+      const besparing = eigen * s.stroomprijs + teruggeleverd * s.vergoeding;
       stappen.push({
         icoon: Iconen.svg("zon"), titel: `Zonnepanelen: ${aantal} panelen (${numFmt.format(aantal * WP_PANEEL)} Wp)`,
         advies: `Gedimensioneerd op je stroomverbruik ná de warmtepomp (${numFmt.format(verbruikNa)} kWh per jaar${gewenst > aantal ? `; je dak begrenst het aantal op ${aantal}` : ""}). Jaaropbrengst circa ${numFmt.format(opwek)} kWh.`,
@@ -344,7 +349,7 @@
       el(id).addEventListener("input", bereken);
       el(id).addEventListener("change", bereken);
     });
-    ["opwekNu", "gasprijs", "stroomprijs"].forEach((id) => {
+    ["opwekNu", "gasprijs", "stroomprijs", "vergoeding"].forEach((id) => {
       el(id).addEventListener("input", bereken);
       el(id).addEventListener("change", bereken);
     });

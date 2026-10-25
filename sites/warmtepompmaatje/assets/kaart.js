@@ -322,6 +322,21 @@
 
   /* De kop boven de regels. Staat los van de regel zodat hij een keer in de
      lijst staat en niet bij elk product. */
+
+  /* Lange lijsten tonen eerst de bovenste tien. De rest staat wel in de HTML
+     (zoekmachines volgen de links), maar ingeklapt achter één knop. Reviewers
+     vonden 40 regels onder elkaar te druk om een keuze te maken; wie verder
+     wil kijken klikt door. Pas boven de twaalf, zodat de knop nooit één of
+     twee regels verbergt. */
+  const TOON_EERST = 10;
+  function ingeklaptHtml(stukken, aantal, opties) {
+    if (aantal <= TOON_EERST + 2) return stukken.join("");
+    const open = opties && opties.alles;
+    return stukken.slice(0, TOON_EERST).join("")
+      + `<div class="regel-extra"${open ? "" : " hidden"}>${stukken.slice(TOON_EERST).join("")}</div>`
+      + (open ? "" : `<button type="button" class="toon-alle" data-toon-alle>Toon alle ${aantal} warmtepompen</button>`);
+  }
+
   function lijstHtml(lijst, opties) {
     const koppen = ["Model", "Vermogen", "Koudemiddel", "Geluid", "Prijsverloop", "Koppel-score", "Prijs"];
     // Welke in deze lijst het goedkoopst is, over de lijst zoals hij nu
@@ -337,7 +352,7 @@
     // Bij de sortering op de score een tussenkop per score; bij een andere
     // sortering hebben groepen geen betekenis en blijft het een lijst.
     let vorige = null;
-    const regels = lijst.map((x, i) => {
+    const stukken = lijst.map((x, i) => {
       let kop = "";
       if (o.groepeer) {
         const score = koppelScore(x);
@@ -348,12 +363,12 @@
         }
       }
       return kop + regelHtml(x, o, i + 1);
-    }).join("");
+    });
     return `<div class="resultaat-lijst">
       <div class="resultaat-regel regel-kop" aria-hidden="true">
         <span></span>${koppen.map((k) => `<span>${k}</span>`).join("")}
       </div>
-      ${regels}
+      ${ingeklaptHtml(stukken, lijst.length, o)}
     </div>`;
   }
 
