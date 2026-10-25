@@ -18,16 +18,16 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="assets/maatlat.css?v=20261025a" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261025a" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261025a">
-  <script src="assets/dagmaat.js?v=20261025a" defer></script>
-  <script src="assets/prijs.js?v=20261025a" defer></script>
-  <script src="assets/oordeel.js?v=20261025a" defer></script>
-  <script src="assets/rekenkern.js?v=20261025a" defer></script>
-  <script src="assets/delen.js?v=20261025a" defer></script>
-  <script src="assets/rekenmodule.js?v=20261025a" defer></script>
-  <script src="assets/nav.js?v=20261025a" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261025b" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261025b" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261025b">
+  <script src="assets/dagmaat.js?v=20261025b" defer></script>
+  <script src="assets/prijs.js?v=20261025b" defer></script>
+  <script src="assets/oordeel.js?v=20261025b" defer></script>
+  <script src="assets/rekenkern.js?v=20261025b" defer></script>
+  <script src="assets/delen.js?v=20261025b" defer></script>
+  <script src="assets/rekenmodule.js?v=20261025b" defer></script>
+  <script src="assets/nav.js?v=20261025b" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <style>
@@ -51,7 +51,7 @@
   </style>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261025a"></script>
+  <script defer src="/assets/teller.js?v=20261025b"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -205,10 +205,9 @@
         <label for="inpBtw">Btw op de aanschaf</label>
         <select id="inpBtw">
           <option value="incl">Ik betaal 21% btw (losse aankoop)</option>
-          <option value="nul">Nultarief: samen met zonnepanelen als één levering</option>
           <option value="terug">Ik vraag de btw terug als btw-ondernemer</option>
         </select>
-        <span class="hint">Op een losse batterij geldt 21%. Bij gelijktijdige levering met zonnepanelen kan het nultarief gelden, en wie aantoonbaar handelt kan de btw terugvragen; dat scheelt een vijfde van de investering. <a href="regelgeving.html#btw">Wat er precies geldt</a></span>
+        <span class="hint">Op een thuisbatterij geldt 21% btw, ook als hij tegelijk met zonnepanelen geplaatst wordt; het nultarief geldt alleen voor de panelen zelf. Wie aantoonbaar handelt kan de btw terugvragen, en dat scheelt een vijfde van de investering. <a href="regelgeving.html#btw">Wat er precies geldt</a></span>
       </div>
 
       <details class="geavanceerd">
@@ -354,7 +353,7 @@
     <p>Kom je een onbekend woord tegen (zoals kWh, dynamisch contract of terugleverkosten)? Alle termen staan uitgelegd in de <a href="uitleg.html#woordenlijst">woordenlijst</a>.</p>
 
     <div class="blok">
-      <b>Wat het model bewust níet doet:</b> rekenen met batterijdegradatie, rente, prijsstijgingen of gegarandeerde onbalansopbrengsten. Onafhankelijke onderzoeken (CE Delft/Vereniging Eigen Huis: 6,5 tot 22 jaar; Berenschot: 4 tot 12 jaar bij slimme combinatie van strategieën) laten zien dat de uitkomst sterk afhangt van je situatie en van beleid. Gebruik deze berekening als indicatie, niet als garantie. Zie <a href="regelgeving.html">Regels &amp; subsidies</a> voor de actuele regelgeving en bronnen.
+      <b>Wat het model bewust níet doet:</b> rekenen met rente, prijsstijgingen of gegarandeerde onbalansopbrengsten. Onafhankelijke onderzoeken (CE Delft/Vereniging Eigen Huis: 6,5 tot 22 jaar; Berenschot: 4 tot 12 jaar bij slimme combinatie van strategieën) laten zien dat de uitkomst sterk afhangt van je situatie en van beleid. Gebruik deze berekening als indicatie, niet als garantie. Zie <a href="regelgeving.html">Regels &amp; subsidies</a> voor de actuele regelgeving en bronnen.
     </div>
 
     <h2>Rekenvoorbeeld: gezin met zonnepanelen en een plug-in batterij</h2>

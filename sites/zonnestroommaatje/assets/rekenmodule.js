@@ -33,10 +33,19 @@
     return panelen.find((p) => p.id === id) || null;
   }
 
+  /* Dezelfde prijs als de vergelijker toont: de laagste actuele winkelprijs
+     incl. btw, en pas als die er niet is de richtprijs. Tot oktober 2026
+     rekende dit met de richtprijs, en dan stond de Denim hier op € 85 en in
+     de lijst op € 130. */
+  function paneelPrijs(p) {
+    const a = Prijs.beste(p);
+    return a ? Prijs.vergelijkPrijs(a) : p.richtprijs_eur || null;
+  }
+
   function invoer() {
     const p = gekozenPaneel();
     const wpPerPaneel = p ? p.vermogen_wp : 440;
-    const prijsPerPaneel = p ? (p.richtprijs_eur || 70) : 70;
+    const prijsPerPaneel = p ? (paneelPrijs(p) || 70) : 70;
     const aantal = Math.max(1, Number(el("aantalPanelen").value) || 10);
     const eigenSysteemprijs = Number(el("systeemprijs").value) || 0;
     return {
@@ -137,7 +146,7 @@
 
       const select = el("keuzePaneel");
       select.innerHTML = panelen.map((p) =>
-        `<option value="${escapeHtml(p.id)}">${escapeHtml(naamVan(p))} (${p.vermogen_wp} Wp, ${eurFmt.format(p.richtprijs_eur || 0)})</option>`
+        `<option value="${escapeHtml(p.id)}">${escapeHtml(naamVan(p))} (${p.vermogen_wp} Wp, ${eurFmt.format(paneelPrijs(p) || 0)})</option>`
       ).join("");
 
       // Voorselectie via ?paneel=<id>&aantal=<n> (vanuit de vergelijker,

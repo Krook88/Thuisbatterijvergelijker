@@ -115,16 +115,23 @@
    * En binnen die vergelijkprijs eerst kijken naar aanbiedingen die het hele
    * toestel dekken. Een losse buitenunit is bijna altijd goedkoper dan een
    * compleet systeem; die als kopprijs tonen geeft een bedrag waar je niet mee
-   * kunt stoken. Zijn er alleen deelaanbiedingen, dan wordt die wel getoond -
-   * met de toelichting uit "omvat" eronder.
+   * kunt stoken. Zijn er alleen deelaanbiedingen, dan gaat de richtprijs van
+   * het complete toestel voor. Tot oktober 2026 won de deelaanbieding dan
+   * toch: de Mitsubishi Ecodan stond op € 4.042 voor de kale monoblock naast
+   * complete systemen van € 9.000, won daarmee "prijs laag naar hoog", en de
+   * rekenmodule rekende er een te gunstige terugverdientijd mee. Alleen als
+   * er geen richtprijs is, wordt de deelaanbieding getoond, met de toelichting
+   * uit "omvat" eronder.
    */
   function beste(w) {
     const lijst = geldigeAanbiedingen(w);
     const goedkoopste = (l) => l.reduce((min, a) => (vergelijkPrijs(a) < vergelijkPrijs(min) ? a : min));
     const compleet = lijst.filter(zelfdeSamenstelling);
     if (compleet.length) return goedkoopste(compleet);
+    const richtprijs = richtprijsAlsAanbieding(w);
+    if (richtprijs) return richtprijs;
     if (lijst.length) return goedkoopste(lijst);
-    return richtprijsAlsAanbieding(w);
+    return null;
   }
 
   // Korting bestaat alleen als twee vergelijkbare bedragen worden vergeleken:

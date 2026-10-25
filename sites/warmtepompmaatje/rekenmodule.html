@@ -15,17 +15,17 @@
   <meta property="og:image" content="https://warmtepompmaatje.nl/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="assets/maatlat.css?v=20261025a" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261025a" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261025a">
-  <script src="assets/iconen.js?v=20261025a" defer></script>
-  <script src="assets/condities.js?v=20261025a" defer></script>
-  <script src="assets/prijs.js?v=20261025a" defer></script>
-  <script src="assets/oordeel.js?v=20261025a" defer></script>
-  <script src="assets/rekenkern.js?v=20261025a" defer></script>
-  <script src="assets/delen.js?v=20261025a" defer></script>
-  <script src="assets/rekenmodule.js?v=20261025a" defer></script>
-  <script src="assets/nav.js?v=20261025a" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261025b" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261025b" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261025b">
+  <script src="assets/iconen.js?v=20261025b" defer></script>
+  <script src="assets/condities.js?v=20261025b" defer></script>
+  <script src="assets/prijs.js?v=20261025b" defer></script>
+  <script src="assets/oordeel.js?v=20261025b" defer></script>
+  <script src="assets/rekenkern.js?v=20261025b" defer></script>
+  <script src="assets/delen.js?v=20261025b" defer></script>
+  <script src="assets/rekenmodule.js?v=20261025b" defer></script>
+  <script src="assets/nav.js?v=20261025b" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <style>
     .reken-indeling { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ruimte-20); align-items: start; margin: var(--ruimte-28) 0 var(--ruimte-40); }
@@ -65,7 +65,7 @@
   </style>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261025a"></script>
+  <script defer src="/assets/teller.js?v=20261025b"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -76,7 +76,7 @@
         "name": "Wat is de terugverdientijd van een warmtepomp?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Bij 1.200 m³ gas per jaar rekent deze module voor een hybride warmtepomp met 6,2 tot 19,2 jaar en voor all-electric met 5,2 tot 14,9 jaar, inclusief ISDE-subsidie. Het grootste verschil maakt je gasverbruik. De besparing groeit ongeveer mee met het gas dat je nu stookt, dus bij 600 m³ duurt het ruwweg twee keer zo lang. Een warmtepomp gaat gemiddeld 15 tot 20 jaar mee."
+          "text": "Bij 1.200 m³ gas per jaar rekent deze module voor een hybride warmtepomp met 4,0 tot 13,6 jaar en voor all-electric met 6,5 tot 17,8 jaar, inclusief ISDE-subsidie. Het grootste verschil maakt je gasverbruik. De besparing groeit ongeveer mee met het gas dat je nu stookt, dus bij 600 m³ duurt het ruwweg twee keer zo lang. Een warmtepomp gaat gemiddeld 15 tot 20 jaar mee."
         }
       },
       {
@@ -92,7 +92,7 @@
         "name": "Verdient een hybride of een all-electric warmtepomp zich sneller terug?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "In het rekenvoorbeeld hierboven komt de hybride op 9,1 jaar en all-electric op 7,5 jaar (middenscenario). All-electric kost meer, met circa 5.000 euro installatie tegen 2.500 euro voor een hybride, maar bespaart ook ongeveer twee keer zoveel. Moet je cv-ketel binnenkort toch vervangen, dan valt de rekensom extra gunstig uit voor all-electric, want dan telt alleen de meerprijs ten opzichte van een nieuwe ketel. Een all-electric pomp vraagt wel een goed geïsoleerd huis; laat een installateur dat beoordelen met een warmteverliesberekening."
+          "text": "In het rekenvoorbeeld hierboven komt de hybride op 6,0 jaar en all-electric op 9,2 jaar (middenscenario). All-electric kost meer, met circa 5.000 euro installatie tegen 2.500 euro voor een hybride, maar bespaart ook ongeveer twee keer zoveel. Moet je cv-ketel binnenkort toch vervangen, dan valt de rekensom extra gunstig uit voor all-electric, want dan telt alleen de meerprijs ten opzichte van een nieuwe ketel. Een all-electric pomp vraagt wel een goed geïsoleerd huis; laat een installateur dat beoordelen met een warmteverliesberekening."
         }
       },
       {
@@ -158,7 +158,7 @@
 
     <form id="rekenformulier" class="reken-paneel" onsubmit="return false;">
       <h2>Jouw situatie</h2>
-      <p class="stappen-intro">Een paar keuzes en het resultaat rekent direct mee, op een groot scherm hiernaast en op een telefoon onder het formulier. Voor prijzen reken ik alvast met Nederlandse gemiddelden. Aanpassen kan, maar hoeft niet; de 30 toestellen hier lopen van 2.900 tot 9.500 euro voor het losse apparaat.</p>
+      <p class="stappen-intro">Een paar keuzes en het resultaat rekent direct mee, op een groot scherm hiernaast en op een telefoon onder het formulier. Voor prijzen reken ik alvast met Nederlandse gemiddelden. Aanpassen kan, maar hoeft niet; de <span data-cijfer="toestel-n">22</span> toestellen met een prijs voor het toestel zelf lopen van <span data-cijfer="toestel-min">€ 2.749</span> tot <span data-cijfer="toestel-max">€ 9.695</span> voor het losse apparaat.</p>
 
       <div class="veld">
         <label for="keuzePomp">Welke warmtepomp?</label>
@@ -280,28 +280,28 @@
     <table class="vergelijk-tabel compact">
       <thead><tr><th>Onderdeel</th><th class="bedrag">Hybride: <a href="pomp/inventum-ecolution-combi.html">Inventum Ecolution Combi 50</a></th><th class="bedrag">All-electric: <a href="pomp/bosch-compress-5800i.html">Bosch Compress 5800i AW</a></th></tr></thead>
       <tbody>
-        <tr><td>Toestel, laagste prijs in de vergelijker (incl. btw)</td><td class="bedrag">€ 4.843</td><td class="bedrag">€ 5.695</td></tr>
+        <tr><td>Toestel, laagste prijs in de vergelijker (incl. btw)</td><td class="bedrag">€ 2.900</td><td class="bedrag">€ 7.800</td></tr>
         <tr><td>Installatie (mijn schatting)</td><td class="bedrag">€ 2.500</td><td class="bedrag">€ 5.000</td></tr>
         <tr><td>Gasaansluiting laten afsluiten</td><td class="bedrag">blijft</td><td class="bedrag">€ 700</td></tr>
         <tr><td>ISDE-subsidie</td><td class="bedrag">− € 1.675</td><td class="bedrag">− € 2.375</td></tr>
-        <tr><td><b>Netto investering</b></td><td class="bedrag"><b>€ 5.668</b></td><td class="bedrag"><b>€ 9.020</b></td></tr>
+        <tr><td><b>Netto investering</b></td><td class="bedrag"><b>€ 3.725</b></td><td class="bedrag"><b>€ 11.125</b></td></tr>
         <tr><td>Gas bespaard per jaar</td><td class="bedrag">720 m³</td><td class="bedrag">1.200 m³</td></tr>
         <tr><td>Extra stroom per jaar</td><td class="bedrag">1.410 kWh</td><td class="bedrag">2.950 kWh</td></tr>
         <tr><td>Vaste gaskosten die vervallen</td><td class="bedrag">nee</td><td class="bedrag">€ 350 per jaar</td></tr>
         <tr><td><b>Besparing per jaar</b></td><td class="bedrag"><b>€ 622</b></td><td class="bedrag"><b>€ 1.204</b></td></tr>
-        <tr><td>Terugverdientijd, middenscenario</td><td class="bedrag">9,1 jaar</td><td class="bedrag">7,5 jaar</td></tr>
-        <tr><td>Bereik (ongunstig tot gunstig)</td><td class="bedrag">6,2 tot 19,2 jaar</td><td class="bedrag">5,2 tot 14,9 jaar</td></tr>
+        <tr><td>Terugverdientijd, middenscenario</td><td class="bedrag">6,0 jaar</td><td class="bedrag">9,2 jaar</td></tr>
+        <tr><td>Bereik (ongunstig tot gunstig)</td><td class="bedrag">4,0 tot 13,6 jaar</td><td class="bedrag">6,5 tot 17,8 jaar</td></tr>
       </tbody>
     </table>
     </div>
-    <p>Moet je cv-ketel toch vervangen, dan telt bij all-electric alleen de meerprijs ten opzichte van een nieuwe ketel van € 2.500. Dat is € 6.520, en dan verdient de Bosch Compress 5800i AW zich in 5,4 jaar terug. <a href="rekenmodule.html?pomp=inventum-ecolution-combi">Open de hybride</a> of <a href="rekenmodule.html?pomp=bosch-compress-5800i&amp;ketel=vervangen">de all-electric</a> in de rekenmodule en vul je eigen gasverbruik in.</p>
+    <p>Moet je cv-ketel toch vervangen, dan telt bij all-electric alleen de meerprijs ten opzichte van een nieuwe ketel van € 2.500. Dat is € 8.625, en dan verdient de Bosch Compress 5800i AW zich in 7,2 jaar terug. <a href="rekenmodule.html?pomp=inventum-ecolution-combi">Open de hybride</a> of <a href="rekenmodule.html?pomp=bosch-compress-5800i&amp;ketel=vervangen">de all-electric</a> in de rekenmodule en vul je eigen gasverbruik in.</p>
   <!-- /blok:rekenvoorbeeld -->
 
     <h2 id="veelgestelde-vragen">Veelgestelde vragen over de terugverdientijd</h2>
 
     <details class="faq-item">
       <summary>Wat is de terugverdientijd van een warmtepomp?</summary>
-      <p>Bij 1.200 m³ gas per jaar rekent deze module voor een hybride warmtepomp met <span data-cijfer="vb-h-laag">6,2</span> tot <span data-cijfer="vb-h-hoog">19,2</span> jaar en voor all-electric met <span data-cijfer="vb-a-laag">5,2</span> tot <span data-cijfer="vb-a-hoog">14,9</span> jaar, inclusief ISDE-subsidie. Het grootste verschil maakt je gasverbruik. De besparing groeit ongeveer mee met het gas dat je nu stookt, dus bij 600 m³ duurt het ruwweg twee keer zo lang. Een warmtepomp gaat gemiddeld 15 tot 20 jaar mee.</p>
+      <p>Bij 1.200 m³ gas per jaar rekent deze module voor een hybride warmtepomp met <span data-cijfer="vb-h-laag">4,0</span> tot <span data-cijfer="vb-h-hoog">13,6</span> jaar en voor all-electric met <span data-cijfer="vb-a-laag">6,5</span> tot <span data-cijfer="vb-a-hoog">17,8</span> jaar, inclusief ISDE-subsidie. Het grootste verschil maakt je gasverbruik. De besparing groeit ongeveer mee met het gas dat je nu stookt, dus bij 600 m³ duurt het ruwweg twee keer zo lang. Een warmtepomp gaat gemiddeld 15 tot 20 jaar mee.</p>
     </details>
 
     <details class="faq-item">
@@ -311,7 +311,7 @@
 
     <details class="faq-item">
       <summary>Verdient een hybride of een all-electric warmtepomp zich sneller terug?</summary>
-      <p>In het rekenvoorbeeld hierboven komt de hybride op <span data-cijfer="vb-h-tvt">9,1</span> jaar en all-electric op <span data-cijfer="vb-a-tvt">7,5</span> jaar (middenscenario). All-electric kost meer, met circa 5.000 euro installatie tegen 2.500 euro voor een hybride, maar bespaart ook ongeveer twee keer zoveel. Moet je cv-ketel binnenkort toch vervangen, dan valt de rekensom extra gunstig uit voor all-electric, want dan telt alleen de meerprijs ten opzichte van een nieuwe ketel. Een all-electric pomp vraagt wel een goed geïsoleerd huis; laat een installateur dat beoordelen met een warmteverliesberekening.</p>
+      <p>In het rekenvoorbeeld hierboven komt de hybride op <span data-cijfer="vb-h-tvt">6,0</span> jaar en all-electric op <span data-cijfer="vb-a-tvt">9,2</span> jaar (middenscenario). All-electric kost meer, met circa 5.000 euro installatie tegen 2.500 euro voor een hybride, maar bespaart ook ongeveer twee keer zoveel. Moet je cv-ketel binnenkort toch vervangen, dan valt de rekensom extra gunstig uit voor all-electric, want dan telt alleen de meerprijs ten opzichte van een nieuwe ketel. Een all-electric pomp vraagt wel een goed geïsoleerd huis; laat een installateur dat beoordelen met een warmteverliesberekening.</p>
     </details>
 
     <details class="faq-item">
