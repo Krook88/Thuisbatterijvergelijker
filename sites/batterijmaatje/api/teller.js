@@ -2,8 +2,9 @@
    Ontvanger van de eigen teller (assets/teller.js op de drie sites).
 
    Telt per dag op hoe vaak er naar een andere site wordt doorgeklikt (per
-   site, domein, product en pagina) en hoe lang pagina's zichtbaar open
-   stonden (in blokjes, plus het totaal aan seconden om een gemiddelde te
+   site, domein, product en pagina), hoe vaak een rekenhulp gestart wordt en
+   de uitslag in beeld komt, vanaf welke plek iemand naar de steunpagina gaat,
+   en hoe lang pagina's zichtbaar open stonden (in blokjes, plus het totaal aan seconden om een gemiddelde te
    kunnen geven). Er wordt geen IP-adres, geen browserkenmerk en geen tijdstip
    per bezoek bewaard: alleen tellers per dag, die na 400 dagen vervallen.
 
@@ -47,6 +48,8 @@ function gegevens(req) {
 const DOMEIN = /^[a-z0-9.-]{1,80}$/;
 const PRODUCT = /^[a-z0-9-]{0,80}$/;
 const PAD = /^\/[A-Za-z0-9._\/-]{0,119}$/;
+const STAPPEN = new Set(["gestart", "uitslag", "steun-open"]);
+const PLEK = /^[A-Za-z0-9-]{1,40}$/;
 
 /** De Redis-opdrachten voor één bericht, of null als het bericht niet deugt. */
 function teOpdrachten(g, dag) {
@@ -70,6 +73,12 @@ function teOpdrachten(g, dag) {
       ["HINCRBY", sleutel, `${basis}|${blokje(telt)}`, 1],
       ["EXPIRE", sleutel, BEWAAR_SECONDEN],
     ];
+  }
+  if (g.t === "stap") {
+    // Zie assets/teller.js: een paar vaste stappen, met een plek of formulier.
+    if (!STAPPEN.has(g.w) || !PLEK.test(String(g.p || "")) || !PAD.test(String(g.b || ""))) return null;
+    const sleutel = `stap:${dag}`;
+    return [["HINCRBY", sleutel, `${g.s}|${g.w}|${g.p}|${g.b}`, 1], ["EXPIRE", sleutel, BEWAAR_SECONDEN]];
   }
   return null;
 }

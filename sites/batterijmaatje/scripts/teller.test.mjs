@@ -37,3 +37,15 @@ test("de statistiekenpagina telt niet mee", () => {
   assert.equal(teOpdrachten({ s: "bat", t: "klik", w: "a.nl", p: "", b: "/statistieken" }, "d"), null);
   assert.notEqual(teOpdrachten({ s: "bat", t: "tijd", b: "/statistieken-uitleg.html", d: 20 }, "d"), null);
 });
+
+test("een stap telt op onder site, stap, plek en pagina", () => {
+  const uit = teOpdrachten({ s: "pomp", t: "stap", w: "gestart", p: "rekenformulier", b: "/rekenmodule.html" }, "2026-10-25");
+  assert.deepEqual(uit[0], ["HINCRBY", "stap:2026-10-25", "pomp|gestart|rekenformulier|/rekenmodule.html", 1]);
+  assert.deepEqual(teOpdrachten({ s: "bat", t: "stap", w: "steun-open", p: "blok", b: "/advies.html" }, "d")[0][2], "bat|steun-open|blok|/advies.html");
+});
+
+test("een onbekende stap of een vreemde plek telt niet", () => {
+  assert.equal(teOpdrachten({ s: "bat", t: "stap", w: "iets-anders", p: "blok", b: "/" }, "d"), null);
+  assert.equal(teOpdrachten({ s: "bat", t: "stap", w: "gestart", p: "a|b", b: "/" }, "d"), null);
+  assert.equal(teOpdrachten({ s: "bat", t: "stap", w: "gestart", p: "", b: "/" }, "d"), null);
+});

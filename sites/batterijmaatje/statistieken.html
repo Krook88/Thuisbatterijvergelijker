@@ -7,10 +7,10 @@
   <meta name="robots" content="noindex">
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="assets/maatlat.css?v=20261021a" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261021a" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261021a">
-  <script src="assets/nav.js?v=20261021a" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261025a" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261025a" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261025a">
+  <script src="assets/nav.js?v=20261025a" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
 </head>
@@ -320,6 +320,47 @@
         uit.append(el("div", { "class": "st-raster" }, [
           kaart("Naar welke sites", [tabel(["Domein", "Klikken"], domeinRijen)]),
           kaart("Vanaf welk product", [tabel(["Site en product", "Meest naar", "Klikken"], productRijen)])]));
+      }
+
+      // Rekenhulpen en steun: de stappen uit assets/teller.js (sinds 25 oktober)
+      if (t.ingesteld && !t.fout) {
+        var stappen = (t.stappen || []).filter(function (r) { return !stat.test(r.pagina); });
+        var bezoekenVan = function (site, pad) {
+          return (t.tijd || []).filter(function (r) { return r.site === site && r.pagina === pad; }).reduce(function (a, r) { return a + r.n; }, 0);
+        };
+        var telStap = function (site, stap, pad) {
+          return stappen.filter(function (r) { return r.site === site && r.stap === stap && (!pad || r.pagina === pad); }).reduce(function (a, r) { return a + r.aantal; }, 0);
+        };
+        var pct = function (deel, geheel) { return geheel ? Math.round(100 * deel / geheel) + "%" : "-"; };
+        var nieuwTeller = el("p", { "class": "st-sub", tekst: "Geteld sinds 25 oktober 2026. Bezoeken = hoe vaak de pagina geopend werd, volgens de eigen teller." });
+
+        uit.append(el("h2", { tekst: "Gebruiken ze de rekenhulpen?" }));
+        var hulpen = [["/rekenmodule.html", "Terugverdientijd"], ["/advies.html", "Keuzehulp"], ["/energieplan.html", "Energieplan"]];
+        var hulpRijen = [];
+        ["bat", "pomp", "zon"].forEach(function (site) {
+          hulpen.forEach(function (h) {
+            var n = bezoekenVan(site, h[0]);
+            var gestart = telStap(site, "gestart", h[0]);
+            var uitslag = telStap(site, "uitslag", h[0]);
+            if (!n && !gestart) return;
+            hulpRijen.push([NAAM[site] + " | " + h[1], getal.format(n), getal.format(gestart) + " (" + pct(gestart, n) + ")", getal.format(uitslag) + " (" + pct(uitslag, n) + ")"]);
+          });
+        });
+        uit.append(kaart("Per rekenhulp", [nieuwTeller, tabel(["Rekenhulp", "Bezoeken", "Iets ingevuld", "Uitslag gezien"], hulpRijen)]));
+
+        uit.append(el("h2", { tekst: "Steun" }));
+        var steunRijen = ["bat", "pomp", "zon"].map(function (site) {
+          var plekken = {};
+          stappen.filter(function (r) { return r.site === site && r.stap === "steun-open"; }).forEach(function (r) { plekken[r.plek] = (plekken[r.plek] || 0) + r.aantal; });
+          var naarSteun = Object.keys(plekken).reduce(function (a, k) { return a + plekken[k]; }, 0);
+          var beste = Object.keys(plekken).sort(function (a, b) { return plekken[b] - plekken[a]; })[0] || "-";
+          var pagina = bezoekenVan(site, "/steun.html");
+          var betaal = (t.kliks || []).filter(function (k) { return k.site === site && /(^|\.)bunq\.me$/.test(k.domein); }).reduce(function (a, k) { return a + k.aantal; }, 0);
+          return [NAAM[site], getal.format(naarSteun) + (naarSteun ? " (vooral " + beste + ")" : ""), getal.format(pagina), getal.format(betaal) + " (" + pct(betaal, pagina) + ")"];
+        });
+        uit.append(kaart("Van vraag naar betaalpagina", [nieuwTeller.cloneNode(true),
+          tabel(["Site", "Klik naar steunpagina", "Steunpagina bekeken", "Naar betaalpagina bunq"], steunRijen),
+          el("p", { "class": "st-sub", tekst: "Of iemand bij bunq ook echt betaalt, zie je alleen in de bunq-app; dit telt het doorklikken naar de betaalpagina." })]));
       }
 
       // Verblijfstijd

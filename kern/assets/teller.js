@@ -10,7 +10,11 @@
    - bij een klik op een link naar een andere site: welk domein, welk product
      (het data-id van de kaart, of de productpagina waar je op staat) en op
      welke pagina je klikte;
-   - als je de pagina verlaat of wegklikt: hoeveel seconden hij zichtbaar was.
+   - als je de pagina verlaat of wegklikt: hoeveel seconden hij zichtbaar was;
+   - een paar stappen, elk hooguit één keer per paginabezoek: dat je een
+     rekenhulp of keuzehulp gaat invullen ("gestart"), dat de uitslag daarna in
+     beeld komt ("uitslag"), en vanaf welke plek je naar de steunpagina klikt
+     ("steun-open": menu, voettekst, blok of tekst).
    Geen cookies, niets op je apparaat, geen kenmerk dat jou herkent. De
    ontvanger (batterijmaatje.nl/api/teller) telt alleen totalen per dag op.
    Zie privacy.html.
@@ -58,6 +62,23 @@
     return m ? m[1] : "";
   }
 
+  // Een stap telt één keer per paginabezoek, hoe vaak je ook typt of klikt.
+  var gemeld = {};
+  function stap(naam, plek) {
+    var sleutel = naam + "|" + plek;
+    if (gemeld[sleutel]) return;
+    gemeld[sleutel] = true;
+    stuur({ t: "stap", w: naam, p: plek, b: pagina() });
+  }
+
+  // Waar op de pagina stond de link naar de steunpagina?
+  function plekVan(a) {
+    if (a.closest(".steun-blok")) return "blok";
+    if (a.closest("footer")) return "voettekst";
+    if (a.closest("header, nav, .nav-meer")) return "menu";
+    return "tekst";
+  }
+
   function klik(e) {
     var a = e.target && e.target.closest && e.target.closest("a[href]");
     if (!a) return;
@@ -65,12 +86,36 @@
     try { doel = new URL(a.href, location.href); } catch (x) { return; }
     if (doel.protocol !== "https:" && doel.protocol !== "http:") return;
     var domein = doel.hostname.replace(/^www\./, "");
+    if (domein === host && /\/steun\.html$/.test(doel.pathname)) stap("steun-open", plekVan(a));
     // De drie eigen sites zijn geen winkel; dat verkeer staat al bij
     // "Komt vandaan" in Vercel.
     if (domein === host || SITES[domein]) return;
     stuur({ t: "klik", w: domein, p: product(a), b: pagina() });
   }
   document.addEventListener("click", klik, true);
+
+  /* Wordt een rekenhulp gebruikt, of alleen bekeken? Verblijfstijd zegt dat
+     niet: een minuut op de rekenmodule kan lezen zijn of rekenen. "gestart" is
+     de eerste keer dat je iets verandert in het formulier, "uitslag" dat het
+     resultaat daarna in beeld komt. Dezelfde ids op alle drie de sites. */
+  var formulier = document.querySelector("#rekenformulier, #adviesFormulier, #adviesformulier, #planFormulier");
+  if (formulier) {
+    var begonnen = false;
+    var begin = function () {
+      if (begonnen) return;
+      begonnen = true;
+      stap("gestart", formulier.id);
+      var uitslag = document.querySelector("#resultaat, #advies, #plan");
+      if (!uitslag || !("IntersectionObserver" in window)) return;
+      new IntersectionObserver(function (w, kijker) {
+        if (!w[0].isIntersecting) return;
+        stap("uitslag", uitslag.id);
+        kijker.disconnect();
+      }, { threshold: 0.3 }).observe(uitslag);
+    };
+    formulier.addEventListener("input", begin, true);
+    formulier.addEventListener("change", begin, true);
+  }
   // Middelste muisknop: opent in een nieuw tabblad zonder "click".
   document.addEventListener("auxclick", function (e) { if (e.button === 1) klik(e); }, true);
 

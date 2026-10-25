@@ -99,29 +99,35 @@ function paren(lijst) {
 
 async function eigenTeller(v) {
   if (!instellingen()) return { ingesteld: false };
-  const antwoorden = await opdrachten(v.dagen.flatMap((d) => [["HGETALL", `klik:${d}`], ["HGETALL", `tijd:${d}`]]));
+  // Per dag drie lijsten: doorklikken, leestijd en stappen (zie api/teller.js).
+  const SOORTEN = ["klik", "tijd", "stap"];
+  const antwoorden = await opdrachten(v.dagen.flatMap((d) => SOORTEN.map((soort) => ["HGETALL", `${soort}:${d}`])));
   const kliks = new Map();
   const tijd = new Map();
+  const stappen = new Map();
   antwoorden.forEach((r, i) => {
+    const soort = SOORTEN[i % SOORTEN.length];
     for (const [ruw, n] of Object.entries(paren(r))) {
       const delen = ruw.split("|");
-      const plek = i % 2 === 0 ? 3 : 1;
+      const plek = soort === "tijd" ? 1 : 3;
       // De statistiekenpagina zelf telt niet; zie api/_bezoek.js.
       if (niet(delen[plek])) continue;
       // Doorklikken naar de eigen sites zijn geen winkelbezoek (de teller
       // stuurt ze sinds 21 oktober niet meer).
-      if (i % 2 === 0 && EIGEN.has(delen[1])) continue;
+      if (soort === "klik" && EIGEN.has(delen[1])) continue;
       delen[plek] = gewoon(delen[plek]);
       const veld = delen.join("|");
-      if (i % 2 === 0) {
+      if (soort === "klik") {
         kliks.set(veld, (kliks.get(veld) || 0) + n);
+      } else if (soort === "stap") {
+        stappen.set(veld, (stappen.get(veld) || 0) + n);
       } else {
-        const soort = delen.pop();
+        const deel = delen.pop();
         const sleutel = delen.join("|");
         const rij = tijd.get(sleutel) || { n: 0, sec: 0, blokjes: Object.fromEntries(BLOKJES.map((b) => [b, 0])) };
-        if (soort === "n") rij.n += n;
-        else if (soort === "sec") rij.sec += n;
-        else if (soort in rij.blokjes) rij.blokjes[soort] += n;
+        if (deel === "n") rij.n += n;
+        else if (deel === "sec") rij.sec += n;
+        else if (deel in rij.blokjes) rij.blokjes[deel] += n;
         tijd.set(sleutel, rij);
       }
     }
@@ -136,6 +142,10 @@ async function eigenTeller(v) {
       const [site, pagina] = veld.split("|");
       return { site, pagina, ...rij };
     }).sort((a, b) => b.n - a.n),
+    stappen: [...stappen].map(([veld, aantal]) => {
+      const [site, stap, plek, pagina] = veld.split("|");
+      return { site, stap, plek, pagina, aantal };
+    }).sort((a, b) => b.aantal - a.aantal),
   };
 }
 
