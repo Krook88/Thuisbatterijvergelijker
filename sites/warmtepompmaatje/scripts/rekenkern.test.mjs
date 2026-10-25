@@ -144,3 +144,15 @@ test("toestel plus geschatte installatie komt uit bij de totaalprijs van Milieu 
     assert.ok(Math.abs(totaal - doel) / doel <= 0.15, `${type}: ${mediaan} + ${Rekenkern.INSTALLATIE[type]} = ${totaal}, Milieu Centraal ${doel}`);
   }
 });
+
+test("een losse buitenunit is nooit de kopprijs als er een richtprijs voor het complete toestel is", () => {
+  const Prijs = require("../assets/prijs.js");
+  const w = { richtprijs_eur: 8000, aanbiedingen: [{ winkel: "A", prijs_eur: 4042, omvat: "Dit is de kale monoblock." }] };
+  assert.equal(Prijs.beste(w).prijs_eur, 8000);
+  assert.equal(Prijs.beste(w).is_richtprijs, true);
+  // Een complete aanbieding gaat altijd voor.
+  w.aanbiedingen.push({ winkel: "B", prijs_eur: 7600 });
+  assert.equal(Prijs.beste(w).prijs_eur, 7600);
+  // Zonder richtprijs blijft de deelaanbieding zichtbaar.
+  assert.equal(Prijs.beste({ aanbiedingen: [{ winkel: "A", prijs_eur: 9999, omvat: "incl. installatie" }] }).prijs_eur, 9999);
+});

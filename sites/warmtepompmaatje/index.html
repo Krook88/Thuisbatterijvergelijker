@@ -15,16 +15,16 @@
   <meta property="og:image" content="https://warmtepompmaatje.nl/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="assets/maatlat.css?v=20261025a" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261025a" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261025a">
-  <script src="assets/iconen.js?v=20261025a" defer></script>
-  <script src="assets/condities.js?v=20261025a" defer></script>
-  <script src="assets/prijs.js?v=20261025a" defer></script>
-  <script src="assets/prijsgrafiek.js?v=20261025a" defer></script>
-  <script src="assets/kaart.js?v=20261025a" defer></script>
-  <script src="assets/app.js?v=20261025a" defer></script>
-  <script src="assets/nav.js?v=20261025a" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261025b" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261025b" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261025b">
+  <script src="assets/iconen.js?v=20261025b" defer></script>
+  <script src="assets/condities.js?v=20261025b" defer></script>
+  <script src="assets/prijs.js?v=20261025b" defer></script>
+  <script src="assets/prijsgrafiek.js?v=20261025b" defer></script>
+  <script src="assets/kaart.js?v=20261025b" defer></script>
+  <script src="assets/app.js?v=20261025b" defer></script>
+  <script src="assets/nav.js?v=20261025b" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <script type="application/ld+json">
   {
@@ -65,7 +65,7 @@
         "name": "Hoeveel ISDE-subsidie krijg ik op een warmtepomp?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Voor 26 pompen op deze site toon ik een indicatie, en die loopt van € 1.675 tot € 3.925. Het werkelijke bedrag hangt af van het vermogen en ligt vast op de apparatenlijst van RVO, dus vraag je installateur om de meldcode. Je vraagt aan binnen 24 maanden na installatie, als eigenaar én bewoner van de woning, en de uitbetaling volgt meestal binnen 8 tot 13 weken. De voorwaarden staan uitgebreider op mijn pagina over de ISDE."
+          "text": "Voor 26 pompen op deze site toon ik een indicatie, en die loopt van € 1.675 tot € 3.925. Het werkelijke bedrag hangt af van het vermogen en ligt vast op de apparatenlijst van RVO, dus vraag je installateur om de meldcode. Je vraagt aan binnen 24 maanden na installatie, als eigenaar én bewoner van de woning, en de uitbetaling volgt meestal binnen 8 tot 13 weken. Let op dat het bedrag per kW in 2027 bijna halveert; wie uiterlijk 31 december 2026 koopt, valt nog onder de bedragen van 2026. De voorwaarden staan uitgebreider op mijn pagina over de ISDE."
         }
       },
       {
@@ -230,20 +230,20 @@
     {
       "@type": "ListItem",
       "position": 15,
-      "url": "https://warmtepompmaatje.nl/pomp/bosch-compress-5800i.html",
-      "name": "Bosch Compress 5800i AW"
-    },
-    {
-      "@type": "ListItem",
-      "position": 16,
       "url": "https://warmtepompmaatje.nl/pomp/lg-therma-v.html",
       "name": "LG Therma V (R290)"
     },
     {
       "@type": "ListItem",
-      "position": 17,
+      "position": 16,
       "url": "https://warmtepompmaatje.nl/pomp/vaillant-arotherm-plus.html",
       "name": "Vaillant aroTHERM plus"
+    },
+    {
+      "@type": "ListItem",
+      "position": 17,
+      "url": "https://warmtepompmaatje.nl/pomp/bosch-compress-5800i.html",
+      "name": "Bosch Compress 5800i AW"
     },
     {
       "@type": "ListItem",
@@ -260,14 +260,14 @@
     {
       "@type": "ListItem",
       "position": 20,
-      "url": "https://warmtepompmaatje.nl/pomp/gree-versati-iv-10.html",
-      "name": "Gree Versati IV 10 kW"
+      "url": "https://warmtepompmaatje.nl/pomp/inventum-ecolution-combi.html",
+      "name": "Inventum Ecolution Combi 50"
     },
     {
       "@type": "ListItem",
       "position": 21,
-      "url": "https://warmtepompmaatje.nl/pomp/inventum-ecolution-combi.html",
-      "name": "Inventum Ecolution Combi 50"
+      "url": "https://warmtepompmaatje.nl/pomp/gree-versati-iv-10.html",
+      "name": "Gree Versati IV 10 kW"
     },
     {
       "@type": "ListItem",
@@ -304,7 +304,7 @@
   </script>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261025a"></script>
+  <script defer src="/assets/teller.js?v=20261025b"></script>
 </head>
 <body>
 
@@ -473,9 +473,9 @@
         <ul class="koppel-delen"><li class="koppel-deel deel-2" title="Slimme aansturing: SG-ready en Modbus via interface; MELCloud-regeling standaard."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg><span>Slimme aansturing</span><span class="visueel-verborgen"> volledig</span></li><li class="koppel-deel deel-2" title="Home Assistant: MELCloud-integratie in Home Assistant (cloud); ook lokale routes via de CN105-aansluiting bekend uit de community."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg><span>Home Assistant</span><span class="visueel-verborgen"> volledig</span></li><li class="koppel-deel deel-2" title="Homey: MELCloud-app in de Homey App Store, plus een MELCloud Optimizer die op dynamische stroomprijzen stuurt."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg><span>Homey</span><span class="visueel-verborgen"> volledig</span></li></ul>
       </div>
       <div class="regel-slot">
-        <a class="regel-bedrag cijfer" href="https://groupsumi.nl/airconditioning/aerotherm/monoblock-lucht-water-warmtepomp/monobloc-lucht-water-warmtepomp-mitsubishi-ecodan-puz-wz-r290-6-kw-puz-wz60vaa-bs" target="_blank" rel="noopener" aria-label="€ 4.042 bij GroupSumi: naar de aanbieding van de Mitsubishi Electric Ecodan (R290), opent in een nieuw tabblad">€ 4.042</a>
+        <a class="regel-bedrag cijfer" href="https://alklima.nl/ecodan" target="_blank" rel="noopener" aria-label="€ 8.000 bij richtprijs (indicatie): naar de aanbieding van de Mitsubishi Electric Ecodan (R290), opent in een nieuw tabblad">€ 8.000</a>
         <span class="regel-per cijfer">ISDE circa € 2.350</span>
-        <span class="regel-winkel">bij GroupSumi</span>
+        <span class="regel-winkel">richtprijs (indicatie)</span>
         
         
       </div>
@@ -593,9 +593,9 @@
         <ul class="koppel-delen"><li class="koppel-deel deel-1" title="Slimme aansturing: Slimme aansturing via de eigen Quatt CIC (internet vereist); geen open lokale API, wel een lokaal uitleesbare statuspagina."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 18a6 6 0 0 0 0-12v12z" /></svg><span>Slimme aansturing</span><span class="visueel-verborgen"> deels</span></li><li class="koppel-deel deel-1" title="Home Assistant: Populaire community-integratie (HACS) die de Quatt CIC lokaal uitleest; geen officiële integratie."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 18a6 6 0 0 0 0-12v12z" /></svg><span>Home Assistant</span><span class="visueel-verborgen"> deels</span></li><li class="koppel-deel deel-2" title="Homey: Quatt-app in de Homey App Store: zie wanneer de warmtepomp draait en gebruik dat in flows."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg><span>Homey</span><span class="visueel-verborgen"> volledig</span></li></ul>
       </div>
       <div class="regel-slot">
-        <a class="regel-bedrag cijfer" href="https://www.quatt.io/hybride-warmtepomp" target="_blank" rel="noopener" aria-label="€ 4.449 bij Quatt: naar de aanbieding van de Quatt hybride (Duo mogelijk), opent in een nieuw tabblad">€ 4.449</a>
+        <a class="regel-bedrag cijfer" href="https://www.quatt.io/" target="_blank" rel="noopener" aria-label="€ 3.500 bij richtprijs (indicatie): naar de aanbieding van de Quatt hybride (Duo mogelijk), opent in een nieuw tabblad">€ 3.500</a>
         <span class="regel-per cijfer">ISDE circa € 2.125</span>
-        <span class="regel-winkel">bij Quatt</span>
+        <span class="regel-winkel">richtprijs (indicatie)</span>
         
         
       </div>
@@ -870,38 +870,8 @@
         
       </div>
     </article>
-    <article class="resultaat-regel" data-id="bosch-compress-5800i">
-      <span class="regel-plek cijfer">15</span>
-      <div class="regel-naam">
-        <span class="regel-foto"><img src="assets/producten/bosch-compress-5800i.webp" alt="" loading="lazy" decoding="async" width="88" height="66"></span>
-        <div class="regel-naam-tekst">
-        <h3><a class="kop-link" href="pomp/bosch-compress-5800i.html"><span class="regel-merk">Bosch</span> Compress 5800i AW</a></h3>
-        <div class="regel-onder">
-        
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
-          <input type="checkbox" class="vergelijk-check" data-id="bosch-compress-5800i" > vergelijk
-        </label>
-        </div>
-        </div>
-      </div>
-      <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>6 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Koudemiddel"><span class="regel-label">Koudemiddel</span><span title="R290 (natuurlijk)">R290</span></div>
-      <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>51 dB(A)</div>
-      <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: van € 7.500 naar € 5.695, laagste € 5.695 op 9 oktober 2026" title="Prijsverloop 30 dagen: van € 7.500 naar € 5.695, laagste € 5.695 op 9 oktober 2026"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 12.0H433.3V88.0H1000.0"/></svg><span class="rg-punt" style="left:45.00%;top:88.00%"></span><span class="rg-punt rg-nu" style="left:100.00%;top:88.00%"></span></div><span class="rg-onder" aria-hidden="true">laagste € 5.695</span></div>
-      <div class="regel-waarde cijfer" data-naam="Koppel-score">
-        <span class="regel-label">Koppel-score</span>3<span class="regel-van">/6</span>
-        <ul class="koppel-delen"><li class="koppel-deel deel-2" title="Slimme aansturing: SG-ready en EEBUS; energiemanagers van derden kunnen hem aansturen."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg><span>Slimme aansturing</span><span class="visueel-verborgen"> volledig</span></li><li class="koppel-deel deel-1" title="Home Assistant: Via de community: EMS-ESP leest de Bosch/Nefit EMS-bus volledig lokaal uit; officiële integratie ontbreekt (wel HomeCom-cloud)."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 18a6 6 0 0 0 0-12v12z" /></svg><span>Home Assistant</span><span class="visueel-verborgen"> deels</span></li><li class="koppel-deel deel-0" title="Homey: Geen bekende Homey-app; verbruik zichtbaar via de Homey Energy Dongle (P1)."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg><span>Homey</span><span class="visueel-verborgen"> niet</span></li></ul>
-      </div>
-      <div class="regel-slot">
-        <a class="regel-bedrag cijfer" href="https://www.aircozonderstek.nl/product/nefit-bosch-compress-5800i-aw-5-or-s-buitenunit/" target="_blank" rel="noopener" aria-label="€ 5.695 bij Aircozonderstek: naar de aanbieding van de Bosch Compress 5800i AW, opent in een nieuw tabblad">€ 5.695</a>
-        <span class="regel-per cijfer">ISDE circa € 2.375</span>
-        <span class="regel-winkel">bij Aircozonderstek</span>
-        
-        
-      </div>
-    </article>
     <article class="resultaat-regel" data-id="lg-therma-v">
-      <span class="regel-plek cijfer">16</span>
+      <span class="regel-plek cijfer">15</span>
       <div class="regel-naam">
         <span class="regel-foto leeg" aria-hidden="true"></span>
         <div class="regel-naam-tekst">
@@ -931,7 +901,7 @@
       </div>
     </article>
     <article class="resultaat-regel" data-id="vaillant-arotherm-plus">
-      <span class="regel-plek cijfer">17</span>
+      <span class="regel-plek cijfer">16</span>
       <div class="regel-naam">
         <span class="regel-foto"><img src="assets/producten/vaillant-arotherm-plus.webp" alt="" loading="lazy" decoding="async" width="88" height="66"></span>
         <div class="regel-naam-tekst">
@@ -957,6 +927,36 @@
         <span class="regel-per cijfer">ISDE circa € 2.125</span>
         <span class="regel-winkel">richtprijs (indicatie)</span>
         <span class="prijs-ouderdom" title="Dit bedrag is 22 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 3 oktober 2026</span>
+        
+      </div>
+    </article>
+    <article class="resultaat-regel" data-id="bosch-compress-5800i">
+      <span class="regel-plek cijfer">17</span>
+      <div class="regel-naam">
+        <span class="regel-foto"><img src="assets/producten/bosch-compress-5800i.webp" alt="" loading="lazy" decoding="async" width="88" height="66"></span>
+        <div class="regel-naam-tekst">
+        <h3><a class="kop-link" href="pomp/bosch-compress-5800i.html"><span class="regel-merk">Bosch</span> Compress 5800i AW</a></h3>
+        <div class="regel-onder">
+        
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+          <input type="checkbox" class="vergelijk-check" data-id="bosch-compress-5800i" > vergelijk
+        </label>
+        </div>
+        </div>
+      </div>
+      <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>6 kW</div>
+      <div class="regel-waarde cijfer" data-naam="Koudemiddel"><span class="regel-label">Koudemiddel</span><span title="R290 (natuurlijk)">R290</span></div>
+      <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>51 dB(A)</div>
+      <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: van € 7.500 naar € 5.695, laagste € 5.695 op 9 oktober 2026" title="Prijsverloop 30 dagen: van € 7.500 naar € 5.695, laagste € 5.695 op 9 oktober 2026"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 12.0H433.3V88.0H1000.0"/></svg><span class="rg-punt" style="left:45.00%;top:88.00%"></span><span class="rg-punt rg-nu" style="left:100.00%;top:88.00%"></span></div><span class="rg-onder" aria-hidden="true">laagste € 5.695</span></div>
+      <div class="regel-waarde cijfer" data-naam="Koppel-score">
+        <span class="regel-label">Koppel-score</span>3<span class="regel-van">/6</span>
+        <ul class="koppel-delen"><li class="koppel-deel deel-2" title="Slimme aansturing: SG-ready en EEBUS; energiemanagers van derden kunnen hem aansturen."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg><span>Slimme aansturing</span><span class="visueel-verborgen"> volledig</span></li><li class="koppel-deel deel-1" title="Home Assistant: Via de community: EMS-ESP leest de Bosch/Nefit EMS-bus volledig lokaal uit; officiële integratie ontbreekt (wel HomeCom-cloud)."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 18a6 6 0 0 0 0-12v12z" /></svg><span>Home Assistant</span><span class="visueel-verborgen"> deels</span></li><li class="koppel-deel deel-0" title="Homey: Geen bekende Homey-app; verbruik zichtbaar via de Homey Energy Dongle (P1)."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg><span>Homey</span><span class="visueel-verborgen"> niet</span></li></ul>
+      </div>
+      <div class="regel-slot">
+        <a class="regel-bedrag cijfer" href="https://www.nefit-bosch.nl/ocs/compress-5800i-aw-21076799-p/" target="_blank" rel="noopener" aria-label="€ 7.800 bij richtprijs (indicatie): naar de aanbieding van de Bosch Compress 5800i AW, opent in een nieuw tabblad">€ 7.800</a>
+        <span class="regel-per cijfer">ISDE circa € 2.375</span>
+        <span class="regel-winkel">richtprijs (indicatie)</span>
+        
         
       </div>
     </article>
@@ -1020,8 +1020,38 @@
         
       </div>
     </article><div class="regel-groep"><b>Koppel-score 2 van 6</b> <span>3 pompen</span></div>
-    <article class="resultaat-regel" data-id="gree-versati-iv-10">
+    <article class="resultaat-regel" data-id="inventum-ecolution-combi">
       <span class="regel-plek cijfer">20</span>
+      <div class="regel-naam">
+        <span class="regel-foto"><img src="assets/producten/inventum-ecolution-combi.webp" alt="" loading="lazy" decoding="async" width="88" height="66"></span>
+        <div class="regel-naam-tekst">
+        <h3><a class="kop-link" href="pomp/inventum-ecolution-combi.html"><span class="regel-merk">Inventum</span> Ecolution Combi 50</a></h3>
+        <div class="regel-onder">
+        <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="Geluidsvermogen 48 dB(A), het laagste in deze lijst">stilste</span></span>
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+          <input type="checkbox" class="vergelijk-check" data-id="inventum-ecolution-combi" > vergelijk
+        </label>
+        </div>
+        </div>
+      </div>
+      <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>2 kW</div>
+      <div class="regel-waarde cijfer" data-naam="Koudemiddel"><span class="regel-label">Koudemiddel</span><span title="R134a">R134a</span></div>
+      <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>48 dB(A)</div>
+      <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 4.843" title="Prijsverloop 30 dagen: gelijk gebleven op € 4.843"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 50.0H1000.0"/></svg><span class="rg-punt rg-nu" style="left:100.00%;top:50.00%"></span></div><span class="rg-onder" aria-hidden="true">gelijk in 30 dagen</span></div>
+      <div class="regel-waarde cijfer" data-naam="Koppel-score">
+        <span class="regel-label">Koppel-score</span>2<span class="regel-van">/6</span>
+        <ul class="koppel-delen"><li class="koppel-deel deel-1" title="Slimme aansturing: OpenTherm-samenwerking met de cv-ketel; geen open lokale API."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 18a6 6 0 0 0 0-12v12z" /></svg><span>Slimme aansturing</span><span class="visueel-verborgen"> deels</span></li><li class="koppel-deel deel-1" title="Home Assistant: Community-route via Modbus (RS485); geen officiële integratie."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 18a6 6 0 0 0 0-12v12z" /></svg><span>Home Assistant</span><span class="visueel-verborgen"> deels</span></li><li class="koppel-deel deel-0" title="Homey: Geen app bekend."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg><span>Homey</span><span class="visueel-verborgen"> niet</span></li></ul>
+      </div>
+      <div class="regel-slot">
+        <a class="regel-bedrag cijfer" href="https://www.inventum.com/ecolution-combi-50/62010050" target="_blank" rel="noopener" aria-label="€ 2.900 bij richtprijs (indicatie): naar de aanbieding van de Inventum Ecolution Combi 50, opent in een nieuw tabblad">€ 2.900</a>
+        <span class="regel-per cijfer">ISDE circa € 1.675</span>
+        <span class="regel-winkel">richtprijs (indicatie)</span>
+        
+        
+      </div>
+    </article>
+    <article class="resultaat-regel" data-id="gree-versati-iv-10">
+      <span class="regel-plek cijfer">21</span>
       <div class="regel-naam">
         <span class="regel-foto"><img src="assets/producten/gree-versati-iv-10.webp" alt="" loading="lazy" decoding="async" width="88" height="66"></span>
         <div class="regel-naam-tekst">
@@ -1046,36 +1076,6 @@
         <a class="regel-bedrag cijfer" href="https://aircoshopnl.nl/warmtepomp/tosot-by-gree-versati-iv-10-kw-400v-r32-monoblock-lucht-water-warmtepomp-meldcode-ka22519/" target="_blank" rel="noopener" aria-label="€ 4.139 bij Aircoshop: naar de aanbieding van de Gree Versati IV 10 kW, opent in een nieuw tabblad">€ 4.139</a>
         <span class="regel-per cijfer">ISDE circa € 3.050</span>
         <span class="regel-winkel">bij Aircoshop</span>
-        
-        
-      </div>
-    </article>
-    <article class="resultaat-regel" data-id="inventum-ecolution-combi">
-      <span class="regel-plek cijfer">21</span>
-      <div class="regel-naam">
-        <span class="regel-foto"><img src="assets/producten/inventum-ecolution-combi.webp" alt="" loading="lazy" decoding="async" width="88" height="66"></span>
-        <div class="regel-naam-tekst">
-        <h3><a class="kop-link" href="pomp/inventum-ecolution-combi.html"><span class="regel-merk">Inventum</span> Ecolution Combi 50</a></h3>
-        <div class="regel-onder">
-        <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="Geluidsvermogen 48 dB(A), het laagste in deze lijst">stilste</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
-          <input type="checkbox" class="vergelijk-check" data-id="inventum-ecolution-combi" > vergelijk
-        </label>
-        </div>
-        </div>
-      </div>
-      <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>2 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Koudemiddel"><span class="regel-label">Koudemiddel</span><span title="R134a">R134a</span></div>
-      <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>48 dB(A)</div>
-      <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 4.843" title="Prijsverloop 30 dagen: gelijk gebleven op € 4.843"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 50.0H1000.0"/></svg><span class="rg-punt rg-nu" style="left:100.00%;top:50.00%"></span></div><span class="rg-onder" aria-hidden="true">gelijk in 30 dagen</span></div>
-      <div class="regel-waarde cijfer" data-naam="Koppel-score">
-        <span class="regel-label">Koppel-score</span>2<span class="regel-van">/6</span>
-        <ul class="koppel-delen"><li class="koppel-deel deel-1" title="Slimme aansturing: OpenTherm-samenwerking met de cv-ketel; geen open lokale API."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 18a6 6 0 0 0 0-12v12z" /></svg><span>Slimme aansturing</span><span class="visueel-verborgen"> deels</span></li><li class="koppel-deel deel-1" title="Home Assistant: Community-route via Modbus (RS485); geen officiële integratie."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 18a6 6 0 0 0 0-12v12z" /></svg><span>Home Assistant</span><span class="visueel-verborgen"> deels</span></li><li class="koppel-deel deel-0" title="Homey: Geen app bekend."><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg><span>Homey</span><span class="visueel-verborgen"> niet</span></li></ul>
-      </div>
-      <div class="regel-slot">
-        <a class="regel-bedrag cijfer" href="https://www.jcbventilatiestore.nl/products/inventum-ecolution-combi-50-ventilatiewarmtepomp-50-liter" target="_blank" rel="noopener" aria-label="€ 4.843 bij JCB Ventilatie: naar de aanbieding van de Inventum Ecolution Combi 50, opent in een nieuw tabblad">€ 4.843</a>
-        <span class="regel-per cijfer">ISDE circa € 1.675</span>
-        <span class="regel-winkel">bij JCB Ventilatie</span>
         
         
       </div>
@@ -1266,7 +1266,7 @@
 
     <details class="faq-item">
       <summary>Hoeveel ISDE-subsidie krijg ik op een warmtepomp?</summary>
-      <p>Voor <span data-cijfer="isde-n">26</span> pompen op deze site toon ik een indicatie, en die loopt van <span data-cijfer="isde-min">€ 1.675</span> tot <span data-cijfer="isde-max">€ 3.925</span>. Het werkelijke bedrag hangt af van het vermogen en ligt vast op de apparatenlijst van RVO, dus vraag je installateur om de meldcode. Je vraagt aan binnen 24 maanden na installatie, als eigenaar én bewoner van de woning, en de uitbetaling volgt meestal binnen 8 tot 13 weken. De voorwaarden staan uitgebreider op mijn <a href="subsidie.html">pagina over de ISDE</a>.</p>
+      <p>Voor <span data-cijfer="isde-n">26</span> pompen op deze site toon ik een indicatie, en die loopt van <span data-cijfer="isde-min">€ 1.675</span> tot <span data-cijfer="isde-max">€ 3.925</span>. Het werkelijke bedrag hangt af van het vermogen en ligt vast op de apparatenlijst van RVO, dus vraag je installateur om de meldcode. Je vraagt aan binnen 24 maanden na installatie, als eigenaar én bewoner van de woning, en de uitbetaling volgt meestal binnen 8 tot 13 weken. Let op dat het bedrag per kW in 2027 bijna halveert; wie uiterlijk 31 december 2026 koopt, valt nog onder de bedragen van 2026. De voorwaarden staan uitgebreider op mijn <a href="subsidie.html">pagina over de ISDE</a>.</p>
     </details>
 
     <details class="faq-item">

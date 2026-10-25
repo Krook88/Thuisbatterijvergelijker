@@ -1016,6 +1016,7 @@ let REKENVOORBEELD = null;
   const opsomming = (delen) => delen.length > 1 ? `${delen.slice(0, -1).join(", ")} en ${delen[delen.length - 1]}` : delen.join("");
   const status = (veld, s) => pompen.filter((w) => (w[veld] || {}).status === s).length;
   const prijzen = pompen.map(prijsVan).filter(Boolean);
+  const toestelPrijzen = pompen.filter((w) => { const a = bestePrijs(w); return a && !a.omvat; }).map(prijsVan).filter(Boolean);
   const isde = getallen("isde_indicatie_eur");
   const aanvoer = getallen("max_aanvoer_c");
   const garanties = getallen("garantie_jaar");
@@ -1109,6 +1110,12 @@ ${[
     "prijs-n": prijzen.length,
     "prijs-min": eur(Math.min(...prijzen)),
     "prijs-max": eur(Math.max(...prijzen)),
+    // Alleen het toestel zelf: een prijs met "omvat" dekt iets anders (een
+    // losse buitenunit, of installatie erbij) en hoort niet in "van ... tot ...
+    // voor het losse apparaat" op rekenmodule.html.
+    "toestel-min": eur(Math.min(...toestelPrijzen)),
+    "toestel-max": eur(Math.max(...toestelPrijzen)),
+    "toestel-n": toestelPrijzen.length,
     "winkels": aantalWinkels(pompen),
     "binnen": pompen.filter((w) => !heeftBuitenunit(w)).length,
     "isde-n": isde.length,

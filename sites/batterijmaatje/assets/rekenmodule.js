@@ -351,9 +351,7 @@
     }
 
     if (i.btwRoute !== "incl") {
-      kanttekeningen.push(i.btwRoute === "nul"
-        ? `Er is gerekend met het btw-nultarief, dus met ${eurFmt.format(r.netInvestering)} in plaats van ${eurFmt.format(i.investering)}. Dat tarief geldt alleen als de batterij gelijktijdig met zonnepanelen als één levering wordt geïnstalleerd; los gekocht betaal je 21%. Zie <a href="regelgeving.html">Regels &amp; subsidies</a>.`
-        : `Er is gerekend alsof je de btw terugkrijgt, dus met ${eurFmt.format(r.netInvestering)} in plaats van ${eurFmt.format(i.investering)}. Dat kan als je aantoonbaar handelt via een dynamisch contract en als btw-ondernemer wordt aangemerkt. De regels luisteren nauw, je schiet het bedrag eerst voor, en het is geen gelopen race. Zie <a href="regelgeving.html">Regels &amp; subsidies</a>.`);
+      kanttekeningen.push(`Er is gerekend alsof je de btw terugkrijgt, dus met ${eurFmt.format(r.netInvestering)} in plaats van ${eurFmt.format(i.investering)}. Dat kan als je aantoonbaar handelt via een dynamisch contract en als btw-ondernemer wordt aangemerkt. De regels luisteren nauw, je schiet het bedrag eerst voor, en het is geen gelopen race. Zie <a href="regelgeving.html">Regels &amp; subsidies</a>.`);
     }
 
     if (r.spreadOptimistisch) {
