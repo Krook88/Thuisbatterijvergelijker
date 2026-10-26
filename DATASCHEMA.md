@@ -303,8 +303,8 @@ bijgewerkt. Het aantal staat ook in lopende tekst en wordt door
 | `geluid_db` | geheel getal | 26/33 | Geluidsvermogen buitenunit in dB(A), volgens label of datasheet. Geen nachtstand of geluidsdruk. |
 | `geluid_toelichting` | tekst | 33/33 | Is tevens het conditieveld bij `geluid_db`. |
 | `max_aanvoer_c` | geheel getal | 27/33 | Hoogste aanvoertemperatuur; vanaf 65 telt hij in het filter "geschikt voor radiatoren". |
-| `scop_55` | getal | 5/33 | SCOP bij 55 °C aanvoer, gemiddeld klimaat. Alleen uit een fabrieksopgave, energielabel of officieel register; een ηs wordt omgerekend met SCOP = (ηs + 3) × 0,025. |
-| `scop_55_bron` | tekst | 5/33 | Verplicht bij `scop_55`. |
+| `scop_55` | getal | 23/33 | SCOP bij 55 °C aanvoer, gemiddeld klimaat. Alleen uit een fabrieksopgave, energielabel of officieel register; een ηs wordt omgerekend met SCOP = (ηs + 3) × 0,025. |
+| `scop_55_bron` | tekst | 23/33 | Verplicht bij `scop_55`. |
 | `fase` | tekst | 15/33 | `"1-fase"`, `"3-fase"` of `"beide"`. Alleen gezet waar de typecode of de fabrikant het zegt. |
 | `koudemiddel` | tekst | 33/33 | `"R290 (natuurlijk)"`, `"R32"`, `"R410A (GWP 2088)"`, ... |
 | `tapwater` | tekst | 33/33 | |

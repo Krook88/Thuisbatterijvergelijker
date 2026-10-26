@@ -167,6 +167,8 @@
       // hebben geen SCOP, en met `|| 0` zakten die naar de bodem alsof ze een
       // rendement van nul hebben. Een pomp waarvan de fabrikant het getal niet
       // publiceert is niet de slechtste van de lijst; hij is onbekend.
+      // Radiatoren: de SCOP bij 55 °C, onbekend onderaan.
+      case "rendement-55": kopie.sort((a, b) => (typeof b.scop_55 === "number" ? b.scop_55 : -1) - (typeof a.scop_55 === "number" ? a.scop_55 : -1)); break;
       case "rendement": kopie.sort((a, b) => (scopBekend(a) && scopBekend(b) ? b.scop - a.scop : scopBekend(a) ? -1 : scopBekend(b) ? 1 : 0)); break;
       case "koppel-score": kopie.sort((a, b) => koppelScore(b) - koppelScore(a) || sleutel(a) - sleutel(b)); break;
     }
