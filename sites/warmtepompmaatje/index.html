@@ -15,16 +15,16 @@
   <meta property="og:image" content="https://warmtepompmaatje.nl/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="assets/maatlat.css?v=20261025g" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261025g" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261025g">
-  <script src="assets/iconen.js?v=20261025g" defer></script>
-  <script src="assets/condities.js?v=20261025g" defer></script>
-  <script src="assets/prijs.js?v=20261025g" defer></script>
-  <script src="assets/prijsgrafiek.js?v=20261025g" defer></script>
-  <script src="assets/kaart.js?v=20261025g" defer></script>
-  <script src="assets/app.js?v=20261025g" defer></script>
-  <script src="assets/nav.js?v=20261025g" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261026a" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261026a" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261026a">
+  <script src="assets/iconen.js?v=20261026a" defer></script>
+  <script src="assets/condities.js?v=20261026a" defer></script>
+  <script src="assets/prijs.js?v=20261026a" defer></script>
+  <script src="assets/prijsgrafiek.js?v=20261026a" defer></script>
+  <script src="assets/kaart.js?v=20261026a" defer></script>
+  <script src="assets/app.js?v=20261026a" defer></script>
+  <script src="assets/nav.js?v=20261026a" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <script type="application/ld+json">
   {
@@ -304,7 +304,7 @@
   </script>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261025g"></script>
+  <script defer src="/assets/teller.js?v=20261026a"></script>
 </head>
 <body>
 
@@ -434,6 +434,7 @@
           <option value="subsidie">Subsidie (hoogste eerst)</option>
           <option value="geluid">Geluid (stilste eerst)</option>
           <option value="rendement">Rendement (hoogste eerst)</option>
+          <option value="rendement-55">Rendement bij radiatoren, 55 °C (hoogste eerst)</option>
         </select></label>
     <div class="weergave-knoppen">
       <button id="knopLijst" class="actief">Lijst</button>
@@ -574,7 +575,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>4 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="hoge praktijkrendementen door slimme cloud-aansturing (Quatt CIC)">Onbekend</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="hoge praktijkrendementen door slimme cloud-aansturing (Quatt CIC) | Quatt-specificatieblad Hybrid: SCOP 3,82 bij 55 °C">? / 3,8</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>56 dB(A)</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><span class="rg-leeg">geen winkelprijs gevolgd</span></div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -604,7 +605,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>3 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="hoge COP bij lage aanvoertemperatuur; werkt samen met de cv-ketel">Onbekend</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="hoge COP bij lage aanvoertemperatuur; werkt samen met de cv-ketel | Productgegevens Elga Ace 4 kW volgens tptechnology.nl en warmtepompvergelijker.nl: ηs 136% bij 55 °C, SCOP 3,4">? / 3,4</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>58 dB(A)</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 3.299" title="Prijsverloop 30 dagen: gelijk gebleven op € 3.299"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 50.0H1000.0"/></svg><span class="rg-punt rg-nu" style="left:100.00%;top:50.00%"></span></div><span class="rg-onder" aria-hidden="true">gelijk in 30 dagen</span></div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -634,7 +635,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>3 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="sterk in grotere woningen; koppelt met een Daikin-gasketel of bestaande ketel">Onbekend</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="sterk in grotere woningen; koppelt met een Daikin-gasketel of bestaande ketel | Daikin-catalogus en Daikin-voorschrijfgids (EJHA04AV3): SCOP 3,26 bij 55 °C, ηs 128%">? / 3,3</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>59 dB(A)</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 3.343" title="Prijsverloop 30 dagen: gelijk gebleven op € 3.343"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 50.0H1000.0"/></svg><span class="rg-punt rg-nu" style="left:100.00%;top:50.00%"></span></div><span class="rg-onder" aria-hidden="true">gelijk in 30 dagen</span></div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -694,7 +695,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>6 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="labelwaarde bij 35 °C aanvoer">4,5 / ?</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="labelwaarde bij 35 °C aanvoer | Productgegevens Amber 95 (03-00764) bij de groothandel: ηs 137% bij 55 °C, omgerekend SCOP 3,5">4,5 / 3,5</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>52 dB(A)</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: van € 4.630 naar € 4.630, laagste € 4.630 op 26 september 2026" title="Prijsverloop 30 dagen: van € 4.630 naar € 4.630, laagste € 4.630 op 26 september 2026"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 88.0H866.7V12.0H966.7V88.0H1000.0"/></svg><span class="rg-punt" style="left:1.67%;top:88.00%"></span><span class="rg-punt rg-nu" style="left:100.00%;top:88.00%"></span></div><span class="rg-onder" aria-hidden="true">laagste € 4.630</span></div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -705,7 +706,7 @@
         <a class="regel-bedrag cijfer" href="https://installmat.nl/product/itho-daalderop-amber-95-monoblock-warmtepomp/" target="_blank" rel="noopener" aria-label="€ 4.630 bij Installmat: naar de aanbieding van de Itho Daalderop Amber 95, opent in een nieuw tabblad">€ 4.630</a>
         <span class="regel-per cijfer">ISDE circa € 2.575</span>
         <span class="regel-winkel">bij Installmat</span>
-        <span class="prijs-ouderdom" title="Dit bedrag is 16 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 9 oktober 2026</span>
+        <span class="prijs-ouderdom" title="Dit bedrag is 17 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 9 oktober 2026</span>
         
       </div>
     </article>
@@ -754,7 +755,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>6 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="bewezen platform, breed leverbaar in vermogens 4 tot 8 kW">4,6 / ?</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="bewezen platform, breed leverbaar in vermogens 4 tot 8 kW | Daikin-datasheet en -catalogus Altherma 3 R 6 kW: SCOP 3,26 bij 55 °C, ηs 127%">4,6 / 3,3</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>58 dB(A)</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 5.414" title="Prijsverloop 30 dagen: gelijk gebleven op € 5.414"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 50.0H1000.0"/></svg><span class="rg-punt rg-nu" style="left:100.00%;top:50.00%"></span></div><span class="rg-onder" aria-hidden="true">gelijk in 30 dagen</span></div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -765,7 +766,7 @@
         <a class="regel-bedrag cijfer" href="https://www.klimate.nl/daikin-altherma-3-r-w-lucht-water-warmtepomp-split-unit-6-kw.html" target="_blank" rel="noopener" aria-label="€ 5.414 bij KliMate: naar de aanbieding van de Daikin Altherma 3 R, opent in een nieuw tabblad">€ 5.414</a>
         <span class="regel-per cijfer">ISDE circa € 2.575</span>
         <span class="regel-winkel">bij KliMate</span>
-        <span class="prijs-ouderdom" title="Dit bedrag is 54 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 1 september 2026</span>
+        <span class="prijs-ouderdom" title="Dit bedrag is 55 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 1 september 2026</span>
         
       </div>
     </article><div class="regel-extra" hidden>
@@ -784,7 +785,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>5 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="SCOP 4,46 bij 35 °C aanvoer en 3,21 bij 55 °C, uit de typetabel van Atlantic voor de Alfea Extensa A.I. 6. Hier stond eerder 4,65; dat is de COP bij +7/+35 van ditzelfde model en geen seizoensrendement.">4,5 / ?</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="SCOP 4,46 bij 35 °C aanvoer en 3,21 bij 55 °C, uit de typetabel van Atlantic voor de Alfea Extensa A.I. 6. Hier stond eerder 4,65; dat is de COP bij +7/+35 van ditzelfde model en geen seizoensrendement. | Atlantic-specificatieblad Alféa Extensa A.I. 6 R32: SCOP 3,21 bij 55 °C">4,5 / 3,2</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>60 dB(A)</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 5.300" title="Prijsverloop 30 dagen: gelijk gebleven op € 5.300"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 50.0H1000.0"/></svg><span class="rg-punt rg-nu" style="left:100.00%;top:50.00%"></span></div><span class="rg-onder" aria-hidden="true">gelijk in 30 dagen</span></div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -814,7 +815,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>12 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="de zwaardere bi-bloc naast de L-generatie, voor woningen met een hogere warmtevraag">Onbekend</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="de zwaardere bi-bloc naast de L-generatie, voor woningen met een hogere warmtevraag | Panasonic-specificatieblad WH-WXG12ME8: ηs 135% bij 55 °C, SCOP 3,46">? / 3,5</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>53 dB(A)</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 6.899" title="Prijsverloop 30 dagen: gelijk gebleven op € 6.899"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 50.0H1000.0"/></svg><span class="rg-punt rg-nu" style="left:100.00%;top:50.00%"></span></div><span class="rg-onder" aria-hidden="true">gelijk in 30 dagen</span></div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -915,7 +916,7 @@
         <a class="regel-bedrag cijfer" href="https://www.vaillant.nl/producten/arothermplus/" target="_blank" rel="noopener" aria-label="€ 7.300 bij richtprijs (indicatie): naar de aanbieding van de Vaillant aroTHERM plus, opent in een nieuw tabblad">€ 7.300</a>
         <span class="regel-per cijfer">ISDE circa € 2.125</span>
         <span class="regel-winkel">richtprijs (indicatie)</span>
-        <span class="prijs-ouderdom" title="Dit bedrag is 22 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 3 oktober 2026</span>
+        <span class="prijs-ouderdom" title="Dit bedrag is 23 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 3 oktober 2026</span>
         
       </div>
     </article>
@@ -964,7 +965,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>6 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="A+++. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.">4,8 / ?</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="A+++. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen. | Bosch-productblad Compress 5800i AW 5 OR-S (april 2023): SCOP 3,50 bij 55 °C, ηs 137%">4,8 / 3,5</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>51 dB(A)</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><span class="rg-leeg">geen winkelprijs gevolgd</span></div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1024,7 +1025,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>5 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="SCOP tot 4,8 bij lage aanvoertemperatuur, energielabel A+++; leverbaar van 4 tot 16 kW. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.">4,8 / ?</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="SCOP tot 4,8 bij lage aanvoertemperatuur, energielabel A+++; leverbaar van 4 tot 16 kW. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen. | Toshiba-producttabel Estia Bi-Bloc R290 (juni 2025): SCOP 3,6 bij 55 °C voor HWP-601HW-E">4,8 / 3,6</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>Onbekend</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 8.107" title="Prijsverloop 30 dagen: gelijk gebleven op € 8.107"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 50.0H1000.0"/></svg><span class="rg-punt rg-nu" style="left:100.00%;top:50.00%"></span></div><span class="rg-onder" aria-hidden="true">gelijk in 30 dagen</span></div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1035,7 +1036,7 @@
         <a class="regel-bedrag cijfer" href="https://www.intercool.nl/assortiment/warmtepompen/bi-bloc-r290/toshiba-bi-bloc-r290/" target="_blank" rel="noopener" aria-label="€ 8.107 bij Intercool: naar de aanbieding van de Toshiba Estia Bi-Bloc R290, opent in een nieuw tabblad">€ 8.107</a>
         <span class="regel-per cijfer">ISDE circa € 2.350</span>
         <span class="regel-winkel">bij Intercool</span>
-        <span class="prijs-ouderdom" title="Dit bedrag is 22 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 3 oktober 2026</span>
+        <span class="prijs-ouderdom" title="Dit bedrag is 23 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 3 oktober 2026</span>
         
       </div>
     </article>
@@ -1054,7 +1055,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>12 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="driefase-uitvoering van de 5800i-reeks voor grotere woningen">Onbekend</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="driefase-uitvoering van de 5800i-reeks voor grotere woningen | Productgegevens Compress 5800i AW 12 OR-T (Duitse en Deense dealer, gelijkluidend): SCOP 3,51 bij 55 °C">? / 3,5</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>60 dB(A)</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 9.695" title="Prijsverloop 30 dagen: gelijk gebleven op € 9.695"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 50.0H1000.0"/></svg><span class="rg-punt rg-nu" style="left:100.00%;top:50.00%"></span></div><span class="rg-onder" aria-hidden="true">gelijk in 30 dagen</span></div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1084,7 +1085,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>6 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="SCOP-waarden rond of boven 5,0 bij 35 °C aanvoer; A+++">5 / ?</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="SCOP-waarden rond of boven 5,0 bij 35 °C aanvoer; A+++ | Vitocal 250-A 251.A06: ηs 141% bij 55 °C (ErP-gegevens) en SCOP 3,6 (42watt, uit de Viessmann-tabel)">5 / 3,6</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>54 dB(A)</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 8.431" title="Prijsverloop 30 dagen: gelijk gebleven op € 8.431"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 50.0H1000.0"/></svg><span class="rg-punt rg-nu" style="left:100.00%;top:50.00%"></span></div><span class="rg-onder" aria-hidden="true">gelijk in 30 dagen</span></div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1114,7 +1115,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>7 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="labelwaarde bij 35 °C aanvoer">4,6 / ?</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="labelwaarde bij 35 °C aanvoer | ErP-gegevens WPL-A 07 HK 230 Premium: ηs 153% bij 55 °C, SCOP 3,9; label A+++ bij 55 °C volgens het Stiebel-datablad">4,6 / 3,9</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>54 dB(A)</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: van € 7.950 naar € 8.812, laagste € 7.950 op 26 september 2026" title="Prijsverloop 30 dagen: van € 7.950 naar € 8.812, laagste € 7.950 op 26 september 2026"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 88.0H200.0V12.0H1000.0"/></svg><span class="rg-punt" style="left:1.67%;top:88.00%"></span><span class="rg-punt rg-nu" style="left:100.00%;top:12.00%"></span></div><span class="rg-onder" aria-hidden="true">laagste € 7.950</span></div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1144,7 +1145,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>6 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="labelwaarde bij 35 °C aanvoer">4,7 / ?</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="labelwaarde bij 35 °C aanvoer | Wolf-productpagina en ErP-blad CHA-07: ηs 148% bij 55 °C, omgerekend SCOP 3,8">4,7 / 3,8</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>55 dB(A)</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 8.795" title="Prijsverloop 30 dagen: gelijk gebleven op € 8.795"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 50.0H1000.0"/></svg><span class="rg-punt rg-nu" style="left:100.00%;top:50.00%"></span></div><span class="rg-onder" aria-hidden="true">gelijk in 30 dagen</span></div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1174,7 +1175,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>5 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="A+++; hoge aanvoertemperatuur voor bestaande bouw. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen.">4,7 / ?</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="A+++; hoge aanvoertemperatuur voor bestaande bouw. Geldt bij 35 graden aanvoer: dat volgt uit de labelklasse A+++, die deze pompen bij 55 graden niet halen. | Panasonic-productpagina WH-WDG05LE5: SCOP 3,63 bij 55 °C, ηs 142%">4,7 / 3,6</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>56 dB(A)</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: gelijk gebleven op € 8.899" title="Prijsverloop 30 dagen: gelijk gebleven op € 8.899"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 50.0H1000.0"/></svg><span class="rg-punt rg-nu" style="left:100.00%;top:50.00%"></span></div><span class="rg-onder" aria-hidden="true">gelijk in 30 dagen</span></div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">
@@ -1234,7 +1235,7 @@
         </div>
       </div>
       <div class="regel-waarde cijfer" data-naam="Vermogen"><span class="regel-label">Vermogen</span>6 kW</div>
-      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="SCOP 4,9; ontworpen voor het bestaande cv-net van Nederlandse woningen">4,9 / ?</span></div>
+      <div class="regel-waarde cijfer" data-naam="Rendement"><span class="regel-label">SCOP 35 / 55 °C</span><span title="SCOP 4,9; ontworpen voor het bestaande cv-net van Nederlandse woningen | DeWarmte-datasheet Pomp AO (november 2024): SCOP 3,4 bij 55 °C">4,9 / 3,4</span></div>
       <div class="regel-waarde cijfer" data-naam="Geluid"><span class="regel-label">Geluid</span>Onbekend</div>
       <div class="regel-verloop" data-naam="Prijsverloop"><span class="regel-label">Prijsverloop 30 dagen</span><div class="rg" role="img" aria-label="Prijsverloop 30 dagen: van € 3.400 naar € 9.999, laagste € 3.400 op 26 september 2026" title="Prijsverloop 30 dagen: van € 3.400 naar € 9.999, laagste € 3.400 op 26 september 2026"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="rg-lijn" d="M0.0 88.0H633.3M866.7 12.0H1000.0"/></svg><span class="rg-punt" style="left:1.67%;top:88.00%"></span><span class="rg-punt rg-nu" style="left:100.00%;top:12.00%"></span></div><span class="rg-onder" aria-hidden="true">laagste € 3.400</span></div>
       <div class="regel-waarde cijfer" data-naam="Koppel-score">

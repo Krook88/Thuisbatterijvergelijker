@@ -10,6 +10,8 @@
       "voorbeeld_variant": "Elga Ace 4,0 kW (monoblock)",
       "vermogen_kw": 3,
       "scop_toelichting": "hoge COP bij lage aanvoertemperatuur; werkt samen met de cv-ketel",
+      "scop_55": 3.4,
+      "scop_55_bron": "Productgegevens Elga Ace 4 kW volgens tptechnology.nl en warmtepompvergelijker.nl: ηs 136% bij 55 °C, SCOP 3,4",
       "geluid_db": 58,
       "geluid_toelichting": "geluidsvermogen buitenunit volgens label; met stille modus voor de nacht",
       "koudemiddel": "R32",
@@ -70,6 +72,8 @@
       "voorbeeld_variant": "Altherma H Hybride 4 kW (monoblock, EJHA04AV3)",
       "vermogen_kw": 3,
       "scop_toelichting": "sterk in grotere woningen; koppelt met een Daikin-gasketel of bestaande ketel",
+      "scop_55": 3.26,
+      "scop_55_bron": "Daikin-catalogus en Daikin-voorschrijfgids (EJHA04AV3): SCOP 3,26 bij 55 °C, ηs 128%",
       "geluid_db": 59,
       "geluid_toelichting": "geluidsvermogen buitenunit volgens label; stille nachtstand instelbaar",
       "koudemiddel": "R32",
@@ -115,6 +119,8 @@
       "voorbeeld_variant": "Quatt Single (Duo voor grotere woningen)",
       "vermogen_kw": 4,
       "scop_toelichting": "hoge praktijkrendementen door slimme cloud-aansturing (Quatt CIC)",
+      "scop_55": 3.82,
+      "scop_55_bron": "Quatt-specificatieblad Hybrid: SCOP 3,82 bij 55 °C",
       "geluid_db": 56,
       "geluid_toelichting": "geluidsvermogen buitenunit volgens datasheet; nachtmodus via de app",
       "koudemiddel": "R32",
@@ -362,6 +368,8 @@
         }
       ],
       "scop_conditie": "35",
+      "scop_55": 3.6,
+      "scop_55_bron": "Vitocal 250-A 251.A06: ηs 141% bij 55 °C (ErP-gegevens) en SCOP 3,6 (42watt, uit de Viessmann-tabel)",
       "vermogen_conditie": "Prated"
     },
     {
@@ -567,7 +575,9 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "onbekend"
+      "scop_conditie": "onbekend",
+      "scop_55": 3.26,
+      "scop_55_bron": "Daikin-datasheet en -catalogus Altherma 3 R 6 kW: SCOP 3,26 bij 55 °C, ηs 127%"
     },
     {
       "id": "bosch-compress-5800i",
@@ -632,6 +642,8 @@
       ],
       "vermogen_conditie": "Prated",
       "scop_conditie": "35",
+      "scop_55": 3.5,
+      "scop_55_bron": "Bosch-productblad Compress 5800i AW 5 OR-S (april 2023): SCOP 3,50 bij 55 °C, ηs 137%",
       "afbeelding": "assets/producten/bosch-compress-5800i.webp",
       "afbeelding_bron": "foto: Bosch",
       "afbeelding_herkomst": "https://www.nefit-bosch.nl/ocsmedia/optimized/770x99999/o546932v389_Compress_5800i_6800i_AW_v14.png",
@@ -699,6 +711,8 @@
       "prijs_datum": "2026-10-25",
       "vermogen_conditie": "Prated",
       "scop_conditie": "35",
+      "scop_55": 3.63,
+      "scop_55_bron": "Panasonic-productpagina WH-WDG05LE5: SCOP 3,63 bij 55 °C, ηs 142%",
       "afbeelding": "assets/producten/panasonic-aquarea-l.webp",
       "afbeelding_bron": "foto: Panasonic",
       "afbeelding_herkomst": "https://cdn.aircon.panasonic.eu/uploads/NL/aquarea_panasonic_heat_pump.png"
@@ -943,6 +957,8 @@
         }
       ],
       "scop_conditie": "35",
+      "scop_55": 3.9,
+      "scop_55_bron": "ErP-gegevens WPL-A 07 HK 230 Premium: ηs 153% bij 55 °C, SCOP 3,9; label A+++ bij 55 °C volgens het Stiebel-datablad",
       "vermogen_conditie": "Prated",
       "fase": "1-fase",
       "afbeelding": "assets/producten/stiebel-wpl-a07.webp",
@@ -1015,6 +1031,8 @@
         }
       ],
       "scop_conditie": "35",
+      "scop_55": 3.78,
+      "scop_55_bron": "Wolf-productpagina en ErP-blad CHA-07: ηs 148% bij 55 °C, omgerekend SCOP 3,8",
       "vermogen_conditie": "Prated",
       "afbeelding": "assets/producten/wolf-cha-07.webp",
       "afbeelding_bron": "foto: Wolf",
@@ -1094,6 +1112,8 @@
         }
       ],
       "scop_conditie": "35",
+      "scop_55": 3.5,
+      "scop_55_bron": "Productgegevens Amber 95 (03-00764) bij de groothandel: ηs 137% bij 55 °C, omgerekend SCOP 3,5",
       "vermogen_conditie": "Prated",
       "afbeelding": "assets/producten/itho-amber-95.webp",
       "afbeelding_bron": "foto: Itho Daalderop",
@@ -1421,6 +1441,8 @@
       ],
       "vermogen_conditie": "Prated",
       "scop_conditie": "35",
+      "scop_55": 3.6,
+      "scop_55_bron": "Toshiba-producttabel Estia Bi-Bloc R290 (juni 2025): SCOP 3,6 bij 55 °C voor HWP-601HW-E",
       "prijs_toelichting": "De 6,0 kW in de naam is de typeaanduiding van de fabrikant; bij de ontwerpbuitentemperatuur levert dit toestel 5 kW volgens de ISDE-meldcodelijst."
     },
     {
@@ -1486,6 +1508,8 @@
       ],
       "prijs_datum": "2026-10-25",
       "scop_conditie": "35",
+      "scop_55": 3.21,
+      "scop_55_bron": "Atlantic-specificatieblad Alféa Extensa A.I. 6 R32: SCOP 3,21 bij 55 °C",
       "vermogen_conditie": "Prated",
       "afbeelding": "assets/producten/atlantic-alfea-extensa.webp",
       "afbeelding_bron": "foto: Atlantic",
@@ -1532,6 +1556,8 @@
       ],
       "vermogen_conditie": "Prated",
       "scop_conditie": "onbekend",
+      "scop_55": 3.4,
+      "scop_55_bron": "DeWarmte-datasheet Pomp AO (november 2024): SCOP 3,4 bij 55 °C",
       "prijs_datum": "2026-10-25",
       "afbeelding": "assets/producten/dewarmte-pomp-ao.webp",
       "afbeelding_bron": "foto: DeWarmte",
@@ -1547,6 +1573,8 @@
       "voorbeeld_variant": "WH-WXG12ME8 (12 kW, bi-bloc)",
       "vermogen_kw": 12,
       "scop_toelichting": "de zwaardere bi-bloc naast de L-generatie, voor woningen met een hogere warmtevraag",
+      "scop_55": 3.46,
+      "scop_55_bron": "Panasonic-specificatieblad WH-WXG12ME8: ηs 135% bij 55 °C, SCOP 3,46",
       "geluid_toelichting": "Geluidsvermogen van de buitenunit volgens de specificatietabel van Multi-Import bij de WH-WXG12ME8.",
       "koudemiddel": "R290 (natuurlijk)",
       "tapwater": "via een aparte boiler of hydromodule",
@@ -1625,6 +1653,8 @@
       "voorbeeld_variant": "Compress 5800i AW 12 OR-T (12 kW, driefase)",
       "vermogen_kw": 12,
       "scop_toelichting": "driefase-uitvoering van de 5800i-reeks voor grotere woningen",
+      "scop_55": 3.51,
+      "scop_55_bron": "Productgegevens Compress 5800i AW 12 OR-T (Duitse en Deense dealer, gelijkluidend): SCOP 3,51 bij 55 °C",
       "geluid_toelichting": "Maximaal geluidsvermogensniveau overdag volgens de specificatietabel bij Aircozonderstek; in nachtmodus 46 dB(A). De 28,5 en 42 dB(A) die dezelfde pagina noemt zijn geluidsdruk op 3 respectievelijk 1 meter en niet vergelijkbaar met de labelwaarde die hier staat.",
       "koudemiddel": "R290 (natuurlijk)",
       "tapwater": "via een aparte boiler",
