@@ -1,22 +1,22 @@
 {
-  "bijgewerkt": "2026-10-25",
+  "bijgewerkt": "2026-10-26",
   "punten": {
     "onbereikbaar|dyness-powerbox-g2|Zonnige Winkel": {
       "sinds": "2026-10-25",
       "soort": "onbereikbaar",
       "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: fetch failed",
-      "bevestigd": false
+      "bevestigd": true
     },
     "verouderd|jackery-homepower-2000-ultra|richtprijs": {
       "sinds": "2026-10-24",
       "soort": "verouderd",
-      "tekst": "jackery-homepower-2000-ultra @ richtprijs: €669 (22 dagen)",
+      "tekst": "jackery-homepower-2000-ultra @ richtprijs: €669 (23 dagen)",
       "bevestigd": true
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (101 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (102 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
@@ -41,7 +41,7 @@
       "sinds": "2026-10-25",
       "soort": "geweigerd",
       "tekst": "dyness-powerbrick-plus @ NKON: HTTP 403",
-      "bevestigd": false
+      "bevestigd": true
     },
     "zonder prijs|samduo-nex-e6000|Stekker-batterij.nl": {
       "sinds": "2026-10-19",
