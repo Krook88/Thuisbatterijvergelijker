@@ -1,52 +1,52 @@
 {
-  "bijgewerkt": "2026-10-26",
+  "bijgewerkt": "2026-10-27",
   "punten": {
     "onbereikbaar|enphase-iq8|Zonnige Winkel": {
       "sinds": "2026-10-26",
       "soort": "onbereikbaar",
       "tekst": "enphase-iq8 @ Zonnige Winkel: fetch failed",
-      "bevestigd": false
+      "bevestigd": true
     },
     "onbereikbaar|goodwe-et|Zonnige Winkel": {
       "sinds": "2026-10-26",
       "soort": "onbereikbaar",
       "tekst": "goodwe-et @ Zonnige Winkel: fetch failed",
-      "bevestigd": false
+      "bevestigd": true
     },
     "onbereikbaar|solaredge-home-wave|Zonnige Winkel": {
       "sinds": "2026-10-26",
       "soort": "onbereikbaar",
       "tekst": "solaredge-home-wave @ Zonnige Winkel: fetch failed",
-      "bevestigd": false
+      "bevestigd": true
     },
     "onbereikbaar|solis-s6-hybride|Zonnige Winkel": {
       "sinds": "2026-10-26",
       "soort": "onbereikbaar",
       "tekst": "solis-s6-hybride @ Zonnige Winkel: fetch failed",
-      "bevestigd": false
+      "bevestigd": true
     },
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (97 dagen)",
+      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (98 dagen)",
       "bevestigd": true
     },
     "verouderd|jinko-tiger-neo-455|richtprijs": {
       "sinds": "2026-10-24",
       "soort": "verouderd",
-      "tekst": "jinko-tiger-neo-455 @ richtprijs: €100 (23 dagen)",
+      "tekst": "jinko-tiger-neo-455 @ richtprijs: €100 (24 dagen)",
       "bevestigd": true
     },
     "verouderd|maxeon-6-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "maxeon-6-440 @ richtprijs: €230 (97 dagen)",
+      "tekst": "maxeon-6-440 @ richtprijs: €230 (98 dagen)",
       "bevestigd": true
     },
     "verouderd|ulica-440-full-black|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "ulica-440-full-black @ richtprijs: €55 (97 dagen)",
+      "tekst": "ulica-440-full-black @ richtprijs: €55 (98 dagen)",
       "bevestigd": true
     }
   }
