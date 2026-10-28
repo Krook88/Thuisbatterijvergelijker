@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-10-27",
+  "bijgewerkt": "2026-10-28",
   "punten": {
     "onbereikbaar|enphase-iq8|Zonnige Winkel": {
       "sinds": "2026-10-26",
@@ -28,26 +28,32 @@
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (98 dagen)",
+      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (99 dagen)",
       "bevestigd": true
     },
     "verouderd|jinko-tiger-neo-455|richtprijs": {
       "sinds": "2026-10-24",
       "soort": "verouderd",
-      "tekst": "jinko-tiger-neo-455 @ richtprijs: €100 (24 dagen)",
+      "tekst": "jinko-tiger-neo-455 @ richtprijs: €100 (25 dagen)",
       "bevestigd": true
     },
     "verouderd|maxeon-6-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "maxeon-6-440 @ richtprijs: €230 (98 dagen)",
+      "tekst": "maxeon-6-440 @ richtprijs: €230 (99 dagen)",
       "bevestigd": true
     },
     "verouderd|ulica-440-full-black|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "ulica-440-full-black @ richtprijs: €55 (98 dagen)",
+      "tekst": "ulica-440-full-black @ richtprijs: €55 (99 dagen)",
       "bevestigd": true
+    },
+    "verouderd|victron-multiplus2|richtprijs": {
+      "sinds": "2026-10-28",
+      "soort": "verouderd",
+      "tekst": "victron-multiplus2 @ richtprijs: €1350 (21 dagen)",
+      "bevestigd": false
     }
   }
 }
