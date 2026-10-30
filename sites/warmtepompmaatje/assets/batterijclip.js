@@ -52,20 +52,20 @@
 .batterijclip .bc-lading{width:100%;height:20%;border-radius:var(--radius-mini);background:var(--kleur-accent-donker)}
 .batterijclip .bc-stappen{display:grid;gap:var(--ruimte-10);min-width:0}
 .batterijclip .bc-stap{border:2px solid var(--kleur-rand);border-radius:var(--radius);padding:var(--ruimte-10) var(--ruimte-14);font-size:var(--tekst-15)}
-.batterijclip .bc-stap b{display:block;color:var(--kleur-inkt)}
+.batterijclip .bc-stap b{color:var(--kleur-inkt)}
 .batterijclip .bc-seizoenen{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--ruimte-14);width:100%}
-.batterijclip .bc-seizoen{border:1px solid var(--kleur-rand);border-radius:var(--radius);padding:var(--ruimte-10);display:grid;gap:var(--ruimte-6);font-size:var(--tekst-15)}
+.batterijclip .bc-seizoen{border:1px solid var(--kleur-rand);border-radius:var(--radius);padding:var(--ruimte-10);display:grid;align-content:start;gap:var(--ruimte-6);font-size:var(--tekst-15)}
 .batterijclip .bc-seizoen b{color:var(--kleur-inkt)}
 .batterijclip .bc-lijst{border-radius:var(--radius);padding:var(--ruimte-14);font-size:var(--tekst-15)}
 .batterijclip .bc-wel{background:var(--kleur-groen-licht)}
 .batterijclip .bc-niet{background:var(--kleur-accent-licht)}
-.batterijclip .bc-lijst b{display:block;font-size:var(--tekst-19);color:var(--kleur-inkt)}
+.batterijclip .bc-lijst b{font-size:var(--tekst-19);color:var(--kleur-inkt)}
 .batterijclip .bc-lijst ul{margin:var(--ruimte-6) 0 0;padding-left:var(--ruimte-20);line-height:1.5}
 .batterijclip .bc-som{display:grid;gap:var(--ruimte-10);width:100%}
 .batterijclip .bc-invoer{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--ruimte-10)}
 .batterijclip .bc-chip{border:1px solid var(--kleur-rand);border-radius:var(--radius);padding:var(--ruimte-10);font-size:var(--tekst-15);text-align:center}
 .batterijclip .bc-uitkomst{background:var(--kleur-primair-licht);border-radius:var(--radius);padding:var(--ruimte-14);font-size:var(--tekst-15)}
-.batterijclip .bc-uitkomst b{display:block;font-size:var(--tekst-19);color:var(--kleur-inkt)}
+.batterijclip .bc-uitkomst b{font-size:var(--tekst-19);color:var(--kleur-inkt)}
 .batterijclip .bc-cta{justify-self:start;background:var(--kleur-primair);color:var(--kleur-wit);font-weight:700;text-decoration:none;border-radius:var(--radius-klein);padding:var(--ruimte-10) var(--ruimte-20)}
 .batterijclip .bc-balk{display:flex;flex-wrap:wrap;align-items:center;gap:var(--ruimte-10);padding:var(--ruimte-10) var(--ruimte-20);border-top:1px solid var(--kleur-rand)}
 .batterijclip .bc-knop{font-size:var(--tekst-15);font-weight:600;color:var(--kleur-inkt);background:var(--kleur-wit);border:1px solid var(--kleur-rand);border-radius:var(--radius-klein);padding:var(--ruimte-6) var(--ruimte-14);cursor:pointer}
@@ -75,6 +75,12 @@
 .batterijclip .bc-tijd{font-size:var(--tekst-15);color:var(--kleur-tekst-licht);font-variant-numeric:tabular-nums}
 .batterijclip .bc-hoofdstukken{display:flex;flex-wrap:wrap;gap:var(--ruimte-6);padding:0 var(--ruimte-20) var(--ruimte-14)}
 .batterijclip .bc-hoofdstukken .bc-knop{font-weight:400}
+.batterijclip svg.bc-icoon{width:22px;height:22px;flex:none}
+.batterijclip .bc-geel{color:var(--kleur-accent-donker)}
+.batterijclip .bc-groen{color:var(--kleur-groen-donker)}
+.batterijclip .bc-merk{color:var(--kleur-primair)}
+.batterijclip .bc-kopje{display:flex;align-items:center;gap:var(--ruimte-6)}
+.batterijclip .bc-chip .bc-icoon{display:block;width:28px;height:28px;margin:0 auto var(--ruimte-6)}
 .batterijclip .bc-zon{transform-box:view-box;transform-origin:200px 215px}
 .batterijclip .bc-groei{transform-box:fill-box;transform-origin:50% 100%}
 @container (max-width: 620px){
@@ -113,6 +119,19 @@
 .bc-beweegt .bc-actief .bc-cta{animation:bc-in .5s 2.8s both}
 .batterijclip.bc-stil *{animation-play-state:paused}
 `;
+
+  /* Lijniconen uit Lucide (ISC), dezelfde tekeningen als assets/iconen.js op
+     de sites. Hier ingebouwd, omdat niet elke uitlegpagina dat script laadt. */
+  const PADEN = {
+    zon: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+    nacht: '<path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>',
+    geld: '<path d="M4 10h12"/><path d="M4 14h9"/><path d="M19 6a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2"/>',
+    sneeuw: '<path d="M2 12h20"/><path d="M12 2v20"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/>',
+    ja: '<path d="M20 6 9 17l-5-5"/>',
+    nee: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+    batterij: '<path d="m11 7-3 5h4l-3 5"/><path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935"/><path d="M22 14v-4"/><path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936"/>',
+  };
+  const icoon = (naam, kleur) => `<svg class="bc-icoon bc-${kleur}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${PADEN[naam]}</svg>`;
 
   /* Grafieken in gebruikerseenheden; kleuren komen uit de site zelf. */
   const kleur = (n) => `style="fill:var(--kleur-${n})"`;
@@ -177,25 +196,25 @@
       beeld: `<div class="bc-accu">
         <div class="bc-cel" aria-hidden="true"><div class="bc-lading"></div></div>
         <div class="bc-stappen">
-          <div class="bc-stap bc-dag"><b>Overdag laden</b>met het overschot van je panelen</div>
-          <div class="bc-stap bc-avond"><b>'s Avonds ontladen</b>voor koken, warmtepomp en lader</div>
+          <div class="bc-stap bc-dag"><b class="bc-kopje">${icoon("zon", "geel")}Overdag laden</b>met het overschot van je panelen</div>
+          <div class="bc-stap bc-avond"><b class="bc-kopje">${icoon("nacht", "merk")}'s Avonds ontladen</b>voor koken, warmtepomp en lader</div>
         </div>
       </div>` },
     { duur: 11, naam: "Zomer en winter", label: "4 · Zomer en winter",
       kop: "In juni te veel, in december te weinig.",
       tekst: "In december wekken panelen minder dan een vijfde op van wat ze in juni doen. 's Zomers is de batterij dus snel vol en gaat de rest alsnog het net op. 's Winters raakt hij nauwelijks vol, terwijl de warmtepomp dan het meest stroom vraagt.",
       beeld: `<div class="bc-seizoenen">
-        <div class="bc-seizoen"><b>Juni</b>${seizoen("M51.7 160 C95 160 95 20 122.5 20 C150 20 150 160 193 160 Z", "M10 150 L60 148 L75 135 L90 148 L140 146 L160 120 L175 105 L190 118 L205 140 L210 148")}<span>Batterij snel vol, de rest gaat naar het net</span></div>
-        <div class="bc-seizoen"><b>December</b>${seizoen("M80.8 160 C100 160 100 140 114 140 C128 140 128 160 147.5 160 Z", "M10 115 L60 112 L75 85 L95 100 L140 100 L160 70 L175 55 L190 65 L205 95 L210 105")}<span>Batterij laadt nauwelijks, de warmtepomp vraagt veel</span></div>
+        <div class="bc-seizoen"><b class="bc-kopje">${icoon("zon", "geel")}Juni</b>${seizoen("M51.7 160 C95 160 95 20 122.5 20 C150 20 150 160 193 160 Z", "M10 150 L60 148 L75 135 L90 148 L140 146 L160 120 L175 105 L190 118 L205 140 L210 148")}<span>Batterij snel vol, de rest gaat naar het net</span></div>
+        <div class="bc-seizoen"><b class="bc-kopje">${icoon("sneeuw", "merk")}December</b>${seizoen("M80.8 160 C100 160 100 140 114 140 C128 140 128 160 147.5 160 Z", "M10 115 L60 112 L75 85 L95 100 L140 100 L160 70 L175 55 L190 65 L205 95 L210 105")}<span>Batterij laadt nauwelijks, de warmtepomp vraagt veel</span></div>
       </div>` },
     { duur: 13, naam: "Wel of niet", label: "5 · Jouw situatie", breed: true,
       kop: "Of het loont, hangt af van je huis.",
-      beeld: `<div class="bc-lijst bc-wel"><b>Wel interessant als</b><ul>
+      beeld: `<div class="bc-lijst bc-wel"><b class="bc-kopje">${icoon("ja", "groen")}Wel interessant als</b><ul>
           <li style="--d:0">je 's zomers veel teruglevert</li>
           <li style="--d:1">je veel 's avonds verbruikt, met een warmtepomp, elektrische auto of inductie</li>
           <li style="--d:2">je een dynamisch contract hebt, zodat hij 's winters goedkope nachtstroom kan opslaan</li>
         </ul></div>
-        <div class="bc-lijst bc-niet"><b>Niet interessant als</b><ul>
+        <div class="bc-lijst bc-niet"><b class="bc-kopje">${icoon("nee", "geel")}Niet interessant als</b><ul>
           <li style="--d:3">je weinig panelen en dus weinig overschot hebt</li>
           <li style="--d:4">je verbruik kunt verschuiven, zoals de warmtepomp overdag het boilervat laten opwarmen</li>
           <li style="--d:5">de terugverdientijd langer is dan de levensduur</li>
@@ -212,11 +231,11 @@
   function slotbeeld(href, tekst) {
     return `<div class="bc-som">
       <div class="bc-invoer">
-        <div class="bc-chip" style="--d:0">Je overschot overdag</div>
-        <div class="bc-chip" style="--d:1">Je verbruik 's avonds</div>
-        <div class="bc-chip" style="--d:2">Je contract</div>
+        <div class="bc-chip" style="--d:0">${icoon("zon", "geel")}Je overschot overdag</div>
+        <div class="bc-chip" style="--d:1">${icoon("nacht", "merk")}Je verbruik 's avonds</div>
+        <div class="bc-chip" style="--d:2">${icoon("geld", "merk")}Je contract</div>
       </div>
-      <div class="bc-uitkomst"><b>Jouw terugverdientijd</b>Korter dan de levensduur? Dan loont het.</div>
+      <div class="bc-uitkomst"><b class="bc-kopje">${icoon("batterij", "merk")}Jouw terugverdientijd</b>Korter dan de levensduur? Dan loont het.</div>
       <a class="bc-cta" href="${esc(href)}">${esc(tekst)}</a>
     </div>`;
   }
