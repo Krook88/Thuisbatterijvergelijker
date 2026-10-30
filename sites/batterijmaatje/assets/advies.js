@@ -97,6 +97,11 @@
     if (verbruik) params.set("verbruik", verbruik);
     if (pv) params.set("pv", pv);
     if (contract) params.set("contract", contract);
+    const auto = autoInvoer();
+    if (auto.kwh > 0) {
+      params.set("auto", auto.laden);
+      params.set("autokwh", String(auto.kwh));
+    }
     if (pv === "ja") {
       const panelen = el("advPanelen").value;
       const opwek = el("advOpwek").value;
@@ -139,6 +144,13 @@
   // (koelkast, vriezer, modem/internetkastjes, verlichting, tv)
   // plus de apparaten die de bezoeker aanvinkt als "vaak tegelijk aan".
   // Indicatieve vermogens; bedoeld als vuistregel, geen installatieadvies.
+  /* De elektrische auto, met dezelfde drie laadmomenten als de rekenmodule
+     (zie AUTO_LADEN in rekenkern.js). */
+  function autoInvoer() {
+    const laden = el("advAuto") ? el("advAuto").value : "geen";
+    return laden === "geen" ? { laden: "nacht", kwh: 0 } : { laden, kwh: Math.max(0, getal("advAutoKwh", 0)) };
+  }
+
   function avondPiekKw() {
     let kw = 0.4;
     document.querySelectorAll(".avond-apparaat:checked").forEach((n) => { kw += parseFloat(n.dataset.kw) || 0; });
@@ -153,11 +165,17 @@
 
     const avondNacht = (jaarverbruik / 365) * BUITEN_ZONUREN;
     const piekKw = avondPiekKw();
+    const auto = autoInvoer();
 
     if (heeftPv) {
-      const dagOverschotZomer = ((opwek * 0.7) / 365) * 1.5;
+      /* Laadt de auto overdag op zon, dan gaat zijn dagdeel eerst van het
+         overschot af; de batterij krijgt alleen de rest. Laadt hij 's avonds,
+         dan blijft de maat bewust gelijk: de auto 's nachts laden bespaart
+         meer dan een grotere batterij ervoor kopen (zie autoTip). */
+      const autoPerDag = auto.laden === "zon" ? auto.kwh / 365 : 0;
+      const dagOverschotZomer = Math.max(0, ((opwek * 0.7) / 365) * 1.5 - autoPerDag);
       const kern = Math.min(dagOverschotZomer, Math.max(avondNacht, 1));
-      return { laag: kern * 0.75, hoog: kern * 1.25, kern, basis: "pv", dynamisch, avondNacht, dagOverschotZomer, piekKw };
+      return { laag: kern * 0.75, hoog: kern * 1.25, kern, basis: "pv", dynamisch, avondNacht, dagOverschotZomer, autoPerDag, piekKw };
     }
     if (dynamisch) {
       return { laag: avondNacht * 0.75, hoog: avondNacht * 1.25, kern: avondNacht, basis: "dynamisch", dynamisch, avondNacht, piekKw };
@@ -350,6 +368,8 @@
       bruikbaarPct: Prijs.capaciteitBevestigd(b) ? 100 : 90,
       vermogenKw: b.vermogen_kw || null,
       investering,
+      autoKwh: autoInvoer().kwh,
+      autoLaden: autoInvoer().laden,
     };
     const band = Rekenkern.bandbreedte(invoer);
     const r = band.verwacht;
@@ -392,6 +412,19 @@
     if (!z || z.besparing < 10) return "";
     return `<div class="info-kader"><b>Eerst dit: kijk naar je energiecontract.</b>
       Je levert ongeveer ${kwhFmt.format(z.teruggeleverd)} kWh per jaar terug. Blijft je leverancier daar ook na 2027 terugleverkosten voor rekenen (nu gemiddeld € 0,12 per kWh), dan kost je dat zo'n ${eurFmt.format(z.besparing)} per jaar. Overstappen haalt dat weg zonder investering. De terugverdientijden hieronder gaan al uit van een contract zonder terugleverkosten; <a href="rekenmodule.html#leveranciersTabel">bekijk per leverancier wat die voor 2027 heeft aangekondigd</a>.</div>`;
+  }
+
+  function autoTip(maat) {
+    const auto = autoInvoer();
+    if (!(auto.kwh > 0)) return "";
+    const perDag = kwhFmt.format(auto.kwh / 365);
+    if (auto.laden === "zon" && maat.basis === "pv") {
+      return `<div class="info-kader"><b>Je auto gaat voor.</b> Laad je de auto overdag op zonnestroom, dan neemt hij op een zonnige dag zo'n ${perDag} kWh van je overschot. Dat is de beste plek voor die stroom, en het advies hierboven rekent met wat er daarna overblijft. Daarom komt het lager uit dan zonder auto.</div>`;
+    }
+    if (auto.laden === "avond") {
+      return `<div class="info-kader"><b>Laad de auto liever 's nachts.</b> De auto vraagt zo'n ${perDag} kWh per dag; een grotere batterij kopen om dat op de avondpiek te dekken, is duurder dan het laden naar de nacht of goedkope uren verschuiven met een laadpaal met timer${maat.dynamisch ? " of je dynamische contract" : ""}. Het advies hierboven rekent daarom niet met de auto.</div>`;
+    }
+    return `<div class="info-kader"><b>Auto en batterij raken elkaar niet.</b> Laad je 's nachts of op goedkope uren, dan laadt de auto uit het net en doet de batterij zijn werk voor het huis. Stel bij een stekkerbatterij met P1-meter wel in dat hij niet ontlaadt als de auto laadt.</div>`;
   }
 
   function waaromTekst(b, maat) {
@@ -568,6 +601,7 @@
         ? "Let op: tot en met 31 december 2026 geldt de salderingsregeling nog, waardoor opslaan van eigen zonnestroom financieel weinig oplevert. Dit advies kijkt naar de situatie daarna."
         : "De salderingsregeling is per 1 januari 2027 vervallen: eigen zonnestroom opslaan levert nu wél op, want teruggeleverde stroom brengt nog maar een paar cent per kWh op."}</div>` : ""}
       ${overstapTip(maat)}
+      ${autoTip(maat)}
       ${totaal === 0 ? geenTreffers(afval) : `
       <h2 class="advies-kop">Drie kanten van de keuze</h2>
       <p class="advies-kop-uitleg">Van de ${totaal} batterijen die bij jouw antwoorden passen, toon ik niet de beste drie maar de beste op drie verschillende vragen. Dat scheelt: een ranglijst levert vrijwel altijd drie vergelijkbare buren op, terwijl deze drie elk iets anders goed doen.</p>`}
@@ -592,6 +626,11 @@
       if (Number.isFinite(n) && n > 0) { el("advOpwek").value = n * 350; }
       render();
     });
+    el("advAuto").addEventListener("change", () => {
+      el("advAutoKwhVeld").style.display = el("advAuto").value === "geen" ? "none" : "";
+      render();
+    });
+    el("advAutoKwhVeld").style.display = el("advAuto").value === "geen" ? "none" : "";
     el("advPv").addEventListener("change", () => {
       el("pvVragen").style.display = el("advPv").value === "ja" ? "" : "none";
       render();
