@@ -23,6 +23,7 @@ import { deelbeeldMaker, delenHtml } from "./delen.mjs";
 // batterijpagina nooit een ander bedrag of ander icoon toont dan de vergelijker.
 const vereis = createRequire(import.meta.url);
 const Prijs = vereis("../assets/prijs.js");
+const Rekenkern = vereis("../assets/rekenkern.js");
 const Iconen = vereis("../assets/iconen.js");
 const Kaart = vereis("../assets/kaart.js");
 const PrijsGrafiek = vereis("../assets/prijsgrafiek.js");
@@ -129,6 +130,7 @@ const esc = (s) => String(s == null ? "" : s)
 
 const eur = (n) => "€ " + Number(n).toLocaleString("nl-NL", { maximumFractionDigits: 0 });
 const nl = (n) => String(n).replace(".", ",");
+const eur2 = (n) => "€\u00a0" + Number(n).toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 // ISO-datum (2026-07-13) leesbaar maken als "13 juli 2026"
 const datumNL = (iso) => {
@@ -403,6 +405,7 @@ const NAV_HTML = `<header class="site-header">
           <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a>
           <a href="/wat-kost-een-thuisbatterij.html">Wat kost er een?</a>
           <a href="/nu-kopen-of-wachten.html">Nu kopen of wachten?</a>
+          <a href="/thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a>
           <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a>
           <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a>
           <a href="/over-ons.html">Over mij</a>
@@ -418,7 +421,7 @@ const VOET_HTML = `<footer class="site-footer">
   <div class="container">
     <b>${ICOON_LOGO} Batterijmaatje</b>
     <p>Onafhankelijke vergelijking van thuisbatterijen voor Nederlandse huishoudens.</p>
-    <p><a href="/">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="/wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="/nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="/over-ons.html">Over mij</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="/">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="/wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="/nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="/thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a> · <a href="/over-ons.html">Over mij</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -1258,6 +1261,145 @@ ${VOET_HTML}
 }
 
 /* ------------------------------------------------------------------
+   Thuisbatterij zonder zonnepanelen
+
+   Een vraag waar de site een FAQ-antwoord op had maar geen pagina (zie
+   docs/zoekwoorden.md). Het antwoord is een som, dus deze pagina rekent hem
+   met dezelfde rekenkern als de rekenmodule, op de middenaannames daarvan,
+   voor elke batterij die zonder panelen kan werken en op uurprijzen kan
+   sturen. Hybrides vallen af: die hebben een hybride omvormer nodig en zijn
+   gebouwd om panelen op aan te sluiten. Zo blijft de tabel bij de dagelijkse
+   prijsrun vanzelf kloppen met de prijzen op de rest van de site.
+   ------------------------------------------------------------------ */
+
+const ZONDER_PV_BESTAND = "thuisbatterij-zonder-zonnepanelen.html";
+
+function zonderPvPagina() {
+  const S = Rekenkern.STANDAARD;
+  const verbruik = S.jaarVerbruik;
+  const geschikt = data.batterijen.filter((b) => b.type !== "hybride" && driewaardig(b.dynamisch_contract).status !== "nee");
+  const hybrides = data.batterijen.filter((b) => b.type === "hybride").length;
+  const som = (b, contract) => {
+    const prijs = Prijs.vergelijkPrijs(bestePrijs(b));
+    if (!prijs || !b.capaciteit_kwh) return null;
+    return {
+      b, prijs,
+      r: Rekenkern.bereken({ heeftPv: false, contract, investering: prijs, capaciteit: b.capaciteit_kwh, vermogenKw: b.vermogen_kw ?? null }),
+    };
+  };
+  const rijen = geschikt.map((b) => som(b, "dynamisch")).filter(Boolean)
+    .sort((x, y) => (x.r.terugverdientijd ?? 99) - (y.r.terugverdientijd ?? 99));
+  const top = rijen.slice(0, 8);
+  const binnenTien = rijen.filter((x) => x.r.terugverdientijd != null && x.r.terugverdientijd <= 10).length;
+  const vastVerlies = Math.round(Rekenkern.bereken({ heeftPv: false, contract: "vast" }).kostenStandby);
+  const perDagBuitenZon = verbruik * Rekenkern.AANDEEL_BUITEN_ZON / 365;
+  const capTop = top.slice(0, 5).map((x) => x.b.capaciteit_kwh);
+  const stilPct = Math.round((1 - perDagBuitenZon / 10) * 100);
+  const jr = (n) => n == null ? "niet binnen 40 jaar" : `${nl(n.toFixed(1))} jaar`;
+
+  const titel = "Thuisbatterij zonder zonnepanelen: wanneer verdien je hem terug?";
+  const metaDesc = kortOmschrijving(
+    `Zonder zonnepanelen verdient een thuisbatterij alleen met een dynamisch contract. Per model uitgerekend: wat hij per jaar oplevert en na hoeveel jaar hij is terugverdiend.`,
+  );
+  const vragen = [
+    {
+      vraag: "Heeft een thuisbatterij zin zonder zonnepanelen?",
+      antwoord: `Alleen met een dynamisch energiecontract. Dan laadt de batterij op goedkope uren en gebruik je die stroom op dure uren. Met een vast contract is elke kWh even duur, dus valt er niets te verdienen; de batterij kost dan alleen stroom, met ${S.standbyWatt} watt sluipverbruik zo'n ${eur(vastVerlies)} per jaar.`,
+    },
+    {
+      vraag: "Welke thuisbatterij werkt zonder zonnepanelen?",
+      antwoord: `Een stekkerbatterij of een AC-gekoppelde batterij. Die laden uit het stopcontact of de meterkast. Van de ${data.batterijen.length} modellen in mijn vergelijker zijn er ${geschikt.length} die dat kunnen en ook op uurprijzen sturen. De ${hybrides} hybride batterijen vallen af, want die werken via een hybride omvormer die voor zonnepanelen bedoeld is.`,
+    },
+  ];
+  const faq = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": vragen.map((v) => ({ "@type": "Question", "name": v.vraag, "acceptedAnswer": { "@type": "Answer", "text": v.antwoord } })),
+  }, null, 2);
+
+  return `<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${esc(besteTitel(["Thuisbatterij zonder zonnepanelen: heeft het zin?", "Thuisbatterij zonder zonnepanelen"]))}</title>
+  <meta name="description" content="${esc(metaDesc)}">
+  <link rel="canonical" href="${SITE}/${ZONDER_PV_BESTAND}">
+  <meta property="og:title" content="${esc(titel)}">
+  <meta property="og:description" content="${esc(metaDesc)}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${SITE}/${ZONDER_PV_BESTAND}">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:image" content="${SITE}/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Batterijmaatje.nl">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+${faq}
+  </script>
+  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
+  <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+</head>
+<body>
+
+${NAV_HTML}
+
+<main class="container leespagina">
+  <p class="datum-stempel"><a href="/">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
+  <h1>Thuisbatterij zonder zonnepanelen</h1>
+  <p class="datum-stempel">Dagelijks automatisch bijgewerkt · laatst gecontroleerd op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+
+  <p class="intro">Het kan, maar alleen met een dynamisch contract, en alleen met het goede soort batterij. Zonder panelen is er geen zonnestroom om op te slaan. Wat overblijft is het prijsverschil tussen goedkope en dure uren, en met de middenaannames van mijn rekenmodule verdienen ${binnenTien} van de ${rijen.length} geschikte batterijen zich daarmee binnen tien jaar terug.</p>
+
+${vragen.map((v) => `  <h2>${esc(v.vraag)}</h2>
+  <p>${v.antwoord}</p>`).join("\n\n")}
+
+  <h2>Wat hij per model oplevert</h2>
+  <p>Gerekend met dezelfde som als de <a href="/rekenmodule.html">rekenmodule</a>: ${verbruik.toLocaleString("nl-NL")} kWh jaarverbruik, laden voor ${eur2(S.laadprijs)} en ontladen tegen ${eur2(S.ontlaadwaarde)} per kWh, ${S.rendement}% rendement, ${S.standbyWatt} watt sluipverbruik en ${S.degradatiePct}% capaciteitsverlies per jaar. Prijs is de laagste winkelprijs van vandaag, incl. btw.</p>
+  <div class="tabel-wrap">
+  <table class="vergelijk-tabel compact">
+    <thead><tr><th>Batterij</th><th>Opslag</th><th>Prijs</th><th>Per jaar</th><th>Terug in</th></tr></thead>
+    <tbody>${top.map(({ b, prijs, r }) => `
+      <tr>
+        <td><a href="/batterij/${esc(b.id)}.html"><b>${esc(volledigeNaam(b))}</b></a></td>
+        <td class="niet-afbreken">${nl(b.capaciteit_kwh)} kWh</td>
+        <td class="niet-afbreken">${eur(prijs)}</td>
+        <td class="niet-afbreken">${eur(r.totaal)}</td>
+        <td class="niet-afbreken"><b>${jr(r.terugverdientijd)}</b></td>
+      </tr>`).join("")}</tbody>
+  </table>
+  </div>
+  <p class="datum-stempel">De ${top.length} snelst terugverdiende van ${rijen.length} batterijen die zonder panelen werken en op uurprijzen sturen. Een prijsverschil van ${eur2(S.ontlaadwaarde - S.laadprijs)} per kWh, elke dag, is de bovenkant van wat een gemiddelde dag geeft; in de rekenmodule zie je ook de ongunstige kant.</p>
+
+  <h2>Groter is hier niet beter</h2>
+  <p>Zonder panelen vult een batterij alleen het verbruik buiten de zonuren. Bij ${verbruik.toLocaleString("nl-NL")} kWh per jaar is dat ongeveer ${nl(perDagBuitenZon.toFixed(1))} kWh per dag. Van een batterij van 10 kWh blijft dan elke dag zo'n ${stilPct}% ongebruikt, en dat deel heb je wel betaald. De vijf bovenaan in de tabel zijn daarom allemaal ${nl(Math.max(...capTop))} kWh of kleiner. Verbruik je meer, bijvoorbeeld met een warmtepomp of een elektrische auto, dan schuift de goede maat mee omhoog.</p>
+
+  <h2>Wat de som de komende jaren verandert</h2>
+  <ul>
+    <li><b>Het einde van de saldering op 1 januari 2027</b> verandert voor jou niets. Je levert niets terug, dus je verliest ook niets.</li>
+    <li><b>De nieuwe nettarieven vanaf 1 januari 2029</b> maken volgens het ACM-ontwerp van 8 oktober 2026 stroom van het net op winteravonden duurder. Precies die uren vervangt een batterij, dus zonder panelen wordt hij daarna eerder nuttiger. Zie <a href="/regelgeving.html#nettarieven">de regels voor 2029</a>.</li>
+    <li><b>Btw terugvragen</b> kan als je als btw-ondernemer aantoonbaar handelt op uurprijzen; dat scheelt 21% op de aankoop. Zie <a href="/regelgeving.html#btw">regels en subsidies</a>.</li>
+  </ul>
+
+  <h2>Reken je eigen situatie</h2>
+  <p>Vul in de <a href="/rekenmodule.html">rekenmodule</a> "geen zonnepanelen" en je eigen contract in. Twijfel je over de maat, doe dan eerst de <a href="/advies.html">keuzehulp</a>. Wat de modellen kosten per kWh staat op <a href="/${KOSTEN_BESTAND}">wat kost een thuisbatterij</a>, en de stekkermodellen samen op <a href="/${STEKKER_BESTAND}">thuisbatterij met stekker</a>.</p>
+
+  <div class="noot">De opbrengsten op deze pagina zijn uitkomsten van een rekenmodel met vaste aannames, geen meting en geen voorspelling. Hoeveel prijsverschil er per dag echt is, wisselt per seizoen en per leverancier.</div>
+</main>
+
+${VOET_HTML}
+
+<script src="/assets/nav.js?v=${ASSET_VERSIE}" defer></script>
+</body>
+</html>
+`;
+}
+
+/* ------------------------------------------------------------------
    Vergelijkingspagina's "X vs Y" (SEO-landingspagina's voor veel
    gezochte duels). Volledig uit de data gegenereerd en dagelijks
    herbouwd, zodat prijzen en scores actueel blijven.
@@ -1495,6 +1637,8 @@ console.log(`${STEKKER_BESTAND} gegenereerd (${data.batterijen.filter((b) => b.t
 writeFileSync(resolve(ROOT, KOSTEN_BESTAND), kostenPagina(), "utf8");
 writeFileSync(resolve(ROOT, WACHTEN_BESTAND), wachtenPagina(), "utf8");
 console.log(`${KOSTEN_BESTAND} en ${WACHTEN_BESTAND} gegenereerd`);
+writeFileSync(resolve(ROOT, ZONDER_PV_BESTAND), zonderPvPagina(), "utf8");
+console.log(`${ZONDER_PV_BESTAND} gegenereerd`);
 
 mkdirSync(resolve(ROOT, "vergelijk"), { recursive: true });
 for (const v of VERGELIJKINGEN) {
@@ -1774,6 +1918,7 @@ const vast = [
   { loc: `${SITE}/${STEKKER_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/${KOSTEN_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/${WACHTEN_BESTAND}`, freq: "weekly", prio: "0.7" },
+  { loc: `${SITE}/${ZONDER_PV_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/over-ons.html`, freq: "monthly", prio: "0.4" },
   { loc: `${SITE}/contact.html`, freq: "yearly", prio: "0.3" },
   { loc: `${SITE}/privacy.html`, freq: "yearly", prio: "0.2" },
