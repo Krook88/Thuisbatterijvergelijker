@@ -249,6 +249,7 @@ function kop(actief, diepte) {
         <div class="nav-meer-paneel">
           <a href="${p}warmtepomp-geluid.html">Geluid</a>
           <a href="${p}monoblock-of-split.html">Monoblock of split</a>
+          <a href="${p}airco-als-warmtepomp.html">Airco als warmtepomp</a>
           <a href="${p}over-ons.html">Over mij</a>
           <a href="${p}contact.html">Contact</a>
           <a href="${p}privacy.html">Privacy &amp; disclaimer</a>
@@ -266,7 +267,7 @@ function voet(diepte) {
   <div class="container">
     <b>${Iconen.svg("warmte")} Warmtepompmaatje</b>
     <p>Onafhankelijke vergelijking van warmtepompen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen).</p>
-    <p><a href="/">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}warmtepomp-geluid.html">Geluid</a> · <a href="${p}monoblock-of-split.html">Monoblock of split</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="${p}over-ons.html">Over mij</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}steun.html">Steun deze site</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="/">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}warmtepomp-geluid.html">Geluid</a> · <a href="${p}monoblock-of-split.html">Monoblock of split</a> · <a href="${p}airco-als-warmtepomp.html">Airco</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="${p}over-ons.html">Over mij</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}steun.html">Steun deze site</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties zijn indicaties; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -643,6 +644,165 @@ ${voet(false)}
 `;
 }
 
+/* ------------------------------------------------------------------
+   Airco als warmtepomp
+
+   Een sterk stijgende zoekterm (zie docs/zoekwoorden.md) zonder pagina. Een
+   airco is een lucht-luchtwarmtepomp, en die staat bewust niet in de
+   vergelijker: geen ISDE, geen tapwater, geen radiatoren. Deze pagina zet hem
+   daarom naast de goedkoopste route die wel in de data staat, de hybride
+   lucht-waterpomp, en rekent dat verschil uit de eigen prijzen en
+   ISDE-bedragen. De airco-bedragen zijn marktprijzen uit openbare bronnen en
+   staan er met die bron bij; die veranderen niet mee met de dagelijkse run.
+   ------------------------------------------------------------------ */
+
+const AIRCO_BESTAND = "airco-als-warmtepomp.html";
+
+const euro = (n) => `&euro;&nbsp;${Math.round(n).toLocaleString("nl-NL")}`;
+
+function aircoPagina() {
+  const metPrijs = (soort) => pompen.filter((w) => w.type === soort && typeof w.richtprijs_eur === "number" && typeof w.isde_indicatie_eur === "number");
+  const netto = (w) => w.richtprijs_eur - w.isde_indicatie_eur;
+  const bereik = (lijst, f) => {
+    const g = lijst.map(f);
+    return { laag: Math.min(...g), hoog: Math.max(...g) };
+  };
+  const hybride = metPrijs("hybride").sort((a, b) => netto(a) - netto(b));
+  const hybrideNetto = bereik(hybride, netto);
+  const hybrideIsde = bereik(hybride, (w) => w.isde_indicatie_eur);
+
+  const vragen = [
+    {
+      vraag: "Is een airco een warmtepomp?",
+      antwoord: `Ja. Een airco die kan verwarmen is een lucht-luchtwarmtepomp. Hij haalt warmte uit de buitenlucht en blaast die als warme lucht de kamer in. Het verschil met de ${pompen.length} pompen in mijn vergelijker zit in wat er binnenkomt. Die maken warm water voor je radiatoren, vloerverwarming en douche (lucht-water); een airco verwarmt alleen de lucht in de kamer waar de binnenunit hangt.`,
+    },
+    {
+      vraag: "Krijg je ISDE-subsidie op een airco?",
+      antwoord: `Nee. RVO geeft geen ISDE voor een lucht-luchtwarmtepomp, met als reden dat die in de meeste situaties voor koeling gebruikt wordt. Op een lucht-waterpomp krijg je dat wel, in mijn vergelijker ${euro(hybrideIsde.laag)} tot ${euro(hybrideIsde.hoog)} voor een hybride.`,
+    },
+    {
+      vraag: "Kan ik met een airco van het gas af?",
+      antwoord: "Meestal niet. Een airco maakt geen warm tapwater, dus voor douchen en de keukenkraan blijft de cv-ketel of een elektrische boiler nodig. Hij verwarmt ook alleen de ruimte met een binnenunit; slaapkamers en badkamer blijven op de radiatoren aangewezen.",
+    },
+  ];
+
+  const titel = "Airco als warmtepomp: wanneer is het slim, en wanneer niet?";
+  const metaDesc = kortOmschrijving(
+    `Een airco is een lucht-luchtwarmtepomp. Wat hij kost, waarom er geen ISDE op zit, wat het F-gasverbod van 2029 betekent en hoe hij zich verhoudt tot een hybride warmtepomp.`,
+  );
+  const faq = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": vragen.map((v) => ({
+      "@type": "Question",
+      "name": v.vraag,
+      "acceptedAnswer": { "@type": "Answer", "text": v.antwoord.replace(/&euro;&nbsp;/g, "€ ") },
+    })),
+  }, null, 2);
+
+  return `<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${esc(besteTitel(["Airco als warmtepomp: wanneer is het slim?", "Airco als warmtepomp"]))}</title>
+  <meta name="description" content="${esc(metaDesc)}">
+  <link rel="canonical" href="${SITE}/${AIRCO_BESTAND}">
+  <meta property="og:title" content="${esc(titel)}">
+  <meta property="og:description" content="${esc(metaDesc)}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${SITE}/${AIRCO_BESTAND}">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:site_name" content="Warmtepompmaatje.nl">
+  <meta property="og:image" content="${SITE}/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+${faq}
+  </script>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="assets/style.css?v=${ASSET_VERSIE}">
+  <script src="assets/iconen.js?v=${ASSET_VERSIE}" defer></script>
+  <script src="assets/nav.js?v=${ASSET_VERSIE}" defer></script>
+  <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
+</head>
+<body>
+
+${kop("", false)}
+
+<main class="container leespagina">
+  <p class="datum-stempel"><a href="/">${Iconen.svg("pijl-links")} Alle warmtepompen vergelijken</a></p>
+  <h1>Airco als warmtepomp</h1>
+  <p class="datum-stempel">Samengesteld uit mijn vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+
+  <p class="intro">Een airco met een verwarmingsstand is een warmtepomp, en voor één kamer is het de goedkoopste die er is. Een split-airco met één binnenunit kost volgens Selectra gemiddeld ${euro(1500)} tot ${euro(3500)} per ruimte, inclusief installatie. Daar staat tegenover dat je geen subsidie krijgt, geen warm water maakt en alleen die ene kamer verwarmt. Of dat erg is, hangt af van wat je ermee wilt.</p>
+
+${vragen.map((v) => `  <h2>${esc(v.vraag)}</h2>
+  <p>${v.antwoord}</p>`).join("\n\n")}
+
+  <h2>Airco of hybride warmtepomp?</h2>
+  <p>Wie een airco overweegt om gas te besparen, vergelijkt hem het eerlijkst met een hybride warmtepomp. Die laat de cv-ketel ook staan, maar verwarmt het hele huis via je radiatoren. In mijn vergelijker staan ${hybride.length} hybrides met een prijs, en na aftrek van de ISDE kosten die ${euro(hybrideNetto.laag)} tot ${euro(hybrideNetto.hoog)} zonder installatie.</p>
+  <div class="tabel-wrap">
+    <table class="vergelijk-tabel compact">
+      <thead><tr><th></th><th>Airco (lucht-lucht)</th><th>Hybride (lucht-water)</th></tr></thead>
+      <tbody>
+        <tr><th>Verwarmt</th><td>de kamer met de binnenunit</td><td>het hele huis, via de radiatoren</td></tr>
+        <tr><th>Warm tapwater</th><td>nee</td><td>nee, dat blijft de cv-ketel doen</td></tr>
+        <tr><th>ISDE-subsidie</th><td>nee</td><td class="niet-afbreken">${euro(hybrideIsde.laag)} tot ${euro(hybrideIsde.hoog)}</td></tr>
+        <tr><th>Koelen in de zomer</th><td>ja</td><td>via radiatoren merk je er weinig van</td></tr>
+        <tr><th>Buitenunit</th><td>ja, met dezelfde geluidsnorm</td><td>ja</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tabel-wrap">
+  <table class="vergelijk-tabel compact">
+    <thead><tr><th>Hybride warmtepomp</th><th>Richtprijs</th><th>ISDE</th><th>Na ISDE</th></tr></thead>
+    <tbody>${hybride.map((w) => `
+      <tr>
+        <td><a href="pomp/${esc(w.id)}.html"><b>${esc(w.merk)} ${esc(w.model)}</b></a></td>
+        <td class="niet-afbreken">${euro(w.richtprijs_eur)}</td>
+        <td class="niet-afbreken">${euro(w.isde_indicatie_eur)}</td>
+        <td class="niet-afbreken"><b>${euro(netto(w))}</b></td>
+      </tr>`).join("")}</tbody>
+  </table>
+  </div>
+  <p class="datum-stempel">Richtprijzen incl. btw uit de dagelijkse prijscontrole, zonder installatie. Het ISDE-bedrag is een indicatie op basis van de meldcode bij RVO.</p>
+
+  <h2>Wanneer een airco wél de slimme keuze is</h2>
+  <ul>
+    <li><b>Je wilt vooral koelen.</b> Dan is verwarmen in voor- en najaar een bonus, en koelen kan een hybride via radiatoren nauwelijks.</li>
+    <li><b>Eén ruimte die je veel gebruikt.</b> Een woonkamer met open keuken is waar één binnenunit voor bedoeld is. Meer kamers vraagt een multi-split, en volgens Homedeal loopt de prijs dan op tot ${euro(5700)}.</li>
+    <li><b>Een appartement zonder plek voor een boiler.</b> Een all-electric lucht-waterpomp vraagt binnen ruimte voor een boiler of hydromodule; een airco alleen een unit aan de muur.</li>
+    <li><b>Je hebt zonnepanelen en zit overdag thuis.</b> Na het einde van de salderingsregeling op 1 januari 2027 is elke kWh die je zelf gebruikt meer waard dan een die je teruglevert. Een airco die op een zonnige middag in maart je woonkamer verwarmt, gebruikt die stroom direct.</li>
+  </ul>
+
+  <h2>Wanneer niet</h2>
+  <ul>
+    <li><b>Je wilt het hele huis van het gas af.</b> Dan heb je een all-electric lucht-waterpomp nodig, inclusief boiler. Zie de <a href="advies.html">keuzehulp</a>.</li>
+    <li><b>Je slaapkamers zijn boven.</b> Warme lucht uit een unit beneden komt daar nauwelijks; je stookt ze dus nog steeds met de ketel.</li>
+    <li><b>De buitenunit komt vlak bij de erfgrens.</b> Ook voor een airco geldt 45 dB(A) overdag en 40 dB(A) 's nachts op de erfgrens. Zie <a href="${GELUID_BESTAND}">warmtepomp en geluid</a>.</li>
+  </ul>
+
+  <h2>Let op het koudemiddel</h2>
+  <p>Volgens de Europese F-gassenverordening (EU 2024/573) mogen nieuwe split-airco's tot 12 kW met een koudemiddel met een GWP van 150 of meer vanaf 1 januari 2029 niet meer op de markt komen. Het gangbare R32 heeft een GWP van ${GWP.R32}. Een airco die je nu laat ophangen mag gewoon blijven draaien, maar onderdelen en service worden op termijn een vraag. Vraag de installateur daarom welk koudemiddel erin zit, en of er een uitvoering op propaan (R290, GWP ${GWP.R290}) bestaat.</p>
+
+  <h2>Verder lezen</h2>
+  <ul>
+    <li><a href="${BOUWVORM_BESTAND}">Monoblock of split</a>: de keuze die volgt als je voor een lucht-waterpomp gaat.</li>
+    <li><a href="subsidie.html">ISDE-subsidie</a>: wat je terugkrijgt op een lucht-waterpomp.</li>
+    <li><a href="rekenmodule.html">Terugverdientijd</a>: wat een warmtepomp bij jouw gasverbruik oplevert.</li>
+    <li><a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje</a>: zonnestroom bewaren voor de avond, als een airco of warmtepomp het meest vraagt.</li>
+  </ul>
+
+  <div class="noot">De airco-prijzen op deze pagina zijn marktgemiddelden van <a href="https://selectra.nl/energie/verwarming/airco-verwarming" target="_blank" rel="noopener">Selectra</a> en <a href="https://www.homedeal.nl/airco/airco-woonkamer-kosten/" target="_blank" rel="noopener">Homedeal</a>, geen eigen prijscontrole. Dat geen ISDE geldt voor lucht-lucht staat in de <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/veelgestelde-vragen" target="_blank" rel="noopener">veelgestelde vragen van RVO</a>. Airco's staan bewust niet in mijn vergelijker, omdat ze op subsidie, tapwater en afgifte niet met de pompen hier te vergelijken zijn.</div>
+</main>
+
+${voet(false)}
+</body>
+</html>
+`;
+}
+
 /* Wat er in de rij "Rendement (SCOP)" komt te staan.
  *
  * Zonder SCOP viel deze rij terug op `scop_toelichting`, en dat veld is bij de
@@ -988,6 +1148,8 @@ console.log(`index.html: ${gesorteerdePompen.length} kaarten voorgerenderd en It
 writeFileSync(join(ROOT, GELUID_BESTAND), geluidPagina(), "utf8");
 writeFileSync(join(ROOT, BOUWVORM_BESTAND), bouwvormPagina(), "utf8");
 console.log(`${BOUWVORM_BESTAND} gegenereerd`);
+writeFileSync(join(ROOT, AIRCO_BESTAND), aircoPagina(), "utf8");
+console.log(`${AIRCO_BESTAND} gegenereerd`);
 console.log(`${GELUID_BESTAND} gegenereerd (${pompen.filter((w) => w.geluid_db != null).length} van ${pompen.length} pompen met een opgegeven geluidsvermogen)`);
 
 let CIJFERS = null;
@@ -1220,6 +1382,7 @@ const vast = [
   { loc: `${SITE}/subsidie.html`, prio: "0.8" },
   { loc: `${SITE}/${GELUID_BESTAND}`, prio: "0.8" },
   { loc: `${SITE}/${BOUWVORM_BESTAND}`, prio: "0.8" },
+  { loc: `${SITE}/${AIRCO_BESTAND}`, prio: "0.8" },
   { loc: `${SITE}/over-ons.html`, prio: "0.4" },
   { loc: `${SITE}/contact.html`, prio: "0.4" },
   { loc: `${SITE}/privacy.html`, prio: "0.2" },
