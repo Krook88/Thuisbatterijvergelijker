@@ -15,12 +15,13 @@
   <meta property="og:site_name" content="Zonnestroommaatje.nl">
   <meta name="twitter:card" content="summary_large_image">
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="assets/maatlat.css?v=20261030c" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261030c" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261030c">
-  <script src="assets/iconen.js?v=20261030c" defer></script>
-  <script src="assets/nav.js?v=20261030c" defer></script>
-  <script src="assets/uitleg.js?v=20261030c" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261030d" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261030d" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261030d">
+  <script src="assets/iconen.js?v=20261030d" defer></script>
+  <script src="assets/nav.js?v=20261030d" defer></script>
+  <script src="assets/uitleg.js?v=20261030d" defer></script>
+  <script src="assets/batterijclip.js?v=20261030d" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=1">
   <style>
@@ -290,7 +291,7 @@
   </script>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261030c"></script>
+  <script defer src="/assets/teller.js?v=20261030d"></script>
 </head>
 <body>
 
@@ -329,7 +330,7 @@
 
   <h1>Zo werken zonnepanelen</h1>
   <p class="intro">Alles wat je wilt weten vóór je zonnepanelen koopt, in gewone taal. Hoe een paneel werkt, wat de celtypen betekenen, waarom glas-glas en garanties ertoe doen, en een woordenlijst voor elk begrip uit de <a href="/">vergelijker</a>. De voorbeelden komen uit de <span data-cijfer="aantal">16</span> panelen die daar staan.</p>
-  <p class="bijgewerkt-regel">Bijgewerkt op <time data-bijgewerkt data-stand="26d8dbff591d" datetime="2026-10-30">30 oktober 2026</time>. De getallen hieronder volgen elke dag de panelen en prijzen in de vergelijker.</p>
+  <p class="bijgewerkt-regel">Bijgewerkt op <time data-bijgewerkt data-stand="7178a92f2eb1" datetime="2026-10-30">30 oktober 2026</time>. De getallen hieronder volgen elke dag de panelen en prijzen in de vergelijker.</p>
 
   <div class="kort-antwoord" data-vraag="Hoe werken zonnepanelen?">
     <p class="kort-label">Kort antwoord</p>
@@ -478,6 +479,10 @@
 
   <h2 id="slim-koppelen">Slim combineren: zonnepanelen, thuisbatterij en warmtepomp</h2>
   <p>Een zonnepaneel zelf is "dom", het levert gewoon stroom zodra er licht op valt. De slimmigheid zit in wat erachter hangt: de omvormer, een <a href="#ems" class="term-link">energiemanagementsysteem (EMS)</a> en de apparaten die je ermee aanstuurt. Juist nu de salderingsregeling per 2027 stopt, wordt dit belangrijk, want elke kWh die je zelf gebruikt is dan circa € 0,30 waard, terwijl terugleveren nog maar een paar cent oplevert.</p>
+  <p>De clip hieronder laat in 67 seconden zien wanneer een batterij naast je panelen loont, en waarom juni en december zo verschillen.</p>
+  <div class="batterijclip" data-cta-href="energieplan.html" data-cta-tekst="Reken panelen en batterij samen door">
+    <p>Zonder javascript speelt de clip niet. Het <a href="energieplan.html">energieplan</a> rekent hetzelfde voor jouw dak uit.</p>
+  </div>
   <ul>
     <li><b>Met een thuisbatterij.</b> Twee routes: een <b>hybride omvormer</b> waar panelen én batterij op aansluiten (vooral logisch bij nieuwe installaties), of een <b>AC-gekoppelde of plug-in batterij</b> die via de slimme meter (P1-poort) je overschot meet en werkt met élk merk panelen. Zie voor de batterijkeuze mijn zustersite <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a>.</li>
     <li><b>Met een warmtepomp of boiler.</b> Veel warmtepompen zijn <a href="#sg-ready" class="term-link">SG-ready</a>: een EMS kan ze een seintje geven om extra te draaien wanneer je panelen meer opwekken dan je huis verbruikt. De warmte sla je op in het boilervat of de vloer; dat is per kWh goedkoper dan opslag in een batterij, omdat er geen omzetverliezen zijn. Kies bij een nieuwe warmtepomp liever een model met <b>Modbus of EEBUS</b>: SG-ready werkt met twee schakelcontacten en kent daardoor vier standen, terwijl Modbus en EEBUS ook temperaturen, vermogens en storingsmeldingen doorgeven. Op mijn zustersite staat per warmtepomp welke van de drie hij spreekt. Warmtepompen vergelijken op subsidie, geluid en koppelbaarheid doe je op mijn zustersite <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a>.</li>
