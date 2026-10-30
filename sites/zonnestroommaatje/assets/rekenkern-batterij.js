@@ -61,9 +61,11 @@
               van de auto dekken, dus telt de auto mee in wat er per dag
               opgemaakt wordt. Wel de duurste manier om te laden.
 
-     Rekenen in kWh per km in plaats van in kWh per jaar, omdat mensen hun
-     kilometers kennen en hun laadverbruik niet. 0,18 kWh per km is een
-     midden tussen zuinige en grote auto's, inclusief laadverlies. */
+     De invoer is kWh per jaar: dat is wat de laadpaal en de auto-app laten
+     zien, en wat er werkelijk door de meterkast gaat. AUTO_KWH_PER_KM is
+     alleen de vuistregel waarmee de module iemand zonder laadhistorie op weg
+     helpt: 0,18 kWh per km, een midden tussen zuinige en grote auto's,
+     inclusief laadverlies. */
   const AUTO_KWH_PER_KM = 0.18;
   const AUTO_LADEN = ["zon", "nacht", "avond"];
 
@@ -151,9 +153,8 @@
     btwRoute: "incl",
     // null = onbekend vermogen, dan begrenst de kern er niet op
     vermogenKw: null,
-    // Kilometers per jaar die je thuis laadt; 0 = geen elektrische auto.
-    autoKm: 0,
-    autoKwhPerKm: AUTO_KWH_PER_KM,
+    // kWh per jaar die de auto thuis laadt; 0 = geen elektrische auto.
+    autoKwh: 0,
     autoLaden: "nacht",
   };
 
@@ -253,7 +254,7 @@
     // die afname vrijwel helemaal buiten de zonuren. Zonder jaarnota blijft
     // het een schatting uit het totale verbruik.
     const metAfname = i.afname > 0;
-    const autoJaar = Math.max(0, i.autoKm) * i.autoKwhPerKm;
+    const autoJaar = Math.max(0, i.autoKwh);
     const autoLaden = AUTO_LADEN.includes(i.autoLaden) ? i.autoLaden : "nacht";
     // Laadt de auto op de avondpiek, dan kan de batterij die vraag ook dekken.
     // Met de afname van de jaarnota zit een auto die er al was daar al in.

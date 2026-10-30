@@ -93,7 +93,7 @@
     mis: "inpMismatch", cycli: "inpCycli", onbalans: "inpOnbalans",
     verbruik: "inpVerbruik", standby: "inpStandby", degr: "inpDegradatie",
     teruglevering: "inpTeruglevering", afname: "inpAfname",
-    auto: "inpAuto", km: "inpAutoKm",
+    auto: "inpAuto", autokwh: "inpAutoKwh",
   };
 
   // De waarden zoals de pagina ze zelf meelevert. Wat daaraan gelijk is, hoeft
@@ -170,7 +170,7 @@
       teruglevering: getal("inpTeruglevering", 0),
       afname: getal("inpAfname", 0),
       degradatiePct: getal("inpDegradatie", 2),
-      autoKm: el("inpAuto") && el("inpAuto").value !== "geen" ? getal("inpAutoKm", 0) : 0,
+      autoKwh: el("inpAuto") && el("inpAuto").value !== "geen" ? getal("inpAutoKwh", 0) : 0,
       autoLaden: el("inpAuto") && el("inpAuto").value !== "geen" ? el("inpAuto").value : "nacht",
       btwRoute: el("inpBtw") ? el("inpBtw").value : "incl",
       // Het vermogen komt uit de gegevens, niet uit een veld: het is een
@@ -326,7 +326,7 @@
     if (r.autoJaar > 0) {
       const autoTekst = `Je auto laadt thuis zo'n ${numFmt.format(r.autoJaar)} kWh per jaar, ${r.autoJaar > r.bruikbareCap * 365 ? "meer dan deze batterij in een jaar kan opslaan" : "een flink deel van wat deze batterij in een jaar opslaat"}.`;
       if (r.autoLaden === "zon" && r.autoOpZon > 0) {
-        const zonder = Rekenkern.bereken(Object.assign({}, i, { autoKm: 0 }));
+        const zonder = Rekenkern.bereken(Object.assign({}, i, { autoKwh: 0 }));
         // Wat de auto zelf wint: zonnestroom in plaats van stroom uit het net.
         const inkoop = i.contract === "dynamisch" ? i.laadprijs : i.stroomprijs;
         const autoWinst = r.autoOpZon * (inkoop - i.terugleverVergoeding + i.terugleverKosten);
@@ -733,7 +733,7 @@
   }
 
   function toggleAutoVelden() {
-    const veld = el("veldAutoKm");
+    const veld = el("veldAutoKwh");
     if (veld) veld.style.display = el("inpAuto").value === "geen" ? "none" : "";
   }
 
@@ -863,7 +863,6 @@
 
     togglePvVelden();
     toggleAutoVelden();
-    if (el("autoKwhPerKmTekst")) el("autoKwhPerKmTekst").textContent = String(Rekenkern.AUTO_KWH_PER_KM).replace(".", ",");
     toggleContractVelden({ stil: true });
     bereken();
   }
