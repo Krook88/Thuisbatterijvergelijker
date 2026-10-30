@@ -93,6 +93,7 @@
     mis: "inpMismatch", cycli: "inpCycli", onbalans: "inpOnbalans",
     verbruik: "inpVerbruik", standby: "inpStandby", degr: "inpDegradatie",
     teruglevering: "inpTeruglevering", afname: "inpAfname",
+    auto: "inpAuto", km: "inpAutoKm",
   };
 
   // De waarden zoals de pagina ze zelf meelevert. Wat daaraan gelijk is, hoeft
@@ -169,6 +170,8 @@
       teruglevering: getal("inpTeruglevering", 0),
       afname: getal("inpAfname", 0),
       degradatiePct: getal("inpDegradatie", 2),
+      autoKm: el("inpAuto") && el("inpAuto").value !== "geen" ? getal("inpAutoKm", 0) : 0,
+      autoLaden: el("inpAuto") && el("inpAuto").value !== "geen" ? el("inpAuto").value : "nacht",
       btwRoute: el("inpBtw") ? el("inpBtw").value : "incl",
       // Het vermogen komt uit de gegevens, niet uit een veld: het is een
       // eigenschap van de batterij, geen keuze van de bezoeker.
@@ -320,6 +323,20 @@
       else if (Rekenkern.oordeel(t) === "matig") waarschuwingen.push(`Terugverdiend, maar met weinig marge: een thuisbatterij gaat 10 tot 15 jaar mee. Reken jezelf niet rijk en vergelijk meerdere scenario's.${lees}`);
     }
 
+    if (r.autoJaar > 0) {
+      const autoTekst = `Je auto laadt thuis zo'n ${numFmt.format(r.autoJaar)} kWh per jaar, ${r.autoJaar > r.bruikbareCap * 365 ? "meer dan deze batterij in een jaar kan opslaan" : "een flink deel van wat deze batterij in een jaar opslaat"}.`;
+      if (r.autoLaden === "zon" && r.autoOpZon > 0) {
+        const zonder = Rekenkern.bereken(Object.assign({}, i, { autoKm: 0 }));
+        // Wat de auto zelf wint: zonnestroom in plaats van stroom uit het net.
+        const inkoop = i.contract === "dynamisch" ? i.laadprijs : i.stroomprijs;
+        const autoWinst = r.autoOpZon * (inkoop - i.terugleverVergoeding + i.terugleverKosten);
+        waarschuwingen.push(`<b>Je auto en de batterij willen dezelfde zonnestroom.</b> ${autoTekst} Overdag neemt de auto ongeveer ${numFmt.format(r.autoOpZon)} kWh van je overschot, voordat de batterij aan de beurt is. Daardoor levert de batterij ${eurFmt.format(zonder.totaal - r.totaal)} per jaar minder op dan zonder auto. Je auto zelf laden op zon is wel de beste plek voor die stroom: dat scheelt je zo'n ${eurFmt.format(autoWinst)} per jaar, los van de batterij. Een kleinere batterij past dan vaak beter.`);
+      } else if (r.autoLaden === "avond") {
+        kanttekeningen.push(`${autoTekst} Je laadt op de dure uren, dus de batterij mag een deel van de auto dekken; de module telt ${eenDec.format(r.autoAvondPerDag)} kWh per dag extra mee. Laad je de auto 's nachts of op goedkope uren, dan bespaar je op de auto zelf meer dan deze batterij eraan toevoegt.`);
+      } else {
+        kanttekeningen.push(`${autoTekst} Laad je 's nachts of op goedkope uren, dan raken auto en batterij elkaar niet. Stel wel in dat de batterij niet ontlaadt als de auto laadt; een batterij met P1-meter ziet de laadpaal anders als gewoon verbruik.`);
+      }
+    }
     if (r.teGroot) {
       waarschuwingen.push(`<b>Deze batterij is waarschijnlijk te groot voor je verbruik.</b> ${r.metJaarnota.afname ? `Met ${numFmt.format(i.afname)} kWh afname uit het net per jaar haal je` : `Met ${numFmt.format(i.jaarVerbruik)} kWh per jaar maakt je huishouden buiten de zonuren`} maar zo'n ${eenDec.format(r.maxOntladingPerDag)} kWh per dag op, terwijl deze batterij er ${eenDec.format(r.bruikbareCap)} kWh in kwijt kan. De berekening telt daarom alleen mee wat je er echt uit haalt; een kleinere (goedkopere) batterij geeft vaak een kortere terugverdientijd.`);
     }
@@ -715,6 +732,11 @@
       </div>`;
   }
 
+  function toggleAutoVelden() {
+    const veld = el("veldAutoKm");
+    if (veld) veld.style.display = el("inpAuto").value === "geen" ? "none" : "";
+  }
+
   function togglePvVelden() {
     const heeftPv = el("inpPv").value === "ja";
     el("pvVelden").style.display = heeftPv ? "" : "none";
@@ -831,6 +853,7 @@
     el("inpLeverancier").addEventListener("change", kiesLeverancier);
     el("inpPanelen").addEventListener("input", panelenNaarOpwek);
     el("inpPv").addEventListener("change", togglePvVelden);
+    el("inpAuto").addEventListener("change", toggleAutoVelden);
     el("inpContract").addEventListener("change", () => toggleContractVelden());
     el("inpTerugleverkosten").addEventListener("input", () => { terugleveringAangeraakt = true; });
     el("inpTeruglever").addEventListener("input", () => { terugleveringAangeraakt = true; });
@@ -839,6 +862,8 @@
     });
 
     togglePvVelden();
+    toggleAutoVelden();
+    if (el("autoKwhPerKmTekst")) el("autoKwhPerKmTekst").textContent = String(Rekenkern.AUTO_KWH_PER_KM).replace(".", ",");
     toggleContractVelden({ stil: true });
     bereken();
   }

@@ -48,6 +48,25 @@
   // storingen, afwezigheid en dagen zonder bruikbare spreiding bestaan.
   const HANDELSDAGEN_ZONDER_PV = 350;
 
+  /* De elektrische auto. Een thuisbatterij en een auto vragen allebei om
+     goedkope of zonnige stroom, en hoe ze elkaar raken hangt af van wanneer
+     de auto laadt:
+
+       zon    overdag thuis op zonneoverschot. Wat de auto opneemt, gaat niet
+              meer de batterij in, dus de batterij krijgt minder te doen.
+       nacht  's nachts of slim op goedkope uren, rechtstreeks uit het net.
+              Raakt de batterij niet; die hoort dan niet in de auto te
+              ontladen (een P1-batterij doet dat wel als je het niet uitzet).
+       avond  bij thuiskomst, op de dure uren. Dan kan de batterij een deel
+              van de auto dekken, dus telt de auto mee in wat er per dag
+              opgemaakt wordt. Wel de duurste manier om te laden.
+
+     Rekenen in kWh per km in plaats van in kWh per jaar, omdat mensen hun
+     kilometers kennen en hun laadverbruik niet. 0,18 kWh per km is een
+     midden tussen zuinige en grote auto's, inclusief laadverlies. */
+  const AUTO_KWH_PER_KM = 0.18;
+  const AUTO_LADEN = ["zon", "nacht", "avond"];
+
   // Boven deze impliciete spread (ontlaadwaarde min laadprijs) is de invoer
   // optimistischer dan een gemiddelde dag op de day-ahead-markt rechtvaardigt.
   const SPREAD_GRENS = 0.15;
@@ -132,6 +151,10 @@
     btwRoute: "incl",
     // null = onbekend vermogen, dan begrenst de kern er niet op
     vermogenKw: null,
+    // Kilometers per jaar die je thuis laadt; 0 = geen elektrische auto.
+    autoKm: 0,
+    autoKwhPerKm: AUTO_KWH_PER_KM,
+    autoLaden: "nacht",
   };
 
   /* ------------------------------------------------------------------
@@ -230,7 +253,12 @@
     // die afname vrijwel helemaal buiten de zonuren. Zonder jaarnota blijft
     // het een schatting uit het totale verbruik.
     const metAfname = i.afname > 0;
-    const maxOntladingPerDag = metAfname ? i.afname / 365 : (i.jaarVerbruik / 365) * AANDEEL_BUITEN_ZON;
+    const autoJaar = Math.max(0, i.autoKm) * i.autoKwhPerKm;
+    const autoLaden = AUTO_LADEN.includes(i.autoLaden) ? i.autoLaden : "nacht";
+    // Laadt de auto op de avondpiek, dan kan de batterij die vraag ook dekken.
+    // Met de afname van de jaarnota zit een auto die er al was daar al in.
+    const autoAvondPerDag = autoLaden === "avond" && !metAfname ? autoJaar / 365 : 0;
+    const maxOntladingPerDag = (metAfname ? i.afname / 365 : (i.jaarVerbruik / 365) * AANDEEL_BUITEN_ZON) + autoAvondPerDag;
     // Diezelfde grens, teruggerekend naar de ingaande kant.
     const ruimtePerDag = Math.min(bruikbareCap, rendement > 0 ? maxOntladingPerDag / rendement : 0);
 
@@ -245,9 +273,16 @@
     const btwVoordeel = i.investering - netInvestering;
 
     /* 1. Zelfverbruik-opslag */
-    let overschot = 0, opslagJaar = 0, opbrengstZelf = 0, waardePerKwh = 0;
+    let overschot = 0, opslagJaar = 0, opbrengstZelf = 0, waardePerKwh = 0, autoOpZon = 0;
     if (heeftPv && bruikbareCap > 0 && i.zonDagen > 0) {
       overschot = overschotVan(i);
+      /* Laadt de auto overdag op zon, dan neemt hij op elke zonnige dag zijn
+         dagdeel uit het overschot, voordat de batterij aan de beurt is. Met
+         de teruglevering van de jaarnota is dat al gebeurd. */
+      if (autoLaden === "zon" && !(i.teruglevering > 0)) {
+        autoOpZon = Math.min(overschot, (autoJaar / 365) * i.zonDagen);
+        overschot -= autoOpZon;
+      }
       const perDag = opgevangenPerDag(overschot / i.zonDagen, ruimtePerDag);
       opslagJaar = perDag * i.zonDagen * mismatch;
       // Elke opgeslagen kWh vervangt inkoop (x rendement wegens omzetverlies),
@@ -299,6 +334,7 @@
       metJaarnota: { teruglevering: heeftPv && i.teruglevering > 0, afname: metAfname },
       laadurenKnelt: laaduren > LAADUREN_GRENS,
       bruikbareCap, maxOntladingPerDag, ruimtePerDag, teGroot,
+      autoJaar, autoLaden, autoOpZon, autoAvondPerDag,
       overschot, opslagJaar, opbrengstZelf, waardePerKwh,
       arbDagen, ontladenPerDag, geladenPerDag, winstPerDag, opbrengstArb,
       standbyKwh, kostenStandby,
@@ -428,6 +464,8 @@
   return {
     AANDEEL_BUITEN_ZON,
     HANDELSDAGEN_ZONDER_PV,
+    AUTO_KWH_PER_KM,
+    AUTO_LADEN,
     SPREAD_GRENS,
     BTW_FACTOR,
     BTW_ROUTES,

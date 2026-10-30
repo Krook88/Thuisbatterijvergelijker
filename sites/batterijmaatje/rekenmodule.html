@@ -18,16 +18,16 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="assets/maatlat.css?v=20261026a" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261026a" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261026a">
-  <script src="assets/dagmaat.js?v=20261026a" defer></script>
-  <script src="assets/prijs.js?v=20261026a" defer></script>
-  <script src="assets/oordeel.js?v=20261026a" defer></script>
-  <script src="assets/rekenkern.js?v=20261026a" defer></script>
-  <script src="assets/delen.js?v=20261026a" defer></script>
-  <script src="assets/rekenmodule.js?v=20261026a" defer></script>
-  <script src="assets/nav.js?v=20261026a" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261030a" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261030a" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261030a">
+  <script src="assets/dagmaat.js?v=20261030a" defer></script>
+  <script src="assets/prijs.js?v=20261030a" defer></script>
+  <script src="assets/oordeel.js?v=20261030a" defer></script>
+  <script src="assets/rekenkern.js?v=20261030a" defer></script>
+  <script src="assets/delen.js?v=20261030a" defer></script>
+  <script src="assets/rekenmodule.js?v=20261030a" defer></script>
+  <script src="assets/nav.js?v=20261030a" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <style>
@@ -51,7 +51,7 @@
   </style>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261026a"></script>
+  <script defer src="/assets/teller.js?v=20261030a"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -140,7 +140,7 @@
 
     <form id="rekenformulier" class="reken-paneel" onsubmit="return false;">
 
-      <p class="stappen-intro">Vier keuzes en het resultaat rekent direct mee, op een groot scherm hiernaast en op een telefoon onder het formulier. Voor alle prijzen reken ik alvast met Nederlandse gemiddelden, zoals 2.900 kWh verbruik per jaar en 350 kWh opbrengst per zonnepaneel. Aanpassen kan, maar hoeft niet. De uitkomst is bewust een <b>bereik</b> en geen enkel getal, want dezelfde batterij komt op vier of op twaalf jaar uit, afhankelijk van aannames die niemand vooraf kent.</p>
+      <p class="stappen-intro">Vijf keuzes en het resultaat rekent direct mee, op een groot scherm hiernaast en op een telefoon onder het formulier. Voor alle prijzen reken ik alvast met Nederlandse gemiddelden, zoals 2.900 kWh verbruik per jaar en 350 kWh opbrengst per zonnepaneel. Aanpassen kan, maar hoeft niet. De uitkomst is bewust een <b>bereik</b> en geen enkel getal, want dezelfde batterij komt op vier of op twaalf jaar uit, afhankelijk van aannames die niemand vooraf kent.</p>
 
       <h2>1. Kies een batterij</h2>
       <div class="veld">
@@ -187,7 +187,26 @@
         </div>
       </details>
 
-      <h2>3. Wat voor energiecontract heb je?</h2>
+      <h2>3. Heb je een elektrische auto?</h2>
+      <div class="veld-rij">
+        <div class="veld">
+          <label for="inpAuto">Elektrische auto die je thuis laadt</label>
+          <select id="inpAuto">
+            <option value="geen">Nee</option>
+            <option value="nacht">Ja, 's nachts of op goedkope uren</option>
+            <option value="zon">Ja, overdag op zonnestroom</option>
+            <option value="avond">Ja, 's avonds bij thuiskomst</option>
+          </select>
+          <span class="hint">De auto laadt via de laadpaal, niet uit de batterij. Wanneer hij laadt, bepaalt wel hoeveel er voor de batterij overblijft. <a href="#auto">Hoe dat werkt</a></span>
+        </div>
+        <div class="veld" id="veldAutoKm">
+          <label for="inpAutoKm">Kilometers per jaar die je thuis laadt</label>
+          <input type="number" id="inpAutoKm" value="12000" min="0" step="1000">
+          <span class="hint">Alleen wat je thuis laadt, niet onderweg of op het werk. Ik reken <span id="autoKwhPerKmTekst">0,18</span> kWh per km</span>
+        </div>
+      </div>
+
+      <h2>4. Wat voor energiecontract heb je?</h2>
       <div class="veld">
         <label for="inpContract">Energiecontract</label>
         <select id="inpContract">
@@ -202,7 +221,7 @@
         <span class="hint" id="leverancierHint">Dan vul ik de terugleverkosten alvast voor je in; zelf opzoeken hoeft niet.</span>
       </div>
 
-      <h2>4. Hoe zit het met de btw?</h2>
+      <h2>5. Hoe zit het met de btw?</h2>
       <div class="veld">
         <label for="inpBtw">Btw op de aanschaf</label>
         <select id="inpBtw">
@@ -312,7 +331,7 @@
           <div class="veld">
             <label for="inpVerbruik">Stroomverbruik huishouden (kWh per jaar)</label>
             <input type="number" id="inpVerbruik" value="2900" min="0" step="100">
-            <span class="hint">Gemiddeld huishouden ± 2.900 kWh; met warmtepomp of elektrische auto flink meer. Begrenst wat de batterij per dag zinvol kan ontladen</span>
+            <span class="hint">Gemiddeld huishouden ± 2.900 kWh; met warmtepomp flink meer. Een elektrische auto tel je hier níet mee, die vul je bij stap 3 in. Begrenst wat de batterij per dag zinvol kan ontladen</span>
           </div>
           <div class="veld">
             <label for="inpStandby">Standby-verbruik van de batterij (watt)</label>
@@ -360,8 +379,17 @@
     <p><b>Begrensd door je eigen verbruik.</b> Een batterij verdient alleen aan stroom die je huishouden ook echt opmaakt. Het model rekent daarom nooit met meer ontlading per dag dan wat je huishouden buiten de zonuren verbruikt (aanname: 70% van je jaarverbruik valt in de avond, nacht en vroege ochtend). Is de batterij groter dan dat, dan telt de extra capaciteit niet mee en krijg je een waarschuwing, want een te grote accu kopen is een van de duurste beginnersfouten.</p>
     <p><b>De terugverdientijd</b> volgt uit de opgetelde besparing, waarbij de opbrengst elk jaar iets daalt doordat de batterij capaciteit verliest (standaard 2% per jaar). Daarnaast rekent de module dezelfde som nog twee keer door: één keer met een ongunstige en één keer met een gunstige set aannames voor stroomprijs, prijsverschil, rendement en standby-verbruik. Die twee vormen het bereik dat bovenaan staat. Het middenscenario is niet waarschijnlijker dan de randen, en juist daarom staat het er klein bij.</p>
 
-    <h3 id="warmtepomp">Heb je een warmtepomp of elektrische auto?</h3>
-    <p>Een warmtepomp telt op twee manieren mee. Ten eerste via je jaarverbruik, dat je invult onder "Alle getallen bekijken of aanpassen" (standaard reken ik met 2.900 kWh, een gemiddeld huishouden; met warmtepomp is 6.000 tot 9.000 kWh gebruikelijk). Een hoger verbruik betekent dat een grotere batterij wél zinvol kan zijn. Ten tweede via een dynamisch contract, want in de wintermaanden verbruik je veel stroom op de dure uren, precies wanneer de batterij op goedkope uren vooruit kan laden; verhoog daarvoor eventueel de handelscycli per dag naar 1,5 of 2. Controleer wel of het vermogen (kW) van de batterij groot genoeg is om de warmtepomp echt te dekken. Voor het opslaan van zonnestroom verandert er weinig, want een warmtepomp draait vooral in de winter, wanneer er nauwelijks zonneoverschot is. Een elektrische auto laad je meestal slimmer rechtstreeks op goedkope of zonnige uren dan via de batterij; zie <a href="uitleg.html#wat-kun-je-ermee">wat kun je ermee</a>.</p>
+    <h3 id="warmtepomp">Heb je een warmtepomp?</h3>
+    <p>Een warmtepomp telt op twee manieren mee. Ten eerste via je jaarverbruik, dat je invult onder "Alle getallen bekijken of aanpassen" (standaard reken ik met 2.900 kWh, een gemiddeld huishouden; met warmtepomp is 6.000 tot 9.000 kWh gebruikelijk). Een hoger verbruik betekent dat een grotere batterij wél zinvol kan zijn. Ten tweede via een dynamisch contract, want in de wintermaanden verbruik je veel stroom op de dure uren, precies wanneer de batterij op goedkope uren vooruit kan laden; verhoog daarvoor eventueel de handelscycli per dag naar 1,5 of 2. Controleer wel of het vermogen (kW) van de batterij groot genoeg is om de warmtepomp echt te dekken. Voor het opslaan van zonnestroom verandert er weinig, want een warmtepomp draait vooral in de winter, wanneer er nauwelijks zonneoverschot is.</p>
+
+    <h3 id="auto">En een elektrische auto?</h3>
+    <p>Een auto rijdt met 12.000 km per jaar al gauw 2.000 kWh, meer dan een thuisbatterij van 5 kWh in een jaar kan opslaan. Een batterij om de auto mee te laden is dus zelden zinvol: hij is in een uur leeg en elke kWh verliest onderweg zo'n 10%. Wat wel telt, is <b>wanneer</b> de auto laadt, want daarmee verandert wat er voor de batterij overblijft:</p>
+    <ul>
+      <li><b>Overdag op zonnestroom.</b> De goedkoopste manier om je auto te laden, want je gebruikt stroom die anders voor 1 tot 5 cent per kWh het net op gaat. Maar de auto neemt dan het overschot dat de batterij anders had opgeslagen. De module trekt het dagdeel van de auto van je zonneoverschot af, en de batterij levert daardoor minder op.</li>
+      <li><b>'s Nachts of slim op goedkope uren.</b> Raakt de batterij niet: de auto laadt uit het net, de batterij doet zijn werk voor het huis. Stel bij een stekkerbatterij met P1-meter wel in dat hij niet ontlaadt als de auto laadt, anders loopt hij in een paar minuten leeg in de auto.</li>
+      <li><b>'s Avonds bij thuiskomst.</b> Dan kan de batterij een deel van de auto dekken, en telt de auto mee in wat er per dag uit de batterij gehaald kan worden. Het is wel de duurste manier: met een dynamisch contract of een laadpaal met timer verschuif je het laden naar de nacht en bespaar je meer dan een batterij hier oplevert.</li>
+    </ul>
+    <p>Heb je de auto al en vul je je jaarnota in, dan telt de module hem niet dubbel.</p>
 
     <p>Kom je een onbekend woord tegen (zoals kWh, dynamisch contract of terugleverkosten)? Alle termen staan uitgelegd in de <a href="uitleg.html#woordenlijst">woordenlijst</a>.</p>
 

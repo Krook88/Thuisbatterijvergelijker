@@ -485,3 +485,40 @@ test("oordeel over de terugverdientijd: groen tot 5, oranje tot 12, daarboven ro
   assert.equal(Rekenkern.oordeel(12.1), "slecht");
   assert.equal(Rekenkern.oordeel(null), "slecht");
 });
+
+/* De elektrische auto. Drie laadmomenten, drie verschillende effecten op de
+   batterij; zie AUTO_LADEN in rekenkern.js. */
+test("geen auto en een auto die 's nachts laadt geven dezelfde uitkomst", () => {
+  const zonder = Rekenkern.bereken(VOORBEELD);
+  const nacht = Rekenkern.bereken({ ...VOORBEELD, autoKm: 15000, autoLaden: "nacht" });
+  assert.equal(nacht.totaal, zonder.totaal);
+  assert.equal(nacht.autoJaar, 15000 * Rekenkern.AUTO_KWH_PER_KM);
+});
+
+test("een auto die op zon laadt neemt overschot weg en de batterij levert minder op", () => {
+  const zonder = Rekenkern.bereken(VOORBEELD);
+  const zon = Rekenkern.bereken({ ...VOORBEELD, autoKm: 15000, autoLaden: "zon" });
+  assert.ok(zon.autoOpZon > 0);
+  assert.ok(zon.opslagJaar < zonder.opslagJaar);
+  assert.ok(zon.totaal < zonder.totaal);
+});
+
+test("de auto neemt nooit meer zonnestroom dan er overschot is", () => {
+  const r = Rekenkern.bereken({ ...VOORBEELD, autoKm: 100000, autoLaden: "zon" });
+  assert.ok(r.autoOpZon <= Rekenkern.bereken(VOORBEELD).overschot + 1e-9);
+  assert.equal(r.opbrengstZelf, 0);
+});
+
+test("met de teruglevering van de jaarnota telt de auto op zon niet nog eens", () => {
+  const basis = { ...VOORBEELD, teruglevering: 2400 };
+  assert.equal(Rekenkern.bereken({ ...basis, autoKm: 15000, autoLaden: "zon" }).totaal, Rekenkern.bereken(basis).totaal);
+});
+
+test("een auto die 's avonds laadt vergroot wat een grote batterij kwijt kan", () => {
+  const groot = { ...VOORBEELD, capaciteit: 15 };
+  const zonder = Rekenkern.bereken(groot);
+  const avond = Rekenkern.bereken({ ...groot, autoKm: 15000, autoLaden: "avond" });
+  assert.ok(avond.maxOntladingPerDag > zonder.maxOntladingPerDag);
+  assert.ok(avond.totaal > zonder.totaal);
+  assert.ok(!avond.teGroot || zonder.teGroot);
+});
