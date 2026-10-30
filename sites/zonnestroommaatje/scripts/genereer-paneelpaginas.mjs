@@ -1307,7 +1307,7 @@ let CIJFERS = null;
 /* De met de hand geschreven pagina's met aantallen erin. Die tellen wat er nu
    op staat, dus ze worden elke dag ingevuld, en de FAQ-markup volgt de
    zichtbare antwoorden. */
-for (const bestand of ["index.html", "steun.html", "omvormers.html"]) {
+for (const bestand of ["index.html", "steun.html", "omvormers.html", "over-ons.html"]) {
   const pad = resolve(ROOT, bestand);
   const oud = readFileSync(pad, "utf8");
   const nieuw = Uitleg.faqVolgensTekst(Uitleg.vulCijfers(oud, CIJFERS, bestand));
