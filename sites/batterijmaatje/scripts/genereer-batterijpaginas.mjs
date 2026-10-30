@@ -406,6 +406,7 @@ const NAV_HTML = `<header class="site-header">
           <a href="/wat-kost-een-thuisbatterij.html">Wat kost er een?</a>
           <a href="/nu-kopen-of-wachten.html">Nu kopen of wachten?</a>
           <a href="/thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a>
+          <a href="/thuisbatterij-dynamisch-contract.html">Met dynamisch contract</a>
           <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a>
           <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a>
           <a href="/over-ons.html">Over mij</a>
@@ -421,7 +422,7 @@ const VOET_HTML = `<footer class="site-footer">
   <div class="container">
     <b>${ICOON_LOGO} Batterijmaatje</b>
     <p>Onafhankelijke vergelijking van thuisbatterijen voor Nederlandse huishoudens.</p>
-    <p><a href="/">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="/wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="/nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="/thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a> · <a href="/over-ons.html">Over mij</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="/">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="/wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="/nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="/thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a> · <a href="/thuisbatterij-dynamisch-contract.html">Met dynamisch contract</a> · <a href="/over-ons.html">Over mij</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -1400,6 +1401,170 @@ ${VOET_HTML}
 }
 
 /* ------------------------------------------------------------------
+   Thuisbatterij met een dynamisch contract
+
+   "thuisbatterij dynamisch contract" werd op veel pagina's genoemd maar had
+   geen eigen pagina (zie docs/zoekwoorden.md). Twee dingen die de bezoeker
+   wil weten staan hier uitgerekend in plaats van beweerd: wat het contract
+   aan de opbrengst verandert (vier keer dezelfde som uit de rekenkern, met en
+   zonder panelen, vast en dynamisch) en welke batterijen zelf op uurprijzen
+   sturen. Welke batterij met welke leverancier werkt staat er bewust niet in
+   als tabel: de producttekst noemt een leverancier te onregelmatig om daar
+   een volledige lijst van te maken, en een halve lijst leest als een hele.
+   ------------------------------------------------------------------ */
+
+const DYNAMISCH_BESTAND = "thuisbatterij-dynamisch-contract.html";
+
+function dynamischPagina() {
+  const S = Rekenkern.STANDAARD;
+  const status = (b) => driewaardig(b.dynamisch_contract).status;
+  const zelf = data.batterijen.filter((b) => status(b) === "ja");
+  const omweg = data.batterijen.filter((b) => status(b) === "deels").length;
+  const niet = data.batterijen.filter((b) => status(b) === "nee").length;
+  const leveranciers = vereis("../data/leveranciers.json").leveranciers
+    .filter((l) => l.contract === "dynamisch").map((l) => l.naam.replace(/\s*\(dynamisch\)$/, ""));
+
+  // Hybrides rekenen niet mee: hun prijs dekt per model iets anders (alleen
+  // een module, of een compleet systeem met omvormer en installatie), en een
+  // terugverdientijd naast die van een stekkerbatterij zou appels met peren
+  // zijn. Zie REDACTIE.md, "prijsomvang".
+  const zelfHybride = zelf.filter((b) => b.type === "hybride");
+  const metPrijs = zelf.filter((b) => b.type !== "hybride")
+    .map((b) => ({ b, prijs: Prijs.vergelijkPrijs(bestePrijs(b)) })).filter((x) => x.prijs && x.b.capaciteit_kwh);
+  const rekenen = (x, pv, contract) => Rekenkern.bereken({ heeftPv: pv, contract, investering: x.prijs, capaciteit: x.b.capaciteit_kwh, vermogenKw: x.b.vermogen_kw ?? null });
+  const rijen = metPrijs.map((x) => ({ ...x, r: rekenen(x, true, "dynamisch") }))
+    .sort((a, b) => (a.r.terugverdientijd ?? 99) - (b.r.terugverdientijd ?? 99));
+  // Het voorbeeld: de goedkoopste per kWh van de stekker- en AC-batterijen die zelf sturen.
+  const vb = [...metPrijs].sort((a, b) => a.prijs / a.b.capaciteit_kwh - b.prijs / b.b.capaciteit_kwh)[0];
+  const scenario = [
+    ["Met zonnepanelen, vast contract", true, "vast"],
+    ["Met zonnepanelen, dynamisch contract", true, "dynamisch"],
+    ["Zonder zonnepanelen, vast contract", false, "vast"],
+    ["Zonder zonnepanelen, dynamisch contract", false, "dynamisch"],
+  ].map(([naam, pv, c]) => ({ naam, r: rekenen(vb, pv, c) }));
+  const jr = (n) => n == null ? "nooit" : `${nl(n.toFixed(1))} jaar`;
+  const [pvVast, pvDyn] = scenario;
+
+  const titel = "Thuisbatterij met een dynamisch contract: wat levert het op?";
+  const metaDesc = kortOmschrijving(
+    `Wat een dynamisch energiecontract aan de opbrengst van een thuisbatterij verandert, uitgerekend met en zonder zonnepanelen, en welke ${zelf.length} batterijen zelf op uurprijzen sturen.`,
+  );
+  const vragen = [
+    {
+      vraag: "Heb je een dynamisch contract nodig voor een thuisbatterij?",
+      antwoord: `Met zonnepanelen niet, maar het helpt. In mijn rekenvoorbeeld met de ${esc(volledigeNaam(vb.b))} levert de batterij met panelen ${eur(pvVast.r.totaal)} per jaar op bij een vast contract en ${eur(pvDyn.r.totaal)} bij een dynamisch contract. Zonder zonnepanelen is een dynamisch contract de enige manier om iets te verdienen.`,
+    },
+    {
+      vraag: "Welke thuisbatterijen sturen zelf op uurprijzen?",
+      antwoord: `Van de ${data.batterijen.length} batterijen in mijn vergelijker sturen er ${zelf.length} zelf op de prijzen van een dynamisch contract. Bij ${omweg} kan het via een omweg, zoals een leverancier die de batterij aanstuurt of Home Assistant. Bij ${niet} kan het niet.`,
+    },
+  ];
+  const faq = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": vragen.map((v) => ({ "@type": "Question", "name": v.vraag, "acceptedAnswer": { "@type": "Answer", "text": v.antwoord } })),
+  }, null, 2);
+
+  return `<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${esc(besteTitel(["Thuisbatterij met dynamisch contract: wat levert het op?", "Thuisbatterij met dynamisch contract"]))}</title>
+  <meta name="description" content="${esc(metaDesc)}">
+  <link rel="canonical" href="${SITE}/${DYNAMISCH_BESTAND}">
+  <meta property="og:title" content="${esc(titel)}">
+  <meta property="og:description" content="${esc(metaDesc)}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${SITE}/${DYNAMISCH_BESTAND}">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:image" content="${SITE}/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Batterijmaatje.nl">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+${faq}
+  </script>
+  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
+  <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+</head>
+<body>
+
+${NAV_HTML}
+
+<main class="container leespagina">
+  <p class="datum-stempel"><a href="/">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
+  <h1>Thuisbatterij met een dynamisch contract</h1>
+  <p class="datum-stempel">Dagelijks automatisch bijgewerkt · laatst gecontroleerd op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+
+  <p class="intro">Bij een dynamisch contract betaal je per kwartier de prijs van de stroombeurs. Een batterij verdient dan op twee manieren, met zonnestroom die je 's avonds gebruikt en met stroom die hij inkoopt als die goedkoop is. In mijn rekenvoorbeeld levert de batterij daardoor ${eur(pvDyn.r.totaal - pvVast.r.totaal)} per jaar meer op dan met een vast contract.</p>
+
+${vragen.map((v) => `  <h2>${esc(v.vraag)}</h2>
+  <p>${v.antwoord}</p>`).join("\n\n")}
+
+  <h2>Het rekenvoorbeeld</h2>
+  <p>De ${esc(volledigeNaam(vb.b))} (${eur(vb.prijs)}) is van de stekker- en AC-batterijen die zelf op uurprijzen sturen vandaag de goedkoopste per kWh. Dezelfde som als de <a href="/rekenmodule.html">rekenmodule</a>, situatie vanaf 2027 zonder saldering: ${S.opwek.toLocaleString("nl-NL")} kWh zonnestroom per jaar, ${S.jaarVerbruik.toLocaleString("nl-NL")} kWh verbruik, laden voor ${eur2(S.laadprijs)} en ontladen tegen ${eur2(S.ontlaadwaarde)} per kWh.</p>
+  <div class="tabel-wrap">
+  <table class="vergelijk-tabel compact">
+    <thead><tr><th>Situatie</th><th>Per jaar</th><th>Terug in</th></tr></thead>
+    <tbody>${scenario.map(({ naam, r }) => `
+      <tr><td>${naam}</td><td class="niet-afbreken">${r.totaal < 0 ? `&minus;${eur(-r.totaal)}` : eur(r.totaal)}</td><td class="niet-afbreken"><b>${jr(r.terugverdientijd)}</b></td></tr>`).join("")}</tbody>
+  </table>
+  </div>
+  <p>Met panelen komt het meeste uit zonnestroom die je niet meer voor ${eur2(Rekenkern.TERUGLEVERING.vast.terugleverVergoeding)} per kWh teruglevert. Het dynamische contract voegt daar de dagen zonder zon aan toe, als de batterij anders leeg zou staan. Met een vast contract en zonder panelen kost de batterij alleen sluipstroom, ${S.standbyWatt} watt de klok rond.</p>
+
+  <h2>Batterijen die zelf op uurprijzen sturen</h2>
+  <p>${zelf.length} batterijen laden en ontladen op de beursprijzen zonder dat je een leverancier of Home Assistant nodig hebt. Hieronder de ${rijen.length} stekker- en AC-batterijen daarvan, met de terugverdientijd bij zonnepanelen en een dynamisch contract, op dezelfde aannames als hierboven.</p>
+  <div class="tabel-wrap">
+  <table class="vergelijk-tabel compact">
+    <thead><tr><th>Batterij</th><th>Soort</th><th>Opslag</th><th>Prijs</th><th>Terug in</th></tr></thead>
+    <tbody>${rijen.map(({ b, prijs, r }) => `
+      <tr>
+        <td><a href="/batterij/${esc(b.id)}.html"><b>${esc(volledigeNaam(b))}</b></a></td>
+        <td>${b.type === "plug-in" ? "stekker" : esc(b.type)}</td>
+        <td class="niet-afbreken">${nl(b.capaciteit_kwh)} kWh</td>
+        <td class="niet-afbreken">${eur(prijs)}</td>
+        <td class="niet-afbreken"><b>${jr(r.terugverdientijd)}</b></td>
+      </tr>`).join("")}</tbody>
+  </table>
+  </div>
+${zelfHybride.length ? `  <p>Ook deze ${zelfHybride.length} hybride batterijen sturen zelf: ${zelfHybride.map((b) => `<a href="/batterij/${esc(b.id)}.html">${esc(volledigeNaam(b))}</a>`).join(", ")}. Een terugverdientijd zet ik er niet bij, want wat hun prijs omvat verschilt per model, van alleen een batterijmodule tot een compleet systeem met omvormer en installatie. Dat staat per model op de productpagina.</p>` : ""}
+
+  <h2>Via de leverancier of Home Assistant</h2>
+  <p>Bij ${omweg} andere batterijen loopt de sturing via een omweg. Sommige leveranciers met een dynamisch contract sturen een batterij voor je aan, andere batterijen stuur je zelf met Home Assistant of Homey. Welke leverancier welke batterij ondersteunt, verandert regelmatig; controleer het bij de leverancier vóór je koopt. De ${leveranciers.length} dynamische leveranciers in mijn overzicht van terugleverkosten zijn ${leveranciers.slice(0, -1).join(", ")} en ${leveranciers[leveranciers.length - 1]}. De Koppel-score op elke productpagina zegt hoe goed een batterij op deze drie manieren te sturen is.</p>
+
+  <h2>Waar je op let</h2>
+  <ul>
+    <li><b>Een dynamisch contract werkt twee kanten op.</b> Op een koude, windstille winteravond betaal je de hoge beursprijs voor wat de batterij niet dekt.</li>
+    <li><b>Over geladen stroom betaal je energiebelasting.</b> In de som zit die in de laad- en de ontlaadprijs; het verlies van ${100 - S.rendement}% bij laden en ontladen betaal je dus ook.</li>
+    <li><b>Een groter prijsverschil dan ${eur2(Rekenkern.SPREAD_GRENS)} per kWh, elke dag, is optimistisch.</b> Rekent een verkoper met meer, vraag dan waar dat getal vandaan komt.</li>
+    <li><b>De onbalansmarkt is een extraatje, geen basis.</b> Zie de <a href="/uitleg.html#day-ahead-en-onbalans">uitleg over day-ahead en onbalans</a>.</li>
+  </ul>
+
+  <h2>Verder lezen</h2>
+  <ul>
+    <li><a href="/${ZONDER_PV_BESTAND}">Thuisbatterij zonder zonnepanelen</a>: dezelfde som per model, als je geen panelen hebt.</li>
+    <li><a href="/uitleg.html#vast-of-dynamisch">Vast of dynamisch contract</a>: het verschil met grafiek.</li>
+    <li><a href="/rekenmodule.html">Rekenmodule</a>: reken met je eigen verbruik en contract.</li>
+    <li><a href="/${WACHTEN_BESTAND}">Nu kopen of wachten?</a></li>
+  </ul>
+
+  <div class="noot">De bedragen op deze pagina zijn uitkomsten van een rekenmodel met vaste aannames, geen meting en geen voorspelling. Dat een batterij "zelf stuurt" is per model nagekeken in de documentatie van de fabrikant; de toelichting staat op de productpagina.</div>
+</main>
+
+${VOET_HTML}
+
+<script src="/assets/nav.js?v=${ASSET_VERSIE}" defer></script>
+</body>
+</html>
+`;
+}
+
+/* ------------------------------------------------------------------
    Vergelijkingspagina's "X vs Y" (SEO-landingspagina's voor veel
    gezochte duels). Volledig uit de data gegenereerd en dagelijks
    herbouwd, zodat prijzen en scores actueel blijven.
@@ -1639,6 +1804,8 @@ writeFileSync(resolve(ROOT, WACHTEN_BESTAND), wachtenPagina(), "utf8");
 console.log(`${KOSTEN_BESTAND} en ${WACHTEN_BESTAND} gegenereerd`);
 writeFileSync(resolve(ROOT, ZONDER_PV_BESTAND), zonderPvPagina(), "utf8");
 console.log(`${ZONDER_PV_BESTAND} gegenereerd`);
+writeFileSync(resolve(ROOT, DYNAMISCH_BESTAND), dynamischPagina(), "utf8");
+console.log(`${DYNAMISCH_BESTAND} gegenereerd`);
 
 mkdirSync(resolve(ROOT, "vergelijk"), { recursive: true });
 for (const v of VERGELIJKINGEN) {
@@ -1919,6 +2086,7 @@ const vast = [
   { loc: `${SITE}/${KOSTEN_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/${WACHTEN_BESTAND}`, freq: "weekly", prio: "0.7" },
   { loc: `${SITE}/${ZONDER_PV_BESTAND}`, freq: "daily", prio: "0.8" },
+  { loc: `${SITE}/${DYNAMISCH_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/over-ons.html`, freq: "monthly", prio: "0.4" },
   { loc: `${SITE}/contact.html`, freq: "yearly", prio: "0.3" },
   { loc: `${SITE}/privacy.html`, freq: "yearly", prio: "0.2" },
