@@ -1,34 +1,28 @@
 {
-  "bijgewerkt": "2026-10-30",
+  "bijgewerkt": "2026-10-31",
   "punten": {
     "onbereikbaar|itho-amber-95|Installmat": {
       "sinds": "2026-10-30",
       "soort": "onbereikbaar",
       "tekst": "itho-amber-95 @ Installmat: fetch failed",
-      "bevestigd": false
+      "bevestigd": true
     },
     "verouderd|daikin-altherma-3|KliMate": {
       "sinds": "2026-09-22",
       "soort": "verouderd",
-      "tekst": "daikin-altherma-3 @ KliMate: €5414 (59 dagen)",
+      "tekst": "daikin-altherma-3 @ KliMate: €5414 (60 dagen)",
       "bevestigd": true
-    },
-    "verouderd|itho-amber-95|Installmat": {
-      "sinds": "2026-10-30",
-      "soort": "verouderd",
-      "tekst": "itho-amber-95 @ Installmat: €4630 (21 dagen)",
-      "bevestigd": false
     },
     "verouderd|toshiba-estia-r290|Intercool": {
       "sinds": "2026-10-24",
       "soort": "verouderd",
-      "tekst": "toshiba-estia-r290 @ Intercool: €8107 (27 dagen)",
+      "tekst": "toshiba-estia-r290 @ Intercool: €8107 (28 dagen)",
       "bevestigd": true
     },
     "verouderd|vaillant-arotherm-plus|richtprijs": {
       "sinds": "2026-10-24",
       "soort": "verouderd",
-      "tekst": "vaillant-arotherm-plus @ richtprijs: €7300 (27 dagen)",
+      "tekst": "vaillant-arotherm-plus @ richtprijs: €7300 (28 dagen)",
       "bevestigd": true
     },
     "zonder prijs|daikin-altherma-3|KliMate": {
