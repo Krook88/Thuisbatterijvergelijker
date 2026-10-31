@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-10-28",
+  "bijgewerkt": "2026-10-31",
   "punten": {
     "onbereikbaar|enphase-iq8|Zonnige Winkel": {
       "sinds": "2026-10-26",
@@ -28,32 +28,50 @@
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (99 dagen)",
+      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (102 dagen)",
       "bevestigd": true
+    },
+    "verouderd|goodwe-et|richtprijs": {
+      "sinds": "2026-10-31",
+      "soort": "verouderd",
+      "tekst": "goodwe-et @ richtprijs: €1250 (22 dagen)",
+      "bevestigd": false
     },
     "verouderd|jinko-tiger-neo-455|richtprijs": {
       "sinds": "2026-10-24",
       "soort": "verouderd",
-      "tekst": "jinko-tiger-neo-455 @ richtprijs: €100 (25 dagen)",
+      "tekst": "jinko-tiger-neo-455 @ richtprijs: €100 (28 dagen)",
       "bevestigd": true
     },
     "verouderd|maxeon-6-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "maxeon-6-440 @ richtprijs: €230 (99 dagen)",
+      "tekst": "maxeon-6-440 @ richtprijs: €230 (102 dagen)",
       "bevestigd": true
+    },
+    "verouderd|solaredge-home-wave|richtprijs": {
+      "sinds": "2026-10-31",
+      "soort": "verouderd",
+      "tekst": "solaredge-home-wave @ richtprijs: €1250 (22 dagen)",
+      "bevestigd": false
+    },
+    "verouderd|solis-s6-hybride|richtprijs": {
+      "sinds": "2026-10-31",
+      "soort": "verouderd",
+      "tekst": "solis-s6-hybride @ richtprijs: €900 (22 dagen)",
+      "bevestigd": false
     },
     "verouderd|ulica-440-full-black|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "ulica-440-full-black @ richtprijs: €55 (99 dagen)",
+      "tekst": "ulica-440-full-black @ richtprijs: €55 (102 dagen)",
       "bevestigd": true
     },
     "verouderd|victron-multiplus2|richtprijs": {
       "sinds": "2026-10-28",
       "soort": "verouderd",
-      "tekst": "victron-multiplus2 @ richtprijs: €1350 (21 dagen)",
-      "bevestigd": false
+      "tekst": "victron-multiplus2 @ richtprijs: €1350 (24 dagen)",
+      "bevestigd": true
     }
   }
 }
