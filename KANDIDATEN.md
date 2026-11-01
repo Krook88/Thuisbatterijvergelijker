@@ -169,7 +169,7 @@ specificatietabel 42 kWh / 168 kWh, elders 4,02 / 16,08. Niet vastgesteld:
 bruikbare capaciteit, Home Assistant (een gids noemt open MQTT, niet
 bevestigd), Homey. De kleinere HiBattery 1920 AC staat hieronder.
 
-### Hoymiles HiBattery 1920 AC (HB-1920-AC-SV) — uitgezocht 1 november 2026
+### Hoymiles HiBattery 1920 AC (HB-1920-AC-SV) — opgenomen 1 november 2026 (prijs via StromZone)
 
 Gemeld door de modellenzoeker op bol.com ("Hoymiles plug & play thuisbatterij
 1,92kWh >6000 cycli 800VA IP66"). Het kleine broertje van de 4020 AC die we al
