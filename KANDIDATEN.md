@@ -204,6 +204,14 @@ goedkoopste. Bij € 591 kost hij ongeveer € 308 per kWh. De Marstek Venus A k
 bij Stralend Groen € 445, ongeveer € 210 per kWh. Voor opname is minstens één Nederlandse prijsbron nodig: de bol-pagina
 of een NL-winkel.
 
+Nagekeken 1 november: de bol-pagina (`/p/-/9300000339497295/`, EAN
+6975514333729) geeft sinds 12 oktober geen bedrag via de bol-API, dus bol
+verkoopt hem nu waarschijnlijk niet. Er is ook geen Nederlandse winkel
+gevonden. Duitse prijzen lopen van € 527 tot € 750 (Geizhals, 18 aanbiedingen;
+Reichelt € 549). Vaak is dat met 0% Duitse btw, en dat telt hier niet. StromZone
+levert in de EU, ook naar Nederland, voor € 478, maar dat is een buitenlandse
+webwinkel. Wacht op een NL-bron; de modellenzoeker meldt hem zolang.
+
 ### Nog niet uitgezocht
 
 `Growatt SPH5000 + 15,3 kWh` — een set van omvormer en batterij. De winkeltitel
