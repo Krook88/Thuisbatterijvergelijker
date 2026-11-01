@@ -1223,7 +1223,7 @@
       "richtprijs_eur": 1545,
       "richtprijs_btw_inbegrepen": false,
       "prijs_omvat": "prijs excl. btw; losse batterijmodule, omvormer en installatie apart",
-      "prijs_datum": "2026-10-31",
+      "prijs_datum": "2026-11-01",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Een laagspanningsmodule (51,2 V) die je koppelt aan een hybride omvormer van bijvoorbeeld Victron, Solis of GoodWe, en die je parallel kunt uitbreiden met extra modules. Veel batterij voor weinig geld, maar wat je ermee kunt bepaalt de omvormer.",
       "koppeling_gemak": 2,
@@ -1241,14 +1241,15 @@
           "btw_inbegrepen": false,
           "prijs_eur": 1495,
           "url": "https://zonnigewinkel.nl/product/dyness-powerbox-g2-lv-1024-kwh/",
-          "datum": "2026-10-09"
+          "datum": "2026-10-09",
+          "weg_sinds": "2026-11-01"
         },
         {
           "winkel": "Thuisaccu Webshop",
           "btw_inbegrepen": false,
           "prijs_eur": 1650,
           "url": "https://thuisaccuwebshop.nl/product/dyness-powerbox-g2-1024-kwh/",
-          "datum": "2026-10-31"
+          "datum": "2026-11-01"
         }
       ],
       "totaalprijs_van_eur": 7000,
@@ -2739,7 +2740,7 @@
           "winkel": "MediaMarkt",
           "prijs_eur": 999,
           "url": "https://www.mediamarkt.nl/nl/product/_tsun-msu2000-2048wh-opslag-met-slimme-meter-powerstation-170441771.html",
-          "datum": "2026-10-31"
+          "datum": "2026-11-01"
         },
         {
           "winkel": "bol.com",
