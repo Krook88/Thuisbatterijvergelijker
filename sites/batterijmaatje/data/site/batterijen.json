@@ -2754,6 +2754,56 @@
       "afbeelding_bron": "foto: AboutWatt",
       "afbeelding_herkomst": "https://aboutwatt.com/cdn/shop/files/hoymiles-hibattery-4020-ac-thuisbatterij-vooraanzicht.jpg?v=1788198187&width=1200",
       "afbeelding_via": "https://aboutwatt.com/en-nl/products/hoymiles-hibattery-4020-ac"
+    },
+    {
+      "id": "hoymiles-hibattery-1920-ac",
+      "merk": "Hoymiles",
+      "model": "HiBattery 1920 AC (1,92 kWh)",
+      "capaciteit_kwh": 1.92,
+      "uitbreidbaar_tot_kwh": null,
+      "vermogen_kw": 0.8,
+      "type": "plug-in",
+      "fase": "1-fase",
+      "richtprijs_eur": 478,
+      "prijs_omvat": "stekkerklaar; excl. P1-meter; of de Nederlandse btw erin zit is niet vastgesteld",
+      "prijs_datum": "2026-11-01",
+      "installatie": "zelf",
+      "zonnepanelen_koppeling": "AC-gekoppeld: hij gaat in het stopcontact naast je bestaande omvormer, van welk merk ook. Panelen rechtstreeks aansluiten kan niet.",
+      "koppeling_gemak": 5,
+      "homey": null,
+      "home_assistant": null,
+      "dynamisch_contract": "Zelfverbruik- en tijdsafhankelijke (TOU) modus volgens winkelopgaven; welke leveranciers worden ondersteund, heb ik niet kunnen vaststellen",
+      "app": "Hoymiles S-Miles Home",
+      "garantie_jaar": 10,
+      "cycli": 6000,
+      "cycli_toelichting": "meer dan 6.000 (winkelopgave)",
+      "opmerkingen": "De kleinste stekkerbatterij van Hoymiles, het kleine broertje van de HiBattery 4020 AC. Hij levert 800 VA aan het stopcontact, kort 1.200 VA piek, en heeft een IP66-behuizing met ingebouwde blusvoorziening. Hoymiles noemt alleen 1,92 kWh en geen bruikbare capaciteit, dus dat getal staat hier als nominaal. Een Nederlandse winkel is nog niet gevonden: bol.com toont het artikel zonder prijs, en de prijs hier komt van StromZone, een buitenlandse webwinkel die naar Nederland levert. Duitse winkels vragen 527 tot 750 euro, vaak met 0% Duitse btw. Eén verkoper (sun.store) noemt 0,8 kWh; dat is waarschijnlijk het vermogen in het verkeerde veld.",
+      "product_url": "https://www.hoymiles.com/products/hibattery-1920-ac.html",
+      "aanbiedingen": [
+        {
+          "winkel": "StromZone (levert vanuit het buitenland)",
+          "prijs_eur": 478,
+          "url": "https://stromzone.com/en/product/hoymiles-hibattery-1920-ac",
+          "datum": "2026-11-01"
+        }
+      ],
+      "totaalprijs_van_eur": null,
+      "totaalprijs_tot_eur": null,
+      "totaalprijs_toelichting": "zelf te installeren; een P1-meter komt erbij als je die nog niet hebt",
+      "noodstroom": null,
+      "noodstroom_uitleg": "Niet vastgesteld; de opgaven die ik vond noemen geen noodstroomaansluiting.",
+      "ip_klasse": "IP66",
+      "buiten_toelichting": "IP66, dus ook buiten; werktemperatuur niet vastgesteld",
+      "capaciteit_soort": "nominaal",
+      "capaciteit_nominaal_kwh": 1.92,
+      "vermogen_conditie": "stopcontact",
+      "vermogen_bron": "800 VA nominaal, 1.200 VA piek gedurende 10 s (Hoymiles-datasheet via winkels)",
+      "zoeknamen": [
+        "HB-1920-AC-SV",
+        "HB-1920-AC",
+        "HiBattery 1920 AC",
+        "HiBattery 1920"
+      ]
     }
   ]
 }
