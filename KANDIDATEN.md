@@ -167,8 +167,42 @@ Bronnen: hoymiles.com/nl (productpagina), de winkelpagina's hierboven
 Elektramat zet IP65 in de URL en IP66 in de tekst; AboutWatt schrijft in de
 specificatietabel 42 kWh / 168 kWh, elders 4,02 / 16,08. Niet vastgesteld:
 bruikbare capaciteit, Home Assistant (een gids noemt open MQTT, niet
-bevestigd), Homey. De kleinere **HiBattery 1920 AC (HB-1920-AC-SV, 1,92 kWh)**
-staat ook in de meldingen; nog niet uitgezocht.
+bevestigd), Homey. De kleinere HiBattery 1920 AC staat hieronder.
+
+### Hoymiles HiBattery 1920 AC (HB-1920-AC-SV) — uitgezocht 1 november 2026
+
+Gemeld door de modellenzoeker op bol.com ("Hoymiles plug & play thuisbatterij
+1,92kWh >6000 cycli 800VA IP66"). Het kleine broertje van de 4020 AC die we al
+hebben, met dezelfde opzet: stekker in het stopcontact, 800 VA.
+
+| | |
+| --- | --- |
+| capaciteit | 1,92 kWh (nominaal; bruikbaar niet gevonden), uitbreidbaar met de MS-A2 (alleen een Duitse dealsite) |
+| vermogen | 800 VA nominaal, 1.200 VA piek gedurende 10 s, 1-fase 230 V, 3,48 A |
+| cycli | > 6.000 (bol-titel en één Duitse winkel) |
+| garantie | 10 jaar (één winkel) |
+| overig | LiFePO4, IP66, ingebouwde blusvoorziening en drukventielen, wifi 2,4 GHz en Bluetooth, 460 × 240 × 203 mm, 24 kg |
+| prijs | geen Nederlandse winkel gevonden buiten bol.com. Buitenland: Voelkner (DE) € 591, Tienda-Solar (ES) € 749, Hoymiles-shop € 846 (uitverkocht) |
+
+Bronnen: [hoymiles.com](https://www.hoymiles.com/products/hibattery-1920-ac.html),
+datasheet via [solarcamp24.de](https://solarcamp24.de/mediafiles/Sonstiges/Hoymiles_HiBattery_1920_AC_Datenblatt_-_Deutsch.pdf),
+winkels [123elec](https://www.123elec.com/hoymiles-hibattery-ac-1-92kwh-plug-and-play-hb-1920-ac-sv.html),
+[voelkner](https://www.voelkner.de/products/13625827/Hoymiles-HiBattery-HB-1920-AC-SV-AC-Speicher-1920Wh-LiFePO4.html),
+[offgridtec](https://www.offgridtec.com/en/hoymiles-hibattery-hb-1920-ac-sv-ac-storage-1920wh-lifepo4.html).
+Allemaal uit zoekresultaten. De pagina's zelf waren vanuit deze omgeving niet
+bereikbaar.
+
+Tegenstrijdig: sun.store noemt 0,8 kWh. Dat is waarschijnlijk het vermogen
+(800 VA) dat in het verkeerde veld staat.
+
+Niet vastgesteld: bruikbare capaciteit, of hij net als de 4020 AC met een
+P1-meter op nul kan regelen, Home Assistant/Homey, en of hij via bol.com echt
+door een Nederlandse verkoper wordt geleverd.
+
+Opnemen? Hij past in de lijst stekkerbatterijen en wordt een van de kleinste en
+goedkoopste. Bij € 591 kost hij ongeveer € 308 per kWh. De Marstek Venus A kost
+bij Stralend Groen € 445, ongeveer € 210 per kWh. Voor opname is minstens één Nederlandse prijsbron nodig: de bol-pagina
+of een NL-winkel.
 
 ### Nog niet uitgezocht
 
