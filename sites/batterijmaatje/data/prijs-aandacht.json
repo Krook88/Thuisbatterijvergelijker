@@ -1,34 +1,34 @@
 {
-  "bijgewerkt": "2026-11-01",
+  "bijgewerkt": "2026-11-02",
   "punten": {
     "onbereikbaar|dyness-powerbox-g2|Zonnige Winkel": {
       "sinds": "2026-11-01",
       "soort": "onbereikbaar",
       "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: fetch failed",
+      "bevestigd": true
+    },
+    "te controleren|hoymiles-hibattery-1920-ac|StromZone (levert vanuit het buitenland)": {
+      "sinds": "2026-11-02",
+      "soort": "te controleren",
+      "tekst": "hoymiles-hibattery-1920-ac @ StromZone (levert vanuit het buitenland): €520 → €379 (-27%)",
       "bevestigd": false
     },
     "verouderd|aeg-solarcube-48|richtprijs": {
       "sinds": "2026-10-29",
       "soort": "verouderd",
-      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (24 dagen)",
-      "bevestigd": true
-    },
-    "verouderd|dyness-powerbox-g2|Zonnige Winkel": {
-      "sinds": "2026-11-01",
-      "soort": "verouderd",
-      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: €1495 (23 dagen)",
+      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (25 dagen)",
       "bevestigd": true
     },
     "verouderd|jackery-homepower-2000-ultra|richtprijs": {
       "sinds": "2026-10-24",
       "soort": "verouderd",
-      "tekst": "jackery-homepower-2000-ultra @ richtprijs: €669 (29 dagen)",
+      "tekst": "jackery-homepower-2000-ultra @ richtprijs: €669 (30 dagen)",
       "bevestigd": true
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (108 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (109 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
