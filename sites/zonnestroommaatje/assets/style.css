@@ -2,8 +2,8 @@
    Zonnepaneelmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20261030e");
-@import url("vergelijker.css?v=20261030e");
+@import url("maatlat.css?v=20261104i");
+@import url("vergelijker.css?v=20261104i");
 
 :root {
   --kleur-primair: #0369a1;
@@ -970,7 +970,7 @@ table.vergelijk-tabel {
 .vergelijk-tabel .check-nee { color: var(--kleur-tekst-licht); }
 
 /* --------------------------------------------------------------------------
-   Vergelijk-selectie (max 3)
+   Vergelijk-selectie (max 4)
    -------------------------------------------------------------------------- */
 
 .vergelijk-checkbox-wrap {

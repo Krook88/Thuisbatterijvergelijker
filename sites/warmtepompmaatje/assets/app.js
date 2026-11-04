@@ -91,12 +91,20 @@
     if (f.zoek) p.set("zoek", f.zoek);
     CHECK_KEYS.forEach(([k, kort]) => { if (f[k]) p.set(kort, "1"); });
     if (state.sortering !== "prijs-na-isde") p.set("sorteer", state.sortering);
-    const qs = p.toString();
+    if (state.vergelijkSelectie.length) p.set("vergelijk", state.vergelijkSelectie.join("~"));
+    const qs = p.toString().replace(/%7E/g, "~");
     history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
   }
 
   function leesUrl() {
     const p = new URLSearchParams(location.search);
+    // Een gedeelde vergelijking: ?vergelijk=id~id~id. Onbekende namen
+    // vallen weg; met twee of meer bekende gaat het venster meteen open.
+    if (p.get("vergelijk")) {
+      const ids = p.get("vergelijk").split("~");
+      state.vergelijkSelectie = [...new Set(ids)].filter((id) => state.pompen.some((x) => x.id === id)).slice(0, 4);
+      if (state.vergelijkSelectie.length >= 2) setTimeout(() => el("openVergelijk").click());
+    }
     FILTER_KEYS.forEach((k) => { if (p.get(k)) state.filters[k] = p.get(k); });
     if (p.get("zoek")) { state.filters.zoek = p.get("zoek"); const zv = el("zoekVeld"); if (zv) zv.value = state.filters.zoek; }
     CHECK_KEYS.forEach(([k, kort]) => { if (p.get(kort) === "1") state.filters[k] = true; });
@@ -244,34 +252,33 @@
   }
 
   /* ------------------------------------------------------------------
-     Rendering: vergelijk-modal (max. 3 zij aan zij)
+     Rendering: vergelijk-modal (max. 4 zij aan zij)
      ------------------------------------------------------------------ */
 
   function vergelijkModalHtml(items) {
-    const rij = (label, fn) => `<tr><th style="text-align:left;padding: var(--ruimte-6) var(--ruimte-10);background:var(--kleur-achtergrond);white-space:nowrap;position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">${label}</th>${items.map((w) => `<td style="padding: var(--ruimte-6) var(--ruimte-10);border-bottom:1px solid var(--kleur-rand);">${fn(w)}</td>`).join("")}</tr>`;
     const d3 = (v) => { const d = driewaardig(v); return d.status === "nee" ? `${Iconen.svg("nee")} ${escapeHtml(d.tekst)}` : d.status === "deels" ? `${Iconen.svg("deels")} ${escapeHtml(d.tekst)}` : `${Iconen.svg("ja")} ${escapeHtml(d.tekst)}`; };
-    return `
-      <h2>Vergelijking</h2>
-      <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-size:var(--tekst-15);min-width:${220 * items.length + 160}px;">
-        ${rij("Model", (w) => `<b>${escapeHtml(w.merk)} ${escapeHtml(w.model)}</b>`)}
-        ${rij("Type", (w) => escapeHtml(TYPE_LABEL[w.type] || w.type))}
-        ${rij("Vermogen", (w) => `${String(w.vermogen_kw).replace(".", ",")} kW${Condities.labelHtml("vermogen", w)}`)}
-        ${rij("Prijs", (w) => { const b = bestePrijs(w); return `${b ? `<b>${eurFmt.format(vergelijkPrijs(b))}</b>` : "n.b."}<br><small>${escapeHtml([w.prijs_toelichting, Prijs.prijsToelichting(b)].filter(Boolean).join(" · "))}</small>`; })}
-        ${rij("Subsidie (ISDE, indicatie)", (w) => (w.isde_indicatie_eur ? `circa ${eurFmt.format(w.isde_indicatie_eur)}` : "?"))}
-        ${rij("Geluid buitenunit", (w) => (w.geluid_db ? `${w.geluid_db} dB(A)` : "?"))}
-        ${rij("Koudemiddel", (w) => escapeHtml(w.koudemiddel || "?"))}
-        ${rij("Max. aanvoertemperatuur", (w) => (w.max_aanvoer_c ? `${w.max_aanvoer_c} °C` : "?"))}
-        ${rij("Warm tapwater", (w) => escapeHtml(w.tapwater || "?"))}
-        ${rij("Koppel-score", (w) => `<b>${koppelScore(w)}/6</b>`)}
-        ${rij("Slimme aansturing", (w) => d3(w.sturing))}
-        ${rij("Home Assistant", (w) => d3(w.home_assistant))}
-        ${rij("Homey", (w) => d3(w.homey))}
-        ${rij("App", (w) => escapeHtml(w.app || "?"))}
-        ${rij("Garantie", (w) => (w.garantie_jaar ? w.garantie_jaar + " jaar" : "?"))}
-        ${rij("", (w) => { const b = bestePrijs(w); return b && b.url ? `<a class="knop" href="${escapeHtml(koopUrl(b))}" target="_blank" rel="noopener">Naar fabrikant ${Iconen.svg("pijl-rechts")}</a>` : ""; })}
-      </table>
-      </div>`;
+    const d3w = (v) => { const s = driewaardig(v).status; return s === "nee" ? 0 : s === "deels" ? 1 : 2; };
+    const prijsVan = (w) => { const b = bestePrijs(w); return b ? vergelijkPrijs(b) : null; };
+    return VergelijkTabel.html(items, {
+      kop: (w) => `<b>${escapeHtml(w.merk)} ${escapeHtml(w.model)}</b>`,
+      rijen: [
+        { label: "Type", toon: (w) => escapeHtml(TYPE_LABEL[w.type] || w.type) },
+        { label: "Vermogen", toon: (w) => `${String(w.vermogen_kw).replace(".", ",")} kW${Condities.labelHtml("vermogen", w)}` },
+        { label: "Prijs", toon: (w) => { const b = bestePrijs(w); return `${b ? `<b>${eurFmt.format(vergelijkPrijs(b))}</b>` : "n.b."}<br><small>${escapeHtml([w.prijs_toelichting, Prijs.prijsToelichting(b)].filter(Boolean).join(" · "))}</small>`; }, waarde: prijsVan, beter: "laag" },
+        { label: "Subsidie (ISDE, indicatie)", toon: (w) => (w.isde_indicatie_eur ? `circa ${eurFmt.format(w.isde_indicatie_eur)}` : "?"), waarde: (w) => w.isde_indicatie_eur || null, beter: "hoog" },
+        { label: "Geluid buitenunit", toon: (w) => (w.geluid_db ? `${w.geluid_db} dB(A)` : "?"), waarde: (w) => w.geluid_db || null, beter: "laag" },
+        { label: "Koudemiddel", toon: (w) => escapeHtml(w.koudemiddel || "?") },
+        { label: "Max. aanvoertemperatuur", toon: (w) => (w.max_aanvoer_c ? `${w.max_aanvoer_c} °C` : "?"), waarde: (w) => w.max_aanvoer_c || null, beter: "hoog" },
+        { label: "Warm tapwater", toon: (w) => escapeHtml(w.tapwater || "?") },
+        { label: "Koppel-score", toon: (w) => `<b>${koppelScore(w)}/6</b>`, waarde: (w) => koppelScore(w), beter: "hoog" },
+        { label: "Slimme aansturing", toon: (w) => d3(w.sturing), waarde: (w) => d3w(w.sturing), beter: "hoog" },
+        { label: "Home Assistant", toon: (w) => d3(w.home_assistant), waarde: (w) => d3w(w.home_assistant), beter: "hoog" },
+        { label: "Homey", toon: (w) => d3(w.homey), waarde: (w) => d3w(w.homey), beter: "hoog" },
+        { label: "App", toon: (w) => escapeHtml(w.app || "?") },
+        { label: "Garantie", toon: (w) => (w.garantie_jaar ? w.garantie_jaar + " jaar" : "?"), waarde: (w) => w.garantie_jaar || null, beter: "hoog" },
+      ],
+      voet: (w) => { const b = bestePrijs(w); return b && b.url ? `<a class="knop" href="${escapeHtml(koopUrl(b))}" target="_blank" rel="noopener">Naar fabrikant ${Iconen.svg("pijl-rechts")}</a>` : ""; },
+    });
   }
 
   /* ------------------------------------------------------------------
@@ -331,6 +338,20 @@
       doel.innerHTML = `<div class="tabel-wrap">${tabelHtml(lijst)}</div>`;
     }
 
+    balkBijwerken();
+  }
+
+  // De inhoud van het vergelijkvenster voor de huidige keuze.
+  function vulVenster() {
+    const items = state.pompen.filter((w) => state.vergelijkSelectie.includes(w.id));
+    el("vergelijkModalInhoud").innerHTML = vergelijkModalHtml(items);
+    VergelijkTabel.koppel(el("vergelijkModalInhoud"), { titel: `Vergelijking van ${items.length} warmtepompen`, tekst: items.map((x) => `${x.merk} ${x.model}`).join(" vs "), url: `${location.origin}/v/${items.map((x) => x.id).join("~")}` });
+  }
+
+  /* Alleen de balk en de adresregel. Een vinkje aantikken bouwde eerst de
+     hele lijst opnieuw op: 140 tot 290 ms op een trage telefoon, voor een
+     wijziging die de browser zelf al had getoond. */
+  function balkBijwerken() {
     const balk = el("vergelijkBalk");
     if (balk) {
       if (state.vergelijkSelectie.length >= 2) {
@@ -342,6 +363,7 @@
         document.body.classList.remove("vergelijkbalk-actief");
       }
     }
+    VergelijkTabel.voorbereid(el("vergelijkModal"), state.vergelijkSelectie.length >= 2 ? state.vergelijkSelectie.join("~") : "", vulVenster);
   }
 
   /* "Alleen officiële ondersteuning" verscherpt de twee koppelvinkjes van
@@ -438,11 +460,11 @@
       if (!check) return;
       const id = check.dataset.id;
       if (check.checked) {
-        if (state.vergelijkSelectie.length >= 3) {
+        if (state.vergelijkSelectie.length >= 4) {
           check.checked = false;
           const tekst = el("vergelijkBalkTekst");
           const oud = tekst.textContent;
-          tekst.textContent = "Maximaal 3 warmtepompen tegelijk; haal er eerst één weg.";
+          tekst.textContent = "Maximaal 4 warmtepompen tegelijk; haal er eerst één weg.";
           setTimeout(() => { tekst.textContent = oud; }, 2500);
           return;
         }
@@ -450,17 +472,14 @@
       } else {
         state.vergelijkSelectie = state.vergelijkSelectie.filter((x) => x !== id);
       }
-      render();
+      syncUrl();
+      balkBijwerken();
     });
 
-    el("openVergelijk").addEventListener("click", () => {
-      const items = state.pompen.filter((w) => state.vergelijkSelectie.includes(w.id));
-      el("vergelijkModalInhoud").innerHTML = vergelijkModalHtml(items);
-      el("vergelijkModal").classList.add("open");
-    });
+    el("openVergelijk").addEventListener("click", () => VergelijkTabel.open(el("vergelijkModal"), state.vergelijkSelectie.join("~"), vulVenster));
     el("wisVergelijk").addEventListener("click", () => { state.vergelijkSelectie = []; render(); });
-    el("sluitModal").addEventListener("click", () => el("vergelijkModal").classList.remove("open"));
-    el("vergelijkModal").addEventListener("click", (e) => { if (e.target === el("vergelijkModal")) el("vergelijkModal").classList.remove("open"); });
+    el("sluitModal").addEventListener("click", () => VergelijkTabel.sluit(el("vergelijkModal")));
+    el("vergelijkModal").addEventListener("click", (e) => { if (e.target === el("vergelijkModal")) VergelijkTabel.sluit(el("vergelijkModal")); });
 
     const filterToggle = el("filterToggle");
     if (filterToggle) {

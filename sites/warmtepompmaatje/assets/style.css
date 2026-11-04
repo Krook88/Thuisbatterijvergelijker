@@ -2,8 +2,8 @@
    Warmtepompmaatje.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20261030e");
-@import url("vergelijker.css?v=20261030e");
+@import url("maatlat.css?v=20261104i");
+@import url("vergelijker.css?v=20261104i");
 
 :root {
   --kleur-primair: #c2410c;
@@ -1096,54 +1096,13 @@ table.vergelijk-tabel {
 .vergelijk-tabel .check-nee { color: var(--kleur-tekst-licht); }
 
 /* --------------------------------------------------------------------------
-   Vergelijk-selectie (max 3)
+   Vergelijk-selectie (max 4)
    -------------------------------------------------------------------------- */
 
 .vergelijk-checkbox-wrap {
   position: absolute;
   top: 14px;
   right: 14px;
-}
-
-/* Vergelijk-modal: overlay over de pagina (max. 3 pompen zij aan zij) */
-.vergelijk-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(30, 15, 5, 0.6);
-  z-index: 70;
-  display: none;
-  align-items: flex-start;
-  justify-content: center;
-  padding: var(--ruimte-28) var(--ruimte-14);
-  overflow-y: auto;
-}
-
-.vergelijk-modal.open { display: flex; }
-
-.vergelijk-modal-inhoud {
-  background: var(--kleur-wit);
-  border-radius: var(--radius);
-  max-width: 1000px;
-  width: 100%;
-  padding: var(--ruimte-20);
-  position: relative;
-  overflow-x: auto;
-}
-
-.vergelijk-modal-inhoud h2 { margin-top: 0; }
-
-.modal-sluit {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  background: none;
-  border: none;
-  font-size: var(--tekst-28);
-  min-width: 44px;
-  min-height: 44px;
-  cursor: pointer;
-  color: var(--kleur-tekst-licht);
-  line-height: 1;
 }
 
 .vergelijk-balk {

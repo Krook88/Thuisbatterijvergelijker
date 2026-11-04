@@ -294,7 +294,7 @@
         <h3><a class="kop-link" href="pomp/${encodeURIComponent(w.id)}.html">${w.model.toLowerCase().startsWith(w.merk.toLowerCase()) ? "" : `<span class="regel-merk">${escapeHtml(w.merk)}</span> `}${escapeHtml(w.model)}</a></h3>
         <div class="regel-onder">
         ${regelKenmerken(w, o)}
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(w.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
         </label>
         </div>
@@ -393,7 +393,7 @@
     return `
     <article class="paneel-kaart" data-id="${escapeHtml(w.id)}">
       <div class="vergelijk-checkbox-wrap">
-        <label class="badge" title="Selecteer om te vergelijken (max. 3)">
+        <label class="badge" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(w.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
         </label>
       </div>

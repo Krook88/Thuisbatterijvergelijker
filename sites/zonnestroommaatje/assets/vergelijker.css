@@ -362,6 +362,16 @@
   color: var(--kleur-tekst-licht);
   cursor: pointer;
 }
+/* Aangevinkt is zichtbaar aangevinkt: wie drie producten kiest en terug
+   scrolt, ziet in een oogopslag welke het waren. */
+.regel-vergelijk:has(input:checked) { color: var(--kleur-primair-donker); font-weight: 700; }
+.regel-vergelijk input { accent-color: var(--kleur-primair); }
+/* Op een aanraakscherm was het vinkje met woord 24 px hoog, te klein voor
+   een duim. Het label wordt het tikvlak: 44 px hoog, met lucht ernaast. */
+@media (pointer: coarse) {
+  .regel-vergelijk { min-height: 44px; padding: 0 var(--ruimte-10); margin-left: calc(-1 * var(--ruimte-10)); }
+  .regel-vergelijk input { width: 20px; height: 20px; }
+}
 
 .regel-waarde { font-size: var(--tekst-17); font-weight: 700; }
 .regel-van { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); font-weight: 600; }
@@ -904,3 +914,51 @@ section.markt h2 { margin: 0; }
 }
 .toon-alle:hover { background: var(--kleur-primair-licht); }
 .kaarten-grid + .toon-alle { border: 1px solid var(--kleur-rand); border-radius: var(--radius); margin-bottom: var(--ruimte-40); }
+
+/* Met het venster open scrollt de pagina erachter niet mee. */
+html.venster-open { overflow: hidden; }
+/* Klaargezet maar niet zichtbaar: wel opgemaakt, niet te zien of te bedienen. */
+.modal-achtergrond.voorbereid:not(.open) { display: flex; visibility: hidden; pointer-events: none; }
+
+/* De vergelijktabel in het venster "Vergelijk nu" (zie vergelijktabel.js).
+   Breed: labels links, een kolom per product. Smal: het label staat boven
+   de regel en de waarden eronder naast elkaar, zodat drie producten zonder
+   schuiven op een telefoon passen. De productnamen blijven bovenaan staan
+   terwijl je door de regels gaat. */
+.vt-boven { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--ruimte-10); margin: 0 48px var(--ruimte-14) 0; }
+.vt-boven h2 { margin: 0; }
+.vt-acties { display: flex; flex-wrap: wrap; gap: var(--ruimte-10); }
+.vt-deel { min-height: 44px; padding: 0 var(--ruimte-14); border: 1px solid var(--kleur-primair); border-radius: var(--radius-pil); background: var(--kleur-primair); color: #fff; font: inherit; font-size: var(--tekst-15); font-weight: 700; cursor: pointer; }
+.vt-deel:hover, .vt-deel:focus-visible { background: var(--kleur-primair-donker); border-color: var(--kleur-primair-donker); }
+.vt-schakel { display: inline-flex; align-items: center; gap: var(--ruimte-10); min-height: 44px; padding: 0 var(--ruimte-14); border: 1px solid var(--kleur-rand); border-radius: var(--radius-pil); font-size: var(--tekst-15); font-weight: 600; cursor: pointer; background: var(--kleur-wit); }
+.vt-schakel:has(input:checked) { border-color: var(--kleur-primair); background: var(--kleur-primair-licht); color: var(--kleur-primair-donker); }
+.vt-schakel input { width: 18px; height: 18px; margin: 0; accent-color: var(--kleur-primair); }
+.vt-schakel small { font-weight: 400; color: var(--kleur-tekst-licht); }
+.vt-tabel { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; font-size: var(--tekst-15); }
+.vt-tabel th, .vt-tabel td { padding: var(--ruimte-10) var(--ruimte-14); text-align: left; vertical-align: top; border-bottom: 1px solid var(--kleur-rand); overflow-wrap: break-word; hyphens: auto; }
+.vt-tabel thead th, .vt-tabel thead td { position: sticky; top: 0; z-index: 2; background: var(--kleur-wit); border-bottom: 2px solid var(--kleur-primair); }
+.vt-hoek { width: 190px; }
+.vt-product { font-size: var(--tekst-15); line-height: 1.3; hyphens: manual; }
+.vt-label { font-weight: 600; color: var(--kleur-tekst); background: var(--kleur-achtergrond); }
+.vt-tabel tbody td small:not([class]) { color: var(--kleur-tekst-licht); }
+.vt-beste { background: var(--kleur-groen-licht); box-shadow: inset 3px 0 0 var(--kleur-groen); }
+.vt-vlag { display: table; margin: 0 0 var(--ruimte-4); padding: 1px var(--ruimte-6); border-radius: var(--radius-klein); background: var(--kleur-groen-donker); color: #fff; font-size: var(--tekst-12); font-weight: 700; letter-spacing: .02em; text-transform: uppercase; }
+.vt-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.vt-verschil tr[data-gelijk] { display: none; }
+.vt-voet { border-bottom: 0; }
+.vt-voet .knop { width: 100%; justify-content: center; }
+
+@media (max-width: 640px) {
+  .modal-achtergrond:has(.vt) { padding: 0; }
+  .modal:has(.vt) { border-radius: 0; padding: var(--ruimte-14) var(--ruimte-14) var(--ruimte-28); min-height: 100%; }
+  .vt-tabel, .vt-tabel thead, .vt-tabel tbody, .vt-tabel tfoot { display: block; }
+  .vt-tabel tr { display: grid; grid-template-columns: repeat(var(--vt-n), minmax(0, 1fr)); }
+  .vt-tabel .vt-hoek { display: none; }
+  .vt-tabel thead { position: sticky; top: 0; z-index: 2; background: var(--kleur-wit); }
+  .vt-tabel thead th { position: static; padding: var(--ruimte-10) var(--ruimte-6); font-size: var(--tekst-15); }
+  .vt-tabel th.vt-label { grid-column: 1 / -1; padding: var(--ruimte-6) var(--ruimte-6) var(--ruimte-4); background: none; border-bottom: 0; font-size: var(--tekst-12); text-transform: uppercase; letter-spacing: .04em; color: var(--kleur-tekst-licht); }
+  .vt-tabel tbody td { padding: var(--ruimte-4) var(--ruimte-6) var(--ruimte-10); font-size: var(--tekst-15); }
+  .vt-tabel tbody td + td { border-left: 1px solid var(--kleur-rand); }
+  .vt-tabel tfoot td { padding: var(--ruimte-10) var(--ruimte-4); }
+  .vt-voet .knop { padding-left: var(--ruimte-6); padding-right: var(--ruimte-6); font-size: var(--tekst-12); }
+}

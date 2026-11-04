@@ -127,16 +127,17 @@
   </script>
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="assets/maatlat.css?v=20261030e" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261030e" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261030e">
-  <script src="assets/dagmaat.js?v=20261030e" defer></script>
-  <script src="assets/iconen.js?v=20261030e" defer></script>
-  <script src="assets/prijs.js?v=20261030e" defer></script>
-  <script src="assets/prijsgrafiek.js?v=20261030e" defer></script>
-  <script src="assets/kaart.js?v=20261030e" defer></script>
-  <script src="assets/app.js?v=20261030e" defer></script>
-  <script src="assets/nav.js?v=20261030e" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261104i" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261104i" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261104i">
+  <script src="assets/dagmaat.js?v=20261104i" defer></script>
+  <script src="assets/iconen.js?v=20261104i" defer></script>
+  <script src="assets/prijs.js?v=20261104i" defer></script>
+  <script src="assets/prijsgrafiek.js?v=20261104i" defer></script>
+  <script src="assets/kaart.js?v=20261104i" defer></script>
+  <script src="assets/vergelijktabel.js?v=20261104i" defer></script>
+  <script src="assets/app.js?v=20261104i" defer></script>
+  <script src="assets/nav.js?v=20261104i" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <script type="application/ld+json" data-lijst>
@@ -476,7 +477,7 @@
   </script>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261030e"></script>
+  <script defer src="/assets/teller.js?v=20261104i"></script>
 </head>
 <body>
 
@@ -688,7 +689,7 @@
         <h3><a class="kop-link" href="batterij/dyness-powerbrick-plus.html"><span class="regel-merk">Dyness</span> PowerBrick Plus (16 kWh)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="dyness-powerbrick-plus" > vergelijk
         </label>
         </div>
@@ -721,7 +722,7 @@
         <h3><a class="kop-link" href="batterij/tsun-powertrunk-mau5000.html"><span class="regel-merk">TSUN</span> PowerTrunk MAU5000 (5,12 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="Off-grid poort die bij een storing binnen 10 ms overneemt (fabrieksopgave); vermogen tot 2.500 W.">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="tsun-powertrunk-mau5000" > vergelijk
         </label>
         </div>
@@ -754,7 +755,7 @@
         <h3><a class="kop-link" href="batterij/dyness-powerbox-g2.html"><span class="regel-merk">Dyness</span> Powerbox G2 (9,73 kWh bruikbaar)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="dyness-powerbox-g2" > vergelijk
         </label>
         </div>
@@ -787,7 +788,7 @@
         <h3><a class="kop-link" href="batterij/marstek-venus-a.html"><span class="regel-merk">Marstek</span> Venus A (2,12 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span><span class="kenmerk kenmerk-kan" title="Noodstroomuitgang tot 1.200 W, met omschakeling binnen 15 ms (volgens StekkerDeal).">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="marstek-venus-a" > vergelijk
         </label>
         </div>
@@ -820,7 +821,7 @@
         <h3><a class="kop-link" href="batterij/marstek-venus-e-3.html"><span class="regel-merk">Marstek</span> Venus E 3.0 (4,6 kWh bruikbaar)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-prijs">laagste prijs per kWh</span><span class="kenmerk kenmerk-actie">aanbieding</span><span class="kenmerk kenmerk-kan" title="Ingebouwd noodstroom-stopcontact op het apparaat (tot 2,5 kW): neemt bij netuitval binnen ca. 15 ms over voor direct aangesloten apparaten. Voedt niet de hele huisinstallatie.">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="marstek-venus-e-3" > vergelijk
         </label>
         </div>
@@ -853,7 +854,7 @@
         <h3><a class="kop-link" href="batterij/zendure-solarflow-3000-mix-ac.html"><span class="regel-merk">Zendure</span> SolarFlow 3000 Mix AC+ (8 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span><span class="kenmerk kenmerk-kan" title="Noodstroomuitgang tot 3.680 W continu (fabrieksopgave).">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="zendure-solarflow-3000-mix-ac" > vergelijk
         </label>
         </div>
@@ -886,7 +887,7 @@
         <h3><a class="kop-link" href="batterij/hoymiles-hibattery-1920-ac.html"><span class="regel-merk">Hoymiles</span> HiBattery 1920 AC (1,92 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="hoymiles-hibattery-1920-ac" > vergelijk
         </label>
         </div>
@@ -919,7 +920,7 @@
         <h3><a class="kop-link" href="batterij/voltdeer-sr5000.html"><span class="regel-merk">Voltdeer</span> SR5000 (5,12 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="De SR-serie heeft een noodstroomfunctie (fabrieksopgave); vermogen en omschakeltijd niet gespecificeerd gevonden.">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="voltdeer-sr5000" > vergelijk
         </label>
         </div>
@@ -952,7 +953,7 @@
         <h3><a class="kop-link" href="batterij/hyxi-halo.html"><span class="regel-merk">HYXi</span> Halo (3 kWh)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="hyxi-halo" > vergelijk
         </label>
         </div>
@@ -985,7 +986,7 @@
         <h3><a class="kop-link" href="batterij/marstek-venus-c-768.html"><span class="regel-merk">Marstek</span> Venus C 1.0 (7,68 kWh)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="marstek-venus-c-768" > vergelijk
         </label>
         </div>
@@ -1018,7 +1019,7 @@
         <h3><a class="kop-link" href="batterij/aeg-solarcube-pro.html"><span class="regel-merk">AEG</span> Solarcube Pro (6 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span><span class="kenmerk kenmerk-kan" title="Noodstroom (off-grid) tot 3.000 W voor aangesloten apparaten (fabrieksopgave).">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="aeg-solarcube-pro" > vergelijk
         </label>
         </div>
@@ -1051,7 +1052,7 @@
         <h3><a class="kop-link" href="batterij/zendure-solarflow-4000-mix-ac.html"><span class="regel-merk">Zendure</span> SolarFlow 4000 Mix AC+ (8 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span><span class="kenmerk kenmerk-kan" title="Off-grid AC-aansluiting (Schuko) tot 3.680 W continu, piek 7.200 W gedurende 200 ms; bij netuitval neemt hij de belasting ononderbroken over. De uitgang staat standaard uit en gaat aan via de app of door twee keer op de knop te drukken (handleiding ZDA2501/ZDA2502, mei 2026).">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="zendure-solarflow-4000-mix-ac" > vergelijk
         </label>
         </div>
@@ -1084,7 +1085,7 @@
         <h3><a class="kop-link" href="batterij/hoymiles-hibattery-4020-ac.html"><span class="regel-merk">Hoymiles</span> HiBattery 4020 AC (4,02 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span><span class="kenmerk kenmerk-kan" title="Aparte off-grid aansluiting tot 2.500 W (opgave Homees en AboutWatt).">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="hoymiles-hibattery-4020-ac" > vergelijk
         </label>
         </div>
@@ -1117,7 +1118,7 @@
         <h3><a class="kop-link" href="batterij/samduo-nex-e6000.html"><span class="regel-merk">SAMDUO</span> Nex E6000 (5,43 kWh bruikbaar)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="samduo-nex-e6000" > vergelijk
         </label>
         </div>
@@ -1150,7 +1151,7 @@
         <h3><a class="kop-link" href="batterij/ecoflow-stream-ac-5000.html"><span class="regel-merk">EcoFlow</span> STREAM AC 5000 (5 kWh)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="ecoflow-stream-ac-5000" > vergelijk
         </label>
         </div>
@@ -1183,7 +1184,7 @@
         <h3><a class="kop-link" href="batterij/solax-triple-power-t58.html"><span class="regel-merk">SolaX</span> Triple Power T-BAT H 5.8 (5,22 kWh bruikbaar)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="solax-triple-power-t58" > vergelijk
         </label>
         </div>
@@ -1216,7 +1217,7 @@
         <h3><a class="kop-link" href="batterij/jackery-solarvault-3-pro-max-ac.html"><span class="regel-merk">Jackery</span> SolarVault 3 Pro Max AC (2,52 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span><span class="kenmerk kenmerk-kan" title="Noodstroom tot 2.500 W met omschakeling binnen 20 ms voor aangesloten apparaten (fabrieksopgave).">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="jackery-solarvault-3-pro-max-ac" > vergelijk
         </label>
         </div>
@@ -1249,7 +1250,7 @@
         <h3><a class="kop-link" href="batterij/solaredge-home-battery-48v.html"><span class="regel-merk">SolarEdge</span> Home Battery 48V (9,2 kWh)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="solaredge-home-battery-48v" > vergelijk
         </label>
         </div>
@@ -1282,7 +1283,7 @@
         <h3><a class="kop-link" href="batterij/anker-solix-solarbank-4-pro.html"><span class="regel-merk">Anker</span> SOLIX Solarbank 4 Pro (5 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span><span class="kenmerk kenmerk-kan" title="Back-uppoort tot 2.500 W voor apparaten die je erop aansluit; niet voor het hele huis (fabrieksopgave).">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="anker-solix-solarbank-4-pro" > vergelijk
         </label>
         </div>
@@ -1315,7 +1316,7 @@
         <h3><a class="kop-link" href="batterij/goodwe-lynx-home-u-54.html"><span class="regel-merk">GoodWe</span> Lynx Home U (5,4 kWh)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="goodwe-lynx-home-u-54" > vergelijk
         </label>
         </div>
@@ -1348,7 +1349,7 @@
         <h3><a class="kop-link" href="batterij/sunpura-s4800.html"><span class="regel-merk">Sunpura</span> S4800 AC (4,32 kWh bruikbaar)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="Off-grid/noodstroomuitgang tot 2.400 W continu (piek 3.600 W, fabrieksopgave).">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="sunpura-s4800" > vergelijk
         </label>
         </div>
@@ -1381,7 +1382,7 @@
         <h3><a class="kop-link" href="batterij/jackery-homepower-2000-ultra.html"><span class="regel-merk">Jackery</span> HomePower 2000 Ultra</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="jackery-homepower-2000-ultra" > vergelijk
         </label>
         </div>
@@ -1414,7 +1415,7 @@
         <h3><a class="kop-link" href="batterij/aeg-solarcube-48.html"><span class="regel-merk">AEG</span> SolarCube AS-BBL09 (4,32 kWh bruikbaar)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="Noodstroomuitgang tot 2.400 W continu (fabrieksopgave); omschakeltijd niet gespecificeerd gevonden.">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="aeg-solarcube-48" > vergelijk
         </label>
         </div>
@@ -1447,7 +1448,7 @@
         <h3><a class="kop-link" href="batterij/zendure-solarflow-2400-ac.html"><span class="regel-merk">Zendure</span> SolarFlow 2400 AC met AB3000X (2,88 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="Off-grid stopcontact tot 2.400 W voor apparaten die je erop aansluit; het huis zelf neemt hij niet over (fabrieksopgave).">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="zendure-solarflow-2400-ac" > vergelijk
         </label>
         </div>
@@ -1480,7 +1481,7 @@
         <h3><a class="kop-link" href="batterij/mova-lumegret-a4000.html"><span class="regel-merk">MOVA</span> LumeGret A4000 (4 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span><span class="kenmerk kenmerk-kan" title="Fabrikant vermeldt noodstroom; vermogen en omschakeltijd niet gespecificeerd gevonden.">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="mova-lumegret-a4000" > vergelijk
         </label>
         </div>
@@ -1513,7 +1514,7 @@
         <h3><a class="kop-link" href="batterij/marstek-venus-e-mini.html"><span class="regel-merk">Marstek</span> Venus E Mini (2 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="Ingebouwde noodstroomfunctie van 1,5 kW, met 1,8 kW piek (fabrieksopgave).">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="marstek-venus-e-mini" > vergelijk
         </label>
         </div>
@@ -1546,7 +1547,7 @@
         <h3><a class="kop-link" href="batterij/zendure-solarflow-2400-ac-plus.html"><span class="regel-merk">Zendure</span> SolarFlow 2400 AC+ (2,4 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="Off-grid uitgang voor apparaten die je erop aansluit bij een storing (fabrieksopgave); vermogen en omschakeltijd niet apart opgegeven.">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="zendure-solarflow-2400-ac-plus" > vergelijk
         </label>
         </div>
@@ -1579,7 +1580,7 @@
         <h3><a class="kop-link" href="batterij/anker-solix-solarbank-max-ac.html"><span class="regel-merk">Anker</span> SOLIX Solarbank Max AC (7 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="Noodstroomuitgang met omschakeling binnen ca. 10 ms (fabrieksopgave).">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="anker-solix-solarbank-max-ac" > vergelijk
         </label>
         </div>
@@ -1612,7 +1613,7 @@
         <h3><a class="kop-link" href="batterij/zendure-solarflow-4000-mix-pro.html"><span class="regel-merk">Zendure</span> SolarFlow 4000 Mix Pro (8 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="Off-grid AC-aansluiting (Schuko) tot 3.680 W continu, piek 7.200 W gedurende 200 ms; bij netuitval neemt hij de belasting ononderbroken over. De uitgang staat standaard uit en gaat aan via de app of door twee keer op de knop te drukken (handleiding ZDA2501/ZDA2502, mei 2026).">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="zendure-solarflow-4000-mix-pro" > vergelijk
         </label>
         </div>
@@ -1645,7 +1646,7 @@
         <h3><a class="kop-link" href="batterij/marstek-venus-e-4.html"><span class="regel-merk">Marstek</span> Venus E 4.0 (4,6 kWh bruikbaar)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="marstek-venus-e-4" > vergelijk
         </label>
         </div>
@@ -1678,7 +1679,7 @@
         <h3><a class="kop-link" href="batterij/ecoflow-stream-ac-pro.html"><span class="regel-merk">EcoFlow</span> STREAM AC Pro (1,92 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="Twee AC-uitgangen met UPS-functie op het apparaat: direct aangesloten apparaten (tot ca. 800 W) blijven bij netuitval doorwerken.">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="ecoflow-stream-ac-pro" > vergelijk
         </label>
         </div>
@@ -1711,7 +1712,7 @@
         <h3><a class="kop-link" href="batterij/marstek-venus-d.html"><span class="regel-merk">Marstek</span> Venus D (2,56 kWh, modulair)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span><span class="kenmerk kenmerk-kan" title="Aparte noodstroomuitgang: 2.200 W continu / 2.500 W piek, omschakeling ca. 15 ms (fabrieksopgave).">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="marstek-venus-d" > vergelijk
         </label>
         </div>
@@ -1744,7 +1745,7 @@
         <h3><a class="kop-link" href="batterij/tsun-solartrunk-msu2000.html"><span class="regel-merk">TSUN</span> SolarTrunk MSU2000 (2 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="tsun-solartrunk-msu2000" > vergelijk
         </label>
         </div>
@@ -1777,7 +1778,7 @@
         <h3><a class="kop-link" href="batterij/lg-enblock-flex-129.html"><span class="regel-merk">LG Energy Solution</span> Enblock FLEX 12.9 (12,9 kWh)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="lg-enblock-flex-129" > vergelijk
         </label>
         </div>
@@ -1810,7 +1811,7 @@
         <h3><a class="kop-link" href="batterij/zendure-solarflow-2400-pro.html"><span class="regel-merk">Zendure</span> SolarFlow 2400 Pro (2,4 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="zendure-solarflow-2400-pro" > vergelijk
         </label>
         </div>
@@ -1843,7 +1844,7 @@
         <h3><a class="kop-link" href="batterij/sungrow-sbr096.html"><span class="regel-merk">Sungrow</span> SBR096 (9,6 kWh) + SH-omvormer</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="Backup-poort standaard op de SH-omvormers: voedt een aparte noodstroomgroep (of, afhankelijk van de installatie, de woning) bij netuitval, omschakeling binnen ca. 20 ms.">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="sungrow-sbr096" > vergelijk
         </label>
         </div>
@@ -1876,7 +1877,7 @@
         <h3><a class="kop-link" href="batterij/pego-plug-play.html"><span class="regel-merk">PEGO</span> Plug &amp; Play stekkerbatterij (2,88 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="Aparte off-grid uitgang tot 1.600 W (piek 3.200 W gedurende 0,2 seconde), omschakeltijd volgens PEGO 10 ms of minder. PEGO zegt er zelf bij dat het geen volwaardige UPS is.">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="pego-plug-play" > vergelijk
         </label>
         </div>
@@ -1909,7 +1910,7 @@
         <h3><a class="kop-link" href="batterij/indevolt-solidflex-3000.html"><span class="regel-merk">Indevolt</span> SolidFlex 3000 AC (1,8 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="indevolt-solidflex-3000" > vergelijk
         </label>
         </div>
@@ -1942,7 +1943,7 @@
         <h3><a class="kop-link" href="batterij/jackery-solarvault-3-pro-max.html"><span class="regel-merk">Jackery</span> SolarVault 3 Pro Max (2,52 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span><span class="kenmerk kenmerk-kan" title="Noodstroom tot 2.500 W met omschakeling binnen 20 ms voor aangesloten apparaten (fabrieksopgave).">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="jackery-solarvault-3-pro-max" > vergelijk
         </label>
         </div>
@@ -1975,7 +1976,7 @@
         <h3><a class="kop-link" href="batterij/homewizard-plug-in-battery.html"><span class="regel-merk">HomeWizard</span> Plug-In Battery (2,7 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-actie">aanbieding</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="homewizard-plug-in-battery" > vergelijk
         </label>
         </div>
@@ -2008,7 +2009,7 @@
         <h3><a class="kop-link" href="batterij/anker-solix-solarbank-3-pro.html"><span class="regel-merk">Anker</span> SOLIX Solarbank 3 E2700 Pro (2,69 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="Ingebouwd noodstroom-stopcontact van 1.200 W continu (1.800 W piek) voor essentiële apparaten; voedt niet de huisinstallatie.">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="anker-solix-solarbank-3-pro" > vergelijk
         </label>
         </div>
@@ -2041,7 +2042,7 @@
         <h3><a class="kop-link" href="batterij/saj-h2-5k-s2-10kwh.html"><span class="regel-merk">SAJ</span> H2-5K-S2 All-in-One (10 kWh)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="saj-h2-5k-s2-10kwh" > vergelijk
         </label>
         </div>
@@ -2074,7 +2075,7 @@
         <h3><a class="kop-link" href="batterij/heko-solar-saga-5-5.html"><span class="regel-merk">HEKO Solar</span> Saga (5,5 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="De vier stopcontacten op de hoofdunit werken ook zonder net (off-grid modus). In de app zet je een deel van de capaciteit apart als reserve voor een storing.">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="heko-solar-saga-5-5" > vergelijk
         </label>
         </div>
@@ -2107,7 +2108,7 @@
         <h3><a class="kop-link" href="batterij/dysun-flexvolt-one-lv.html"><span class="regel-merk">Dysun Energy</span> FlexVolt One LV (2 modules, 10,24 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="De omvormer heeft een aparte back-upuitgang van 3.680 tot 6.000 VA, afhankelijk van de ingestelde vermogensstand. Welke groepen doorwerken bij een storing bepaalt de installateur.">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="dysun-flexvolt-one-lv" > vergelijk
         </label>
         </div>
@@ -2140,7 +2141,7 @@
         <h3><a class="kop-link" href="batterij/tesla-powerwall-3.html"><span class="regel-merk">Tesla</span> Powerwall 3 (13,5 kWh)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="tesla-powerwall-3" > vergelijk
         </label>
         </div>
@@ -2173,7 +2174,7 @@
         <h3><a class="kop-link" href="batterij/huawei-luna2000-10.html"><span class="regel-merk">Huawei</span> LUNA2000-10-S0 (10 kWh)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="huawei-luna2000-10" > vergelijk
         </label>
         </div>
@@ -2206,7 +2207,7 @@
         <h3><a class="kop-link" href="batterij/dysun-flexvolt-one-hv.html"><span class="regel-merk">Dysun Energy</span> FlexVolt One HV (3 modules, 11,4 kWh)</a></h3>
         <div class="regel-onder">
         <span class="regel-kenmerken"><span class="kenmerk kenmerk-kan" title="De omvormer heeft een aparte back-upuitgang van 8.000 tot 12.000 VA, afhankelijk van de ingestelde vermogensstand. Welke groepen doorwerken bij een storing bepaalt de installateur.">noodstroom</span></span>
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="dysun-flexvolt-one-hv" > vergelijk
         </label>
         </div>
@@ -2239,7 +2240,7 @@
         <h3><a class="kop-link" href="batterij/solaredge-home-battery-400v.html"><span class="regel-merk">SolarEdge</span> Home Battery 400V (9,7 kWh)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="solaredge-home-battery-400v" > vergelijk
         </label>
         </div>
@@ -2272,7 +2273,7 @@
         <h3><a class="kop-link" href="batterij/sigenergy-sigenstor-8kwh.html"><span class="regel-merk">Sigenergy</span> SigenStor 8 kWh + 8 kW omvormer</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="sigenergy-sigenstor-8kwh" > vergelijk
         </label>
         </div>
@@ -2305,7 +2306,7 @@
         <h3><a class="kop-link" href="batterij/duracell-dura5.html"><span class="regel-merk">Duracell Energy</span> Dura5 (4,6 kWh bruikbaar)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="duracell-dura5" > vergelijk
         </label>
         </div>
@@ -2338,7 +2339,7 @@
         <h3><a class="kop-link" href="batterij/zonneplan-nexus.html"><span class="regel-merk">Zonneplan</span> Nexus (10 kWh)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="zonneplan-nexus" > vergelijk
         </label>
         </div>
@@ -2371,7 +2372,7 @@
         <h3><a class="kop-link" href="batterij/sessy-5kwh.html">Sessy 5 kWh</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="sessy-5kwh" > vergelijk
         </label>
         </div>
@@ -2404,7 +2405,7 @@
         <h3><a class="kop-link" href="batterij/enphase-iq-battery-5p.html"><span class="regel-merk">Enphase</span> IQ Battery 5P FlexPhase (5 kWh)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="enphase-iq-battery-5p" > vergelijk
         </label>
         </div>
@@ -2437,7 +2438,7 @@
         <h3><a class="kop-link" href="batterij/alphaess-smile-g3-t10.html"><span class="regel-merk">AlphaESS</span> SMILE G3 T10 (8,2 kWh)</a></h3>
         <div class="regel-onder">
         
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="alphaess-smile-g3-t10" > vergelijk
         </label>
         </div>
@@ -2588,8 +2589,8 @@
 </div>
 
 <div class="modal-achtergrond" id="vergelijkModal">
-  <div class="modal">
-    <button class="sluit" id="sluitModal" aria-label="Sluiten">×</button>
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Vergelijking">
+    <button class="sluit" id="sluitModal" aria-label="Vergelijking sluiten">×</button>
     <div id="vergelijkModalInhoud"></div>
   </div>
 </div>
