@@ -905,6 +905,9 @@ section.markt h2 { margin: 0; }
 .toon-alle:hover { background: var(--kleur-primair-licht); }
 .kaarten-grid + .toon-alle { border: 1px solid var(--kleur-rand); border-radius: var(--radius); margin-bottom: var(--ruimte-40); }
 
+/* Met het venster open scrollt de pagina erachter niet mee. */
+html.venster-open { overflow: hidden; }
+
 /* De vergelijktabel in het venster "Vergelijk nu" (zie vergelijktabel.js).
    Breed: labels links, een kolom per product. Smal: het label staat boven
    de regel en de waarden eronder naast elkaar, zodat drie producten zonder

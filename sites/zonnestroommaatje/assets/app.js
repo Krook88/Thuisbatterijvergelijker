@@ -476,12 +476,12 @@
       const items = state.panelen.filter((p) => state.vergelijkSelectie.includes(p.id));
       el("vergelijkModalInhoud").innerHTML = vergelijkModalHtml(items);
       VergelijkTabel.koppel(el("vergelijkModalInhoud"), { titel: `Vergelijking van ${items.length} zonnepanelen`, tekst: items.map((x) => `${x.merk} ${x.model}`).join(" vs ") });
-      el("vergelijkModal").classList.add("open");
+      VergelijkTabel.open(el("vergelijkModal"));
     });
 
     el("wisVergelijk").addEventListener("click", () => { state.vergelijkSelectie = []; render(); });
-    el("sluitModal").addEventListener("click", () => el("vergelijkModal").classList.remove("open"));
-    el("vergelijkModal").addEventListener("click", (e) => { if (e.target === el("vergelijkModal")) el("vergelijkModal").classList.remove("open"); });
+    el("sluitModal").addEventListener("click", () => VergelijkTabel.sluit(el("vergelijkModal")));
+    el("vergelijkModal").addEventListener("click", (e) => { if (e.target === el("vergelijkModal")) VergelijkTabel.sluit(el("vergelijkModal")); });
   }
 
   /* ------------------------------------------------------------------

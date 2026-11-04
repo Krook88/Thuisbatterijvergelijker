@@ -106,3 +106,31 @@ sessie niet bereikbaar, dus er staat geen nieuwe datum voor in de plaats.
 `npm run controle` is nu volledig groen.
 
 Besluit eigenaar: geen donkere modus. Contrast toetsen we alleen in licht.
+
+## Ronde 3 – het venster met toetsenbord en schermlezer (4 november 2026)
+
+**Gemeten.** De drie grootste ergernissen:
+
+1. Escape deed niets. Wie het venster met het toetsenbord opende, kwam er
+   alleen uit door naar het kruisje te tabben, en Tab liep ondertussen
+   gewoon door naar de pagina erachter.
+2. Een schermlezer hoorde geen venster: geen `role="dialog"`, geen naam.
+   Het kruisje heette alleen "Sluiten".
+3. Warmtepompmaatje gebruikte eigen klassen voor het venster
+   (`.vergelijk-modal`). Daardoor werd het op de telefoon niet
+   schermvullend zoals op de zustersites.
+
+**Gebouwd.** `VergelijkTabel.open` en `VergelijkTabel.sluit` in de kern:
+
+- `role="dialog"` en `aria-modal`, met de kop "Vergelijking" als naam.
+- Bij openen staat de focus op "Vergelijking sluiten". Tab en Shift+Tab
+  blijven binnen het venster. Escape sluit het, en daarna staat de focus
+  weer op de knop waarmee je het opende.
+- De pagina erachter scrollt niet mee zolang het venster open is.
+- Warmtepompmaatje gebruikt nu dezelfde opbouw en klassen; de losse regels
+  in de eigen `style.css` zijn weg.
+
+**Gecontroleerd.** Per site met alleen het toetsenbord: twee producten
+aanvinken met Spatie, openen met Enter, twaalf keer Tab (blijft binnen),
+Escape (dicht, focus terug op "Vergelijk nu"). Op alle drie de sites
+geslaagd. `npm run controle` volledig groen, 918 tests.

@@ -464,11 +464,11 @@
       const items = state.pompen.filter((w) => state.vergelijkSelectie.includes(w.id));
       el("vergelijkModalInhoud").innerHTML = vergelijkModalHtml(items);
       VergelijkTabel.koppel(el("vergelijkModalInhoud"), { titel: `Vergelijking van ${items.length} warmtepompen`, tekst: items.map((x) => `${x.merk} ${x.model}`).join(" vs ") });
-      el("vergelijkModal").classList.add("open");
+      VergelijkTabel.open(el("vergelijkModal"));
     });
     el("wisVergelijk").addEventListener("click", () => { state.vergelijkSelectie = []; render(); });
-    el("sluitModal").addEventListener("click", () => el("vergelijkModal").classList.remove("open"));
-    el("vergelijkModal").addEventListener("click", (e) => { if (e.target === el("vergelijkModal")) el("vergelijkModal").classList.remove("open"); });
+    el("sluitModal").addEventListener("click", () => VergelijkTabel.sluit(el("vergelijkModal")));
+    el("vergelijkModal").addEventListener("click", (e) => { if (e.target === el("vergelijkModal")) VergelijkTabel.sluit(el("vergelijkModal")); });
 
     const filterToggle = el("filterToggle");
     if (filterToggle) {

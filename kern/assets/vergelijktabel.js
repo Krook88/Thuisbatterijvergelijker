@@ -125,5 +125,49 @@
     if (knop) knop.addEventListener("click", () => deel(knop, container.querySelector(".vt-deel-melding"), gegevens || {}));
   }
 
-  window.VergelijkTabel = { html, koppel };
+  /* Het venster zelf. Een div met role="dialog" in plaats van <dialog>, omdat
+     de drie sites hun opmaak op .modal-achtergrond hebben staan. Wat
+     <dialog> gratis geeft, doen we hier: Escape sluit, Tab blijft binnen het
+     venster, de pagina erachter scrollt niet mee, en na het sluiten staat de
+     focus weer op de knop waarmee je het opende. */
+  const FOCUSBAAR = 'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
+  let terug = null;
+
+  function opToets(e) {
+    const venster = document.querySelector(".modal-achtergrond.open");
+    if (!venster) return;
+    if (e.key === "Escape") { e.preventDefault(); sluit(venster); return; }
+    if (e.key !== "Tab") return;
+    const lijst = [...venster.querySelectorAll(FOCUSBAAR)].filter((n) => n.offsetParent !== null);
+    if (!lijst.length) return;
+    const eerste = lijst[0], laatste = lijst[lijst.length - 1];
+    if (e.shiftKey && document.activeElement === eerste) { e.preventDefault(); laatste.focus(); }
+    else if (!e.shiftKey && document.activeElement === laatste) { e.preventDefault(); eerste.focus(); }
+    else if (!venster.contains(document.activeElement)) { e.preventDefault(); eerste.focus(); }
+  }
+
+  function open(venster) {
+    if (!venster) return;
+    terug = document.activeElement;
+    venster.classList.add("open");
+    venster.scrollTop = 0;
+    document.documentElement.classList.add("venster-open");
+    const kop = venster.querySelector(".vt-boven h2");
+    const dialoog = venster.querySelector('[role="dialog"]');
+    if (kop && dialoog) { dialoog.setAttribute("aria-labelledby", kop.id); dialoog.removeAttribute("aria-label"); }
+    const sluitKnop = venster.querySelector(".sluit");
+    if (sluitKnop) sluitKnop.focus({ preventScroll: true });
+    document.addEventListener("keydown", opToets);
+  }
+
+  function sluit(venster) {
+    if (!venster) return;
+    venster.classList.remove("open");
+    document.documentElement.classList.remove("venster-open");
+    document.removeEventListener("keydown", opToets);
+    if (terug && document.contains(terug)) terug.focus({ preventScroll: true });
+    terug = null;
+  }
+
+  window.VergelijkTabel = { html, koppel, open, sluit };
 })();
