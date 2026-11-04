@@ -1,0 +1,64 @@
+# Logboek: de vergelijker naar wereldklasse
+
+Per ronde één verbetering. Elke ronde begint met een meting (schermafdrukken
+op 375, 768 en 1440 px, licht en donker), kiest de verbetering met de meeste
+impact en eindigt met `npm run controle` en een nieuwe meting.
+
+## De lat
+
+- [ ] Op 375 px drie producten kiezen en vergelijken in maximaal 4 tikken, zonder zoomen of opzij schuiven
+- [x] Per regel de beste waarde gemarkeerd, en een schakelaar voor alleen de verschillen
+- [ ] De vergelijking staat in de URL; een gedeelde link opent dezelfde vergelijking, met eigen deelkaart
+- [ ] Lighthouse mobiel: Performance ≥ 95, Accessibility 100, Best Practices ≥ 95, SEO 100
+- [ ] CLS < 0,05 en interactie < 100 ms
+- [ ] Volledig met toetsenbord en schermlezer te bedienen, contrast AA in licht en donker
+- [x] Dezelfde verbeteringen op alle drie de sites, kern:controleer groen
+- [ ] Eindafdrukken die naast de beste vergelijkers ter wereld kunnen staan
+
+## Ronde 1 – de vergelijktabel (4 november 2026)
+
+**Gemeten.** De drie grootste ergernissen in het venster "Vergelijk nu":
+
+1. Op 375 px nam de labelkolom drie kwart van het scherm in. Van drie
+   producten zag je er één, en daarvan vier tekens. Onbruikbaar op de
+   telefoon, waar de meeste bezoekers zitten.
+2. Nergens zag je wie er per regel wint. Je moest zelf drie bedragen,
+   drie capaciteiten en drie garanties tegen elkaar afwegen.
+3. Regels waarin de producten gelijk zijn (zelfde type, zelfde garantie)
+   stonden er even groot tussen als de regels die ertoe doen.
+
+Daarnaast opgemerkt, voor een volgende ronde: het venster heeft geen
+`role="dialog"`, Escape sluit het niet en de focus blijft achter de
+overlay; de keuze staat niet in de URL en is dus niet te delen; maximaal
+drie producten; geen donkere modus op de hele site.
+
+**Gebouwd.** Een gedeelde component `kern/assets/vergelijktabel.js` met de
+opmaak in `kern/assets/vergelijker.css`. Elke site geeft alleen nog zijn
+regels op (label, weergave, en waar dat zinnig is een waarde met richting).
+
+- Smal scherm: het label staat boven de regel over de volle breedte, de
+  waarden eronder naast elkaar. Drie producten passen zonder schuiven; de
+  productnamen blijven bovenaan staan tijdens het scrollen.
+- De beste waarde per regel krijgt een groene markering met "beste". Alleen
+  als er echt iets te kiezen valt: zijn alle waarden gelijk of is er maar
+  één bekend, dan wint niemand. Schermlezers horen "Beste waarde:".
+- Schakelaar "Alleen verschillen" met het aantal gelijke regels erbij.
+- De inline stijlen uit de drie `app.js`-bestanden zijn weg.
+
+Richting per regel: prijs, prijs per kWh/Wp en geluid lager is beter;
+capaciteit, vermogen, garantie, rendement, subsidie, aanvoertemperatuur,
+scores en koppelingen (ja > deels > nee) hoger is beter. De
+temperatuurcoëfficiënt van zonnepanelen telt naar de kleinste daling.
+Geen richting bij regels die smaak of situatie zijn (type, celtype,
+uitvoering, koudemiddel, installatie).
+
+**Gecontroleerd.** `npm test` 918 geslaagd, 0 mislukt. `kern:controleer`,
+`stempel --controleer`, dataschema, modellen, workflows, llms, slop en
+keuring schoon. `npm run datums` faalt op een verlopen leverdatum in de
+gegevens van de EcoFlow Stream AC 5000 ("verwachte verzending vanaf
+12 oktober"); dat faalde al vóór deze ronde en zit in `data/`, dat deze
+loop niet aanraakt.
+
+**Voor en na (375 px).** Voor: één product half zichtbaar, labelkolom
+280 px breed. Na: drie kolommen van ±115 px, beste waarden groen, kop met
+productnamen blijft staan. Op 1440 px: zelfde tabel, ruimere opmaak.

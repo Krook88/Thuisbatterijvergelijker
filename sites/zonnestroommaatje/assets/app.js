@@ -228,32 +228,29 @@
      ------------------------------------------------------------------ */
 
   function vergelijkModalHtml(items) {
-    // Eerste kolom sticky, zodat de labels leesbaar blijven bij horizontaal scrollen op een telefoon
-    const rij = (label, fn) => `<tr><th style="text-align:left;padding: var(--ruimte-6) var(--ruimte-10);background:var(--kleur-achtergrond);white-space:nowrap;position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">${label}</th>${items.map((p) => `<td style="padding: var(--ruimte-6) var(--ruimte-10);border-bottom:1px solid var(--kleur-rand);">${fn(p)}</td>`).join("")}</tr>`;
     const jaNee = (v) => (v ? `${Iconen.svg("ja")} Ja` : `${Iconen.svg("nee")} Nee`);
-    return `
-      <h2>Vergelijking</h2>
-      <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-size:var(--tekst-15);min-width:${220 * items.length + 160}px;">
-        ${rij("Model", (p) => `<b>${escapeHtml(naamVan(p))}</b>`)}
-        ${rij("Celtype", (p) => escapeHtml(celtypeLabel(p)))}
-        ${rij("Vermogen", (p) => (p.vermogen_wp ? p.vermogen_wp + " Wp" : "?"))}
-        ${rij("Rendement", (p) => (p.rendement_pct ? nl(p.rendement_pct) + "%" : "?"))}
-        ${rij("Prijs", (p) => { const b = bestePrijs(p); return b ? `<b>${eurFmt.format(Prijs.vergelijkPrijs(b))}</b>` : "n.b."; })}
-        ${rij("Prijs per Wp", (p) => { const w = prijsPerWp(p); return w ? eurWpFmt.format(w) : "n.b."; })}
-        ${rij("Uitvoering", (p) => escapeHtml(p.uitvoering || "?"))}
-        ${rij("Full black", (p) => jaNee(p.full_black))}
-        ${rij("Bifaciaal", (p) => jaNee(p.bifaciaal))}
-        ${rij("Zeker-score", (p) => `<b>${zekerScore(p)}/6</b>`)}
-        ${rij("Productgarantie", (p) => (p.garantie_product_jaar ? p.garantie_product_jaar + " jaar" : "?"))}
-        ${rij("Vermogensgarantie", (p) => (p.garantie_vermogen_jaar ? `${p.garantie_vermogen_jaar} jaar (${nl(p.vermogen_behoud_eind_pct || "?")}%)` : "?"))}
-        ${rij("Behoud na 25 jaar", (p) => (p.vermogen_behoud_25j_pct ? `circa ${nl(p.vermogen_behoud_25j_pct)}%` : "?"))}
-        ${rij("Temperatuurcoëfficiënt", (p) => (p.temp_coefficient ? `${nl(p.temp_coefficient)}%/°C` : "?"))}
-        ${rij("Afmetingen (mm)", (p) => escapeHtml(p.afmetingen_mm || "?"))}
-        ${rij("Gewicht", (p) => (p.gewicht_kg ? `circa ${nl(p.gewicht_kg)} kg` : "?"))}
-        ${rij("", (p) => { const b = bestePrijs(p); return b && b.url ? `<a class="knop" href="${escapeHtml(koopUrl(b))}" target="_blank" rel="noopener${b.affiliate_url ? " sponsored" : ""}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""; })}
-      </table>
-      </div>`;
+    const prijsVan = (p) => { const b = bestePrijs(p); return b ? Prijs.vergelijkPrijs(b) : null; };
+    return VergelijkTabel.html(items, {
+      kop: (p) => `<b>${escapeHtml(naamVan(p))}</b>`,
+      rijen: [
+        { label: "Celtype", toon: (p) => escapeHtml(celtypeLabel(p)) },
+        { label: "Vermogen", toon: (p) => (p.vermogen_wp ? p.vermogen_wp + " Wp" : "?"), waarde: (p) => p.vermogen_wp || null, beter: "hoog" },
+        { label: "Rendement", toon: (p) => (p.rendement_pct ? nl(p.rendement_pct) + "%" : "?"), waarde: (p) => p.rendement_pct || null, beter: "hoog" },
+        { label: "Prijs", toon: (p) => { const b = bestePrijs(p); return b ? `<b>${eurFmt.format(Prijs.vergelijkPrijs(b))}</b>` : "n.b."; }, waarde: prijsVan, beter: "laag" },
+        { label: "Prijs per Wp", toon: (p) => { const w = prijsPerWp(p); return w ? eurWpFmt.format(w) : "n.b."; }, waarde: (p) => prijsPerWp(p) || null, beter: "laag" },
+        { label: "Uitvoering", toon: (p) => escapeHtml(p.uitvoering || "?") },
+        { label: "Full black", toon: (p) => jaNee(p.full_black) },
+        { label: "Bifaciaal", toon: (p) => jaNee(p.bifaciaal) },
+        { label: "Zeker-score", toon: (p) => `<b>${zekerScore(p)}/6</b>`, waarde: (p) => zekerScore(p), beter: "hoog" },
+        { label: "Productgarantie", toon: (p) => (p.garantie_product_jaar ? p.garantie_product_jaar + " jaar" : "?"), waarde: (p) => p.garantie_product_jaar || null, beter: "hoog" },
+        { label: "Vermogensgarantie", toon: (p) => (p.garantie_vermogen_jaar ? `${p.garantie_vermogen_jaar} jaar (${nl(p.vermogen_behoud_eind_pct || "?")}%)` : "?"), waarde: (p) => p.garantie_vermogen_jaar || null, beter: "hoog" },
+        { label: "Behoud na 25 jaar", toon: (p) => (p.vermogen_behoud_25j_pct ? `circa ${nl(p.vermogen_behoud_25j_pct)}%` : "?"), waarde: (p) => p.vermogen_behoud_25j_pct || null, beter: "hoog" },
+        { label: "Temperatuurcoëfficiënt", toon: (p) => (p.temp_coefficient ? `${nl(p.temp_coefficient)}%/°C` : "?"), waarde: (p) => (p.temp_coefficient ? -Math.abs(p.temp_coefficient) : null), beter: "hoog" },
+        { label: "Afmetingen (mm)", toon: (p) => escapeHtml(p.afmetingen_mm || "?") },
+        { label: "Gewicht", toon: (p) => (p.gewicht_kg ? `circa ${nl(p.gewicht_kg)} kg` : "?") },
+      ],
+      voet: (p) => { const b = bestePrijs(p); return b && b.url ? `<a class="knop" href="${escapeHtml(koopUrl(b))}" target="_blank" rel="noopener${b.affiliate_url ? " sponsored" : ""}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""; },
+    });
   }
 
   /* ------------------------------------------------------------------
@@ -470,6 +467,7 @@
     el("openVergelijk").addEventListener("click", () => {
       const items = state.panelen.filter((p) => state.vergelijkSelectie.includes(p.id));
       el("vergelijkModalInhoud").innerHTML = vergelijkModalHtml(items);
+      VergelijkTabel.koppel(el("vergelijkModalInhoud"));
       el("vergelijkModal").classList.add("open");
     });
 

@@ -118,15 +118,16 @@
   }
   </script>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="assets/maatlat.css?v=20261030e" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261030e" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261030e">
-  <script src="assets/iconen.js?v=20261030e" defer></script>
-  <script src="assets/prijs.js?v=20261030e" defer></script>
-  <script src="assets/prijsgrafiek.js?v=20261030e" defer></script>
-  <script src="assets/kaart.js?v=20261030e" defer></script>
-  <script src="assets/app.js?v=20261030e" defer></script>
-  <script src="assets/nav.js?v=20261030e" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261104a" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261104a" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261104a">
+  <script src="assets/iconen.js?v=20261104a" defer></script>
+  <script src="assets/prijs.js?v=20261104a" defer></script>
+  <script src="assets/prijsgrafiek.js?v=20261104a" defer></script>
+  <script src="assets/kaart.js?v=20261104a" defer></script>
+  <script src="assets/vergelijktabel.js?v=20261104a" defer></script>
+  <script src="assets/app.js?v=20261104a" defer></script>
+  <script src="assets/nav.js?v=20261104a" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=1">
   <script type="application/ld+json" data-lijst>
@@ -238,7 +239,7 @@
   </script>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261030e"></script>
+  <script defer src="/assets/teller.js?v=20261104a"></script>
 </head>
 <body>
 
@@ -849,7 +850,7 @@
         <a class="regel-bedrag cijfer" href="https://www.jinkosolar.com/" target="_blank" rel="noopener" aria-label="€ 100 bij richtprijs (indicatie): naar de aanbieding van het Jinko Solar Tiger Neo 455 Wp Full Black (glas-glas), opent in een nieuw tabblad">€ 100</a>
         <span class="regel-per cijfer">€ 0,22 per Wp</span>
         <span class="regel-winkel">richtprijs, nog geen winkel</span>
-        <span class="prijs-ouderdom" title="Dit bedrag is 31 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 3 oktober 2026</span>
+        <span class="prijs-ouderdom" title="Dit bedrag is 32 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 3 oktober 2026</span>
         
       </div>
     </article>
@@ -879,7 +880,7 @@
         <a class="regel-bedrag cijfer" href="https://www.csisolar.com/" target="_blank" rel="noopener" aria-label="€ 119 bij richtprijs (indicatie): naar de aanbieding van het Canadian Solar TOPHiKu6 CS6.2-48TD 435 Wp Full Black, opent in een nieuw tabblad">€ 119</a>
         <span class="regel-per cijfer">€ 0,27 per Wp</span>
         <span class="regel-winkel">richtprijs, nog geen winkel</span>
-        <span class="prijs-ouderdom" title="Dit bedrag is 57 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 7 september 2026</span>
+        <span class="prijs-ouderdom" title="Dit bedrag is 58 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 7 september 2026</span>
         
       </div>
     </article></div><button type="button" class="toon-alle" data-toon-alle>Toon alle 16 zonnepanelen</button>
@@ -892,10 +893,10 @@
     <summary>Nog 4 modellen zonder actuele prijs</summary>
     <p>Deze staan niet in de vergelijking, omdat er geen prijs is die in de afgelopen 14 weken bevestigd is. Zodra er weer een winkelprijs is, staan ze er vanzelf weer tussen.</p>
     <ul>
-      <li><a href="paneel/astronergy-astro-n5s-440.html">Astronergy Astro N5s 440 Wp Full Black</a> <small>(laatste prijs 105 dagen oud)</small></li>
-      <li><a href="paneel/maxeon-6-440.html">Maxeon (SunPower) Maxeon 6 440 Wp</a> <small>(laatste prijs 105 dagen oud)</small></li>
-      <li><a href="paneel/qcells-qtron-430.html">Qcells Q.TRON BLK M-G2+ 435 Wp</a> <small>(laatste prijs 105 dagen oud)</small></li>
-      <li><a href="paneel/ulica-440-full-black.html">Ulica Solar UL-445M-108ADGN 445 Wp Full Black (glas-glas)</a> <small>(laatste prijs 105 dagen oud)</small></li>
+      <li><a href="paneel/astronergy-astro-n5s-440.html">Astronergy Astro N5s 440 Wp Full Black</a> <small>(laatste prijs 106 dagen oud)</small></li>
+      <li><a href="paneel/maxeon-6-440.html">Maxeon (SunPower) Maxeon 6 440 Wp</a> <small>(laatste prijs 106 dagen oud)</small></li>
+      <li><a href="paneel/qcells-qtron-430.html">Qcells Q.TRON BLK M-G2+ 435 Wp</a> <small>(laatste prijs 106 dagen oud)</small></li>
+      <li><a href="paneel/ulica-440-full-black.html">Ulica Solar UL-445M-108ADGN 445 Wp Full Black (glas-glas)</a> <small>(laatste prijs 106 dagen oud)</small></li>
     </ul>
   </details>
   <!-- zonder-prijs:eind -->
