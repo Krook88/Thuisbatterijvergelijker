@@ -8,7 +8,7 @@ impact en eindigt met `npm run controle` en een nieuwe meting.
 
 - [x] Op 375 px drie producten kiezen en vergelijken in maximaal 4 tikken, zonder zoomen of opzij schuiven
 - [x] Per regel de beste waarde gemarkeerd, en een schakelaar voor alleen de verschillen
-- [ ] De vergelijking staat in de URL; een gedeelde link opent dezelfde vergelijking, met eigen deelkaart (deelkaart gebouwd; nog na te kijken op Vercel)
+- [x] De vergelijking staat in de URL; een gedeelde link opent dezelfde vergelijking, met eigen deelkaart (deelkaart werkt op de Vercel-preview, getest door de eigenaar)
 - [x] Lighthouse mobiel: Performance ≥ 95, Accessibility 100, Best Practices ≥ 95, SEO 100
 - [ ] CLS < 0,05 en interactie < 100 ms (CLS 0 en vinkjes gehaald; venster openen 96–144 ms bij 4× vertraging)
 - [ ] Volledig met toetsenbord en schermlezer te bedienen, contrast AA (donkere modus vervalt: besluit eigenaar 4 november)
