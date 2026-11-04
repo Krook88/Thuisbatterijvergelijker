@@ -9,8 +9,8 @@ impact en eindigt met `npm run controle` en een nieuwe meting.
 - [x] Op 375 px drie producten kiezen en vergelijken in maximaal 4 tikken, zonder zoomen of opzij schuiven
 - [x] Per regel de beste waarde gemarkeerd, en een schakelaar voor alleen de verschillen
 - [ ] De vergelijking staat in de URL; een gedeelde link opent dezelfde vergelijking, met eigen deelkaart (URL en link klaar, deelkaart nog niet)
-- [ ] Lighthouse mobiel: Performance ≥ 95, Accessibility 100, Best Practices ≥ 95, SEO 100
-- [ ] CLS < 0,05 en interactie < 100 ms
+- [x] Lighthouse mobiel: Performance ≥ 95, Accessibility 100, Best Practices ≥ 95, SEO 100
+- [ ] CLS < 0,05 en interactie < 100 ms (CLS 0 en vinkjes gehaald; venster openen 96–144 ms bij 4× vertraging)
 - [ ] Volledig met toetsenbord en schermlezer te bedienen, contrast AA (donkere modus vervalt: besluit eigenaar 4 november)
 - [x] Dezelfde verbeteringen op alle drie de sites, kern:controleer en controle groen
 - [ ] Eindafdrukken die naast de beste vergelijkers ter wereld kunnen staan
@@ -181,3 +181,22 @@ Home Assistant, Homey, schaduwaanpak en garantie.
 **Gecontroleerd.** Delen en terug openen: zelfde drie omvormers in het
 venster. Toetsenbord: Tab blijft binnen, Escape sluit, focus terug.
 375 px: drie kolommen zonder opzij schuiven. `npm run controle` groen.
+
+## Ronde 6 – snelheid gemeten (4 november 2026)
+
+**Lighthouse mobiel** (12.2.1, met gzip zoals op Vercel), vergelijkpagina:
+
+| site | Performance | Accessibility | Best Practices | SEO | CLS |
+| --- | --- | --- | --- | --- | --- |
+| batterijmaatje | 99 | 100 | 96 | 100 | 0 |
+| zonnestroommaatje | 99 | 100 | 96 | 100 | 0 |
+| warmtepompmaatje | 99 | 100 | 96 | 100 | 0 |
+
+Best Practices mist alleen op `/_vercel/insights/script.js` (404), dat
+lokaal niet bestaat en op Vercel wel.
+
+**Interactie.** Een vinkje bouwde de hele lijst opnieuw op: 140–290 ms bij
+4× CPU-vertraging. Nu werkt een vinkje alleen de balk en de adresregel bij
+(`balkBijwerken`): 40–72 ms. Het venster openen: 40 ms zonder vertraging,
+96–144 ms bij 4×. Dat zit in het opmaken van de tabel zelf; scrollslot,
+focus, afbreking en `content-visibility` gemeten en maakten geen verschil.

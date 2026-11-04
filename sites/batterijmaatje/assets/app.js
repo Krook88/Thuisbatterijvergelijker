@@ -355,6 +355,13 @@
       doel.innerHTML = `<div class="tabel-wrap">${tabelHtml(lijst)}</div>`;
     }
 
+    balkBijwerken();
+  }
+
+  /* Alleen de balk en de adresregel. Een vinkje aantikken bouwde eerst de
+     hele lijst opnieuw op: 140 tot 290 ms op een trage telefoon, voor een
+     wijziging die de browser zelf al had getoond. */
+  function balkBijwerken() {
     // Vergelijk-balk (+ ruimte onderaan de pagina zodat de footer bereikbaar blijft)
     const balk = el("vergelijkBalk");
     if (state.vergelijkSelectie.length >= 2) {
@@ -549,7 +556,8 @@
       } else {
         state.vergelijkSelectie = state.vergelijkSelectie.filter((x) => x !== id);
       }
-      render();
+      syncUrl();
+      balkBijwerken();
     });
 
     el("openVergelijk").addEventListener("click", () => {
