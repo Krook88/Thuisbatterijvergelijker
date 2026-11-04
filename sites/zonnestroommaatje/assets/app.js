@@ -335,6 +335,13 @@
     balkBijwerken();
   }
 
+  // De inhoud van het vergelijkvenster voor de huidige keuze.
+  function vulVenster() {
+    const items = state.panelen.filter((p) => state.vergelijkSelectie.includes(p.id));
+    el("vergelijkModalInhoud").innerHTML = vergelijkModalHtml(items);
+    VergelijkTabel.koppel(el("vergelijkModalInhoud"), { titel: `Vergelijking van ${items.length} zonnepanelen`, tekst: items.map((x) => `${x.merk} ${x.model}`).join(" vs "), url: `${location.origin}/v/${items.map((x) => x.id).join("~")}` });
+  }
+
   /* Alleen de balk en de adresregel. Een vinkje aantikken bouwde eerst de
      hele lijst opnieuw op: 140 tot 290 ms op een trage telefoon, voor een
      wijziging die de browser zelf al had getoond. */
@@ -349,6 +356,7 @@
       balk.classList.remove("zichtbaar");
       document.body.classList.remove("vergelijkbalk-actief");
     }
+    VergelijkTabel.voorbereid(el("vergelijkModal"), state.vergelijkSelectie.length >= 2 ? state.vergelijkSelectie.join("~") : "", vulVenster);
   }
 
   /* ------------------------------------------------------------------
@@ -480,12 +488,7 @@
       balkBijwerken();
     });
 
-    el("openVergelijk").addEventListener("click", () => {
-      const items = state.panelen.filter((p) => state.vergelijkSelectie.includes(p.id));
-      el("vergelijkModalInhoud").innerHTML = vergelijkModalHtml(items);
-      VergelijkTabel.koppel(el("vergelijkModalInhoud"), { titel: `Vergelijking van ${items.length} zonnepanelen`, tekst: items.map((x) => `${x.merk} ${x.model}`).join(" vs "), url: `${location.origin}/v/${items.map((x) => x.id).join("~")}` });
-      VergelijkTabel.open(el("vergelijkModal"));
-    });
+    el("openVergelijk").addEventListener("click", () => VergelijkTabel.open(el("vergelijkModal"), state.vergelijkSelectie.join("~"), vulVenster));
 
     el("wisVergelijk").addEventListener("click", () => { state.vergelijkSelectie = []; render(); });
     el("sluitModal").addEventListener("click", () => VergelijkTabel.sluit(el("vergelijkModal")));

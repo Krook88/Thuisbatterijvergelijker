@@ -10,8 +10,8 @@ impact en eindigt met `npm run controle` en een nieuwe meting.
 - [x] Per regel de beste waarde gemarkeerd, en een schakelaar voor alleen de verschillen
 - [x] De vergelijking staat in de URL; een gedeelde link opent dezelfde vergelijking, met eigen deelkaart (deelkaart werkt op de Vercel-preview, getest door de eigenaar)
 - [x] Lighthouse mobiel: Performance ≥ 95, Accessibility 100, Best Practices ≥ 95, SEO 100
-- [ ] CLS < 0,05 en interactie < 100 ms (CLS 0 en vinkjes gehaald; venster openen 96–144 ms bij 4× vertraging)
-- [ ] Volledig met toetsenbord en schermlezer te bedienen, contrast AA (donkere modus vervalt: besluit eigenaar 4 november)
+- [x] CLS < 0,05 en interactie < 100 ms (CLS 0; vinkje 40–72 ms, venster 48–80 ms bij 4× vertraging)
+- [x] Volledig met toetsenbord en schermlezer te bedienen, contrast AA (donkere modus vervalt: besluit eigenaar 4 november)
 - [x] Dezelfde verbeteringen op alle drie de sites, kern:controleer en controle groen
 - [ ] Eindafdrukken die naast de beste vergelijkers ter wereld kunnen staan
 
@@ -231,3 +231,18 @@ sites en de omvormers: 200 met de juiste titel, beschrijving en plaatje.
 Minder dan twee bekende producten: doorgestuurd naar de vergelijker en het
 algemene plaatje. `npm run controle` groen. **Nog niet gecontroleerd op
 Vercel zelf**: de rewrites en de functie draaien pas na een deploy.
+
+## Ronde 8 – contrast en opentijd (4 november 2026)
+
+**Contrast.** axe-core 4.10 (WCAG 2.2 AA) op het geopende venster, op
+375 en 1440 px, voor alle vier de vergelijkers. Eén overtreding: het label
+"bruto" haalde 4,17:1. Oorzaak was de eigen regel `.vt-tabel tbody td small`,
+die elke `<small>` grijs maakte en zo de donkerdere kleur van het label
+overschreef. Nu alleen `<small>` zonder klasse. Daarna: 0 overtredingen.
+
+**Opentijd.** Zodra er twee of meer producten gekozen zijn, vult en maakt de
+pagina het venster op als de browser even niets te doen heeft
+(`VergelijkTabel.voorbereid`), onzichtbaar en niet te bedienen. "Vergelijk
+nu" hoeft het dan alleen te tonen. Bij 4× CPU-vertraging van 96–144 ms naar
+48–80 ms. Een gedeelde link opent nog steeds direct (dan wordt het venster
+bij het openen gevuld).

@@ -149,8 +149,32 @@
     else if (!venster.contains(document.activeElement)) { e.preventDefault(); eerste.focus(); }
   }
 
-  function open(venster) {
+  /* Voorbereiden: zodra er twee of meer producten gekozen zijn, staat het
+     venster al gevuld en opgemaakt klaar, onzichtbaar. Een klik op
+     "Vergelijk nu" hoeft het dan alleen nog te tonen. Openen kostte op een
+     trage telefoon 100 tot 140 ms, bijna alles voor het opmaken van de tabel. */
+  let wacht = null;
+  const ooitRustig = window.requestIdleCallback || ((f) => setTimeout(f, 200));
+  const annuleer = window.cancelIdleCallback || clearTimeout;
+
+  function voorbereid(venster, sleutel, vul) {
+    if (!venster || venster.classList.contains("open")) return;
+    if (wacht !== null) { annuleer(wacht); wacht = null; }
+    if (!sleutel) { venster.classList.remove("voorbereid"); delete venster.dataset.klaar; return; }
+    if (venster.dataset.klaar === sleutel) return;
+    wacht = ooitRustig(() => {
+      wacht = null;
+      if (venster.classList.contains("open")) return;
+      vul();
+      venster.dataset.klaar = sleutel;
+      venster.classList.add("voorbereid");
+    });
+  }
+
+  function open(venster, sleutel, vul) {
     if (!venster) return;
+    if (wacht !== null) { annuleer(wacht); wacht = null; }
+    if (vul && venster.dataset.klaar !== sleutel) { vul(); venster.dataset.klaar = sleutel || ""; }
     terug = document.activeElement;
     venster.classList.add("open");
     venster.scrollTop = 0;
@@ -172,5 +196,5 @@
     terug = null;
   }
 
-  window.VergelijkTabel = { html, koppel, open, sluit };
+  window.VergelijkTabel = { html, koppel, open, sluit, voorbereid };
 })();
