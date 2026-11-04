@@ -11,8 +11,8 @@ impact en eindigt met `npm run controle` en een nieuwe meting.
 - [ ] De vergelijking staat in de URL; een gedeelde link opent dezelfde vergelijking, met eigen deelkaart (URL en link klaar, deelkaart nog niet)
 - [ ] Lighthouse mobiel: Performance ≥ 95, Accessibility 100, Best Practices ≥ 95, SEO 100
 - [ ] CLS < 0,05 en interactie < 100 ms
-- [ ] Volledig met toetsenbord en schermlezer te bedienen, contrast AA in licht en donker
-- [x] Dezelfde verbeteringen op alle drie de sites, kern:controleer groen
+- [ ] Volledig met toetsenbord en schermlezer te bedienen, contrast AA (donkere modus vervalt: besluit eigenaar 4 november)
+- [x] Dezelfde verbeteringen op alle drie de sites, kern:controleer en controle groen
 - [ ] Eindafdrukken die naast de beste vergelijkers ter wereld kunnen staan
 
 ## Ronde 1 – de vergelijktabel (4 november 2026)
@@ -96,3 +96,13 @@ op de EcoFlow-leverdatum in `data/`.
 **Nog open voor deze lat:** een eigen deelkaart (OG-afbeelding) per
 vergelijking. Een statische site kan die niet per willekeurige combinatie
 klaarzetten; dat vraagt een functie in `api/`. Volgende kandidaat.
+
+## Tussendoor – controle groen (4 november 2026)
+
+Met toestemming van de eigenaar de verlopen zin "Niet op voorraad,
+verwachte verzending vanaf 12 oktober 2026" weggehaald bij de pre-sale van
+de EcoFlow Stream AC 5000 (Thuisbatterij.nl). De winkel was vanuit deze
+sessie niet bereikbaar, dus er staat geen nieuwe datum voor in de plaats.
+`npm run controle` is nu volledig groen.
+
+Besluit eigenaar: geen donkere modus. Contrast toetsen we alleen in licht.
