@@ -6,7 +6,7 @@ impact en eindigt met `npm run controle` en een nieuwe meting.
 
 ## De lat
 
-- [x] Op 375 px drie producten kiezen en vergelijken in maximaal 4 tikken, zonder zoomen of opzij schuiven (panelen, batterijen, warmtepompen; omvormers nog niet)
+- [x] Op 375 px drie producten kiezen en vergelijken in maximaal 4 tikken, zonder zoomen of opzij schuiven
 - [x] Per regel de beste waarde gemarkeerd, en een schakelaar voor alleen de verschillen
 - [ ] De vergelijking staat in de URL; een gedeelde link opent dezelfde vergelijking, met eigen deelkaart (URL en link klaar, deelkaart nog niet)
 - [ ] Lighthouse mobiel: Performance ≥ 95, Accessibility 100, Best Practices ≥ 95, SEO 100
@@ -165,3 +165,19 @@ producten 5. `npm run controle` volledig groen.
 **Gevonden voor een volgende ronde:** `zonnestroommaatje/omvormers.html`
 heeft een eigen vergelijker (`assets/omvormers.js`) met de oude tabel en
 een maximum van 3. Die moet op dezelfde component.
+
+## Ronde 5 – de omvormers op dezelfde vergelijker (4 november 2026)
+
+**Gemeten.** `zonnestroommaatje/omvormers.html` had nog alles van vóór
+ronde 1: de brede labelkolom op de telefoon, geen beste waarde, geen
+verschillen-schakelaar, niet te delen, geen Escape en maximaal 3.
+
+**Gebouwd.** `assets/omvormers.js` gebruikt nu dezelfde `VergelijkTabel`
+(tabel, delen, venster) en `?vergelijk=` in de URL, met een maximum van 4.
+Geen winnaar op prijs: daar staan richtprijzen naast winkelprijzen, en een
+omvormer van 3 kW naast een van 10 kW. Wel op koppel-score, batterij,
+Home Assistant, Homey, schaduwaanpak en garantie.
+
+**Gecontroleerd.** Delen en terug openen: zelfde drie omvormers in het
+venster. Toetsenbord: Tab blijft binnen, Escape sluit, focus terug.
+375 px: drie kolommen zonder opzij schuiven. `npm run controle` groen.

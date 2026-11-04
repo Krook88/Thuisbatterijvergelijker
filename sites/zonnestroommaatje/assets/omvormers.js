@@ -111,12 +111,19 @@
     if (f.zoek) p.set("zoek", f.zoek);
     CHECK_KEYS.forEach(([k, kort]) => { if (f[k]) p.set(kort, "1"); });
     if (state.sortering !== "koppel-score") p.set("sorteer", state.sortering);
-    const qs = p.toString();
+    if (state.vergelijkSelectie.length) p.set("vergelijk", state.vergelijkSelectie.join("~"));
+    const qs = p.toString().replace(/%7E/g, "~");
     history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
   }
 
   function leesUrl() {
     const p = new URLSearchParams(location.search);
+    // Een gedeelde vergelijking: ?vergelijk=id~id~id (zie app.js).
+    if (p.get("vergelijk")) {
+      const ids = p.get("vergelijk").split("~");
+      state.vergelijkSelectie = [...new Set(ids)].filter((id) => state.omvormers.some((x) => x.id === id)).slice(0, 4);
+      if (state.vergelijkSelectie.length >= 2) setTimeout(() => el("openVergelijk").click());
+    }
     FILTER_KEYS.forEach((k) => { if (p.get(k)) state.filters[k] = p.get(k); });
     if (p.get("zoek")) { state.filters.zoek = p.get("zoek"); const zv = el("zoekVeld"); if (zv) zv.value = state.filters.zoek; }
     CHECK_KEYS.forEach(([k, kort]) => { if (p.get(kort) === "1") state.filters[k] = true; });
@@ -169,7 +176,7 @@
     return `
     <article class="paneel-kaart" data-id="${escapeHtml(o.id)}">
       <div class="vergelijk-checkbox-wrap">
-        <label class="badge" title="Selecteer om te vergelijken (max. 3)">
+        <label class="badge" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(o.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
         </label>
       </div>
@@ -279,31 +286,32 @@
   }
 
   /* ------------------------------------------------------------------
-     Rendering: vergelijk-modal (max. 3 omvormers zij aan zij)
+     Rendering: vergelijk-modal (max. 4 omvormers zij aan zij)
      ------------------------------------------------------------------ */
 
   function vergelijkModalHtml(items) {
-    const rij = (label, fn) => `<tr><th style="text-align:left;padding: var(--ruimte-6) var(--ruimte-10);background:var(--kleur-achtergrond);white-space:nowrap;position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">${label}</th>${items.map((o) => `<td style="padding: var(--ruimte-6) var(--ruimte-10);border-bottom:1px solid var(--kleur-rand);">${fn(o)}</td>`).join("")}</tr>`;
     const d3 = (v) => { const d = driewaardig(v); return d.status === "nee" ? `${Iconen.svg("nee")} ${escapeHtml(d.tekst === "Nee" ? "Nee" : d.tekst)}` : d.status === "deels" ? `~ ${escapeHtml(d.tekst)}` : `${Iconen.svg("ja")} ${escapeHtml(d.tekst)}`; };
-    return `
-      <h2>Vergelijking</h2>
-      <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-size:var(--tekst-15);min-width:${220 * items.length + 160}px;">
-        ${rij("Model", (o) => `<b>${escapeHtml(o.merk)} ${escapeHtml(o.model)}</b>`)}
-        ${rij("Type", (o) => escapeHtml(TYPE_LABEL[o.type] || o.type))}
-        ${rij("Vermogen", (o) => escapeHtml(o.vermogen_bereik || "?"))}
-        ${rij("Aansluiting", (o) => escapeHtml(o.fase || "?"))}
-        ${rij("Prijs", (o) => { const b = bestePrijs(o); const w = b && b.winkel && !b.winkel.startsWith("richtprijs"); return `${b ? `<b>${eurFmt.format(Prijs.vergelijkPrijs(b))}</b>${w ? `<br><small>bij ${escapeHtml(b.winkel)}</small>` : "<br><small>richtprijs (indicatie)</small>"}` : "n.b."}<br><small>${escapeHtml([o.prijs_toelichting, Prijs.prijsToelichting(b)].filter(Boolean).join(" · "))}</small>`; })}
-        ${rij("Koppel-score", (o) => `<b>${koppelScore(o)}/6</b>`)}
-        ${rij("Thuisbatterij", (o) => d3(o.batterij))}
-        ${rij("Home Assistant", (o) => d3(o.home_assistant))}
-        ${rij("Homey", (o) => d3(o.homey))}
-        ${rij("Schaduwaanpak", (o) => d3(o.schaduw))}
-        ${rij("App", (o) => escapeHtml(o.app || "?"))}
-        ${rij("Garantie", (o) => (o.garantie_jaar ? o.garantie_jaar + " jaar" : "?"))}
-        ${rij("", (o) => { const b = bestePrijs(o); const w = b && b.winkel && !b.winkel.startsWith("richtprijs"); return b && b.url ? `<a class="knop" href="${escapeHtml(koopUrl(b))}" target="_blank" rel="noopener${b.affiliate_url ? " sponsored" : ""}">${w ? `Bekijk aanbieding ${Iconen.svg("pijl-rechts")}` : `Naar fabrikant ${Iconen.svg("pijl-rechts")}`}</a>` : ""; })}
-      </table>
-      </div>`;
+    const d3w = (v) => { const s = driewaardig(v).status; return s === "nee" ? 0 : s === "deels" ? 1 : 2; };
+    const isWinkel = (b) => b && b.winkel && !b.winkel.startsWith("richtprijs");
+    return VergelijkTabel.html(items, {
+      kop: (o) => `<b>${escapeHtml(o.merk)} ${escapeHtml(o.model)}</b>`,
+      rijen: [
+        { label: "Type", toon: (o) => escapeHtml(TYPE_LABEL[o.type] || o.type) },
+        { label: "Vermogen", toon: (o) => escapeHtml(o.vermogen_bereik || "?") },
+        { label: "Aansluiting", toon: (o) => escapeHtml(o.fase || "?") },
+        // Geen winnaar op prijs: een richtprijs en een winkelprijs zijn niet
+        // hetzelfde soort getal, en een omvormer van 3 kW is geen 10 kW.
+        { label: "Prijs", toon: (o) => { const b = bestePrijs(o); return `${b ? `<b>${eurFmt.format(Prijs.vergelijkPrijs(b))}</b>${isWinkel(b) ? `<br><small>bij ${escapeHtml(b.winkel)}</small>` : "<br><small>richtprijs (indicatie)</small>"}` : "n.b."}<br><small>${escapeHtml([o.prijs_toelichting, Prijs.prijsToelichting(b)].filter(Boolean).join(" · "))}</small>`; } },
+        { label: "Koppel-score", toon: (o) => `<b>${koppelScore(o)}/6</b>`, waarde: (o) => koppelScore(o), beter: "hoog" },
+        { label: "Thuisbatterij", toon: (o) => d3(o.batterij), waarde: (o) => d3w(o.batterij), beter: "hoog" },
+        { label: "Home Assistant", toon: (o) => d3(o.home_assistant), waarde: (o) => d3w(o.home_assistant), beter: "hoog" },
+        { label: "Homey", toon: (o) => d3(o.homey), waarde: (o) => d3w(o.homey), beter: "hoog" },
+        { label: "Schaduwaanpak", toon: (o) => d3(o.schaduw), waarde: (o) => d3w(o.schaduw), beter: "hoog" },
+        { label: "App", toon: (o) => escapeHtml(o.app || "?") },
+        { label: "Garantie", toon: (o) => (o.garantie_jaar ? o.garantie_jaar + " jaar" : "?"), waarde: (o) => o.garantie_jaar || null, beter: "hoog" },
+      ],
+      voet: (o) => { const b = bestePrijs(o); return b && b.url ? `<a class="knop" href="${escapeHtml(koopUrl(b))}" target="_blank" rel="noopener${b.affiliate_url ? " sponsored" : ""}">${isWinkel(b) ? `Bekijk aanbieding ${Iconen.svg("pijl-rechts")}` : `Naar fabrikant ${Iconen.svg("pijl-rechts")}`}</a>` : ""; },
+    });
   }
 
   /* ------------------------------------------------------------------
@@ -421,11 +429,11 @@
       if (!check) return;
       const id = check.dataset.id;
       if (check.checked) {
-        if (state.vergelijkSelectie.length >= 3) {
+        if (state.vergelijkSelectie.length >= 4) {
           check.checked = false;
           const tekst = el("vergelijkBalkTekst");
           const oud = tekst.textContent;
-          tekst.textContent = "Maximaal 3 omvormers tegelijk; haal er eerst één weg.";
+          tekst.textContent = "Maximaal 4 omvormers tegelijk; haal er eerst één weg.";
           setTimeout(() => { tekst.textContent = oud; }, 2500);
           return;
         }
@@ -439,11 +447,12 @@
     el("openVergelijk").addEventListener("click", () => {
       const items = state.omvormers.filter((o) => state.vergelijkSelectie.includes(o.id));
       el("vergelijkModalInhoud").innerHTML = vergelijkModalHtml(items);
-      el("vergelijkModal").classList.add("open");
+      VergelijkTabel.koppel(el("vergelijkModalInhoud"), { titel: `Vergelijking van ${items.length} omvormers`, tekst: items.map((x) => `${x.merk} ${x.model}`).join(" vs ") });
+      VergelijkTabel.open(el("vergelijkModal"));
     });
     el("wisVergelijk").addEventListener("click", () => { state.vergelijkSelectie = []; render(); });
-    el("sluitModal").addEventListener("click", () => el("vergelijkModal").classList.remove("open"));
-    el("vergelijkModal").addEventListener("click", (e) => { if (e.target === el("vergelijkModal")) el("vergelijkModal").classList.remove("open"); });
+    el("sluitModal").addEventListener("click", () => VergelijkTabel.sluit(el("vergelijkModal")));
+    el("vergelijkModal").addEventListener("click", (e) => { if (e.target === el("vergelijkModal")) VergelijkTabel.sluit(el("vergelijkModal")); });
 
     // Mobiel: filters in- en uitklappen
     const filterToggle = el("filterToggle");
