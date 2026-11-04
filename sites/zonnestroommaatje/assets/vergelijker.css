@@ -983,3 +983,7 @@ html.venster-open { overflow: hidden; }
   .tabel-blok .duel-tabel tbody td { border-top: 0; padding: var(--ruimte-4) var(--ruimte-10) var(--ruimte-10); overflow-wrap: break-word; hyphens: auto; }
   .tabel-blok .duel-tabel tbody td + td { border-left: 1px solid var(--kleur-rand); }
 }
+
+/* Met één product gekozen staat de balk er al, maar "Vergelijk nu" wacht op
+   het tweede. */
+.vergelijk-balk .knop:disabled { opacity: .55; cursor: not-allowed; }
