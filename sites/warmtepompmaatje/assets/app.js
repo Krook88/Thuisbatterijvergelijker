@@ -102,7 +102,7 @@
     // vallen weg; met twee of meer bekende gaat het venster meteen open.
     if (p.get("vergelijk")) {
       const ids = p.get("vergelijk").split("~");
-      state.vergelijkSelectie = [...new Set(ids)].filter((id) => state.pompen.some((x) => x.id === id)).slice(0, 3);
+      state.vergelijkSelectie = [...new Set(ids)].filter((id) => state.pompen.some((x) => x.id === id)).slice(0, 4);
       if (state.vergelijkSelectie.length >= 2) setTimeout(() => el("openVergelijk").click());
     }
     FILTER_KEYS.forEach((k) => { if (p.get(k)) state.filters[k] = p.get(k); });
@@ -252,7 +252,7 @@
   }
 
   /* ------------------------------------------------------------------
-     Rendering: vergelijk-modal (max. 3 zij aan zij)
+     Rendering: vergelijk-modal (max. 4 zij aan zij)
      ------------------------------------------------------------------ */
 
   function vergelijkModalHtml(items) {
@@ -445,11 +445,11 @@
       if (!check) return;
       const id = check.dataset.id;
       if (check.checked) {
-        if (state.vergelijkSelectie.length >= 3) {
+        if (state.vergelijkSelectie.length >= 4) {
           check.checked = false;
           const tekst = el("vergelijkBalkTekst");
           const oud = tekst.textContent;
-          tekst.textContent = "Maximaal 3 warmtepompen tegelijk; haal er eerst één weg.";
+          tekst.textContent = "Maximaal 4 warmtepompen tegelijk; haal er eerst één weg.";
           setTimeout(() => { tekst.textContent = oud; }, 2500);
           return;
         }

@@ -362,6 +362,16 @@
   color: var(--kleur-tekst-licht);
   cursor: pointer;
 }
+/* Aangevinkt is zichtbaar aangevinkt: wie drie producten kiest en terug
+   scrolt, ziet in een oogopslag welke het waren. */
+.regel-vergelijk:has(input:checked) { color: var(--kleur-primair-donker); font-weight: 700; }
+.regel-vergelijk input { accent-color: var(--kleur-primair); }
+/* Op een aanraakscherm was het vinkje met woord 24 px hoog, te klein voor
+   een duim. Het label wordt het tikvlak: 44 px hoog, met lucht ernaast. */
+@media (pointer: coarse) {
+  .regel-vergelijk { min-height: 44px; padding: 0 var(--ruimte-10); margin-left: calc(-1 * var(--ruimte-10)); }
+  .regel-vergelijk input { width: 20px; height: 20px; }
+}
 
 .regel-waarde { font-size: var(--tekst-17); font-weight: 700; }
 .regel-van { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); font-weight: 600; }
@@ -923,10 +933,10 @@ html.venster-open { overflow: hidden; }
 .vt-schakel input { width: 18px; height: 18px; margin: 0; accent-color: var(--kleur-primair); }
 .vt-schakel small { font-weight: 400; color: var(--kleur-tekst-licht); }
 .vt-tabel { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; font-size: var(--tekst-15); }
-.vt-tabel th, .vt-tabel td { padding: var(--ruimte-10) var(--ruimte-14); text-align: left; vertical-align: top; border-bottom: 1px solid var(--kleur-rand); overflow-wrap: anywhere; }
+.vt-tabel th, .vt-tabel td { padding: var(--ruimte-10) var(--ruimte-14); text-align: left; vertical-align: top; border-bottom: 1px solid var(--kleur-rand); overflow-wrap: break-word; hyphens: auto; }
 .vt-tabel thead th, .vt-tabel thead td { position: sticky; top: 0; z-index: 2; background: var(--kleur-wit); border-bottom: 2px solid var(--kleur-primair); }
 .vt-hoek { width: 190px; }
-.vt-product { font-size: var(--tekst-15); line-height: 1.3; }
+.vt-product { font-size: var(--tekst-15); line-height: 1.3; hyphens: manual; }
 .vt-label { font-weight: 600; color: var(--kleur-tekst); background: var(--kleur-achtergrond); }
 .vt-tabel tbody td small { color: var(--kleur-tekst-licht); }
 .vt-beste { background: var(--kleur-groen-licht); box-shadow: inset 3px 0 0 var(--kleur-groen); }

@@ -6,7 +6,7 @@ impact en eindigt met `npm run controle` en een nieuwe meting.
 
 ## De lat
 
-- [ ] Op 375 px drie producten kiezen en vergelijken in maximaal 4 tikken, zonder zoomen of opzij schuiven
+- [x] Op 375 px drie producten kiezen en vergelijken in maximaal 4 tikken, zonder zoomen of opzij schuiven (panelen, batterijen, warmtepompen; omvormers nog niet)
 - [x] Per regel de beste waarde gemarkeerd, en een schakelaar voor alleen de verschillen
 - [ ] De vergelijking staat in de URL; een gedeelde link opent dezelfde vergelijking, met eigen deelkaart (URL en link klaar, deelkaart nog niet)
 - [ ] Lighthouse mobiel: Performance ≥ 95, Accessibility 100, Best Practices ≥ 95, SEO 100
@@ -134,3 +134,34 @@ Besluit eigenaar: geen donkere modus. Contrast toetsen we alleen in licht.
 aanvinken met Spatie, openen met Enter, twaalf keer Tab (blijft binnen),
 Escape (dicht, focus terug op "Vergelijk nu"). Op alle drie de sites
 geslaagd. `npm run controle` volledig groen, 918 tests.
+
+## Ronde 4 – kiezen op de telefoon (4 november 2026)
+
+**Gemeten** op 375 px met een aanraakscherm (Pixel 7):
+
+1. Het vinkje "vergelijk" in de lijst was 80 bij 24 px. Te klein voor een
+   duim, en net onder een productnaam die ook een link is.
+2. Maximaal drie producten, terwijl de keuze vaak tussen vier ligt (twee
+   merken, elk in twee maten).
+3. Wie terug scrolt, ziet niet welke producten al gekozen zijn: een
+   aangevinkt vakje is het enige verschil.
+
+Drie producten kiezen en vergelijken kostte 4 tikken (3 vinkjes en
+"Vergelijk nu"); dat haalde de lat al.
+
+**Gebouwd.**
+
+- Op een aanraakscherm is het label het tikvlak: 44 px hoog, met een
+  vinkje van 20 px.
+- Een aangevinkt "vergelijk" staat vet in de merkkleur.
+- Maximaal 4 producten op alle drie de sites, ook via een gedeelde link.
+- De tabel breekt woorden op lettergrepen (`hyphens: auto`, de pagina is
+  `lang="nl"`) in plaats van op elke letter; productnamen blijven heel.
+
+**Gecontroleerd.** Tikvlak nu 107–110 × 44 px. Met 4 producten op 375 px
+vier kolommen zonder opzij schuiven. Drie producten blijven 4 tikken, vier
+producten 5. `npm run controle` volledig groen.
+
+**Gevonden voor een volgende ronde:** `zonnestroommaatje/omvormers.html`
+heeft een eigen vergelijker (`assets/omvormers.js`) met de oude tabel en
+een maximum van 3. Die moet op dezelfde component.

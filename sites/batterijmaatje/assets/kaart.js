@@ -406,7 +406,7 @@
         <h3><a class="kop-link" href="batterij/${encodeURIComponent(b.id)}.html">${b.model.toLowerCase().startsWith(b.merk.toLowerCase()) ? "" : `<span class="regel-merk">${escapeHtml(b.merk)}</span> `}${escapeHtml(b.model)}</a></h3>
         <div class="regel-onder">
         ${regelKenmerken(b, o)}
-        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 3)">
+        <label class="regel-vergelijk" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(b.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
         </label>
         </div>
@@ -524,7 +524,7 @@
     return `
     <article class="batterij-kaart" data-id="${escapeHtml(b.id)}">
       <div class="vergelijk-checkbox-wrap">
-        <label class="badge" title="Selecteer om te vergelijken (max. 3)">
+        <label class="badge" title="Selecteer om te vergelijken (max. 4)">
           <input type="checkbox" class="vergelijk-check" data-id="${escapeHtml(b.id)}" ${geselecteerd ? "checked" : ""}> vergelijk
         </label>
       </div>

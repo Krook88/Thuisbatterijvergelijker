@@ -103,7 +103,7 @@
     // vallen weg; met twee of meer bekende gaat het venster meteen open.
     if (p.get("vergelijk")) {
       const ids = p.get("vergelijk").split("~");
-      state.vergelijkSelectie = [...new Set(ids)].filter((id) => state.batterijen.some((x) => x.id === id)).slice(0, 3);
+      state.vergelijkSelectie = [...new Set(ids)].filter((id) => state.batterijen.some((x) => x.id === id)).slice(0, 4);
       if (state.vergelijkSelectie.length >= 2) setTimeout(() => el("openVergelijk").click());
     }
     if (p.get("zoek")) state.filters.zoek = p.get("zoek");
@@ -536,12 +536,12 @@
       if (!check) return;
       const id = check.dataset.id;
       if (check.checked) {
-        if (state.vergelijkSelectie.length >= 3) {
+        if (state.vergelijkSelectie.length >= 4) {
           check.checked = false;
           // Niet-blokkerende melding via de vergelijk-balk in plaats van alert()
           const tekst = el("vergelijkBalkTekst");
           const oud = tekst.textContent;
-          tekst.textContent = "Maximaal 3 batterijen tegelijk; haal er eerst één weg.";
+          tekst.textContent = "Maximaal 4 batterijen tegelijk; haal er eerst één weg.";
           setTimeout(() => { tekst.textContent = oud; }, 2500);
           return;
         }
