@@ -13,7 +13,7 @@ impact en eindigt met `npm run controle` en een nieuwe meting.
 - [x] CLS < 0,05 en interactie < 100 ms (CLS 0; vinkje 40–72 ms, venster 48–80 ms bij 4× vertraging)
 - [x] Volledig met toetsenbord en schermlezer te bedienen, contrast AA (donkere modus vervalt: besluit eigenaar 4 november)
 - [x] Dezelfde verbeteringen op alle drie de sites, kern:controleer en controle groen
-- [ ] Eindafdrukken die naast de beste vergelijkers ter wereld kunnen staan
+- [x] Eindafdrukken die naast de beste vergelijkers ter wereld kunnen staan (zie eindverslag)
 
 ## Ronde 1 – de vergelijktabel (4 november 2026)
 
@@ -246,3 +246,37 @@ pagina het venster op als de browser even niets te doen heeft
 nu" hoeft het dan alleen te tonen. Bij 4× CPU-vertraging van 96–144 ms naar
 48–80 ms. Een gedeelde link opent nog steeds direct (dan wordt het venster
 bij het openen gevuld).
+
+## Eindverslag (4 november 2026)
+
+Afdrukken gemaakt op 375, 768 en 1440 px voor de drie vergelijkers en de
+omvormers (alleen licht: de eigenaar koos op 4 november voor geen donkere
+modus). Op geen enkele breedte schuift de pagina opzij.
+
+Waarom ze naast de beste vergelijkers kunnen staan:
+
+- **Het antwoord eerst.** De beste waarde per regel is groen gemarkeerd, met
+  "beste" erbij. Wie drie batterijen naast elkaar zet, ziet in één oogopslag
+  dat de PowerBrick de meeste kWh en de laagste prijs per kWh heeft, en de
+  TSUN de laagste prijs. Gelijke waarden markeren we niet, en regels die smaak
+  of situatie zijn (type, uitvoering) ook niet: de markering zegt nooit meer
+  dan de gegevens.
+- **Ruis weg met één tik.** "Alleen verschillen" verbergt de gelijke regels,
+  met het aantal ervoor, zodat je weet wat er wegvalt.
+- **Gemaakt voor de telefoon.** Vier producten naast elkaar op 375 px zonder
+  opzij schuiven, het label boven de regel, de productnamen blijven staan,
+  afbreken op lettergrepen. Tikvlakken van 44 px.
+- **Delen doet het werk.** Een korte link met een eigen plaatje van precies
+  die vergelijking in WhatsApp, en wie hem opent zit meteen in dezelfde
+  vergelijking. Werkt op de Vercel-preview.
+- **Voor iedereen bruikbaar.** Escape, Tab blijft binnen het venster, focus
+  terug, een echte dialoog voor schermlezers, 0 overtredingen in axe
+  (WCAG 2.2 AA).
+- **Snel.** Lighthouse mobiel 99/100/96/100, CLS 0, een vinkje 40–72 ms en het
+  venster 48–80 ms bij 4× CPU-vertraging.
+- **Eén code voor alles.** De vier vergelijkers gebruiken dezelfde component
+  uit `kern/`; een verbetering komt voortaan op alle sites tegelijk.
+
+Wat er nog beter kan, voor een volgende keer: een gekozen product uit het
+venster zelf kunnen weghalen of toevoegen, zonder terug naar de lijst; en de
+lange prijstoelichtingen in de tabel inklappen tot één regel met "meer".
