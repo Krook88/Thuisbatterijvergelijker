@@ -912,6 +912,9 @@ section.markt h2 { margin: 0; }
    terwijl je door de regels gaat. */
 .vt-boven { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--ruimte-10); margin: 0 48px var(--ruimte-14) 0; }
 .vt-boven h2 { margin: 0; }
+.vt-acties { display: flex; flex-wrap: wrap; gap: var(--ruimte-10); }
+.vt-deel { min-height: 44px; padding: 0 var(--ruimte-14); border: 1px solid var(--kleur-primair); border-radius: var(--radius-pil); background: var(--kleur-primair); color: #fff; font: inherit; font-size: var(--tekst-15); font-weight: 700; cursor: pointer; }
+.vt-deel:hover, .vt-deel:focus-visible { background: var(--kleur-primair-donker); border-color: var(--kleur-primair-donker); }
 .vt-schakel { display: inline-flex; align-items: center; gap: var(--ruimte-10); min-height: 44px; padding: 0 var(--ruimte-14); border: 1px solid var(--kleur-rand); border-radius: var(--radius-pil); font-size: var(--tekst-15); font-weight: 600; cursor: pointer; background: var(--kleur-wit); }
 .vt-schakel:has(input:checked) { border-color: var(--kleur-primair); background: var(--kleur-primair-licht); color: var(--kleur-primair-donker); }
 .vt-schakel input { width: 18px; height: 18px; margin: 0; accent-color: var(--kleur-primair); }

@@ -19,6 +19,8 @@
      waarde een groene markering. Pas als er echt iets te kiezen valt: zijn
      alle waarden gelijk, of is er maar één bekend, dan wint niemand.
    - Eén schakelaar verbergt de regels waarin de producten niet verschillen.
+   - Een knop deelt de vergelijking. De link opent hetzelfde venster met
+     dezelfde producten.
 
    Gebruik
    -------
@@ -30,7 +32,7 @@
        ],
        voet: (p) => "<a class='knop'>..</a>", // optioneel, onder de tabel
      })
-     VergelijkTabel.koppel(container)        // na het plaatsen van de html
+     VergelijkTabel.koppel(container, { titel, tekst })  // na het plaatsen
    ========================================================================== */
 (function () {
   "use strict";
@@ -79,18 +81,48 @@
       <div class="vt" style="--vt-n:${n}">
         <div class="vt-boven">
           <h2 id="${id}-kop">Vergelijking</h2>
-          ${gelijkAantal > 0 ? `<label class="vt-schakel"><input type="checkbox" class="vt-alleen-verschil"> Alleen verschillen <small>(${gelijkAantal} gelijk)</small></label>` : ""}
+          <div class="vt-acties">
+            ${gelijkAantal > 0 ? `<label class="vt-schakel"><input type="checkbox" class="vt-alleen-verschil"> Alleen verschillen <small>(${gelijkAantal} gelijk)</small></label>` : ""}
+            <button type="button" class="vt-deel">Deel deze vergelijking</button>
+            <span class="vt-sr vt-deel-melding" role="status"></span>
+          </div>
         </div>
         <table class="vt-tabel" aria-labelledby="${id}-kop">${kop}<tbody>${body}</tbody>${voet}</table>
       </div>`;
   }
 
-  function koppel(container) {
+  /* De link is de adresregel zelf: app.js zet de gekozen producten daar al
+     in (?vergelijk=a~b~c). Op een aanraakscherm met deelmenu kiest de
+     bezoeker zelf de app; elders gaat de link naar het klembord. */
+  function kopieer(tekst) {
+    if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(tekst);
+    return Promise.reject(new Error("geen klembord"));
+  }
+
+  function deel(knop, melding, gegevens) {
+    const url = location.href.split("#")[0];
+    const aanraak = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+    const bevestig = (tekst) => {
+      const oud = knop.textContent;
+      knop.textContent = tekst;
+      if (melding) melding.textContent = tekst;
+      setTimeout(() => { knop.textContent = oud; if (melding) melding.textContent = ""; }, 2200);
+    };
+    if (navigator.share && aanraak) {
+      navigator.share({ title: gegevens.titel || document.title, text: gegevens.tekst || "", url }).catch(() => {});
+      return;
+    }
+    kopieer(url).then(() => bevestig("Link gekopieerd"), () => { window.prompt("Kopieer deze link:", url); });
+  }
+
+  function koppel(container, gegevens) {
     if (!container) return;
-    const schakel = container.querySelector(".vt-alleen-verschil");
     const vt = container.querySelector(".vt");
-    if (!schakel || !vt) return;
-    schakel.addEventListener("change", () => vt.classList.toggle("vt-verschil", schakel.checked));
+    if (!vt) return;
+    const schakel = container.querySelector(".vt-alleen-verschil");
+    if (schakel) schakel.addEventListener("change", () => vt.classList.toggle("vt-verschil", schakel.checked));
+    const knop = container.querySelector(".vt-deel");
+    if (knop) knop.addEventListener("click", () => deel(knop, container.querySelector(".vt-deel-melding"), gegevens || {}));
   }
 
   window.VergelijkTabel = { html, koppel };

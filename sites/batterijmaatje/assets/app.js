@@ -92,12 +92,20 @@
     FILTER_KEYS.forEach((k) => { if (f[k] !== "alle") p.set(k, f[k]); });
     CHECK_KEYS.forEach(([k, kort]) => { if (f[k]) p.set(kort, "1"); });
     if (state.sortering !== "prijs-per-kwh") p.set("sorteer", state.sortering);
-    const qs = p.toString();
+    if (state.vergelijkSelectie.length) p.set("vergelijk", state.vergelijkSelectie.join("~"));
+    const qs = p.toString().replace(/%7E/g, "~");
     history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
   }
 
   function leesUrl() {
     const p = new URLSearchParams(location.search);
+    // Een gedeelde vergelijking: ?vergelijk=id~id~id. Onbekende namen
+    // vallen weg; met twee of meer bekende gaat het venster meteen open.
+    if (p.get("vergelijk")) {
+      const ids = p.get("vergelijk").split("~");
+      state.vergelijkSelectie = [...new Set(ids)].filter((id) => state.batterijen.some((x) => x.id === id)).slice(0, 3);
+      if (state.vergelijkSelectie.length >= 2) setTimeout(() => el("openVergelijk").click());
+    }
     if (p.get("zoek")) state.filters.zoek = p.get("zoek");
     FILTER_KEYS.forEach((k) => { if (p.get(k)) state.filters[k] = p.get(k); });
     CHECK_KEYS.forEach(([k, kort]) => { if (p.get(kort) === "1") state.filters[k] = true; });
@@ -547,7 +555,7 @@
     el("openVergelijk").addEventListener("click", () => {
       const items = state.batterijen.filter((b) => state.vergelijkSelectie.includes(b.id));
       el("vergelijkModalInhoud").innerHTML = vergelijkModalHtml(items);
-      VergelijkTabel.koppel(el("vergelijkModalInhoud"));
+      VergelijkTabel.koppel(el("vergelijkModalInhoud"), { titel: `Vergelijking van ${items.length} batterijen`, tekst: items.map((x) => `${x.merk} ${x.model}`).join(" vs ") });
       el("vergelijkModal").classList.add("open");
     });
 

@@ -8,7 +8,7 @@ impact en eindigt met `npm run controle` en een nieuwe meting.
 
 - [ ] Op 375 px drie producten kiezen en vergelijken in maximaal 4 tikken, zonder zoomen of opzij schuiven
 - [x] Per regel de beste waarde gemarkeerd, en een schakelaar voor alleen de verschillen
-- [ ] De vergelijking staat in de URL; een gedeelde link opent dezelfde vergelijking, met eigen deelkaart
+- [ ] De vergelijking staat in de URL; een gedeelde link opent dezelfde vergelijking, met eigen deelkaart (URL en link klaar, deelkaart nog niet)
 - [ ] Lighthouse mobiel: Performance ≥ 95, Accessibility 100, Best Practices ≥ 95, SEO 100
 - [ ] CLS < 0,05 en interactie < 100 ms
 - [ ] Volledig met toetsenbord en schermlezer te bedienen, contrast AA in licht en donker
@@ -62,3 +62,37 @@ loop niet aanraakt.
 **Voor en na (375 px).** Voor: één product half zichtbaar, labelkolom
 280 px breed. Na: drie kolommen van ±115 px, beste waarden groen, kop met
 productnamen blijft staan. Op 1440 px: zelfde tabel, ruimere opmaak.
+
+## Ronde 2 – de vergelijking delen (4 november 2026)
+
+**Gemeten.** Na ronde 1 de drie grootste ergernissen:
+
+1. Een vergelijking die je mooi vindt, kun je niet doorsturen. De keuze
+   bestond alleen in het geheugen van de pagina; na verversen was hij weg.
+2. Wie een link krijgt, ziet de lijst en moet zelf dezelfde drie producten
+   terugzoeken en aanvinken.
+3. Op een telefoon is er geen manier om het deelmenu van het systeem te
+   gebruiken vanuit de vergelijking.
+
+**Gebouwd.**
+
+- De gekozen producten staan in de adresregel als `?vergelijk=a~b~c`,
+  naast de filters die er al stonden. Verversen houdt de keuze vast.
+- Opent iemand zo'n link, dan staat het venster meteen open met dezelfde
+  producten in dezelfde volgorde. Onbekende namen (een product dat uit de
+  lijst is gegaan) vallen weg; blijven er minder dan twee over, dan opent
+  het venster niet.
+- Knop "Deel deze vergelijking" boven de tabel. Op een aanraakscherm het
+  deelmenu van het systeem, met als tekst de namen tegen elkaar
+  ("Merk A vs Merk B"); elders gaat de link naar het klembord, met
+  "Link gekopieerd" in de knop en voor schermlezers.
+
+**Gecontroleerd.** Per site met Playwright: drie producten kiezen, delen,
+de gekopieerde link in een nieuw tabblad openen. Op alle drie de sites
+staat het venster open met dezelfde drie namen. `npm test` 918 geslaagd;
+keuring, slop, llms en dode regels schoon. `datums` faalt nog steeds alleen
+op de EcoFlow-leverdatum in `data/`.
+
+**Nog open voor deze lat:** een eigen deelkaart (OG-afbeelding) per
+vergelijking. Een statische site kan die niet per willekeurige combinatie
+klaarzetten; dat vraagt een functie in `api/`. Volgende kandidaat.

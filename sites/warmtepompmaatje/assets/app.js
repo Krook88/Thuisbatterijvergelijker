@@ -91,12 +91,20 @@
     if (f.zoek) p.set("zoek", f.zoek);
     CHECK_KEYS.forEach(([k, kort]) => { if (f[k]) p.set(kort, "1"); });
     if (state.sortering !== "prijs-na-isde") p.set("sorteer", state.sortering);
-    const qs = p.toString();
+    if (state.vergelijkSelectie.length) p.set("vergelijk", state.vergelijkSelectie.join("~"));
+    const qs = p.toString().replace(/%7E/g, "~");
     history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
   }
 
   function leesUrl() {
     const p = new URLSearchParams(location.search);
+    // Een gedeelde vergelijking: ?vergelijk=id~id~id. Onbekende namen
+    // vallen weg; met twee of meer bekende gaat het venster meteen open.
+    if (p.get("vergelijk")) {
+      const ids = p.get("vergelijk").split("~");
+      state.vergelijkSelectie = [...new Set(ids)].filter((id) => state.pompen.some((x) => x.id === id)).slice(0, 3);
+      if (state.vergelijkSelectie.length >= 2) setTimeout(() => el("openVergelijk").click());
+    }
     FILTER_KEYS.forEach((k) => { if (p.get(k)) state.filters[k] = p.get(k); });
     if (p.get("zoek")) { state.filters.zoek = p.get("zoek"); const zv = el("zoekVeld"); if (zv) zv.value = state.filters.zoek; }
     CHECK_KEYS.forEach(([k, kort]) => { if (p.get(kort) === "1") state.filters[k] = true; });
@@ -455,7 +463,7 @@
     el("openVergelijk").addEventListener("click", () => {
       const items = state.pompen.filter((w) => state.vergelijkSelectie.includes(w.id));
       el("vergelijkModalInhoud").innerHTML = vergelijkModalHtml(items);
-      VergelijkTabel.koppel(el("vergelijkModalInhoud"));
+      VergelijkTabel.koppel(el("vergelijkModalInhoud"), { titel: `Vergelijking van ${items.length} warmtepompen`, tekst: items.map((x) => `${x.merk} ${x.model}`).join(" vs ") });
       el("vergelijkModal").classList.add("open");
     });
     el("wisVergelijk").addEventListener("click", () => { state.vergelijkSelectie = []; render(); });
