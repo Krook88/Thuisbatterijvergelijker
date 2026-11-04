@@ -3,8 +3,13 @@
   "framework": null,
   "cleanUrls": false,
   "rewrites": [
-    { "source": "/u/:naam", "destination": "/uitslag/:naam.html" }
+    { "source": "/u/:naam", "destination": "/uitslag/:naam.html" },
+    { "source": "/v/:soort/:ids", "destination": "/api/v?soort=:soort&ids=:ids" },
+    { "source": "/v/:ids", "destination": "/api/v?ids=:ids" }
   ],
+  "functions": {
+    "api/vergelijkkaart.js": { "includeFiles": "api/fonts/**" }
+  },
   "trailingSlash": false,
   "redirects": [
     { "source": "/index.html", "destination": "/", "permanent": true }

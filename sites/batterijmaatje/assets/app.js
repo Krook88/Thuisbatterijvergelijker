@@ -563,7 +563,7 @@
     el("openVergelijk").addEventListener("click", () => {
       const items = state.batterijen.filter((b) => state.vergelijkSelectie.includes(b.id));
       el("vergelijkModalInhoud").innerHTML = vergelijkModalHtml(items);
-      VergelijkTabel.koppel(el("vergelijkModalInhoud"), { titel: `Vergelijking van ${items.length} batterijen`, tekst: items.map((x) => `${x.merk} ${x.model}`).join(" vs ") });
+      VergelijkTabel.koppel(el("vergelijkModalInhoud"), { titel: `Vergelijking van ${items.length} batterijen`, tekst: items.map((x) => `${x.merk} ${x.model}`).join(" vs "), url: `${location.origin}/v/${items.map((x) => x.id).join("~")}` });
       VergelijkTabel.open(el("vergelijkModal"));
     });
 

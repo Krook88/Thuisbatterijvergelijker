@@ -483,7 +483,7 @@
     el("openVergelijk").addEventListener("click", () => {
       const items = state.panelen.filter((p) => state.vergelijkSelectie.includes(p.id));
       el("vergelijkModalInhoud").innerHTML = vergelijkModalHtml(items);
-      VergelijkTabel.koppel(el("vergelijkModalInhoud"), { titel: `Vergelijking van ${items.length} zonnepanelen`, tekst: items.map((x) => `${x.merk} ${x.model}`).join(" vs ") });
+      VergelijkTabel.koppel(el("vergelijkModalInhoud"), { titel: `Vergelijking van ${items.length} zonnepanelen`, tekst: items.map((x) => `${x.merk} ${x.model}`).join(" vs "), url: `${location.origin}/v/${items.map((x) => x.id).join("~")}` });
       VergelijkTabel.open(el("vergelijkModal"));
     });
 

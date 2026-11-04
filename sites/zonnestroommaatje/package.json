@@ -24,6 +24,7 @@
     "test": "node --test scripts/*.test.mjs"
   },
   "dependencies": {
+    "@vercel/og": "^0.6.8",
     "nodemailer": "^9.0.3"
   },
   "devDependencies": {

@@ -471,7 +471,7 @@
     el("openVergelijk").addEventListener("click", () => {
       const items = state.pompen.filter((w) => state.vergelijkSelectie.includes(w.id));
       el("vergelijkModalInhoud").innerHTML = vergelijkModalHtml(items);
-      VergelijkTabel.koppel(el("vergelijkModalInhoud"), { titel: `Vergelijking van ${items.length} warmtepompen`, tekst: items.map((x) => `${x.merk} ${x.model}`).join(" vs ") });
+      VergelijkTabel.koppel(el("vergelijkModalInhoud"), { titel: `Vergelijking van ${items.length} warmtepompen`, tekst: items.map((x) => `${x.merk} ${x.model}`).join(" vs "), url: `${location.origin}/v/${items.map((x) => x.id).join("~")}` });
       VergelijkTabel.open(el("vergelijkModal"));
     });
     el("wisVergelijk").addEventListener("click", () => { state.vergelijkSelectie = []; render(); });

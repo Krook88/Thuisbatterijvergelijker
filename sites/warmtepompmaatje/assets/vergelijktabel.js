@@ -32,7 +32,7 @@
        ],
        voet: (p) => "<a class='knop'>..</a>", // optioneel, onder de tabel
      })
-     VergelijkTabel.koppel(container, { titel, tekst })  // na het plaatsen
+     VergelijkTabel.koppel(container, { titel, tekst, url })  // na het plaatsen
    ========================================================================== */
 (function () {
   "use strict";
@@ -100,7 +100,10 @@
   }
 
   function deel(knop, melding, gegevens) {
-    const url = location.href.split("#")[0];
+    // De korte link /v/a~b~c geeft de vergelijking een eigen titel en
+    // plaatje als hij in een chat wordt geplakt (api/v.js). Zonder opgave
+    // valt het terug op de adresregel, die dezelfde keuze bevat.
+    const url = gegevens.url || location.href.split("#")[0];
     const aanraak = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
     const bevestig = (tekst) => {
       const oud = knop.textContent;

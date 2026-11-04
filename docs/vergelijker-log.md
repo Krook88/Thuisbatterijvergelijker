@@ -8,7 +8,7 @@ impact en eindigt met `npm run controle` en een nieuwe meting.
 
 - [x] Op 375 px drie producten kiezen en vergelijken in maximaal 4 tikken, zonder zoomen of opzij schuiven
 - [x] Per regel de beste waarde gemarkeerd, en een schakelaar voor alleen de verschillen
-- [ ] De vergelijking staat in de URL; een gedeelde link opent dezelfde vergelijking, met eigen deelkaart (URL en link klaar, deelkaart nog niet)
+- [ ] De vergelijking staat in de URL; een gedeelde link opent dezelfde vergelijking, met eigen deelkaart (deelkaart gebouwd; nog na te kijken op Vercel)
 - [x] Lighthouse mobiel: Performance ≥ 95, Accessibility 100, Best Practices ≥ 95, SEO 100
 - [ ] CLS < 0,05 en interactie < 100 ms (CLS 0 en vinkjes gehaald; venster openen 96–144 ms bij 4× vertraging)
 - [ ] Volledig met toetsenbord en schermlezer te bedienen, contrast AA (donkere modus vervalt: besluit eigenaar 4 november)
@@ -200,3 +200,34 @@ lokaal niet bestaat en op Vercel wel.
 (`balkBijwerken`): 40–72 ms. Het venster openen: 40 ms zonder vertraging,
 96–144 ms bij 4×. Dat zit in het opmaken van de tabel zelf; scrollslot,
 focus, afbreking en `content-visibility` gemeten en maakten geen verschil.
+
+## Ronde 7 – een eigen deelkaart per vergelijking (4 november 2026)
+
+**Gemeten.** Een gedeelde vergelijking liet in WhatsApp het algemene plaatje
+van de site zien. Een chat-app voert geen JavaScript uit en leest dus alleen
+de vaste `og:image` van `index.html`: de ontvanger zag niet welke producten
+er tegen elkaar stonden.
+
+**Gebouwd** (met akkoord van de eigenaar, want het raakt de hosting):
+
+- Korte link `/v/a~b~c` (en `/v/omvormers/a~b` op zonnestroommaatje). Een
+  rewrite in `vercel.json` stuurt die naar `api/v.js`. Die geeft een kleine
+  pagina met eigen titel ("A vs B vs C"), beschrijving met de prijzen en
+  een eigen plaatje, en stuurt de bezoeker meteen door naar
+  `/?vergelijk=a~b~c`. `noindex`, met de vergelijker als canonical.
+- `api/vergelijkkaart.js` maakt het plaatje van 1200 × 630 met
+  `@vercel/og`: per product merk, model en vanaf-prijs, de laagste prijs
+  groen, in de kleuren van de site en in Figtree (als ttf in `api/fonts/`,
+  omdat satori geen woff2 leest).
+- De gedeelde code staat in `kern/api/`; per site staat alleen
+  `api/_site.js` met naam, kleuren en welke lijst bij welke soort hoort.
+  Prijzen komen uit dezelfde `assets/prijs.js` als op de site.
+- De knop "Deel deze vergelijking" deelt nu de korte link.
+- Op warmtepompmaatje staan de `/v/`-regels vóór de vangregel die elke URL
+  zonder punt naar `.html` stuurt.
+
+**Gecontroleerd.** Lokaal beide functies aangeroepen voor alle drie de
+sites en de omvormers: 200 met de juiste titel, beschrijving en plaatje.
+Minder dan twee bekende producten: doorgestuurd naar de vergelijker en het
+algemene plaatje. `npm run controle` groen. **Nog niet gecontroleerd op
+Vercel zelf**: de rewrites en de functie draaien pas na een deploy.
