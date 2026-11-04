@@ -52,7 +52,8 @@
   const SLEUTEL = "batterijmaatje:verbruik";
 
   const eenDecimaal = (n) => n.toFixed(1).replace(".", ",");
-  const duizend = (n) => Math.round(n).toLocaleString("nl-NL");
+  const duizendFmt = new Intl.NumberFormat("nl-NL");
+  const duizend = (n) => duizendFmt.format(Math.round(n));
 
   const escapeHtml = (s) => String(s == null ? "" : s)
     .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")

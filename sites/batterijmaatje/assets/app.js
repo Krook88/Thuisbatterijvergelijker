@@ -347,7 +347,7 @@
     if (!lijst.length) {
       doel.innerHTML = '<div class="leeg-melding">Geen batterijen gevonden met deze filters. Probeer een filter uit te zetten.</div>';
     } else if (state.weergave === "lijst") {
-      doel.innerHTML = Kaart.lijstHtml(lijst, { alles: state.alles, selectie: state.vergelijkSelectie, verbruik: state.verbruik, groepeer: state.sortering === "koppel-score" });
+      doel.innerHTML = Kaart.lijstHtml(lijst, { snel: true, alles: state.alles, selectie: state.vergelijkSelectie, verbruik: state.verbruik, groepeer: state.sortering === "koppel-score" });
     } else if (state.weergave === "kaarten") {
       doel.innerHTML = `<div class="kaarten-grid${!state.alles && lijst.length > 12 ? " ingeklapt" : ""}">${lijst.map(kaartHtml).join("")}</div>`
         + (!state.alles && lijst.length > 12 ? `<button type="button" class="toon-alle" data-toon-alle>Toon alle ${lijst.length} thuisbatterijen</button>` : "");
