@@ -280,3 +280,29 @@ Waarom ze naast de beste vergelijkers kunnen staan:
 Wat er nog beter kan, voor een volgende keer: een gekozen product uit het
 venster zelf kunnen weghalen of toevoegen, zonder terug naar de lijst; en de
 lange prijstoelichtingen in de tabel inklappen tot één regel met "meer".
+
+## Vervolg – de open punten uit de eerste prompt (4 november 2026)
+
+Na de merge van #112 nagelopen wat uit de taak nog niet gedaan was.
+
+**Filteren en sorteren.** Gemeten bij 4× CPU-vertraging, tijd tot het
+volgende beeld. Batterijmaatje kostte 200–356 ms per filter: de lijst bouwde
+bij elk filter alle 55 regels op (3.373 elementen), ook de 45 achter "Toon
+alle". Nu bouwt de browser alleen de zichtbare regels (`snel: true` in
+`Kaart.lijstHtml`); de voorgerenderde HTML blijft compleet voor wie zonder
+JavaScript leest. Daarnaast onthoudt de prijsgrafiek zijn datumopmaak. Na
+de eerste keer: 71–84 ms per filter, waarvan ±20 ms script.
+
+**Vaste vergelijkpagina's** (`vergelijk/a-vs-b.html`). Op 375 px zag je
+alleen het eerste product; het tweede zat buiten beeld in een schuifvak.
+Nu op de telefoon dezelfde opbouw als het vergelijkvenster: label boven de
+regel, de twee producten eronder naast elkaar, namen bovenaan in beeld.
+
+**Twee tikken.** Echt twee tikken kan alleen als het venster vanzelf opent
+bij het tweede vinkje, en dan kun je geen derde of vierde meer kiezen. Niet
+gedaan. Wel: de balk verschijnt al bij het eerste vinkje ("1 gekozen, kies
+er nog één"), met "Vergelijk nu" pas actief vanaf twee. Twee producten
+vergelijken blijft drie tikken.
+
+**Niet gedaan:** de uitslagpagina's en de rekenmodule zijn niet bekeken;
+swipen tussen producten is niet nodig nu alles naast elkaar past.

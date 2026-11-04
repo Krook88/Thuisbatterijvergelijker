@@ -962,3 +962,28 @@ html.venster-open { overflow: hidden; }
   .vt-tabel tfoot td { padding: var(--ruimte-10) var(--ruimte-4); }
   .vt-voet .knop { padding-left: var(--ruimte-6); padding-right: var(--ruimte-6); font-size: var(--tekst-12); }
 }
+
+/* De vaste vergelijkpagina's (vergelijk/a-vs-b.html): op een telefoon net als
+   het vergelijkvenster. De duel-tabel was 560 px breed en schoof binnen zijn
+   kader; op 375 px zag je alleen het eerste product, en het tweede pas als
+   je wist dat je moest vegen. Nu staat het label boven de regel en de twee
+   producten eronder naast elkaar, met de namen bovenaan in beeld.
+   De regels staan onder .tabel-blok, zodat ze winnen van de breedte die
+   style.css (na dit bestand geladen) de duel-tabel geeft. */
+@media (max-width: 640px) {
+  .tabel-blok:has(> .duel-tabel) { overflow: visible; }
+  .tabel-blok .duel-tabel { min-width: 0; table-layout: fixed; }
+  .tabel-blok .duel-tabel, .tabel-blok .duel-tabel thead, .tabel-blok .duel-tabel tbody { display: block; }
+  .tabel-blok .duel-tabel tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tabel-blok .duel-tabel thead { position: sticky; top: 0; z-index: 2; background: var(--kleur-wit); border-bottom: 2px solid var(--kleur-primair); border-radius: var(--radius) var(--radius) 0 0; }
+  .tabel-blok .duel-tabel thead th:first-child { display: none; }
+  .tabel-blok .duel-tabel thead th { position: static; background: var(--kleur-wit); padding: var(--ruimte-10); font-size: var(--tekst-15); overflow-wrap: break-word; hyphens: manual; }
+  .tabel-blok .duel-tabel.kolom-vast th:first-child, .tabel-blok .duel-tabel.kolom-vast td:first-child { position: static; box-shadow: none; }
+  .tabel-blok .duel-tabel tbody th { grid-column: 1 / -1; min-width: 0; padding: var(--ruimte-10) var(--ruimte-10) var(--ruimte-4); background: none; border-top: 1px solid var(--kleur-rand); font-size: var(--tekst-12); text-transform: uppercase; letter-spacing: .04em; color: var(--kleur-tekst-licht); }
+  .tabel-blok .duel-tabel tbody td { border-top: 0; padding: var(--ruimte-4) var(--ruimte-10) var(--ruimte-10); overflow-wrap: break-word; hyphens: auto; }
+  .tabel-blok .duel-tabel tbody td + td { border-left: 1px solid var(--kleur-rand); }
+}
+
+/* Met één product gekozen staat de balk er al, maar "Vergelijk nu" wacht op
+   het tweede. */
+.vergelijk-balk .knop:disabled { opacity: .55; cursor: not-allowed; }

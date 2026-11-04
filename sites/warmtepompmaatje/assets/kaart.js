@@ -332,6 +332,9 @@
   function ingeklaptHtml(stukken, aantal, opties) {
     if (aantal <= TOON_EERST + 2) return stukken.join("");
     const open = opties && opties.alles;
+    if (opties && opties.snel && !open) {
+      return stukken.slice(0, TOON_EERST).join("") + `<button type="button" class="toon-alle" data-toon-alle>Toon alle ${aantal} warmtepompen</button>`;
+    }
     return stukken.slice(0, TOON_EERST).join("")
       + `<div class="regel-extra"${open ? "" : " hidden"}>${stukken.slice(TOON_EERST).join("")}</div>`
       + (open ? "" : `<button type="button" class="toon-alle" data-toon-alle>Toon alle ${aantal} warmtepompen</button>`);
@@ -362,7 +365,12 @@
     // Bij de sortering op de score een tussenkop per score; bij een andere
     // sortering hebben groepen geen betekenis en blijft het een lijst.
     let vorige = null;
-    const stukken = lijst.map((x, i) => {
+    // Met opties.snel (de lijst in de browser) worden de regels achter
+        // "Toon alle" niet opgebouwd zolang ze verborgen zijn: een filter
+        // bouwde anders 55 regels op om er 10 van te tonen. De voorgerenderde
+        // pagina (zonder snel) krijgt ze wel, voor wie zonder JavaScript leest.
+        const inklap = o.snel && !o.alles && lijst.length > TOON_EERST + 2;
+        const stukken = (inklap ? lijst.slice(0, TOON_EERST) : lijst).map((x, i) => {
       let kop = "";
       if (o.groepeer) {
         const score = koppelScore(x);

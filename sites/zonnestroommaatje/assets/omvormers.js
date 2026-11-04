@@ -362,10 +362,14 @@
   function balkBijwerken() {
     const balk = el("vergelijkBalk");
     if (balk) {
-      if (state.vergelijkSelectie.length >= 2) {
+      if (state.vergelijkSelectie.length >= 1) {
+        // Al bij het eerste vinkje: zo zie je dat het gelukt is en wat de
+        // volgende stap is. "Vergelijk nu" werkt pas vanaf twee.
+        const n = state.vergelijkSelectie.length;
         balk.classList.add("zichtbaar");
         document.body.classList.add("vergelijkbalk-actief");
-        el("vergelijkBalkTekst").textContent = `${state.vergelijkSelectie.length} omvormers geselecteerd`;
+        el("vergelijkBalkTekst").textContent = n === 1 ? "1 gekozen, kies er nog één" : `${n} omvormers geselecteerd`;
+        el("openVergelijk").disabled = n < 2;
       } else {
         balk.classList.remove("zichtbaar");
         document.body.classList.remove("vergelijkbalk-actief");

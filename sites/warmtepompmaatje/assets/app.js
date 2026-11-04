@@ -330,7 +330,7 @@
     if (!lijst.length) {
       doel.innerHTML = '<div class="leeg-melding">Geen warmtepompen gevonden met deze filters. Probeer een filter uit te zetten.</div>';
     } else if (state.weergave === "lijst") {
-      doel.innerHTML = Kaart.lijstHtml(lijst, { alles: state.alles, selectie: state.vergelijkSelectie, groepeer: state.sortering === "koppel-score", groepNaam: "Koppel-score" });
+      doel.innerHTML = Kaart.lijstHtml(lijst, { snel: true, alles: state.alles, selectie: state.vergelijkSelectie, groepeer: state.sortering === "koppel-score", groepNaam: "Koppel-score" });
     } else if (state.weergave === "kaarten") {
       doel.innerHTML = `<div class="kaarten-grid${!state.alles && lijst.length > 12 ? " ingeklapt" : ""}">${lijst.map(kaartHtml).join("")}</div>`
         + (!state.alles && lijst.length > 12 ? `<button type="button" class="toon-alle" data-toon-alle>Toon alle ${lijst.length} warmtepompen</button>` : "");
@@ -354,10 +354,14 @@
   function balkBijwerken() {
     const balk = el("vergelijkBalk");
     if (balk) {
-      if (state.vergelijkSelectie.length >= 2) {
+      if (state.vergelijkSelectie.length >= 1) {
+        // Al bij het eerste vinkje: zo zie je dat het gelukt is en wat de
+        // volgende stap is. "Vergelijk nu" werkt pas vanaf twee.
+        const n = state.vergelijkSelectie.length;
         balk.classList.add("zichtbaar");
         document.body.classList.add("vergelijkbalk-actief");
-        el("vergelijkBalkTekst").textContent = `${state.vergelijkSelectie.length} warmtepompen geselecteerd`;
+        el("vergelijkBalkTekst").textContent = n === 1 ? "1 gekozen, kies er nog één" : `${n} warmtepompen geselecteerd`;
+        el("openVergelijk").disabled = n < 2;
       } else {
         balk.classList.remove("zichtbaar");
         document.body.classList.remove("vergelijkbalk-actief");

@@ -28,8 +28,15 @@
   const dagNr = (d) => Math.floor(Date.parse(`${d}T12:00:00Z`) / DAG);
   const datumVan = (n) => new Date(n * DAG).toISOString().slice(0, 10);
   const eur = new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
-  const datumKort = (d) => new Date(`${d}T12:00:00Z`).toLocaleDateString("nl-NL", { day: "numeric", month: "short", timeZone: "UTC" });
-  const datumLang = (d) => new Date(`${d}T12:00:00Z`).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+  // Eén opmaker per vorm, en per datum het antwoord onthouden. Met
+  // toLocaleDateString per aanroep kostte een lijst van vijftig regels bij
+  // elk filter een merkbaar deel van de reactietijd: dezelfde dertig datums,
+  // telkens opnieuw opgemaakt.
+  const fmtKort = new Intl.DateTimeFormat("nl-NL", { day: "numeric", month: "short", timeZone: "UTC" });
+  const fmtLang = new Intl.DateTimeFormat("nl-NL", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+  const onthoud = (fmt) => { const m = new Map(); return (d) => { let w = m.get(d); if (w === undefined) { w = fmt.format(new Date(`${d}T12:00:00Z`)); m.set(d, w); } return w; }; };
+  const datumKort = onthoud(fmtKort);
+  const datumLang = onthoud(fmtLang);
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
   let verloop = {};
