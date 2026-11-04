@@ -63,14 +63,14 @@
   </script>
   <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="/assets/maatlat.css?v=20261104h" as="style">
-  <link rel="preload" href="/assets/vergelijker.css?v=20261104h" as="style">
-  <link rel="stylesheet" href="/assets/style.css?v=20261104h">
+  <link rel="preload" href="/assets/maatlat.css?v=20261104i" as="style">
+  <link rel="preload" href="/assets/vergelijker.css?v=20261104i" as="style">
+  <link rel="stylesheet" href="/assets/style.css?v=20261104i">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261104h"></script>
+  <script defer src="/assets/teller.js?v=20261104i"></script>
 </head>
 <body>
 
@@ -140,7 +140,7 @@
   </div>
 
   <h2>Prijsverloop</h2>
-  <figure class="prijsgrafiek" data-dagen='[[&quot;2026-11-01&quot;,520],[&quot;2026-11-02&quot;,520],[&quot;2026-11-03&quot;,436]]' aria-label="Prijsverloop van de Hoymiles HiBattery 1920 AC (1,92 kWh) sinds 1 november 2026">
+  <figure class="prijsgrafiek" data-dagen='[[&quot;2026-11-01&quot;,520],[&quot;2026-11-02&quot;,520],[&quot;2026-11-03&quot;,436],[&quot;2026-11-04&quot;,436]]' aria-label="Prijsverloop van de Hoymiles HiBattery 1920 AC (1,92 kWh) sinds 1 november 2026">
     <dl class="pg-cijfers">
       <div><dt>Nu</dt><dd><span class="cijfer">€ 436</span></dd></div>
       <div><dt>Laagste</dt><dd><span class="cijfer">€ 436</span> <small>3 nov</small></dd></div>
@@ -150,14 +150,14 @@
       <div class="pg-plot">
         <svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
           <g class="pg-raster"><line x1="0" x2="1000" y1="100.00" y2="100.00"/><line x1="0" x2="1000" y1="66.67" y2="66.67"/><line x1="0" x2="1000" y1="33.33" y2="33.33"/><line x1="0" x2="1000" y1="0.00" y2="0.00"/></g>
-          <path class="pg-lijn" d="M0.0 20.0H666.7V76.0H1000.0"/>
+          <path class="pg-lijn" d="M0.0 20.0H500.0V76.0H1000.0"/>
         </svg>
         <span class="pg-y" style="top:100.00%">€ 400</span><span class="pg-y" style="top:66.67%">€ 450</span><span class="pg-y" style="top:33.33%">€ 500</span><span class="pg-y" style="top:0.00%">€ 550</span>
-        <span class="pg-punt" style="left:83.33%;top:76.00%"></span><span class="pg-label pg-label-rechts" style="left:83.33%;top:76.00%">laagste € 436</span><span class="pg-punt pg-nu" style="left:100.00%;top:76.00%"></span>
+        <span class="pg-punt" style="left:62.50%;top:76.00%"></span><span class="pg-label pg-label-midden" style="left:62.50%;top:76.00%">laagste € 436</span><span class="pg-punt pg-nu" style="left:100.00%;top:76.00%"></span>
         <span class="pg-kruis" hidden></span>
         <div class="pg-tip" hidden></div>
       </div>
-      <div class="pg-xas"><span class="pg-x pg-x-begin" style="left:0.00%">1 nov</span><span class="pg-x pg-x-midden" style="left:50.00%">2 nov</span><span class="pg-x pg-x-eind" style="left:100.00%">vandaag</span></div>
+      <div class="pg-xas"><span class="pg-x pg-x-begin" style="left:0.00%">1 nov</span><span class="pg-x pg-x-midden" style="left:37.50%">2 nov</span><span class="pg-x pg-x-eind" style="left:100.00%">vandaag</span></div>
     </div>
     <figcaption>Laagste winkelprijs incl. btw per dag, sinds 1 november 2026. Laagste € 436 op 3 november 2026, hoogste € 520 op 1 november 2026, nu € 436.</figcaption>
     <details class="pg-tabel"><summary>Alle prijswijzigingen</summary>
@@ -264,9 +264,9 @@
 <!-- dagmaat.js hertekent het blok "Past hij op een gemiddelde dag?" met het
      jaarverbruik dat de bezoeker eerder invulde, en laat het veld daarin
      werken. Het heeft geen ander bestand nodig. -->
-<script src="/assets/dagmaat.js?v=20261104h" defer></script>
-<script src="/assets/delen.js?v=20261104h" defer></script>
-<script src="/assets/prijsgrafiek.js?v=20261104h" defer></script>
-<script src="/assets/nav.js?v=20261104h" defer></script>
+<script src="/assets/dagmaat.js?v=20261104i" defer></script>
+<script src="/assets/delen.js?v=20261104i" defer></script>
+<script src="/assets/prijsgrafiek.js?v=20261104i" defer></script>
+<script src="/assets/nav.js?v=20261104i" defer></script>
 </body>
 </html>
