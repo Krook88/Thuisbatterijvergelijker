@@ -1,28 +1,34 @@
 {
-  "bijgewerkt": "2026-11-04",
+  "bijgewerkt": "2026-11-05",
   "punten": {
+    "onbereikbaar|dyness-powerbox-g2|Zonnige Winkel": {
+      "sinds": "2026-11-05",
+      "soort": "onbereikbaar",
+      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: fetch failed",
+      "bevestigd": false
+    },
     "te controleren|aeg-solarcube-pro|AEG thuisbatterij (officieel)": {
       "sinds": "2026-11-04",
       "soort": "te controleren",
       "tekst": "aeg-solarcube-pro @ AEG thuisbatterij (officieel): €1599 → €968 (-39%)",
-      "bevestigd": false
+      "bevestigd": true
     },
     "verouderd|aeg-solarcube-48|richtprijs": {
       "sinds": "2026-10-29",
       "soort": "verouderd",
-      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (27 dagen)",
+      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (28 dagen)",
       "bevestigd": true
     },
     "verouderd|dyness-powerbox-g2|Zonnige Winkel": {
       "sinds": "2026-11-04",
       "soort": "verouderd",
-      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: €1495 (26 dagen)",
-      "bevestigd": false
+      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: €1495 (27 dagen)",
+      "bevestigd": true
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (111 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (112 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
@@ -42,12 +48,6 @@
       "soort": "geweigerd",
       "tekst": "aeg-solarcube-48 @ AH Voordeelshop: HTTP 403",
       "bevestigd": true
-    },
-    "zonder prijs|dyness-powerbox-g2|Zonnige Winkel": {
-      "sinds": "2026-11-04",
-      "soort": "zonder bedrag",
-      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: geen leesbaar bedrag",
-      "bevestigd": false
     },
     "zonder prijs|dyness-powerbrick-plus|NKON": {
       "sinds": "2026-10-30",
