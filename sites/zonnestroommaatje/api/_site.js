@@ -10,6 +10,6 @@ module.exports = {
   Prijs: require("../assets/prijs.js"),
   soorten: {
     standaard: { pagina: "/", woord: "zonnepanelen", lijst: () => require("../data/site/panelen.json").panelen },
-    omvormers: { pagina: "/omvormers.html", woord: "omvormers", lijst: () => require("../data/site/omvormers.json").omvormers },
+    omvormers: { pagina: "/omvormers.html", woord: "omvormers", geenPrijswinnaar: true, lijst: () => require("../data/site/omvormers.json").omvormers },
   },
 };
