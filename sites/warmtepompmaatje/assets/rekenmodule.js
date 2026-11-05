@@ -216,6 +216,13 @@
       el("keuzePomp").addEventListener("change", () => { toonGasAfVeld(); bereken(); });
       el("checkGasAf").addEventListener("change", bereken);
 
+      // Op een smal scherm staat het resultaat onder het formulier: na het
+      // kiezen van een product zag je het nieuwe getal niet. Scroll er dan
+      // naartoe, net als op batterijmaatje.
+      el("keuzePomp").addEventListener("change", () => {
+        if (window.matchMedia("(max-width: 860px)").matches) el("resultaat").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
       if (window.Delen) Delen.herstel(el("rekenformulier"));
       toonGasAfVeld();
       bereken();

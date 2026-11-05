@@ -306,3 +306,32 @@ vergelijken blijft drie tikken.
 
 **Niet gedaan:** de uitslagpagina's en de rekenmodule zijn niet bekeken;
 swipen tussen producten is niet nodig nu alles naast elkaar past.
+
+## Rekenmodule (5 november 2026)
+
+De uitslagpagina's (`uitslag/*.html`) zijn deelpagina's die meteen
+doorsturen naar de rekenmodule; daar valt niets aan te zien. Het werk zat in
+de rekenmodule zelf.
+
+**Gemeten** op 375 px, met een product gekozen:
+
+1. De rekentabellen waren breder dan het scherm: de eerste kolom van
+   `.vergelijk-tabel` is 230 px, bedoeld voor de grote productlijst.
+   "Bespaard" viel half weg en het schuifvak was met een toetsenbord niet
+   te bereiken (axe: scrollable-region-focusable).
+2. De grafiek werd van 640 naar ±290 pixels verkleind, met getallen langs de
+   assen van ±5 pixels.
+3. Op zonnestroommaatje en warmtepompmaatje bleef de pagina na het kiezen
+   van een product bij het formulier; het resultaat stond eronder, buiten
+   beeld.
+
+**Gebouwd.** In de kern: op een smal scherm geen minimumbreedte voor de eerste
+kolom in rekentabellen, koppen mogen afbreken, bedragen in het resultaat
+niet. De grafiek van batterijmaatje tekent op een telefoon op 360 breed met
+13 px tekst. Zonnestroom- en warmtepompmaatje scrollen na een productkeuze
+naar het resultaat. Het groene saldo staat nu in de donkere groen (3,3:1 werd
+5:1).
+
+**Gecontroleerd.** Alle tabellen passen (293/293, 335/335), geen opzij
+schuiven op 375 en 1440 px, axe 0 overtredingen op alle drie de
+rekenmodules, resultaat in beeld na een keuze. `npm run controle` groen.
