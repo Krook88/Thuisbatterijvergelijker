@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-11-04",
+  "bijgewerkt": "2026-11-05",
   "punten": {
     "btw wijkt af|huawei-sun2000|SolarNRG": {
       "sinds": "2026-11-03",
@@ -7,83 +7,83 @@
       "tekst": "huawei-sun2000 @ SolarNRG: bij ons excl. btw, pagina zegt incl. btw",
       "bevestigd": true
     },
+    "onbereikbaar|enphase-iq8|Zonnige Winkel": {
+      "sinds": "2026-11-05",
+      "soort": "onbereikbaar",
+      "tekst": "enphase-iq8 @ Zonnige Winkel: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|goodwe-et|Zonnige Winkel": {
+      "sinds": "2026-11-05",
+      "soort": "onbereikbaar",
+      "tekst": "goodwe-et @ Zonnige Winkel: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|solaredge-home-wave|Zonnige Winkel": {
+      "sinds": "2026-11-05",
+      "soort": "onbereikbaar",
+      "tekst": "solaredge-home-wave @ Zonnige Winkel: fetch failed",
+      "bevestigd": false
+    },
+    "onbereikbaar|solis-s6-hybride|Zonnige Winkel": {
+      "sinds": "2026-11-05",
+      "soort": "onbereikbaar",
+      "tekst": "solis-s6-hybride @ Zonnige Winkel: fetch failed",
+      "bevestigd": false
+    },
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (106 dagen)",
+      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (107 dagen)",
       "bevestigd": true
     },
     "verouderd|enphase-iq8|Zonnige Winkel": {
       "sinds": "2026-11-04",
       "soort": "verouderd",
-      "tekst": "enphase-iq8 @ Zonnige Winkel: €109 (26 dagen)",
-      "bevestigd": false
+      "tekst": "enphase-iq8 @ Zonnige Winkel: €109 (27 dagen)",
+      "bevestigd": true
     },
     "verouderd|goodwe-et|richtprijs": {
       "sinds": "2026-10-31",
       "soort": "verouderd",
-      "tekst": "goodwe-et @ richtprijs: €1250 (26 dagen)",
+      "tekst": "goodwe-et @ richtprijs: €1250 (27 dagen)",
       "bevestigd": true
     },
     "verouderd|jinko-tiger-neo-455|richtprijs": {
       "sinds": "2026-10-24",
       "soort": "verouderd",
-      "tekst": "jinko-tiger-neo-455 @ richtprijs: €100 (32 dagen)",
+      "tekst": "jinko-tiger-neo-455 @ richtprijs: €100 (33 dagen)",
       "bevestigd": true
     },
     "verouderd|maxeon-6-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "maxeon-6-440 @ richtprijs: €230 (106 dagen)",
+      "tekst": "maxeon-6-440 @ richtprijs: €230 (107 dagen)",
       "bevestigd": true
     },
     "verouderd|solaredge-home-wave|Zonnige Winkel": {
       "sinds": "2026-11-04",
       "soort": "verouderd",
-      "tekst": "solaredge-home-wave @ Zonnige Winkel: €370 (26 dagen)",
-      "bevestigd": false
+      "tekst": "solaredge-home-wave @ Zonnige Winkel: €370 (27 dagen)",
+      "bevestigd": true
     },
     "verouderd|solis-s6-hybride|Zonnige Winkel": {
       "sinds": "2026-11-04",
       "soort": "verouderd",
-      "tekst": "solis-s6-hybride @ Zonnige Winkel: €799 (26 dagen)",
-      "bevestigd": false
+      "tekst": "solis-s6-hybride @ Zonnige Winkel: €799 (27 dagen)",
+      "bevestigd": true
     },
     "verouderd|ulica-440-full-black|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "ulica-440-full-black @ richtprijs: €55 (106 dagen)",
+      "tekst": "ulica-440-full-black @ richtprijs: €55 (107 dagen)",
       "bevestigd": true
     },
     "verouderd|victron-multiplus2|richtprijs": {
       "sinds": "2026-10-28",
       "soort": "verouderd",
-      "tekst": "victron-multiplus2 @ richtprijs: €1350 (28 dagen)",
+      "tekst": "victron-multiplus2 @ richtprijs: €1350 (29 dagen)",
       "bevestigd": true
-    },
-    "zonder prijs|enphase-iq8|Zonnige Winkel": {
-      "sinds": "2026-11-04",
-      "soort": "zonder bedrag",
-      "tekst": "enphase-iq8 @ Zonnige Winkel: geen leesbaar bedrag",
-      "bevestigd": false
-    },
-    "zonder prijs|goodwe-et|Zonnige Winkel": {
-      "sinds": "2026-11-04",
-      "soort": "zonder bedrag",
-      "tekst": "goodwe-et @ Zonnige Winkel: geen leesbaar bedrag",
-      "bevestigd": false
-    },
-    "zonder prijs|solaredge-home-wave|Zonnige Winkel": {
-      "sinds": "2026-11-04",
-      "soort": "zonder bedrag",
-      "tekst": "solaredge-home-wave @ Zonnige Winkel: geen leesbaar bedrag",
-      "bevestigd": false
-    },
-    "zonder prijs|solis-s6-hybride|Zonnige Winkel": {
-      "sinds": "2026-11-04",
-      "soort": "zonder bedrag",
-      "tekst": "solis-s6-hybride @ Zonnige Winkel: geen leesbaar bedrag",
-      "bevestigd": false
     }
   }
 }
