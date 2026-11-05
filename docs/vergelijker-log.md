@@ -335,3 +335,20 @@ naar het resultaat. Het groene saldo staat nu in de donkere groen (3,3:1 werd
 **Gecontroleerd.** Alle tabellen passen (293/293, 335/335), geen opzij
 schuiven op 375 en 1440 px, axe 0 overtredingen op alle drie de
 rekenmodules, resultaat in beeld na een keuze. `npm run controle` groen.
+
+## Gemeten op de live sites (5 november 2026)
+
+Lighthouse 12.2.1 mobiel, twee keer per site, op batterijmaatje.nl,
+zonnestroommaatje.nl en warmtepompmaatje.nl: **100 / 100 / 100 / 100** op alle
+drie, LCP 1,1–1,5 s, TBT 0–80 ms, CLS 0.
+
+Reactietijd tot het volgende beeld bij 4× CPU-vertraging, op 375 px:
+vinkje vergelijk 10–31 ms, venster openen 19–25 ms, filter 26–69 ms. axe
+(WCAG 2.2 AA) op het geopende venster: 0 overtredingen. Testbezoeken met
+`#niet-tellen`, dus niet in de eigen statistieken.
+
+Deellinks `/v/...` op alle drie: 200, eigen titel en plaatje (1200 × 630).
+Daarbij gevonden: op het omvormerplaatje stond € 132 (per micro-omvormer)
+groen als laagste naast € 1.250 voor een complete omvormer. Op de kaart nu
+geen prijswinnaar voor soorten waar de prijzen geen gelijk getal zijn
+(`geenPrijswinnaar` in `api/_site.js`), net als in de tabel.

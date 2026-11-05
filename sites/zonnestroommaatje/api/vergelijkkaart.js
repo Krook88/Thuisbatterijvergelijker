@@ -21,7 +21,10 @@ function kaart(lijst, soort) {
   const laagste = Math.min(...lijst.map(prijsVan).filter((w) => w !== null));
   const kolom = (p) => {
     const w = prijsVan(p);
-    const beste = w !== null && w === laagste && lijst.filter((x) => prijsVan(x) !== null).length > 1;
+    // Geen groene prijs als de prijzen niet hetzelfde soort getal zijn: bij
+    // omvormers staat de prijs van één micro-omvormer naast die van een
+    // complete omvormer, en dan is de laagste niet de goedkoopste.
+    const beste = !soort.geenPrijswinnaar && w !== null && w === laagste && lijst.filter((x) => prijsVan(x) !== null).length > 1;
     return h("div", { flex: 1, flexDirection: "column", justifyContent: "space-between", padding: "28px", background: "#ffffff", borderRadius: "18px", borderTop: `8px solid ${beste ? "#15803d" : SITE.kleur}` }, [
       h("div", { fontSize: 22, color: "#5d6d6a", textTransform: "uppercase", letterSpacing: "1px" }, p.merk),
       h("div", { fontSize: lijst.length > 3 ? 30 : 36, fontWeight: 700, color: "#24312f", lineHeight: 1.15, marginTop: "8px" }, naamVan(p).replace(new RegExp("^" + p.merk + "\\s+", "i"), "")),
