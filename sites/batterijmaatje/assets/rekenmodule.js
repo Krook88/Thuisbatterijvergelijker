@@ -210,7 +210,12 @@
 
   function terugverdienGrafiek(investering, jaarOpbrengst, degradatie, terugverdientijd) {
     const H = Math.min(30, Math.max(15, Math.ceil(terugverdientijd) + 3)); // horizon in jaren
-    const W = 640, HGT = 300, mL = 78, mR = 24, mT = 18, mB = 40;
+    // Op een telefoon smaller tekenen met grotere letters: de grafiek van 640
+    // breed werd tot zo'n 290 pixels verkleind, en de getallen langs de assen
+    // tot een letter van 5 pixels.
+    const smal = window.matchMedia("(max-width: 520px)").matches;
+    const W = smal ? 360 : 640, HGT = smal ? 240 : 300, mL = smal ? 44 : 78, mR = smal ? 12 : 24, mT = 18, mB = smal ? 36 : 40;
+    const fs = smal ? 13 : 11;
     const pw = W - mL - mR, ph = HGT - mT - mB;
     const cum = (j) => Rekenkern.besparingNa(jaarOpbrengst, degradatie, j);
     const yMax = Math.max(investering, cum(H)) * 1.06;
@@ -222,12 +227,12 @@
     for (let i = 0; i <= 4; i++) {
       const val = (yMax / 4) * i;
       raster += `<line x1="${mL}" x2="${W - mR}" y1="${y(val)}" y2="${y(val)}" stroke="#e5e7eb" stroke-width="1"/>` +
-        `<text x="${mL - 8}" y="${y(val) + 4}" text-anchor="end" font-size="11" fill="#6b7280">${Math.round(val / 100) / 10}k</text>`;
+        `<text x="${mL - 8}" y="${y(val) + 4}" text-anchor="end" font-size="${fs}" fill="#5d6d6a">${Math.round(val / 100) / 10}k</text>`;
     }
     // X-labels per 5 jaar
     let xlabels = "";
     for (let j = 0; j <= H; j += 5) {
-      xlabels += `<text x="${x(j)}" y="${HGT - 14}" text-anchor="middle" font-size="11" fill="#6b7280">${j}</text>`;
+      xlabels += `<text x="${x(j)}" y="${HGT - 14}" text-anchor="middle" font-size="${fs}" fill="#5d6d6a">${j}</text>`;
     }
 
     // Opbrengstlijn met hoverpunten per jaar. De lijn buigt licht af: de
@@ -250,11 +255,11 @@
     </div>
     <svg viewBox="0 0 ${W} ${HGT}" style="width:100%;height:auto;" role="img" aria-label="Grafiek: de opgetelde besparing groeit elk jaar en kruist na ${jaarFmt.format(terugverdientijd)} jaar de investering van ${eurFmt.format(investering)}. De cijfers staan ook in de tabel hieronder.">
       ${raster}${xlabels}
-      <text x="${W - mR}" y="${HGT - 2}" text-anchor="end" font-size="11" fill="#6b7280">jaren</text>
+      <text x="${W - mR}" y="${HGT - 2}" text-anchor="end" font-size="${fs}" fill="#5d6d6a">jaren</text>
       <line x1="${mL}" x2="${W - mR}" y1="${y(investering)}" y2="${y(investering)}" stroke="#d97706" stroke-width="2" stroke-dasharray="6 5"/>
       <path d="${pad}" fill="none" stroke="#0d9488" stroke-width="2"/>
       <circle cx="${bx}" cy="${by}" r="6" fill="#0d9488" stroke="#ffffff" stroke-width="2"/>
-      <text x="${bx + (labelLinks ? -10 : 10)}" y="${by - 12}" text-anchor="${labelLinks ? "end" : "start"}" font-size="12" font-weight="700" fill="#1f2937">terugverdiend na ${jaarFmt.format(terugverdientijd)} jaar</text>
+      <text x="${bx + (labelLinks ? -10 : 10)}" y="${by - 12}" text-anchor="${labelLinks ? "end" : "start"}" font-size="${fs + 1}" font-weight="700" fill="#1f2937">terugverdiend na ${jaarFmt.format(terugverdientijd)} jaar</text>
       ${punten}
     </svg>`;
   }
@@ -420,7 +425,7 @@
     const saldoRij = (jaar) => {
       const bespaard = Rekenkern.besparingNa(r.totaal, i.degradatiePct / 100, jaar);
       const saldo = bespaard - i.investering;
-      return `<tr><td>Na ${jaar} jaar</td><td style="text-align:right;">${eurFmt.format(bespaard)}</td><td style="text-align:right;font-weight:700;color:${saldo >= 0 ? "var(--kleur-groen)" : "var(--kleur-rood)"};">${eurFmt.format(saldo)}</td></tr>`;
+      return `<tr><td>Na ${jaar} jaar</td><td style="text-align:right;">${eurFmt.format(bespaard)}</td><td style="text-align:right;font-weight:700;color:${saldo >= 0 ? "var(--kleur-groen-donker)" : "var(--kleur-rood)"};">${eurFmt.format(saldo)}</td></tr>`;
     };
 
     doel.innerHTML = `

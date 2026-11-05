@@ -987,3 +987,19 @@ html.venster-open { overflow: hidden; }
 /* Met één product gekozen staat de balk er al, maar "Vergelijk nu" wacht op
    het tweede. */
 .vergelijk-balk .knop:disabled { opacity: .55; cursor: not-allowed; }
+
+/* Rekentabellen (rekenmodule en het rekenvoorbeeld eronder). De eerste kolom
+   van .vergelijk-tabel is 230 px breed, voor de grote productlijst. In een
+   tabel van twee of drie kolommen op een telefoon duwde dat de bedragen
+   buiten het kader: "Bespaard" viel half weg en het vak moest opzij
+   geschoven worden, wat met een toetsenbord niet eens kon. */
+@media (max-width: 640px) {
+  #resultaat .vergelijk-tabel th:first-child, #resultaat .vergelijk-tabel td:first-child,
+  .vergelijk-tabel.compact th:first-child, .vergelijk-tabel.compact td:first-child { min-width: 0; width: auto; }
+  #resultaat .vergelijk-tabel th,
+  .vergelijk-tabel.compact th { white-space: normal; }
+  #resultaat .vergelijk-tabel th, #resultaat .vergelijk-tabel td,
+  .vergelijk-tabel.compact th, .vergelijk-tabel.compact td { padding-left: var(--ruimte-10); padding-right: var(--ruimte-10); }
+  /* Een bedrag blijft bij elkaar: "– € 26" brak anders na het minteken. */
+  #resultaat .vergelijk-tabel td[style*="text-align:right"] { white-space: nowrap; }
+}
