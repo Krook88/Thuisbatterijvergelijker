@@ -372,6 +372,27 @@ build-stap kost dat weinig, en het staat hier zodat de volgende die het opmerkt
 niet gaat zoeken naar een storing. Wil je het wel zo hebben, dan is
 *Ignored Build Step* per project de knop ervoor.
 
+## Dealcheck en de Black Friday-pagina's
+
+Rond Black Friday (27 november 2026) zet bijna elke winkel een doorgestreepte
+van-prijs naast het bedrag. Die zegt weinig: meestal een adviesprijs, soms een
+prijs die een week eerder is opgehoogd. De sites toetsen daarom zelf, op het
+eigen prijsverloop (`data/prijsverloop.json`), met de regel uit de
+Omnibus-richtlijn: een korting telt alleen ten opzichte van de laagste prijs
+van de 30 dagen vóór de verlaging.
+
+| Waar | Wat |
+| --- | --- |
+| `kern/assets/prijsgrafiek.js` | `dealcheck(id)` geeft het oordeel (`laagste`, `daling`, `schijnkorting`, `boven`, `normaal`, `te-kort`, `niet-te-koop`); `dealHtml(id)` zet het als blokje boven de grafiek op elke productpagina |
+| `kern/scripts/black-friday.mjs` | de inhoud van de Black Friday-pagina: echte deals, schijnkortingen, wat duurder is, de uitleg en een checklist |
+| `kern/scripts/dealcheck.test.mjs` | de proeven bij het oordeel |
+
+De pagina's (`black-friday-thuisbatterij.html`, `black-friday-zonnepanelen.html`,
+`black-friday-warmtepomp.html`) worden door de generator van elke site
+geschreven en zijn dus na elke dagelijkse prijsrun bij. Een daling onder de
+2% telt niet (`DEAL_DREMPEL`), en met minder dan 14 gemeten dagen in het
+venster doet de toets geen uitspraak.
+
 ## Dagelijkse prijsupdate
 
 `.github/workflows/update-prijzen.yml` draait één keer per dag voor alle drie de

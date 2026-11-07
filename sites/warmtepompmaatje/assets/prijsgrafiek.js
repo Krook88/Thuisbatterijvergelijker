@@ -90,6 +90,93 @@
     };
   }
 
+  /* ------------------------------------------------------------------
+     Dealcheck: is de prijs van vandaag een echte korting?
+
+     Rond Black Friday zet bijna elke winkel een doorgestreepte "van"-prijs
+     naast het bedrag. Die van-prijs is meestal een adviesprijs die niemand
+     betaalde, of een prijs die een week eerder is opgehoogd. Daarom kijkt
+     deze toets niet naar wat de winkel zegt, maar naar wat wij zelf gemeten
+     hebben, met de regel die de wet (de Omnibus-richtlijn, art. 6a van de
+     Prijsaanduidingsrichtlijn) aan winkels oplegt: een korting telt alleen
+     ten opzichte van de laagste prijs van de 30 dagen vóór de verlaging.
+
+     Wat de toets geeft (soort):
+       "laagste"        lager dan de laagste prijs van de 30 dagen ervoor én
+                        de laagste prijs sinds we het model volgen;
+       "daling"         lager dan de laagste prijs van de 30 dagen ervoor;
+       "schijnkorting"  lager dan de prijs ervoor, maar niet lager dan de
+                        laagste van de 30 dagen ervoor: eerst omhoog, dan
+                        "in de aanbieding";
+       "boven"          duurder dan de laagste prijs van de 30 dagen ervoor;
+       "normaal"        rond die laagste prijs;
+       "te-kort"        te weinig metingen in die 30 dagen om iets te zeggen;
+       "niet-te-koop"   vandaag bij geen winkel een prijs.
+
+     Een daling van minder dan DREMPEL procent telt als normaal: vijf euro op
+     een batterij van 1.800 euro is ruis, geen deal.
+     ------------------------------------------------------------------ */
+  const DREMPEL = 2;
+  const REF_DAGEN = 30;
+  const MIN_METINGEN = 14;
+
+  function dealcheck(id) {
+    const lijst = dagen(id, 400);
+    if (!lijst.length) return null;
+    const nu = lijst[lijst.length - 1][1];
+    const gevolgdSinds = lijst[0][0];
+    if (typeof nu !== "number") return { soort: "niet-te-koop", nu: null, gevolgdSinds };
+    // Sinds wanneer de prijs van vandaag geldt.
+    let i = lijst.length - 1;
+    while (i > 0 && lijst[i - 1][1] === nu) i--;
+    const sinds = lijst[i][0];
+    const ervoor = lijst.slice(Math.max(0, i - REF_DAGEN), i).map(([, p]) => p).filter((p) => typeof p === "number");
+    const basis = { nu, sinds, gevolgdSinds };
+    // Sinds de eerste meting niet veranderd: dan is dit gewoon de prijs.
+    if (i === 0) {
+      if (lijst.length < MIN_METINGEN) return Object.assign(basis, { soort: "te-kort" });
+      return Object.assign(basis, { soort: "normaal", ref: nu, procent: 0, vorige: null, laagsteEerder: nu });
+    }
+    if (ervoor.length < MIN_METINGEN) return Object.assign(basis, { soort: "te-kort" });
+    const ref = Math.min(...ervoor);
+    const eerder = lijst.slice(0, i).map(([, p]) => p).filter((p) => typeof p === "number");
+    const laagsteEerder = Math.min(...eerder);
+    const vorige = typeof lijst[i - 1][1] === "number" ? lijst[i - 1][1] : null;
+    const procent = Math.round(((ref - nu) / ref) * 1000) / 10;
+    Object.assign(basis, { ref, procent, vorige, laagsteEerder });
+    if (procent >= DREMPEL) return Object.assign(basis, { soort: nu < laagsteEerder ? "laagste" : "daling" });
+    if (vorige !== null && nu < vorige && procent <= 0) return Object.assign(basis, { soort: "schijnkorting" });
+    if (procent <= -DREMPEL) return Object.assign(basis, { soort: "boven" });
+    return Object.assign(basis, { soort: "normaal" });
+  }
+
+  /** De uitkomst van de dealcheck in één zin, of "" als er niets te zeggen is. */
+  function dealZin(d) {
+    if (!d) return "";
+    const e = (n) => eur.format(n);
+    switch (d.soort) {
+      case "laagste": return `${e(d.nu)} is de laagste prijs die ik sinds ${datumLang(d.gevolgdSinds)} zag, ${nlProcent(d.procent)} onder de laagste prijs van de 30 dagen hiervoor (${e(d.ref)}).`;
+      case "daling": return `${e(d.nu)} ligt ${nlProcent(d.procent)} onder de laagste prijs van de 30 dagen hiervoor (${e(d.ref)}).`;
+      case "schijnkorting": return `Lager dan op ${datumLang(vorigeDag(d.sinds))} (${e(d.vorige)}), maar in de 30 dagen daarvoor kostte hij al ${e(d.ref)}. Volgens de 30-dagenregel is dat geen korting.`;
+      case "boven": return `Nu ${nlProcent(-d.procent)} duurder dan de laagste prijs van de 30 dagen hiervoor (${e(d.ref)}). Wachten kan lonen.`;
+      case "normaal": return `${e(d.nu)} ligt rond de laagste prijs van de 30 dagen hiervoor (${e(d.ref)}).`;
+      case "te-kort": return `Ik volg deze prijs sinds ${datumLang(d.gevolgdSinds)}, te kort om te zeggen of ${e(d.nu)} een korting is.`;
+      default: return "";
+    }
+  }
+  const nlProcent = (n) => `${n.toLocaleString("nl-NL", { maximumFractionDigits: 1 })}%`;
+  const vorigeDag = (d) => datumVan(dagNr(d) - 1);
+
+  /** De dealcheck als blokje boven de grote grafiek. */
+  function dealHtml(id, opties) {
+    const uitleg = (opties && opties.uitlegUrl) || "";
+    const d = dealcheck(id);
+    const zin = dealZin(d);
+    if (!zin) return "";
+    const kop = { laagste: "Echte korting", daling: "Echte korting", schijnkorting: "Schijnkorting", boven: "Duurder dan normaal", normaal: "Geen korting", "te-kort": "Nog te kort gevolgd" }[d.soort];
+    return `<p class="pg-deal pg-deal-${d.soort}"><b>${esc(kop)}</b> ${esc(zin)} ${uitleg ? `<a href="${esc(uitleg)}" class="pg-deal-hoe">Hoe ik dit toets</a>` : ""}</p>`;
+  }
+
   /* Een trap door de dagwaarden. Elke getekende dag krijgt een breedte van
      één stap; een gat verbreekt het pad. */
   function trapPad(lijst, x, y) {
@@ -328,5 +415,5 @@
     else koppel();
   }
 
-  return { laad, dagen, samenvatting, regelGrafiek, grafiekHtml, winkelTabel, koppel };
+  return { laad, dagen, samenvatting, regelGrafiek, grafiekHtml, winkelTabel, koppel, dealcheck, dealZin, dealHtml, DEAL_DREMPEL: DREMPEL };
 });
