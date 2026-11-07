@@ -28,7 +28,7 @@ const GOED = new Set(["laagste", "daling"]);
  * woorden: { enkel: "thuisbatterij", meervoud: "thuisbatterijen" }
  * Geeft { html, telling, deals } terug.
  */
-export function dealOverzicht({ items, PrijsGrafiek, esc, eur, datum, woorden, extraTips = [] }) {
+export function dealOverzicht({ items, PrijsGrafiek, esc, eur, datum, woorden, extraTips = [], extraVragen = [] }) {
   const rijen = items
     .map((it) => ({ ...it, d: PrijsGrafiek.dealcheck(it.id) }))
     .filter((r) => r.d);
@@ -79,6 +79,28 @@ export function dealOverzicht({ items, PrijsGrafiek, esc, eur, datum, woorden, e
     `<tr><td>${model(r)}</td><td class="cijfer"><b>${esc(eur(r.d.nu))}</b></td><td class="cijfer">${esc(eur(r.d.ref))}</td><td class="cijfer">${esc(pct(-r.d.procent))}</td></tr>`))}`
     : `<p>Vandaag is geen enkele ${E} duurder dan de laagste prijs van de 30 dagen ervoor.</p>`;
 
+  /* Vragen zoals mensen ze intikken. Het antwoord is platte tekst, want het
+     gaat ook letterlijk de FAQ-markup in; de zichtbare tekst en de markup
+     zijn zo altijd gelijk. De getallen zijn die van vandaag. */
+  const vragen = [
+    {
+      vraag: `Zijn Black Friday-kortingen op ${woorden.meervoud} echt?`,
+      antwoord: `Lang niet altijd. Van de ${telling.gevolgd} modellen die ik volg, ${deals.length === 1 ? "is er vandaag één" : `zijn er vandaag ${deals.length}`} echt goedkoper dan de laagste prijs van de 30 dagen ervoor${schijn.length ? `, en ${schijn.length === 1 ? "heeft er één" : `hebben er ${schijn.length}`} een schijnkorting, een prijs die eerst omhoog ging en daarna weer zakte` : ""}. Een doorgestreepte adviesprijs bij de winkel zegt daar niets over.`,
+    },
+    {
+      vraag: `Hoe zie ik of een korting op een ${woorden.enkel} echt is?`,
+      antwoord: `Vergelijk de prijs met de laagste prijs van de 30 dagen voor de verlaging. De adviesprijs zegt daar niets over. Winkels moeten die laagste prijs volgens de Omnibus-richtlijn zelf noemen als ze een korting aankondigen. Op deze pagina en op de pagina van elke ${woorden.enkel} doe ik die toets elke ochtend met mijn eigen metingen.`,
+    },
+    ...extraVragen,
+  ];
+  const faqLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": vragen.map((v) => ({ "@type": "Question", "name": v.vraag, "acceptedAnswer": { "@type": "Answer", "text": v.antwoord } })),
+  }, null, 2);
+  const vragenHtml = vragen.map((v) => `  <h2>${esc(v.vraag)}</h2>
+  <p>${esc(v.antwoord)}</p>`).join("\n\n");
+
   const html = `
   <h2 id="echte-deals">Echte deals vandaag</h2>
   ${dealBlok}
@@ -88,6 +110,8 @@ export function dealOverzicht({ items, PrijsGrafiek, esc, eur, datum, woorden, e
 
   <h2 id="duurder">Nu duurder dan normaal</h2>
   ${bovenBlok}
+
+${vragenHtml}
 
   <h2 id="dealcheck-uitleg">Hoe ik een deal toets</h2>
   <p>De van-prijs van de winkel laat ik links liggen. Ik kijk naar wat ik zelf gemeten heb, elke ochtend de laagste winkelprijs incl. btw van elke ${E}, sinds augustus 2026. Daarop pas ik de regel toe die winkels sinds 28 mei 2022 zelf moeten volgen (de Omnibus-richtlijn, artikel 6a van de Prijsaanduidingsrichtlijn). Een korting telt alleen ten opzichte van de laagste prijs van de 30 dagen vóór de verlaging.</p>
@@ -108,5 +132,5 @@ export function dealOverzicht({ items, PrijsGrafiek, esc, eur, datum, woorden, e
     ${extraTips.map((t) => `<li>${t}</li>`).join("\n    ")}
   </ul>`;
 
-  return { html, telling, deals, schijn, boven };
+  return { html, telling, deals, schijn, boven, vragen, faqLd };
 }

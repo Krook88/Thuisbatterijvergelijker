@@ -898,7 +898,7 @@ function nogZinPagina() {
   </ul>
 
   <h2>En als je nog moet kopen?</h2>
-  <p>Dan is er geen haast, maar ook geen reden om te wachten. Panelen gaan 25 jaar mee en de terugverdientijd wordt vooral bepaald door je eigen verbruik, niet door de datum van aanschaf. Belangrijker dan snelheid is de maat. Stem het aantal panelen af op wat je zelf kunt gebruiken. De <a href="/advies.html">keuzehulp</a> rekent dat uit, en op <a href="/waar-zonnepanelen-kopen.html">waar koop je zonnepanelen</a> staan de vier routes naast elkaar.</p>
+  <p>Dan is er geen haast, maar ook geen reden om te wachten. Panelen gaan 25 jaar mee en de terugverdientijd wordt vooral bepaald door je eigen verbruik, niet door de datum van aanschaf. Rond Black Friday zie je op <a href="/${BLACK_FRIDAY_BESTAND}">Black Friday: welke korting is echt?</a> welke paneelprijs echt gezakt is. Belangrijker dan snelheid is de maat. Stem het aantal panelen af op wat je zelf kunt gebruiken. De <a href="/advies.html">keuzehulp</a> rekent dat uit, en op <a href="/waar-zonnepanelen-kopen.html">waar koop je zonnepanelen</a> staan de vier routes naast elkaar.</p>
 
   <h2>De panelen uit mijn vergelijker, op prijs per wattpiek</h2>
   <p>Van goedkoop naar duur. Dit is de prijs van het paneel zelf; installatie, omvormer en montagemateriaal komen daar bovenop. De goedkoopste is op dit moment de ${esc(volledigeNaam(goedkoopste))} op ${eurWp(perWpGoedkoopst)} per Wp.</p>
@@ -924,6 +924,10 @@ function blackFridayPagina() {
     ],
     PrijsGrafiek, esc, eur, datum: datumNL,
     woorden: { enkel: "omvormer of paneel", meervoud: "panelen en omvormers" },
+    extraVragen: [{
+      vraag: "Is Black Friday een goed moment om zonnepanelen te kopen?",
+      antwoord: "Voor de panelen zelf scheelt het minder dan het lijkt. Bij tien panelen van 60 euro is 10 procent korting 60 euro op het hele dak, terwijl omvormer en montage samen een veelvoud kosten. Vergelijk daarom de prijs per wattpiek en de totale offerte, en neem een korting mee als die toevallig op het paneel valt dat je toch wilde.",
+    }],
     extraTips: [
       `<b>Reken per wattpiek.</b> Een paneel van € 60 met 400 Wp is duurder dan een van € 66 met 450 Wp. De vergelijker sorteert daarom op prijs per Wp, en die maatstaf geldt met Black Friday net zo.`,
     ],
@@ -937,7 +941,7 @@ function blackFridayPagina() {
     "itemListElement": o.deals.map((r, i) => ({ "@type": "ListItem", "position": i + 1, "name": r.naam, "url": `${SITE}${r.url}` })),
   }, null, 2);
 
-  return `${kop([`Black Friday zonnepanelen ${JAAR}: echte deals`, "Black Friday zonnepanelen: echte deals"], metaDesc, `${SITE}/${BLACK_FRIDAY_BESTAND}`, wrapLd(itemList))}
+  return `${kop([`Black Friday zonnepanelen ${JAAR}: echte deals`, "Black Friday zonnepanelen: echte deals"], metaDesc, `${SITE}/${BLACK_FRIDAY_BESTAND}`, wrapLd(itemList, o.faqLd))}
 
 <main class="container leespagina">
   <p class="datum-stempel"><a href="/">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>

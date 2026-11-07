@@ -287,6 +287,10 @@ function blackFridayPagina() {
     items: pompen.map((w) => ({ id: w.id, naam: `${w.merk} ${w.model}`, url: `pomp/${w.id}.html` })),
     PrijsGrafiek, esc, eur, datum: datumNL,
     woorden: { enkel: "warmtepomp", meervoud: "warmtepompen" },
+    extraVragen: [{
+      vraag: "Is Black Friday een goed moment om een warmtepomp te kopen?",
+      antwoord: "Alleen als de korting niet wegvalt in de installatie. De ISDE-subsidie hangt af van de meldcode van het apparaat en niet van de prijs, en je vraagt hem aan binnen 24 maanden na installatie. Een echte korting op dezelfde set telt dus volledig mee. Koop je uiterlijk 31 december 2026, dan geldt volgens RVO nog het ISDE-bedrag van 2026, ook bij plaatsing in 2027.",
+    }],
     extraTips: [
       `<b>Houd de ISDE-subsidie in het oog.</b> De subsidie hangt af van de meldcode van het apparaat, niet van wat je ervoor betaalt. Je vraagt hem aan binnen 24 maanden na installatie. Vraag de installateur dus naar de meldcode van precies de set die je koopt; zie <a href="subsidie.html">ISDE-subsidie</a>.`,
     ],
@@ -320,6 +324,9 @@ function blackFridayPagina() {
   <meta name="twitter:card" content="summary_large_image">
   <script type="application/ld+json">
 ${itemList}
+  </script>
+  <script type="application/ld+json">
+${o.faqLd}
   </script>
   <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="assets/style.css?v=${ASSET_VERSIE}">
