@@ -12,6 +12,7 @@ import { createRequire } from "node:module";
 import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
 import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
 import { verdeel, verborgenPagina, aantalWinkels, zonderPrijsHtml, zetZonderPrijs } from "./zichtbaar.mjs";
+import { dealOverzicht, BLACK_FRIDAY, CYBER_MONDAY } from "./black-friday.mjs";
 import { zetStatistiekOveral } from "./statistiek.mjs";
 import { zetVoorladenOveral } from "./voorladen.mjs";
 import * as Uitleg from "./uitleg.mjs";
@@ -250,6 +251,7 @@ function kop(actief, diepte) {
           <a href="${p}warmtepomp-geluid.html">Geluid</a>
           <a href="${p}monoblock-of-split.html">Monoblock of split</a>
           <a href="${p}airco-als-warmtepomp.html">Airco als warmtepomp</a>
+          <a href="${p}black-friday-warmtepomp.html">Black Friday-deals</a>
           <a href="${p}over-ons.html">Over mij</a>
           <a href="${p}contact.html">Contact</a>
           <a href="${p}privacy.html">Privacy &amp; disclaimer</a>
@@ -267,10 +269,97 @@ function voet(diepte) {
   <div class="container">
     <b>${Iconen.svg("warmte")} Warmtepompmaatje</b>
     <p>Onafhankelijke vergelijking van warmtepompen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen).</p>
-    <p><a href="/">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}warmtepomp-geluid.html">Geluid</a> · <a href="${p}monoblock-of-split.html">Monoblock of split</a> · <a href="${p}airco-als-warmtepomp.html">Airco</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="${p}over-ons.html">Over mij</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}steun.html">Steun deze site</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="/">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}warmtepomp-geluid.html">Geluid</a> · <a href="${p}monoblock-of-split.html">Monoblock of split</a> · <a href="${p}airco-als-warmtepomp.html">Airco</a> · <a href="${p}black-friday-warmtepomp.html">Black Friday-deals</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="${p}over-ons.html">Over mij</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}steun.html">Steun deze site</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties zijn indicaties; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
+}
+
+/* ------------------------------------------------------------------
+   Black Friday: welke warmtepompprijs is vandaag echt lager?
+   Zie kern/scripts/black-friday.mjs. Elke prijsrun opnieuw geschreven.
+   ------------------------------------------------------------------ */
+
+const BLACK_FRIDAY_BESTAND = "black-friday-warmtepomp.html";
+
+function blackFridayPagina() {
+  const o = dealOverzicht({
+    items: pompen.map((w) => ({ id: w.id, naam: `${w.merk} ${w.model}`, url: `pomp/${w.id}.html` })),
+    PrijsGrafiek, esc, eur, datum: datumNL,
+    woorden: { enkel: "warmtepomp", meervoud: "warmtepompen" },
+    extraVragen: [{
+      vraag: "Is Black Friday een goed moment om een warmtepomp te kopen?",
+      antwoord: "Alleen als de korting niet wegvalt in de installatie. De ISDE-subsidie hangt af van de meldcode van het apparaat en niet van de prijs, en je vraagt hem aan binnen 24 maanden na installatie. Een echte korting op dezelfde set telt dus volledig mee. Koop je uiterlijk 31 december 2026, dan geldt volgens RVO nog het ISDE-bedrag van 2026, ook bij plaatsing in 2027.",
+    }],
+    extraTips: [
+      `<b>Houd de ISDE-subsidie in het oog.</b> De subsidie hangt af van de meldcode van het apparaat, niet van wat je ervoor betaalt. Je vraagt hem aan binnen 24 maanden na installatie. Vraag de installateur dus naar de meldcode van precies de set die je koopt; zie <a href="subsidie.html">ISDE-subsidie</a>.`,
+    ],
+  });
+  const titel = "Black Friday warmtepomp: welke korting is echt?";
+  const metaDesc = kortOmschrijving(
+    `Elke ochtend getoetst: bij welke warmtepomp de prijs echt lager is dan de laagste prijs van de 30 dagen ervoor, en waar de korting schijn is. Vandaag ${o.deals.length} echte ${o.deals.length === 1 ? "deal" : "deals"}.`,
+  );
+  const itemList = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Warmtepompen met een echte prijsdaling",
+    "itemListElement": o.deals.map((r, i) => ({ "@type": "ListItem", "position": i + 1, "name": r.naam, "url": `${SITE}/${r.url}` })),
+  }, null, 2);
+
+  return `<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${esc(besteTitel([`Black Friday warmtepomp ${new Date().getFullYear()}: echte deals`, "Black Friday warmtepomp: echte deals"]))}</title>
+  <meta name="description" content="${esc(metaDesc)}">
+  <link rel="canonical" href="${SITE}/${BLACK_FRIDAY_BESTAND}">
+  <meta property="og:title" content="${esc(titel)}">
+  <meta property="og:description" content="${esc(metaDesc)}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${SITE}/${BLACK_FRIDAY_BESTAND}">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:site_name" content="Warmtepompmaatje.nl">
+  <meta property="og:image" content="${SITE}/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+${itemList}
+  </script>
+  <script type="application/ld+json">
+${o.faqLd}
+  </script>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="assets/style.css?v=${ASSET_VERSIE}">
+  <script src="assets/iconen.js?v=${ASSET_VERSIE}" defer></script>
+  <script src="assets/nav.js?v=${ASSET_VERSIE}" defer></script>
+  <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
+</head>
+<body>
+
+${kop("", false)}
+
+<main class="container leespagina">
+  <p class="datum-stempel"><a href="/">${Iconen.svg("pijl-links")} Alle warmtepompen vergelijken</a></p>
+  <h1>${esc(titel)}</h1>
+  <p class="datum-stempel">Herberekend bij elke prijsronde · bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+
+  <p class="intro">Black Friday 2026 is op ${datumNL(BLACK_FRIDAY)}, en drie dagen later volgt Cyber Monday op ${datumNL(CYBER_MONDAY)}. Ook warmtepompen krijgen dan een rode sticker met een van-prijs die zelden echt gevraagd werd. Ik vergelijk de prijs van vandaag met mijn eigen metingen bij ${aantalWinkels(pompen)} winkels, en tel alleen kortingen mee die de wettelijke 30-dagenregel doorstaan. Het apparaat is bij een warmtepomp maar een deel van de rekening, want installatie en de ISDE-subsidie wegen even zwaar.</p>
+${o.html}
+
+  <h2>Verder lezen</h2>
+  <ul>
+    <li><a href="subsidie.html">ISDE-subsidie</a>: wat je terugkrijgt en hoe je het aanvraagt.</li>
+    <li><a href="advies.html">Keuzehulp</a>: hybride of all-electric, en welk vermogen.</li>
+    <li><a href="rekenmodule.html">Rekenmodule</a>: wat een warmtepomp in jouw huis per jaar scheelt.</li>
+  </ul>
+
+  <div class="noot">De warmtepompprijzen hier zijn incl. btw, zonder installatie en zonder aftrek van ISDE, en komen uit de controle van vanochtend. Wat de winkel op zijn eigen site vraagt, is altijd leidend.</div>
+</main>
+
+${voet(false)}
+</body>
+</html>
+`;
 }
 
 /* ------------------------------------------------------------------
@@ -984,6 +1073,7 @@ ${kop("index", true)}
       const t = PrijsGrafiek.winkelTabel(w.id, winkelRijen(w));
       if (!g && !t) return "";
       return `<h2>${g ? "Prijsverloop" : "Prijzen per winkel"}</h2>
+  ${g ? PrijsGrafiek.dealHtml(w.id, { uitlegUrl: `../${BLACK_FRIDAY_BESTAND}#dealcheck-uitleg` }) : ""}
   ${g}${g && t ? `\n  <h3>Prijzen per winkel</h3>` : ""}
   ${t}`;
     })()}
@@ -1146,6 +1236,8 @@ writeFileSync(join(ROOT, "index.html"), index, "utf8");
 console.log(`index.html: ${gesorteerdePompen.length} kaarten voorgerenderd en ItemList bijgewerkt`);
 
 writeFileSync(join(ROOT, GELUID_BESTAND), geluidPagina(), "utf8");
+writeFileSync(join(ROOT, BLACK_FRIDAY_BESTAND), blackFridayPagina(), "utf8");
+console.log(`${BLACK_FRIDAY_BESTAND} gegenereerd`);
 writeFileSync(join(ROOT, BOUWVORM_BESTAND), bouwvormPagina(), "utf8");
 console.log(`${BOUWVORM_BESTAND} gegenereerd`);
 writeFileSync(join(ROOT, AIRCO_BESTAND), aircoPagina(), "utf8");
@@ -1383,6 +1475,7 @@ const vast = [
   { loc: `${SITE}/${GELUID_BESTAND}`, prio: "0.8" },
   { loc: `${SITE}/${BOUWVORM_BESTAND}`, prio: "0.8" },
   { loc: `${SITE}/${AIRCO_BESTAND}`, prio: "0.8" },
+  { loc: `${SITE}/${BLACK_FRIDAY_BESTAND}`, prio: "0.8" },
   { loc: `${SITE}/over-ons.html`, prio: "0.4" },
   { loc: `${SITE}/contact.html`, prio: "0.4" },
   { loc: `${SITE}/privacy.html`, prio: "0.2" },

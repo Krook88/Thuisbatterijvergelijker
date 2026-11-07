@@ -18,6 +18,7 @@ import { zetStatistiekOveral } from "./statistiek.mjs";
 import { zetVoorladenOveral } from "./voorladen.mjs";
 import * as Uitleg from "./uitleg.mjs";
 import { deelbeeldMaker, delenHtml } from "./delen.mjs";
+import { dealOverzicht, BLACK_FRIDAY, CYBER_MONDAY } from "./black-friday.mjs";
 
 // Dezelfde prijslogica en iconen als de browser gebruikt, zodat een
 // batterijpagina nooit een ander bedrag of ander icoon toont dan de vergelijker.
@@ -405,6 +406,7 @@ const NAV_HTML = `<header class="site-header">
           <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a>
           <a href="/wat-kost-een-thuisbatterij.html">Wat kost er een?</a>
           <a href="/nu-kopen-of-wachten.html">Nu kopen of wachten?</a>
+          <a href="/black-friday-thuisbatterij.html">Black Friday-deals</a>
           <a href="/thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a>
           <a href="/thuisbatterij-dynamisch-contract.html">Met dynamisch contract</a>
           <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a>
@@ -422,7 +424,7 @@ const VOET_HTML = `<footer class="site-footer">
   <div class="container">
     <b>${ICOON_LOGO} Batterijmaatje</b>
     <p>Onafhankelijke vergelijking van thuisbatterijen voor Nederlandse huishoudens.</p>
-    <p><a href="/">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="/wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="/nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="/thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a> · <a href="/thuisbatterij-dynamisch-contract.html">Met dynamisch contract</a> · <a href="/over-ons.html">Over mij</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="/">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="/wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="/nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="/black-friday-thuisbatterij.html">Black Friday-deals</a> · <a href="/thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a> · <a href="/thuisbatterij-dynamisch-contract.html">Met dynamisch contract</a> · <a href="/over-ons.html">Over mij</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -584,6 +586,7 @@ ${NAV_HTML}
     const t = PrijsGrafiek.winkelTabel(b.id, winkelRijen(b));
     if (!g && !t) return "";
     return `<h2>${g ? "Prijsverloop" : "Prijzen per winkel"}</h2>
+  ${g ? PrijsGrafiek.dealHtml(b.id, { uitlegUrl: `/${BLACK_FRIDAY_BESTAND}#dealcheck-uitleg` }) : ""}
   ${g}${g && t ? `\n  <h3>Prijzen per winkel</h3>` : ""}
   ${t}${t ? `\n  <p class="datum-stempel">Prijzen worden dagelijks automatisch gecontroleerd; de prijs op de website van de winkel is altijd leidend.${teKoop(b).some((a) => a.affiliate_url) ? " Sommige links zijn commissielinks: koop je via die link, dan ontvang ik een kleine vergoeding van de winkel. Dit kost jou niets en be\u00efnvloedt mijn prijzen, scores en volgorde niet." : ""}</p>` : ""}`;
   })()}
@@ -1141,6 +1144,9 @@ ${NAV_HTML}
   <h2>Wat het je oplevert is een andere vraag</h2>
   <p>Een goedkope batterij die niet bij je verbruik past, verdient zichzelf niet terug. De <a href="/rekenmodule.html">rekenmodule</a> rekent uit wat een batterij per jaar oplevert bij jouw verbruik en contract, en de <a href="/advies.html">keuzehulp</a> zoekt de maat erbij. Reken met beide voordat je op de prijs afgaat, want het verschil tussen een vast en een dynamisch contract is voor de opbrengst groter dan het verschil tussen twee modellen.</p>
 
+  <h2>Goedkoper met Black Friday?</h2>
+  <p>Rond ${datumNL(BLACK_FRIDAY)} staan bij veel winkels doorgestreepte prijzen. Op <a href="/${BLACK_FRIDAY_BESTAND}">Black Friday: welke korting is echt?</a> zie je per thuisbatterij of de prijs van vandaag onder de laagste prijs van de afgelopen 30 dagen ligt, en waar de korting schijn is.</p>
+
   <div class="noot">Prijzen veranderen dagelijks. Deze pagina wordt automatisch bijgewerkt vanuit mijn <a href="/">vergelijker</a>; de prijs op de website van de winkel is altijd leidend.</div>
 </main>
 
@@ -1227,7 +1233,7 @@ ${NAV_HTML}
     <li><b>Je hebt al een dynamisch contract.</b> Dan levert een batterij nu al op, los van de saldering: laden als de prijs laag is, gebruiken als hij hoog is. ${dynamisch.length} van de ${data.batterijen.length} modellen in mijn vergelijker kunnen op wisselende stroomprijzen sturen, een deel daarvan via Home Assistant of de leverancier.</li>
     <li><b>Je levert veel terug en betaalt terugleverkosten.</b> Die kosten lopen nu al, niet pas in 2027. Elke maand wachten is een maand betalen om je eigen stroom kwijt te raken.</li>
     <li><b>Je wilt een zwaardere aansluiting.</b> Bij netcongestie kun je als kleinverbruiker op een wachtlijst komen. Een batterij vangt juist de piek af, dus die aanvraag wordt er niet makkelijker op door te wachten.</li>
-    <li><b>Er staat nu een aanbieding op.</b> ${korting.length ? `Op dit moment ${korting.length === 1 ? "is dat bij één model het geval" : `zijn dat er ${korting.length}`}; ik markeer ze in de <a href="/">vergelijker</a>.` : "Op dit moment staat er bij geen enkel model een korting, maar dat wisselt per week."}</li>
+    <li><b>Er staat nu een aanbieding op.</b> ${korting.length ? `Op dit moment ${korting.length === 1 ? "is dat bij één model het geval" : `zijn dat er ${korting.length}`}; ik markeer ze in de <a href="/">vergelijker</a>.` : "Op dit moment staat er bij geen enkel model een korting, maar dat wisselt per week."} Of een korting echt is, toets ik elke ochtend op <a href="/${BLACK_FRIDAY_BESTAND}">Black Friday: welke korting is echt?</a></li>
   </ul>
 
   <h2>Redenen om wel te wachten</h2>
@@ -1248,9 +1254,103 @@ ${NAV_HTML}
 
   <h2>Reken het na in plaats van te gokken</h2>
   <p>De <a href="/rekenmodule.html">rekenmodule</a> laat zien wat een batterij in jouw situatie per jaar oplevert, met of zonder zonnepanelen en bij een vast of dynamisch contract. Zet dezelfde som eens met en eens zonder saldering, want het verschil tussen die twee uitkomsten is precies wat wachten je kost of oplevert. Dat is een concreter antwoord dan welk artikel dan ook kan geven, inclusief dit.</p>
-  <p>En wat het apparaat op dit moment kost, staat op <a href="/${KOSTEN_BESTAND}">wat kost een thuisbatterij</a>.</p>
+  <p>En wat het apparaat op dit moment kost, staat op <a href="/${KOSTEN_BESTAND}">wat kost een thuisbatterij</a>. Kijk je rond Black Friday, dan zie je op <a href="/${BLACK_FRIDAY_BESTAND}">Black Friday: welke korting is echt?</a> welke batterijprijs vandaag onder de laagste prijs van de afgelopen 30 dagen ligt.</p>
 
   <div class="noot">Deze pagina beschrijft de regels zoals ze nu vastliggen, met de bronnen op <a href="/regelgeving.html">regels en subsidies</a>. Het is geen financieel advies en geen voorspelling.</div>
+</main>
+
+${VOET_HTML}
+
+<script src="/assets/nav.js?v=${ASSET_VERSIE}" defer></script>
+</body>
+</html>
+`;
+}
+
+/* ------------------------------------------------------------------
+   Black Friday: welke batterijprijs is vandaag echt lager?
+
+   Zie kern/scripts/black-friday.mjs voor waarom en hoe. Deze pagina wordt
+   bij elke prijsrun opnieuw geschreven, dus de lijsten kloppen elke ochtend
+   met de grafieken op de productpagina's.
+   ------------------------------------------------------------------ */
+
+const BLACK_FRIDAY_BESTAND = "black-friday-thuisbatterij.html";
+
+function blackFridayPagina() {
+  const o = dealOverzicht({
+    items: data.batterijen.map((b) => ({ id: b.id, naam: volledigeNaam(b), url: `/batterij/${b.id}.html` })),
+    PrijsGrafiek, esc, eur, datum: datumNL,
+    woorden: { enkel: "thuisbatterij", meervoud: "thuisbatterijen" },
+    extraVragen: [{
+      vraag: "Is Black Friday een goed moment om een thuisbatterij te kopen?",
+      antwoord: "Alleen als het model dat bij je past dan echt goedkoper is. Een batterij verdient zich terug uit je contract en je verbruik, en dat verandert niet met de aankoopdag. Op 1 januari 2027 stopt de saldering. Daarna wordt een batterij nuttiger, maar er verdwijnt niets wat je voor die datum moet kopen.",
+    }],
+    extraTips: [
+      `<b>Reken de installatie mee.</b> Bij een hybride of AC-gekoppelde batterij komt er een installateur bij. Een korting van € 200 op het apparaat valt weg tegen een offerte die € 500 hoger uitvalt. Wat het geheel kost, staat op <a href="/${KOSTEN_BESTAND}">wat kost een thuisbatterij</a>.`,
+    ],
+  });
+  const titel = "Black Friday thuisbatterij: welke korting is echt?";
+  const metaDesc = kortOmschrijving(
+    `Elke ochtend getoetst: bij welke thuisbatterij is de prijs echt lager dan de laagste prijs van de 30 dagen ervoor, en waar is de korting schijn. Vandaag ${o.deals.length} echte ${o.deals.length === 1 ? "deal" : "deals"}.`,
+  );
+  const itemList = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Thuisbatterijen met een echte prijsdaling",
+    "itemListElement": o.deals.map((r, i) => ({ "@type": "ListItem", "position": i + 1, "name": r.naam, "url": `${SITE}${r.url}` })),
+  }, null, 2);
+
+  return `<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${esc(besteTitel([`Black Friday thuisbatterij ${JAAR}: echte deals`, "Black Friday thuisbatterij: echte deals"]))}</title>
+  <meta name="description" content="${esc(metaDesc)}">
+  <link rel="canonical" href="${SITE}/${BLACK_FRIDAY_BESTAND}">
+  <meta property="og:title" content="${esc(titel)}">
+  <meta property="og:description" content="${esc(metaDesc)}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${SITE}/${BLACK_FRIDAY_BESTAND}">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:image" content="${SITE}/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Batterijmaatje.nl">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+${itemList}
+  </script>
+  <script type="application/ld+json">
+${o.faqLd}
+  </script>
+  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
+  <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+</head>
+<body>
+
+${NAV_HTML}
+
+<main class="container leespagina">
+  <p class="datum-stempel"><a href="/">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
+  <h1>${esc(titel)}</h1>
+  <p class="datum-stempel">Elke ochtend opnieuw berekend uit de batterijprijzen · bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+
+  <p class="intro">Op vrijdag ${datumNL(BLACK_FRIDAY)} is het Black Friday en op ${datumNL(CYBER_MONDAY)} Cyber Monday. Bij thuisbatterijen staat er dan bijna altijd een doorgestreepte adviesprijs naast het bedrag, en die heeft vrijwel niemand ooit betaald. Ik zet de prijs van vandaag daarom naast mijn eigen metingen bij ${aantalWinkels(data.batterijen)} winkels. Alleen een korting die de wettelijke 30-dagenregel doorstaat, komt bij de echte deals.</p>
+${o.html}
+
+  <h2>Verder lezen</h2>
+  <ul>
+    <li><a href="/${WACHTEN_BESTAND}">Nu kopen of wachten?</a> Wat er op 1 januari 2027 verandert, los van aanbiedingen.</li>
+    <li><a href="/advies.html">Keuzehulp</a>: eerst de juiste maat, dan de goedkoopste winkel.</li>
+    <li><a href="/rekenmodule.html">Rekenmodule</a>: wat een batterij in jouw situatie per jaar oplevert.</li>
+  </ul>
+
+  <div class="noot">Alle batterijprijzen hier zijn incl. btw en komen uit de prijscontrole van vanochtend. Bij de winkel kan het bedrag in de loop van de dag nog veranderen, en de prijs op hun website is altijd leidend.</div>
 </main>
 
 ${VOET_HTML}
@@ -1551,6 +1651,7 @@ ${zelfHybride.length ? `  <p>Ook deze ${zelfHybride.length} hybride batterijen s
     <li><a href="/uitleg.html#vast-of-dynamisch">Vast of dynamisch contract</a>: het verschil met grafiek.</li>
     <li><a href="/rekenmodule.html">Rekenmodule</a>: reken met je eigen verbruik en contract.</li>
     <li><a href="/${WACHTEN_BESTAND}">Nu kopen of wachten?</a></li>
+    <li><a href="/${BLACK_FRIDAY_BESTAND}">Black Friday: welke korting is echt?</a></li>
   </ul>
 
   <div class="noot">De bedragen op deze pagina zijn uitkomsten van een rekenmodel met vaste aannames, geen meting en geen voorspelling. Dat een batterij "zelf stuurt" is per model nagekeken in de documentatie van de fabrikant; de toelichting staat op de productpagina.</div>
@@ -1801,6 +1902,8 @@ console.log(`${STEKKER_BESTAND} gegenereerd (${data.batterijen.filter((b) => b.t
 
 writeFileSync(resolve(ROOT, KOSTEN_BESTAND), kostenPagina(), "utf8");
 writeFileSync(resolve(ROOT, WACHTEN_BESTAND), wachtenPagina(), "utf8");
+writeFileSync(resolve(ROOT, BLACK_FRIDAY_BESTAND), blackFridayPagina(), "utf8");
+console.log(`${BLACK_FRIDAY_BESTAND} gegenereerd`);
 console.log(`${KOSTEN_BESTAND} en ${WACHTEN_BESTAND} gegenereerd`);
 writeFileSync(resolve(ROOT, ZONDER_PV_BESTAND), zonderPvPagina(), "utf8");
 console.log(`${ZONDER_PV_BESTAND} gegenereerd`);
@@ -2085,6 +2188,7 @@ const vast = [
   { loc: `${SITE}/${STEKKER_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/${KOSTEN_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/${WACHTEN_BESTAND}`, freq: "weekly", prio: "0.7" },
+  { loc: `${SITE}/${BLACK_FRIDAY_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/${ZONDER_PV_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/${DYNAMISCH_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/over-ons.html`, freq: "monthly", prio: "0.4" },
