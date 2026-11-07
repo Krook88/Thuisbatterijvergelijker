@@ -13,6 +13,7 @@
 - [Terugverdientijd berekenen](https://batterijmaatje.nl/rekenmodule.html): bereken de terugverdientijd met en zonder dynamisch contract.
 - [Wat kost een thuisbatterij?](https://batterijmaatje.nl/wat-kost-een-thuisbatterij.html): prijs en prijs per kWh per capaciteitsklasse, dagelijks bijgewerkt.
 - [Nu kopen of wachten?](https://batterijmaatje.nl/nu-kopen-of-wachten.html): wat er wel en niet verandert rond het einde van de saldering.
+- [Black Friday: welke korting is echt?](https://batterijmaatje.nl/black-friday-thuisbatterij.html): elke ochtend getoetst welke thuisbatterijprijs onder de laagste prijs van de 30 dagen ervoor ligt, en welke korting schijn is.
 - [Thuisbatterij zonder zonnepanelen](https://batterijmaatje.nl/thuisbatterij-zonder-zonnepanelen.html): per model wat een batterij met een dynamisch contract oplevert als je geen panelen hebt.
 - [Thuisbatterij met dynamisch contract](https://batterijmaatje.nl/thuisbatterij-dynamisch-contract.html): wat een dynamisch contract aan de opbrengst verandert, en welke batterijen zelf op uurprijzen sturen.
 

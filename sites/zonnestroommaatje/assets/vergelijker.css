@@ -412,6 +412,19 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
 .rg-punt { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--kleur-primair); box-shadow: 0 0 0 2px var(--kleur-wit); transform: translate(-50%, -50%); }
 .rg-onder, .rg-leeg { display: block; margin-top: var(--ruimte-4); font-size: var(--tekst-12); font-weight: 600; color: var(--kleur-tekst-licht); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+/* De dealcheck boven de grafiek: is de prijs van vandaag een echte korting?
+   De kleur zegt het oordeel, maar het woord vooraan zegt het ook, zodat het
+   zonder kleur net zo leest. */
+.pg-deal { margin: var(--ruimte-10) 0 0; padding: var(--ruimte-10) var(--ruimte-14, 14px); border-left: 4px solid var(--kleur-rand); border-radius: var(--radius-klein); background: var(--kleur-wit); font-size: var(--tekst-15); }
+.pg-deal b { margin-right: var(--ruimte-4); }
+.pg-deal-laagste, .pg-deal-daling { border-left-color: var(--kleur-groen-donker); background: var(--kleur-groen-licht); }
+.pg-deal-schijnkorting, .pg-deal-boven { border-left-color: var(--kleur-rood); background: var(--kleur-rood-licht); }
+.pg-deal-hoe { white-space: nowrap; }
+/* De dealtabel op de Black Friday-pagina. */
+.deal-tabel td.cijfer { white-space: nowrap; }
+.deal-label { display: inline-block; padding: 1px var(--ruimte-6); border-radius: var(--radius-klein); font-size: var(--tekst-12); font-weight: 700; background: var(--kleur-rand); color: var(--kleur-tekst); }
+.deal-label-laagste, .deal-label-daling { background: var(--kleur-groen-licht); color: var(--kleur-groen-donker); }
+.deal-label-schijnkorting, .deal-label-boven { background: var(--kleur-rood-licht); color: var(--kleur-tekst); }
 .prijsgrafiek { margin: var(--ruimte-20) 0 var(--ruimte-28); }
 .pg-cijfers { display: flex; flex-wrap: wrap; gap: var(--ruimte-10) var(--ruimte-28); margin: 0 0 var(--ruimte-20); }
 .pg-cijfers dt { font-size: var(--tekst-12); font-weight: 700; color: var(--kleur-tekst-licht); }

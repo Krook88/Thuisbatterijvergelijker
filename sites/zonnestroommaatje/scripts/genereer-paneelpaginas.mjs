@@ -15,6 +15,7 @@ import { createRequire } from "node:module";
 import { paginaStand, lastmodMaker } from "./sitemap-datum.mjs";
 import { houdbaarTot } from "./prijs-houdbaarheid.mjs";
 import { verdeel, verborgenPagina, aantalWinkels, zonderPrijsHtml, zetZonderPrijs } from "./zichtbaar.mjs";
+import { dealOverzicht, BLACK_FRIDAY, CYBER_MONDAY } from "./black-friday.mjs";
 import { zetStatistiekOveral } from "./statistiek.mjs";
 import { zetVoorladenOveral } from "./voorladen.mjs";
 import * as Uitleg from "./uitleg.mjs";
@@ -405,6 +406,7 @@ const NAV = `
           <a href="/uitleg.html">Uitleg</a>
           <a href="/waar-zonnepanelen-kopen.html">Waar koop je panelen?</a>
           <a href="/hebben-zonnepanelen-nog-zin.html">Loont het nog?</a>
+          <a href="/black-friday-zonnepanelen.html">Black Friday-deals</a>
           <a href="/regelgeving.html">Regels &amp; subsidies</a>
           <a href="/beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a>
           <a href="/beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a>
@@ -422,7 +424,7 @@ const FOOTER = `
   <div class="container">
     <b>${Iconen.svg("zon")} Zonnestroommaatje</b>
     <p>Onafhankelijke vergelijking van zonnepanelen voor Nederlandse huishoudens. Zustersite van <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen) en <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a> (warmtepompen).</p>
-    <p><a href="/">Zonnepanelen</a> · <a href="/omvormers.html">Omvormers</a> · <a href="/systeem.html">Samenstellen</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/energieplan.html">Jouw energieplan</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="/hebben-zonnepanelen-nog-zin.html">Loont het nog?</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a> · <a href="/beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a> · <a href="/over-ons.html">Over mij</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="/">Zonnepanelen</a> · <a href="/omvormers.html">Omvormers</a> · <a href="/systeem.html">Samenstellen</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/energieplan.html">Jouw energieplan</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="/hebben-zonnepanelen-nog-zin.html">Loont het nog?</a> · <a href="/black-friday-zonnepanelen.html">Black Friday-deals</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a> · <a href="/beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a> · <a href="/over-ons.html">Over mij</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. Prijzen zijn indicatief; de prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -546,6 +548,7 @@ function pagina(p) {
     const t = PrijsGrafiek.winkelTabel(p.id, winkelRijen(p));
     if (!g && !t) return "";
     return `<h2>${g ? "Prijsverloop" : "Prijzen per winkel"}</h2>
+  ${g ? PrijsGrafiek.dealHtml(p.id, { uitlegUrl: `/${BLACK_FRIDAY_BESTAND}#dealcheck-uitleg` }) : ""}
   ${g}${g && t ? `\n  <h3>Prijzen per winkel</h3>` : ""}
   ${t}${t ? `\n  <p class="datum-stempel">De prijs op de website van de winkel is altijd leidend.${teKoop(p).some((a) => a.affiliate_url) ? " Sommige links zijn commissielinks: koop je via die link, dan ontvang ik een kleine vergoeding van de winkel. Dit kost jou niets en beïnvloedt mijn scores en volgorde niet." : ""}</p>` : ""}`;
   })()}
@@ -907,6 +910,56 @@ ${staart}`;
 }
 
 /* ------------------------------------------------------------------
+   Black Friday: welke paneel- en omvormerprijs is vandaag echt lager?
+   Zie kern/scripts/black-friday.mjs. Elke prijsrun opnieuw geschreven.
+   ------------------------------------------------------------------ */
+
+const BLACK_FRIDAY_BESTAND = "black-friday-zonnepanelen.html";
+
+function blackFridayPagina() {
+  const o = dealOverzicht({
+    items: [
+      ...data.panelen.map((p) => ({ id: p.id, naam: volledigeNaam(p), url: `/paneel/${p.id}.html` })),
+      ...(omvormerData.omvormers || []).map((w) => ({ id: w.id, naam: volledigeNaam(w), url: "/omvormers.html" })),
+    ],
+    PrijsGrafiek, esc, eur, datum: datumNL,
+    woorden: { enkel: "omvormer of paneel", meervoud: "panelen en omvormers" },
+    extraTips: [
+      `<b>Reken per wattpiek.</b> Een paneel van € 60 met 400 Wp is duurder dan een van € 66 met 450 Wp. De vergelijker sorteert daarom op prijs per Wp, en die maatstaf geldt met Black Friday net zo.`,
+    ],
+  });
+  const titel = "Black Friday zonnepanelen: welke korting is echt?";
+  const metaDesc = `Elke ochtend getoetst: bij welk zonnepaneel en welke omvormer de prijs echt lager is dan de laagste prijs van de 30 dagen ervoor, en waar de korting schijn is. Vandaag ${o.deals.length} echte ${o.deals.length === 1 ? "deal" : "deals"}.`;
+  const itemList = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Zonnepanelen en omvormers met een echte prijsdaling",
+    "itemListElement": o.deals.map((r, i) => ({ "@type": "ListItem", "position": i + 1, "name": r.naam, "url": `${SITE}${r.url}` })),
+  }, null, 2);
+
+  return `${kop([`Black Friday zonnepanelen ${JAAR}: echte deals`, "Black Friday zonnepanelen: echte deals"], metaDesc, `${SITE}/${BLACK_FRIDAY_BESTAND}`, wrapLd(itemList))}
+
+<main class="container leespagina">
+  <p class="datum-stempel"><a href="/">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
+  <h1>${esc(titel)}</h1>
+  <p class="datum-stempel">Dagelijks herberekend uit de paneelprijzen · bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+
+  <p class="intro">Black Friday is op vrijdag ${datumNL(BLACK_FRIDAY)}, Cyber Monday op ${datumNL(CYBER_MONDAY)}. Zonnepanelen worden dan per pallet "afgeprijsd", vaak vanaf een adviesprijs die geen webwinkel echt vroeg. Daarom leg ik de prijs van vandaag naast wat ik zelf mat bij ${aantalWinkels(data.panelen, omvormerData.omvormers || [])} winkels, en noem ik alleen een korting die de wettelijke 30-dagenregel haalt een deal.</p>
+${o.html}
+
+  <h2>Verder lezen</h2>
+  <ul>
+    <li><a href="/${NOG_ZIN_BESTAND}">Hebben zonnepanelen nog zin?</a> Wat het einde van de saldering op 1 januari 2027 betekent.</li>
+    <li><a href="/waar-zonnepanelen-kopen.html">Waar koop je zonnepanelen?</a> De vier routes naast elkaar.</li>
+    <li><a href="/omvormers.html">Omvormers vergelijken</a>, met wie batterijklaar is.</li>
+  </ul>
+
+  <div class="noot">De paneel- en omvormerprijzen op deze pagina zijn incl. btw en gemeten bij de ochtendronde. Een winkel kan zijn prijs daarna nog aanpassen, en wat op zijn eigen site staat is altijd leidend.</div>
+</main>
+${staart}`;
+}
+
+/* ------------------------------------------------------------------
    Vergelijkingspagina's "X vs Y" (SEO-landingspagina's voor veel
    gezochte duels). Volledig uit de data gegenereerd en herbouwd,
    zodat prijzen en scores actueel blijven.
@@ -1065,6 +1118,8 @@ for (const cfg of OVERZICHTEN) {
 console.log(`${OVERZICHTEN.length} overzichtspagina's gegenereerd (klein dak, glas-glas)`);
 
 writeFileSync(resolve(ROOT, NOG_ZIN_BESTAND), nogZinPagina(), "utf8");
+writeFileSync(resolve(ROOT, BLACK_FRIDAY_BESTAND), blackFridayPagina(), "utf8");
+console.log(`${BLACK_FRIDAY_BESTAND} gegenereerd`);
 console.log(`${NOG_ZIN_BESTAND} gegenereerd`);
 
 mkdirSync(resolve(ROOT, "vergelijk"), { recursive: true });
@@ -1327,6 +1382,7 @@ const vast = [
   { loc: `${SITE}/beste-zonnepanelen-klein-dak.html`, freq: "weekly", prio: "0.8" },
   { loc: `${SITE}/beste-glas-glas-zonnepanelen.html`, freq: "weekly", prio: "0.8" },
   { loc: `${SITE}/${NOG_ZIN_BESTAND}`, freq: "weekly", prio: "0.9" },
+  { loc: `${SITE}/${BLACK_FRIDAY_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/over-ons.html`, freq: "monthly", prio: "0.4" },
   { loc: `${SITE}/contact.html`, freq: "yearly", prio: "0.3" },
   { loc: `${SITE}/privacy.html`, freq: "yearly", prio: "0.2" },
