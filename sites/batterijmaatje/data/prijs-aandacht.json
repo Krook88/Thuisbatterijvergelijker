@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-11-08",
+  "bijgewerkt": "2026-11-09",
   "punten": {
     "onbereikbaar|dyness-powerbox-g2|Zonnige Winkel": {
       "sinds": "2026-11-07",
@@ -16,13 +16,13 @@
     "verouderd|aeg-solarcube-48|richtprijs": {
       "sinds": "2026-10-29",
       "soort": "verouderd",
-      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (31 dagen)",
+      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (32 dagen)",
       "bevestigd": true
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (115 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (116 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
