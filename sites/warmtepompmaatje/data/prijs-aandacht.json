@@ -1,28 +1,34 @@
 {
-  "bijgewerkt": "2026-11-09",
+  "bijgewerkt": "2026-11-10",
   "punten": {
+    "onbereikbaar|itho-amber-95|Installmat": {
+      "sinds": "2026-11-10",
+      "soort": "onbereikbaar",
+      "tekst": "itho-amber-95 @ Installmat: fetch failed",
+      "bevestigd": false
+    },
     "verouderd|daikin-altherma-3|KliMate": {
       "sinds": "2026-09-22",
       "soort": "verouderd",
-      "tekst": "daikin-altherma-3 @ KliMate: €5414 (69 dagen)",
+      "tekst": "daikin-altherma-3 @ KliMate: €5414 (70 dagen)",
       "bevestigd": true
     },
     "verouderd|itho-amber-95|Installmat": {
       "sinds": "2026-11-09",
       "soort": "verouderd",
-      "tekst": "itho-amber-95 @ Installmat: €4630 (31 dagen)",
-      "bevestigd": false
+      "tekst": "itho-amber-95 @ Installmat: €4630 (32 dagen)",
+      "bevestigd": true
     },
     "verouderd|toshiba-estia-r290|Intercool": {
       "sinds": "2026-10-24",
       "soort": "verouderd",
-      "tekst": "toshiba-estia-r290 @ Intercool: €8107 (37 dagen)",
+      "tekst": "toshiba-estia-r290 @ Intercool: €8107 (38 dagen)",
       "bevestigd": true
     },
     "verouderd|vaillant-arotherm-plus|richtprijs": {
       "sinds": "2026-10-24",
       "soort": "verouderd",
-      "tekst": "vaillant-arotherm-plus @ richtprijs: €7300 (37 dagen)",
+      "tekst": "vaillant-arotherm-plus @ richtprijs: €7300 (38 dagen)",
       "bevestigd": true
     },
     "zonder prijs|daikin-altherma-3|KliMate": {
@@ -30,18 +36,6 @@
       "soort": "geweigerd",
       "tekst": "daikin-altherma-3 @ KliMate: HTTP 403",
       "bevestigd": true
-    },
-    "zonder prijs|itho-amber-95|Installmat": {
-      "sinds": "2026-11-09",
-      "soort": "zonder bedrag",
-      "tekst": "itho-amber-95 @ Installmat: geen leesbaar bedrag",
-      "bevestigd": false
-    },
-    "zonder prijs|panasonic-aquarea-wxg|Multi-Import": {
-      "sinds": "2026-11-09",
-      "soort": "zonder bedrag",
-      "tekst": "panasonic-aquarea-wxg @ Multi-Import: geen leesbaar bedrag",
-      "bevestigd": false
     },
     "zonder prijs|toshiba-estia-r290|Intercool": {
       "sinds": "2026-10-04",
