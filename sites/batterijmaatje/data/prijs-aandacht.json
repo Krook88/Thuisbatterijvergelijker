@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-11-09",
+  "bijgewerkt": "2026-11-10",
   "punten": {
     "onbereikbaar|dyness-powerbox-g2|Zonnige Winkel": {
       "sinds": "2026-11-07",
@@ -16,13 +16,13 @@
     "verouderd|aeg-solarcube-48|richtprijs": {
       "sinds": "2026-10-29",
       "soort": "verouderd",
-      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (32 dagen)",
+      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (33 dagen)",
       "bevestigd": true
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (116 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (117 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
@@ -35,12 +35,6 @@
       "sinds": "2026-10-04",
       "soort": "zonder bron",
       "tekst": "jackery-homepower-2000-ultra: €669 van ?, geen bron-URL",
-      "bevestigd": true
-    },
-    "zonder prijs|aeg-solarcube-48|AH Voordeelshop": {
-      "sinds": "2026-10-08",
-      "soort": "geweigerd",
-      "tekst": "aeg-solarcube-48 @ AH Voordeelshop: HTTP 403",
       "bevestigd": true
     },
     "zonder prijs|dyness-powerbrick-plus|NKON": {
