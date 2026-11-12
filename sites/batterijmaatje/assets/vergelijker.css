@@ -418,7 +418,7 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
 .pg-deal { margin: var(--ruimte-10) 0 0; padding: var(--ruimte-10) var(--ruimte-14, 14px); border-left: 4px solid var(--kleur-rand); border-radius: var(--radius-klein); background: var(--kleur-wit); font-size: var(--tekst-15); }
 .pg-deal b { margin-right: var(--ruimte-4); }
 .pg-deal-laagste, .pg-deal-daling { border-left-color: var(--kleur-groen-donker); background: var(--kleur-groen-licht); }
-.pg-deal-schijnkorting, .pg-deal-boven { border-left-color: var(--kleur-rood); background: var(--kleur-rood-licht); }
+.pg-deal-boven { border-left-color: var(--kleur-rood); background: var(--kleur-rood-licht); }
 .pg-deal-hoe { white-space: nowrap; }
 /* De dealtabel op de Black Friday-pagina. */
 .deal-tabel td.cijfer { white-space: nowrap; }
@@ -465,6 +465,8 @@ a.regel-bedrag:hover { text-decoration-thickness: 2px; }
 .wt-tabel td.cijfer { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .wt-tabel small { display: block; font-size: var(--tekst-12); color: var(--kleur-tekst-licht); }
 .wt-tabel .wt-niet td { color: var(--kleur-tekst-licht); }
+/* Schijnkorting is iets wat één winkel doet; het label staat dus bij die winkel. */
+.wt-schijn { display: inline-block; margin-left: var(--ruimte-6); padding: 0 var(--ruimte-6); border-radius: var(--radius); background: var(--kleur-rood-licht); color: var(--kleur-tekst); font-size: var(--tekst-12); font-weight: 600; white-space: nowrap; }
 /* Op een telefoon passen de kolommen niet naast elkaar. Elke winkel wordt
    dan een blokje: de naam over de volle breedte, de twee waarden eronder met
    hun eigen label, zodat er niets opzij hoeft te schuiven. */
