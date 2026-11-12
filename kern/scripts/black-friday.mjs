@@ -118,7 +118,7 @@ ${vragenHtml}
   <ul>
     <li><b>Echte daling</b> betekent dat de prijs van vandaag minstens ${drempel} onder de laagste prijs ligt van de 30 dagen voordat hij ging gelden. Minder reken ik niet mee, want dat is op een ${E} van € 1.500 nog geen € 30.</li>
     <li><b>Laagste ooit gemeten</b> is een echte daling waarbij het model ook goedkoper is dan elke prijs die ik er eerder voor zag.</li>
-    <li><b>Schijnkorting</b> is een prijs die lager is dan de dag ervoor, maar niet lager dan de laagste prijs van de 30 dagen daarvoor.</li>
+    <li><b>Schijnkorting</b> is een winkel die minder vraagt dan de dag ervoor, maar niet minder dan hij zelf in de 30 dagen daarvoor al vroeg. Dat toets ik per winkel. Komt er een goedkopere winkel bij, of is een andere winkel nu de goedkoopste, dan is dat geen schijnkorting, want niemand verhoogde eerst zijn prijs.</li>
     <li><b>Te kort gevolgd</b> zegt dat ik in die 30 dagen minder dan 14 dagen een prijs heb gemeten. Dan doe ik geen uitspraak.</li>
   </ul>
   <p>Van de ${telling.gevolgd} modellen met een prijsverloop staan er vandaag ${telling.normaal} op hun gewone prijs, ${telling.teKort} volg ik nog te kort en ${telling.nietTeKoop} zijn bij geen winkel te koop. Op de pagina van elke ${E} staat het volledige verloop als grafiek, met per winkel wat die vroeg.</p>
