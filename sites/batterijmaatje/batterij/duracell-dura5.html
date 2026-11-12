@@ -63,14 +63,14 @@
   </script>
   <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="/assets/maatlat.css?v=20261107c" as="style">
-  <link rel="preload" href="/assets/vergelijker.css?v=20261107c" as="style">
-  <link rel="stylesheet" href="/assets/style.css?v=20261107c">
+  <link rel="preload" href="/assets/maatlat.css?v=20261112c" as="style">
+  <link rel="preload" href="/assets/vergelijker.css?v=20261112c" as="style">
+  <link rel="stylesheet" href="/assets/style.css?v=20261112c">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261107c"></script>
+  <script defer src="/assets/teller.js?v=20261112c"></script>
 </head>
 <body>
 
@@ -123,6 +123,7 @@
 
   <div class="info-kader">
     <div class="info-prijs">€ 5.000 <span class="info-prijs-bron">incl. btw bij Batterijenhuis · € 1.087 per kWh opslag</span></div>
+    
     <div class="info-dekking">Deze prijs dekt: incl. btw, omvormer én installatie: compleet gebruiksklaar</div>
     <div class="info-totaal" title="prijs bij Batterijenhuis is inclusief omvormer en installatie">Compleet gebruiksklaar (indicatie): <b>€ 5.000</b></div>
     <p class="info-acties">
@@ -142,11 +143,11 @@
 
   <h2>Prijsverloop</h2>
   <p class="pg-deal pg-deal-normaal"><b>Geen korting</b> € 5.000 ligt rond de laagste prijs van de 30 dagen hiervoor (€ 5.000). <a href="/black-friday-thuisbatterij.html#dealcheck-uitleg" class="pg-deal-hoe">Hoe ik dit toets</a></p>
-  <figure class="prijsgrafiek" data-dagen='[[&quot;2026-08-14&quot;,5000],[&quot;2026-08-15&quot;,5000],[&quot;2026-08-16&quot;,5000],[&quot;2026-08-17&quot;,5000],[&quot;2026-08-18&quot;,5000],[&quot;2026-08-19&quot;,5000],[&quot;2026-08-20&quot;,5000],[&quot;2026-08-21&quot;,5000],[&quot;2026-08-22&quot;,5000],[&quot;2026-08-23&quot;,5000],[&quot;2026-08-24&quot;,5000],[&quot;2026-08-25&quot;,5000],[&quot;2026-08-26&quot;,5000],[&quot;2026-08-27&quot;,5000],[&quot;2026-08-28&quot;,5000],[&quot;2026-08-29&quot;,5000],[&quot;2026-08-30&quot;,5000],[&quot;2026-08-31&quot;,5000],[&quot;2026-09-01&quot;,5000],[&quot;2026-09-02&quot;,5000],[&quot;2026-09-03&quot;,5000],[&quot;2026-09-04&quot;,5000],[&quot;2026-09-05&quot;,5000],[&quot;2026-09-06&quot;,5000],[&quot;2026-09-07&quot;,5000],[&quot;2026-09-08&quot;,5000],[&quot;2026-09-09&quot;,5000],[&quot;2026-09-10&quot;,5000],[&quot;2026-09-11&quot;,5000],[&quot;2026-09-12&quot;,5000],[&quot;2026-09-13&quot;,5000],[&quot;2026-09-14&quot;,5000],[&quot;2026-09-15&quot;,5000],[&quot;2026-09-16&quot;,5000],[&quot;2026-09-17&quot;,5000],[&quot;2026-09-18&quot;,5000],[&quot;2026-09-19&quot;,5000],[&quot;2026-09-20&quot;,5000],[&quot;2026-09-21&quot;,5000],[&quot;2026-09-22&quot;,5000],[&quot;2026-09-23&quot;,5000],[&quot;2026-09-24&quot;,5000],[&quot;2026-09-25&quot;,5000],[&quot;2026-09-26&quot;,5000],[&quot;2026-09-27&quot;,5000],[&quot;2026-09-28&quot;,5000],[&quot;2026-09-29&quot;,5000],[&quot;2026-09-30&quot;,5000],[&quot;2026-10-01&quot;,5000],[&quot;2026-10-02&quot;,5000],[&quot;2026-10-03&quot;,5000],[&quot;2026-10-04&quot;,5000],[&quot;2026-10-05&quot;,5000],[&quot;2026-10-06&quot;,5000],[&quot;2026-10-07&quot;,5000],[&quot;2026-10-08&quot;,5000],[&quot;2026-10-09&quot;,5000],[&quot;2026-10-10&quot;,5000],[&quot;2026-10-11&quot;,5000],[&quot;2026-10-12&quot;,5000],[&quot;2026-10-13&quot;,5000],[&quot;2026-10-14&quot;,5000],[&quot;2026-10-15&quot;,5000],[&quot;2026-10-16&quot;,5000],[&quot;2026-10-17&quot;,5000],[&quot;2026-10-18&quot;,5000],[&quot;2026-10-19&quot;,5000],[&quot;2026-10-20&quot;,5000],[&quot;2026-10-21&quot;,5000],[&quot;2026-10-22&quot;,5000],[&quot;2026-10-23&quot;,5000],[&quot;2026-10-24&quot;,5000],[&quot;2026-10-25&quot;,5000],[&quot;2026-10-26&quot;,5000],[&quot;2026-10-27&quot;,5000],[&quot;2026-10-28&quot;,5000],[&quot;2026-10-29&quot;,5000],[&quot;2026-10-30&quot;,5000],[&quot;2026-10-31&quot;,5000],[&quot;2026-11-01&quot;,5000],[&quot;2026-11-02&quot;,5000],[&quot;2026-11-03&quot;,5000],[&quot;2026-11-04&quot;,5000],[&quot;2026-11-05&quot;,5000],[&quot;2026-11-06&quot;,5000],[&quot;2026-11-07&quot;,5000],[&quot;2026-11-08&quot;,5000],[&quot;2026-11-09&quot;,5000],[&quot;2026-11-10&quot;,5000],[&quot;2026-11-11&quot;,5000]]' aria-label="Prijsverloop van de Duracell Energy Dura5 (4,6 kWh bruikbaar) sinds 14 augustus 2026">
+  <figure class="prijsgrafiek" data-dagen='[[&quot;2026-08-15&quot;,5000],[&quot;2026-08-16&quot;,5000],[&quot;2026-08-17&quot;,5000],[&quot;2026-08-18&quot;,5000],[&quot;2026-08-19&quot;,5000],[&quot;2026-08-20&quot;,5000],[&quot;2026-08-21&quot;,5000],[&quot;2026-08-22&quot;,5000],[&quot;2026-08-23&quot;,5000],[&quot;2026-08-24&quot;,5000],[&quot;2026-08-25&quot;,5000],[&quot;2026-08-26&quot;,5000],[&quot;2026-08-27&quot;,5000],[&quot;2026-08-28&quot;,5000],[&quot;2026-08-29&quot;,5000],[&quot;2026-08-30&quot;,5000],[&quot;2026-08-31&quot;,5000],[&quot;2026-09-01&quot;,5000],[&quot;2026-09-02&quot;,5000],[&quot;2026-09-03&quot;,5000],[&quot;2026-09-04&quot;,5000],[&quot;2026-09-05&quot;,5000],[&quot;2026-09-06&quot;,5000],[&quot;2026-09-07&quot;,5000],[&quot;2026-09-08&quot;,5000],[&quot;2026-09-09&quot;,5000],[&quot;2026-09-10&quot;,5000],[&quot;2026-09-11&quot;,5000],[&quot;2026-09-12&quot;,5000],[&quot;2026-09-13&quot;,5000],[&quot;2026-09-14&quot;,5000],[&quot;2026-09-15&quot;,5000],[&quot;2026-09-16&quot;,5000],[&quot;2026-09-17&quot;,5000],[&quot;2026-09-18&quot;,5000],[&quot;2026-09-19&quot;,5000],[&quot;2026-09-20&quot;,5000],[&quot;2026-09-21&quot;,5000],[&quot;2026-09-22&quot;,5000],[&quot;2026-09-23&quot;,5000],[&quot;2026-09-24&quot;,5000],[&quot;2026-09-25&quot;,5000],[&quot;2026-09-26&quot;,5000],[&quot;2026-09-27&quot;,5000],[&quot;2026-09-28&quot;,5000],[&quot;2026-09-29&quot;,5000],[&quot;2026-09-30&quot;,5000],[&quot;2026-10-01&quot;,5000],[&quot;2026-10-02&quot;,5000],[&quot;2026-10-03&quot;,5000],[&quot;2026-10-04&quot;,5000],[&quot;2026-10-05&quot;,5000],[&quot;2026-10-06&quot;,5000],[&quot;2026-10-07&quot;,5000],[&quot;2026-10-08&quot;,5000],[&quot;2026-10-09&quot;,5000],[&quot;2026-10-10&quot;,5000],[&quot;2026-10-11&quot;,5000],[&quot;2026-10-12&quot;,5000],[&quot;2026-10-13&quot;,5000],[&quot;2026-10-14&quot;,5000],[&quot;2026-10-15&quot;,5000],[&quot;2026-10-16&quot;,5000],[&quot;2026-10-17&quot;,5000],[&quot;2026-10-18&quot;,5000],[&quot;2026-10-19&quot;,5000],[&quot;2026-10-20&quot;,5000],[&quot;2026-10-21&quot;,5000],[&quot;2026-10-22&quot;,5000],[&quot;2026-10-23&quot;,5000],[&quot;2026-10-24&quot;,5000],[&quot;2026-10-25&quot;,5000],[&quot;2026-10-26&quot;,5000],[&quot;2026-10-27&quot;,5000],[&quot;2026-10-28&quot;,5000],[&quot;2026-10-29&quot;,5000],[&quot;2026-10-30&quot;,5000],[&quot;2026-10-31&quot;,5000],[&quot;2026-11-01&quot;,5000],[&quot;2026-11-02&quot;,5000],[&quot;2026-11-03&quot;,5000],[&quot;2026-11-04&quot;,5000],[&quot;2026-11-05&quot;,5000],[&quot;2026-11-06&quot;,5000],[&quot;2026-11-07&quot;,5000],[&quot;2026-11-08&quot;,5000],[&quot;2026-11-09&quot;,5000],[&quot;2026-11-10&quot;,5000],[&quot;2026-11-11&quot;,5000],[&quot;2026-11-12&quot;,5000]]' aria-label="Prijsverloop van de Duracell Energy Dura5 (4,6 kWh bruikbaar) sinds 15 augustus 2026">
     <dl class="pg-cijfers">
       <div><dt>Nu</dt><dd><span class="cijfer">€ 5.000</span></dd></div>
-      <div><dt>Laagste</dt><dd><span class="cijfer">€ 5.000</span> <small>14 aug</small></dd></div>
-      <div><dt>Hoogste</dt><dd><span class="cijfer">€ 5.000</span> <small>14 aug</small></dd></div>
+      <div><dt>Laagste</dt><dd><span class="cijfer">€ 5.000</span> <small>15 aug</small></dd></div>
+      <div><dt>Hoogste</dt><dd><span class="cijfer">€ 5.000</span> <small>15 aug</small></dd></div>
     </dl>
     <div class="pg-vlak">
       <div class="pg-plot">
@@ -159,11 +160,11 @@
         <span class="pg-kruis" hidden></span>
         <div class="pg-tip" hidden></div>
       </div>
-      <div class="pg-xas"><span class="pg-x pg-x-begin" style="left:0.00%">14 aug</span><span class="pg-x pg-x-midden" style="left:49.44%">27 sep</span><span class="pg-x pg-x-eind" style="left:100.00%">vandaag</span></div>
+      <div class="pg-xas"><span class="pg-x pg-x-begin" style="left:0.00%">15 aug</span><span class="pg-x pg-x-midden" style="left:49.44%">28 sep</span><span class="pg-x pg-x-eind" style="left:100.00%">vandaag</span></div>
     </div>
-    <figcaption>Laagste winkelprijs incl. btw per dag, sinds 14 augustus 2026. De laagste winkelprijs bleef € 5.000.</figcaption>
+    <figcaption>Laagste winkelprijs incl. btw per dag, sinds 15 augustus 2026. De laagste winkelprijs bleef € 5.000.</figcaption>
     <details class="pg-tabel"><summary>Alle prijswijzigingen</summary>
-      <div class="tabel-blok"><table class="data-tabel"><thead><tr><th>Datum</th><th>Laagste prijs</th><th>Verschil</th></tr></thead><tbody><tr><td>14 augustus 2026</td><td class="cijfer">€ 5.000</td><td class="cijfer"></td></tr></tbody></table></div>
+      <div class="tabel-blok"><table class="data-tabel"><thead><tr><th>Datum</th><th>Laagste prijs</th><th>Verschil</th></tr></thead><tbody><tr><td>15 augustus 2026</td><td class="cijfer">€ 5.000</td><td class="cijfer"></td></tr></tbody></table></div>
     </details>
   </figure>
   <h3>Prijzen per winkel</h3>
@@ -266,9 +267,9 @@
 <!-- dagmaat.js hertekent het blok "Past hij op een gemiddelde dag?" met het
      jaarverbruik dat de bezoeker eerder invulde, en laat het veld daarin
      werken. Het heeft geen ander bestand nodig. -->
-<script src="/assets/dagmaat.js?v=20261107c" defer></script>
-<script src="/assets/delen.js?v=20261107c" defer></script>
-<script src="/assets/prijsgrafiek.js?v=20261107c" defer></script>
-<script src="/assets/nav.js?v=20261107c" defer></script>
+<script src="/assets/dagmaat.js?v=20261112c" defer></script>
+<script src="/assets/delen.js?v=20261112c" defer></script>
+<script src="/assets/prijsgrafiek.js?v=20261112c" defer></script>
+<script src="/assets/nav.js?v=20261112c" defer></script>
 </body>
 </html>

@@ -41,6 +41,7 @@ hoogste niveau en één lijst met producten:
 | `laatst_bijgewerkt` | `"JJJJ-MM-DD"` | Wordt door `update-prices.mjs` op vandaag gezet als er die dag minstens één aanbieding bevestigd is (en op batterijmaatje niet bij `--alleen`). `verse-data.mjs --streng` faalt als deze datum meer dan 2 dagen oud is. |
 | `toelichting` | tekst | Uitleg die op de site onder de lijst verschijnt. |
 | `merk_logos` | object `{merknaam: pad}` | Alleen bij batterijen en panelen; nu leeg. Zie `assets/logos/MERKBELEID.md` van die site voordat hier iets in komt. |
+| `winkels` | object `{winkelnaam: {...}}` | Alleen bij batterijmaatje. Sleutel = `winkel` zoals in de aanbiedingen. Velden: `id`, `url`, `logo` (pad, nog niet getoond), `affiliate` (bool), `affiliate_param`, `verzending`, `levertijd`, `retour`, `label`, `proef_tot` (datum, alleen metadata: niets haalt de winkel daarna weg). `label` en `retour` staan op de site bij de winkel (`Kaart.winkelInfoHtml`); ze beïnvloeden de volgorde niet. |
 | `batterijen` / `warmtepompen` / `panelen` / `omvormers` | lijst | De producten. |
 
 **`id`.** Kleine letters, cijfers en koppeltekens (`marstek-venus-e-3`). Het

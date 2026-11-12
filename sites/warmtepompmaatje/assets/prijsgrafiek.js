@@ -56,7 +56,11 @@
    * niet gemeten). Het venster begint niet vóór de eerste meting.
    */
   function dagen(id, aantal) {
-    const reeks = verloop[id];
+    return dagenVan(verloop[id], aantal);
+  }
+
+  /** Hetzelfde voor een losse reeks wijzigingspunten, zoals die van één winkel. */
+  function dagenVan(reeks, aantal) {
     if (!reeks || !reeks.length || !tot) return [];
     const eind = dagNr(tot);
     const begin = Math.max(eind - aantal + 1, dagNr(reeks[0][0]));
@@ -105,9 +109,9 @@
        "laagste"        lager dan de laagste prijs van de 30 dagen ervoor én
                         de laagste prijs sinds we het model volgen;
        "daling"         lager dan de laagste prijs van de 30 dagen ervoor;
-       "schijnkorting"  lager dan de prijs ervoor, maar niet lager dan de
-                        laagste van de 30 dagen ervoor: eerst omhoog, dan
-                        "in de aanbieding";
+       "schijnkorting"  een winkel zakt ten opzichte van zijn eigen prijs
+                        ervoor, maar niet onder zijn eigen laagste van de 30
+                        dagen ervoor: eerst omhoog, dan "in de aanbieding";
        "boven"          duurder dan de laagste prijs van de 30 dagen ervoor;
        "normaal"        rond die laagste prijs;
        "te-kort"        te weinig metingen in die 30 dagen om iets te zeggen;
@@ -115,6 +119,17 @@
 
      Een daling van minder dan DREMPEL procent telt als normaal: vijf euro op
      een batterij van 1.800 euro is ruis, geen deal.
+
+     Schijnkorting per winkel. De reeks hierboven is de laagste prijs over
+     alle winkels samen. Zakt die, dan kan dat ook betekenen dat er een
+     goedkopere winkel bij kwam of dat een andere winkel nu de goedkoopste
+     is. Dat is geen schijnkorting: niemand heeft eerst opgehoogd. Bij de
+     HYXi Halo kreeg Voltbaas dat label op de dag dat de winkel erbij kwam.
+     Daarom geldt het label alleen als de winkel die nu het goedkoopst is,
+     zelf eerst meer vroeg en in zijn eigen 30 dagen ervoor al dit bedrag of
+     minder vroeg. Wisselt alleen de goedkoopste winkel, dan volgt de gewone
+     vergelijking met de 30 dagen ervoor. Zonder prijsgeschiedenis per winkel
+     (alleen "producten" in prijsverloop.json) blijft de oude toets staan.
      ------------------------------------------------------------------ */
   const DREMPEL = 2;
   const REF_DAGEN = 30;
@@ -145,9 +160,35 @@
     const procent = Math.round(((ref - nu) / ref) * 1000) / 10;
     Object.assign(basis, { ref, procent, vorige, laagsteEerder });
     if (procent >= DREMPEL) return Object.assign(basis, { soort: nu < laagsteEerder ? "laagste" : "daling" });
-    if (vorige !== null && nu < vorige && procent <= 0) return Object.assign(basis, { soort: "schijnkorting" });
+    if (vorige !== null && nu < vorige && procent <= 0) {
+      const w = schijnkortingBijWinkel(id, nu);
+      if (w === null) return Object.assign(basis, { soort: "schijnkorting" });
+      if (w) return Object.assign(basis, { soort: "schijnkorting", winkel: w.winkel, vorige: w.vorige, ref: w.ref, sinds: w.sinds });
+    }
     if (procent <= -DREMPEL) return Object.assign(basis, { soort: "boven" });
     return Object.assign(basis, { soort: "normaal" });
+  }
+
+  /* Welke winkel die nu de laagste prijs vraagt, deed zelf aan schijnkorting?
+     Geeft die winkel met zijn eigen vorige prijs, referentie en datum, false
+     als geen enkele dat deed, of null als er geen reeks per winkel is. */
+  function schijnkortingBijWinkel(id, nu) {
+    const winkels = perWinkel[id];
+    if (!winkels || !Object.keys(winkels).length) return null;
+    for (const [winkel, reeks] of Object.entries(winkels)) {
+      const lijst = dagenVan(reeks, 400);
+      if (!lijst.length || lijst[lijst.length - 1][1] !== nu) continue;
+      let i = lijst.length - 1;
+      while (i > 0 && lijst[i - 1][1] === nu) i--;
+      if (i === 0) continue;
+      const vorige = lijst[i - 1][1];
+      if (typeof vorige !== "number" || vorige <= nu) continue;
+      const ervoor = lijst.slice(Math.max(0, i - REF_DAGEN), i).map(([, p]) => p).filter((p) => typeof p === "number");
+      if (ervoor.length < MIN_METINGEN) continue;
+      const ref = Math.min(...ervoor);
+      if (ref <= nu) return { winkel, vorige, ref, sinds: lijst[i][0] };
+    }
+    return false;
   }
 
   /** De uitkomst van de dealcheck in één zin, of "" als er niets te zeggen is. */
@@ -157,7 +198,9 @@
     switch (d.soort) {
       case "laagste": return `${e(d.nu)} is de laagste prijs die ik sinds ${datumLang(d.gevolgdSinds)} zag, ${nlProcent(d.procent)} onder de laagste prijs van de 30 dagen hiervoor (${e(d.ref)}).`;
       case "daling": return `${e(d.nu)} ligt ${nlProcent(d.procent)} onder de laagste prijs van de 30 dagen hiervoor (${e(d.ref)}).`;
-      case "schijnkorting": return `Lager dan op ${datumLang(vorigeDag(d.sinds))} (${e(d.vorige)}), maar in de 30 dagen daarvoor kostte hij al ${e(d.ref)}. Volgens de 30-dagenregel is dat geen korting.`;
+      case "schijnkorting": return d.winkel
+        ? `${d.winkel} vraagt minder dan op ${datumLang(vorigeDag(d.sinds))} (${e(d.vorige)}), maar vroeg in de 30 dagen daarvoor al ${e(d.ref)}. Volgens de 30-dagenregel is dat geen korting.`
+        : `Lager dan op ${datumLang(vorigeDag(d.sinds))} (${e(d.vorige)}), maar in de 30 dagen daarvoor kostte hij al ${e(d.ref)}. Volgens de 30-dagenregel is dat geen korting.`;
       case "boven": return `Nu ${nlProcent(-d.procent)} duurder dan de laagste prijs van de 30 dagen hiervoor (${e(d.ref)}). Wachten kan lonen.`;
       case "normaal": return `${e(d.nu)} ligt rond de laagste prijs van de 30 dagen hiervoor (${e(d.ref)}).`;
       case "te-kort": return `Ik volg deze prijs sinds ${datumLang(d.gevolgdSinds)}, te kort om te zeggen of ${e(d.nu)} een korting is.`;

@@ -85,6 +85,8 @@ function assetVersie() {
 const ASSET_VERSIE = assetVersie();
 
 const data = JSON.parse(readFileSync(resolve(ROOT, "data/batterijen.json"), "utf8"));
+// Label en retourvoorwaarden per winkel (data.winkels), voor de kaarten en de winkeltabel.
+Kaart.zetWinkels(data.winkels);
 
 /* Alleen batterijen met een prijs die in de afgelopen 14 weken bevestigd is
    staan op de site; zie kern/scripts/zichtbaar.mjs. Vanaf hier ziet het hele
@@ -318,6 +320,21 @@ function teKoop(product) {
  * artikel niet meer voert staat erin, zonder link (die wees bij zo'n winkel
  * naar een 404 of de homepage) maar met de prijs die hij het laatst vroeg.
  * Daarmee is de oude lijst "Verkrijgbaar bij" opgegaan in deze tabel. */
+/* Label en retourvoorwaarden van een winkel uit data.winkels, als platte tekst
+ * (de winkeltabel zet hem zelf in een <small>). */
+function winkelToelichting(naam) {
+  const w = (data.winkels || {})[naam];
+  if (!w) return "";
+  return [w.label, w.retour ? `retour: ${w.retour}` : ""].filter(Boolean).join(" · ");
+}
+
+/* De winkeltabel komt uit kern/assets/prijsgrafiek.js, die ook zonnestroommaatje
+ * gebruikt. Commissielinks krijgen hier "sponsored nofollow noopener"; dat
+ * gebeurt na het opbouwen, zodat de gedeelde code en de andere site gelijk blijven. */
+function metAffiliateRel(html) {
+  return html.replace(/rel="noopener sponsored"/g, 'rel="sponsored nofollow noopener"');
+}
+
 function winkelRijen(product) {
   return (product.aanbiedingen || []).filter((a) => a && a.winkel && !a.is_richtprijs).map((a) => ({
     winkel: a.winkel,
@@ -326,7 +343,7 @@ function winkelRijen(product) {
     leverbaar: !Prijs.nietLeverbaar(a),
     prijs: Prijs.nietLeverbaar(a) ? null : Prijs.vergelijkPrijs(a),
     datum: a.datum,
-    toelichting: [a.omvat, Prijs.isOmgerekend(a) ? `de winkel noemt ${eur(a.prijs_eur)} excl. btw` : ""].filter(Boolean).join("; "),
+    toelichting: [winkelToelichting(a.winkel), a.omvat, Prijs.isOmgerekend(a) ? `de winkel noemt ${eur(a.prijs_eur)} excl. btw` : ""].filter(Boolean).join("; "),
   }));
 }
 
@@ -568,10 +585,11 @@ ${NAV_HTML}
 
   <div class="info-kader">
     ${beste ? `<div class="info-prijs">${eur(Prijs.vergelijkPrijs(beste))} <span class="info-prijs-bron">incl. btw ${beste.is_richtprijs ? "(richtprijs; op dit moment geen winkel met deze batterij)" : `bij ${esc(Kaart.winkelNaam(beste))}`}${perKwh ? ` · ${eur(perKwh)} per kWh opslag` : ""}</span></div>${ouderdomHtml(b)}${Prijs.prijsToelichting(beste) ? `<div class="prijs-let-op">${esc(Prijs.prijsToelichting(beste))}</div>` : ""}` : "<div><b>Prijs op aanvraag</b></div>"}
+    ${beste && Kaart.winkelInfoHtml(beste) ? `<div class="info-dekking">${esc(Kaart.winkelNaam(beste))}:${Kaart.winkelInfoHtml(beste)}</div>` : ""}
     ${b.prijs_omvat ? `<div class="info-dekking">Deze prijs dekt: ${esc(b.prijs_omvat)}</div>` : ""}
     <div class="info-totaal" title="${esc(b.totaalprijs_toelichting || "")}">Compleet gebruiksklaar (indicatie): <b>${totaal || "op aanvraag"}</b></div>
     <p class="info-acties">
-      ${beste && beste.url ? `<a class="knop" href="${esc(beste.affiliate_url || beste.url)}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>&nbsp;` : ""}
+      ${beste && beste.url ? `<a class="knop" href="${esc(beste.affiliate_url || beste.url)}" target="_blank" rel="${Kaart.koopRel(beste)}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>&nbsp;` : ""}
       <a class="knop knop-secundair" href="/rekenmodule.html?batterij=${encodeURIComponent(b.id)}">Bereken terugverdientijd</a>
     </p>
   </div>
@@ -583,12 +601,12 @@ ${NAV_HTML}
 
   ${(() => {
     const g = PrijsGrafiek.grafiekHtml(b.id, { naam: `${b.merk} ${b.model}` });
-    const t = PrijsGrafiek.winkelTabel(b.id, winkelRijen(b));
+    const t = metAffiliateRel(PrijsGrafiek.winkelTabel(b.id, winkelRijen(b)));
     if (!g && !t) return "";
     return `<h2>${g ? "Prijsverloop" : "Prijzen per winkel"}</h2>
   ${g ? PrijsGrafiek.dealHtml(b.id, { uitlegUrl: `/${BLACK_FRIDAY_BESTAND}#dealcheck-uitleg` }) : ""}
   ${g}${g && t ? `\n  <h3>Prijzen per winkel</h3>` : ""}
-  ${t}${t ? `\n  <p class="datum-stempel">Prijzen worden dagelijks automatisch gecontroleerd; de prijs op de website van de winkel is altijd leidend.${teKoop(b).some((a) => a.affiliate_url) ? " Sommige links zijn commissielinks: koop je via die link, dan ontvang ik een kleine vergoeding van de winkel. Dit kost jou niets en be\u00efnvloedt mijn prijzen, scores en volgorde niet." : ""}</p>` : ""}`;
+  ${t}${t ? `\n  <p class="datum-stempel">Prijzen worden dagelijks automatisch gecontroleerd; de prijs op de website van de winkel is altijd leidend.</p>${teKoop(b).some((a) => a.affiliate_url) ? `\n  <p class="datum-stempel disclosure">${esc(Kaart.DISCLOSURE)} <a href="/over-ons.html#commissie">Uitleg</a></p>` : ""}` : ""}`;
   })()}
 
   <h2>Specificaties</h2>

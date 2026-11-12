@@ -238,11 +238,12 @@
             <td title="Punten voor Homey, Home Assistant en dynamisch contract"><b>${koppelScore(b)}/6</b></td>
             <td>${checkCel(b.homey)}</td>
             <td>${checkCel(b.home_assistant)}</td>
-            <td>${beste && beste.url ? `<a class="knop" style="padding: var(--ruimte-6) var(--ruimte-10);font-size:var(--tekst-15);" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
+            <td>${beste && beste.url ? `<a class="knop" style="padding: var(--ruimte-6) var(--ruimte-10);font-size:var(--tekst-15);" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="${Kaart.koopRel(beste)}" aria-label="Bekijk de aanbieding van de ${escapeHtml(naamVan(b))}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
           </tr>`;
         }).join("")}
       </tbody>
-    </table>`;
+    </table>${rijen.some((b) => (b.aanbiedingen || []).some((a) => a && a.affiliate_url)) ? `
+    <p class="datum-stempel disclosure">${escapeHtml(Kaart.DISCLOSURE)} <a href="over-ons.html#commissie">Uitleg</a></p>` : ""}`;
   }
 
   /* ------------------------------------------------------------------
@@ -279,7 +280,7 @@
         { label: "Garantie", toon: (b) => (b.garantie_jaar ? b.garantie_jaar + " jaar" : "?"), waarde: (b) => b.garantie_jaar || null, beter: "hoog" },
         { label: "Rendement heen en terug", toon: (b) => Kaart.rendementHtml(b) || "geen opgave gevonden" },
       ],
-      voet: (b) => { const p = bestePrijs(b); return p && p.url ? `<a class="knop" href="${escapeHtml(koopUrl(p))}" target="_blank" rel="noopener${p.affiliate_url ? " sponsored" : ""}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>` : ""; },
+      voet: (b) => { const p = bestePrijs(b); return p && p.url ? `<a class="knop" href="${escapeHtml(koopUrl(p))}" target="_blank" rel="${Kaart.koopRel(p)}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>` : ""; },
     });
   }
 
@@ -596,6 +597,7 @@
       const data = await res.json();
       state.batterijen = data.batterijen || [];
       state.meta = data;
+      Kaart.zetWinkels(data.winkels);
 
       if (data.laatst_bijgewerkt) {
         el("updateDatum").textContent = datumNL(data.laatst_bijgewerkt);
