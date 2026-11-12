@@ -11,8 +11,9 @@
  *
  * Het oordeel per model komt uit PrijsGrafiek.dealcheck (kern/assets/
  * prijsgrafiek.js), dezelfde functie die het blokje boven de grafiek op de
- * productpagina schrijft. Zo kan de pagina nooit iets anders zeggen dan de
- * productpagina.
+ * productpagina schrijft. Schijnkortingen komen per winkel uit
+ * PrijsGrafiek.schijnkortingen, net als het label in de winkeltabel. Zo kan
+ * de pagina nooit iets anders zeggen dan de productpagina.
  *
  * Dit bestand maakt alleen de inhoud van <main>. De kop, het menu en de voet
  * verschillen per site en blijven in de generator van die site.
@@ -34,13 +35,17 @@ export function dealOverzicht({ items, PrijsGrafiek, esc, eur, datum, woorden, e
     .filter((r) => r.d);
   const per = (soort) => rijen.filter((r) => r.d.soort === soort);
   const deals = rijen.filter((r) => GOED.has(r.d.soort)).sort((a, b) => b.d.procent - a.d.procent);
-  const schijn = per("schijnkorting").sort((a, b) => (b.d.vorige - b.d.nu) - (a.d.vorige - a.d.nu));
+  // Per winkel: een schijnkorting is iets wat één winkel doet.
+  const schijn = items
+    .flatMap((it) => PrijsGrafiek.schijnkortingen(it.id).map((s) => ({ ...it, s })))
+    .sort((a, b) => (b.s.vorige - b.s.nu) - (a.s.vorige - a.s.nu));
+  const schijnModellen = new Set(schijn.map((r) => r.id)).size;
   const boven = per("boven").sort((a, b) => a.d.procent - b.d.procent);
   const telling = {
     gevolgd: rijen.length,
     laagste: per("laagste").length,
     daling: per("daling").length,
-    schijnkorting: schijn.length,
+    schijnkorting: schijnModellen,
     boven: boven.length,
     normaal: per("normaal").length,
     teKort: per("te-kort").length,
@@ -49,7 +54,7 @@ export function dealOverzicht({ items, PrijsGrafiek, esc, eur, datum, woorden, e
   const pct = (n) => `${Number(n).toLocaleString("nl-NL", { maximumFractionDigits: 1 })}%`;
   const model = (r) => `<a href="${esc(r.url)}">${esc(r.naam)}</a>`;
   const label = (r) => {
-    const tekst = { laagste: "laagste ooit gemeten", daling: "echte daling", schijnkorting: "schijnkorting", boven: "duurder" }[r.d.soort];
+    const tekst = { laagste: "laagste ooit gemeten", daling: "echte daling", boven: "duurder" }[r.d.soort];
     return `<span class="deal-label deal-label-${r.d.soort}">${esc(tekst)}</span>`;
   };
   const tabel = (kop, regels) => `<div class="tabel-blok"><table class="data-tabel deal-tabel">
@@ -68,10 +73,10 @@ export function dealOverzicht({ items, PrijsGrafiek, esc, eur, datum, woorden, e
     : `<p>Vandaag ligt bij geen van de ${telling.gevolgd} gevolgde modellen de laagste winkelprijs minstens ${drempel} onder de laagste prijs van de 30 dagen ervoor. Ik reken deze lijst elke ochtend opnieuw uit, dus kijk in de week van ${esc(datum(BLACK_FRIDAY))} nog eens.</p>`;
 
   const schijnBlok = schijn.length
-    ? `<p>Bij ${schijn.length === 1 ? `deze ${E}` : `deze ${schijn.length} modellen`} is de prijs gezakt ten opzichte van de dag ervoor. Volgens de wettelijke 30-dagenregel is het toch geen korting, want in de 30 dagen daarvoor stond ${schijn.length === 1 ? "hij" : "elk van deze modellen"} al voor hetzelfde bedrag of minder te koop. Meestal ging de prijs eerst omhoog.</p>
-  ${tabel(["Model", "Nu", "Prijs ervoor", "Al eerder voor"], schijn.map((r) =>
-    `<tr><td>${model(r)}<br><small>verlaagd op ${sinds(r.d.sinds)}</small></td><td class="cijfer"><b>${esc(eur(r.d.nu))}</b></td><td class="cijfer">${esc(eur(r.d.vorige))}</td><td class="cijfer">${esc(eur(r.d.ref))}</td></tr>`))}`
-    : `<p>Vandaag zie ik bij geen enkele ${E} een prijs die eerst is opgehoogd en daarna "afgeprijsd". Gebeurt dat in aanloop naar ${esc(datum(BLACK_FRIDAY))}, dan komt het hier te staan.</p>`;
+    ? `<p>${schijn.length === 1 ? "Deze winkel vraagt" : `Deze ${schijn.length} winkels vragen`} minder dan de dag ervoor. Volgens de wettelijke 30-dagenregel is het toch geen korting, want in de 30 dagen daarvoor vroeg ${schijn.length === 1 ? "dezelfde winkel" : "elke winkel zelf"} al hetzelfde bedrag of minder. Meestal ging de prijs eerst omhoog. Op de pagina van het model staat het label bij die winkel.</p>
+  ${tabel(["Model", "Winkel", "Nu", "Prijs ervoor", "Al eerder voor"], schijn.map((r) =>
+    `<tr><td>${model(r)}<br><small>verlaagd op ${sinds(r.s.sinds)}</small></td><td>${esc(r.s.winkel)}</td><td class="cijfer"><b>${esc(eur(r.s.nu))}</b></td><td class="cijfer">${esc(eur(r.s.vorige))}</td><td class="cijfer">${esc(eur(r.s.ref))}</td></tr>`))}`
+    : `<p>Vandaag zie ik bij geen enkele winkel een ${E} die eerst is opgehoogd en daarna "afgeprijsd". Gebeurt dat in aanloop naar ${esc(datum(BLACK_FRIDAY))}, dan komt het hier te staan.</p>`;
 
   const bovenBlok = boven.length
     ? `<p>Bij ${boven.length === 1 ? `deze ${E}` : `deze ${boven.length} modellen`} betaal je vandaag meer dan de laagste prijs van de afgelopen 30 dagen. Een korting die de winkel er toch bij zet, rekent dus vanaf een opgehoogde prijs.</p>
@@ -85,7 +90,7 @@ export function dealOverzicht({ items, PrijsGrafiek, esc, eur, datum, woorden, e
   const vragen = [
     {
       vraag: `Zijn Black Friday-kortingen op ${woorden.meervoud} echt?`,
-      antwoord: `Lang niet altijd. Van de ${telling.gevolgd} modellen die ik volg, ${deals.length === 1 ? "is er vandaag één" : `zijn er vandaag ${deals.length}`} echt goedkoper dan de laagste prijs van de 30 dagen ervoor${schijn.length ? `, en ${schijn.length === 1 ? "heeft er één" : `hebben er ${schijn.length}`} een schijnkorting, een prijs die eerst omhoog ging en daarna weer zakte` : ""}. Een doorgestreepte adviesprijs bij de winkel zegt daar niets over.`,
+      antwoord: `Lang niet altijd. Van de ${telling.gevolgd} modellen die ik volg, ${deals.length === 1 ? "is er vandaag één" : `zijn er vandaag ${deals.length}`} echt goedkoper dan de laagste prijs van de 30 dagen ervoor${schijnModellen ? `, en bij ${schijnModellen === 1 ? "één ervan" : `${schijnModellen} ervan`} heeft een winkel een schijnkorting, een prijs die bij die winkel eerst omhoog ging en daarna weer zakte` : ""}. Een doorgestreepte adviesprijs bij de winkel zegt daar niets over.`,
     },
     {
       vraag: `Hoe zie ik of een korting op een ${woorden.enkel} echt is?`,
