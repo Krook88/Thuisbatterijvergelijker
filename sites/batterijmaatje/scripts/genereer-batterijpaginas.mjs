@@ -584,7 +584,8 @@ ${NAV_HTML}
   </div>
 
   <div class="info-kader">
-    ${beste ? `<div class="info-prijs">${eur(Prijs.vergelijkPrijs(beste))} <span class="info-prijs-bron">incl. btw ${beste.is_richtprijs ? "(richtprijs; op dit moment geen winkel met deze batterij)" : `bij ${esc(Kaart.winkelNaam(beste))}${Kaart.winkelInfoHtml(beste)}`}${perKwh ? ` · ${eur(perKwh)} per kWh opslag` : ""}</span></div>${ouderdomHtml(b)}${Prijs.prijsToelichting(beste) ? `<div class="prijs-let-op">${esc(Prijs.prijsToelichting(beste))}</div>` : ""}` : "<div><b>Prijs op aanvraag</b></div>"}
+    ${beste ? `<div class="info-prijs">${eur(Prijs.vergelijkPrijs(beste))} <span class="info-prijs-bron">incl. btw ${beste.is_richtprijs ? "(richtprijs; op dit moment geen winkel met deze batterij)" : `bij ${esc(Kaart.winkelNaam(beste))}`}${perKwh ? ` · ${eur(perKwh)} per kWh opslag` : ""}</span></div>${ouderdomHtml(b)}${Prijs.prijsToelichting(beste) ? `<div class="prijs-let-op">${esc(Prijs.prijsToelichting(beste))}</div>` : ""}` : "<div><b>Prijs op aanvraag</b></div>"}
+    ${beste && Kaart.winkelInfoHtml(beste) ? `<div class="info-dekking">${esc(Kaart.winkelNaam(beste))}:${Kaart.winkelInfoHtml(beste)}</div>` : ""}
     ${b.prijs_omvat ? `<div class="info-dekking">Deze prijs dekt: ${esc(b.prijs_omvat)}</div>` : ""}
     <div class="info-totaal" title="${esc(b.totaalprijs_toelichting || "")}">Compleet gebruiksklaar (indicatie): <b>${totaal || "op aanvraag"}</b></div>
     <p class="info-acties">
