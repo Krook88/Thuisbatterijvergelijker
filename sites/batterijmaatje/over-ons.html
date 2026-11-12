@@ -18,15 +18,15 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="assets/maatlat.css?v=20261107c" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261107c" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261107c">
-  <script src="assets/nav.js?v=20261107c" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261112a" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261112a" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261112a">
+  <script src="assets/nav.js?v=20261112a" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261107c"></script>
+  <script defer src="/assets/teller.js?v=20261112a"></script>
 </head>
 <body>
 
@@ -94,9 +94,10 @@
     <li>De <b>Koppel-score</b> (0 t/m 6 punten) telt drie feiten per model op: ondersteuning voor Homey, voor Home Assistant en voor een dynamisch energiecontract. Volledige ondersteuning telt voor 2 punten, gedeeltelijke (via een app, integratie of extra hardware) voor 1 punt, geen voor 0. De formule ligt vast, is voor iedere batterij gelijk en is niet door fabrikanten of winkels te beïnvloeden. Zie ook de <a href="uitleg.html#koppel-score">uitleg in de woordenlijst</a>.</li>
   </ul>
 
-  <h2>Commerciële relaties</h2>
+  <h2 id="commissie">Commerciële relaties</h2>
+  <p class="blok"><b>batterijmaatje.nl is onafhankelijk. Sommige winkellinks zijn affiliate-links: koop je via zo'n link, dan ontvangen wij een kleine vergoeding, zonder extra kosten voor jou. Dit heeft geen invloed op de volgorde of op ons advies. Winkels kunnen geen betere plek kopen.</b></p>
   <div class="blok">
-    Batterijmaatje.nl is partner van bol.com. Links naar bol.com zijn commissielinks: koop je iets via zo'n link, dan ontvang ik een kleine vergoeding van bol.com. <b>Dit kost jou niets</b>; je betaalt dezelfde prijs als wanneer je rechtstreeks naar de winkel gaat. Links naar andere winkels en aanbieders zijn op dit moment gewone, onbetaalde links; sluit ik daar in de toekomst partnerprogramma's mee, dan vermeld ik dat hier. Mijn uitgangspunt verandert nooit: <b>commerciële afspraken beïnvloeden nooit de volgorde, scores, prijzen of adviezen</b> op deze site. De volgorde volgt uitsluitend de sortering die je zelf kiest (standaard de prijs per kWh opslag, met de Koppel-score als het gelijkspel is), en een commissielink schuift daarin nooit op. De dagelijkse prijscontrole leest altijd de echte winkelpagina uit.
+    Batterijmaatje.nl heeft een partnerprogramma met bol.com en met de webshop Voltbaas. Links naar die twee winkels zijn commissielinks: koop je iets via zo'n link, dan ontvang ik een kleine vergoeding van de winkel. <b>Dit kost jou niets</b>; je betaalt dezelfde prijs als wanneer je rechtstreeks naar de winkel gaat. Links naar andere winkels en aanbieders zijn gewone, onbetaalde links; komt er een partnerprogramma bij, dan vermeld ik dat hier. Bij Voltbaas staat in de prijslijst "Nieuwe webshop" en de retourvoorwaarden (14 dagen bedenktijd, €100 ophaalkosten per batterij); dat is informatie, geen aanbeveling. Mijn uitgangspunt verandert nooit: <b>commerciële afspraken beïnvloeden nooit de volgorde, scores, prijzen of adviezen</b> op deze site. De volgorde volgt uitsluitend de sortering die je zelf kiest (standaard de prijs per kWh opslag, met de Koppel-score als het gelijkspel is), en een commissielink schuift daarin nooit op. De dagelijkse prijscontrole leest altijd de echte winkelpagina uit.
   </div>
 
   <h2>Fout gezien of een vraag?</h2>

@@ -42,6 +42,9 @@
 
   let batterijen = [];
   let merkLogos = {};
+  let winkels = {};
+  // Dezelfde tekst als in kaart.js en op over-ons.html.
+  const DISCLOSURE = "batterijmaatje.nl is onafhankelijk. Sommige winkellinks zijn affiliate-links: koop je via zo'n link, dan ontvangen wij een kleine vergoeding, zonder extra kosten voor jou. Dit heeft geen invloed op de volgorde of op ons advies. Winkels kunnen geen betere plek kopen.";
 
   /* ------------------------------------------------------------------ */
 
@@ -579,11 +582,13 @@
             ? `<br><small>Schatting: ${eurFmt.format(b.totaalprijs_geschat_van_eur)} tot ${eurFmt.format(b.totaalprijs_geschat_tot_eur)} - het toestel plus ${eurFmt.format(500)} tot ${eurFmt.format(2000)} installatie. Van dit systeem heb ik geen complete prijs uit een bron, dus telt hij niet mee in de vergelijking op prijs per kWh.</small>`
             : `<br><small>Ik heb voor dit systeem geen prijs inclusief installatie gevonden.</small>`)}</span></div>
           ${b.prijs_omvat ? `<div class="koppelgemak"><span class="uitleg">Winkelprijs dekt: ${escapeHtml(b.prijs_omvat)}</span></div>` : ""}
+          ${prijs && prijs.winkel && winkels[prijs.winkel] ? `<div class="koppelgemak"><span class="uitleg">Bij ${escapeHtml(prijs.winkel)}${winkels[prijs.winkel].label ? ` <small class="winkel-info">${escapeHtml(winkels[prijs.winkel].label)}</small>` : ""}${winkels[prijs.winkel].retour ? `<br><small>Retour: ${escapeHtml(winkels[prijs.winkel].retour)}</small>` : ""}</span></div>` : ""}
           <div class="kaart-acties advies-acties">
-            ${prijs && prijs.url ? `<a class="knop" href="${escapeHtml(prijs.affiliate_url || prijs.url)}" target="_blank" rel="noopener${prijs.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de aanbieding van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>` : ""}
+            ${prijs && prijs.url ? `<a class="knop" href="${escapeHtml(prijs.affiliate_url || prijs.url)}" target="_blank" rel="${prijs.affiliate_url ? "sponsored nofollow noopener" : "noopener"}" aria-label="Bekijk de aanbieding van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>` : ""}
             <a class="knop knop-secundair" href="${escapeHtml(rekenmoduleLink(b))}" aria-label="Bereken de terugverdientijd van de ${escapeHtml(b.merk)} ${escapeHtml(b.model)}">Terugverdientijd</a>
           </div>
-        </article>`).join("") + "</div>";
+        </article>`).join("") + "</div>"
+        + (top.some(({ prijs }) => prijs && prijs.affiliate_url) ? `<p class="datum-stempel disclosure">${escapeHtml(DISCLOSURE)} <a href="over-ons.html#commissie">Uitleg</a></p>` : "");
     }
 
     doel.innerHTML = `
@@ -643,6 +648,7 @@
       const data = await res.json();
       batterijen = data.batterijen || [];
       merkLogos = data.merk_logos || {};
+      winkels = data.winkels || {};
     } catch (err) {
       console.error("Batterijen konden niet geladen worden:", err);
     }

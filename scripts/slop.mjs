@@ -154,6 +154,13 @@ const GENERALISATIE = /(onderzoek(en)? (toont|tonen) aan|studies (laten zien|ton
    pagina schrijft valt vanzelf terug in "wij tonen" - het is de standaardstem
    van elke vergelijkingssite en van elk taalmodel. Nul treffers bij invoering,
    dus alles wat hier opduikt is nieuw ingeslopen. */
+/* De disclosure bij commissielinks op batterijmaatje staat er letterlijk zoals
+   de eigenaar hem heeft vastgesteld (november 2026, bij de komst van Voltbaas),
+   in de wij-vorm en met een dubbele punt. Hij hoort op elke plek met
+   winkellinks precies gelijk te zijn, dus telt hij hier niet mee. Alleen deze
+   ene tekst; alles eromheen wordt gewoon nagelopen. */
+const DISCLOSURE = /batterijmaatje\.nl is onafhankelijk\. Sommige winkellinks zijn affiliate-links: koop je via zo(?:'|&#39;|&#x27;|&apos;)n link, dan ontvangen wij een kleine vergoeding, zonder extra kosten voor jou\. Dit heeft geen invloed op de volgorde of op ons advies\. Winkels kunnen geen betere plek kopen\./g;
+
 const MEERVOUDSSTEM = /\b(Wij|wij|We|we|ons|Ons|onze|Onze)\b/g;
 
 /* Congruentie. Deze controle kijkt als enige niet naar stijl maar naar fouten.
@@ -344,7 +351,7 @@ const zinPerSite = new Map(); // zin -> Set van sites
 for (const site of teDoen) {
   for (const { naam, pad } of paginasVan(site)) {
     paginaTeller += 1;
-    const html = readFileSync(pad, "utf8");
+    const html = readFileSync(pad, "utf8").replace(DISCLOSURE, " ");
     const tekst = `${plat(zonderRuis(html))} ${attribuutTekst(zonderRuis(html))}`;
     const waar = `${site}/${naam}`;
 
