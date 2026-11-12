@@ -129,7 +129,7 @@
 
   // Disclosure onder elk blok met winkellinks waarvan er minstens één een
   // commissielink is. Dezelfde tekst staat op over-ons.html.
-  const DISCLOSURE = "batterijmaatje.nl is onafhankelijk. Sommige winkellinks zijn affiliate-links: koop je via zo'n link, dan ontvangen wij een kleine vergoeding, zonder extra kosten voor jou. Dit heeft geen invloed op de volgorde of op ons advies. Winkels kunnen geen betere plek kopen.";
+  const DISCLOSURE = "batterijmaatje.nl is onafhankelijk. Sommige winkellinks zijn affiliate-links. Koop je via zo'n link, dan ontvang ik een kleine vergoeding, zonder extra kosten voor jou. Dit heeft geen invloed op de volgorde of op mijn advies. Winkels kunnen geen betere plek kopen.";
 
   // Winkels op prijs, laagste eerst (incl. btw); winkels zonder bedrag erachter.
   function opPrijs(lijst) {
