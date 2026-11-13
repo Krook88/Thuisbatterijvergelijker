@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-11-12",
+  "bijgewerkt": "2026-11-13",
   "punten": {
     "onbereikbaar|dyness-powerbox-g2|Zonnige Winkel": {
       "sinds": "2026-11-07",
@@ -7,22 +7,34 @@
       "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: fetch failed",
       "bevestigd": true
     },
+    "onbereikbaar|tsun-powertrunk-mau5000|Powerness": {
+      "sinds": "2026-11-13",
+      "soort": "onbereikbaar",
+      "tekst": "tsun-powertrunk-mau5000 @ Powerness: HTTP 404",
+      "bevestigd": false
+    },
     "te controleren|aeg-solarcube-pro|aegthuisbatterij.nl (oktober 2026)": {
       "sinds": "2026-11-06",
       "soort": "te controleren",
       "tekst": "aeg-solarcube-pro @ aegthuisbatterij.nl (oktober 2026): €1799 → €968 (-46%)",
       "bevestigd": true
     },
+    "te controleren|mova-lumegret-a4000|Thuisbatterij.io": {
+      "sinds": "2026-11-13",
+      "soort": "te controleren",
+      "tekst": "mova-lumegret-a4000 @ Thuisbatterij.io: €1349 → €999 (-26%)",
+      "bevestigd": false
+    },
     "verouderd|aeg-solarcube-48|richtprijs": {
       "sinds": "2026-10-29",
       "soort": "verouderd",
-      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (35 dagen)",
+      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (36 dagen)",
       "bevestigd": true
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (119 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (120 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
@@ -41,12 +53,6 @@
       "sinds": "2026-11-11",
       "soort": "geweigerd",
       "tekst": "aeg-solarcube-48 @ AH Voordeelshop: HTTP 403",
-      "bevestigd": true
-    },
-    "zonder prijs|dyness-powerbrick-plus|NKON": {
-      "sinds": "2026-11-07",
-      "soort": "geweigerd",
-      "tekst": "dyness-powerbrick-plus @ NKON: HTTP 403",
       "bevestigd": true
     }
   }
