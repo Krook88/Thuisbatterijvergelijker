@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-11-14",
+  "bijgewerkt": "2026-11-15",
   "punten": {
     "onbereikbaar|dyness-powerbox-g2|Zonnige Winkel": {
       "sinds": "2026-11-07",
@@ -17,7 +17,7 @@
       "sinds": "2026-11-14",
       "soort": "onbereikbaar",
       "tekst": "tsun-powertrunk-mau5000 @ Powerness (oktober 2026): HTTP 404",
-      "bevestigd": false
+      "bevestigd": true
     },
     "te controleren|aeg-solarcube-pro|aegthuisbatterij.nl (oktober 2026)": {
       "sinds": "2026-11-06",
@@ -25,22 +25,16 @@
       "tekst": "aeg-solarcube-pro @ aegthuisbatterij.nl (oktober 2026): €1799 → €968 (-46%)",
       "bevestigd": true
     },
-    "te controleren|mova-lumegret-a4000|Thuisbatterij.io": {
-      "sinds": "2026-11-13",
-      "soort": "te controleren",
-      "tekst": "mova-lumegret-a4000 @ Thuisbatterij.io: €1349 → €999 (-26%)",
-      "bevestigd": true
-    },
     "verouderd|aeg-solarcube-48|richtprijs": {
       "sinds": "2026-10-29",
       "soort": "verouderd",
-      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (37 dagen)",
+      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (38 dagen)",
       "bevestigd": true
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (121 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (122 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
@@ -55,11 +49,23 @@
       "tekst": "jackery-homepower-2000-ultra: €669 van ?, geen bron-URL",
       "bevestigd": true
     },
+    "zonder bron|mova-lumegret-a4000|?": {
+      "sinds": "2026-11-15",
+      "soort": "zonder bron",
+      "tekst": "mova-lumegret-a4000: €1990 van ?, geen bron-URL",
+      "bevestigd": false
+    },
     "zonder prijs|aeg-solarcube-48|AH Voordeelshop": {
       "sinds": "2026-11-11",
       "soort": "geweigerd",
       "tekst": "aeg-solarcube-48 @ AH Voordeelshop: HTTP 403",
       "bevestigd": true
+    },
+    "zonder prijs|dyness-powerbrick-plus|NKON": {
+      "sinds": "2026-11-15",
+      "soort": "geweigerd",
+      "tekst": "dyness-powerbrick-plus @ NKON: HTTP 403",
+      "bevestigd": false
     }
   }
 }
