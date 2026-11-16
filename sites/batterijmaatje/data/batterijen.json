@@ -1512,7 +1512,25 @@
       "afbeelding_bron": "foto: Jackery",
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "stopcontact",
-      "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van."
+      "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van.",
+      "maten": [
+        {
+          "kwh": 2,
+          "opbouw": "alleen de 2000 Ultra"
+        },
+        {
+          "kwh": 4,
+          "opbouw": "+ 1× HomePower Battery 2000"
+        },
+        {
+          "kwh": 6,
+          "opbouw": "+ 2× HomePower Battery 2000"
+        },
+        {
+          "kwh": 8,
+          "opbouw": "+ 3× HomePower Battery 2000"
+        }
+      ]
     },
     {
       "id": "goodwe-lynx-home-u-54",
@@ -2221,7 +2239,29 @@
       "afbeelding": "assets/producten/mova-lumegret-a4000.webp",
       "afbeelding_bron": "foto: MOVA",
       "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "onbekend",
+      "maten": [
+        {
+          "kwh": 4,
+          "opbouw": "alleen de A4000"
+        },
+        {
+          "kwh": 8,
+          "opbouw": "+ 1× B4000"
+        },
+        {
+          "kwh": 12,
+          "opbouw": "+ 2× B4000"
+        },
+        {
+          "kwh": 16,
+          "opbouw": "+ 3× B4000"
+        },
+        {
+          "kwh": 20,
+          "opbouw": "+ 4× B4000"
+        }
+      ]
     },
     {
       "id": "indevolt-solidflex-3000",
