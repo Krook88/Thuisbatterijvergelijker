@@ -2,16 +2,6 @@
   "toelichting": "Modellen die in een winkel staan maar niet in onze gegevens. Automatisch gevonden, nooit automatisch toegevoegd: nakijken en dan zelf opnemen, of de titel in scripts/nieuwe-modellen.json onder \"afgewezen\" zetten.",
   "kandidaten": [
     {
-      "titel": "Thuisbatterij kopen 5,12kWh - 48V - 100Ah - LIFePO4 voor zonne-energie opslag zonnepanelen",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000165936706/",
-      "ean": "8719327730874",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": "5.12 kwh",
-      "eerst_gezien": "2026-10-11"
-    },
-    {
       "titel": "Hoymiles plug & play thuisbatterij 1,92kWh >6000 cycli 800VA IP66 (HB-1920-AC-SV)",
       "bron": "bol.com",
       "url": "https://www.bol.com/nl/nl/p/-/9300000339497295/",
@@ -22,26 +12,6 @@
       "eerst_gezien": "2026-10-12"
     },
     {
-      "titel": "Solar Charge Controller - Zonne-energieregelaar - Energieopslag - Automatische spanningsherkenning - 12V 24V 30A - Zwart",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000408488602/",
-      "ean": "8763241141421",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-10-12"
-    },
-    {
-      "titel": "Supercondensator 3,8 V - 120 F - aluminium - ideaal voor energieopslag - m-winkel",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000411889158/",
-      "ean": "2391707694837",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-10-23"
-    },
-    {
       "titel": "Zendure 2400AC+ – Thuisbatterij voor zonnepanelen – Plug and Play – 2,4 kWh – 2,4 kW – Uitbreidbaar – Alleen te gebruiken met AB3000L – Geleverd zonder P1 meter & AB3000L",
       "bron": "bol.com",
       "url": "https://www.bol.com/nl/nl/p/-/9300000441437143/",
@@ -50,26 +20,6 @@
       "lijkt_op": null,
       "maat_uit_titel": "2.4 kwh",
       "eerst_gezien": "2026-11-01"
-    },
-    {
-      "titel": "Energieopslag Connector 150A 35mm² - Waterdicht IP67 - Hoge stroom voor betrouwbare verbinding",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000442904336/",
-      "ean": "2102000999952",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-11-02"
-    },
-    {
-      "titel": "OSCAL BP2000 Uitbreidingsbatterij - 1920Wh LiFePO4 Balkonbatterij - Compatibel met Power Storage 2000 - Draadloos uitbreidbaar tot 9,6kWh - BMS-beveiliging - Grijs",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000327266992/",
-      "ean": "0810228351293",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": "9.6 kwh",
-      "eerst_gezien": "2026-11-03"
     },
     {
       "titel": "Hoymiles HiBattery 4020 X - Plug-in thuisbatterij",
@@ -100,16 +50,6 @@
       "lijkt_op": null,
       "maat_uit_titel": "2.4 kwh",
       "eerst_gezien": "2026-11-11"
-    },
-    {
-      "titel": "Advances in Battery Manufacturing and Operating Status Analysis",
-      "bron": "bol.com",
-      "url": "https://www.bol.com/nl/nl/p/-/9300000388397357/",
-      "ean": "9781394437177",
-      "prijs_eur": null,
-      "lijkt_op": null,
-      "maat_uit_titel": null,
-      "eerst_gezien": "2026-11-14"
     }
   ]
 }
