@@ -4182,7 +4182,7 @@
       "vermogen_kw": 2.5,
       "type": "plug-in",
       "fase": "1-fase",
-      "richtprijs_eur": 1198,
+      "richtprijs_eur": 1149,
       "prijs_omvat": "incl. btw, stekkerklaar met ingebouwde omvormer en 4 zonnepaneelingangen; excl. P1-meter",
       "prijs_datum": "2026-11-16",
       "installatie": "zelf",
@@ -4198,12 +4198,6 @@
       "opmerkingen": "De versie van de HiBattery 4020 met eigen zonnepaneelingangen: 4 MPPT-ingangen tot 4.000 W, en verder dezelfde 4,02 kWh per module en dezelfde uitbreiding tot vier modules (16,08 kWh) met de HB-4020-S. Op het stopcontact levert hij 800 W, op een eigen groep 2,5 kW. Hij weegt 42 kg, 7 kg meer dan de AC. IP-klasse en noodstroom heb ik voor de X niet in een bron teruggevonden; de AC is IP66 met een noodstroomaansluiting, maar dat neem ik niet over. Hoymiles noemt alleen 4,02 kWh en geen bruikbare capaciteit, dus dat getal staat hier als nominaal.",
       "product_url": "https://www.hoymiles.com/nl/hibattery-4020-x.html",
       "aanbiedingen": [
-        {
-          "winkel": "Solarchamp",
-          "prijs_eur": 1198,
-          "url": "https://www.solarchamp.eu/nl/hoymiles-plug-en-play-thuisbatterij-micro-opslag-hoymiles-hibattery-4020-x.html",
-          "datum": null
-        },
         {
           "winkel": "bol.com",
           "prijs_eur": null,
