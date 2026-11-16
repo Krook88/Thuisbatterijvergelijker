@@ -563,8 +563,8 @@
       "id": "sigenergy-sigenstor-8kwh",
       "merk": "Sigenergy",
       "model": "SigenStor 8 kWh + 8 kW omvormer",
-      "capaciteit_kwh": 8.06,
-      "uitbreidbaar_tot_kwh": 48,
+      "capaciteit_kwh": 7.8,
+      "uitbreidbaar_tot_kwh": 46.8,
       "vermogen_kw": 4,
       "type": "hybride",
       "fase": "beide",
@@ -600,7 +600,7 @@
       "buiten_toelichting": "binnen en buiten, zonder extra overkapping",
       "afbeelding": "assets/producten/sigenergy-sigenstor-8kwh.webp",
       "afbeelding_bron": "foto: Sigenergy",
-      "capaciteit_soort": "onbekend",
+      "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "continu",
       "onbalans": {
         "status": "onbekend",
@@ -614,7 +614,8 @@
         ],
         "toelichting": "Wordt via Frank Energie geleverd inclusief slimme sturing; of daar ook onbalanshandel bij zit heb ik niet nagegaan."
       },
-      "vermogen_bron": "Sigen-datasheet: een BAT 8.0-module laadt en ontlaadt maximaal 4 kW, 6 kW piek gedurende 10 seconden; de omvormer kan 8 kW, maar dat haal je pas met twee modules"
+      "vermogen_bron": "Sigen-datasheet: een BAT 8.0-module laadt en ontlaadt maximaal 4 kW, 6 kW piek gedurende 10 seconden; de omvormer kan 8 kW, maar dat haal je pas met twee modules",
+      "capaciteit_nominaal_kwh": 8.06
     },
     {
       "id": "tesla-powerwall-3",
@@ -727,7 +728,7 @@
       "id": "fox-ess-ep11",
       "merk": "Fox ESS",
       "model": "EP11 (10,36 kWh)",
-      "capaciteit_kwh": 10.36,
+      "capaciteit_kwh": 9.33,
       "uitbreidbaar_tot_kwh": null,
       "vermogen_kw": null,
       "type": "hybride",
@@ -758,18 +759,19 @@
       "buiten_toelichting": "binnen en buiten",
       "afbeelding": "assets/producten/fox-ess-ep11.webp",
       "afbeelding_bron": "foto: Fox ESS",
-      "capaciteit_soort": "onbekend",
+      "capaciteit_soort": "bruikbaar",
       "totaalprijs_geschat_van_eur": 3885,
       "totaalprijs_geschat_tot_eur": 5385,
       "prijs_controle": "handmatig",
-      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is."
+      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is.",
+      "capaciteit_nominaal_kwh": 10.36
     },
     {
       "id": "growatt-apx-10",
       "merk": "Growatt",
       "model": "APX 10.0P HV (10 kWh)",
-      "capaciteit_kwh": 10,
-      "uitbreidbaar_tot_kwh": 30,
+      "capaciteit_kwh": 9,
+      "uitbreidbaar_tot_kwh": 27,
       "vermogen_kw": null,
       "type": "hybride",
       "fase": "beide",
@@ -797,7 +799,7 @@
       "buiten_toelichting": "binnen en buiten",
       "afbeelding": "assets/producten/growatt-apx-10.webp",
       "afbeelding_bron": "foto: Growatt",
-      "capaciteit_soort": "onbekend",
+      "capaciteit_soort": "bruikbaar",
       "onbalans": {
         "status": "onbekend",
         "via": [
@@ -809,7 +811,8 @@
           }
         ],
         "toelichting": "Koppeling met Frank Energie is aangekondigd, niet bevestigd."
-      }
+      },
+      "capaciteit_nominaal_kwh": 10
     },
     {
       "id": "sungrow-sbr096",
@@ -848,16 +851,17 @@
       "buiten_toelichting": "binnen en buiten volgens fabrikant",
       "afbeelding": "assets/producten/sungrow-sbr096.webp",
       "afbeelding_bron": "foto: Sungrow",
-      "capaciteit_soort": "onbekend",
+      "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "onbekend",
       "prijs_controle": "handmatig",
-      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is."
+      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is.",
+      "capaciteit_nominaal_kwh": 9.6
     },
     {
       "id": "byd-battery-box-hvm-11",
       "merk": "BYD",
       "model": "Battery-Box Premium HVM 11.0 (11 kWh bruikbaar)",
-      "capaciteit_kwh": 11,
+      "capaciteit_kwh": 11.04,
       "uitbreidbaar_tot_kwh": 66.2,
       "vermogen_kw": 10,
       "type": "hybride",
@@ -1304,8 +1308,8 @@
       "id": "saj-h2-5k-s2-10kwh",
       "merk": "SAJ",
       "model": "H2-5K-S2 All-in-One (10 kWh)",
-      "capaciteit_kwh": 10,
-      "uitbreidbaar_tot_kwh": 25,
+      "capaciteit_kwh": 9,
+      "uitbreidbaar_tot_kwh": 22.5,
       "vermogen_kw": 5,
       "type": "hybride",
       "fase": "beide",
@@ -1342,12 +1346,13 @@
       "noodstroom_uitleg": "Het systeem heeft een aparte back-upuitgang die binnen 10 milliseconden omschakelt bij een stroomstoring; welke delen van het huis doorwerken hangt af van wat de installateur op die uitgang aansluit.",
       "ip_klasse": "IP65",
       "buiten_toelichting": "omvormer en batterijmodule beide IP65, wand- of grondmontage buiten mogelijk",
-      "capaciteit_soort": "onbekend",
+      "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "onbekend",
       "totaalprijs_geschat_van_eur": 5066,
       "totaalprijs_geschat_tot_eur": 6566,
       "prijs_controle": "handmatig",
-      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is."
+      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is.",
+      "capaciteit_nominaal_kwh": 10
     },
     {
       "id": "duracell-dura5",
