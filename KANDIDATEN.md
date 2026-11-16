@@ -340,6 +340,6 @@ zonnepaneelingangen (4 MPPT, tot 4.000 W), dus een eigen regel, zoals bij de
 Jackery SolarVault 3 Pro Max en Pro Max AC. Capaciteit en uitbreiding gelijk
 aan de AC (4,02 kWh, tot 16,08 kWh met HB-4020-S). Uit zoekresultaten, de
 pagina's zelf niet gelezen: Solarchamp €1.197,90, iotdomotica €1.197, id.nl
-"zo'n 1.200 euro", Alma Solar €1.355. IP-klasse en noodstroom voor de X niet
-gevonden, dus leeg gelaten. Cycli: 8.000 (winkel) tegenover 6.000+ (andere
+"zo'n 1.200 euro", Alma Solar €1.355. IP66 en noodstroom (2.500 W, omschakeling < 20 ms) later
+gevonden op het beeldmateriaal van de Hoymiles-productpagina en ingevuld. Cycli: 8.000 (winkel) tegenover 6.000+ (andere
 bron). Een droge prijsupdate (16 november) las €1.149 via de bol-API; de Solarchamp-link gaf een 404 en is weggelaten. De bol-aanbieding staat op `datum: null` tot de echte prijsupdate hem bevestigt.

@@ -3808,7 +3808,7 @@
       "garantie_jaar": 10,
       "cycli": 8000,
       "cycli_toelichting": "8.000 bij 70% restcapaciteit volgens een winkelopgave; een andere bron noemt meer dan 6.000",
-      "opmerkingen": "De versie van de HiBattery 4020 met eigen zonnepaneelingangen: 4 MPPT-ingangen tot 4.000 W, en verder dezelfde 4,02 kWh per module en dezelfde uitbreiding tot vier modules (16,08 kWh) met de HB-4020-S. Op het stopcontact levert hij 800 W, op een eigen groep 2,5 kW. Hij weegt 42 kg, 7 kg meer dan de AC. IP-klasse en noodstroom heb ik voor de X niet in een bron teruggevonden; de AC is IP66 met een noodstroomaansluiting, maar dat neem ik niet over. Hoymiles noemt alleen 4,02 kWh en geen bruikbare capaciteit, dus dat getal staat hier als nominaal.",
+      "opmerkingen": "De versie van de HiBattery 4020 met eigen zonnepaneelingangen: 4 MPPT-ingangen tot 4.000 W, en verder dezelfde 4,02 kWh per module en dezelfde uitbreiding tot vier modules (16,08 kWh) met de HB-4020-S. Op het stopcontact levert hij 800 W, op een eigen groep 2,5 kW. Hij weegt 42 kg, 7 kg meer dan de AC. Hoymiles noemt op de productpagina van de X IP66 en noodstroom tot 2.500 W, met omschakeling binnen 20 ms. Hoymiles noemt alleen 4,02 kWh en geen bruikbare capaciteit, dus dat getal staat hier als nominaal.",
       "product_url": "https://www.hoymiles.com/nl/hibattery-4020-x.html",
       "aanbiedingen": [
         {
@@ -3823,8 +3823,8 @@
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
       "totaalprijs_toelichting": "zelf te installeren; een P1-meter komt erbij als je die nog niet hebt",
-      "noodstroom": null,
-      "ip_klasse": null,
+      "noodstroom": true,
+      "ip_klasse": "IP66",
       "capaciteit_soort": "nominaal",
       "capaciteit_nominaal_kwh": 4.02,
       "vermogen_conditie": "max",
@@ -3852,7 +3852,9 @@
           "kwh": 16.08,
           "opbouw": "+ 3× HB-4020-S"
         }
-      ]
+      ],
+      "buiten_toelichting": "binnen en buiten (IP66 volgens Hoymiles)",
+      "noodstroom_uitleg": "Noodstroom tot 2.500 W, met omschakeling binnen 20 ms (beeldmateriaal op de productpagina van Hoymiles)."
     },
     {
       "id": "hoymiles-hibattery-1920-ac",
