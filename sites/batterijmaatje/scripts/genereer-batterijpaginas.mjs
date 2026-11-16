@@ -170,7 +170,7 @@ function matenTabelHtml(b) {
     </tbody>
   </table>
   </div>
-  <p class="datum-stempel">Een streepje bij de prijs betekent dat ik voor die maat geen winkelprijs heb; vraag hem na bij de winkel of installateur. "Dekt van een dag" rekent met een gemiddeld huishouden${bruikbaar ? "" : " en gaat uit van ongeveer 90% bruikbaar"}.</p>
+  <p class="datum-stempel">Een streepje bij de prijs betekent dat ik voor die maat geen winkelprijs heb; vraag hem na bij de winkel of installateur. "Dekt van een dag" rekent met ${DagmaatMaten.VERBRUIK_STANDAARD.toLocaleString("nl-NL")} kWh per jaar${bruikbaar ? "" : " en ongeveer 90% bruikbaar"}.</p>
 `;
 }
 
