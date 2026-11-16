@@ -1300,7 +1300,7 @@
       "fase_toelichting": "afhankelijk van X1/X3-omvormer",
       "richtprijs_eur": 1735,
       "prijs_omvat": "vanaf-prijs master-module; hybride omvormer en installatie apart",
-      "prijs_datum": "2026-11-15",
+      "prijs_datum": "2026-11-16",
       "installatie": "installateur",
       "zonnepanelen_koppeling": "Een hoogspanningsbatterij die bij een SolaX hybride omvormer hoort (X1 voor 1-fase, X3 voor 3-fase). Daarom vooral interessant als je nieuw begint, of als je omvormer toch aan vervanging toe is.",
       "koppeling_gemak": 2,
@@ -1320,8 +1320,7 @@
           "winkel": "Alma Solar",
           "prijs_eur": 1625,
           "url": "https://www.alma-solarshop.nl/triple-power-batterij/1241-triple-power-batterij-58kwh-hoogspanning.html",
-          "datum": "2026-11-15",
-          "weg_sinds": "2026-11-16"
+          "datum": "2026-11-16"
         }
       ],
       "totaalprijs_van_eur": 5700,
@@ -1391,10 +1390,7 @@
           "btw_inbegrepen": false,
           "prijs_eur": 1495,
           "url": "https://zonnigewinkel.nl/product/dyness-powerbox-g2-lv-1024-kwh/",
-          "datum": "2026-10-09",
-          "weg_sinds": "2026-11-07",
-          "niet_leverbaar": true,
-          "niet_leverbaar_door": "pagina weg"
+          "datum": "2026-10-09"
         },
         {
           "winkel": "Thuisaccu Webshop",
