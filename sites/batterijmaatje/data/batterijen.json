@@ -2232,17 +2232,9 @@
         },
         {
           "winkel": "Thuisbatterij.io",
-          "prijs_eur": 1349,
+          "prijs_eur": 999,
           "url": "https://thuisbatterij.io/product/mova-lumegret-a4000/",
-          "datum": "2026-11-12",
-          "afwijking": {
-            "prijs": 999,
-            "sinds": "2026-11-13",
-            "laatst": "2026-11-15",
-            "runs": 3
-          },
-          "niet_leverbaar": true,
-          "niet_leverbaar_door": "prijs wijkt af"
+          "datum": "2026-11-15"
         }
       ],
       "totaalprijs_van_eur": 1349,
@@ -2275,7 +2267,8 @@
           "kwh": 20,
           "opbouw": "+ 4× B4000"
         }
-      ]
+      ],
+      "prijs_bron_url": "https://www.mova.tech/products/lumegret-a4000-solar-power-system"
     },
     {
       "id": "indevolt-solidflex-3000",
@@ -3909,9 +3902,17 @@
       "aanbiedingen": [
         {
           "winkel": "NKON",
-          "prijs_eur": 2046,
+          "prijs_eur": 1925,
           "url": "https://www.nkon.nl/dyness-powerbrick-plus-51-2v-16-07kwh-thuisbatterij.html",
-          "datum": "2026-11-14"
+          "datum": "2026-11-14",
+          "prijs_controle": "handmatig",
+          "prijs_controle_reden": "NKON weigert de prijsupdate sinds 15 november 2026 (HTTP 403). Het bedrag is €1.924,95 incl. btw (€1.590,87 excl.), zoals NKON het toonde en de prijsupdate het op 14 november als richtprijs las."
+        },
+        {
+          "winkel": "Multi Solar",
+          "prijs_eur": 1949,
+          "url": "https://multi-solar.nl/products/dyness-powerbrick-plus-16-07-kwh-thuisbatterij-51-2v",
+          "datum": null
         }
       ],
       "totaalprijs_van_eur": null,
@@ -4200,7 +4201,7 @@
       "garantie_jaar": 10,
       "cycli": 8000,
       "cycli_toelichting": "8.000 bij 70% restcapaciteit volgens een winkelopgave; een andere bron noemt meer dan 6.000",
-      "opmerkingen": "De versie van de HiBattery 4020 met eigen zonnepaneelingangen: 4 MPPT-ingangen tot 4.000 W, en verder dezelfde 4,02 kWh per module en dezelfde uitbreiding tot vier modules (16,08 kWh) met de HB-4020-S. Op het stopcontact levert hij 800 W, op een eigen groep 2,5 kW. Hij weegt 42 kg, 7 kg meer dan de AC. IP-klasse en noodstroom heb ik voor de X niet in een bron teruggevonden; de AC is IP66 met een noodstroomaansluiting, maar dat neem ik niet over. Hoymiles noemt alleen 4,02 kWh en geen bruikbare capaciteit, dus dat getal staat hier als nominaal.",
+      "opmerkingen": "De versie van de HiBattery 4020 met eigen zonnepaneelingangen: 4 MPPT-ingangen tot 4.000 W, en verder dezelfde 4,02 kWh per module en dezelfde uitbreiding tot vier modules (16,08 kWh) met de HB-4020-S. Op het stopcontact levert hij 800 W, op een eigen groep 2,5 kW. Hij weegt 42 kg, 7 kg meer dan de AC. Hoymiles noemt op de productpagina van de X IP66 en noodstroom tot 2.500 W, met omschakeling binnen 20 ms. Hoymiles noemt alleen 4,02 kWh en geen bruikbare capaciteit, dus dat getal staat hier als nominaal.",
       "product_url": "https://www.hoymiles.com/nl/hibattery-4020-x.html",
       "aanbiedingen": [
         {
@@ -4215,8 +4216,8 @@
       "totaalprijs_van_eur": null,
       "totaalprijs_tot_eur": null,
       "totaalprijs_toelichting": "zelf te installeren; een P1-meter komt erbij als je die nog niet hebt",
-      "noodstroom": null,
-      "ip_klasse": null,
+      "noodstroom": true,
+      "ip_klasse": "IP66",
       "capaciteit_soort": "nominaal",
       "capaciteit_nominaal_kwh": 4.02,
       "vermogen_conditie": "max",
@@ -4244,7 +4245,13 @@
           "kwh": 16.08,
           "opbouw": "+ 3× HB-4020-S"
         }
-      ]
+      ],
+      "buiten_toelichting": "binnen en buiten (IP66 volgens Hoymiles)",
+      "noodstroom_uitleg": "Noodstroom tot 2.500 W, met omschakeling binnen 20 ms (beeldmateriaal op de productpagina van Hoymiles).",
+      "afbeelding": "assets/producten/hoymiles-hibattery-4020-x.webp",
+      "afbeelding_bron": "foto: Hoymiles",
+      "afbeelding_herkomst": "https://www.hoymiles.com/statics/1/hoymiles/images/4020_x_img24.jpg",
+      "afbeelding_via": "https://www.hoymiles.com/nl/hibattery-4020-x.html"
     },
     {
       "id": "hoymiles-hibattery-1920-ac",
