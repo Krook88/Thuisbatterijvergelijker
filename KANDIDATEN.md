@@ -332,3 +332,14 @@ Dysun heeft op 16 oktober 2026 gecorrigeerde datasheets en brochure gestuurd
 
 Nog open, klein: HV systeemenergie 22,7 (6 x 3,8 = 22,8) en in de LV-brochure
 "uitbreidbaar tot 81,6 kWh". CB-certificaten niet zelf nagekeken.
+
+### Hoymiles HiBattery 4020 X — opgenomen op 16 november 2026
+
+Geen capaciteitsvariant van de 4020 AC maar de versie met eigen
+zonnepaneelingangen (4 MPPT, tot 4.000 W), dus een eigen regel, zoals bij de
+Jackery SolarVault 3 Pro Max en Pro Max AC. Capaciteit en uitbreiding gelijk
+aan de AC (4,02 kWh, tot 16,08 kWh met HB-4020-S). Uit zoekresultaten, de
+pagina's zelf niet gelezen: Solarchamp €1.197,90, iotdomotica €1.197, id.nl
+"zo'n 1.200 euro", Alma Solar €1.355. IP-klasse en noodstroom voor de X niet
+gevonden, dus leeg gelaten. Cycli: 8.000 (winkel) tegenover 6.000+ (andere
+bron). De aanbiedingen staan op `datum: null` tot de prijsupdate ze leest.
