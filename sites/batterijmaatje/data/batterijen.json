@@ -1911,7 +1911,7 @@
       "merk": "Bluetti",
       "model": "Balco 500",
       "capaciteit_kwh": 5.02,
-      "uitbreidbaar_tot_kwh": 30,
+      "uitbreidbaar_tot_kwh": 15.07,
       "vermogen_kw": 0.8,
       "type": "plug-in",
       "fase": "1-fase",
@@ -1927,7 +1927,7 @@
       "app": "BLUETTI app",
       "garantie_jaar": 10,
       "cycli": null,
-      "opmerkingen": "Nieuw op de Nederlandse markt. De voorverkoop liep via de officiële Bluetti EU-shop; die productpagina is inmiddels weg, dus onderstaand bedrag is de aangekondigde adviesprijs en geen winkelprijs. Voor 1.599 euro krijg je 5 kWh, wat veel opslag voor je geld is, met een ingebouwd noodstroom-stopcontact tot 3.680 W. De AI-aansturing werkt op dynamische uur- en kwartierprijzen.",
+      "opmerkingen": "Nieuw op de Nederlandse markt. De voorverkoop liep via de officiële Bluetti EU-shop; die productpagina is inmiddels weg, dus onderstaand bedrag is de aangekondigde adviesprijs en geen winkelprijs. Voor 1.599 euro krijg je 5 kWh, wat veel opslag voor je geld is, met een ingebouwd noodstroom-stopcontact tot 3.680 W. De AI-aansturing werkt op dynamische uur- en kwartierprijzen. Meer opslag krijg je door tot drie units parallel te zetten, samen 15 kWh. Een losse uitbreidingsaccu noemt Bluetti voor de Balco 500 niet: de productpagina zegt 'niet uitbreidbaar', en de 30 kWh uit de persberichten bij de lancering hoort bij de Balco-serie als geheel.",
       "aanbiedingen": [],
       "totaalprijs_van_eur": 1599,
       "totaalprijs_tot_eur": null,
@@ -1943,7 +1943,21 @@
       "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van.",
       "prijs_bron": "adviesprijs fabrikant bij de aankondiging voor Europa; de productpagina van Bluetti is verdwenen",
       "prijs_controle": "handmatig",
-      "prijs_controle_reden": "De productpagina van Bluetti is verdwenen; het bedrag is de adviesprijs bij de aankondiging voor Europa."
+      "prijs_controle_reden": "De productpagina van Bluetti is verdwenen; het bedrag is de adviesprijs bij de aankondiging voor Europa.",
+      "maten": [
+        {
+          "kwh": 5.02,
+          "opbouw": "1 unit"
+        },
+        {
+          "kwh": 10.05,
+          "opbouw": "2 units parallel"
+        },
+        {
+          "kwh": 15.07,
+          "opbouw": "3 units parallel"
+        }
+      ]
     },
     {
       "id": "anker-solix-solarbank-max-ac",
