@@ -1840,17 +1840,9 @@
         },
         {
           "winkel": "Thuisbatterij.io",
-          "prijs_eur": 1349,
+          "prijs_eur": 999,
           "url": "https://thuisbatterij.io/product/mova-lumegret-a4000/",
-          "datum": "2026-11-12",
-          "afwijking": {
-            "prijs": 999,
-            "sinds": "2026-11-13",
-            "laatst": "2026-11-15",
-            "runs": 3
-          },
-          "niet_leverbaar": true,
-          "niet_leverbaar_door": "prijs wijkt af"
+          "datum": "2026-11-15"
         }
       ],
       "totaalprijs_van_eur": 1349,
@@ -1883,7 +1875,8 @@
           "kwh": 20,
           "opbouw": "+ 4× B4000"
         }
-      ]
+      ],
+      "prijs_bron_url": "https://www.mova.tech/products/lumegret-a4000-solar-power-system"
     },
     {
       "id": "indevolt-solidflex-3000",
@@ -3517,9 +3510,17 @@
       "aanbiedingen": [
         {
           "winkel": "NKON",
-          "prijs_eur": 2046,
+          "prijs_eur": 1925,
           "url": "https://www.nkon.nl/dyness-powerbrick-plus-51-2v-16-07kwh-thuisbatterij.html",
-          "datum": "2026-11-14"
+          "datum": "2026-11-14",
+          "prijs_controle": "handmatig",
+          "prijs_controle_reden": "NKON weigert de prijsupdate sinds 15 november 2026 (HTTP 403). Het bedrag is €1.924,95 incl. btw (€1.590,87 excl.), zoals NKON het toonde en de prijsupdate het op 14 november als richtprijs las."
+        },
+        {
+          "winkel": "Multi Solar",
+          "prijs_eur": 1949,
+          "url": "https://multi-solar.nl/products/dyness-powerbrick-plus-16-07-kwh-thuisbatterij-51-2v",
+          "datum": null
         }
       ],
       "totaalprijs_van_eur": null,
