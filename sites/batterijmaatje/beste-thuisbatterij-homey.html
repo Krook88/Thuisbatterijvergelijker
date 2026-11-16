@@ -123,14 +123,14 @@
   </script>
   <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
-  <link rel="preload" href="/assets/maatlat.css?v=20261112e" as="style">
-  <link rel="preload" href="/assets/vergelijker.css?v=20261112e" as="style">
-  <link rel="stylesheet" href="/assets/style.css?v=20261112e">
+  <link rel="preload" href="/assets/maatlat.css?v=20261116b" as="style">
+  <link rel="preload" href="/assets/vergelijker.css?v=20261116b" as="style">
+  <link rel="stylesheet" href="/assets/style.css?v=20261116b">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261112e"></script>
+  <script defer src="/assets/teller.js?v=20261116b"></script>
 </head>
 <body>
 
@@ -268,14 +268,6 @@
         <td>Via community-apps &#39;Solax Inverter&#39; (cloud) en &#39;Solax Inverter Local API&#39; (lokaal); geen officiële app</td>
       </tr>
       <tr>
-        <td><a href="/batterij/goodwe-lynx-home-u-54.html"><b>GoodWe Lynx Home U (5,4 kWh)</b></a></td>
-        <td class="niet-afbreken" title="de fabrikant publiceert niet hoeveel hiervan bruikbaar is">5,4 kWh</td>
-        <td class="niet-afbreken"><b>€ 1.799</b><br><small>bij Groothandel Solar (omgerekend naar incl. btw)</small></td>
-        <td class="niet-afbreken">€ 333</td>
-        <td class="niet-afbreken"><b>5/6</b></td>
-        <td>Via de community-app &#39;GoodWe Inverter&#39; (uitlezen via het SEMS Portal); geen officiële app</td>
-      </tr>
-      <tr>
         <td><a href="/batterij/zendure-solarflow-2400-ac-plus.html"><b>Zendure SolarFlow 2400 AC+ (2,4 kWh)</b></a></td>
         <td class="niet-afbreken" title="fabrieksopgave bruto; bruikbaar ligt lager">2,4 kWh</td>
         <td class="niet-afbreken"><b>€ 849</b><br><small>bij Zendure (officieel)</small></td>
@@ -292,8 +284,16 @@
         <td>Officiële EcoFlow-app op Homey bestaat; ondersteuning van de STREAM-serie is niet bevestigd</td>
       </tr>
       <tr>
+        <td><a href="/batterij/goodwe-lynx-home-u-54.html"><b>GoodWe Lynx Home U (5,4 kWh)</b></a></td>
+        <td class="niet-afbreken">4,8 kWh</td>
+        <td class="niet-afbreken"><b>€ 1.799</b><br><small>bij Groothandel Solar (omgerekend naar incl. btw)</small></td>
+        <td class="niet-afbreken">€ 375</td>
+        <td class="niet-afbreken"><b>5/6</b></td>
+        <td>Via de community-app &#39;GoodWe Inverter&#39; (uitlezen via het SEMS Portal); geen officiële app</td>
+      </tr>
+      <tr>
         <td><a href="/batterij/sungrow-sbr096.html"><b>Sungrow SBR096 (9,6 kWh) + SH-omvormer</b></a></td>
-        <td class="niet-afbreken" title="de fabrikant publiceert niet hoeveel hiervan bruikbaar is">9,6 kWh</td>
+        <td class="niet-afbreken">9,6 kWh</td>
         <td class="niet-afbreken"><b>€ 3.985</b><br><small>bij Sunnergie</small></td>
         <td class="niet-afbreken">€ 415</td>
         <td class="niet-afbreken"><b>2/6</b></td>
@@ -309,17 +309,17 @@
       </tr>
       <tr>
         <td><a href="/batterij/saj-h2-5k-s2-10kwh.html"><b>SAJ H2-5K-S2 All-in-One (10 kWh)</b></a></td>
-        <td class="niet-afbreken" title="de fabrikant publiceert niet hoeveel hiervan bruikbaar is">10 kWh</td>
+        <td class="niet-afbreken">9 kWh</td>
         <td class="niet-afbreken"><b>€ 4.566</b><br><small>bij richtprijs</small></td>
-        <td class="niet-afbreken">€ 457</td>
+        <td class="niet-afbreken">€ 507</td>
         <td class="niet-afbreken"><b>4/6</b></td>
         <td>Via de community-app &#39;elekeeper&#39; (SAJ eSolar-cloud): uitlezen en Flows; geen officiële app</td>
       </tr>
       <tr>
         <td><a href="/batterij/sigenergy-sigenstor-8kwh.html"><b>Sigenergy SigenStor 8 kWh + 8 kW omvormer</b></a></td>
-        <td class="niet-afbreken" title="de fabrikant publiceert niet hoeveel hiervan bruikbaar is">8,06 kWh</td>
+        <td class="niet-afbreken">7,8 kWh</td>
         <td class="niet-afbreken"><b>€ 7.864</b><br><small>bij Frank Energie (incl. installatie en slimme sturing) (omgerekend naar incl. btw)</small></td>
-        <td class="niet-afbreken">€ 976</td>
+        <td class="niet-afbreken">€ 1.008</td>
         <td class="niet-afbreken"><b>3/6</b></td>
         <td>Via Homey Pro app &#39;Sigenergy&#39; (community, lokaal via Modbus TCP)</td>
       </tr>
@@ -364,6 +364,6 @@
   </div>
 </footer>
 
-<script src="/assets/nav.js?v=20261112e" defer></script>
+<script src="/assets/nav.js?v=20261116b" defer></script>
 </body>
 </html>

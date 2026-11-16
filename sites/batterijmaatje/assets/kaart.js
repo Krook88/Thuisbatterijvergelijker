@@ -423,7 +423,7 @@
     // bij elke regel "Op aanvraag".
     const vergelijk = Prijs.vergelijkPrijs(beste);
     const perKwh = Prijs.prijsPerKwh(b);
-    const capaciteit = b.capaciteit_kwh ? `${String(b.capaciteit_kwh).replace(".", ",")} kWh` : "Onbekend";
+    const capaciteit = b.capaciteit_kwh ? `${String(b.capaciteit_kwh).replace(".", ",")} kWh${Prijs.maten(b) ? ` <small class="maten">${Prijs.maten(b).length} maten, tot ${nlKwh(Prijs.capaciteitBereik(b).max)}</small>` : ""}${maatInFilterHtml(b, o.capaciteitFilter)}` : "Onbekend";
     const score = koppelScore(b);
     const geselecteerd = (o.selectie || []).includes(b.id);
 
@@ -489,6 +489,35 @@
     return stukken.slice(0, TOON_EERST).join("")
       + `<div class="regel-extra"${open ? "" : " hidden"}>${stukken.slice(TOON_EERST).join("")}</div>`
       + (open ? "" : `<button type="button" class="toon-alle" data-toon-alle>Toon alle ${aantal} thuisbatterijen</button>`);
+  }
+
+  /* De maten van een systeem in één korte regel: "4,6 · 9,2 · 13,8 kWh".
+     Bij veel maten de eerste twee en de grootste, anders wordt het een rij
+     getallen waar niemand meer doorheen leest. */
+  const nlKwh = (k) => String(Math.round(k * 100) / 100).replace(".", ",");
+  function matenTekst(b) {
+    const m = Prijs.maten(b);
+    if (!m || m.length < 2) return null;
+    const getallen = m.map((x) => nlKwh(x.kwh));
+    const kort = getallen.length > 5 ? `${getallen[0]} · ${getallen[1]} … ${getallen[getallen.length - 1]}` : getallen.join(" · ");
+    const verder = b.uitbreidbaar_tot_kwh && b.uitbreidbaar_tot_kwh > m[m.length - 1].kwh + 0.005 ? `, tot ${nlKwh(b.uitbreidbaar_tot_kwh)}` : "";
+    return `${kort} kWh${verder}`;
+  }
+
+  function matenHtml(b) {
+    const t = matenTekst(b);
+    if (t) return ` <small class="maten" title="Verkrijgbaar in ${Prijs.maten(b).length} maten">maten: ${escapeHtml(t)}</small>`;
+    return b.uitbreidbaar_tot_kwh ? ` <small>(tot ${nlKwh(b.uitbreidbaar_tot_kwh)})</small>` : "";
+  }
+
+  // Staat een model in de lijst omdat hij in een grotere (of kleinere) maat
+  // past bij het capaciteitsfilter, dan zegt de regel welke maat dat is. Anders
+  // zie je een batterij van 4,6 kWh onder "groot" en lijkt het filter stuk.
+  function maatInFilterHtml(b, filter) {
+    const m = Prijs.maatInFilter(b, filter);
+    if (!m) return "";
+    const tekst = m.kwh ? `in deze maat: ${nlKwh(m.kwh)} kWh${m.opbouw ? ` (${m.opbouw})` : ""}` : `uit te breiden tot deze maat (tot ${nlKwh(b.uitbreidbaar_tot_kwh)} kWh)`;
+    return `<span class="maat-in-filter">${escapeHtml(tekst)}</span>`;
   }
 
   function lijstHtml(lijst, opties) {
@@ -557,7 +586,7 @@
     const geselecteerd = !!o.geselecteerd;
 
     const capaciteit = b.capaciteit_kwh
-      ? `${String(b.capaciteit_kwh).replace(".", ",")} kWh${Prijs.capaciteitLabelHtml(b)}${b.uitbreidbaar_tot_kwh ? ` <small>(tot ${String(b.uitbreidbaar_tot_kwh).replace(".", ",")})</small>` : ""}`
+      ? `${String(b.capaciteit_kwh).replace(".", ",")} kWh${Prijs.capaciteitLabelHtml(b)}${matenHtml(b)}${maatInFilterHtml(b, o.capaciteitFilter)}`
       : "Onbekend";
 
     return `
@@ -636,6 +665,9 @@
   }
 
   return {
+    matenTekst,
+    matenHtml,
+    maatInFilterHtml,
     eurFmt,
     escapeHtml,
     naamVan,

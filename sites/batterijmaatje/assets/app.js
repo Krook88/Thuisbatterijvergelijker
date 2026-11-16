@@ -53,6 +53,7 @@
     merkLogos: state.meta.merk_logos,
     geselecteerd: state.vergelijkSelectie.includes(b.id),
     verbruik: state.verbruik,
+    capaciteitFilter: state.filters.capaciteit,
   });
 
   // Alle prijsvergelijking loopt via assets/prijs.js, zodat de vergelijker, de
@@ -70,15 +71,6 @@
   /* ------------------------------------------------------------------
      Filteren en sorteren
      ------------------------------------------------------------------ */
-
-  function capaciteitInBereik(kwh, bereik) {
-    switch (bereik) {
-      case "klein": return kwh < 4;
-      case "middel": return kwh >= 4 && kwh <= 10;
-      case "groot": return kwh > 10;
-      default: return true;
-    }
-  }
 
   /* Filter- en sorteerstatus in de URL: back-navigatie behoudt de context en
      een gefilterde lijst is deelbaar als link. */
@@ -145,7 +137,7 @@
       if (f.merk !== "alle" && b.merk !== f.merk) return false;
       // "beide" past op allebei; een onbekende aansluiting laat ik staan.
       if (f.fase !== "alle" && b.fase && b.fase !== "beide" && b.fase !== f.fase) return false;
-      if (!capaciteitInBereik(b.capaciteit_kwh || 0, f.capaciteit)) return false;
+      if (!Prijs.capaciteitInFilter(b, f.capaciteit)) return false;
       if (f.installatie === "zelf" && b.installatie !== "zelf") return false;
       if (f.installatie === "installateur" && b.installatie !== "installateur") return false;
       const eis = f.officieel ? ["ja"] : ["ja", "deels"];
@@ -348,7 +340,7 @@
     if (!lijst.length) {
       doel.innerHTML = '<div class="leeg-melding">Geen batterijen gevonden met deze filters. Probeer een filter uit te zetten.</div>';
     } else if (state.weergave === "lijst") {
-      doel.innerHTML = Kaart.lijstHtml(lijst, { snel: true, alles: state.alles, selectie: state.vergelijkSelectie, verbruik: state.verbruik, groepeer: state.sortering === "koppel-score" });
+      doel.innerHTML = Kaart.lijstHtml(lijst, { capaciteitFilter: state.filters.capaciteit, snel: true, alles: state.alles, selectie: state.vergelijkSelectie, verbruik: state.verbruik, groepeer: state.sortering === "koppel-score" });
     } else if (state.weergave === "kaarten") {
       doel.innerHTML = `<div class="kaarten-grid${!state.alles && lijst.length > 12 ? " ingeklapt" : ""}">${lijst.map(kaartHtml).join("")}</div>`
         + (!state.alles && lijst.length > 12 ? `<button type="button" class="toon-alle" data-toon-alle>Toon alle ${lijst.length} thuisbatterijen</button>` : "");

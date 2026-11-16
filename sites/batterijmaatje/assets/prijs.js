@@ -162,6 +162,69 @@
     return "niet vastgesteld of dit de bruto- of de bruikbare capaciteit is";
   }
 
+  /* Maten: in welke groottes je hetzelfde systeem kunt kopen.
+
+     REDACTIE.md: capaciteitsvarianten van één systeem krijgen samen één
+     regel. Dat houdt de lijst leesbaar, maar dan moet de bezoeker de maten wel
+     kunnen zien. batterij.maten is een oplopende lijst van uitvoeringen
+     ({ kwh, nominaal_kwh?, opbouw?, prijs_eur?, prijs_datum? }); kwh volgt
+     dezelfde maat als capaciteit_kwh, en capaciteit_kwh zelf staat erin: dat
+     is de uitvoering waar de prijs van de regel bij hoort.
+
+     Zonder maten valt alles terug op capaciteit_kwh en uitbreidbaar_tot_kwh. */
+  function maten(b) {
+    if (!b || !Array.isArray(b.maten) || b.maten.length === 0) return null;
+    return b.maten.filter((m) => m && typeof m.kwh === "number").slice().sort((x, y) => x.kwh - y.kwh);
+  }
+
+  // Van de kleinste tot de grootste uitvoering die je kunt kopen.
+  function capaciteitBereik(b) {
+    if (!b || typeof b.capaciteit_kwh !== "number") return null;
+    const m = maten(b);
+    const min = m ? Math.min(m[0].kwh, b.capaciteit_kwh) : b.capaciteit_kwh;
+    const max = Math.max(b.capaciteit_kwh, m ? m[m.length - 1].kwh : 0, b.uitbreidbaar_tot_kwh || 0);
+    return { min, max };
+  }
+
+  // De capaciteitsfilters van de vergelijker. Tot 4, 4 tot 10, meer dan 10.
+  const CAPACITEIT_FILTERS = {
+    klein: { laag: 0, hoog: 4, binnen: (k) => k < 4 },
+    middel: { laag: 4, hoog: 10, binnen: (k) => k >= 4 && k <= 10 },
+    groot: { laag: 10, hoog: Infinity, binnen: (k) => k > 10 },
+  };
+
+  /* Is dit systeem in deze grootte te koop? Een batterij van 4,6 kWh die je
+     uitbreidt tot 13,8 kWh hoort ook bij "groot": eerst keek het filter alleen
+     naar de basismaat, en dan viel het merendeel van de uitbreidbare systemen
+     weg bij wie een grote batterij zoekt. */
+  function capaciteitInFilter(b, filter) {
+    const f = CAPACITEIT_FILTERS[filter];
+    if (!f) return true;
+    const r = capaciteitBereik(b);
+    if (!r) return false;
+    if (f.binnen(r.min) || f.binnen(r.max)) return true;
+    return r.min < f.laag && r.max > f.hoog;
+  }
+
+  /* Valt de basismaat buiten het filter, welke uitvoering past er dan wel?
+     Geeft { kwh, opbouw? } van de kleinste passende maat, { kwh: null } als
+     het systeem alleen via uitbreiden in het bereik komt zonder bekende maten,
+     of null als de basismaat zelf al past. */
+  function maatInFilter(b, filter) {
+    const f = CAPACITEIT_FILTERS[filter];
+    if (!f || !b || typeof b.capaciteit_kwh !== "number" || f.binnen(b.capaciteit_kwh)) return null;
+    if (!capaciteitInFilter(b, filter)) return null;
+    const m = maten(b);
+    const passend = m && m.find((x) => f.binnen(x.kwh));
+    return passend ? passend : { kwh: null };
+  }
+
+  // Prijs per kWh van één uitvoering, alleen als die uitvoering een eigen prijs heeft.
+  function maatPrijsPerKwh(maat) {
+    if (!maat || !Number.isFinite(maat.prijs_eur) || !maat.kwh) return null;
+    return Math.round(maat.prijs_eur / maat.kwh);
+  }
+
   // Een klein label achter de capaciteit. Bewust alleen bij wat vastgesteld is:
   // van de meeste modellen weten we het nog niet, en 39 waarschuwingen op 41
   // kaarten leest niemand meer - dan wordt het behang in plaats van een signaal.
@@ -331,6 +394,11 @@
     capaciteitToelichting,
     capaciteitLabel,
     capaciteitLabelHtml,
+    maten,
+    capaciteitBereik,
+    capaciteitInFilter,
+    maatInFilter,
+    maatPrijsPerKwh,
     vermogenLabel,
     vermogenLabelHtml,
     vermogenDektIets,

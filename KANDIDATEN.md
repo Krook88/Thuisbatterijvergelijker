@@ -92,6 +92,17 @@ de bruikbare capaciteit?** Als dat door elkaar loopt, vergelijkt de site
 appels met peren op het veld dat er het meest toe doet. Dat wil ik nakijken
 over de hele lijst, los van deze toevoeging.
 
+**Nagekeken op 16 november 2026.** De norm staat inmiddels vast (bruikbaar,
+`REDACTIE.md`) en elk model heeft een `capaciteit_soort`. Bij zes modellen
+publiceert de fabrikant de bruikbare maat wel, en die zijn bijgewerkt: Fox ESS
+EP11 (9,33 van 10,36), Sigenergy BAT 8.0 (7,8 van 8,06), Growatt APX 10.0P
+(9 van 10, 90% DoD), SAJ B2 2× 5.0 (9 van 10), Sungrow SBR096 (9,6 was al
+bruikbaar) en BYD HVM 11.0 (11,04 bruikbaar volgens BYD). Daarna ook afgesloten: GoodWe Lynx
+Home U (de winkel verkoopt de BAU5400-01-00P: 4,8 van 5,4 bij 90% DoD),
+AlphaESS T10 met BAT-8.2P (7,8 van 8,2 bij 95% DoD, uit de AlphaESS-datasheet
+van de S8) en de Pylontech US5000 (4,56 van 4,8 per module, 95% DoD; alleen uit
+winkel- en distributeursbladen, geen officieel Pylontech-datasheet gevonden).
+
 ### Zendure SolarFlow 4000 Mix AC+ — opgenomen, geen kandidaat meer
 
 Aangedragen door een lezer via het contactformulier en op 16 augustus 2026

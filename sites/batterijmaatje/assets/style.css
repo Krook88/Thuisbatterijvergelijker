@@ -2,8 +2,8 @@
    Thuisbatterijvergelijker.nl - stijlen
    ========================================================================== */
 
-@import url("maatlat.css?v=20261112e");
-@import url("vergelijker.css?v=20261112e");
+@import url("maatlat.css?v=20261116b");
+@import url("vergelijker.css?v=20261116b");
 
 :root {
   --kleur-primair: #0f766e;
@@ -843,6 +843,19 @@ details.lees-meer[open] summary::after { content: " ▴"; }
    bestand al op een lichte amber ondergrond. */
 .maat-bevestigd { background: var(--kleur-accent-licht); color: #92400e; }
 .maat-bruto { background: var(--kleur-rand); color: var(--kleur-tekst); }
+
+/* In welke maten hetzelfde systeem te koop is (batterij.maten), en welke maat
+   past bij het capaciteitsfilter als de basismaat dat niet doet. */
+.maten { display: block; font-size: var(--tekst-12); color: var(--kleur-tekst-licht); font-weight: 400; }
+.maat-in-filter {
+  display: block;
+  margin-top: var(--ruimte-2);
+  font-size: var(--tekst-12);
+  font-weight: 600;
+  color: var(--kleur-primair);
+}
+.maten-tabel td.getal, .maten-tabel th.getal { text-align: right; }
+.maten-tabel tr.maat-deze td { font-weight: 600; }
 
 .prijs-let-op {
   margin-top: var(--ruimte-6);

@@ -46,3 +46,20 @@ test("prijs_uit_offerte is true of staat er niet", () => {
   const uit = controleerBestand(data, { site: "batterijmaatje", lijst: "batterijen" });
   assert.equal(uit.filter((r) => /prijs_uit_offerte/.test(r)).length, 1);
 });
+
+test("maten: oplopend, met de eigen maat erin en binnen het uitbreidbare", () => {
+  const goedeMaten = [{ kwh: 4.6, nominaal_kwh: 5.12, opbouw: "1 unit" }, { kwh: 9.2, prijs_eur: 2400 }];
+  const data = { batterijen: [
+    { id: "goed", merk: "A", model: "A", capaciteit_kwh: 4.6, uitbreidbaar_tot_kwh: 9.2, maten: goedeMaten },
+    { id: "omgekeerd", merk: "A", model: "B", capaciteit_kwh: 4.6, maten: [goedeMaten[1], goedeMaten[0]] },
+    { id: "zonder-eigen", merk: "A", model: "C", capaciteit_kwh: 5, maten: goedeMaten },
+    { id: "te-groot", merk: "A", model: "D", capaciteit_kwh: 4.6, uitbreidbaar_tot_kwh: 5, maten: goedeMaten },
+    { id: "tikfout", merk: "A", model: "E", capaciteit_kwh: 4.6, maten: [{ kwh: 4.6, prijs: 1 }, { kwh: 9.2 }] },
+  ] };
+  const uit = controleerBestand(data, { site: "batterijmaatje", lijst: "batterijen" }).join("\n");
+  assert.doesNotMatch(uit, /^goed:/m);
+  assert.match(uit, /omgekeerd: maten: niet oplopend/);
+  assert.match(uit, /zonder-eigen: maten: capaciteit_kwh staat er niet tussen/);
+  assert.match(uit, /te-groot: maten: grootste maat/);
+  assert.match(uit, /tikfout: maten: onbekend veld "prijs"/);
+});

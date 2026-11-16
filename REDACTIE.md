@@ -166,6 +166,14 @@ die via de omschrijving en de winkellink.
 Wat dit kost: iemand die op "LUNA2000 15 kWh" zoekt komt niet op een eigen
 pagina uit. Dat is bewust ingeruild tegen een leesbare lijst.
 
+Wel moeten de maten te zien zijn. Daarvoor is er `maten` (DATASCHEMA.md): de
+kaart toont "maten: 4,6 · 9,2 · 13,8 kWh", de batterijpagina een tabel met per
+maat de opbouw, de prijs als die uit een bron komt, de prijs per kWh en welk
+deel van een dag hij dekt. Het capaciteitsfilter rekent met het hele bereik:
+een batterij van 4,6 kWh die tot 13,8 kWh uitbreidt staat ook onder "groot",
+met erbij in welke maat. Eerst keek het filter alleen naar de basismaat, en
+stonden er onder "groot" 4 van de 61 modellen; nu 39.
+
 Let op de grens van deze regel: een opvolger is geen variant. De LUNA2000-S1
 heeft een andere modulemaat, andere behuizing en andere garantie dan de S0 die
 wij hebben - dat zijn twee systemen en dus twee regels.

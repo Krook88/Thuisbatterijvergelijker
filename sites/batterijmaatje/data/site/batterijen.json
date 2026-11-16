@@ -85,6 +85,23 @@
       "vermogen_bron": "Marstek geeft 800 W on-grid en 2500 W off-grid; dit getal is de off-grid maximumwaarde",
       "zoeknamen": [
         "Venus E V3"
+      ],
+      "maten": [
+        {
+          "kwh": 4.6,
+          "nominaal_kwh": 5.12,
+          "opbouw": "1 unit"
+        },
+        {
+          "kwh": 9.2,
+          "nominaal_kwh": 10.24,
+          "opbouw": "2 units"
+        },
+        {
+          "kwh": 13.8,
+          "nominaal_kwh": 15.36,
+          "opbouw": "3 units"
+        }
       ]
     },
     {
@@ -249,7 +266,25 @@
       "capaciteit_soort": "nominaal",
       "capaciteit_nominaal_kwh": 2.7,
       "vermogen_conditie": "max",
-      "vermogen_bron": "HomeWizard: laden en ontladen tot 800 W; meer vermogen krijg je alleen door units te koppelen"
+      "vermogen_bron": "HomeWizard: laden en ontladen tot 800 W; meer vermogen krijg je alleen door units te koppelen",
+      "maten": [
+        {
+          "kwh": 2.7,
+          "opbouw": "1 unit"
+        },
+        {
+          "kwh": 5.4,
+          "opbouw": "2 units"
+        },
+        {
+          "kwh": 8.1,
+          "opbouw": "3 units"
+        },
+        {
+          "kwh": 10.8,
+          "opbouw": "4 units"
+        }
+      ]
     },
     {
       "id": "ecoflow-stream-ac-pro",
@@ -303,14 +338,40 @@
       "afbeelding_bron": "foto: EcoFlow",
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "stopcontact",
-      "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van."
+      "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van.",
+      "maten": [
+        {
+          "kwh": 1.92,
+          "opbouw": "1 unit"
+        },
+        {
+          "kwh": 3.84,
+          "opbouw": "2 units"
+        },
+        {
+          "kwh": 5.76,
+          "opbouw": "3 units"
+        },
+        {
+          "kwh": 7.68,
+          "opbouw": "4 units"
+        },
+        {
+          "kwh": 9.6,
+          "opbouw": "5 units"
+        },
+        {
+          "kwh": 11.52,
+          "opbouw": "6 units"
+        }
+      ]
     },
     {
       "id": "anker-solix-solarbank-3-pro",
       "merk": "Anker",
       "model": "SOLIX Solarbank 3 E2700 Pro (2,69 kWh)",
       "capaciteit_kwh": 2.69,
-      "uitbreidbaar_tot_kwh": 16.1,
+      "uitbreidbaar_tot_kwh": 16.14,
       "vermogen_kw": 0.8,
       "type": "plug-in",
       "fase": "1-fase",
@@ -359,7 +420,33 @@
       "capaciteit_soort": "nominaal",
       "capaciteit_nominaal_kwh": 2.69,
       "vermogen_conditie": "stopcontact",
-      "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van."
+      "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van.",
+      "maten": [
+        {
+          "kwh": 2.69,
+          "opbouw": "alleen de Solarbank"
+        },
+        {
+          "kwh": 5.38,
+          "opbouw": "+ 1 uitbreidingsaccu"
+        },
+        {
+          "kwh": 8.07,
+          "opbouw": "+ 2 uitbreidingsaccus"
+        },
+        {
+          "kwh": 10.76,
+          "opbouw": "+ 3 uitbreidingsaccus"
+        },
+        {
+          "kwh": 13.45,
+          "opbouw": "+ 4 uitbreidingsaccus"
+        },
+        {
+          "kwh": 16.14,
+          "opbouw": "+ 5 uitbreidingsaccus"
+        }
+      ]
     },
     {
       "id": "zonneplan-nexus",
@@ -418,7 +505,25 @@
         ],
         "toelichting": "Powerplay handelt op day-ahead en op de onbalansmarkt; je zit dan wel vast aan Zonneplan als leverancier."
       },
-      "prijs_uit_offerte": true
+      "prijs_uit_offerte": true,
+      "maten": [
+        {
+          "kwh": 10,
+          "opbouw": "10 kWh-uitvoering"
+        },
+        {
+          "kwh": 15,
+          "opbouw": "15 kWh-uitvoering"
+        },
+        {
+          "kwh": 20,
+          "opbouw": "20 kWh-uitvoering"
+        },
+        {
+          "kwh": 30,
+          "opbouw": "30 kWh-uitvoering"
+        }
+      ]
     },
     {
       "id": "enphase-iq-battery-5p",
@@ -468,14 +573,32 @@
       "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "continu",
       "vermogen_bron": "Enphase-datasheet: 3,84 kVA rated (continuous) output, piek 7,68 kW gedurende 3 seconden",
-      "prijs_uit_offerte": true
+      "prijs_uit_offerte": true,
+      "maten": [
+        {
+          "kwh": 5,
+          "opbouw": "1 unit"
+        },
+        {
+          "kwh": 10,
+          "opbouw": "2 units"
+        },
+        {
+          "kwh": 15,
+          "opbouw": "3 units"
+        },
+        {
+          "kwh": 20,
+          "opbouw": "4 units"
+        }
+      ]
     },
     {
       "id": "sigenergy-sigenstor-8kwh",
       "merk": "Sigenergy",
       "model": "SigenStor 8 kWh + 8 kW omvormer",
-      "capaciteit_kwh": 8.06,
-      "uitbreidbaar_tot_kwh": 48,
+      "capaciteit_kwh": 7.8,
+      "uitbreidbaar_tot_kwh": 46.8,
       "vermogen_kw": 4,
       "type": "hybride",
       "fase": "beide",
@@ -511,7 +634,7 @@
       "buiten_toelichting": "binnen en buiten, zonder extra overkapping",
       "afbeelding": "assets/producten/sigenergy-sigenstor-8kwh.webp",
       "afbeelding_bron": "foto: Sigenergy",
-      "capaciteit_soort": "onbekend",
+      "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "continu",
       "onbalans": {
         "status": "onbekend",
@@ -525,7 +648,40 @@
         ],
         "toelichting": "Wordt via Frank Energie geleverd inclusief slimme sturing; of daar ook onbalanshandel bij zit heb ik niet nagegaan."
       },
-      "vermogen_bron": "Sigen-datasheet: een BAT 8.0-module laadt en ontlaadt maximaal 4 kW, 6 kW piek gedurende 10 seconden; de omvormer kan 8 kW, maar dat haal je pas met twee modules"
+      "vermogen_bron": "Sigen-datasheet: een BAT 8.0-module laadt en ontlaadt maximaal 4 kW, 6 kW piek gedurende 10 seconden; de omvormer kan 8 kW, maar dat haal je pas met twee modules",
+      "capaciteit_nominaal_kwh": 8.06,
+      "maten": [
+        {
+          "kwh": 7.8,
+          "nominaal_kwh": 8.06,
+          "opbouw": "1 modules"
+        },
+        {
+          "kwh": 15.6,
+          "nominaal_kwh": 16.12,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 23.4,
+          "nominaal_kwh": 24.18,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 31.2,
+          "nominaal_kwh": 32.24,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 39,
+          "nominaal_kwh": 40.3,
+          "opbouw": "5 modules"
+        },
+        {
+          "kwh": 46.8,
+          "nominaal_kwh": 48.36,
+          "opbouw": "6 modules"
+        }
+      ]
     },
     {
       "id": "tesla-powerwall-3",
@@ -573,14 +729,28 @@
         "status": "nee",
         "via": [],
         "toelichting": "Ik vond geen Nederlandse partij die de Powerwall op de onbalansmarkt aanstuurt; de Tesla-app stuurt zelf alleen op variabele tarieven."
-      }
+      },
+      "maten": [
+        {
+          "kwh": 13.5,
+          "opbouw": "alleen de Powerwall 3"
+        },
+        {
+          "kwh": 27,
+          "opbouw": "+ 1 uitbreiding"
+        },
+        {
+          "kwh": 40.5,
+          "opbouw": "+ 2 uitbreidingen"
+        }
+      ]
     },
     {
       "id": "alphaess-smile-g3-t10",
       "merk": "AlphaESS",
       "model": "SMILE G3 T10 (8,2 kWh)",
-      "capaciteit_kwh": 8.2,
-      "uitbreidbaar_tot_kwh": 49.2,
+      "capaciteit_kwh": 7.8,
+      "uitbreidbaar_tot_kwh": 46.8,
       "vermogen_kw": 10,
       "type": "hybride",
       "fase": "3-fase",
@@ -597,7 +767,7 @@
       "app": "AlphaESS app",
       "garantie_jaar": 10,
       "cycli": null,
-      "opmerkingen": "Een serie met veel smaken, dus let goed op welke variant er in je offerte staat: van de modulaire SMILE G3 B3 (1-fase, circa 4.000 euro zonder installatie) tot deze T10 (3-fase, uitbreidbaar tot 49,2 kWh). Frank Energie verkoopt complete sets inclusief slimme aansturing.",
+      "opmerkingen": "Een serie met veel smaken, dus let goed op welke variant er in je offerte staat: van de modulaire SMILE G3 B3 (1-fase, circa 4.000 euro zonder installatie) tot deze T10 (3-fase, uitbreidbaar tot 49,2 kWh bruto, 46,8 kWh bruikbaar). Frank Energie verkoopt complete sets inclusief slimme aansturing.",
       "product_url": "https://www.alphaess.nl/pages/smile-g3-thuisbatterij",
       "aanbiedingen": [
         {
@@ -615,7 +785,7 @@
       "noodstroom_uitleg": "Alleen met de optionele AlphaESS Backup Box (kritische groepen of noodstopcontact) of Backup Box Plus (hele woning); omschakeling binnen ca. 10 ms.",
       "ip_klasse": "onbekend",
       "buiten_toelichting": "omvormer IP65; de IP-klasse van de batterijmodule verschilt per uitvoering, vraag de installateur",
-      "capaciteit_soort": "onbekend",
+      "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "max",
       "vermogen_bron": "AlphaESS noemt op de eigen pagina \"Maximaal laadvermogen 4 / 6 / 8 / 10 kW\": mijn getal is de bovenste variant en bovendien een laadvermogen, niet het ontlaadvermogen",
       "onbalans": {
@@ -632,7 +802,40 @@
       },
       "prijs_controle": "handmatig",
       "prijs_controle_reden": "AlphaESS toont geen prijs (nagekeken op 8 oktober 2026); het bedrag komt uit de sets van Frank Energie en blijft mensenwerk.",
-      "prijs_uit_offerte": true
+      "prijs_uit_offerte": true,
+      "capaciteit_nominaal_kwh": 8.2,
+      "maten": [
+        {
+          "kwh": 7.8,
+          "nominaal_kwh": 8.2,
+          "opbouw": "1 module"
+        },
+        {
+          "kwh": 15.6,
+          "nominaal_kwh": 16.4,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 23.4,
+          "nominaal_kwh": 24.6,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 31.2,
+          "nominaal_kwh": 32.8,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 39,
+          "nominaal_kwh": 41,
+          "opbouw": "5 modules"
+        },
+        {
+          "kwh": 46.8,
+          "nominaal_kwh": 49.2,
+          "opbouw": "6 modules"
+        }
+      ]
     },
     {
       "id": "sungrow-sbr096",
@@ -671,10 +874,43 @@
       "buiten_toelichting": "binnen en buiten volgens fabrikant",
       "afbeelding": "assets/producten/sungrow-sbr096.webp",
       "afbeelding_bron": "foto: Sungrow",
-      "capaciteit_soort": "onbekend",
+      "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "onbekend",
       "prijs_controle": "handmatig",
-      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is."
+      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is.",
+      "capaciteit_nominaal_kwh": 9.6,
+      "maten": [
+        {
+          "kwh": 9.6,
+          "nominaal_kwh": 9.6,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 12.8,
+          "nominaal_kwh": 12.8,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 16,
+          "nominaal_kwh": 16,
+          "opbouw": "5 modules"
+        },
+        {
+          "kwh": 19.2,
+          "nominaal_kwh": 19.2,
+          "opbouw": "6 modules"
+        },
+        {
+          "kwh": 22.4,
+          "nominaal_kwh": 22.4,
+          "opbouw": "7 modules"
+        },
+        {
+          "kwh": 25.6,
+          "nominaal_kwh": 25.6,
+          "opbouw": "8 modules"
+        }
+      ]
     },
     {
       "id": "solaredge-home-battery-48v",
@@ -726,7 +962,34 @@
       "vermogen_conditie": "continu",
       "vermogen_bron": "mijn notitie: vanaf 2 modules continu 5 kW",
       "totaalprijs_geschat_van_eur": 4990,
-      "totaalprijs_geschat_tot_eur": 7490
+      "totaalprijs_geschat_tot_eur": 7490,
+      "maten": [
+        {
+          "kwh": 4.6,
+          "nominaal_kwh": 4.85,
+          "opbouw": "1 module"
+        },
+        {
+          "kwh": 9.2,
+          "nominaal_kwh": 9.7,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 13.8,
+          "nominaal_kwh": 14.55,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 18.4,
+          "nominaal_kwh": 19.4,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 23,
+          "nominaal_kwh": 24.25,
+          "opbouw": "5 modules"
+        }
+      ]
     },
     {
       "id": "huawei-luna2000-10",
@@ -775,6 +1038,32 @@
       "vermogen_bron": "mijn notitie: piek 7 kW gedurende 10 seconden, dus 5 kW is de continue waarde",
       "zoeknamen": [
         "LUNA2000-15-S0"
+      ],
+      "maten": [
+        {
+          "kwh": 5,
+          "opbouw": "1 module"
+        },
+        {
+          "kwh": 10,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 15,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 20,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 25,
+          "opbouw": "5 modules"
+        },
+        {
+          "kwh": 30,
+          "opbouw": "6 modules"
+        }
       ]
     },
     {
@@ -819,7 +1108,17 @@
       "afbeelding": "assets/producten/lg-enblock-flex-129.webp",
       "afbeelding_bron": "foto: LG Energy Solution",
       "afbeelding_herkomst": "https://www.lgessbattery.com/en/lgenblock/images/sub/product/enblock_s_bg.jpg",
-      "afbeelding_via": "https://www.lgessbattery.com/en/lgenblock/product.html"
+      "afbeelding_via": "https://www.lgessbattery.com/en/lgenblock/product.html",
+      "maten": [
+        {
+          "kwh": 12.9,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 17.2,
+          "opbouw": "4 modules"
+        }
+      ]
     },
     {
       "id": "jackery-homepower-2000-ultra",
@@ -874,14 +1173,32 @@
       "afbeelding_bron": "foto: Jackery",
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "stopcontact",
-      "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van."
+      "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van.",
+      "maten": [
+        {
+          "kwh": 2,
+          "opbouw": "alleen de 2000 Ultra"
+        },
+        {
+          "kwh": 4,
+          "opbouw": "+ 1× HomePower Battery 2000"
+        },
+        {
+          "kwh": 6,
+          "opbouw": "+ 2× HomePower Battery 2000"
+        },
+        {
+          "kwh": 8,
+          "opbouw": "+ 3× HomePower Battery 2000"
+        }
+      ]
     },
     {
       "id": "goodwe-lynx-home-u-54",
       "merk": "GoodWe",
       "model": "Lynx Home U (5,4 kWh)",
-      "capaciteit_kwh": 5.4,
-      "uitbreidbaar_tot_kwh": 32.4,
+      "capaciteit_kwh": 4.8,
+      "uitbreidbaar_tot_kwh": 28.8,
       "vermogen_kw": 2.56,
       "type": "hybride",
       "fase": "beide",
@@ -921,10 +1238,43 @@
       "buiten_toelichting": "binnen en buiten; laden kan pas vanaf 0 °C",
       "afbeelding": "assets/producten/goodwe-lynx-home-u-54.webp",
       "afbeelding_bron": "foto: GoodWe",
-      "capaciteit_soort": "onbekend",
+      "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "onbekend",
       "totaalprijs_geschat_van_eur": 2883,
-      "totaalprijs_geschat_tot_eur": 4383
+      "totaalprijs_geschat_tot_eur": 4383,
+      "capaciteit_nominaal_kwh": 5.4,
+      "maten": [
+        {
+          "kwh": 4.8,
+          "nominaal_kwh": 5.4,
+          "opbouw": "1 modules"
+        },
+        {
+          "kwh": 9.6,
+          "nominaal_kwh": 10.8,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 14.4,
+          "nominaal_kwh": 16.2,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 19.2,
+          "nominaal_kwh": 21.6,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 24,
+          "nominaal_kwh": 27,
+          "opbouw": "5 modules"
+        },
+        {
+          "kwh": 28.8,
+          "nominaal_kwh": 32.4,
+          "opbouw": "6 modules"
+        }
+      ]
     },
     {
       "id": "solax-triple-power-t58",
@@ -973,7 +1323,29 @@
       "afbeelding": "assets/producten/solax-triple-power-t58.webp",
       "afbeelding_bron": "foto: Alma Solar",
       "afbeelding_herkomst": "https://www.alma-solarshop.nl/4735-home_default/triple-power-batterij-58kwh-hoogspanning.jpg",
-      "afbeelding_via": "https://www.alma-solarshop.nl/triple-power-batterij/1241-triple-power-batterij-58kwh-hoogspanning.html"
+      "afbeelding_via": "https://www.alma-solarshop.nl/triple-power-batterij/1241-triple-power-batterij-58kwh-hoogspanning.html",
+      "maten": [
+        {
+          "kwh": 5.22,
+          "nominaal_kwh": 5.8,
+          "opbouw": "1 module"
+        },
+        {
+          "kwh": 10.44,
+          "nominaal_kwh": 11.6,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 15.66,
+          "nominaal_kwh": 17.4,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 20.88,
+          "nominaal_kwh": 23.2,
+          "opbouw": "4 modules"
+        }
+      ]
     },
     {
       "id": "dyness-powerbox-g2",
@@ -1049,8 +1421,8 @@
       "id": "saj-h2-5k-s2-10kwh",
       "merk": "SAJ",
       "model": "H2-5K-S2 All-in-One (10 kWh)",
-      "capaciteit_kwh": 10,
-      "uitbreidbaar_tot_kwh": 25,
+      "capaciteit_kwh": 9,
+      "uitbreidbaar_tot_kwh": 22.5,
       "vermogen_kw": 5,
       "type": "hybride",
       "fase": "beide",
@@ -1087,19 +1459,47 @@
       "noodstroom_uitleg": "Het systeem heeft een aparte back-upuitgang die binnen 10 milliseconden omschakelt bij een stroomstoring; welke delen van het huis doorwerken hangt af van wat de installateur op die uitgang aansluit.",
       "ip_klasse": "IP65",
       "buiten_toelichting": "omvormer en batterijmodule beide IP65, wand- of grondmontage buiten mogelijk",
-      "capaciteit_soort": "onbekend",
+      "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "onbekend",
       "totaalprijs_geschat_van_eur": 5066,
       "totaalprijs_geschat_tot_eur": 6566,
       "prijs_controle": "handmatig",
-      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is."
+      "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is.",
+      "capaciteit_nominaal_kwh": 10,
+      "maten": [
+        {
+          "kwh": 4.5,
+          "nominaal_kwh": 5,
+          "opbouw": "1 module"
+        },
+        {
+          "kwh": 9,
+          "nominaal_kwh": 10,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 13.5,
+          "nominaal_kwh": 15,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 18,
+          "nominaal_kwh": 20,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 22.5,
+          "nominaal_kwh": 25,
+          "opbouw": "5 modules"
+        }
+      ]
     },
     {
       "id": "duracell-dura5",
       "merk": "Duracell Energy",
       "model": "Dura5 (4,6 kWh bruikbaar)",
       "capaciteit_kwh": 4.6,
-      "uitbreidbaar_tot_kwh": 25,
+      "uitbreidbaar_tot_kwh": 23,
       "vermogen_kw": 5,
       "type": "hybride",
       "fase": "1-fase",
@@ -1136,7 +1536,36 @@
       "afbeelding_bron": "foto: Duracell Energy",
       "capaciteit_nominaal_kwh": 5.12,
       "capaciteit_soort": "bruikbaar",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "onbekend",
+      "maten": [
+        {
+          "kwh": 4.6,
+          "nominaal_kwh": 5.12,
+          "opbouw": "1 modules"
+        },
+        {
+          "kwh": 9.2,
+          "nominaal_kwh": 10.24,
+          "opbouw": "2 modules",
+          "prijs_eur": 9000
+        },
+        {
+          "kwh": 13.8,
+          "nominaal_kwh": 15.36,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 18.4,
+          "nominaal_kwh": 20.48,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 23,
+          "nominaal_kwh": 25.6,
+          "opbouw": "5 modules",
+          "prijs_eur": 17500
+        }
+      ]
     },
     {
       "id": "anker-solix-solarbank-max-ac",
@@ -1184,7 +1613,33 @@
       "noodstroom_uitleg": "Noodstroomuitgang met omschakeling binnen ca. 10 ms (fabrieksopgave).",
       "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "continu",
-      "vermogen_bron": "Anker geeft 3.500 W laad- en ontlaadvermogen als rated waarde"
+      "vermogen_bron": "Anker geeft 3.500 W laad- en ontlaadvermogen als rated waarde",
+      "maten": [
+        {
+          "kwh": 7,
+          "opbouw": "alleen de basis"
+        },
+        {
+          "kwh": 14,
+          "opbouw": "+ 1 module"
+        },
+        {
+          "kwh": 21,
+          "opbouw": "+ 2 modules"
+        },
+        {
+          "kwh": 28,
+          "opbouw": "+ 3 modules"
+        },
+        {
+          "kwh": 35,
+          "opbouw": "+ 4 modules"
+        },
+        {
+          "kwh": 42,
+          "opbouw": "+ 5 modules"
+        }
+      ]
     },
     {
       "id": "zendure-solarflow-3000-mix-ac",
@@ -1406,7 +1861,29 @@
       "afbeelding": "assets/producten/mova-lumegret-a4000.webp",
       "afbeelding_bron": "foto: MOVA",
       "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "onbekend",
+      "maten": [
+        {
+          "kwh": 4,
+          "opbouw": "alleen de A4000"
+        },
+        {
+          "kwh": 8,
+          "opbouw": "+ 1× B4000"
+        },
+        {
+          "kwh": 12,
+          "opbouw": "+ 2× B4000"
+        },
+        {
+          "kwh": 16,
+          "opbouw": "+ 3× B4000"
+        },
+        {
+          "kwh": 20,
+          "opbouw": "+ 4× B4000"
+        }
+      ]
     },
     {
       "id": "indevolt-solidflex-3000",
@@ -1503,7 +1980,33 @@
       "afbeelding_bron": "foto: Marstek",
       "capaciteit_soort": "nominaal",
       "capaciteit_nominaal_kwh": 2.56,
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "onbekend",
+      "maten": [
+        {
+          "kwh": 2.56,
+          "opbouw": "1 module"
+        },
+        {
+          "kwh": 5.12,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 7.68,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 10.24,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 12.8,
+          "opbouw": "5 modules"
+        },
+        {
+          "kwh": 15.36,
+          "opbouw": "6 modules"
+        }
+      ]
     },
     {
       "id": "aeg-solarcube-48",
@@ -1565,7 +2068,26 @@
       "capaciteit_nominaal_kwh": 4.8,
       "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "max",
-      "vermogen_bron": "AEG schrijft op de eigen productpagina \"Vermogen Tot 2,4 kW\": dat woordje tot maakt het een bovengrens, geen aanhoudende waarde"
+      "vermogen_bron": "AEG schrijft op de eigen productpagina \"Vermogen Tot 2,4 kW\": dat woordje tot maakt het een bovengrens, geen aanhoudende waarde",
+      "maten": [
+        {
+          "kwh": 4.32,
+          "nominaal_kwh": 4.8,
+          "opbouw": "1 unit"
+        },
+        {
+          "kwh": 8.64,
+          "nominaal_kwh": 9.6,
+          "opbouw": "2 units",
+          "prijs_eur": 2549
+        },
+        {
+          "kwh": 12.96,
+          "nominaal_kwh": 14.4,
+          "opbouw": "3 units",
+          "prijs_eur": 3649
+        }
+      ]
     },
     {
       "id": "sunpura-s4800",
@@ -1608,7 +2130,24 @@
       "capaciteit_nominaal_kwh": 4.8,
       "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "stopcontact",
-      "vermogen_bron": "Teruglevering aan het stopcontact is bij dit model beperkt tot 800 W"
+      "vermogen_bron": "Teruglevering aan het stopcontact is bij dit model beperkt tot 800 W",
+      "maten": [
+        {
+          "kwh": 4.32,
+          "nominaal_kwh": 4.8,
+          "opbouw": "1 unit"
+        },
+        {
+          "kwh": 8.64,
+          "nominaal_kwh": 9.6,
+          "opbouw": "2 units"
+        },
+        {
+          "kwh": 12.96,
+          "nominaal_kwh": 14.4,
+          "opbouw": "3 units"
+        }
+      ]
     },
     {
       "id": "marstek-venus-e-4",
@@ -1661,7 +2200,7 @@
       "merk": "EcoFlow",
       "model": "STREAM AC 5000 (5 kWh)",
       "capaciteit_kwh": 5.02,
-      "uitbreidbaar_tot_kwh": 15,
+      "uitbreidbaar_tot_kwh": 15.06,
       "vermogen_kw": 2.5,
       "type": "plug-in",
       "fase": "1-fase",
@@ -1704,7 +2243,21 @@
       "afbeelding": "assets/producten/ecoflow-stream-ac-5000.webp",
       "afbeelding_bron": "foto: EcoFlow",
       "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "onbekend",
+      "maten": [
+        {
+          "kwh": 5.02,
+          "opbouw": "alleen de STREAM AC 5000"
+        },
+        {
+          "kwh": 10.04,
+          "opbouw": "+ 1× EB 5000"
+        },
+        {
+          "kwh": 15.06,
+          "opbouw": "+ 2× EB 5000"
+        }
+      ]
     },
     {
       "id": "samduo-nex-e6000",
@@ -1842,7 +2395,33 @@
       "capaciteit_soort": "nominaal",
       "capaciteit_nominaal_kwh": 2.4,
       "vermogen_conditie": "continu",
-      "vermogen_bron": "Zendure geeft 2400 W AC in beide richtingen als vermogen van de serie"
+      "vermogen_bron": "Zendure geeft 2400 W AC in beide richtingen als vermogen van de serie",
+      "maten": [
+        {
+          "kwh": 2.4,
+          "opbouw": "alleen de 2400 Pro"
+        },
+        {
+          "kwh": 5.28,
+          "opbouw": "+ 1× AB3000L"
+        },
+        {
+          "kwh": 8.16,
+          "opbouw": "+ 2× AB3000L"
+        },
+        {
+          "kwh": 11.04,
+          "opbouw": "+ 3× AB3000L"
+        },
+        {
+          "kwh": 13.92,
+          "opbouw": "+ 4× AB3000L"
+        },
+        {
+          "kwh": 16.8,
+          "opbouw": "+ 5× AB3000L"
+        }
+      ]
     },
     {
       "id": "marstek-venus-a",
@@ -1903,7 +2482,25 @@
       "afbeelding": "assets/producten/marstek-venus-a.webp",
       "afbeelding_bron": "foto: Marstek",
       "afbeelding_herkomst": "https://www.marstek.nl/wp-content/uploads/2025/09/marstek-venus-a-stackable.png",
-      "afbeelding_via": "https://www.marstek.nl/product/marstek-venus-a-plug-charge-thuisbatterij-2-12-kwh-incl-p1-meter/"
+      "afbeelding_via": "https://www.marstek.nl/product/marstek-venus-a-plug-charge-thuisbatterij-2-12-kwh-incl-p1-meter/",
+      "maten": [
+        {
+          "kwh": 2.12,
+          "opbouw": "1 accu"
+        },
+        {
+          "kwh": 4.24,
+          "opbouw": "2 accu's"
+        },
+        {
+          "kwh": 6.36,
+          "opbouw": "3 accu's"
+        },
+        {
+          "kwh": 8.48,
+          "opbouw": "4 accu's"
+        }
+      ]
     },
     {
       "id": "marstek-venus-e-mini",
@@ -1957,7 +2554,21 @@
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "continu",
       "vermogen_bron": "Marstek noemt 1,5 kW bidirectioneel laad- en ontlaadvermogen; of dat op een gedeelde groep mag, staat er niet bij",
-      "afbeelding": null
+      "afbeelding": null,
+      "maten": [
+        {
+          "kwh": 2,
+          "opbouw": "2 kWh-uitvoering"
+        },
+        {
+          "kwh": 4,
+          "opbouw": "4 kWh-uitvoering"
+        },
+        {
+          "kwh": 6,
+          "opbouw": "6 kWh-uitvoering"
+        }
+      ]
     },
     {
       "id": "zendure-solarflow-2400-ac",
@@ -2010,7 +2621,33 @@
       "afbeelding": "assets/producten/zendure-solarflow-2400-ac.webp",
       "afbeelding_bron": "foto: Zendure",
       "afbeelding_herkomst": "https://www.zendure.nl/cdn/shop/files/SF2400AC-1AB3000X_1024x1024.png?v=1775719171",
-      "afbeelding_via": "https://www.zendure.nl/products/zendure-solarflow-2400-ac"
+      "afbeelding_via": "https://www.zendure.nl/products/zendure-solarflow-2400-ac",
+      "maten": [
+        {
+          "kwh": 2.88,
+          "opbouw": "1× AB3000X"
+        },
+        {
+          "kwh": 5.76,
+          "opbouw": "2× AB3000X"
+        },
+        {
+          "kwh": 8.64,
+          "opbouw": "3× AB3000X"
+        },
+        {
+          "kwh": 11.52,
+          "opbouw": "4× AB3000X"
+        },
+        {
+          "kwh": 14.4,
+          "opbouw": "5× AB3000X"
+        },
+        {
+          "kwh": 17.28,
+          "opbouw": "6× AB3000X"
+        }
+      ]
     },
     {
       "id": "zendure-solarflow-2400-ac-plus",
@@ -2066,7 +2703,33 @@
       "afbeelding": "assets/producten/zendure-solarflow-2400-ac-plus.webp",
       "afbeelding_bron": "foto: Zendure",
       "afbeelding_herkomst": "https://www.zendure.nl/cdn/shop/files/SF2400_AC_P1.jpg?v=1771035146",
-      "afbeelding_via": "https://www.zendure.nl/products/zendure-solarflow-2400-ac-plus"
+      "afbeelding_via": "https://www.zendure.nl/products/zendure-solarflow-2400-ac-plus",
+      "maten": [
+        {
+          "kwh": 2.4,
+          "opbouw": "alleen de 2400 AC+"
+        },
+        {
+          "kwh": 5.28,
+          "opbouw": "+ 1× AB3000L"
+        },
+        {
+          "kwh": 8.16,
+          "opbouw": "+ 2× AB3000L"
+        },
+        {
+          "kwh": 11.04,
+          "opbouw": "+ 3× AB3000L"
+        },
+        {
+          "kwh": 13.92,
+          "opbouw": "+ 4× AB3000L"
+        },
+        {
+          "kwh": 16.8,
+          "opbouw": "+ 5× AB3000L"
+        }
+      ]
     },
     {
       "id": "jackery-solarvault-3-pro-max-ac",
@@ -2123,7 +2786,35 @@
       "afbeelding": "assets/producten/jackery-solarvault-3-pro-max-ac.webp",
       "afbeelding_bron": "foto: Jackery",
       "afbeelding_herkomst": "https://nl.jackery.com/cdn/shop/files/pro-max-1_ceef2f67-f337-4791-ba9a-d64e162ad508.webp?v=1786453180&width=800",
-      "afbeelding_via": "https://nl.jackery.com/products/solarvault-3-pro-max-ac"
+      "afbeelding_via": "https://nl.jackery.com/products/solarvault-3-pro-max-ac",
+      "maten": [
+        {
+          "kwh": 2.52,
+          "opbouw": "alleen de basis"
+        },
+        {
+          "kwh": 5.04,
+          "opbouw": "+ 1× BP2500",
+          "prijs_eur": 1398,
+          "prijs_datum": "2026-10-07"
+        },
+        {
+          "kwh": 7.56,
+          "opbouw": "+ 2× BP2500"
+        },
+        {
+          "kwh": 10.08,
+          "opbouw": "+ 3× BP2500"
+        },
+        {
+          "kwh": 12.6,
+          "opbouw": "+ 4× BP2500"
+        },
+        {
+          "kwh": 15.12,
+          "opbouw": "+ 5× BP2500"
+        }
+      ]
     },
     {
       "id": "jackery-solarvault-3-pro-max",
@@ -2180,7 +2871,33 @@
       "afbeelding": "assets/producten/jackery-solarvault-3-pro-max.webp",
       "afbeelding_bron": "foto: Jackery",
       "afbeelding_herkomst": "https://nl.jackery.com/cdn/shop/files/pro-max-1_ceef2f67-f337-4791-ba9a-d64e162ad508.webp?v=1786453180",
-      "afbeelding_via": "https://nl.jackery.com/products/solarvault-3-pro-max"
+      "afbeelding_via": "https://nl.jackery.com/products/solarvault-3-pro-max",
+      "maten": [
+        {
+          "kwh": 2.52,
+          "opbouw": "alleen de basis"
+        },
+        {
+          "kwh": 5.04,
+          "opbouw": "+ 1× BP2500"
+        },
+        {
+          "kwh": 7.56,
+          "opbouw": "+ 2× BP2500"
+        },
+        {
+          "kwh": 10.08,
+          "opbouw": "+ 3× BP2500"
+        },
+        {
+          "kwh": 12.6,
+          "opbouw": "+ 4× BP2500"
+        },
+        {
+          "kwh": 15.12,
+          "opbouw": "+ 5× BP2500"
+        }
+      ]
     },
     {
       "id": "anker-solix-solarbank-4-pro",
@@ -2242,7 +2959,33 @@
       "afbeelding": "assets/producten/anker-solix-solarbank-4-pro.webp",
       "afbeelding_bron": "foto: Techpunt",
       "afbeelding_herkomst": "https://www.techpunt.nl/cdn/shop/files/03-anker-solix-solarbank-4-e5000-pro-vooraanzicht_f4661497-57d7-4b8b-86eb-7fdafd0d24ac.webp?v=1786825711&width=1620",
-      "afbeelding_via": "https://www.techpunt.nl/products/anker-solix-solarbank-4-e5000-pro"
+      "afbeelding_via": "https://www.techpunt.nl/products/anker-solix-solarbank-4-e5000-pro",
+      "maten": [
+        {
+          "kwh": 5,
+          "opbouw": "alleen de Solarbank"
+        },
+        {
+          "kwh": 10,
+          "opbouw": "+ 1× BP5000"
+        },
+        {
+          "kwh": 15,
+          "opbouw": "+ 2× BP5000"
+        },
+        {
+          "kwh": 20,
+          "opbouw": "+ 3× BP5000"
+        },
+        {
+          "kwh": 25,
+          "opbouw": "+ 4× BP5000"
+        },
+        {
+          "kwh": 30,
+          "opbouw": "+ 5× BP5000"
+        }
+      ]
     },
     {
       "id": "aeg-solarcube-pro",
@@ -2361,7 +3104,33 @@
       "afbeelding": "assets/producten/hyxi-halo.webp",
       "afbeelding_bron": "foto: StekkerDeal",
       "afbeelding_herkomst": "https://stekkerdeal.nl/product-images/HYXi_Halo.png",
-      "afbeelding_via": "https://stekkerdeal.nl/products/hyxi-halo/"
+      "afbeelding_via": "https://stekkerdeal.nl/products/hyxi-halo/",
+      "maten": [
+        {
+          "kwh": 3.01,
+          "opbouw": "1 module"
+        },
+        {
+          "kwh": 6.02,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 9.03,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 12.04,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 15.05,
+          "opbouw": "5 modules"
+        },
+        {
+          "kwh": 18.06,
+          "opbouw": "6 modules"
+        }
+      ]
     },
     {
       "id": "tsun-powertrunk-mau5000",
@@ -2420,14 +3189,32 @@
       ],
       "afbeelding_bron": "foto: TSUN",
       "afbeelding_herkomst": "https://images.exportstart.com/images/a1296/mau5000-front-617.webp",
-      "afbeelding_via": "https://www.tsun-ess.com/power-trunk-micro-ac-coupled-unit.html"
+      "afbeelding_via": "https://www.tsun-ess.com/power-trunk-micro-ac-coupled-unit.html",
+      "maten": [
+        {
+          "kwh": 5.12,
+          "opbouw": "1 unit"
+        },
+        {
+          "kwh": 10.24,
+          "opbouw": "2 units"
+        },
+        {
+          "kwh": 15.36,
+          "opbouw": "3 units"
+        },
+        {
+          "kwh": 20.48,
+          "opbouw": "4 units"
+        }
+      ]
     },
     {
       "id": "heko-solar-saga-5-5",
       "merk": "HEKO Solar",
       "model": "Saga (5,5 kWh)",
       "capaciteit_kwh": 5.5,
-      "uitbreidbaar_tot_kwh": 13.8,
+      "uitbreidbaar_tot_kwh": 13.75,
       "vermogen_kw": 2.4,
       "type": "plug-in",
       "fase": "1-fase",
@@ -2478,6 +3265,28 @@
         "Saga 8,3 kWh",
         "Saga 11,1 kWh",
         "Saga 13,8 kWh"
+      ],
+      "maten": [
+        {
+          "kwh": 2.75,
+          "opbouw": "1 module"
+        },
+        {
+          "kwh": 5.5,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 8.25,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 11,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 13.75,
+          "opbouw": "5 modules"
+        }
       ]
     },
     {
@@ -2524,7 +3333,29 @@
       "capaciteit_soort": "nominaal",
       "capaciteit_nominaal_kwh": 2.88,
       "vermogen_conditie": "max",
-      "vermogen_bron": "PEGO: nominaal 799 W aan het net, maximaal 1.600 W"
+      "vermogen_bron": "PEGO: nominaal 799 W aan het net, maximaal 1.600 W",
+      "maten": [
+        {
+          "kwh": 2.88,
+          "opbouw": "1 module"
+        },
+        {
+          "kwh": 5.76,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 8.64,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 11.52,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 14.4,
+          "opbouw": "5 modules"
+        }
+      ]
     },
     {
       "id": "tsun-solartrunk-msu2000",
@@ -2576,7 +3407,29 @@
       "buiten_toelichting": "binnen en buiten te gebruiken (volgens MediaMarkt)",
       "capaciteit_soort": "onbekend",
       "vermogen_conditie": "max",
-      "vermogen_bron": "MediaMarkt: laden en ontladen tot 2.000 W (1C)"
+      "vermogen_bron": "MediaMarkt: laden en ontladen tot 2.000 W (1C)",
+      "maten": [
+        {
+          "kwh": 2.05,
+          "opbouw": "1 module"
+        },
+        {
+          "kwh": 4.1,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 6.14,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 8.19,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 10.24,
+          "opbouw": "5 modules"
+        }
+      ]
     },
     {
       "id": "solaredge-home-battery-400v",
@@ -2739,7 +3592,24 @@
       "totaalprijs_toelichting": "Een prijs inclusief installatie heb ik niet; Dysun geeft alleen de adviesprijs van het toestel (4.317 euro excl. btw, 5.224 incl. btw). De installatie loopt via een partnerinstallateur die zelf offreert.",
       "afbeelding": "assets/producten/dysun-flexvolt-one-lv.webp",
       "afbeelding_bron": "foto: Dysun Energy",
-      "vermogen_conditie": "continu"
+      "vermogen_conditie": "continu",
+      "maten": [
+        {
+          "kwh": 9.72,
+          "nominaal_kwh": 10.24,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 14.58,
+          "nominaal_kwh": 15.36,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 19.44,
+          "nominaal_kwh": 20.48,
+          "opbouw": "4 modules"
+        }
+      ]
     },
     {
       "id": "dysun-flexvolt-one-hv",
@@ -2797,7 +3667,29 @@
       "totaalprijs_toelichting": "Een prijs inclusief installatie heb ik niet; Dysun geeft alleen de adviesprijs van het toestel (5.341 euro excl. btw, 6.463 incl. btw). De installatie loopt via een partnerinstallateur die zelf offreert.",
       "afbeelding": "assets/producten/dysun-flexvolt-one-hv.webp",
       "afbeelding_bron": "foto: Dysun Energy",
-      "vermogen_conditie": "continu"
+      "vermogen_conditie": "continu",
+      "maten": [
+        {
+          "kwh": 10.8,
+          "nominaal_kwh": 11.4,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 14.4,
+          "nominaal_kwh": 15.2,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 18,
+          "nominaal_kwh": 19,
+          "opbouw": "5 modules"
+        },
+        {
+          "kwh": 21.6,
+          "nominaal_kwh": 22.8,
+          "opbouw": "6 modules"
+        }
+      ]
     },
     {
       "id": "hoymiles-hibattery-4020-ac",
@@ -2869,7 +3761,25 @@
       "afbeelding": "assets/producten/hoymiles-hibattery-4020-ac.webp",
       "afbeelding_bron": "foto: AboutWatt",
       "afbeelding_herkomst": "https://aboutwatt.com/cdn/shop/files/hoymiles-hibattery-4020-ac-thuisbatterij-vooraanzicht.jpg?v=1788198187&width=1200",
-      "afbeelding_via": "https://aboutwatt.com/en-nl/products/hoymiles-hibattery-4020-ac"
+      "afbeelding_via": "https://aboutwatt.com/en-nl/products/hoymiles-hibattery-4020-ac",
+      "maten": [
+        {
+          "kwh": 4.02,
+          "opbouw": "1 module"
+        },
+        {
+          "kwh": 8.04,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 12.06,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 16.08,
+          "opbouw": "4 modules"
+        }
+      ]
     },
     {
       "id": "hoymiles-hibattery-1920-ac",
