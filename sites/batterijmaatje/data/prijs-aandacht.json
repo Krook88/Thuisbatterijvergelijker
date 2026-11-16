@@ -1,11 +1,17 @@
 {
-  "bijgewerkt": "2026-11-15",
+  "bijgewerkt": "2026-11-16",
   "punten": {
     "onbereikbaar|dyness-powerbox-g2|Zonnige Winkel": {
       "sinds": "2026-11-07",
       "soort": "onbereikbaar",
       "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: fetch failed",
       "bevestigd": true
+    },
+    "onbereikbaar|solax-triple-power-t58|Alma Solar": {
+      "sinds": "2026-11-16",
+      "soort": "onbereikbaar",
+      "tekst": "solax-triple-power-t58 @ Alma Solar: fetch failed",
+      "bevestigd": false
     },
     "onbereikbaar|tsun-powertrunk-mau5000|Powerness": {
       "sinds": "2026-11-13",
@@ -25,16 +31,28 @@
       "tekst": "aeg-solarcube-pro @ aegthuisbatterij.nl (oktober 2026): €1799 → €968 (-46%)",
       "bevestigd": true
     },
+    "te controleren|anker-solix-solarbank-3-pro|Anker SOLIX (officieel)": {
+      "sinds": "2026-11-16",
+      "soort": "te controleren",
+      "tekst": "anker-solix-solarbank-3-pro @ Anker SOLIX (officieel): €1199 → €1599 (+33%)",
+      "bevestigd": false
+    },
+    "te controleren|ecoflow-stream-ac-pro|EcoFlow (officieel)": {
+      "sinds": "2026-11-16",
+      "soort": "te controleren",
+      "tekst": "ecoflow-stream-ac-pro @ EcoFlow (officieel): €700 → €1599 (+128%)",
+      "bevestigd": false
+    },
     "verouderd|aeg-solarcube-48|richtprijs": {
       "sinds": "2026-10-29",
       "soort": "verouderd",
-      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (38 dagen)",
+      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (39 dagen)",
       "bevestigd": true
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (122 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (123 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
@@ -49,12 +67,6 @@
       "tekst": "jackery-homepower-2000-ultra: €669 van ?, geen bron-URL",
       "bevestigd": true
     },
-    "zonder bron|mova-lumegret-a4000|?": {
-      "sinds": "2026-11-15",
-      "soort": "zonder bron",
-      "tekst": "mova-lumegret-a4000: €1990 van ?, geen bron-URL",
-      "bevestigd": false
-    },
     "zonder prijs|aeg-solarcube-48|AH Voordeelshop": {
       "sinds": "2026-11-11",
       "soort": "geweigerd",
@@ -65,7 +77,7 @@
       "sinds": "2026-11-15",
       "soort": "geweigerd",
       "tekst": "dyness-powerbrick-plus @ NKON: HTTP 403",
-      "bevestigd": false
+      "bevestigd": true
     }
   }
 }
