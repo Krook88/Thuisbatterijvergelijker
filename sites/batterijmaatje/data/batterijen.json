@@ -4244,7 +4244,11 @@
           "kwh": 16.08,
           "opbouw": "+ 3× HB-4020-S"
         }
-      ]
+      ],
+      "afbeelding": "assets/producten/hoymiles-hibattery-4020-x.webp",
+      "afbeelding_bron": "foto: Hoymiles",
+      "afbeelding_herkomst": "https://www.hoymiles.com/statics/1/hoymiles/images/4020_x_img24.jpg",
+      "afbeelding_via": "https://www.hoymiles.com/nl/hibattery-4020-x.html"
     },
     {
       "id": "hoymiles-hibattery-1920-ac",
