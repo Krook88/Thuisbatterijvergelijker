@@ -97,10 +97,11 @@ over de hele lijst, los van deze toevoeging.
 publiceert de fabrikant de bruikbare maat wel, en die zijn bijgewerkt: Fox ESS
 EP11 (9,33 van 10,36), Sigenergy BAT 8.0 (7,8 van 8,06), Growatt APX 10.0P
 (9 van 10, 90% DoD), SAJ B2 2× 5.0 (9 van 10), Sungrow SBR096 (9,6 was al
-bruikbaar) en BYD HVM 11.0 (11,04 bruikbaar volgens BYD). Nog open: GoodWe Lynx
-Home U (de -20 heeft 5,4 bruikbaar, de -L 4,8; welke de winkel verkoopt is niet
-nagegaan), AlphaESS T10 met 8,2 kWh (welke batterijmodule?) en de
-Pylontech US5000.
+bruikbaar) en BYD HVM 11.0 (11,04 bruikbaar volgens BYD). Daarna ook afgesloten: GoodWe Lynx
+Home U (de winkel verkoopt de BAU5400-01-00P: 4,8 van 5,4 bij 90% DoD),
+AlphaESS T10 met BAT-8.2P (7,8 van 8,2 bij 95% DoD, uit de AlphaESS-datasheet
+van de S8) en de Pylontech US5000 (4,56 van 4,8 per module, 95% DoD; alleen uit
+winkel- en distributeursbladen, geen officieel Pylontech-datasheet gevonden).
 
 ### Zendure SolarFlow 4000 Mix AC+ — opgenomen, geen kandidaat meer
 

@@ -523,8 +523,8 @@
       "id": "victron-pylontech-3fase",
       "merk": "Victron Energy",
       "model": "3x MultiPlus-II 5000 + Pylontech US5000 (14,4 kWh)",
-      "capaciteit_kwh": 14.4,
-      "uitbreidbaar_tot_kwh": 76.8,
+      "capaciteit_kwh": 13.68,
+      "uitbreidbaar_tot_kwh": 72.96,
       "vermogen_kw": 12,
       "type": "ac-gekoppeld",
       "fase": "3-fase",
@@ -556,8 +556,9 @@
       "noodstroom_uitleg": "Ingebouwde UPS-functie in de MultiPlus-II: neemt bij netuitval binnen ca. 20 ms de belasting over. Hele huis of kritische groepen mogelijk, ca. 12 kW bij de 3-fase opstelling.",
       "ip_klasse": "IP20",
       "buiten_toelichting": "alleen binnen, in een droge technische ruimte",
-      "capaciteit_soort": "onbekend",
-      "vermogen_conditie": "onbekend"
+      "capaciteit_soort": "bruikbaar",
+      "vermogen_conditie": "onbekend",
+      "capaciteit_nominaal_kwh": 14.4
     },
     {
       "id": "sigenergy-sigenstor-8kwh",
@@ -669,8 +670,8 @@
       "id": "alphaess-smile-g3-t10",
       "merk": "AlphaESS",
       "model": "SMILE G3 T10 (8,2 kWh)",
-      "capaciteit_kwh": 8.2,
-      "uitbreidbaar_tot_kwh": 49.2,
+      "capaciteit_kwh": 7.8,
+      "uitbreidbaar_tot_kwh": 46.8,
       "vermogen_kw": 10,
       "type": "hybride",
       "fase": "3-fase",
@@ -687,7 +688,7 @@
       "app": "AlphaESS app",
       "garantie_jaar": 10,
       "cycli": null,
-      "opmerkingen": "Een serie met veel smaken, dus let goed op welke variant er in je offerte staat: van de modulaire SMILE G3 B3 (1-fase, circa 4.000 euro zonder installatie) tot deze T10 (3-fase, uitbreidbaar tot 49,2 kWh). Frank Energie verkoopt complete sets inclusief slimme aansturing.",
+      "opmerkingen": "Een serie met veel smaken, dus let goed op welke variant er in je offerte staat: van de modulaire SMILE G3 B3 (1-fase, circa 4.000 euro zonder installatie) tot deze T10 (3-fase, uitbreidbaar tot 49,2 kWh bruto, 46,8 kWh bruikbaar). Frank Energie verkoopt complete sets inclusief slimme aansturing.",
       "product_url": "https://www.alphaess.nl/pages/smile-g3-thuisbatterij",
       "aanbiedingen": [
         {
@@ -705,7 +706,7 @@
       "noodstroom_uitleg": "Alleen met de optionele AlphaESS Backup Box (kritische groepen of noodstopcontact) of Backup Box Plus (hele woning); omschakeling binnen ca. 10 ms.",
       "ip_klasse": "onbekend",
       "buiten_toelichting": "omvormer IP65; de IP-klasse van de batterijmodule verschilt per uitvoering, vraag de installateur",
-      "capaciteit_soort": "onbekend",
+      "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "max",
       "vermogen_bron": "AlphaESS noemt op de eigen pagina \"Maximaal laadvermogen 4 / 6 / 8 / 10 kW\": mijn getal is de bovenste variant en bovendien een laadvermogen, niet het ontlaadvermogen",
       "onbalans": {
@@ -722,7 +723,8 @@
       },
       "prijs_controle": "handmatig",
       "prijs_controle_reden": "AlphaESS toont geen prijs (nagekeken op 8 oktober 2026); het bedrag komt uit de sets van Frank Energie en blijft mensenwerk.",
-      "prijs_uit_offerte": true
+      "prijs_uit_offerte": true,
+      "capaciteit_nominaal_kwh": 8.2
     },
     {
       "id": "fox-ess-ep11",
@@ -1139,8 +1141,8 @@
       "id": "goodwe-lynx-home-u-54",
       "merk": "GoodWe",
       "model": "Lynx Home U (5,4 kWh)",
-      "capaciteit_kwh": 5.4,
-      "uitbreidbaar_tot_kwh": 32.4,
+      "capaciteit_kwh": 4.8,
+      "uitbreidbaar_tot_kwh": 28.8,
       "vermogen_kw": 2.56,
       "type": "hybride",
       "fase": "beide",
@@ -1180,10 +1182,11 @@
       "buiten_toelichting": "binnen en buiten; laden kan pas vanaf 0 °C",
       "afbeelding": "assets/producten/goodwe-lynx-home-u-54.webp",
       "afbeelding_bron": "foto: GoodWe",
-      "capaciteit_soort": "onbekend",
+      "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "onbekend",
       "totaalprijs_geschat_van_eur": 2883,
-      "totaalprijs_geschat_tot_eur": 4383
+      "totaalprijs_geschat_tot_eur": 4383,
+      "capaciteit_nominaal_kwh": 5.4
     },
     {
       "id": "solax-triple-power-t58",
