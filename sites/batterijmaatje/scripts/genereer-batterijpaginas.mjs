@@ -27,6 +27,7 @@ const Prijs = vereis("../assets/prijs.js");
 const Rekenkern = vereis("../assets/rekenkern.js");
 const Iconen = vereis("../assets/iconen.js");
 const Kaart = vereis("../assets/kaart.js");
+const DagmaatMaten = vereis("../assets/dagmaat.js");
 const PrijsGrafiek = vereis("../assets/prijsgrafiek.js");
 PrijsGrafiek.laad(JSON.parse(readFileSync(new URL("../data/prijsverloop.json", import.meta.url), "utf8")));
 
@@ -134,6 +135,44 @@ const esc = (s) => String(s == null ? "" : s)
 const eur = (n) => "€ " + Number(n).toLocaleString("nl-NL", { maximumFractionDigits: 0 });
 const nl = (n) => String(n).replace(".", ",");
 const eur2 = (n) => "€\u00a0" + Number(n).toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+/* De tabel "Verkrijgbare maten" op de batterijpagina (batterij.maten).
+   Eén regel per systeem in de vergelijker, maar hier zie je wat elke maat
+   oplevert: hoeveel je er bruikbaar uit haalt, hoe hij is opgebouwd, wat hij
+   kost als die prijs bekend is, en welk deel van een gemiddelde dag hij dekt.
+   Een prijs per maat staat er alleen als hij uit een bron komt; anders een
+   streepje, geen geschatte vermenigvuldiging. */
+const datumKort = (iso) => new Date(iso + "T12:00:00Z").toLocaleDateString("nl-NL", { day: "numeric", month: "short", year: "numeric" });
+function matenTabelHtml(b) {
+  const m = Prijs.maten(b);
+  if (!m || m.length < 2) return "";
+  const bruikbaar = Prijs.capaciteitBevestigd(b);
+  const metBruto = m.some((x) => typeof x.nominaal_kwh === "number" && Math.abs(x.nominaal_kwh - x.kwh) >= 0.005);
+  const metOpbouw = m.some((x) => x.opbouw);
+  const basisPrijs = Prijs.beste(b) ? Prijs.vergelijkPrijs(Prijs.beste(b)) : null;
+  const rijen = m.map((x) => {
+    const deze = Math.abs(x.kwh - b.capaciteit_kwh) < 0.005;
+    const prijs = Number.isFinite(x.prijs_eur) ? x.prijs_eur : deze ? basisPrijs : null;
+    const perKwh = prijs ? Math.round(prijs / x.kwh) : null;
+    const d = DagmaatMaten.bereken({ capaciteit: x.kwh, bevestigd: bruikbaar });
+    const dag = d ? (d.over > 0 ? "hele dag" : `${Math.round(d.deel * 100)}%`) : "";
+    return `<tr${deze ? ' class="maat-deze"' : ""}><td class="getal">${nl(Math.round(x.kwh * 100) / 100)} kWh${deze ? " <small>(prijs hierboven)</small>" : ""}</td>${metBruto ? `<td class="getal">${typeof x.nominaal_kwh === "number" ? `${nl(x.nominaal_kwh)} kWh` : ""}</td>` : ""}${metOpbouw ? `<td>${esc(x.opbouw || "")}</td>` : ""}<td class="getal">${prijs ? eur(prijs) : "&ndash;"}${Number.isFinite(x.prijs_eur) && x.prijs_datum ? ` <small>(${esc(datumKort(x.prijs_datum))})</small>` : ""}</td><td class="getal">${perKwh ? eur(perKwh) : "&ndash;"}</td><td class="getal">${dag}</td></tr>`;
+  }).join("\n      ");
+  const verder = b.uitbreidbaar_tot_kwh && b.uitbreidbaar_tot_kwh > m[m.length - 1].kwh + 0.005
+    ? ` Met meer modules of torens kom je tot ${nl(b.uitbreidbaar_tot_kwh)} kWh.` : "";
+  return `<h2 id="maten">Verkrijgbare maten</h2>
+  <p>De ${esc(b.merk)} ${esc(b.model.replace(/\s*\(.*\)\s*$/, ""))} koop je in ${m.length} maten. In de vergelijker staat hij als één regel, met de prijs van de ${nl(b.capaciteit_kwh)} kWh.${verder}</p>
+  <div class="tabel-blok">
+  <table class="data-tabel maten-tabel">
+    <thead><tr><th class="getal">${bruikbaar ? "Bruikbaar" : "Capaciteit"}</th>${metBruto ? '<th class="getal">Bruto</th>' : ""}${metOpbouw ? "<th>Opbouw</th>" : ""}<th class="getal">Prijs</th><th class="getal">Per kWh</th><th class="getal">Dekt van een dag</th></tr></thead>
+    <tbody>
+      ${rijen}
+    </tbody>
+  </table>
+  </div>
+  <p class="datum-stempel">Een streepje bij de prijs betekent dat ik voor die maat geen winkelprijs heb; vraag hem na bij de winkel of installateur. "Dekt van een dag" rekent met een gemiddeld huishouden${bruikbaar ? "" : " en gaat uit van ongeveer 90% bruikbaar"}.</p>
+`;
+}
 
 // ISO-datum (2026-07-13) leesbaar maken als "13 juli 2026"
 const datumNL = (iso) => {
@@ -612,7 +651,7 @@ ${NAV_HTML}
   <h2>Specificaties</h2>
   <div class="tabel-blok">
   <table class="data-tabel spec-tabel">
-    ${specRij("Capaciteit", `${nl(b.capaciteit_kwh)} kWh${Prijs.capaciteitLabelHtml(b)}${b.capaciteit_nominaal_kwh && Math.abs(b.capaciteit_nominaal_kwh - b.capaciteit_kwh) >= 0.005 ? ` <small>(${nl(b.capaciteit_nominaal_kwh)} kWh bruto)</small>` : ""}${b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh)` : ""}`)}
+    ${specRij("Capaciteit", `${nl(b.capaciteit_kwh)} kWh${Prijs.capaciteitLabelHtml(b)}${b.capaciteit_nominaal_kwh && Math.abs(b.capaciteit_nominaal_kwh - b.capaciteit_kwh) >= 0.005 ? ` <small>(${nl(b.capaciteit_nominaal_kwh)} kWh bruto)</small>` : ""}${Kaart.matenTekst(b) ? ` <small>(maten: ${esc(Kaart.matenTekst(b))}; zie <a href="#maten">Verkrijgbare maten</a>)</small>` : b.uitbreidbaar_tot_kwh ? ` (uitbreidbaar tot ${nl(b.uitbreidbaar_tot_kwh)} kWh)` : ""}`)}
     ${specRij("Vermogen", b.vermogen_kw ? `${nl(b.vermogen_kw)} kW${Prijs.vermogenLabelHtml(b)}` : null)}
     ${specRij("Type", `<a class="term-link" href="/uitleg.html#${esc(b.type)}" title="Wat betekent dit? Lees de uitleg in de woordenlijst">${esc(typeLabel)}</a>`)}
     ${specRij("Aansluiting", esc(Kaart.faseTekst(b)))}
@@ -627,6 +666,7 @@ ${NAV_HTML}
   </div>
   <p class="datum-stempel">Onbekende term (zoals kWh of hybride)? Alle woorden staan uitgelegd in de <a href="/uitleg.html#woordenlijst">woordenlijst</a>.</p>
 
+  ${matenTabelHtml(b)}
   <h2>Past hij op een gemiddelde dag?</h2>
   ${Kaart.dagmaatUitlegHtml(b)}
 

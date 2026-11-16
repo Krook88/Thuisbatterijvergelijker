@@ -150,6 +150,29 @@ export function controleerBestand(data, { site, lijst }) {
     }
     if ("scop_55" in p && !(typeof p.scop_55 === "number" && p.scop_55 > 1 && p.scop_55 < 7)) meld(`scop_55 is geen SCOP tussen 1 en 7 (${JSON.stringify(p.scop_55)})`);
     if ("scop_55" in p && !(typeof p.scop_55_bron === "string" && p.scop_55_bron.trim())) meld("scop_55 zonder scop_55_bron");
+    // Maten van één systeem (REDACTIE.md, capaciteitsvarianten). Oplopend,
+    // met de maat waar de prijs van de regel bij hoort erin, en niet groter dan
+    // uitbreidbaar_tot_kwh: anders toont de kaart een maat die het filter niet
+    // kent, of een prijs bij een uitvoering die niet bestaat.
+    if (site === "batterijmaatje" && "maten" in p) {
+      const MAAT_VELDEN = new Set(["kwh", "nominaal_kwh", "opbouw", "prijs_eur", "prijs_datum"]);
+      if (!Array.isArray(p.maten) || p.maten.length < 2) meld("maten is geen lijst van minstens twee uitvoeringen");
+      else {
+        let vorige = 0;
+        for (const m of p.maten) {
+          if (!m || typeof m.kwh !== "number" || m.kwh <= 0) { meld("maten: elke uitvoering heeft een positief kwh"); continue; }
+          for (const k of Object.keys(m)) if (!MAAT_VELDEN.has(k)) meld(`maten: onbekend veld "${k}"`);
+          if (m.kwh <= vorige) meld(`maten: niet oplopend bij ${m.kwh}`);
+          vorige = m.kwh;
+          if ("nominaal_kwh" in m && !(typeof m.nominaal_kwh === "number" && m.nominaal_kwh >= m.kwh)) meld(`maten: nominaal_kwh kleiner dan kwh bij ${m.kwh}`);
+          if ("prijs_eur" in m && !(Number.isInteger(m.prijs_eur) && m.prijs_eur > 0)) meld(`maten: prijs_eur is geen positief geheel getal bij ${m.kwh}`);
+          if ("prijs_datum" in m && !isDatum(m.prijs_datum)) meld(`maten: prijs_datum is geen JJJJ-MM-DD bij ${m.kwh}`);
+        }
+        if (typeof p.capaciteit_kwh === "number" && !p.maten.some((m) => m && Math.abs(m.kwh - p.capaciteit_kwh) < 0.01)) meld("maten: capaciteit_kwh staat er niet tussen");
+        const grootste = p.maten[p.maten.length - 1];
+        if (grootste && typeof p.uitbreidbaar_tot_kwh === "number" && grootste.kwh > p.uitbreidbaar_tot_kwh + 0.01) meld("maten: grootste maat is groter dan uitbreidbaar_tot_kwh");
+      }
+    }
     for (const [veld, waarden] of Object.entries(vast)) {
       if (veld in p && p[veld] !== null && !waarden.includes(p[veld])) meld(`${veld} heeft een onbekende waarde (${JSON.stringify(p[veld])})`);
     }

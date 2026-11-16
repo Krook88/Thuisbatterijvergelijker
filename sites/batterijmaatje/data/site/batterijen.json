@@ -85,6 +85,23 @@
       "vermogen_bron": "Marstek geeft 800 W on-grid en 2500 W off-grid; dit getal is de off-grid maximumwaarde",
       "zoeknamen": [
         "Venus E V3"
+      ],
+      "maten": [
+        {
+          "kwh": 4.6,
+          "nominaal_kwh": 5.12,
+          "opbouw": "1 unit"
+        },
+        {
+          "kwh": 9.2,
+          "nominaal_kwh": 10.24,
+          "opbouw": "2 units"
+        },
+        {
+          "kwh": 13.8,
+          "nominaal_kwh": 15.36,
+          "opbouw": "3 units"
+        }
       ]
     },
     {
@@ -249,7 +266,25 @@
       "capaciteit_soort": "nominaal",
       "capaciteit_nominaal_kwh": 2.7,
       "vermogen_conditie": "max",
-      "vermogen_bron": "HomeWizard: laden en ontladen tot 800 W; meer vermogen krijg je alleen door units te koppelen"
+      "vermogen_bron": "HomeWizard: laden en ontladen tot 800 W; meer vermogen krijg je alleen door units te koppelen",
+      "maten": [
+        {
+          "kwh": 2.7,
+          "opbouw": "1 unit"
+        },
+        {
+          "kwh": 5.4,
+          "opbouw": "2 units"
+        },
+        {
+          "kwh": 8.1,
+          "opbouw": "3 units"
+        },
+        {
+          "kwh": 10.8,
+          "opbouw": "4 units"
+        }
+      ]
     },
     {
       "id": "ecoflow-stream-ac-pro",
@@ -310,7 +345,7 @@
       "merk": "Anker",
       "model": "SOLIX Solarbank 3 E2700 Pro (2,69 kWh)",
       "capaciteit_kwh": 2.69,
-      "uitbreidbaar_tot_kwh": 16.1,
+      "uitbreidbaar_tot_kwh": 16.14,
       "vermogen_kw": 0.8,
       "type": "plug-in",
       "fase": "1-fase",
@@ -359,7 +394,33 @@
       "capaciteit_soort": "nominaal",
       "capaciteit_nominaal_kwh": 2.69,
       "vermogen_conditie": "stopcontact",
-      "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van."
+      "vermogen_bron": "800 W is wat hij aan een gewoon stopcontact levert. Of hij op een eigen groep meer kan, verschilt per model; voor dit model heb ik daar geen opgave van.",
+      "maten": [
+        {
+          "kwh": 2.69,
+          "opbouw": "alleen de Solarbank"
+        },
+        {
+          "kwh": 5.38,
+          "opbouw": "+ 1 uitbreidingsaccu"
+        },
+        {
+          "kwh": 8.07,
+          "opbouw": "+ 2 uitbreidingsaccus"
+        },
+        {
+          "kwh": 10.76,
+          "opbouw": "+ 3 uitbreidingsaccus"
+        },
+        {
+          "kwh": 13.45,
+          "opbouw": "+ 4 uitbreidingsaccus"
+        },
+        {
+          "kwh": 16.14,
+          "opbouw": "+ 5 uitbreidingsaccus"
+        }
+      ]
     },
     {
       "id": "zonneplan-nexus",
@@ -526,7 +587,39 @@
         "toelichting": "Wordt via Frank Energie geleverd inclusief slimme sturing; of daar ook onbalanshandel bij zit heb ik niet nagegaan."
       },
       "vermogen_bron": "Sigen-datasheet: een BAT 8.0-module laadt en ontlaadt maximaal 4 kW, 6 kW piek gedurende 10 seconden; de omvormer kan 8 kW, maar dat haal je pas met twee modules",
-      "capaciteit_nominaal_kwh": 8.06
+      "capaciteit_nominaal_kwh": 8.06,
+      "maten": [
+        {
+          "kwh": 7.8,
+          "nominaal_kwh": 8.06,
+          "opbouw": "1 modules"
+        },
+        {
+          "kwh": 15.6,
+          "nominaal_kwh": 16.12,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 23.4,
+          "nominaal_kwh": 24.18,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 31.2,
+          "nominaal_kwh": 32.24,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 39,
+          "nominaal_kwh": 40.3,
+          "opbouw": "5 modules"
+        },
+        {
+          "kwh": 46.8,
+          "nominaal_kwh": 48.36,
+          "opbouw": "6 modules"
+        }
+      ]
     },
     {
       "id": "tesla-powerwall-3",
@@ -677,7 +770,39 @@
       "vermogen_conditie": "onbekend",
       "prijs_controle": "handmatig",
       "prijs_controle_reden": "Geen Nederlandse winkel gevonden die dit model met een openbare prijs verkoopt (nagezocht op 8 oktober 2026). Het bedrag is een richtprijs; de site toont erbij hoe oud hij is.",
-      "capaciteit_nominaal_kwh": 9.6
+      "capaciteit_nominaal_kwh": 9.6,
+      "maten": [
+        {
+          "kwh": 9.6,
+          "nominaal_kwh": 9.6,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 12.8,
+          "nominaal_kwh": 12.8,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 16,
+          "nominaal_kwh": 16,
+          "opbouw": "5 modules"
+        },
+        {
+          "kwh": 19.2,
+          "nominaal_kwh": 19.2,
+          "opbouw": "6 modules"
+        },
+        {
+          "kwh": 22.4,
+          "nominaal_kwh": 22.4,
+          "opbouw": "7 modules"
+        },
+        {
+          "kwh": 25.6,
+          "nominaal_kwh": 25.6,
+          "opbouw": "8 modules"
+        }
+      ]
     },
     {
       "id": "solaredge-home-battery-48v",
@@ -928,7 +1053,39 @@
       "vermogen_conditie": "onbekend",
       "totaalprijs_geschat_van_eur": 2883,
       "totaalprijs_geschat_tot_eur": 4383,
-      "capaciteit_nominaal_kwh": 5.4
+      "capaciteit_nominaal_kwh": 5.4,
+      "maten": [
+        {
+          "kwh": 4.8,
+          "nominaal_kwh": 5.4,
+          "opbouw": "1 modules"
+        },
+        {
+          "kwh": 9.6,
+          "nominaal_kwh": 10.8,
+          "opbouw": "2 modules"
+        },
+        {
+          "kwh": 14.4,
+          "nominaal_kwh": 16.2,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 19.2,
+          "nominaal_kwh": 21.6,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 24,
+          "nominaal_kwh": 27,
+          "opbouw": "5 modules"
+        },
+        {
+          "kwh": 28.8,
+          "nominaal_kwh": 32.4,
+          "opbouw": "6 modules"
+        }
+      ]
     },
     {
       "id": "solax-triple-power-t58",
@@ -1104,7 +1261,7 @@
       "merk": "Duracell Energy",
       "model": "Dura5 (4,6 kWh bruikbaar)",
       "capaciteit_kwh": 4.6,
-      "uitbreidbaar_tot_kwh": 25,
+      "uitbreidbaar_tot_kwh": 23,
       "vermogen_kw": 5,
       "type": "hybride",
       "fase": "1-fase",
@@ -1141,7 +1298,36 @@
       "afbeelding_bron": "foto: Duracell Energy",
       "capaciteit_nominaal_kwh": 5.12,
       "capaciteit_soort": "bruikbaar",
-      "vermogen_conditie": "onbekend"
+      "vermogen_conditie": "onbekend",
+      "maten": [
+        {
+          "kwh": 4.6,
+          "nominaal_kwh": 5.12,
+          "opbouw": "1 modules"
+        },
+        {
+          "kwh": 9.2,
+          "nominaal_kwh": 10.24,
+          "opbouw": "2 modules",
+          "prijs_eur": 9000
+        },
+        {
+          "kwh": 13.8,
+          "nominaal_kwh": 15.36,
+          "opbouw": "3 modules"
+        },
+        {
+          "kwh": 18.4,
+          "nominaal_kwh": 20.48,
+          "opbouw": "4 modules"
+        },
+        {
+          "kwh": 23,
+          "nominaal_kwh": 25.6,
+          "opbouw": "5 modules",
+          "prijs_eur": 17500
+        }
+      ]
     },
     {
       "id": "anker-solix-solarbank-max-ac",
@@ -1189,7 +1375,33 @@
       "noodstroom_uitleg": "Noodstroomuitgang met omschakeling binnen ca. 10 ms (fabrieksopgave).",
       "capaciteit_soort": "bruikbaar",
       "vermogen_conditie": "continu",
-      "vermogen_bron": "Anker geeft 3.500 W laad- en ontlaadvermogen als rated waarde"
+      "vermogen_bron": "Anker geeft 3.500 W laad- en ontlaadvermogen als rated waarde",
+      "maten": [
+        {
+          "kwh": 7,
+          "opbouw": "alleen de basis"
+        },
+        {
+          "kwh": 14,
+          "opbouw": "+ 1 module"
+        },
+        {
+          "kwh": 21,
+          "opbouw": "+ 2 modules"
+        },
+        {
+          "kwh": 28,
+          "opbouw": "+ 3 modules"
+        },
+        {
+          "kwh": 35,
+          "opbouw": "+ 4 modules"
+        },
+        {
+          "kwh": 42,
+          "opbouw": "+ 5 modules"
+        }
+      ]
     },
     {
       "id": "zendure-solarflow-3000-mix-ac",
@@ -2071,7 +2283,33 @@
       "afbeelding": "assets/producten/zendure-solarflow-2400-ac-plus.webp",
       "afbeelding_bron": "foto: Zendure",
       "afbeelding_herkomst": "https://www.zendure.nl/cdn/shop/files/SF2400_AC_P1.jpg?v=1771035146",
-      "afbeelding_via": "https://www.zendure.nl/products/zendure-solarflow-2400-ac-plus"
+      "afbeelding_via": "https://www.zendure.nl/products/zendure-solarflow-2400-ac-plus",
+      "maten": [
+        {
+          "kwh": 2.4,
+          "opbouw": "alleen de 2400 AC+"
+        },
+        {
+          "kwh": 5.28,
+          "opbouw": "+ 1× AB3000L"
+        },
+        {
+          "kwh": 8.16,
+          "opbouw": "+ 2× AB3000L"
+        },
+        {
+          "kwh": 11.04,
+          "opbouw": "+ 3× AB3000L"
+        },
+        {
+          "kwh": 13.92,
+          "opbouw": "+ 4× AB3000L"
+        },
+        {
+          "kwh": 16.8,
+          "opbouw": "+ 5× AB3000L"
+        }
+      ]
     },
     {
       "id": "jackery-solarvault-3-pro-max-ac",
@@ -2128,7 +2366,35 @@
       "afbeelding": "assets/producten/jackery-solarvault-3-pro-max-ac.webp",
       "afbeelding_bron": "foto: Jackery",
       "afbeelding_herkomst": "https://nl.jackery.com/cdn/shop/files/pro-max-1_ceef2f67-f337-4791-ba9a-d64e162ad508.webp?v=1786453180&width=800",
-      "afbeelding_via": "https://nl.jackery.com/products/solarvault-3-pro-max-ac"
+      "afbeelding_via": "https://nl.jackery.com/products/solarvault-3-pro-max-ac",
+      "maten": [
+        {
+          "kwh": 2.52,
+          "opbouw": "alleen de basis"
+        },
+        {
+          "kwh": 5.04,
+          "opbouw": "+ 1× BP2500",
+          "prijs_eur": 1398,
+          "prijs_datum": "2026-10-07"
+        },
+        {
+          "kwh": 7.56,
+          "opbouw": "+ 2× BP2500"
+        },
+        {
+          "kwh": 10.08,
+          "opbouw": "+ 3× BP2500"
+        },
+        {
+          "kwh": 12.6,
+          "opbouw": "+ 4× BP2500"
+        },
+        {
+          "kwh": 15.12,
+          "opbouw": "+ 5× BP2500"
+        }
+      ]
     },
     {
       "id": "jackery-solarvault-3-pro-max",
@@ -2185,7 +2451,33 @@
       "afbeelding": "assets/producten/jackery-solarvault-3-pro-max.webp",
       "afbeelding_bron": "foto: Jackery",
       "afbeelding_herkomst": "https://nl.jackery.com/cdn/shop/files/pro-max-1_ceef2f67-f337-4791-ba9a-d64e162ad508.webp?v=1786453180",
-      "afbeelding_via": "https://nl.jackery.com/products/solarvault-3-pro-max"
+      "afbeelding_via": "https://nl.jackery.com/products/solarvault-3-pro-max",
+      "maten": [
+        {
+          "kwh": 2.52,
+          "opbouw": "alleen de basis"
+        },
+        {
+          "kwh": 5.04,
+          "opbouw": "+ 1× BP2500"
+        },
+        {
+          "kwh": 7.56,
+          "opbouw": "+ 2× BP2500"
+        },
+        {
+          "kwh": 10.08,
+          "opbouw": "+ 3× BP2500"
+        },
+        {
+          "kwh": 12.6,
+          "opbouw": "+ 4× BP2500"
+        },
+        {
+          "kwh": 15.12,
+          "opbouw": "+ 5× BP2500"
+        }
+      ]
     },
     {
       "id": "anker-solix-solarbank-4-pro",

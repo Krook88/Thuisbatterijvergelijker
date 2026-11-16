@@ -229,3 +229,36 @@ test("een onleesbare datum levert niets in plaats van NaN", () => {
   assert.equal(Prijs.prijsOuderdom({ richtprijs_eur: 100, prijs_datum: "gisteren" }, NU), null);
   assert.equal(Prijs.prijsOuderdom({ richtprijs_eur: 100, prijs_datum: 20260713 }, NU), null);
 });
+
+/* ------------------------------------------------------------------
+   Maten en het capaciteitsfilter
+
+   Het filter "Groot (meer dan 10 kWh)" keek alleen naar de basismaat. Een
+   Marstek van 4,6 kWh die je tot 13,8 kWh uitbreidt viel dan weg bij wie een
+   grote batterij zoekt, en dat gold voor het merendeel van de uitbreidbare
+   systemen.
+   ------------------------------------------------------------------ */
+
+const marstek = { capaciteit_kwh: 4.6, uitbreidbaar_tot_kwh: 13.8, maten: [{ kwh: 9.2, opbouw: "2 units" }, { kwh: 4.6 }, { kwh: 13.8, opbouw: "3 units" }] };
+
+test("maten komen oplopend terug, zonder maten null", () => {
+  assert.deepEqual(Prijs.maten(marstek).map((m) => m.kwh), [4.6, 9.2, 13.8]);
+  assert.equal(Prijs.maten({ capaciteit_kwh: 5 }), null);
+});
+
+test("een uitbreidbare batterij valt onder elk filter dat zijn bereik raakt", () => {
+  assert.equal(Prijs.capaciteitInFilter(marstek, "klein"), false);
+  assert.equal(Prijs.capaciteitInFilter(marstek, "middel"), true);
+  assert.equal(Prijs.capaciteitInFilter(marstek, "groot"), true);
+  assert.equal(Prijs.capaciteitInFilter(marstek, "alle"), true);
+  // Zonder maten telt uitbreidbaar_tot_kwh: van 2 tot 20 kWh overspant "middel".
+  assert.equal(Prijs.capaciteitInFilter({ capaciteit_kwh: 2, uitbreidbaar_tot_kwh: 20 }, "middel"), true);
+  assert.equal(Prijs.capaciteitInFilter({ capaciteit_kwh: 12 }, "middel"), false);
+});
+
+test("buiten de basismaat zegt maatInFilter welke maat wel past", () => {
+  assert.equal(Prijs.maatInFilter(marstek, "middel"), null); // 4,6 past zelf
+  assert.deepEqual(Prijs.maatInFilter(marstek, "groot"), { kwh: 13.8, opbouw: "3 units" });
+  assert.deepEqual(Prijs.maatInFilter({ capaciteit_kwh: 5, uitbreidbaar_tot_kwh: 15 }, "groot"), { kwh: null });
+  assert.equal(Prijs.maatInFilter({ capaciteit_kwh: 5 }, "groot"), null);
+});
