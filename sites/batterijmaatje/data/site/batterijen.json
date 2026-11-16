@@ -1890,7 +1890,7 @@
       "merk": "Indevolt",
       "model": "SolidFlex 3000 AC (1,8 kWh)",
       "capaciteit_kwh": 1.8,
-      "uitbreidbaar_tot_kwh": 19.8,
+      "uitbreidbaar_tot_kwh": null,
       "vermogen_kw": 3,
       "type": "plug-in",
       "fase": "1-fase",
@@ -1907,7 +1907,7 @@
       "garantie_jaar": 10,
       "cycli": 8000,
       "cycli_toelichting": "8.000 (fabrieksopgave)",
-      "opmerkingen": "Nieuw sinds juni 2026 en technisch het buitenbeentje van de lijst: hij gebruikt semi-solid-state LFP-cellen. De basisunit is klein met 1,8 kWh, maar je kunt per unit doorgroeien tot 19,8 kWh. De fabriek geeft 10 jaar garantie en 8.000 cycli op. Of hij noodstroom levert en of Homey werkt, was in juli 2026 nog niet vastgesteld. Er is inmiddels ook een kleinere SolidFlex 2000-variant via Thuisbatterij.nl.",
+      "opmerkingen": "Nieuw sinds juni 2026 en technisch het buitenbeentje van de lijst: hij gebruikt semi-solid-state LFP-cellen. De basisunit is klein met 1,8 kWh. Uitbreiden kan, maar tot hoever heb ik voor de 3000 niet bevestigd gekregen: de eerder genoemde 19,8 kWh vond ik in geen enkele bron terug, en de verwante SolidFlex 2000 gaat tot 10,8 kWh. De fabriek geeft 10 jaar garantie en 8.000 cycli op. Of hij noodstroom levert en of Homey werkt, was in juli 2026 nog niet vastgesteld. Er is inmiddels ook een kleinere SolidFlex 2000-variant via Thuisbatterij.nl.",
       "product_url": "https://nl.indevolt.com/collections/plug-in-thuisbatterij",
       "aanbiedingen": [
         {
