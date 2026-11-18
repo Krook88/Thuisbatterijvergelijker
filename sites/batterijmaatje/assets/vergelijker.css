@@ -184,12 +184,20 @@
   .hero p { font-size: var(--tekst-17); }
   .hero-badges { margin-top: var(--ruimte-20); }
 
-  /* Naast elkaar passen er op een telefoon geen drie; onder elkaar met een
-     lijn ertussen leest het net zo goed. */
+  /* Naast elkaar passen er op een telefoon geen drie. Ze stonden daarom elk
+     op een eigen regel, drie keer 32 pixels, terwijl de lijst op 390 pixels
+     pas na 1.300 pixels begon. Het aantal en "Geen betaalde plaatsing" passen
+     samen op een regel; de datum, de langste, staat eronder. */
   .hero .update-info {
+    margin-right: var(--ruimte-10);
+    padding: var(--ruimte-4) var(--ruimte-10) var(--ruimte-4) 0;
+  }
+  .hero .update-info:nth-child(2) {
+    order: 1;
+    display: block;
     width: 100%;
-    margin: 0;
-    padding: var(--ruimte-4) 0;
+    margin-right: 0;
+    padding-right: 0;
     border-right: 0;
   }
 

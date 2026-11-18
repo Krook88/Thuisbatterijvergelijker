@@ -378,7 +378,7 @@
      vergelijkingsreviewer vonden allebei dat een leek eerst wil zien wat
      opslag kost, en de Koppel-score blijft een sorteeroptie. */
   function standaardVolgorde(lijst) {
-    const sleutel = (b) => { const v = Prijs.prijsPerKwh(b); return (v && Number.isFinite(v) ? v : 1e9) + (Prijs.prijsTeOud(b) ? 1e6 : 0); };
+    const sleutel = (b) => { const v = Prijs.prijsPerKwh(b); return (v && Number.isFinite(v) ? v : 1e9) + (Prijs.prijsAchteraan(b) ? 1e6 : 0); };
     return [...lijst].sort((a, b) => sleutel(a) - sleutel(b) || koppelScore(b) - koppelScore(a));
   }
 
@@ -535,7 +535,7 @@
         // van duizenden euro's bij moet.
         let laagste = null;
         for (const b of lijst) {
-          if (b.type === "hybride" || b.capaciteit_soort !== "bruikbaar" || Prijs.prijsTeOud(b)) continue;
+          if (b.type === "hybride" || b.capaciteit_soort !== "bruikbaar" || Prijs.prijsAchteraan(b)) continue;
           const p = Prijs.prijsPerKwh(b);
           if (p && (!laagste || p < laagste.p)) laagste = { id: b.id, p };
         }

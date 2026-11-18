@@ -5,7 +5,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { importsVan, metVoorladen } from "./voorladen.mjs";
+import { importsVan, fontsVan, metVoorladen } from "./voorladen.mjs";
 
 const CSS = `/* kop */\n@import url("maatlat.css?v=20261022a");\n@import url("vergelijker.css?v=20261022a");\n\nbody { margin: 0; }`;
 const PAGINA = `<head>\n  <meta charset="UTF-8">\n  <link rel="stylesheet" href="../assets/style.css?v=20261022a">\n</head>`;
@@ -31,4 +31,19 @@ test("een tweede keer verandert niets, en een nieuwe versie vervangt de oude", (
 test("een pagina zonder style.css blijft zoals hij is", () => {
   const los = "<head><title>Plan</title></head>";
   assert.equal(metVoorladen(los, importsVan(CSS)), los);
+});
+
+const FONTCSS = `/* @font-face { src: url("fonts/oud.woff2"); } */\n@font-face {\n  font-family: "Figtree";\n  src: url("fonts/figtree-variable.woff2") format("woff2-variations");\n}`;
+
+test("de font uit @font-face krijgt een preload vóór de stylesheets", () => {
+  assert.deepEqual(fontsVan(FONTCSS), ["fonts/figtree-variable.woff2"]);
+  const uit = metVoorladen(PAGINA, importsVan(CSS), fontsVan(FONTCSS));
+  assert.match(uit, /  <link rel="preload" href="\.\.\/assets\/fonts\/figtree-variable\.woff2" as="font" type="font\/woff2" crossorigin>\n  <link rel="preload" href="\.\.\/assets\/maatlat\.css/);
+});
+
+test("een font-preload die er al stond, ook elders in de kop, staat er daarna één keer", () => {
+  const met = PAGINA.replace("<meta charset=\"UTF-8\">\n", "<meta charset=\"UTF-8\">\n  <link rel=\"preload\" href=\"/assets/fonts/figtree-variable.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>\n");
+  const uit = metVoorladen(met, importsVan(CSS), fontsVan(FONTCSS));
+  assert.equal((uit.match(/as="font"/g) || []).length, 1);
+  assert.equal(metVoorladen(uit, importsVan(CSS), fontsVan(FONTCSS)), uit);
 });

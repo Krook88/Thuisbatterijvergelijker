@@ -596,7 +596,6 @@ ${productLd(b)}
   <script type="application/ld+json">
 ${breadcrumbLd(b)}
   </script>
-  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
@@ -827,7 +826,6 @@ function overzichtsPagina(cfg) {
   <script type="application/ld+json">
 ${itemList}
   </script>
-  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
@@ -999,7 +997,6 @@ function stekkerPagina() {
   <script type="application/ld+json">
 ${itemList}
   </script>
-  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
@@ -1165,7 +1162,6 @@ function kostenPagina() {
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Batterijmaatje.nl">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
@@ -1265,7 +1261,6 @@ function wachtenPagina() {
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Batterijmaatje.nl">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
@@ -1383,7 +1378,6 @@ ${itemList}
   <script type="application/ld+json">
 ${o.faqLd}
   </script>
-  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
@@ -1497,7 +1491,6 @@ function zonderPvPagina() {
   <script type="application/ld+json">
 ${faq}
   </script>
-  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
@@ -1644,7 +1637,6 @@ function dynamischPagina() {
   <script type="application/ld+json">
 ${faq}
   </script>
-  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
@@ -1832,7 +1824,6 @@ function vergelijkingsPagina(v) {
   <script type="application/ld+json">
 ${itemList}
   </script>
-  <link rel="preload" href="/assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">

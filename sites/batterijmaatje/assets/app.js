@@ -153,8 +153,8 @@
   function gesorteerd(lijst) {
     const kopie = [...lijst];
     const prijsVan = vergelijkPrijs;
-    // Onbekend of te oud (zie Prijs.prijsTeOud) achter de actuele prijzen.
-    const sleutel = (b, v) => (v && Number.isFinite(v) ? v : 1e9) + (Prijs.prijsTeOud(b) ? 1e6 : 0);
+    // Onbekend, te oud of nergens te koop (zie Prijs.prijsAchteraan) achter de actuele prijzen.
+    const sleutel = (b, v) => (v && Number.isFinite(v) ? v : 1e9) + (Prijs.prijsAchteraan(b) ? 1e6 : 0);
     switch (state.sortering) {
       case "prijs-oplopend": kopie.sort((a, b) => sleutel(a, prijsVan(a)) - sleutel(b, prijsVan(b))); break;
       case "totaalprijs": kopie.sort((a, b) => (a.totaalprijs_van_eur || Infinity) - (b.totaalprijs_van_eur || Infinity)); break;

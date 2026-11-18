@@ -15,6 +15,13 @@
  * eerder. De lijst komt uit style.css zelf, zodat een nieuwe @import hier
  * vanzelf meekomt, en de generator zet hem op elke pagina, net als het
  * statistiekscript (zie statistiek.mjs).
+ *
+ * Hetzelfde geldt voor de font uit @font-face. Die ontdekt de browser pas als
+ * de CSS binnen is en een element hem nodig heeft. Met font-display: optional
+ * (zie style.css) gebruikt hij de font alleen als die er binnen ongeveer
+ * 100 ms is; zonder preload haalt een eerste bezoek dat zelden. Tot november
+ * 2026 stond de font-preload met de hand in de sjablonen van batterijmaatje en
+ * op de andere twee sites nergens, terwijl hun style.css er wel naar verwees.
  */
 
 import { readFileSync, writeFileSync } from "node:fs";
@@ -23,29 +30,40 @@ import { htmlBestanden } from "./statistiek.mjs";
 
 const STYLE_LINK = /<link rel="stylesheet" href="([^"]*?)style\.css\?v=[A-Za-z0-9]+">/;
 const OUDE_PRELOAD = /[ \t]*<link rel="preload" href="[^"]*?[A-Za-z0-9_-]+\.css\?v=[A-Za-z0-9]+" as="style">\n/g;
+const OUDE_FONT = /[ \t]*<link rel="preload" href="[^"]*?fonts\/[A-Za-z0-9_.-]+\.woff2" as="font" type="font\/woff2" crossorigin>\n/g;
 
 /** De bestanden die style.css bovenaan met @import binnenhaalt, met hun ?v=. */
 export function importsVan(css) {
   return [...css.matchAll(/^@import url\("([^"]+\.css\?v=[A-Za-z0-9]+)"\);/gm)].map((m) => m[1]);
 }
 
-/** De pagina met een preload per import, vlak voor de link naar style.css. */
-export function metVoorladen(html, imports) {
-  const zonder = html.replace(OUDE_PRELOAD, "");
+/** De woff2-bestanden uit de @font-face-regels van style.css, relatief aan assets/. */
+export function fontsVan(css) {
+  const zonderCommentaar = css.replace(/\/\*[\s\S]*?\*\//g, "");
+  const blokken = zonderCommentaar.match(/@font-face\s*\{[^}]*\}/g) || [];
+  return [...new Set(blokken.flatMap((b) => [...b.matchAll(/url\("(fonts\/[A-Za-z0-9_.-]+\.woff2)"\)/g)].map((m) => m[1])))];
+}
+
+/** De pagina met een preload per font en per import, vlak voor de link naar style.css. */
+export function metVoorladen(html, imports, fonts = []) {
+  const zonder = html.replace(OUDE_PRELOAD, "").replace(OUDE_FONT, "");
   const m = STYLE_LINK.exec(zonder);
-  if (!m || !imports.length) return zonder;
+  if (!m || !(imports.length || fonts.length)) return zonder;
   const inspringing = (/\n([ \t]*)<link rel="stylesheet" href="[^"]*?style\.css/.exec(zonder) || [, ""])[1];
-  const hints = imports.map((i) => `${inspringing}<link rel="preload" href="${m[1]}${i}" as="style">\n`).join("");
+  const hints = fonts.map((f) => `${inspringing}<link rel="preload" href="${m[1]}${f}" as="font" type="font/woff2" crossorigin>\n`).join("") +
+    imports.map((i) => `${inspringing}<link rel="preload" href="${m[1]}${i}" as="style">\n`).join("");
   return zonder.replace(`${inspringing}${m[0]}`, () => `${hints}${inspringing}${m[0]}`);
 }
 
 /** Zet de hints op elke pagina van de site. Geeft het aantal aangepaste pagina's. */
 export function zetVoorladenOveral(root) {
-  const imports = importsVan(readFileSync(join(root, "assets", "style.css"), "utf8"));
+  const css = readFileSync(join(root, "assets", "style.css"), "utf8");
+  const imports = importsVan(css);
+  const fonts = fontsVan(css);
   let aangepast = 0;
   for (const pad of htmlBestanden(root)) {
     const oud = readFileSync(pad, "utf8");
-    const nieuw = metVoorladen(oud, imports);
+    const nieuw = metVoorladen(oud, imports, fonts);
     if (nieuw !== oud) { writeFileSync(pad, nieuw, "utf8"); aangepast++; }
   }
   return aangepast;
