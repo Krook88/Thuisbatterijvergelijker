@@ -262,3 +262,23 @@ test("buiten de basismaat zegt maatInFilter welke maat wel past", () => {
   assert.deepEqual(Prijs.maatInFilter({ capaciteit_kwh: 5, uitbreidbaar_tot_kwh: 15 }, "groot"), { kwh: null });
   assert.equal(Prijs.maatInFilter({ capaciteit_kwh: 5 }, "groot"), null);
 });
+
+/* ------------------------------------------------------------------
+   Nergens te koop: achteraan in de volgorde op prijs
+   ------------------------------------------------------------------ */
+
+test("een product dat bij geen enkele winkel leverbaar is, sorteert achteraan", () => {
+  // De TSUN PowerTrunk stond in november 2026 op plek twee van "beste prijs
+  // per kWh", met zijn richtprijs, terwijl de enige winkel hem niet meer had.
+  const weg = { richtprijs_eur: 899, prijs_datum: "2026-11-12",
+    aanbiedingen: [{ winkel: "A", prijs_eur: 899, datum: "2026-11-12", niet_leverbaar: true }] };
+  assert.equal(Prijs.nergensLeverbaar(weg), true);
+  assert.equal(Prijs.prijsAchteraan(weg, "2026-11-18"), true);
+
+  const eenWel = { ...weg, aanbiedingen: [...weg.aanbiedingen, { winkel: "B", prijs_eur: 950, datum: "2026-11-17" }] };
+  assert.equal(Prijs.nergensLeverbaar(eenWel), false);
+  assert.equal(Prijs.prijsAchteraan(eenWel, "2026-11-18"), false);
+
+  // Alleen een richtprijs, nooit een winkel: geen winkel die "weg" meldt.
+  assert.equal(Prijs.nergensLeverbaar({ richtprijs_eur: 899, aanbiedingen: [] }), false);
+});

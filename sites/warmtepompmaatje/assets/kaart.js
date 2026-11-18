@@ -357,7 +357,7 @@
     let laagste = null;
     for (const x of lijst) {
       const p = ((w) => Prijs.vergelijkPrijs(bestePrijs(w)))(x);
-      if (p && !Prijs.prijsTeOud(x) && !(bestePrijs(x) || {}).is_richtprijs && (!laagste || p < laagste.p)) laagste = { id: x.id, p };
+      if (p && !Prijs.prijsAchteraan(x) && !(bestePrijs(x) || {}).is_richtprijs && (!laagste || p < laagste.p)) laagste = { id: x.id, p };
     }
     let stilste = null;
     for (const x of lijst) if (x.geluid_db && (!stilste || x.geluid_db < stilste.db)) stilste = { id: x.id, db: x.geluid_db };
@@ -466,7 +466,7 @@
     // Zelfde volgorde als app.js bij de standaardsortering: de laagste prijs
     // na aftrek van de ISDE eerst, onbekende en te oude prijzen achteraan.
     // Tot oktober 2026 stond de Koppel-score voorop; die is nu een optie.
-    const sleutel = (w) => (Number.isFinite(prijsVan(w)) ? prijsVan(w) - (w.isde_indicatie_eur || 0) : 1e9) + (Prijs.prijsTeOud(w) ? 1e6 : 0);
+    const sleutel = (w) => (Number.isFinite(prijsVan(w)) ? prijsVan(w) - (w.isde_indicatie_eur || 0) : 1e9) + (Prijs.prijsAchteraan(w) ? 1e6 : 0);
     return [...lijst].sort((a, b) => sleutel(a) - sleutel(b) || koppelScore(b) - koppelScore(a));
   }
 

@@ -162,8 +162,8 @@
     const kopie = [...lijst];
     const prijsVan = (w) => { const b = vergelijkPrijs(bestePrijs(w)); return b == null ? Infinity : b; };
     const scopBekend = (w) => typeof w.scop === "number";
-    // Onbekend of te oud (zie Prijs.prijsTeOud) achter de actuele prijzen.
-    const sleutel = (w) => (Number.isFinite(prijsVan(w)) ? prijsVan(w) : 1e9) + (Prijs.prijsTeOud(w) ? 1e6 : 0);
+    // Onbekend, te oud of nergens te koop (zie Prijs.prijsAchteraan) achter de actuele prijzen.
+    const sleutel = (w) => (Number.isFinite(prijsVan(w)) ? prijsVan(w) : 1e9) + (Prijs.prijsAchteraan(w) ? 1e6 : 0);
     const naIsde = (w) => sleutel(w) - (Number.isFinite(prijsVan(w)) ? w.isde_indicatie_eur || 0 : 0);
     switch (state.sortering) {
       case "prijs-oplopend": kopie.sort((a, b) => sleutel(a) - sleutel(b)); break;

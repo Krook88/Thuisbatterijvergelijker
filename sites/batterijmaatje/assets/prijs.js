@@ -366,6 +366,21 @@
     return dagen !== null && dagen > PRIJS_TE_OUD_NA_DAGEN;
   }
 
+  /* Elke winkel die een prijs noemde, meldt het artikel nu als niet leverbaar.
+     Het bedrag op de kaart is dan de richtprijs, die nergens meer af te
+     rekenen is. Zo'n product stond in november 2026 op plek twee van de lijst
+     "beste prijs per kWh", met eronder "nu niet te koop". */
+  function nergensLeverbaar(item) {
+    const lijst = ((item && item.aanbiedingen) || []).filter((a) => a && typeof a.prijs_eur === "number");
+    return lijst.length > 0 && lijst.every(nietLeverbaar);
+  }
+
+  // Telt deze prijs mee voor de volgorde op prijs en het kenmerk "laagste
+  // prijs"? Niet als hij te oud is, en niet als hij nergens te koop is.
+  function prijsAchteraan(item, nu) {
+    return prijsTeOud(item, nu) || nergensLeverbaar(item);
+  }
+
   function prijsOuderdomLabel(item, nu) {
     const dagen = prijsOuderdom(item, nu);
     if (dagen === null || dagen < PRIJS_OUD_NA_DAGEN) return null;
@@ -379,6 +394,8 @@
     prijsOuderdom,
     prijsOuderdomLabel,
     prijsTeOud,
+    nergensLeverbaar,
+    prijsAchteraan,
     prijsPerOpgeslagenKwh,
     inclusiefBtw,
     vergelijkPrijs,
