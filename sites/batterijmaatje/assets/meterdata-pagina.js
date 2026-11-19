@@ -77,6 +77,12 @@
     el("mdResultaat").innerHTML = '<p class="md-leeg">Zodra het bestand ingelezen is, staat hier de uitkomst per batterij.</p>';
   }
 
+  // Een kolom die niet meetelt, heet ook niet "verbruik per periode".
+  function hintVoor(k) {
+    if (k.soort === "negeren") return "Telt niet mee.";
+    return k.oplopend ? "Meterstanden, ik reken het verschil per uur uit." : "Verbruik per periode.";
+  }
+
   function toonKolommen() {
     const lijst = el("mdKolomLijst");
     const opties = [["afname", "Afname"], ["teruglevering", "Teruglevering"], ["negeren", "Niet gebruiken"]];
@@ -86,7 +92,7 @@
         <select id="mdKolom${i}" data-kolom="${i}">
           ${opties.map(([w, t]) => `<option value="${w}"${k.soort === w ? " selected" : ""}>${t}</option>`).join("")}
         </select>
-        <span class="hint">${k.oplopend ? "Meterstanden, ik reken het verschil per uur uit." : "Verbruik per periode."}</span>
+        <span class="hint" id="mdKolomHint${i}">${hintVoor(k)}</span>
       </div>`).join("");
     el("mdKolommen").hidden = false;
   }
@@ -189,7 +195,9 @@
     el("mdKolomLijst").addEventListener("change", (e) => {
       const i = e.target.dataset && e.target.dataset.kolom;
       if (i === undefined || !opzet) return;
-      opzet.kolommen[Number(i)].soort = e.target.value;
+      const k = opzet.kolommen[Number(i)];
+      k.soort = e.target.value;
+      el(`mdKolomHint${i}`).textContent = hintVoor(k);
       herreken();
     });
     el("mdContract").addEventListener("change", contractGewijzigd);
