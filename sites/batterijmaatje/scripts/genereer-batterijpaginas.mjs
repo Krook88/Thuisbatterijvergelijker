@@ -29,6 +29,35 @@ const Iconen = vereis("../assets/iconen.js");
 const Kaart = vereis("../assets/kaart.js");
 const DagmaatMaten = vereis("../assets/dagmaat.js");
 const PrijsGrafiek = vereis("../assets/prijsgrafiek.js");
+
+/* Het prijsalarm onder het prijsverloop: een mail zodra de beste winkelprijs
+   op of onder een bedrag komt. Het versturen doet api/prijsalarm.js, het
+   formulier assets/prijsalarm.js. Zonder bedrag geldt elke daling. */
+function prijsalarmHtml(b) {
+  const a = Prijs.beste(b);
+  const nu = a && !a.is_richtprijs && !Prijs.prijsAchteraan(b) ? Prijs.vergelijkPrijs(a) : null;
+  const leeg = nu ? `Leeg laten: bij elke daling onder ${eur(nu)}.` : "Er is nu geen winkelprijs, dus vul een bedrag in.";
+  return `<h2 id="prijsalarm">Prijsalarm</h2>
+  <p>Laat je e-mailadres achter, dan krijg je een mail zodra de beste winkelprijs op of onder jouw bedrag komt. Je bevestigt eerst via een mail en stopt met één klik onderaan elke mail. Meer in de <a href="/privacy.html#prijsalarm">privacyverklaring</a>.</p>
+  <div class="prijsalarm-actie waarschuwing-kader" id="prijsalarmActie" hidden></div>
+  <form class="contact-formulier prijsalarm-formulier" id="prijsalarmFormulier" data-batterij="${esc(b.id)}" novalidate>
+    <div class="veld">
+      <label for="prijsalarmEmail">Je e-mailadres</label>
+      <input id="prijsalarmEmail" name="email" type="email" maxlength="254" autocomplete="email" required>
+    </div>
+    <div class="veld">
+      <label for="prijsalarmDrempel">Mail me bij dit bedrag of lager (euro, incl. btw)</label>
+      <input id="prijsalarmDrempel" name="drempel" type="text" inputmode="numeric" maxlength="8"${nu ? ` placeholder="${Math.round(nu * 0.9)}"` : ""}>
+      <small>${leeg}</small>
+    </div>
+    <div class="honingpot" aria-hidden="true">
+      <label for="prijsalarmWebsite">Website (niet invullen)</label>
+      <input id="prijsalarmWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+    </div>
+    <button class="knop" type="submit">Zet het prijsalarm aan</button>
+    <p class="formulier-status" role="status" aria-live="polite"></p>
+  </form>`;
+}
 PrijsGrafiek.laad(JSON.parse(readFileSync(new URL("../data/prijsverloop.json", import.meta.url), "utf8")));
 
 // Hoe de capaciteit in lopende tekst verschijnt.
@@ -648,6 +677,8 @@ ${NAV_HTML}
   ${t}${t ? `\n  <p class="datum-stempel">Prijzen worden dagelijks automatisch gecontroleerd; de prijs op de website van de winkel is altijd leidend.</p>${teKoop(b).some((a) => a.affiliate_url) ? `\n  <p class="datum-stempel disclosure">${esc(Kaart.DISCLOSURE)} <a href="/over-ons.html#commissie">Uitleg</a></p>` : ""}` : ""}`;
   })()}
 
+  ${prijsalarmHtml(b)}
+
   <h2>Specificaties</h2>
   <div class="tabel-blok">
   <table class="data-tabel spec-tabel">
@@ -718,6 +749,7 @@ ${VOET_HTML}
 <script src="/assets/dagmaat.js?v=${ASSET_VERSIE}" defer></script>
 <script src="/assets/delen.js?v=${ASSET_VERSIE}" defer></script>
 <script src="/assets/prijsgrafiek.js?v=${ASSET_VERSIE}" defer></script>
+<script src="/assets/prijsalarm.js?v=${ASSET_VERSIE}" defer></script>
 <script src="/assets/nav.js?v=${ASSET_VERSIE}" defer></script>
 </body>
 </html>
