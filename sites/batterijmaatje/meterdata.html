@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thuisbatterij doorrekenen met je meterdata | Batterijmaatje</title>
+  <meta name="description" content="Laat elke thuisbatterij uur voor uur meedraaien op de export van je slimme meter. Je bestand blijft in je browser.">
+  <link rel="canonical" href="https://batterijmaatje.nl/meterdata.html">
+  <meta property="og:title" content="Thuisbatterij doorrekenen met je eigen meterdata">
+  <meta property="og:description" content="Laat elke thuisbatterij uur voor uur meedraaien op de export van je slimme meter. Je bestand blijft in je browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://batterijmaatje.nl/meterdata.html">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:image" content="https://batterijmaatje.nl/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Batterijmaatje.nl">
+  <meta name="twitter:card" content="summary_large_image">
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/maatlat.css?v=20261119d" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261119d" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261119d">
+  <script src="assets/prijs.js?v=20261119d" defer></script>
+  <script src="assets/oordeel.js?v=20261119d" defer></script>
+  <script src="assets/rekenkern.js?v=20261119d" defer></script>
+  <script src="assets/meterdata.js?v=20261119d" defer></script>
+  <script src="assets/meterdata-pagina.js?v=20261119d" defer></script>
+  <script src="assets/nav.js?v=20261119d" defer></script>
+  <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+  <style>
+    .reken-indeling { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--ruimte-20); align-items: start; margin: var(--ruimte-28) 0 var(--ruimte-40); }
+    @media (max-width: 860px) { .reken-indeling { grid-template-columns: 1fr; } }
+    .reken-paneel { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); box-shadow: var(--schaduw); padding: var(--ruimte-20); min-width: 0; }
+    .reken-paneel h2 { margin: 0 0 var(--ruimte-4); font-size: var(--tekst-19); color: var(--kleur-primair-donker); }
+    .reken-paneel h2:not(:first-child) { margin-top: var(--ruimte-20); }
+    .veld { display: flex; flex-direction: column; gap: var(--ruimte-4); margin-top: var(--ruimte-10); min-width: 0; }
+    .veld label { font-size: var(--tekst-15); font-weight: 700; color: var(--kleur-tekst-licht); }
+    .veld input, .veld select { padding: var(--ruimte-10); border: 1px solid var(--kleur-rand); border-radius: var(--radius-klein); font-size: var(--tekst-15); width: 100%; min-width: 0; }
+    .veld .hint { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); }
+    .veld-rij { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ruimte-10); }
+    @media (max-width: 480px) { .veld-rij { grid-template-columns: 1fr; } }
+    .md-voorbeeld { margin-top: var(--ruimte-14); }
+    .md-status { margin: var(--ruimte-14) 0 0; font-size: var(--tekst-15); }
+    .md-status[data-soort="fout"] { color: var(--kleur-rood); font-weight: 700; }
+    .md-kolommen { margin-top: var(--ruimte-14); border-top: 1px dashed var(--kleur-rand); padding-top: var(--ruimte-10); }
+    .md-kolommen summary { cursor: pointer; font-weight: 700; color: var(--kleur-primair); font-size: var(--tekst-15); }
+    .md-samenvatting { margin: 0 0 var(--ruimte-14); font-size: var(--tekst-15); }
+    .md-meer { margin: var(--ruimte-10) 0 0; }
+    .md-resultaat .tabel-wrap { margin-bottom: var(--ruimte-14); }
+    .md-resultaat td.getal, .md-resultaat th.getal { text-align: right; }
+    .md-resultaat td.getal { white-space: nowrap; }
+    .md-resultaat .vergelijk-tabel.compact td:first-child { min-width: 10em; }
+    .md-leeg { margin: 0; color: var(--kleur-tekst-licht); font-size: var(--tekst-15); }
+  </style>
+  <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/assets/teller.js?v=20261119d"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="/">
+      <span class="logo-icoon"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 7-3 5h4l-3 5" /> <path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935" /> <path d="M22 14v-4" /> <path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936" /></svg></span>
+      <span>Batterij<b>maatje</b></span>
+    </a>
+    <button class="menu-knop" type="button" aria-expanded="false" aria-controls="hoofdnav" aria-label="Menu openen"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></svg></button>
+    <nav class="hoofdnav" id="hoofdnav">
+      <a href="/">Thuisbatterijen</a>
+      <a href="advies.html">Keuzehulp</a>
+      <a href="rekenmodule.html">Terugverdientijd</a>
+      <a href="uitleg.html">Uitleg</a>
+      <details class="nav-meer">
+        <summary>Meer ▾</summary>
+        <div class="nav-meer-paneel">
+          <a href="regelgeving.html">Regels &amp; subsidies</a>
+          <a href="thuisbatterij-met-stekker.html">Batterij met stekker</a>
+          <a href="wat-kost-een-thuisbatterij.html">Wat kost er een?</a>
+          <a href="nu-kopen-of-wachten.html">Nu kopen of wachten?</a>
+          <a href="black-friday-thuisbatterij.html">Black Friday-deals</a>
+          <a href="thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a>
+          <a href="thuisbatterij-dynamisch-contract.html">Met dynamisch contract</a>
+          <a href="beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a>
+          <a href="beste-thuisbatterij-homey.html">Beste voor Homey</a>
+          <a href="over-ons.html">Over mij</a>
+          <a href="contact.html">Contact</a>
+          <a href="steun.html" class="nav-steun"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></svg> Steun deze site</a>
+        </div>
+      </details>
+    </nav>
+  </div>
+</header>
+
+
+<section class="hero">
+  <div class="container">
+    <h1>Thuisbatterij doorrekenen met je eigen meterdata</h1>
+    <p>Heb je een export van je slimme meter, uit de app van je P1-meter of uit Home Assistant? Dan laat ik alle batterijen uit de vergelijker uur voor uur meedraaien op wat jij afneemt en teruglevert. Je bestand blijft op je eigen apparaat. Er gaat niets naar een server.</p>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="reken-indeling">
+    <form id="mdFormulier" class="reken-paneel" onsubmit="return false;">
+      <h2>1. Je meterdata</h2>
+      <div class="veld">
+        <label for="mdBestand">CSV-bestand met afname en teruglevering</label>
+        <input type="file" id="mdBestand" accept=".csv,.txt,text/csv">
+        <span class="hint">Per kwartier of per uur, of meterstanden. Een export uit de geschiedenis van Home Assistant werkt ook.</span>
+      </div>
+      <button type="button" class="knop knop-secundair md-voorbeeld" id="mdVoorbeeld">Probeer met een verzonnen jaar</button>
+      <p class="md-status" id="mdStatus" role="status" aria-live="polite"></p>
+      <details class="md-kolommen" id="mdKolommen" hidden>
+        <summary>Herkende kolommen</summary>
+        <div id="mdKolomLijst"></div>
+      </details>
+
+      <h2>2. Je tarieven</h2>
+      <div class="veld">
+        <label for="mdStroomprijs">Stroomprijs per kWh, incl. btw</label>
+        <input type="number" id="mdStroomprijs" value="0.30" min="0" step="0.01">
+      </div>
+      <div class="veld">
+        <label for="mdContract">Contract vanaf 2027</label>
+        <select id="mdContract">
+          <option value="vast">Vast of variabel</option>
+          <option value="dynamisch">Dynamisch</option>
+        </select>
+      </div>
+      <div class="veld-rij">
+        <div class="veld">
+          <label for="mdVergoeding">Terugleververgoeding per kWh</label>
+          <input type="number" id="mdVergoeding" value="0.01" min="0" step="0.01">
+        </div>
+        <div class="veld">
+          <label for="mdKosten">Terugleverkosten per kWh</label>
+          <input type="number" id="mdKosten" value="0" min="0" step="0.01">
+        </div>
+      </div>
+      <div class="veld"><span class="hint">De standaard is wat leveranciers voor 2027 hebben aangekondigd. Op <a href="rekenmodule.html#leveranciers">de rekenmodule</a> staan ze per leverancier.</span></div>
+    </form>
+
+    <section class="reken-paneel md-resultaat" aria-labelledby="mdResultaatKop">
+      <h2 id="mdResultaatKop">Wat elke batterij bij jou opvangt</h2>
+      <div id="mdResultaat"><p class="md-leeg">Kies een bestand of probeer het verzonnen jaar. Dan zie je hier per batterij wat hij opslaat, bespaart en wanneer hij zich terugverdient.</p></div>
+    </section>
+  </div>
+
+  <aside class="steun-blok">
+    <span class="steun-icoon"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></svg></span>
+    <div class="steun-inhoud">
+      <b>Deze site draait op koffie</b>
+      <p>Batterijmaatje is een hobbyproject van één maker, gratis en zonder betaalmuur. Had je iets aan deze doorrekening?</p>
+      <p class="steun-actie"><a class="knop" href="steun.html"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></svg> Trakteer me op een koffie</a></p>
+    </div>
+  </aside>
+
+  <section class="tekstsectie">
+    <h2>Hoe rekent deze pagina?</h2>
+    <p>Voor elk uur in je bestand kijk ik wat je terugleverde en wat je afnam. Wat je terugleverde gaat de batterij in, tot hij vol is of zijn laadvermogen bereikt. Zodra je weer stroom afneemt, komt het eruit. Het omzetverlies reken ik voor de helft bij het laden en voor de helft bij het ontladen, met 90% rendement als de fabrikant geen rendement van stopcontact tot stopcontact opgeeft. De batterij zelf gebruikt 10 watt, en die stroom komt bij je afname.</p>
+    <p>Een opgeslagen kWh scheelt je de stroomprijs, en kost je wat je anders voor die kWh had teruggekregen. Zonder nagekeken bruikbare capaciteit houd ik 90% van de opgegeven capaciteit aan, net als <a href="rekenmodule.html">de rekenmodule</a>. Bij de terugverdientijd zakt de opbrengst met 2% per jaar, voor de slijtage van de cellen.</p>
+
+    <h2>Waar haal je zo'n bestand?</h2>
+    <ul>
+      <li><b>De app van je P1-meter.</b> De meeste apps hebben een export van je verbruik naar CSV. Kies de fijnste stap die de app biedt, per kwartier of per uur.</li>
+      <li><b>Home Assistant.</b> Open de geschiedenis, kies de sensoren voor afname en teruglevering in kWh en download de gegevens. Een vermogenssensor in watt mag erbij staan, die sla ik over.</li>
+      <li><b>Je energieleverancier of netbeheerder.</b> Sommigen bieden je meetgegevens per uur of per kwartier als download aan. Per dag is te grof, want een batterij draait op wat er binnen de dag gebeurt.</li>
+    </ul>
+    <p>Herkent de pagina een kolom verkeerd? Open dan "Herkende kolommen" en zet hem goed.</p>
+
+    <h2>Wat er niet in zit</h2>
+    <p>Handel op uurprijzen met een dynamisch contract zit niet in deze doorrekening. Daarvoor zijn ook de uurprijzen van dezelfde periode nodig, en die staan niet in een meterexport. Met een dynamisch contract komt de echte opbrengst dus hoger uit dan hier. Het deel uit handel rekent <a href="rekenmodule.html">de rekenmodule</a> met een gemiddelde dag.</p>
+    <p>Beslaat je bestand minder dan 12 maanden, dan reken ik de uitkomst om naar een jaar. Een bestand met alleen zomermaanden geeft dan een te gunstig beeld, een bestand met alleen winter een te somber. Binnen een uur kan de batterij hier laden en ontladen, wat bij wisselende bewolking iets te gunstig uitvalt.</p>
+
+    <h2>Je gegevens</h2>
+    <p>Je bestand wordt in je eigen browser gelezen en doorgerekend. Er gaat geen byte van naar mijn server of naar iemand anders, en na het sluiten van deze pagina is het weg. De bezoekersteller van deze site telt alleen dat de pagina geopend is; hoe dat werkt staat in <a href="privacy.html">de privacyverklaring</a>.</p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <b><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 7-3 5h4l-3 5" /> <path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935" /> <path d="M22 14v-4" /> <path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936" /></svg> Batterijmaatje</b>
+    <p>Onafhankelijke vergelijking van thuisbatterijen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a> (warmtepompen).</p>
+    <p><a href="/">Thuisbatterijen</a> · <a href="uitleg.html">Uitleg</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="regelgeving.html">Regels &amp; subsidies</a> · <a href="beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="black-friday-thuisbatterij.html">Black Friday-deals</a> · <a href="thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a> · <a href="thuisbatterij-dynamisch-contract.html">Met dynamisch contract</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="over-ons.html">Over mij</a> · <a href="contact.html">Contact</a> · <a href="steun.html">Steun deze site</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
+    <p class="disclaimer">Disclaimer: deze doorrekening geeft een indicatie op basis van jouw meterdata en de aannames op deze pagina en is geen financieel advies. Werkelijke opbrengsten hangen af van je verbruik, het weer, marktprijzen en beleid.</p>
+  </div>
+</footer>
+
+</body>
+</html>

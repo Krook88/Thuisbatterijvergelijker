@@ -2240,6 +2240,7 @@ const vast = [
   { loc: `${SITE}/${BLACK_FRIDAY_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/${ZONDER_PV_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/${DYNAMISCH_BESTAND}`, freq: "daily", prio: "0.8" },
+  { loc: `${SITE}/meterdata.html`, freq: "monthly", prio: "0.6" },
   { loc: `${SITE}/over-ons.html`, freq: "monthly", prio: "0.4" },
   { loc: `${SITE}/contact.html`, freq: "yearly", prio: "0.3" },
   { loc: `${SITE}/privacy.html`, freq: "yearly", prio: "0.2" },
