@@ -630,6 +630,7 @@ ${NAV_HTML}
       ${beste && beste.url ? `<a class="knop" href="${esc(beste.affiliate_url || beste.url)}" target="_blank" rel="${Kaart.koopRel(beste)}">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a>&nbsp;` : ""}
       <a class="knop knop-secundair" href="/rekenmodule.html?batterij=${encodeURIComponent(b.id)}">Bereken terugverdientijd</a>
     </p>
+    <div class="info-dekking">Heb je een export van je slimme meter? <a href="/meterdata.html?batterij=${encodeURIComponent(b.id)}">Reken deze batterij door op je eigen meterdata</a>.</div>
   </div>
 
   ${delenHtml({
