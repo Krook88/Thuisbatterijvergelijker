@@ -25,6 +25,8 @@
   let batterijen = [];
   let csv = null, opzet = null, uren = null, bron = "";
   let alles = false;
+  // Vanaf een productpagina: deze batterij staat altijd in beeld, gemarkeerd.
+  const gekozen = new URLSearchParams(location.search).get("batterij");
 
   function status(tekst, soort) {
     const s = el("mdStatus");
@@ -140,11 +142,13 @@
     const achteraan = (r) => (Prijs.prijsAchteraan && Prijs.prijsAchteraan(r.b) ? 1 : 0);
     rijen.sort((x, y) => achteraan(x) - achteraan(y) || (x.tvt ?? Infinity) - (y.tvt ?? Infinity) || y.jaar - x.jaar);
 
-    const zichtbaar = alles ? rijen : rijen.slice(0, AANTAL_EERST);
+    let zichtbaar = alles ? rijen : rijen.slice(0, AANTAL_EERST);
+    const plek = rijen.findIndex((r) => r.b.id === gekozen);
+    if (plek >= AANTAL_EERST && !alles) zichtbaar = zichtbaar.concat(rijen[plek]);
     const tvtTekst = (r) => r.tvt === null ? "niet binnen 40 jaar" : `${jaarFmt.format(r.tvt)} jaar`;
     delen.push(`<div class="tabel-wrap"><table class="vergelijk-tabel compact">
       <thead><tr><th>Batterij</th><th class="getal">Terugverdiend in</th><th class="getal">Bespaart per jaar</th><th class="getal">Prijs</th><th class="getal">Uit de batterij per jaar</th><th class="getal">Vol op (dagen)</th></tr></thead>
-      <tbody>${zichtbaar.map((r) => `<tr>
+      <tbody>${zichtbaar.map((r) => `<tr${r.b.id === gekozen ? ' class="md-gekozen"' : ""}>
         <td><a href="batterij/${encodeURIComponent(r.b.id)}.html">${esc(r.b.merk)} ${esc(r.b.model)}</a>${Prijs.nergensLeverbaar && Prijs.nergensLeverbaar(r.b) ? " <small>(nu nergens te koop)</small>" : ""}</td>
         <td class="getal"><b>${tvtTekst(r)}</b></td>
         <td class="getal">${eurFmt.format(r.jaar)}</td>
