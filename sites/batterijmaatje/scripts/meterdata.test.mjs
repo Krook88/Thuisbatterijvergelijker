@@ -186,7 +186,9 @@ test("batterijgegevens: bruikbaar deel en rendement zoals in de rekenmodule", ()
 test("het voorbeeldjaar loopt door de hele keten en levert een redelijk huishouden op", () => {
   const csv = M.leesCsv(M.voorbeeldCsv(2025));
   const { uren } = M.naarUren(csv, M.herken(csv));
-  assert.equal(uren.length, 8760);
+  // 8.760 uur, of 8.759 in een tijdzone met zomertijd: in maart bestaat
+  // 02:00 niet, dat uur valt samen met 03:00.
+  assert.ok(uren.length === 8760 || uren.length === 8759, `${uren.length} uur`);
   const s = M.samenvatting(uren);
   assert.equal(s.maandenVanHetJaar, 12);
   // Zonder batterij: afname rond de 1.900 kWh en teruglevering rond de 2.500.
@@ -194,4 +196,30 @@ test("het voorbeeldjaar loopt door de hele keten en levert een redelijk huishoud
   assert.ok(s.terug > 1800 && s.terug < 3400, `teruglevering ${s.terug}`);
   const sim = M.simuleer(uren, { bruikbaarKwh: 5, rendement: 0.9, vermogenKw: 2.5 });
   assert.ok(sim.ontladen > 500 && sim.ontladen < 1300, `ontladen ${sim.ontladen}`);
+});
+
+test("wintertijd: het dubbele uur telt één keer, en een losse dag is geen maand", () => {
+  // Meterstanden per kwartier van 20 oktober tot en met 1 november 2026, zoals
+  // HomeWizard ze schrijft: lokale tijd zonder zone, dus op 25 oktober komt
+  // 02:00-02:45 twee keer voor. Verbruik: 0,1 kWh per kwartier, altijd.
+  const regels = ["time,Import T1 kWh,Import T2 kWh,Export T1 kWh,Export T2 kWh,L1 max W,L2 max W,L3 max W"];
+  let stand = 15000, kwartieren = 0;
+  for (let d = 20; d <= 32; d++) {
+    const dag = d <= 31 ? `2026-10-${pad(d)}` : "2026-11-01";
+    for (let u = 0; u < 24; u++) {
+      const rondes = d === 25 && u === 2 ? 2 : 1;
+      for (let r = 0; r < rondes; r++) for (let k = 0; k < 4; k++) {
+        regels.push(`${dag} ${pad(u)}:${pad(k * 15)},${stand.toFixed(3)},19000.000,3600.000,8200.000,${200 + k},,`);
+        stand += 0.1; kwartieren++;
+      }
+    }
+  }
+  const csv = M.leesCsv(regels.join("\n"));
+  const opzet = M.herken(csv);
+  assert.equal(opzet.kolommen.find((k) => k.naam === "L1 max W").soort, "negeren");
+  const { uren } = M.naarUren(csv, opzet);
+  const s = M.samenvatting(uren);
+  // Elk kwartier na het eerste is 0,1 kWh; niets dubbel, niets kwijt.
+  bijna(s.afname, (kwartieren - 1) * 0.1, 1e-6);
+  assert.equal(s.maandenVanHetJaar, 1);
 });

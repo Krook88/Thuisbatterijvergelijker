@@ -255,7 +255,15 @@
 
   /* Eén reeks (tijd, waarde) naar een emmer met kWh per uur. */
   function reeksNaarUren(punten, oplopend, factor) {
-    const p = punten.filter(([t, v]) => Number.isFinite(t) && Number.isFinite(v)).sort((a, b) => a[0] - b[0]);
+    let p = punten.filter(([t, v]) => Number.isFinite(t) && Number.isFinite(v));
+    /* Meterstanden houden we in de volgorde van het bestand. Bij de overgang
+       naar wintertijd komt het uur van twee tot drie twee keer voor, met
+       dezelfde kloktijden. Sorteren op tijd vlocht die twee rondes door
+       elkaar, en dan telde elke stap van de tweede ronde naar de eerste als
+       verbruik: in een echte HomeWizard-export van oktober 2026 0,4 kWh te
+       veel. Staat het bestand duidelijk door elkaar, dan sorteren we wel. */
+    const terug = p.filter((x, i) => i > 0 && x[0] < p[i - 1][0]).length;
+    if (!oplopend || terug > p.length * 0.05) p = p.sort((a, b) => a[0] - b[0]);
     const emmer = new Map();
     if (p.length < 2) return { emmer, stap: NaN };
     const stap = mediaanStap(p.map((x) => x[0]));
@@ -264,7 +272,9 @@
         const [t0, c0] = p[i - 1], [t1, c1] = p[i];
         const d = (c1 - c0) * factor;
         if (d < 0 || t1 - t0 > MAX_GAT) continue; // reset of gat
-        verdeel(emmer, t0, t1, d);
+        // Loopt de klok terug (wintertijd), dan hoort de stap bij het uur
+        // waar hij begon.
+        verdeel(emmer, t0, Math.max(t0, t1), d);
       }
     } else {
       // Verbruik per periode: de tijd is het begin, de periode de gewone stap.
@@ -324,12 +334,16 @@
   /* Totalen en dekking, voor de samenvatting op de pagina. */
   function samenvatting(uren) {
     let afname = 0, terug = 0;
-    const maanden = new Set();
+    const urenPerMaand = new Map();
     for (const u of uren) {
       afname += u.afname; terug += u.terug;
       const d = new Date(u.uur);
-      maanden.add(d.getFullYear() * 12 + d.getMonth());
+      const m = d.getFullYear() * 12 + d.getMonth();
+      urenPerMaand.set(m, (urenPerMaand.get(m) || 0) + 1);
     }
+    // Een maand telt mee vanaf een week aan metingen. Een export van 1
+    // oktober tot en met 1 november is één maand, geen twee.
+    const maanden = new Set([...urenPerMaand].filter(([, n]) => n >= MIN_UREN).map(([m]) => m));
     const dagen = uren.length / 24;
     return {
       van: uren[0].uur, tot: uren[uren.length - 1].uur + UUR,

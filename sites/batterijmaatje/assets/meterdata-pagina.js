@@ -99,7 +99,7 @@
     const s = M.samenvatting(uren);
     const t = tarief();
     const delen = [];
-    delen.push(`<p class="md-samenvatting">Gemeten van ${datumFmt.format(new Date(s.van))} tot ${datumFmt.format(new Date(s.tot))}, ${numFmt.format(s.uren)} uur. ` +
+    delen.push(`<p class="md-samenvatting">Gemeten van ${datumFmt.format(new Date(s.van))} tot en met ${datumFmt.format(new Date(s.tot - 1))}, ${numFmt.format(s.uren)} uur. ` +
       `Zonder batterij nam je in die tijd ${numFmt.format(s.afname)} kWh af en leverde je ${numFmt.format(s.terug)} kWh terug.</p>`);
     if (s.maandenVanHetJaar < 12) {
       delen.push(`<p class="waarschuwing-kader">Er ${s.maandenVanHetJaar === 1 ? "zit" : "zitten"} ${s.maandenVanHetJaar} van de 12 maanden in je bestand. De bedragen hieronder zijn omgerekend naar een jaar. Ontbreekt de winter, dan valt de opbrengst te hoog uit; ontbreekt de zomer, te laag.</p>`);
