@@ -8,11 +8,14 @@
     { "source": "/v/:ids", "destination": "/api/v?ids=:ids" }
   ],
   "functions": {
-    "api/vergelijkkaart.js": { "includeFiles": "api/fonts/**" }
+    "api/vergelijkkaart.js": { "includeFiles": "api/fonts/**" },
+    "api/prijsalarm.js": { "includeFiles": "{data/site/batterijen.json,assets/prijs.js}" },
+    "api/prijsalarm-check.js": { "includeFiles": "{data/site/batterijen.json,assets/prijs.js}" }
   },
   "trailingSlash": false,
   "crons": [
-    { "path": "/api/bewaar-bezoek", "schedule": "23 4 * * *" }
+    { "path": "/api/bewaar-bezoek", "schedule": "23 4 * * *" },
+    { "path": "/api/prijsalarm-check", "schedule": "17 8 * * *" }
   ],
   "redirects": [
     {
