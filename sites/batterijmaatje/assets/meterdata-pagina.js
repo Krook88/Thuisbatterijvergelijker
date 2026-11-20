@@ -25,6 +25,9 @@
   let batterijen = [];
   let csv = null, opzet = null, uren = null, bron = "";
   let alles = false;
+  // Voor welke batterij de grafieken getekend worden. Leeg: de bovenste.
+  let grafiekId = null;
+  let laatsteRijen = [];
   // Vanaf een productpagina: deze batterij staat altijd in beeld, gemarkeerd.
   const gekozen = new URLSearchParams(location.search).get("batterij");
 
@@ -164,9 +167,104 @@
     if (zonderPrijs) noten.push(`${zonderPrijs} zonder bekende prijs ook niet.`);
     noten.push(`"Vol op" zegt op welk deel van de dagen de batterij helemaal volliep. Staat dat hoog, dan levert een grotere meer op; staat het laag, dan betaal je voor capaciteit die je niet vult.`);
     delen.push(`<p class="md-leeg">${noten.join(" ")}</p>`);
+    laatsteRijen = rijen;
+    if (!rijen.some((x) => x.b.id === grafiekId)) grafiekId = (rijen.find((x) => x.b.id === gekozen) || rijen[0] || {}).b?.id || null;
+    if (grafiekId) {
+      delen.push(`<div class="md-grafiek">
+        <div class="veld"><label for="mdGrafiekKeuze">Wanneer levert hij het op?</label>
+          <select id="mdGrafiekKeuze">${rijen.map((x) => `<option value="${esc(x.b.id)}"${x.b.id === grafiekId ? " selected" : ""}>${esc(x.b.merk)} ${esc(x.b.model)}</option>`).join("")}</select></div>
+        <div id="mdGrafieken"></div>
+      </div>`);
+    }
     el("mdResultaat").innerHTML = delen.join("");
     const knop = el("mdAlles");
     if (knop) knop.addEventListener("click", () => { alles = !alles; toonResultaat(); });
+    const keuze = el("mdGrafiekKeuze");
+    if (keuze) {
+      keuze.addEventListener("change", () => { grafiekId = keuze.value; toonGrafieken(t, s); });
+      toonGrafieken(t, s);
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     Grafieken voor één batterij: per maand, en de terugverdienlijn
+     ------------------------------------------------------------------ */
+  const MAAND = ["jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
+  const MAAND_LANG = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"];
+  // Dezelfde teal als de terugverdiengrafiek (assets/terugverdiengrafiek.js),
+  // daar gevalideerd op contrast en kleurenblindheid.
+  const KLEUR = "#0d9488";
+
+  /* Eén staaf per kalendermaand: wat de batterij die maand bespaarde. Een
+     maand met minder dan een week metingen staat er niet in; die zegt niets. */
+  function maandGrafiek(maanden, tarief) {
+    const smal = window.matchMedia("(max-width: 520px)").matches;
+    const W = smal ? 360 : 640, HGT = smal ? 220 : 260, mL = smal ? 40 : 56, mR = 8, mT = 22, mB = 34;
+    const fs = smal ? 13 : 11;
+    const pw = W - mL - mR, ph = HGT - mT - mB;
+    const waarden = maanden.map((m) => M.opbrengst(m, tarief));
+    const max = Math.max(1, ...waarden), min = Math.min(0, ...waarden);
+    const stap = max > 60 ? 20 : max > 30 ? 10 : 5;
+    const top = Math.ceil(max / stap) * stap;
+    const y = (v) => mT + ((top - v) / (top - min)) * ph;
+    const vak = pw / maanden.length;
+    const breed = Math.max(6, Math.min(36, vak - 6));
+    const jaren = new Set(maanden.map((m) => m.jaar)).size > 1;
+    let raster = "";
+    for (let v = 0; v <= top; v += stap) {
+      raster += `<line x1="${mL}" x2="${W - mR}" y1="${y(v)}" y2="${y(v)}" stroke="#e5e7eb" stroke-width="1"/>` +
+        `<text x="${mL - 6}" y="${y(v) + 4}" text-anchor="end" font-size="${fs}" fill="#5d6d6a">€ ${v}</text>`;
+    }
+    const iMax = waarden.indexOf(Math.max(...waarden));
+    let staven = "", labels = "";
+    maanden.forEach((m, i) => {
+      const v = waarden[i];
+      const x = mL + i * vak + (vak - breed) / 2;
+      const y0 = y(0), y1 = y(v), h = Math.abs(y0 - y1), r = Math.min(4, h, breed / 2);
+      // Afgerond aan de kant van de waarde, recht op de nullijn.
+      const pad = v >= 0
+        ? `M${x},${y0} V${y1 + r} Q${x},${y1} ${x + r},${y1} H${x + breed - r} Q${x + breed},${y1} ${x + breed},${y1 + r} V${y0} Z`
+        : `M${x},${y0} V${y1 - r} Q${x},${y1} ${x + r},${y1} H${x + breed - r} Q${x + breed},${y1} ${x + breed},${y1 - r} V${y0} Z`;
+      const titel = `${MAAND_LANG[m.maand]} ${m.jaar}: ${eurFmt.format(v)} bespaard, ${numFmt.format(m.ontladen)} kWh uit de batterij`;
+      staven += `<path d="${pad}" fill="${KLEUR}"/><rect x="${mL + i * vak}" y="${mT}" width="${vak}" height="${ph}" fill="transparent"><title>${esc(titel)}</title></rect>`;
+      const toon = !smal || maanden.length <= 12 || i % 2 === 0;
+      if (toon) labels += `<text x="${x + breed / 2}" y="${HGT - 16}" text-anchor="middle" font-size="${fs}" fill="#5d6d6a">${MAAND[m.maand]}</text>`;
+      if (jaren && (m.maand === 0 || i === 0)) labels += `<text x="${x + breed / 2}" y="${HGT - 2}" text-anchor="middle" font-size="${fs}" fill="#5d6d6a">${m.jaar}</text>`;
+      if (i === iMax) labels += `<text x="${x + breed / 2}" y="${y1 - 6}" text-anchor="middle" font-size="${fs}" font-weight="700" fill="#1f2937">${eurFmt.format(v)}</text>`;
+    });
+    const beste = maanden[iMax], slechtste = maanden[waarden.indexOf(Math.min(...waarden))];
+    const omschrijving = `Besparing per maand. Het meest in ${MAAND_LANG[beste.maand]} ${beste.jaar} (${eurFmt.format(waarden[iMax])}), het minst in ${MAAND_LANG[slechtste.maand]} ${slechtste.jaar} (${eurFmt.format(Math.min(...waarden))}). De cijfers staan ook in de tabel eronder.`;
+    return `<svg viewBox="0 0 ${W} ${HGT}" style="width:100%;height:auto;" role="img" aria-label="${esc(omschrijving)}">
+      ${raster}<line x1="${mL}" x2="${W - mR}" y1="${y(0)}" y2="${y(0)}" stroke="#9ca3af" stroke-width="1"/>${staven}${labels}
+    </svg>`;
+  }
+
+  function toonGrafieken(tarief, s) {
+    const doel = el("mdGrafieken");
+    const r = laatsteRijen.find((x) => x.b.id === grafiekId);
+    if (!doel || !r) return;
+    // Een maand met minder dan een week metingen laat ik weg: een staaf voor
+    // de ene dag van 1 november zegt niets over november.
+    const maanden = r.sim.perMaand.filter((m) => m.uren >= M.MIN_UREN);
+    const naam = `${esc(r.b.merk)} ${esc(r.b.model)}`;
+    const delen = [];
+    if (maanden.length) {
+      delen.push(`<h3>Besparing per maand met de ${naam}</h3>`, maandGrafiek(maanden, tarief));
+    }
+    if (r.tvt !== null && r.tvt <= 27) {
+      delen.push(`<h3>Terugverdiend bij ${eurFmt.format(r.investering)}</h3>`,
+        TerugverdienGrafiek.teken(r.investering, r.jaar, 0.02, r.tvt));
+    } else {
+      delen.push(`<p class="md-leeg">Bij ${eurFmt.format(r.jaar)} per jaar verdient de ${naam} zijn ${eurFmt.format(r.investering)} niet binnen 27 jaar terug, dus een terugverdienlijn zegt hier weinig.</p>`);
+    }
+    if (maanden.length) {
+      delen.push(`<details class="md-cijfers"><summary>Cijfers per maand</summary>
+        <div class="tabel-wrap"><table class="vergelijk-tabel compact">
+          <thead><tr><th>Maand</th><th class="getal">Uit de batterij</th><th class="getal">Bespaard</th></tr></thead>
+          <tbody>${maanden.map((m) => `<tr><td>${MAAND_LANG[m.maand]} ${m.jaar}</td><td class="getal">${numFmt.format(m.ontladen)} kWh</td><td class="getal">${eurFmt.format(M.opbrengst(m, tarief))}</td></tr>`).join("")}</tbody>
+        </table></div></details>`);
+    }
+    doel.innerHTML = delen.join("");
   }
 
   /* ------------------------------------------------------------------
