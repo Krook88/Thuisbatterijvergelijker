@@ -223,3 +223,15 @@ test("wintertijd: het dubbele uur telt één keer, en een losse dag is geen maan
   bijna(s.afname, (kwartieren - 1) * 0.1, 1e-6);
   assert.equal(s.maandenVanHetJaar, 1);
 });
+
+test("per maand: de maanden tellen op tot het geheel, en de zomer levert meer op dan de winter", () => {
+  const csv = M.leesCsv(M.voorbeeldCsv(2025));
+  const { uren } = M.naarUren(csv, M.herken(csv));
+  const sim = M.simuleer(uren, { bruikbaarKwh: 5, rendement: 0.9, vermogenKw: 2.5 });
+  assert.equal(sim.perMaand.length, 12);
+  const tarief = { stroomprijs: 0.30, terugleverVergoeding: 0.01 };
+  const som = sim.perMaand.reduce((s, m) => s + M.opbrengst(m, tarief), 0);
+  bijna(som, M.opbrengst(sim, tarief), 1e-6);
+  const juni = M.opbrengst(sim.perMaand[5], tarief), december = M.opbrengst(sim.perMaand[11], tarief);
+  assert.ok(juni > december * 2, `juni ${juni}, december ${december}`);
+});

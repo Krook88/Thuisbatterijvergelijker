@@ -378,6 +378,8 @@
     const standby = o.standbyWatt / 1000;
     let soc = 0, afnameVoor = 0, afnameNa = 0, terugVoor = 0, terugNa = 0, geladen = 0, ontladen = 0, vollePiek = 0;
     let vorigeDag = null, dagMax = 0, dagen = 0;
+    // Per kalendermaand, voor de grafiek "wanneer levert hij het meest op".
+    const perMaand = new Map();
     for (const u of uren) {
       const laad = Math.min(u.terug, p, (cap - soc) / half);
       soc += laad * half;
@@ -387,6 +389,14 @@
       afnameNa += u.afname - ontlaad + standby;
       terugNa += u.terug - laad;
       geladen += laad; ontladen += ontlaad;
+      const d = new Date(u.uur);
+      const sleutel = d.getFullYear() * 12 + d.getMonth();
+      const m = perMaand.get(sleutel) || { jaar: d.getFullYear(), maand: d.getMonth(), minderAf: 0, minderTerug: 0, ontladen: 0, uren: 0 };
+      m.minderAf += ontlaad - standby;
+      m.minderTerug += laad;
+      m.ontladen += ontlaad;
+      m.uren++;
+      perMaand.set(sleutel, m);
       // Op hoeveel dagen raakt hij vol? Zegt of een grotere zin heeft.
       const dag = Math.floor(u.uur / (24 * UUR));
       if (dag !== vorigeDag) { if (vorigeDag !== null && dagMax >= cap * 0.98) vollePiek++; vorigeDag = dag; dagMax = 0; dagen++; }
@@ -398,6 +408,7 @@
       standbyKwh: standby * uren.length,
       cycli: cap > 0 ? ontladen / cap : 0,
       dagenVol: vollePiek, dagen,
+      perMaand: [...perMaand.entries()].sort((a, b) => a[0] - b[0]).map(([, m]) => m),
     };
   }
 
@@ -405,8 +416,8 @@
      de stroomprijs; minder terugleveren kost de vergoeding en scheelt de
      terugleverkosten. */
   function opbrengst(sim, tarief) {
-    const minderAf = sim.afnameVoor - sim.afnameNa;
-    const minderTerug = sim.terugVoor - sim.terugNa;
+    const minderAf = sim.minderAf !== undefined ? sim.minderAf : sim.afnameVoor - sim.afnameNa;
+    const minderTerug = sim.minderTerug !== undefined ? sim.minderTerug : sim.terugVoor - sim.terugNa;
     return minderAf * tarief.stroomprijs - minderTerug * (tarief.terugleverVergoeding - (tarief.terugleverKosten || 0));
   }
 
