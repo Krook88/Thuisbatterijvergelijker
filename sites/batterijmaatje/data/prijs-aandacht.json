@@ -1,11 +1,11 @@
 {
-  "bijgewerkt": "2026-11-20",
+  "bijgewerkt": "2026-11-21",
   "punten": {
     "onbereikbaar|dyness-powerbox-g2|Zonnige Winkel": {
       "sinds": "2026-11-20",
       "soort": "onbereikbaar",
       "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: fetch failed",
-      "bevestigd": false
+      "bevestigd": true
     },
     "onbereikbaar|tsun-powertrunk-mau5000|Powerness": {
       "sinds": "2026-11-13",
@@ -37,34 +37,22 @@
       "tekst": "ecoflow-stream-ac-pro @ richtprijs: €700 → €1599 (+128%)",
       "bevestigd": true
     },
-    "te controleren|hoymiles-hibattery-4020-ac|Homees": {
-      "sinds": "2026-11-19",
-      "soort": "te controleren",
-      "tekst": "hoymiles-hibattery-4020-ac @ Homees: €1199 → €399 (-67%)",
-      "bevestigd": true
-    },
     "te controleren|tsun-solartrunk-msu2000|MediaMarkt": {
       "sinds": "2026-11-20",
       "soort": "te controleren",
       "tekst": "tsun-solartrunk-msu2000 @ MediaMarkt: €1049 → €329 (-69%)",
-      "bevestigd": false
+      "bevestigd": true
     },
     "verouderd|aeg-solarcube-48|richtprijs": {
       "sinds": "2026-10-29",
       "soort": "verouderd",
-      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (43 dagen)",
-      "bevestigd": true
-    },
-    "verouderd|dyness-powerbox-g2|Zonnige Winkel": {
-      "sinds": "2026-11-19",
-      "soort": "verouderd",
-      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: €1495 (42 dagen)",
+      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (44 dagen)",
       "bevestigd": true
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (127 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (128 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
@@ -84,6 +72,18 @@
       "soort": "geweigerd",
       "tekst": "aeg-solarcube-48 @ AH Voordeelshop: HTTP 403",
       "bevestigd": true
+    },
+    "zonder prijs|dyness-powerbrick-plus|NKON": {
+      "sinds": "2026-11-21",
+      "soort": "geweigerd",
+      "tekst": "dyness-powerbrick-plus @ NKON: HTTP 403",
+      "bevestigd": false
+    },
+    "zonder prijs|homewizard-plug-in-battery|HomeWizard shop": {
+      "sinds": "2026-11-21",
+      "soort": "zonder bedrag",
+      "tekst": "homewizard-plug-in-battery @ HomeWizard shop: geen leesbaar bedrag",
+      "bevestigd": false
     }
   }
 }
