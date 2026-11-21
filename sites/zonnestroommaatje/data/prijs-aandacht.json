@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-11-19",
+  "bijgewerkt": "2026-11-21",
   "punten": {
     "btw wijkt af|huawei-sun2000|SolarNRG": {
       "sinds": "2026-11-03",
@@ -40,55 +40,49 @@
     "verouderd|astronergy-astro-n5s-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (121 dagen)",
+      "tekst": "astronergy-astro-n5s-440 @ richtprijs: €55 (123 dagen)",
       "bevestigd": true
     },
     "verouderd|goodwe-et|richtprijs": {
       "sinds": "2026-10-31",
       "soort": "verouderd",
-      "tekst": "goodwe-et @ richtprijs: €1250 (41 dagen)",
+      "tekst": "goodwe-et @ richtprijs: €1250 (43 dagen)",
       "bevestigd": true
     },
     "verouderd|jinko-tiger-neo-455|richtprijs": {
       "sinds": "2026-10-24",
       "soort": "verouderd",
-      "tekst": "jinko-tiger-neo-455 @ richtprijs: €100 (47 dagen)",
+      "tekst": "jinko-tiger-neo-455 @ richtprijs: €100 (49 dagen)",
       "bevestigd": true
     },
     "verouderd|maxeon-6-440|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "maxeon-6-440 @ richtprijs: €230 (121 dagen)",
+      "tekst": "maxeon-6-440 @ richtprijs: €230 (123 dagen)",
       "bevestigd": true
     },
     "verouderd|solaredge-home-wave|richtprijs": {
       "sinds": "2026-11-13",
       "soort": "verouderd",
-      "tekst": "solaredge-home-wave @ richtprijs: €1250 (41 dagen)",
+      "tekst": "solaredge-home-wave @ richtprijs: €1250 (43 dagen)",
       "bevestigd": true
     },
     "verouderd|solis-s6-hybride|richtprijs": {
       "sinds": "2026-11-13",
       "soort": "verouderd",
-      "tekst": "solis-s6-hybride @ richtprijs: €900 (41 dagen)",
+      "tekst": "solis-s6-hybride @ richtprijs: €900 (43 dagen)",
       "bevestigd": true
     },
     "verouderd|ulica-440-full-black|richtprijs": {
       "sinds": "2026-08-17",
       "soort": "verouderd",
-      "tekst": "ulica-440-full-black @ richtprijs: €55 (121 dagen)",
+      "tekst": "ulica-440-full-black @ richtprijs: €55 (123 dagen)",
       "bevestigd": true
     },
     "verouderd|victron-multiplus2|richtprijs": {
       "sinds": "2026-10-28",
       "soort": "verouderd",
-      "tekst": "victron-multiplus2 @ richtprijs: €1350 (43 dagen)",
-      "bevestigd": true
-    },
-    "zonder prijs|trina-vertex-s-plus-450|deBaKo": {
-      "sinds": "2026-11-06",
-      "soort": "zonder bedrag",
-      "tekst": "trina-vertex-s-plus-450 @ deBaKo: geen leesbaar bedrag",
+      "tekst": "victron-multiplus2 @ richtprijs: €1350 (45 dagen)",
       "bevestigd": true
     }
   }
