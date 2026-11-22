@@ -786,7 +786,7 @@ const OVERZICHTEN = [
     naam: "Home Assistant",
     anker: "home-assistant",
     intro: "Home Assistant is het populairste gratis smart-home-platform voor wie zijn huis zelf wil automatiseren. Een thuisbatterij die je in Home Assistant kunt uitlezen en aansturen, kun je laten samenwerken met je zonnepanelen, dynamische stroomprijzen en de rest van je slimme huis. De ondersteuning verschilt enorm per merk.",
-    telling: (n) => `Van de ${n.alle} batterijen hier hebben er ${n.ja} een officiële integratie, werken er ${n.deels} via een omweg en doen er ${n.nee} helemaal niets.`,
+    telling: (n) => `Van de ${n.alle} batterijen hier hebben er ${n.ja} een officiële integratie, werken er ${n.deels} via een omweg en doen er ${n.neeEcht} helemaal niets${n.onbekend ? `; van ${n.onbekend} heb ik het niet kunnen nagaan` : ""}.`,
     deelsUitleg: "Bij deze batterijen loopt de koppeling via een omweg, zoals een community-integratie (HACS), een lokale API of Modbus. Dat werkt vaak prima, maar vraagt wat meer handigheid en kan na een firmware-update van de fabrikant haperen.",
   },
   {
@@ -795,7 +795,7 @@ const OVERZICHTEN = [
     naam: "Homey",
     anker: "homey",
     intro: "Homey is het laagdrempelige smart-home-kastje waarmee je apparaten in huis laat samenwerken zonder te programmeren. Een thuisbatterij met een goede Homey-app kun je automatisch laten laden op goedkope uren en meenemen in je energie-overzicht. De ondersteuning verschilt per merk.",
-    telling: (n) => `Van de ${n.alle} batterijen hier hebben er ${n.ja} een officiële Homey-app, werken er ${n.deels} via een community-app of de Homey Energy Dongle, en doen er ${n.nee} niets.`,
+    telling: (n) => `Van de ${n.alle} batterijen hier hebben er ${n.ja} een officiële Homey-app, werken er ${n.deels} via een community-app of de Homey Energy Dongle, en doen er ${n.neeEcht} niets${n.onbekend ? `; van ${n.onbekend} heb ik het niet kunnen nagaan` : ""}.`,
     deelsUitleg: "Bij deze batterijen loopt de koppeling via een community-app, een extra kastje (zoals de Homey Energy Dongle) of een beperkte integratie. Vaak goed werkbaar, maar zonder officiële ondersteuning van de fabrikant.",
   },
 ];
@@ -889,7 +889,7 @@ ${NAV_HTML}
   <p class="datum-stempel"><a href="/">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
   <h1>Beste thuisbatterij voor ${esc(cfg.naam)} (${JAAR})</h1>
   <p class="datum-stempel">Dagelijks automatisch bijgewerkt · laatst gecontroleerd op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
-  <p>${esc(cfg.intro)} ${esc(cfg.telling({ alle: data.batterijen.length, ja: ja.length, deels: deels.length, nee: nee.length }))}</p>
+  <p>${esc(cfg.intro)} ${esc(cfg.telling({ alle: data.batterijen.length, ja: ja.length, deels: deels.length, nee: nee.length, neeEcht: nee.filter((b) => driewaardig(b[cfg.veld]).status === "nee").length, onbekend: nee.filter((b) => driewaardig(b[cfg.veld]).status === "onbekend").length }))}</p>
   <p>Hieronder zie je alle ${data.batterijen.length} thuisbatterijen uit mijn vergelijker, ingedeeld naar ${esc(cfg.naam)}-ondersteuning. De prijzen worden dagelijks automatisch gecontroleerd bij de winkels. De <a href="/uitleg.html#koppel-score">Koppel-score</a> (0 tot 6 punten) telt daarnaast ook de ondersteuning voor ${cfg.veld === "homey" ? "Home Assistant" : "Homey"} en een dynamisch energiecontract mee.</p>
 
   <h2>${Iconen.svg("ja")} Volledige ${esc(cfg.naam)}-ondersteuning (${ja.length})</h2>
@@ -900,7 +900,7 @@ ${NAV_HTML}
   <p>${esc(cfg.deelsUitleg.replace("Bij deze batterijen", `Bij deze ${deels.length} batterijen`))}</p>
   ${overzichtTabel(deels, cfg.veld)}
 
-  <h2>${Iconen.svg("nee")} Geen ${esc(cfg.naam)}-ondersteuning (${nee.length})</h2>
+  <h2>${Iconen.svg("nee")} Geen ${esc(cfg.naam)}-ondersteuning bekend (${nee.length})</h2>
   <p>${nee.length ? `Van deze batterijen is geen bruikbare ${esc(cfg.naam)}-koppeling bekend: ${nee.map((b) => `<a href="/batterij/${esc(b.id)}.html">${esc(volledigeNaam(b))}</a>`).join(", ")}.` : `Alle batterijen in mijn vergelijker hebben een vorm van ${esc(cfg.naam)}-ondersteuning.`}</p>
 
   <h2>Zo kies je</h2>
