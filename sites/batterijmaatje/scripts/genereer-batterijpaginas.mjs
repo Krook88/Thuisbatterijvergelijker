@@ -592,7 +592,12 @@ function pagina(b) {
   // Zoekopdrachten zijn meestal "<merk> thuisbatterij prijs" (Search Console,
   // november 2026): het woord thuisbatterij hoort dus in de titel als het past.
   // Staat "batterij" al in de modelnaam, dan wordt dat dubbelop.
-  const metSoort = /batter/i.test(kortenaam) ? [] : [
+  // Wie al "Battery" in de naam heeft, krijgt de fase erbij: daar wordt bij
+  // SolarEdge op gezocht ("solaredge batterij 1 fase", "3 fase prijs").
+  const faseKort = b.fase === "1-fase" || b.fase === "3-fase" ? b.fase : null;
+  const metSoort = /batter/i.test(kortenaam)
+    ? (faseKort ? [`${kortenaam} (${faseKort}): prijs en specificaties`, `${kortenaam} (${faseKort}): prijs en specs`] : [])
+    : [
     `${kortenaam} thuisbatterij: prijs en specificaties`,
     `${kortenaam} thuisbatterij: prijs en specs`,
     `${kortenaam} thuisbatterij: prijs`,
@@ -1885,7 +1890,7 @@ ${NAV_HTML}
 
 <main class="container leespagina">
   <p class="datum-stempel"><a href="/">${Iconen.svg("pijl-links")} Alle thuisbatterijen vergelijken</a></p>
-  <h1>${esc(naam(A))} vs ${esc(naam(B))}</h1>
+  <h1>${v.titel ? esc(v.titel) : `${esc(naam(A))} vs ${esc(naam(B))}`}</h1>
   <p class="datum-stempel">Prijzen dagelijks automatisch gecontroleerd · laatst op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
   <p>Twee veelvergeleken thuisbatterijen naast elkaar, op basis van dezelfde feiten als in mijn <a href="/">vergelijker</a>. Onder de tabel staan de belangrijkste verschillen op een rij. Vetgedrukt betekent: op dit punt objectief in het voordeel.</p>
 
