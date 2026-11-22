@@ -589,7 +589,16 @@ function pagina(b) {
     ? lang
     : kortOmschrijving(kop + ". Specificaties, koppelingen en terugverdientijd.");
   const kortenaam = naamZonderHaakjes(b);
+  // Zoekopdrachten zijn meestal "<merk> thuisbatterij prijs" (Search Console,
+  // november 2026): het woord thuisbatterij hoort dus in de titel als het past.
+  // Staat "batterij" al in de modelnaam, dan wordt dat dubbelop.
+  const metSoort = /batter/i.test(kortenaam) ? [] : [
+    `${kortenaam} thuisbatterij: prijs en specificaties`,
+    `${kortenaam} thuisbatterij: prijs en specs`,
+    `${kortenaam} thuisbatterij: prijs`,
+  ];
   const paginaTitel = besteTitel([
+    ...metSoort,
     `${kortenaam}: prijs en specificaties`,
     `${kortenaam}: prijs en specs`,
     `${kortenaam}: prijs`,
@@ -1764,6 +1773,13 @@ const VERGELIJKINGEN_ALLE = [
   { a: "ecoflow-stream-ac-pro", b: "zendure-solarflow-hyper-2000" },
   { a: "huawei-luna2000-10", b: "byd-battery-box-hvm-11" },
   { a: "zendure-solarflow-4000-mix-ac", b: "zendure-solarflow-3000-mix-ac" },
+  // Eigen titel: gezocht wordt op "solaredge thuisbatterij (prijs)" en
+  // "1 fase" of "3 fase", niet op de twee modelnamen.
+  {
+    a: "solaredge-home-battery-48v", b: "solaredge-home-battery-400v",
+    titel: "SolarEdge thuisbatterij: 48V (3-fase) of 400V (1-fase)?",
+    omschrijving: "Welke SolarEdge thuisbatterij past bij jouw omvormer? De 48V hoort bij een 3-fase Home Hub, de 400V bij 1-fase. Prijs per kWh en noodstroom naast elkaar.",
+  },
 ].map((v) => ({ ...v, slug: `${v.a}-vs-${v.b}` }));
 
 const batterijById = Object.fromEntries(data.batterijen.map((b) => [b.id, b]));
@@ -1809,7 +1825,7 @@ function vergelijkingsPagina(v) {
   const noodA = vierwaardig(A.noodstroom), noodB = vierwaardig(B.noodstroom);
 
   const plusA = pluspunten(A, B), plusB = pluspunten(B, A);
-  const titel = `${naam(A)} vs ${naam(B)}: welke thuisbatterij?`;
+  const titel = v.titel || `${naam(A)} vs ${naam(B)}: welke thuisbatterij?`;
   // Bij een lange modelnaam ("SigenStor 8 kWh + 8 kW omvormer") past zelfs de
   // kale vergelijking niet meer; dan volstaat merk plus capaciteit.
   //
@@ -1821,11 +1837,12 @@ function vergelijkingsPagina(v) {
   const modelKort = (b) => b.model.replace(/\s*\([^)]*\)\s*$/, "").trim();
   const kortAf = (b) => (zelfdeMerk ? modelKort(b) : `${b.merk} ${nl(b.capaciteit_kwh)} kWh`);
   const paginaTitel = besteTitel([
+    ...(v.titel ? [v.titel] : []),
     `${naamZonderHaakjes(A)} vs ${naamZonderHaakjes(B)}`,
     ...(zelfdeMerk ? [`${naamZonderHaakjes(A)} vs ${modelKort(B)}`] : []),
     `${kortAf(A)} vs ${kortAf(B)}`,
   ]);
-  const metaDesc = kortOmschrijving(`${naamZonderHaakjes(A)} of ${naamZonderHaakjes(B)}? Vergelijk prijs per kWh, capaciteit, noodstroom en slimme aansturing. Prijzen dagelijks gecontroleerd.`);
+  const metaDesc = kortOmschrijving(v.omschrijving || `${naamZonderHaakjes(A)} of ${naamZonderHaakjes(B)}? Vergelijk prijs per kWh, capaciteit, noodstroom en slimme aansturing. Prijzen dagelijks gecontroleerd.`);
 
   const itemList = JSON.stringify({
     "@context": "https://schema.org",
