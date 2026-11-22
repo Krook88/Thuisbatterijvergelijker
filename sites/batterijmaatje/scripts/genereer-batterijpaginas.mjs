@@ -264,6 +264,9 @@ function driewaardig(v) {
   if (v && typeof v === "object") return { status: v.status || "deels", tekst: v.tekst || "" };
   if (v === true) return { status: "ja", tekst: "Ja" };
   if (typeof v === "string" && v.trim()) return { status: "deels", tekst: v };
+  // DATASCHEMA.md: null of ontbrekend is "niet bekend", net als in assets/kaart.js.
+  // Hier stond eerst "Nee", waardoor een onbekend veld als gemis werd getoond.
+  if (v === undefined || v === null) return { status: "onbekend", tekst: "Onbekend" };
   return { status: "nee", tekst: "Nee" };
 }
 
@@ -594,7 +597,7 @@ function pagina(b) {
   // Staat "batterij" al in de modelnaam, dan wordt dat dubbelop.
   // Wie al "Battery" in de naam heeft, krijgt de fase erbij: daar wordt bij
   // SolarEdge op gezocht ("solaredge batterij 1 fase", "3 fase prijs").
-  const faseKort = b.fase === "1-fase" || b.fase === "3-fase" ? b.fase : null;
+  const faseKort = b.type !== "plug-in" && (b.fase === "1-fase" || b.fase === "3-fase") ? b.fase : null;
   const metSoort = /batter/i.test(kortenaam)
     ? (faseKort ? [`${kortenaam} (${faseKort}): prijs en specificaties`, `${kortenaam} (${faseKort}): prijs en specs`] : [])
     : [
@@ -834,7 +837,7 @@ function overzichtTabel(lijst, veld) {
 function overzichtsPagina(cfg) {
   const ja = data.batterijen.filter((b) => driewaardig(b[cfg.veld]).status === "ja");
   const deels = data.batterijen.filter((b) => driewaardig(b[cfg.veld]).status === "deels");
-  const nee = data.batterijen.filter((b) => driewaardig(b[cfg.veld]).status === "nee");
+  const nee = data.batterijen.filter((b) => driewaardig(b[cfg.veld]).status === "nee" || driewaardig(b[cfg.veld]).status === "onbekend"); // "geen koppeling bekend"
   const titel = `Beste thuisbatterij voor ${cfg.naam} (${JAAR}): ${ja.length + deels.length} modellen vergeleken`;
   const paginaTitel = titelMetMerk(`Beste thuisbatterij voor ${cfg.naam} (${JAAR})`);
   const metaDesc = kortOmschrijving(`Welke thuisbatterij werkt met ${cfg.naam}? ${ja.length} met volledige en ${deels.length} met gedeeltelijke ondersteuning, met dagelijks gecontroleerde prijzen en Koppel-score.`);
@@ -1282,7 +1285,7 @@ const WACHTEN_BESTAND = "nu-kopen-of-wachten.html";
 
 function wachtenPagina() {
   const korting = data.batterijen.filter((b) => Prijs.heeftKorting(b));
-  const dynamisch = data.batterijen.filter((b) => driewaardig(b.dynamisch_contract).status !== "nee");
+  const dynamisch = data.batterijen.filter((b) => ["ja", "deels"].includes(driewaardig(b.dynamisch_contract).status));
   const alle = data.batterijen.map((b) => bestePrijs(b)).filter(Boolean).map((a) => Prijs.vergelijkPrijs(a));
 
   const titel = "Thuisbatterij nu kopen of wachten?";
@@ -1477,7 +1480,7 @@ const ZONDER_PV_BESTAND = "thuisbatterij-zonder-zonnepanelen.html";
 function zonderPvPagina() {
   const S = Rekenkern.STANDAARD;
   const verbruik = S.jaarVerbruik;
-  const geschikt = data.batterijen.filter((b) => b.type !== "hybride" && driewaardig(b.dynamisch_contract).status !== "nee");
+  const geschikt = data.batterijen.filter((b) => b.type !== "hybride" && ["ja", "deels"].includes(driewaardig(b.dynamisch_contract).status));
   const hybrides = data.batterijen.filter((b) => b.type === "hybride").length;
   const som = (b, contract) => {
     const prijs = Prijs.vergelijkPrijs(bestePrijs(b));
@@ -1619,6 +1622,7 @@ function dynamischPagina() {
   const zelf = data.batterijen.filter((b) => status(b) === "ja");
   const omweg = data.batterijen.filter((b) => status(b) === "deels").length;
   const niet = data.batterijen.filter((b) => status(b) === "nee").length;
+  const onbekend = data.batterijen.filter((b) => status(b) === "onbekend").length;
   const leveranciers = vereis("../data/leveranciers.json").leveranciers
     .filter((l) => l.contract === "dynamisch").map((l) => l.naam.replace(/\s*\(dynamisch\)$/, ""));
 
@@ -1654,7 +1658,7 @@ function dynamischPagina() {
     },
     {
       vraag: "Welke thuisbatterijen sturen zelf op uurprijzen?",
-      antwoord: `Van de ${data.batterijen.length} batterijen in mijn vergelijker sturen er ${zelf.length} zelf op de prijzen van een dynamisch contract. Bij ${omweg} kan het via een omweg, zoals een leverancier die de batterij aanstuurt of Home Assistant. Bij ${niet} kan het niet.`,
+      antwoord: `Van de ${data.batterijen.length} batterijen in mijn vergelijker sturen er ${zelf.length} zelf op de prijzen van een dynamisch contract. Bij ${omweg} kan het via een omweg, zoals een leverancier die de batterij aanstuurt of Home Assistant. Bij ${niet} kan het niet${onbekend ? `, en van ${onbekend} heb ik het niet kunnen nagaan` : ""}.`,
     },
   ];
   const faq = JSON.stringify({
@@ -1801,11 +1805,13 @@ function pluspunten(x, y) {
   const p = [];
   const px = perKwhVan(x), py = perKwhVan(y);
   if (px && py && px < py) p.push(`is per kWh opslag goedkoper (${eur(px)} tegenover ${eur(py)} per kWh)`);
-  if (koppelScore(x) > koppelScore(y)) p.push(`is beter slim aan te sturen (Koppel-score ${koppelScore(x)}/6 tegenover ${koppelScore(y)}/6)`);
+  // Een onbekend veld telt als 0 in de score; dan is een hogere score geen voordeel.
+  const kentKoppeling = (b) => [b.homey, b.home_assistant, b.dynamisch_contract].every((w) => w != null);
+  if (kentKoppeling(x) && kentKoppeling(y) && koppelScore(x) > koppelScore(y)) p.push(`is beter slim aan te sturen (Koppel-score ${koppelScore(x)}/6 tegenover ${koppelScore(y)}/6)`);
   if (vierwaardig(x.noodstroom).status === "ja" && vierwaardig(y.noodstroom).status !== "ja") p.push("heeft noodstroom bij een stroomstoring");
   if (x.installatie === "zelf" && y.installatie !== "zelf") p.push("sluit je zelf aan op een stopcontact, zonder installateur");
-  if (buitenGeschikt(x) && !buitenGeschikt(y)) p.push(`kan ook buiten worden geplaatst (${esc(x.ip_klasse)})`);
-  if ((x.garantie_jaar || 0) > (y.garantie_jaar || 0)) p.push(`heeft langere garantie (${x.garantie_jaar} tegenover ${y.garantie_jaar || "?"} jaar)`);
+  if (buitenGeschikt(x) && y.ip_klasse && !buitenGeschikt(y)) p.push(`kan ook buiten worden geplaatst (${esc(x.ip_klasse)})`);
+  if (x.garantie_jaar && y.garantie_jaar && x.garantie_jaar > y.garantie_jaar) p.push(`heeft langere garantie (${x.garantie_jaar} tegenover ${y.garantie_jaar} jaar)`);
   if (x.capaciteit_kwh && y.capaciteit_kwh && x.capaciteit_kwh > y.capaciteit_kwh * 1.25) p.push(`biedt meer opslag (${nl(x.capaciteit_kwh)} tegenover ${nl(y.capaciteit_kwh)} kWh)`);
   if (x.vermogen_kw && y.vermogen_kw && x.vermogen_kw > y.vermogen_kw * 1.25) p.push(`levert meer vermogen (${nl(x.vermogen_kw)} tegenover ${nl(y.vermogen_kw)} kW)`);
   return p;
