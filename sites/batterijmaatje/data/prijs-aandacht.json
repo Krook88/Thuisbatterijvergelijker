@@ -1,11 +1,17 @@
 {
-  "bijgewerkt": "2026-11-21",
+  "bijgewerkt": "2026-11-22",
   "punten": {
     "onbereikbaar|dyness-powerbox-g2|Zonnige Winkel": {
       "sinds": "2026-11-20",
       "soort": "onbereikbaar",
       "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: fetch failed",
       "bevestigd": true
+    },
+    "onbereikbaar|sunpura-s4800|My Green Energy": {
+      "sinds": "2026-11-22",
+      "soort": "onbereikbaar",
+      "tekst": "sunpura-s4800 @ My Green Energy: fetch failed",
+      "bevestigd": false
     },
     "onbereikbaar|tsun-powertrunk-mau5000|Powerness": {
       "sinds": "2026-11-13",
@@ -37,22 +43,16 @@
       "tekst": "ecoflow-stream-ac-pro @ richtprijs: €700 → €1599 (+128%)",
       "bevestigd": true
     },
-    "te controleren|tsun-solartrunk-msu2000|MediaMarkt": {
-      "sinds": "2026-11-20",
-      "soort": "te controleren",
-      "tekst": "tsun-solartrunk-msu2000 @ MediaMarkt: €1049 → €329 (-69%)",
-      "bevestigd": true
-    },
     "verouderd|aeg-solarcube-48|richtprijs": {
       "sinds": "2026-10-29",
       "soort": "verouderd",
-      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (44 dagen)",
+      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (45 dagen)",
       "bevestigd": true
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (128 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (129 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
@@ -73,16 +73,10 @@
       "tekst": "aeg-solarcube-48 @ AH Voordeelshop: HTTP 403",
       "bevestigd": true
     },
-    "zonder prijs|dyness-powerbrick-plus|NKON": {
-      "sinds": "2026-11-21",
-      "soort": "geweigerd",
-      "tekst": "dyness-powerbrick-plus @ NKON: HTTP 403",
-      "bevestigd": false
-    },
-    "zonder prijs|homewizard-plug-in-battery|HomeWizard shop": {
-      "sinds": "2026-11-21",
+    "zonder prijs|tsun-solartrunk-msu2000|MediaMarkt": {
+      "sinds": "2026-11-22",
       "soort": "zonder bedrag",
-      "tekst": "homewizard-plug-in-battery @ HomeWizard shop: geen leesbaar bedrag",
+      "tekst": "tsun-solartrunk-msu2000 @ MediaMarkt: geen leesbaar bedrag",
       "bevestigd": false
     }
   }
