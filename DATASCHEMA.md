@@ -174,7 +174,7 @@ Afgekeurde beelden staan in `scripts/afgewezen-fotos.json`, elk met een reden.
 | `fase_toelichting` | tekst | 6/60 | Kanttekening bij de fase ("afhankelijk van de omvormer"). |
 | `installatie` | tekst | 57/57 | `"zelf"` of `"installateur"`. |
 | `garantie_jaar` | geheel getal of `null` | 57/57 | |
-| `cycli` | geheel getal of `null` | 60/60 | Aantal laadcycli volgens de fabrikant; sorteerbaar en basis van de kosten per opgeslagen kWh. |
+| `cycli` | geheel getal of `null` | 60/60 | Aantal laadcycli volgens de fabrikant; sorteerbaar en basis van de slijtage per kWh (prijs gedeeld door cycli maal capaciteit). |
 | `cycli_toelichting` | tekst | 23/60 | De opgave zoals de bron hem noemt ("10.000 (tot 70% restcapaciteit)"). |
 | `ip_klasse` | tekst | 49/57 | `"IP65"` enz., of `"onbekend"`. |
 | `buiten_toelichting` | tekst | 49/57 | Mag hij buiten staan, en volgens wie. |
