@@ -98,7 +98,7 @@
   const eurCentFmt = new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", minimumFractionDigits: 2, maximumFractionDigits: 2 });
   function perOpgeslagenKwhTekst(b) {
     const v = Prijs.prijsPerOpgeslagenKwh(b);
-    return v === null ? "" : `${eurCentFmt.format(v)} per opgeslagen kWh`;
+    return v === null ? "" : `${eurCentFmt.format(v)} slijtage per kWh`;
   }
 
   // Kooplink: de commissielink (affiliate) als die er is, anders de gewone
@@ -463,7 +463,7 @@
           ? `<a class="regel-bedrag cijfer" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="${koopRel(beste)}" aria-label="${escapeHtml(eurFmt.format(vergelijk))} bij ${escapeHtml(winkelNaam(beste) || "de winkel")}: naar de aanbieding van de ${escapeHtml(naamVan(b))}, opent in een nieuw tabblad">${eurFmt.format(vergelijk)}</a>`
           : `<span class="regel-bedrag cijfer${vergelijk !== null ? "" : " bedrag-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Op aanvraag"}</span>`}
         ${perKwh ? `<span class="regel-per cijfer">${eurFmt.format(perKwh)} per kWh opslag</span>` : ""}
-        ${perOpgeslagenKwhTekst(b) ? `<span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">${perOpgeslagenKwhTekst(b)}</span>` : ""}
+        ${perOpgeslagenKwhTekst(b) ? `<span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">${perOpgeslagenKwhTekst(b)}</span>` : ""}
         ${beste && beste.url && beste.winkel ? `<span class="regel-winkel">${/^richtprijs/i.test(beste.winkel) ? "" : "bij "}${escapeHtml(winkelNaam(beste))}${winkelInfoHtml(beste)}</span>` : ""}
         ${ouderdomHtml(b)}
         ${beste && beste.url ? "" : `<a class="regel-details" href="batterij/${encodeURIComponent(b.id)}.html" aria-label="Alle details van de ${escapeHtml(naamVan(b))}">details</a>`}
@@ -643,7 +643,7 @@
           ${vanPrijs ? `<div class="van-prijs">${eurFmt.format(vanPrijs)}</div>` : ""}
           <div class="prijs${vergelijk !== null ? "" : " prijs-onbekend"}">${vergelijk !== null ? eurFmt.format(vergelijk) : "Prijs op aanvraag"}</div>
           ${perKwh ? `<div class="prijs-per-kwh"${Prijs.capaciteitToelichting(b) ? ` title="Per kWh: ${Prijs.capaciteitToelichting(b)}"` : ""}>${eurFmt.format(perKwh)} per kWh opslag</div>` : ""}
-          ${perOpgeslagenKwhTekst(b) ? `<div class="prijs-per-kwh" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit">${perOpgeslagenKwhTekst(b)}</div>` : ""}
+          ${perOpgeslagenKwhTekst(b) ? `<div class="prijs-per-kwh" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">${perOpgeslagenKwhTekst(b)}</div>` : ""}
           ${ouderdomHtml(b)}
           ${beste && beste.is_richtprijs ? `<div class="prijs-winkel">richtprijs; op dit moment geen winkel met deze batterij</div>` : beste && beste.winkel ? `<div class="prijs-winkel">bij ${escapeHtml(winkelNaam(beste))}${winkelInfoHtml(beste)}</div>` : ""}
           ${omgerekend ? `<div class="prijs-let-op">De winkel toont ${eurFmt.format(beste.prijs_eur)} <b>excl. btw</b>. Hierboven staat het bedrag incl. btw, zodat het te vergelijken is met de andere batterijen.</div>` : ""}

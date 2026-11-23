@@ -18,13 +18,13 @@
   <meta name="twitter:card" content="summary_large_image">
   <script>document.documentElement.classList.add("js")</script>
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/maatlat.css?v=20261121a" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261121a" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261121a">
-  <script src="assets/nav.js?v=20261121a" defer></script>
-  <script src="assets/dagmaat.js?v=20261121a" defer></script>
-  <script src="assets/uitleg.js?v=20261121a" defer></script>
-  <script src="assets/batterijclip.js?v=20261121a" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261123b" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261123b" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261123b">
+  <script src="assets/nav.js?v=20261123b" defer></script>
+  <script src="assets/dagmaat.js?v=20261123b" defer></script>
+  <script src="assets/uitleg.js?v=20261123b" defer></script>
+  <script src="assets/batterijclip.js?v=20261123b" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <style>
@@ -347,6 +347,13 @@
         },
         {
           "@type": "DefinedTerm",
+          "@id": "https://batterijmaatje.nl/uitleg.html#slijtage",
+          "name": "Slijtage per kWh",
+          "description": "Wat de batterij zelf kost voor elke kWh die je erin opslaat, verdeeld over zijn hele levensduur. Je rekent het uit door de prijs te delen door het aantal laadcycli maal de capaciteit . Een batterij van € 999 met 4,6 kWh en 6.000 cycli slaat in zijn leven 27.600 kWh op, en dat is € 0,036 per kWh. Laden en ontladen loont pas als het prijsverschil tussen die twee momenten groter is dan dit bedrag. In werkelijkheid ligt het iets hoger, want het aantal cycli is de belofte van de fabrikant en bij een rendement van 90% gaat 10% van de stroom verloren.",
+          "url": "https://batterijmaatje.nl/uitleg.html#slijtage"
+        },
+        {
+          "@type": "DefinedTerm",
           "@id": "https://batterijmaatje.nl/uitleg.html#koppel-score",
           "name": "Koppel-score",
           "description": "Mijn eigen score van 0 tot 6 punten die in één oogopslag laat zien hoe goed een batterij \"slim\" aan te sturen is. Drie dingen tellen mee: werkt de batterij met Homey, met Home Assistant en met een dynamisch energiecontract? Werkt iets volledig, dan telt dat voor 2 punten. Werkt het gedeeltelijk (bijvoorbeeld via een extra app of kastje), dan 1 punt. Werkt het niet, dan 0 punten. Een batterij met 6 punten kun je dus op alle drie de manieren slim aansturen. De score is puur gebaseerd op feiten per model; fabrikanten of winkels hebben er geen invloed op. Heb je geen slim huis en geen dynamisch contract? Dan is een lage Koppel-score geen enkel probleem.",
@@ -401,7 +408,7 @@
   </script>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261121a"></script>
+  <script defer src="/assets/teller.js?v=20261123b"></script>
 </head>
 <body>
 
@@ -441,8 +448,8 @@
 <main class="content-pagina">
 
   <h1>Hoe werkt een thuisbatterij? Eenvoudige uitleg</h1>
-  <p class="intro">In gewone taal, zonder dat je iets van elektrotechniek hoeft te weten. Alle voorbeelden hieronder komen uit de <span data-cijfer="aantal">55</span> batterijen die op deze site staan, dus je kunt ze nalopen in de <a href="/">vergelijker</a>. Onderaan staan <span data-cijfer="woorden">33</span> woorden uitgelegd die je in folders en offertes tegenkomt.</p>
-  <p class="bijgewerkt-regel">Bijgewerkt op <time data-bijgewerkt data-stand="fc7c580fd3ef" datetime="2026-11-23">23 november 2026</time>. Alle getallen komen elke dag vers uit de prijscontrole van de batterijen.</p>
+  <p class="intro">In gewone taal, zonder dat je iets van elektrotechniek hoeft te weten. Alle voorbeelden hieronder komen uit de <span data-cijfer="aantal">55</span> batterijen die op deze site staan, dus je kunt ze nalopen in de <a href="/">vergelijker</a>. Onderaan staan <span data-cijfer="woorden">34</span> woorden uitgelegd die je in folders en offertes tegenkomt.</p>
+  <p class="bijgewerkt-regel">Bijgewerkt op <time data-bijgewerkt data-stand="fdfbec403879" datetime="2026-11-23">23 november 2026</time>. Alle getallen komen elke dag vers uit de prijscontrole van de batterijen.</p>
 
   <div class="kort-antwoord" data-vraag="Hoe werkt een thuisbatterij?">
     <p class="kort-label">Kort antwoord</p>
@@ -792,6 +799,7 @@
     <div class="woord" id="rendement"><dt>Rendement (heen en terug)</dt><dd>Van elke kWh die je in de batterij stopt, komt er minder weer uit. Het verlies zit op drie plekken. Bij het laden zet de omvormer de wisselstroom (AC) uit je stopcontact om in gelijkstroom (DC) voor de accu, en bij het ontladen weer terug; elke omzetting kost een paar procent. In de accu zelf gaat ook wat verloren, en de elektronica (de regeling, de wifi) gebruikt stroom, ook als de batterij stilstaat. Bij een rendement van 90% krijg je van 10 kWh er 9 terug. Let op waarover het getal gaat. Alleen het accupakket haalt vaak 95% of meer, maar daar zitten de twee omzettingen niet bij. Bij een <a href="#hybride">hybride omvormer</a> scheelt dat één omzetting, want zonnestroom gaat dan als gelijkstroom direct de accu in. Het eerlijke getal is van stopcontact tot stopcontact, en dat geven weinig fabrikanten op. HomeWizard noemt voor zijn stekkerbatterij 70 tot 85%, afhankelijk van hoe hard hij laadt. Op de productpagina staat per batterij wat de fabrikant opgeeft en waarover.</dd></div>
     <div class="woord" id="thuisaccu"><dt>Thuisaccu</dt><dd>Een ander woord voor thuisbatterij; er is geen verschil. Je komt ook <b>huisbatterij</b>, <b>thuisaccu</b> en <b>energieopslag thuis</b> tegen, en voor het model met een stekker daarnaast <b>stekkerbatterij</b>, <b>plug-and-play thuisbatterij</b> en <b>balkonbatterij</b>. Winkels en fabrikanten gebruiken ze door elkaar heen.</dd></div>
     <div class="woord" id="salderen"><dt>Salderen (salderingsregeling)</dt><dd>De regeling waarbij stroom die je teruglevert wordt weggestreept tegen stroom die je koopt, alsof de meter terugdraait. <b>Deze regeling stopt op 1 januari 2027.</b> Daarna krijg je voor teruggeleverde stroom nog maar een kleine vergoeding.</dd></div>
+    <div class="woord" id="slijtage"><dt>Slijtage per kWh</dt><dd>Wat de batterij zelf kost voor elke kWh die je erin opslaat, verdeeld over zijn hele levensduur. Je rekent het uit door de prijs te delen door het aantal <a href="#cycli">laadcycli</a> maal de <a href="#capaciteit">capaciteit</a>. Een batterij van € 999 met 4,6 kWh en 6.000 cycli slaat in zijn leven 27.600 kWh op, en dat is € 0,036 per kWh. Laden en ontladen loont pas als het prijsverschil tussen die twee momenten groter is dan dit bedrag. In werkelijkheid ligt het iets hoger, want het aantal cycli is de belofte van de fabrikant en bij een <a href="#rendement">rendement</a> van 90% gaat 10% van de stroom verloren.</dd></div>
     <div class="woord" id="koppel-score"><dt>Koppel-score</dt><dd>Mijn eigen score van 0 tot 6 punten die in één oogopslag laat zien hoe goed een batterij "slim" aan te sturen is. Drie dingen tellen mee: werkt de batterij met Homey, met Home Assistant en met een dynamisch energiecontract? Werkt iets volledig, dan telt dat voor 2 punten. Werkt het gedeeltelijk (bijvoorbeeld via een extra app of kastje), dan 1 punt. Werkt het niet, dan 0 punten. Een batterij met 6 punten kun je dus op alle drie de manieren slim aansturen. De score is puur gebaseerd op feiten per model; fabrikanten of winkels hebben er geen invloed op. Heb je geen slim huis en geen dynamisch contract? Dan is een lage Koppel-score geen enkel probleem.</dd></div>
     <div class="woord" id="terugleverkosten"><dt>Terugleverkosten</dt><dd>Kosten die veel energieleveranciers rekenen aan mensen met zonnepanelen, omdat teruggeleverde middagstroom hen geld kost. Gemiddeld zo'n 300 euro per jaar (peildatum oktober 2025, bron: ACM). In het spraakgebruik heet dit vaak de <b>terugleverboete</b>, maar een boete is het niet: het is een tarief dat je leverancier in rekening brengt, en het verschilt per contract. Een batterij die je teruglevering vermindert, verlaagt deze kosten.</dd></div>
     <div class="woord" id="terugleververgoeding"><dt>Terugleververgoeding</dt><dd>Het bedrag dat je vanaf 2027 krijgt voor stroom die je aan het net teruggeeft. Naar verwachting zo'n 4 tot 6 cent per kWh, veel minder dan wat stroom kopen kost.</dd></div>

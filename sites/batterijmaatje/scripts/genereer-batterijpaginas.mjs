@@ -707,7 +707,7 @@ ${NAV_HTML}
     ${specRij("Beschermingsgraad", b.ip_klasse ? `<a class="term-link" href="/uitleg.html#ip-waarde" title="Wat zegt de IP-waarde? Lees de uitleg in de woordenlijst">${esc(b.ip_klasse)}</a>${b.buiten_toelichting ? ` <small>(${esc(b.buiten_toelichting)})</small>` : ""}` : null)}
     ${specRij("Garantie", b.garantie_jaar ? `${b.garantie_jaar} jaar` : null)}
     ${specRij("Laadcycli", b.cycli ? esc(Kaart.cycliTekst(b)) : null)}
-    ${specRij("Kosten per opgeslagen kWh", Kaart.perOpgeslagenKwhTekst(b) ? `${esc(Kaart.perOpgeslagenKwhTekst(b).replace(" per opgeslagen kWh", ""))} <small>(prijs gedeeld door laadcycli maal capaciteit)</small>` : null)}
+    ${specRij("Slijtage per kWh", Kaart.perOpgeslagenKwhTekst(b) ? `${esc(Kaart.perOpgeslagenKwhTekst(b).replace(" slijtage per kWh", ""))} <small>(wat de batterij zelf kost voor elke kWh die je erin opslaat; ${eur(Prijs.vergelijkPrijs(bestePrijs(b)))} gedeeld door ${Number(b.cycli).toLocaleString("nl-NL")} cycli maal ${nl(b.capaciteit_kwh)} kWh, <a class="term-link" href="/uitleg.html#slijtage" title="Wat betekent slijtage per kWh? Lees de uitleg">uitleg</a>)</small>` : null)}
     ${specRij("Rendement heen en terug", Kaart.rendementHtml(b) || `geen opgave gevonden <small>(<a class="term-link" href="/uitleg.html#rendement" title="Wat is het rendement van een thuisbatterij? Lees de uitleg">wat betekent dat?</a>)</small>`)}
     ${specRij("App", b.app ? `${esc(b.app)} <small>(<a class="term-link" href="/uitleg.html#fabrikant-app" title="Wat kan de app van de fabrikant? Lees de uitleg">wat kan zo'n app?</a>)</small>` : "")}
   </table>

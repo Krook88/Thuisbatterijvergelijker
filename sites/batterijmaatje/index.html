@@ -127,17 +127,17 @@
   </script>
   <script>document.documentElement.classList.add("js")</script>
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/maatlat.css?v=20261121a" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261121a" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261121a">
-  <script src="assets/dagmaat.js?v=20261121a" defer></script>
-  <script src="assets/iconen.js?v=20261121a" defer></script>
-  <script src="assets/prijs.js?v=20261121a" defer></script>
-  <script src="assets/prijsgrafiek.js?v=20261121a" defer></script>
-  <script src="assets/kaart.js?v=20261121a" defer></script>
-  <script src="assets/vergelijktabel.js?v=20261121a" defer></script>
-  <script src="assets/app.js?v=20261121a" defer></script>
-  <script src="assets/nav.js?v=20261121a" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261123b" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261123b" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261123b">
+  <script src="assets/dagmaat.js?v=20261123b" defer></script>
+  <script src="assets/iconen.js?v=20261123b" defer></script>
+  <script src="assets/prijs.js?v=20261123b" defer></script>
+  <script src="assets/prijsgrafiek.js?v=20261123b" defer></script>
+  <script src="assets/kaart.js?v=20261123b" defer></script>
+  <script src="assets/vergelijktabel.js?v=20261123b" defer></script>
+  <script src="assets/app.js?v=20261123b" defer></script>
+  <script src="assets/nav.js?v=20261123b" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <script type="application/ld+json" data-lijst>
@@ -483,7 +483,7 @@
   </script>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261121a"></script>
+  <script defer src="/assets/teller.js?v=20261123b"></script>
 </head>
 <body>
 
@@ -644,7 +644,7 @@
     <span class="resultaten-telling" id="resultatenTelling">55 van 55 thuisbatterijen, gesorteerd op beste prijs per kWh opslag</span>
     <label class="sorteer-keuze"><span>Sorteren op</span><select id="sorteer">
           <option value="prijs-per-kwh" selected>Beste prijs per kWh opslag</option>
-          <option value="per-opgeslagen-kwh">Kosten per opgeslagen kWh (levensduur)</option>
+          <option value="per-opgeslagen-kwh">Laagste slijtage per kWh</option>
           <option value="koppel-score">Koppel-score (slimste eerst)</option>
           <option value="prijs-oplopend">Winkelprijs (laag naar hoog)</option>
           <option value="totaalprijs">Totaalprijs gebruiksklaar (indicatie)</option>
@@ -715,7 +715,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.nkon.nl/dyness-powerbrick-plus-51-2v-16-07kwh-thuisbatterij.html" target="_blank" rel="noopener" aria-label="€ 1.925 bij NKON: naar de aanbieding van de Dyness PowerBrick Plus (16 kWh), opent in een nieuw tabblad">€ 1.925</a>
         <span class="regel-per cijfer">€ 126 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,02 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,02 slijtage per kWh</span>
         <span class="regel-winkel">bij NKON</span>
         
         
@@ -748,7 +748,7 @@
         
         <a class="regel-bedrag cijfer" href="https://stromzone.com/en/product/hoymiles-hibattery-1920-ac" target="_blank" rel="noopener" aria-label="€ 379 bij StromZone (levert vanuit het buitenland): naar de aanbieding van de Hoymiles HiBattery 1920 AC (1,92 kWh), opent in een nieuw tabblad">€ 379</a>
         <span class="regel-per cijfer">€ 197 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,03 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,03 slijtage per kWh</span>
         <span class="regel-winkel">bij StromZone (levert vanuit het buitenland)</span>
         
         
@@ -781,7 +781,7 @@
         
         <a class="regel-bedrag cijfer" href="https://thuisaccuwebshop.nl/product/dyness-powerbox-g2-1024-kwh/" target="_blank" rel="noopener" aria-label="€ 1.997 bij Thuisaccu Webshop (omgerekend naar incl. btw): naar de aanbieding van de Dyness Powerbox G2 (9,73 kWh bruikbaar), opent in een nieuw tabblad">€ 1.997</a>
         <span class="regel-per cijfer">€ 205 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,03 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,03 slijtage per kWh</span>
         <span class="regel-winkel">bij Thuisaccu Webshop (omgerekend naar incl. btw)</span>
         
         
@@ -814,7 +814,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.stralendgroen.nl/product/marstek-venus-a/" target="_blank" rel="noopener" aria-label="€ 445 bij Stralend Groen: naar de aanbieding van de Marstek Venus A (2,12 kWh), opent in een nieuw tabblad">€ 445</a>
         <span class="regel-per cijfer">€ 210 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,04 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,04 slijtage per kWh</span>
         <span class="regel-winkel">bij Stralend Groen</span>
         
         
@@ -880,7 +880,7 @@
         
         <a class="regel-bedrag cijfer" href="https://thuisbatterij.nl/winkel/marstek-venus-e-versie-3/" target="_blank" rel="noopener" aria-label="€ 999 bij Thuisbatterij.nl: naar de aanbieding van de Marstek Venus E 3.0 (4,6 kWh bruikbaar), opent in een nieuw tabblad">€ 999</a>
         <span class="regel-per cijfer">€ 217 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,04 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,04 slijtage per kWh</span>
         <span class="regel-winkel">bij Thuisbatterij.nl</span>
         
         
@@ -913,7 +913,7 @@
         
         <a class="regel-bedrag cijfer" href="https://stekkerdeal.nl/products/voltdeer-sr5000/" target="_blank" rel="noopener" aria-label="€ 1.150 bij richtprijs uit prijsvergelijkingen (juli 2026); winkelprijzen lopen uiteen: naar de aanbieding van de Voltdeer SR5000 (5,12 kWh), opent in een nieuw tabblad">€ 1.150</a>
         <span class="regel-per cijfer">€ 225 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,04 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,04 slijtage per kWh</span>
         <span class="regel-winkel">richtprijs uit prijsvergelijkingen (juli 2026); winkelprijzen lopen uiteen</span>
         
         
@@ -946,7 +946,7 @@
         
         <a class="regel-bedrag cijfer" href="https://voltbaas.nl/shop/hyxi-halo.html?ref=Batterijmaatje" target="_blank" rel="sponsored nofollow noopener" aria-label="€ 739 bij Voltbaas: naar de aanbieding van de HYXi Halo (3 kWh), opent in een nieuw tabblad">€ 739</a>
         <span class="regel-per cijfer">€ 246 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,03 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,03 slijtage per kWh</span>
         <span class="regel-winkel">bij Voltbaas <small class="winkel-info">retour: 14 dagen bedenktijd, €100 ophaalkosten per batterij</small></span>
         
         
@@ -979,7 +979,7 @@
         
         <a class="regel-bedrag cijfer" href="https://thuisbatterij.io/product/mova-lumegret-a4000/" target="_blank" rel="noopener" aria-label="€ 999 bij Thuisbatterij.io: naar de aanbieding van de MOVA LumeGret A4000 (4 kWh), opent in een nieuw tabblad">€ 999</a>
         <span class="regel-per cijfer">€ 250 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,03 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,03 slijtage per kWh</span>
         <span class="regel-winkel">bij Thuisbatterij.io</span>
         
         
@@ -1012,7 +1012,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.marstek.nl/product/marstek-venus-c-1-0-plug-charge-thuisbatterij-7-68-kwh-incl-p1-meter/" target="_blank" rel="noopener" aria-label="€ 1.950 bij Marstek.nl (officieel): naar de aanbieding van de Marstek Venus C 1.0 (7,68 kWh), opent in een nieuw tabblad">€ 1.950</a>
         <span class="regel-per cijfer">€ 254 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,04 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,04 slijtage per kWh</span>
         <span class="regel-winkel">bij Marstek.nl (officieel)</span>
         
         
@@ -1045,7 +1045,7 @@
         
         <a class="regel-bedrag cijfer" href="https://voltbaas.nl/shop/anker-solix-solarbank-max-ac.html?ref=Batterijmaatje" target="_blank" rel="sponsored nofollow noopener" aria-label="€ 1.869 bij Voltbaas: naar de aanbieding van de Anker SOLIX Solarbank Max AC (7 kWh), opent in een nieuw tabblad">€ 1.869</a>
         <span class="regel-per cijfer">€ 267 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,03 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,03 slijtage per kWh</span>
         <span class="regel-winkel">bij Voltbaas <small class="winkel-info">retour: 14 dagen bedenktijd, €100 ophaalkosten per batterij</small></span>
         
         
@@ -1078,7 +1078,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.techpunt.nl/products/zendure-solarflow-4000-mix-ac" target="_blank" rel="noopener" aria-label="€ 2.179 bij TechPunt: naar de aanbieding van de Zendure SolarFlow 4000 Mix AC+ (8 kWh), opent in een nieuw tabblad">€ 2.179</a>
         <span class="regel-per cijfer">€ 272 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,03 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,03 slijtage per kWh</span>
         <span class="regel-winkel">bij TechPunt</span>
         
         
@@ -1111,7 +1111,7 @@
         
         <a class="regel-bedrag cijfer" href="https://voltbaas.nl/shop/hoymiles-hibattery-4020-ac.html?ref=Batterijmaatje" target="_blank" rel="sponsored nofollow noopener" aria-label="€ 1.109 bij Voltbaas: naar de aanbieding van de Hoymiles HiBattery 4020 AC (4,02 kWh), opent in een nieuw tabblad">€ 1.109</a>
         <span class="regel-per cijfer">€ 276 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,03 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,03 slijtage per kWh</span>
         <span class="regel-winkel">bij Voltbaas <small class="winkel-info">retour: 14 dagen bedenktijd, €100 ophaalkosten per batterij</small></span>
         
         
@@ -1144,7 +1144,7 @@
         
         <a class="regel-bedrag cijfer" href="https://thuisbatterij.nl/winkel/ecoflow-stream-ac-5000/" target="_blank" rel="noopener" aria-label="€ 1.395 bij Thuisbatterij.nl (pre-sale): naar de aanbieding van de EcoFlow STREAM AC 5000 (5 kWh), opent in een nieuw tabblad">€ 1.395</a>
         <span class="regel-per cijfer">€ 278 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,03 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,03 slijtage per kWh</span>
         <span class="regel-winkel">bij Thuisbatterij.nl (pre-sale)</span>
         
         
@@ -1177,7 +1177,7 @@
         
         <a class="regel-bedrag cijfer" href="https://partner.bol.com/click/click?p=1&amp;t=url&amp;s=1532448&amp;f=TXL&amp;url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fnl%2Fp%2F-%2F9300000402268931%2F&amp;name=hoymiles-hibattery-4020-x&amp;subid=batterijmaatje" target="_blank" rel="sponsored nofollow noopener" aria-label="€ 1.149 bij bol.com: naar de aanbieding van de Hoymiles HiBattery 4020 X (4,02 kWh), opent in een nieuw tabblad">€ 1.149</a>
         <span class="regel-per cijfer">€ 286 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,04 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,04 slijtage per kWh</span>
         <span class="regel-winkel">bij bol.com</span>
         
         
@@ -1243,7 +1243,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.techpunt.nl/products/anker-solix-solarbank-4-e5000-pro" target="_blank" rel="noopener" aria-label="€ 1.499 bij Techpunt: naar de aanbieding van de Anker SOLIX Solarbank 4 Pro (5 kWh), opent in een nieuw tabblad">€ 1.499</a>
         <span class="regel-per cijfer">€ 300 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,03 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,03 slijtage per kWh</span>
         <span class="regel-winkel">bij Techpunt</span>
         
         
@@ -1276,7 +1276,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.alma-solarshop.nl/triple-power-batterij/1241-triple-power-batterij-58kwh-hoogspanning.html" target="_blank" rel="noopener" aria-label="€ 1.625 bij Alma Solar: naar de aanbieding van de SolaX Triple Power T-BAT H 5.8 (5,22 kWh bruikbaar), opent in een nieuw tabblad">€ 1.625</a>
         <span class="regel-per cijfer">€ 311 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,05 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,05 slijtage per kWh</span>
         <span class="regel-winkel">bij Alma Solar</span>
         
         
@@ -1342,7 +1342,7 @@
         
         <a class="regel-bedrag cijfer" href="https://voltbaas.nl/shop/marstek-venus-e-mini.html?ref=Batterijmaatje" target="_blank" rel="sponsored nofollow noopener" aria-label="€ 639 bij Voltbaas: naar de aanbieding van de Marstek Venus E Mini (2 kWh), opent in een nieuw tabblad">€ 639</a>
         <span class="regel-per cijfer">€ 320 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,03 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,03 slijtage per kWh</span>
         <span class="regel-winkel">bij Voltbaas <small class="winkel-info">retour: 14 dagen bedenktijd, €100 ophaalkosten per batterij</small></span>
         
         
@@ -1408,7 +1408,7 @@
         
         <a class="regel-bedrag cijfer" href="https://mygreenenergy.nl/product/sunpura-s4800-plug-play-thuisbatterij-met-stekker-48kwh/" target="_blank" rel="noopener" aria-label="€ 1.439 bij My Green Energy: naar de aanbieding van de Sunpura S4800 AC (4,32 kWh bruikbaar), opent in een nieuw tabblad">€ 1.439</a>
         <span class="regel-per cijfer">€ 333 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,06 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,06 slijtage per kWh</span>
         <span class="regel-winkel">bij My Green Energy</span>
         
         
@@ -1441,7 +1441,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.zendure.nl/products/zendure-solarflow-2400-ac" target="_blank" rel="noopener" aria-label="€ 969 bij Zendure (officieel): naar de aanbieding van de Zendure SolarFlow 2400 AC met AB3000X (2,88 kWh), opent in een nieuw tabblad">€ 969</a>
         <span class="regel-per cijfer">€ 336 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,06 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,06 slijtage per kWh</span>
         <span class="regel-winkel">bij Zendure (officieel)</span>
         
         
@@ -1507,7 +1507,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.zendure.nl/products/solarflow-4000-mix-pro" target="_blank" rel="noopener" aria-label="€ 2.899 bij Zendure (officieel): naar de aanbieding van de Zendure SolarFlow 4000 Mix Pro (8 kWh), opent in een nieuw tabblad">€ 2.899</a>
         <span class="regel-per cijfer">€ 362 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,04 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,04 slijtage per kWh</span>
         <span class="regel-winkel">bij Zendure (officieel)</span>
         
         
@@ -1540,7 +1540,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.marstek.nl/product/marstek-venus-e-4-0-plug-charge-thuisbatterij/" target="_blank" rel="noopener" aria-label="€ 1.674 bij Marstek.nl (officieel, excl. P1-meter): naar de aanbieding van de Marstek Venus E 4.0 (4,6 kWh bruikbaar), opent in een nieuw tabblad">€ 1.674</a>
         <span class="regel-per cijfer">€ 364 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,04 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,04 slijtage per kWh</span>
         <span class="regel-winkel">bij Marstek.nl (officieel, excl. P1-meter)</span>
         
         
@@ -1573,7 +1573,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.groothandelsolar.com/accu-systemen/goodwe/goodwe-lynx-home-u-5-4-lv-bau5400-01-00p" target="_blank" rel="noopener" aria-label="€ 1.799 bij Groothandel Solar (omgerekend naar incl. btw): naar de aanbieding van de GoodWe Lynx Home U (5,4 kWh), opent in een nieuw tabblad">€ 1.799</a>
         <span class="regel-per cijfer">€ 375 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,09 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,09 slijtage per kWh</span>
         <span class="regel-winkel">bij Groothandel Solar (omgerekend naar incl. btw)</span>
         
         
@@ -1606,7 +1606,7 @@
         
         <a class="regel-bedrag cijfer" href="https://multi-solar.nl/products/marstek-venus-d-plug-and-play-thuisbatterij-2-56-tot-15-36-kwh" target="_blank" rel="noopener" aria-label="€ 994 bij Multi Solar: naar de aanbieding van de Marstek Venus D (2,56 kWh, modulair), opent in een nieuw tabblad">€ 994</a>
         <span class="regel-per cijfer">€ 388 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,07 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,07 slijtage per kWh</span>
         <span class="regel-winkel">bij Multi Solar</span>
         
         
@@ -1639,7 +1639,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.bol.com/nl/nl/p/-/9300000393483105/" target="_blank" rel="noopener" aria-label="€ 800 bij bol.com: naar de aanbieding van de TSUN SolarTrunk MSU2000 (2 kWh), opent in een nieuw tabblad">€ 800</a>
         <span class="regel-per cijfer">€ 391 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,07 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,07 slijtage per kWh</span>
         <span class="regel-winkel">bij bol.com</span>
         
         
@@ -1705,7 +1705,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.homewizard.com/shop/plug-in-battery/" target="_blank" rel="noopener" aria-label="€ 1.075 bij HomeWizard shop: naar de aanbieding van de HomeWizard Plug-In Battery (2,7 kWh), opent in een nieuw tabblad">€ 1.075</a>
         <span class="regel-per cijfer">€ 398 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,07 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,07 slijtage per kWh</span>
         <span class="regel-winkel">bij HomeWizard shop</span>
         
         
@@ -1804,7 +1804,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.stroomopslag.eu/product/23999616/pego-plug-play-stekker-batterij" target="_blank" rel="noopener" aria-label="€ 1.195 bij PEGO Stroomopslag (officieel): naar de aanbieding van de PEGO Plug &amp; Play stekkerbatterij (2,88 kWh), opent in een nieuw tabblad">€ 1.195</a>
         <span class="regel-per cijfer">€ 415 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,07 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,07 slijtage per kWh</span>
         <span class="regel-winkel">bij PEGO Stroomopslag (officieel)</span>
         
         
@@ -1837,7 +1837,7 @@
         
         <a class="regel-bedrag cijfer" href="https://thuisbatterij.nl/winkel/indevolt-solidflex-3000/" target="_blank" rel="noopener" aria-label="€ 749 bij Thuisbatterij.nl: naar de aanbieding van de Indevolt SolidFlex 3000 AC (1,8 kWh), opent in een nieuw tabblad">€ 749</a>
         <span class="regel-per cijfer">€ 416 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,05 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,05 slijtage per kWh</span>
         <span class="regel-winkel">bij Thuisbatterij.nl</span>
         
         
@@ -1903,7 +1903,7 @@
         
         <a class="regel-bedrag cijfer" href="https://hekosolar.com/products/plug-in-batterij-saga-5-5kwh" target="_blank" rel="noopener" aria-label="€ 2.649 bij HEKO Solar (officieel): naar de aanbieding van de HEKO Solar Saga (5,5 kWh), opent in een nieuw tabblad">€ 2.649</a>
         <span class="regel-per cijfer">€ 482 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,12 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,12 slijtage per kWh</span>
         <span class="regel-winkel">bij HEKO Solar (officieel)</span>
         
         
@@ -1936,7 +1936,7 @@
         
         <a class="regel-bedrag cijfer" href="https://dysun.energy/product/flexvolt-one/" target="_blank" rel="noopener" aria-label="€ 5.224 bij adviesprijs (omgerekend naar incl. btw): naar de aanbieding van de Dysun Energy FlexVolt One LV (2 modules, 10,24 kWh), opent in een nieuw tabblad">€ 5.224</a>
         <span class="regel-per cijfer">€ 537 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,08 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,08 slijtage per kWh</span>
         <span class="regel-winkel">bij adviesprijs (omgerekend naar incl. btw)</span>
         <span class="prijs-ouderdom" title="Dit bedrag is 39 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 15 oktober 2026</span>
         
@@ -2035,7 +2035,7 @@
         
         <a class="regel-bedrag cijfer" href="https://dysun.energy/product/flexvolt-one-hv-thuisbatterij/" target="_blank" rel="noopener" aria-label="€ 6.463 bij adviesprijs (omgerekend naar incl. btw): naar de aanbieding van de Dysun Energy FlexVolt One HV (3 modules, 11,4 kWh), opent in een nieuw tabblad">€ 6.463</a>
         <span class="regel-per cijfer">€ 598 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,09 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,09 slijtage per kWh</span>
         <span class="regel-winkel">bij adviesprijs (omgerekend naar incl. btw)</span>
         <span class="prijs-ouderdom" title="Dit bedrag is 39 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 15 oktober 2026</span>
         
@@ -2101,7 +2101,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.frankenergie.nl/nl/thuisbatterij/sigenergy/8-06-kwh-sigenergy-5-in-1-thuisbatterij-met-8-kw-omvormer-3-fase" target="_blank" rel="noopener" aria-label="€ 7.864 bij Frank Energie (incl. installatie en slimme sturing) (omgerekend naar incl. btw): naar de aanbieding van de Sigenergy SigenStor 8 kWh + 8 kW omvormer, opent in een nieuw tabblad">€ 7.864</a>
         <span class="regel-per cijfer">€ 1.008 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,10 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,10 slijtage per kWh</span>
         <span class="regel-winkel">bij Frank Energie (incl. installatie en slimme sturing) (omgerekend naar incl. btw)</span>
         
         
@@ -2134,7 +2134,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.batterijenhuis.nl/duracell-thuisbatterij-5kwh-inclusief-installatie" target="_blank" rel="noopener" aria-label="€ 5.000 bij Batterijenhuis: naar de aanbieding van de Duracell Energy Dura5 (4,6 kWh bruikbaar), opent in een nieuw tabblad">€ 5.000</a>
         <span class="regel-per cijfer">€ 1.087 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,14 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,14 slijtage per kWh</span>
         <span class="regel-winkel">bij Batterijenhuis</span>
         
         
@@ -2167,7 +2167,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.tsun-ess.com/power-trunk-micro-ac-coupled-unit.html" target="_blank" rel="noopener" aria-label="€ 899 bij Powerness (oktober 2026): naar de aanbieding van de TSUN PowerTrunk MAU5000 (5,12 kWh), opent in een nieuw tabblad">€ 899</a>
         <span class="regel-per cijfer">€ 176 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,03 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,03 slijtage per kWh</span>
         <span class="regel-winkel">bij Powerness (oktober 2026)</span>
         
         
@@ -2266,7 +2266,7 @@
         
         <a class="regel-bedrag cijfer" href="https://aegthuisbatterij.nl/products/aeg-as-bbl09/" target="_blank" rel="noopener" aria-label="€ 1.449 bij richtprijs: naar de aanbieding van de AEG SolarCube AS-BBL09 (4,32 kWh bruikbaar), opent in een nieuw tabblad">€ 1.449</a>
         <span class="regel-per cijfer">€ 335 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,06 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,06 slijtage per kWh</span>
         <span class="regel-winkel">richtprijs</span>
         <span class="prijs-ouderdom" title="Dit bedrag is 46 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 8 oktober 2026</span>
         
@@ -2299,7 +2299,7 @@
         
         <a class="regel-bedrag cijfer" href="https://nl.ecoflow.com/products/stream-ac-pro" target="_blank" rel="noopener" aria-label="€ 700 bij richtprijs: naar de aanbieding van de EcoFlow STREAM AC Pro (1,92 kWh), opent in een nieuw tabblad">€ 700</a>
         <span class="regel-per cijfer">€ 365 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,06 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,06 slijtage per kWh</span>
         <span class="regel-winkel">richtprijs</span>
         
         
@@ -2332,7 +2332,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.ankersolix.com/nl/products/a17c5" target="_blank" rel="noopener" aria-label="€ 1.199 bij Anker SOLIX (officieel, oktober 2026): naar de aanbieding van de Anker SOLIX Solarbank 3 E2700 Pro (2,69 kWh), opent in een nieuw tabblad">€ 1.199</a>
         <span class="regel-per cijfer">€ 446 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,07 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,07 slijtage per kWh</span>
         <span class="regel-winkel">bij Anker SOLIX (officieel, oktober 2026)</span>
         
         
@@ -2365,7 +2365,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.saj-electric.com/h2-series" target="_blank" rel="noopener" aria-label="€ 4.566 bij richtprijs: naar de aanbieding van de SAJ H2-5K-S2 All-in-One (10 kWh), opent in een nieuw tabblad">€ 4.566</a>
         <span class="regel-per cijfer">€ 507 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,09 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,09 slijtage per kWh</span>
         <span class="regel-winkel">richtprijs</span>
         <span class="prijs-ouderdom" title="Dit bedrag is 49 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 5 oktober 2026</span>
         
@@ -2398,7 +2398,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.zonneplan.nl/thuisbatterij" target="_blank" rel="noopener" aria-label="€ 5.990 bij Zonneplan (alleen direct, met offerte): naar de aanbieding van de Zonneplan Nexus (10 kWh), opent in een nieuw tabblad">€ 5.990</a>
         <span class="regel-per cijfer">€ 599 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,10 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,10 slijtage per kWh</span>
         <span class="regel-winkel">bij Zonneplan (alleen direct, met offerte)</span>
         <span class="prijs-ouderdom" title="Dit bedrag is 133 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 13 juli 2026</span>
         
@@ -2431,7 +2431,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.sessy.nl/sessy-5-kwh/" target="_blank" rel="noopener" aria-label="€ 3.550 bij Sessy.nl (direct): naar de aanbieding van de Sessy 5 kWh, opent in een nieuw tabblad">€ 3.550</a>
         <span class="regel-per cijfer">€ 710 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,12 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,12 slijtage per kWh</span>
         <span class="regel-winkel">bij Sessy.nl (direct)</span>
         <span class="prijs-ouderdom" title="Dit bedrag is 133 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 13 juli 2026</span>
         
@@ -2464,7 +2464,7 @@
         
         <a class="regel-bedrag cijfer" href="https://www.vattenfall.nl/thuisbatterij/thuisbatterijen-vergelijken/enphase/" target="_blank" rel="noopener" aria-label="€ 5.426 bij Vattenfall (incl. installatie via Feenstra): naar de aanbieding van de Enphase IQ Battery 5P FlexPhase (5 kWh), opent in een nieuw tabblad">€ 5.426</a>
         <span class="regel-per cijfer">€ 1.085 per kWh opslag</span>
-        <span class="regel-per cijfer" title="Prijs gedeeld door het aantal laadcycli maal de capaciteit: wat een opgeslagen kWh over de levensduur kost">€ 0,18 per opgeslagen kWh</span>
+        <span class="regel-per cijfer" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit">€ 0,18 slijtage per kWh</span>
         <span class="regel-winkel">bij Vattenfall (incl. installatie via Feenstra)</span>
         <span class="prijs-ouderdom" title="Dit bedrag is 133 dagen niet bevestigd bij de winkel; controleer het daar voordat je bestelt">prijs van 13 juli 2026</span>
         

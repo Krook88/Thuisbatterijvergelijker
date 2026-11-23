@@ -186,7 +186,7 @@
     { key: "prijs", label: "Prijs incl. btw", getal: true, get: vergelijkPrijs },
     { key: "totaal", label: "Totaal (indicatie)", getal: true, get: (b) => b.totaalprijs_van_eur || Infinity },
     { key: "perkwh", label: "€/kWh", getal: true, get: (b) => prijsPerKwh(b) || Infinity },
-    { key: "opgeslagen", label: "€/kWh cycli", getal: true, get: (b) => Prijs.prijsPerOpgeslagenKwh(b) || Infinity },
+    { key: "opgeslagen", label: "Slijtage", getal: true, get: (b) => Prijs.prijsPerOpgeslagenKwh(b) || Infinity },
     { key: "koppeling", label: "PV-koppeling", get: (b) => b.koppeling_gemak || 0 },
     { key: "slim", label: "Koppel-score", get: (b) => koppelScore(b) },
     { key: "homey", label: "Homey", get: (b) => driewaardig(b.homey).status },
@@ -225,7 +225,7 @@
             <td class="tabel-prijs getal" title="${escapeHtml([b.prijs_omvat, Prijs.prijsToelichting(beste)].filter(Boolean).join(" | "))}">${Prijs.vergelijkPrijs(beste) !== null ? eurFmt.format(Prijs.vergelijkPrijs(beste)) : "n.b."}${heeftKorting(b) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
             <td class="getal" title="${escapeHtml(b.totaalprijs_toelichting || "")}">${totaalprijsTekst(b) || "op aanvraag"}</td>
             <td class="getal"${Prijs.capaciteitToelichting(b) ? ` title="Per kWh: ${escapeHtml(Prijs.capaciteitToelichting(b))}"` : ""}>${perKwh ? eurFmt.format(perKwh) : "n.b."}</td>
-            <td class="getal" title="Prijs gedeeld door laadcycli maal capaciteit${b.cycli ? ` (${new Intl.NumberFormat("nl-NL").format(b.cycli)} cycli)` : ""}">${Prijs.prijsPerOpgeslagenKwh(b) !== null ? Kaart.perOpgeslagenKwhTekst(b).replace(" per opgeslagen kWh", "") : "n.b."}</td>
+            <td class="getal" title="Wat de batterij zelf kost voor elke kWh die je erin opslaat: de prijs gedeeld door het aantal laadcycli maal de capaciteit${b.cycli ? ` (${new Intl.NumberFormat("nl-NL").format(b.cycli)} cycli)` : ""}">${Prijs.prijsPerOpgeslagenKwh(b) !== null ? Kaart.perOpgeslagenKwhTekst(b).replace(" slijtage per kWh", "") : "n.b."}</td>
             <td title="${escapeHtml(b.zonnepanelen_koppeling || "")}">${Kaart.waardering(b.koppeling_gemak, 5)}</td>
             <td title="Punten voor Homey, Home Assistant en dynamisch contract"><b>${koppelScore(b)}/6</b></td>
             <td>${checkCel(b.homey)}</td>
