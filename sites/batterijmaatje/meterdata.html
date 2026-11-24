@@ -49,7 +49,14 @@
     .md-kolommen summary { cursor: pointer; font-weight: 700; color: var(--kleur-primair); font-size: var(--tekst-15); }
     .md-samenvatting { margin: 0 0 var(--ruimte-14); font-size: var(--tekst-15); }
     .md-meer { margin: var(--ruimte-10) 0 0; }
-    .md-resultaat .tabel-wrap { margin-bottom: var(--ruimte-14); }
+    /* De ranglijst staat in een paneel van zo'n 640 pixels. De vergelijker-
+       tabel eist 900 pixels en steekt vanaf 1240 pixels 20 pixels buiten zijn
+       kolom; hier schoof hij daardoor half buiten het paneel. Compact dus: geen
+       minimumbreedte, smallere cellen, en pas op een telefoon schuiven. */
+    .md-resultaat .tabel-wrap { margin: 0 0 var(--ruimte-14); width: auto; box-shadow: none; }
+    .md-resultaat table.vergelijk-tabel { min-width: 0; }
+    .md-resultaat .vergelijk-tabel th, .md-resultaat .vergelijk-tabel td { padding: var(--ruimte-6); }
+    .md-resultaat .vergelijk-tabel.compact td:first-child, .md-resultaat .vergelijk-tabel.compact th:first-child { min-width: 8em; }
     .md-resultaat td.getal, .md-resultaat th.getal { text-align: right; }
     .md-resultaat td.getal { white-space: nowrap; }
     .md-resultaat .vergelijk-tabel.compact td:first-child { min-width: 10em; }
