@@ -1,11 +1,11 @@
 {
-  "bijgewerkt": "2026-11-23",
+  "bijgewerkt": "2026-11-24",
   "punten": {
-    "onbereikbaar|dyness-powerbox-g2|Zonnige Winkel": {
-      "sinds": "2026-11-20",
+    "onbereikbaar|solax-triple-power-t58|Alma Solar": {
+      "sinds": "2026-11-24",
       "soort": "onbereikbaar",
-      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: fetch failed",
-      "bevestigd": true
+      "tekst": "solax-triple-power-t58 @ Alma Solar: fetch failed",
+      "bevestigd": false
     },
     "onbereikbaar|tsun-powertrunk-mau5000|Powerness": {
       "sinds": "2026-11-13",
@@ -23,7 +23,7 @@
       "sinds": "2026-11-23",
       "soort": "te controleren",
       "tekst": "aeg-solarcube-pro @ AEG thuisbatterij (officieel): €1599 → €918 (-43%)",
-      "bevestigd": false
+      "bevestigd": true
     },
     "te controleren|aeg-solarcube-pro|aegthuisbatterij.nl (oktober 2026)": {
       "sinds": "2026-11-06",
@@ -46,13 +46,31 @@
     "verouderd|aeg-solarcube-48|richtprijs": {
       "sinds": "2026-10-29",
       "soort": "verouderd",
-      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (46 dagen)",
+      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (47 dagen)",
       "bevestigd": true
+    },
+    "verouderd|aeg-solarcube-pro|aegthuisbatterij.nl (oktober 2026)": {
+      "sinds": "2026-11-24",
+      "soort": "verouderd",
+      "tekst": "aeg-solarcube-pro @ aegthuisbatterij.nl (oktober 2026): €1799 (21 dagen)",
+      "bevestigd": false
+    },
+    "verouderd|dyness-powerbox-g2|Zonnige Winkel": {
+      "sinds": "2026-11-24",
+      "soort": "verouderd",
+      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: €1495 (46 dagen)",
+      "bevestigd": false
+    },
+    "verouderd|jackery-homepower-2000-ultra|richtprijs": {
+      "sinds": "2026-11-24",
+      "soort": "verouderd",
+      "tekst": "jackery-homepower-2000-ultra @ richtprijs: €669 (21 dagen)",
+      "bevestigd": false
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (130 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (131 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
@@ -73,16 +91,28 @@
       "tekst": "aeg-solarcube-48 @ AH Voordeelshop: HTTP 403",
       "bevestigd": true
     },
+    "zonder prijs|dyness-powerbox-g2|Zonnige Winkel": {
+      "sinds": "2026-11-24",
+      "soort": "zonder bedrag",
+      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: geen leesbaar bedrag",
+      "bevestigd": false
+    },
     "zonder prijs|dyness-powerbrick-plus|NKON": {
       "sinds": "2026-11-23",
       "soort": "geweigerd",
       "tekst": "dyness-powerbrick-plus @ NKON: HTTP 403",
+      "bevestigd": true
+    },
+    "zonder prijs|hoymiles-hibattery-4020-ac|Elektramat": {
+      "sinds": "2026-11-24",
+      "soort": "geweigerd",
+      "tekst": "hoymiles-hibattery-4020-ac @ Elektramat: HTTP 403",
       "bevestigd": false
     },
     "zonder prijs|tsun-solartrunk-msu2000|MediaMarkt": {
       "sinds": "2026-11-22",
-      "soort": "zonder bedrag",
-      "tekst": "tsun-solartrunk-msu2000 @ MediaMarkt: geen leesbaar bedrag",
+      "soort": "geweigerd",
+      "tekst": "tsun-solartrunk-msu2000 @ MediaMarkt: HTTP 403",
       "bevestigd": true
     }
   }
