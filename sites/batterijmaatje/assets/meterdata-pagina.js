@@ -289,6 +289,66 @@
     </svg>`;
   }
 
+  /* Je stroom per maand: per maand twee staven. Links wat je van het net
+     afnam, rechts wat je terugleverde, en in beide het deel dat via de
+     batterij gaat. Kleuren gevalideerd met de dataviz-validator (licht
+     oppervlak, CVD en normaal zicht): blauw net, teal batterij, amber terug. */
+  const STROOM = { net: "#6366f1", batterij: "#0d9488", terug: "#d97706" };
+  function stroomGrafiek(maanden) {
+    const smal = window.matchMedia("(max-width: 520px)").matches;
+    const W = smal ? 360 : 640, HGT = smal ? 230 : 270, mL = smal ? 44 : 60, mR = 8, mT = 12, mB = 34;
+    const fs = smal ? 13 : 11;
+    const pw = W - mL - mR, ph = HGT - mT - mB;
+    const max = Math.max(1, ...maanden.map((m) => Math.max(m.afname, m.terug)));
+    const stap = [10, 25, 50, 100, 200, 250, 500, 1000].find((s) => max / s <= 5) || 1000;
+    const top = Math.ceil(max / stap) * stap;
+    const y = (v) => mT + ((top - v) / top) * ph;
+    const vak = pw / maanden.length;
+    const breed = Math.max(4, Math.min(16, (vak - 6) / 2));
+    let raster = "", staven = "", labels = "";
+    for (let v = 0; v <= top; v += stap) {
+      raster += `<line x1="${mL}" x2="${W - mR}" y1="${y(v)}" y2="${y(v)}" stroke="#e5e7eb" stroke-width="1"/>` +
+        `<text x="${mL - 6}" y="${y(v) + 4}" text-anchor="end" font-size="${fs}" fill="#5d6d6a">${numFmt.format(v)}</text>`;
+    }
+    // Een gestapelde staaf: onder het batterijdeel, erboven de rest, met 2px
+    // lucht ertussen. Alleen de bovenkant is afgerond.
+    const staaf = (x, onder, boven, kleurBoven) => {
+      const y0 = y(0), yo = y(onder), yb = y(onder + boven);
+      let d = "";
+      if (onder > 0) d += `<rect x="${x}" y="${yo}" width="${breed}" height="${Math.max(0, y0 - yo)}" fill="${STROOM.batterij}"/>`;
+      const startB = onder > 0 ? yo - 2 : y0;
+      const h = startB - yb;
+      if (boven > 0 && h > 0) {
+        const r = Math.min(3, h, breed / 2);
+        d += `<path d="M${x},${startB} V${yb + r} Q${x},${yb} ${x + r},${yb} H${x + breed - r} Q${x + breed},${yb} ${x + breed},${yb + r} V${startB} Z" fill="${kleurBoven}"/>`;
+      }
+      return d;
+    };
+    const jaren = new Set(maanden.map((m) => m.jaar)).size > 1;
+    maanden.forEach((m, i) => {
+      const x0 = mL + i * vak + (vak - (2 * breed + 2)) / 2;
+      const uitBatterij = Math.min(m.ontladen, m.afname);
+      const inBatterij = Math.min(m.geladen, m.terug);
+      staven += staaf(x0, uitBatterij, m.afname - uitBatterij, STROOM.net);
+      staven += staaf(x0 + breed + 2, inBatterij, m.terug - inBatterij, STROOM.terug);
+      const titel = `${MAAND_LANG[m.maand]} ${m.jaar}: ${numFmt.format(m.afname)} kWh afgenomen, waarvan ${numFmt.format(uitBatterij)} uit de batterij; ${numFmt.format(m.terug)} kWh teruggeleverd, waarvan ${numFmt.format(inBatterij)} de batterij in`;
+      staven += `<rect x="${mL + i * vak}" y="${mT}" width="${vak}" height="${ph}" fill="transparent"><title>${esc(titel)}</title></rect>`;
+      const toon = !smal || maanden.length <= 12 || i % 2 === 0;
+      if (toon) labels += `<text x="${x0 + breed + 1}" y="${HGT - 16}" text-anchor="middle" font-size="${fs}" fill="#5d6d6a">${MAAND[m.maand]}</text>`;
+      if (jaren && (m.maand === 0 || i === 0)) labels += `<text x="${x0 + breed + 1}" y="${HGT - 2}" text-anchor="middle" font-size="${fs}" fill="#5d6d6a">${m.jaar}</text>`;
+    });
+    const af = maanden.reduce((a, m) => a + m.afname, 0), tr = maanden.reduce((a, m) => a + m.terug, 0);
+    const uit = maanden.reduce((a, m) => a + Math.min(m.ontladen, m.afname), 0);
+    const omschrijving = `Stroom per maand in kWh. Samen ${numFmt.format(af)} kWh afgenomen en ${numFmt.format(tr)} kWh teruggeleverd; de batterij levert ${numFmt.format(uit)} kWh van die afname. De cijfers staan ook in de tabel eronder.`;
+    const legenda = [["net", "Van het net"], ["batterij", "Via de batterij"], ["terug", "Teruggeleverd"]]
+      .map(([k, t]) => `<span class="md-legenda-item"><span class="md-legenda-kleur" style="background:${STROOM[k]}"></span>${t}</span>`).join("");
+    return `<p class="md-legenda">${legenda}</p>
+    <svg viewBox="0 0 ${W} ${HGT}" style="width:100%;height:auto;" role="img" aria-label="${esc(omschrijving)}">
+      ${raster}<line x1="${mL}" x2="${W - mR}" y1="${y(0)}" y2="${y(0)}" stroke="#9ca3af" stroke-width="1"/>${staven}${labels}
+    </svg>
+    <p class="md-leeg">Per maand links je afname, rechts je teruglevering, in kWh. De meter ziet alleen wat het huis in- en uitgaat. Zonnestroom die je meteen zelf verbruikt, staat er dus niet in.</p>`;
+  }
+
   function toonGrafieken(tarief, s) {
     const doel = el("mdGrafieken");
     const r = laatsteRijen.find((x) => x.b.id === grafiekId);
@@ -299,6 +359,7 @@
     const naam = `${esc(r.b.merk)} ${esc(r.b.model)}`;
     const delen = [];
     if (maanden.length) {
+      delen.push(`<h3>Je stroom per maand met de ${naam}</h3>`, stroomGrafiek(maanden));
       delen.push(`<h3>Besparing per maand met de ${naam}</h3>`, maandGrafiek(maanden, tarief));
     }
     if (r.tvt !== null && r.tvt <= 27) {
@@ -310,8 +371,8 @@
     if (maanden.length) {
       delen.push(`<details class="md-cijfers"><summary>Cijfers per maand</summary>
         <div class="tabel-wrap"><table class="vergelijk-tabel compact">
-          <thead><tr><th>Maand</th><th class="getal">Uit de batterij</th><th class="getal">Bespaard</th></tr></thead>
-          <tbody>${maanden.map((m) => `<tr><td>${MAAND_LANG[m.maand]} ${m.jaar}</td><td class="getal">${numFmt.format(m.ontladen)} kWh</td><td class="getal">${eurFmt.format(M.opbrengst(m, tarief))}</td></tr>`).join("")}</tbody>
+          <thead><tr><th>Maand</th><th class="getal">Afgenomen</th><th class="getal">Teruggeleverd</th><th class="getal">Uit de batterij</th><th class="getal">Bespaard</th></tr></thead>
+          <tbody>${maanden.map((m) => `<tr><td>${MAAND_LANG[m.maand]} ${m.jaar}</td><td class="getal">${numFmt.format(m.afname)} kWh</td><td class="getal">${numFmt.format(m.terug)} kWh</td><td class="getal">${numFmt.format(m.ontladen)} kWh</td><td class="getal">${eurFmt.format(M.opbrengst(m, tarief))}</td></tr>`).join("")}</tbody>
         </table></div></details>`);
     }
     doel.innerHTML = delen.join("");

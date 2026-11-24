@@ -391,10 +391,15 @@
       geladen += laad; ontladen += ontlaad;
       const d = new Date(u.uur);
       const sleutel = d.getFullYear() * 12 + d.getMonth();
-      const m = perMaand.get(sleutel) || { jaar: d.getFullYear(), maand: d.getMonth(), minderAf: 0, minderTerug: 0, ontladen: 0, uren: 0 };
+      const m = perMaand.get(sleutel) || { jaar: d.getFullYear(), maand: d.getMonth(), minderAf: 0, minderTerug: 0, ontladen: 0, geladen: 0, afname: 0, terug: 0, uren: 0 };
       m.minderAf += ontlaad - standby;
       m.minderTerug += laad;
       m.ontladen += ontlaad;
+      // Wat de meter zonder batterij zag, en wat de batterij erin stopte:
+      // voor de grafiek "je stroom per maand".
+      m.geladen += laad;
+      m.afname += u.afname;
+      m.terug += u.terug;
       m.uren++;
       perMaand.set(sleutel, m);
       // Op hoeveel dagen raakt hij vol? Zegt of een grotere zin heeft.
