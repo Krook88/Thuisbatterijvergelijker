@@ -174,7 +174,7 @@
         `<button type="button" class="aansluit-knop${k === aansluiting ? " actief" : ""}" data-installatie="${k}" aria-pressed="${k === aansluiting}">${t}</button>`).join("")}</div>
     </div>`);
     if (aansluiting === "installateur") {
-      delen.push(`<p class="md-vast-noot">Een batterij die een installateur plaatst kost per kWh meer dan een stekkerbatterij, en verdient met alleen je eigen zonnestroom dus langzamer terug. Met een dynamisch contract komt daar handel op uurprijzen bij, en die rekent deze pagina niet mee (zie <a href="#niet-mee">wat er niet in zit</a>). Leg de uitkomst daarom naast <a href="rekenmodule.html">de rekenmodule</a>.${hybride.length ? ` ${hybride.length} batterijen voor een hybride omvormer staan hieronder niet, omdat er geen prijs mét omvormer en installatie van bekend is: ${hybride.map((b) => `<a href="batterij/${encodeURIComponent(b.id)}.html">${esc(b.merk)} ${esc(b.model)}</a>`).join(", ")}.` : ""} Alle vaste batterijen op een rij staan op <a href="thuisbatterij-met-installateur.html">thuisbatterij met installateur</a>.</p>`);
+      delen.push(`<p class="md-vast-noot">Handel op uurprijzen zit hier niet in, dus voor een vaste batterij is dit de ondergrens.${hybride.length ? ` ${hybride.length} hybride modellen zonder prijs met omvormer ontbreken; die staan op <a href="thuisbatterij-met-installateur.html">thuisbatterij met installateur</a>.` : ""}</p>`);
     }
     if (!rijen.length) {
       delen.push(`<p class="md-leeg">Geen batterij met een bekende prijs in deze keuze.</p>`);
