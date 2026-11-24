@@ -32,6 +32,19 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <style>
     .reken-indeling { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--ruimte-20); align-items: start; margin: var(--ruimte-28) 0 var(--ruimte-40); }
+    /* De ranglijst heeft zes kolommen en wil breedte. Op een breed scherm mag
+       het rekenblok daarom buiten de leeskolom van 1200 pixels steken, tot
+       1520 pixels, met het formulier smal en de uitslag breed. De tekst eronder
+       blijft op leesbreedte. */
+    @media (min-width: 1280px) {
+      .reken-indeling {
+        grid-template-columns: minmax(320px, 1fr) minmax(0, 2.3fr);
+        width: min(1520px, calc(100vw - 48px));
+        margin-left: 50%;
+        transform: translateX(-50%);
+      }
+      .md-resultaat .vergelijk-tabel th { white-space: nowrap; }
+    }
     @media (max-width: 860px) { .reken-indeling { grid-template-columns: 1fr; } }
     .reken-paneel { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); box-shadow: var(--schaduw); padding: var(--ruimte-20); min-width: 0; }
     .reken-paneel h2 { margin: 0 0 var(--ruimte-4); font-size: var(--tekst-19); color: var(--kleur-primair-donker); }
@@ -40,7 +53,9 @@
     .veld label { font-size: var(--tekst-15); font-weight: 700; color: var(--kleur-tekst-licht); }
     .veld input, .veld select { padding: var(--ruimte-10); border: 1px solid var(--kleur-rand); border-radius: var(--radius-klein); font-size: var(--tekst-15); width: 100%; min-width: 0; }
     .veld .hint { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); }
-    .veld-rij { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ruimte-10); }
+    /* Onderkant gelijk: breekt één label over twee regels, dan staan de
+       invoervakken toch op één lijn. */
+    .veld-rij { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ruimte-10); align-items: end; }
     @media (max-width: 480px) { .veld-rij { grid-template-columns: 1fr; } }
     .md-voorbeeld { margin-top: var(--ruimte-14); }
     .md-status { margin: var(--ruimte-14) 0 0; font-size: var(--tekst-15); }
