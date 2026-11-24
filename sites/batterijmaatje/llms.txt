@@ -8,6 +8,7 @@
 - [Beste thuisbatterij voor Home Assistant](https://batterijmaatje.nl/beste-thuisbatterij-home-assistant.html)
 - [Beste thuisbatterij voor Homey](https://batterijmaatje.nl/beste-thuisbatterij-homey.html)
 - [Thuisbatterij met stekker](https://batterijmaatje.nl/thuisbatterij-met-stekker.html): alle stekkerbatterijen (plug-and-play, balkonbatterij) die je zonder installateur aansluit.
+- [Thuisbatterij met installateur](https://batterijmaatje.nl/thuisbatterij-met-installateur.html): alle vaste thuisbatterijen (hybride en AC-gekoppeld) die een installateur plaatst, gesorteerd op prijs per kWh inclusief installatie.
 
 ## Rekenen
 - [Terugverdientijd berekenen](https://batterijmaatje.nl/rekenmodule.html): bereken de terugverdientijd met en zonder dynamisch contract.

@@ -491,8 +491,7 @@ const NAV_HTML = `<header class="site-header">
         <summary>Meer ▾</summary>
         <div class="nav-meer-paneel">
           <a href="/regelgeving.html">Regels &amp; subsidies</a>
-          <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a>
-          <a href="/wat-kost-een-thuisbatterij.html">Wat kost er een?</a>
+          <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a>\n          <a href="/thuisbatterij-met-installateur.html">Batterij met installateur</a>\n          <a href="/wat-kost-een-thuisbatterij.html">Wat kost er een?</a>
           <a href="/nu-kopen-of-wachten.html">Nu kopen of wachten?</a>
           <a href="/black-friday-thuisbatterij.html">Black Friday-deals</a>
           <a href="/thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a>
@@ -512,7 +511,7 @@ const VOET_HTML = `<footer class="site-footer">
   <div class="container">
     <b>${ICOON_LOGO} Batterijmaatje</b>
     <p>Onafhankelijke vergelijking van thuisbatterijen voor Nederlandse huishoudens.</p>
-    <p><a href="/">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="/wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="/nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="/black-friday-thuisbatterij.html">Black Friday-deals</a> · <a href="/thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a> · <a href="/thuisbatterij-dynamisch-contract.html">Met dynamisch contract</a> · <a href="/over-ons.html">Over mij</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="/">Thuisbatterijen</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="/beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="/thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="/thuisbatterij-met-installateur.html">Batterij met installateur</a> · <a href="/wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="/nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="/black-friday-thuisbatterij.html">Black Friday-deals</a> · <a href="/thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a> · <a href="/thuisbatterij-dynamisch-contract.html">Met dynamisch contract</a> · <a href="/over-ons.html">Over mij</a> · <a href="/contact.html">Contact</a> · <a href="/steun.html">Steun deze site</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -1094,6 +1093,186 @@ ${NAV_HTML}
   </ul>
 
   <div class="noot">Prijzen en specificaties veranderen regelmatig. Deze pagina wordt dagelijks automatisch bijgewerkt vanuit mijn <a href="/">vergelijker</a>; de prijs en specificaties op de website van de winkel zijn altijd leidend.</div>
+</main>
+
+${VOET_HTML}
+
+<script src="/assets/nav.js?v=${ASSET_VERSIE}" defer></script>
+</body>
+</html>
+`;
+}
+
+/* ------------------------------------------------------------------
+   Vaste thuisbatterijen: de tegenhanger van de stekkerpagina.
+
+   Op Reddit schreef iemand in november 2026 dat er nergens een overzicht van
+   vaste installaties te vinden is, en dat deze site "alleen stekkerbatterijen"
+   heeft. Ze stonden er wel, maar wie op de meterdata-pagina begon zag de
+   eerste pas op plek 31, en er was geen pagina die ze bij elkaar zette.
+
+   De vergelijkprijs is hier de prijs mét installatie (totaalprijs_van_eur).
+   Een losse batterijmodule voor een hybride omvormer heeft een winkelprijs
+   zonder die omvormer; die zou er naast een compleet systeem veel te
+   goedkoop uitzien. Die modellen staan er wel, onderaan, met hun losse prijs
+   en de vermelding dat omvormer en installatie erbij komen.
+   ------------------------------------------------------------------ */
+
+const VAST_BESTAND = "thuisbatterij-met-installateur.html";
+
+const perKwhGeinstalleerd = (b) => (b.totaalprijs_van_eur && b.capaciteit_kwh ? b.totaalprijs_van_eur / b.capaciteit_kwh : null);
+const FASE_TEKST = { "1-fase": "1-fase", "3-fase": "3-fase", beide: "1- of 3-fase" };
+const TYPE_TEKST = { hybride: "hybride", "ac-gekoppeld": "AC-gekoppeld" };
+
+function vastTabel(lijst) {
+  return `<div class="tabel-blok los">
+  <table class="data-tabel brede-tabel overzicht-tabel kolom-vast">
+    <thead><tr>
+      <th>Batterij</th>
+      <th>Soort</th>
+      <th>Capaciteit</th>
+      <th>Geïnstalleerd vanaf</th>
+      <th>Per kWh</th>
+      <th>Fase</th>
+      <th>Noodstroom</th>
+    </tr></thead>
+    <tbody>${lijst.map((b) => {
+      const totaal = totaalprijsTekst(b);
+      const los = bestePrijs(b);
+      const perKwh = perKwhGeinstalleerd(b);
+      const nood = vierwaardig(b.noodstroom);
+      const prijsCel = totaal
+        ? `<b>${totaal}</b>`
+        : los
+          ? `${eur(Prijs.vergelijkPrijs(los))}<br><small>alleen de batterij; omvormer en installatie komen erbij</small>`
+          : "op aanvraag";
+      return `
+      <tr>
+        <td>${merkLogoHtml(b.merk)}<a href="/batterij/${esc(b.id)}.html"><b>${esc(volledigeNaam(b))}</b></a></td>
+        <td class="niet-afbreken">${esc(TYPE_TEKST[b.type] || b.type)}</td>
+        <td class="niet-afbreken"${Prijs.capaciteitToelichting(b) ? ` title="${esc(Prijs.capaciteitToelichting(b))}"` : ""}>${nl(b.capaciteit_kwh)} kWh</td>
+        <td>${prijsCel}</td>
+        <td class="niet-afbreken">${perKwh ? eur(perKwh) : "n.b."}</td>
+        <td class="niet-afbreken">${esc(FASE_TEKST[b.fase] || "n.b.")}</td>
+        <td>${nood.status === "ja" ? `${Iconen.svg("ja")} Ja` : nood.status === "nee" ? `${Iconen.svg("nee")} Nee` : `~ ${esc(kortOmschrijving(nood.tekst, 90))}`}</td>
+      </tr>`;
+    }).join("")}</tbody>
+  </table>
+  </div>`;
+}
+
+function vastePagina() {
+  const vast = data.batterijen
+    .filter((b) => b.installatie === "installateur")
+    .sort((a, b) => (perKwhGeinstalleerd(a) || Infinity) - (perKwhGeinstalleerd(b) || Infinity)
+      || (perKwhInclBtw(a) || Infinity) - (perKwhInclBtw(b) || Infinity));
+  if (!vast.length) throw new Error("Geen enkele batterij heeft installatie \"installateur\"; de pagina met vaste batterijen zou leeg zijn.");
+
+  const metTotaal = vast.filter((b) => b.totaalprijs_van_eur);
+  const zonderTotaal = vast.length - metTotaal.length;
+  const stekker = data.batterijen.filter((b) => b.installatie === "zelf");
+  const hybride = vast.filter((b) => b.type === "hybride").length;
+  const ac = vast.filter((b) => b.type === "ac-gekoppeld").length;
+  const caps = vast.map((b) => b.capaciteit_kwh).filter(Boolean);
+  const vermogens = vast.map((b) => b.vermogen_kw).filter(Boolean);
+  const stekkerCaps = stekker.map((b) => b.capaciteit_kwh).filter(Boolean);
+  const totalen = metTotaal.map((b) => b.totaalprijs_van_eur);
+  const totalenTot = metTotaal.map((b) => b.totaalprijs_tot_eur || b.totaalprijs_van_eur);
+  const perKwhVast = mediaan(metTotaal.map(perKwhGeinstalleerd));
+  const perKwhStekker = mediaan(stekker.map((b) => perKwhInclBtw(b)));
+  const drieFase = vast.filter((b) => b.fase === "3-fase" || b.fase === "beide").length;
+  const metNoodstroom = vast.filter((b) => vierwaardig(b.noodstroom).status !== "nee" && vierwaardig(b.noodstroom).status !== "onbekend").length;
+
+  const titel = `Thuisbatterij met installateur: ${vast.length} vaste thuisbatterijen vergeleken`;
+  const paginaTitel = besteTitel([
+    `Vaste thuisbatterij vergelijken: ${vast.length} modellen (${JAAR})`,
+    `Vaste thuisbatterij vergelijken (${JAAR})`,
+  ]);
+  const metaDesc = kortOmschrijving(
+    `Hybride en AC-gekoppelde thuisbatterijen die een installateur plaatst: ${vast.length} modellen vergeleken op prijs inclusief installatie, fase en noodstroom.`,
+  );
+
+  const itemList = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": titel,
+    "itemListElement": vast.map((b, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": volledigeNaam(b),
+      "url": `${SITE}/batterij/${b.id}.html`,
+    })),
+  }, null, 2);
+
+  return `<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${esc(paginaTitel)}</title>
+  <meta name="description" content="${esc(metaDesc)}">
+  <link rel="canonical" href="${SITE}/${VAST_BESTAND}">
+  <meta property="og:title" content="${esc(titel)}">
+  <meta property="og:description" content="${esc(metaDesc)}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${SITE}/${VAST_BESTAND}">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:image" content="${SITE}/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Batterijmaatje.nl">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+${itemList}
+  </script>
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="/assets/style.css?v=${ASSET_VERSIE}">
+  <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+</head>
+<body>
+
+${NAV_HTML}
+
+<main class="container leespagina">
+  <p class="datum-stempel"><a href="/?installatie=installateur">${Iconen.svg("pijl-links")} Alle vaste thuisbatterijen in de vergelijker</a></p>
+  <h1>${esc(titel)}</h1>
+  <p class="datum-stempel">Dagelijks automatisch bijgewerkt · laatst gecontroleerd op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
+
+  <p>Een vaste thuisbatterij hangt in de meterkast of ernaast en wordt aangesloten door een installateur. Van de ${data.batterijen.length} batterijen op deze site zijn er ${vast.length} zo. Daarvan zijn er ${hybride} hybride, die samen met een hybride omvormer je zonnepanelen en de batterij aansturen, en ${ac} AC-gekoppeld, die met een eigen omvormer naast je bestaande installatie komen. Je ziet ze ook als <b>thuisaccu met installatie</b> of gewoon als <b>vaste thuisbatterij</b>.</p>
+
+  <p>Hieronder staan ze alle ${vast.length}, gesorteerd op prijs per kWh inclusief installatie. Van ${metTotaal.length} ken ik een prijs voor een compleet geïnstalleerd systeem. ${zonderTotaal ? `Bij de andere ${zonderTotaal} staat alleen de prijs van de batterij; daar komen een omvormer en de installateur bij, dus vraag voor die modellen een offerte.` : ""}</p>
+
+  ${vastTabel(vast)}
+
+  <h2>Wat je ervoor terugkrijgt</h2>
+  <p>Deze ${vast.length} batterijen lopen van ${nl(Math.min(...caps))} tot ${nl(Math.max(...caps))} kWh. ${drieFase} van de ${vast.length} zijn er in een driefasige uitvoering, die op alle drie de fasen van je meterkast levert. Dat telt bij een warmtepomp of laadpaal op drie fasen.</p>
+  <ul>
+    <li><b>Noodstroom is vaak mogelijk.</b> Bij ${metNoodstroom} van de ${vast.length} kan het, soms voor de hele woning en soms alleen voor één stopcontact. Meestal is er een aparte back-upkast of gateway voor nodig die de installateur erbij plaatst. Wat die kast kost en of hij in de prijs zit, staat per model op de productpagina.</li>
+    <li><b>Groter dan een stekkerbatterij.</b> De stekkermodellen hier gaan tot ${nl(Math.max(...stekkerCaps))} kWh, de vaste tot ${nl(Math.max(...caps))} kWh. Met een warmtepomp of een elektrische auto is dat verschil merkbaar.</li>
+    <li><b>Een eigen groep, geen 800 W-grens.</b> Een stekkerbatterij blijft op een gewone groep tot 800 W. Een vaste batterij heeft een eigen aansluiting in de meterkast en laadt en ontlaadt hier met ${nl(Math.min(...vermogens))} tot ${nl(Math.max(...vermogens))} kW.</li>
+  </ul>
+
+  <h2>Wat het kost</h2>
+  <p>Een compleet geïnstalleerd systeem kost in mijn vergelijker van ${eur(Math.min(...totalen))} tot ${eur(Math.max(...totalenTot))}. Per kWh ligt de mediaan op ${eur(perKwhVast)}, tegenover ${eur(perKwhStekker)} per kWh voor een stekkerbatterij. Wat ik onder "geïnstalleerd" versta verschilt per bron: bij sommige modellen zit de omvormer erin, bij andere een back-upkast niet. Dat staat per model op de productpagina.</p>
+  <p>Hoe die prijzen per maat uiteenlopen, staat op <a href="/${KOSTEN_BESTAND}">wat kost een thuisbatterij</a>.</p>
+
+  <h2>Wanneer verdient hij zich terug?</h2>
+  <p>Met alleen je eigen zonnestroom opslaan verdient een vaste batterij zich langzaam terug, omdat hij geïnstalleerd per kWh zo'n ${nl(Math.round((perKwhVast / perKwhStekker) * 10) / 10)} keer zo duur is als een stekkerbatterij. Met een dynamisch contract komt daar handel op uurprijzen bij, met goedkoop laden 's nachts of midden op de dag, ontladen in de avondpiek. Met ${nl(Math.min(...vermogens))} tot ${nl(Math.max(...vermogens))} kW verschuift een vaste batterij per uur een veelvoud van wat een stekkerbatterij van 800 W kan.</p>
+  <ul>
+    <li><b>Reken het na.</b> De <a href="/rekenmodule.html">rekenmodule</a> rekent per batterij met een vast of dynamisch contract, inclusief handel op uurprijzen.</li>
+    <li><b>Met je eigen meterdata.</b> Op <a href="/meterdata.html?installatie=installateur">de meterdata-pagina</a> draaien alle vaste batterijen mee op je eigen afname en teruglevering. Handel op uurprijzen zit daar niet in, dus de uitkomst is daar de ondergrens.</li>
+    <li><b>Dynamisch contract.</b> Hoe dat werkt en welke batterijen erop aangestuurd kunnen worden, staat op <a href="/${DYNAMISCH_BESTAND}">thuisbatterij met een dynamisch contract</a>.</li>
+  </ul>
+
+  <h2>Hybride of AC-gekoppeld?</h2>
+  <ul>
+    <li><b>Hybride</b> past als je zonnepanelen nog geen omvormer hebben, of als je omvormer aan vervanging toe is. Eén hybride omvormer stuurt dan de panelen en de batterij aan. Een batterij werkt alleen met een hybride omvormer van hetzelfde merk, of van een merk dat de fabrikant goedkeurt.</li>
+    <li><b>AC-gekoppeld</b> past als je een goed werkende omvormer hebt. De batterij krijgt een eigen omvormer en hangt ernaast, zonder dat je bestaande installatie verandert.</li>
+    <li><b>Twijfel je over de maat?</b> De <a href="/advies.html">keuzehulp</a> rekent uit hoeveel kWh bij je verbruik past. Liever zelf aansluiten? Dan staan de stekkermodellen op <a href="/${STEKKER_BESTAND}">thuisbatterij met stekker</a>.</li>
+  </ul>
+
+  <div class="noot">Prijzen en specificaties veranderen regelmatig. Een prijs inclusief installatie is een indicatie: de offerte van je installateur hangt af van je meterkast, de kabellengte en wat er al hangt. Deze pagina wordt dagelijks bijgewerkt vanuit mijn <a href="/">vergelijker</a>.</div>
 </main>
 
 ${VOET_HTML}
@@ -2010,6 +2189,9 @@ console.log(`${OVERZICHTEN.length} overzichtspagina's gegenereerd (Home Assistan
 writeFileSync(resolve(ROOT, STEKKER_BESTAND), stekkerPagina(), "utf8");
 console.log(`${STEKKER_BESTAND} gegenereerd (${data.batterijen.filter((b) => b.type === "plug-in").length} stekkerbatterijen)`);
 
+writeFileSync(resolve(ROOT, VAST_BESTAND), vastePagina(), "utf8");
+console.log(`${VAST_BESTAND} gegenereerd (${data.batterijen.filter((b) => b.installatie === "installateur").length} vaste batterijen)`);
+
 writeFileSync(resolve(ROOT, KOSTEN_BESTAND), kostenPagina(), "utf8");
 writeFileSync(resolve(ROOT, WACHTEN_BESTAND), wachtenPagina(), "utf8");
 writeFileSync(resolve(ROOT, BLACK_FRIDAY_BESTAND), blackFridayPagina(), "utf8");
@@ -2296,6 +2478,7 @@ const vast = [
   { loc: `${SITE}/beste-thuisbatterij-home-assistant.html`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/beste-thuisbatterij-homey.html`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/${STEKKER_BESTAND}`, freq: "daily", prio: "0.8" },
+  { loc: `${SITE}/${VAST_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/${KOSTEN_BESTAND}`, freq: "daily", prio: "0.8" },
   { loc: `${SITE}/${WACHTEN_BESTAND}`, freq: "weekly", prio: "0.7" },
   { loc: `${SITE}/${BLACK_FRIDAY_BESTAND}`, freq: "daily", prio: "0.8" },

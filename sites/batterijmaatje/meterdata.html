@@ -18,20 +18,33 @@
   <meta name="twitter:card" content="summary_large_image">
   <script>document.documentElement.classList.add("js")</script>
   <link rel="preload" href="assets/fonts/figtree-variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/maatlat.css?v=20261123b" as="style">
-  <link rel="preload" href="assets/vergelijker.css?v=20261123b" as="style">
-  <link rel="stylesheet" href="assets/style.css?v=20261123b">
-  <script src="assets/prijs.js?v=20261123b" defer></script>
-  <script src="assets/oordeel.js?v=20261123b" defer></script>
-  <script src="assets/rekenkern.js?v=20261123b" defer></script>
-  <script src="assets/terugverdiengrafiek.js?v=20261123b" defer></script>
-  <script src="assets/meterdata.js?v=20261123b" defer></script>
-  <script src="assets/meterdata-pagina.js?v=20261123b" defer></script>
-  <script src="assets/nav.js?v=20261123b" defer></script>
+  <link rel="preload" href="assets/maatlat.css?v=20261124f" as="style">
+  <link rel="preload" href="assets/vergelijker.css?v=20261124f" as="style">
+  <link rel="stylesheet" href="assets/style.css?v=20261124f">
+  <script src="assets/prijs.js?v=20261124f" defer></script>
+  <script src="assets/oordeel.js?v=20261124f" defer></script>
+  <script src="assets/rekenkern.js?v=20261124f" defer></script>
+  <script src="assets/terugverdiengrafiek.js?v=20261124f" defer></script>
+  <script src="assets/meterdata.js?v=20261124f" defer></script>
+  <script src="assets/meterdata-pagina.js?v=20261124f" defer></script>
+  <script src="assets/nav.js?v=20261124f" defer></script>
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
   <style>
     .reken-indeling { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--ruimte-20); align-items: start; margin: var(--ruimte-28) 0 var(--ruimte-40); }
+    /* De ranglijst heeft zes kolommen en wil breedte. Op een breed scherm mag
+       het rekenblok daarom buiten de leeskolom van 1200 pixels steken, tot
+       1520 pixels, met het formulier smal en de uitslag breed. De tekst eronder
+       blijft op leesbreedte. */
+    @media (min-width: 1280px) {
+      .reken-indeling {
+        grid-template-columns: minmax(320px, 1fr) minmax(0, 2.3fr);
+        width: min(1520px, calc(100vw - 48px));
+        margin-left: 50%;
+        transform: translateX(-50%);
+      }
+      .md-resultaat .vergelijk-tabel th { white-space: nowrap; }
+    }
     @media (max-width: 860px) { .reken-indeling { grid-template-columns: 1fr; } }
     .reken-paneel { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); box-shadow: var(--schaduw); padding: var(--ruimte-20); min-width: 0; }
     .reken-paneel h2 { margin: 0 0 var(--ruimte-4); font-size: var(--tekst-19); color: var(--kleur-primair-donker); }
@@ -40,7 +53,9 @@
     .veld label { font-size: var(--tekst-15); font-weight: 700; color: var(--kleur-tekst-licht); }
     .veld input, .veld select { padding: var(--ruimte-10); border: 1px solid var(--kleur-rand); border-radius: var(--radius-klein); font-size: var(--tekst-15); width: 100%; min-width: 0; }
     .veld .hint { font-size: var(--tekst-12); color: var(--kleur-tekst-licht); }
-    .veld-rij { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ruimte-10); }
+    /* Onderkant gelijk: breekt één label over twee regels, dan staan de
+       invoervakken toch op één lijn. */
+    .veld-rij { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ruimte-10); align-items: end; }
     @media (max-width: 480px) { .veld-rij { grid-template-columns: 1fr; } }
     .md-voorbeeld { margin-top: var(--ruimte-14); }
     .md-status { margin: var(--ruimte-14) 0 0; font-size: var(--tekst-15); }
@@ -49,7 +64,14 @@
     .md-kolommen summary { cursor: pointer; font-weight: 700; color: var(--kleur-primair); font-size: var(--tekst-15); }
     .md-samenvatting { margin: 0 0 var(--ruimte-14); font-size: var(--tekst-15); }
     .md-meer { margin: var(--ruimte-10) 0 0; }
-    .md-resultaat .tabel-wrap { margin-bottom: var(--ruimte-14); }
+    /* De ranglijst staat in een paneel van zo'n 640 pixels. De vergelijker-
+       tabel eist 900 pixels en steekt vanaf 1240 pixels 20 pixels buiten zijn
+       kolom; hier schoof hij daardoor half buiten het paneel. Compact dus: geen
+       minimumbreedte, smallere cellen, en pas op een telefoon schuiven. */
+    .md-resultaat .tabel-wrap { margin: 0 0 var(--ruimte-14); width: auto; box-shadow: none; }
+    .md-resultaat table.vergelijk-tabel { min-width: 0; }
+    .md-resultaat .vergelijk-tabel th, .md-resultaat .vergelijk-tabel td { padding: var(--ruimte-6); }
+    .md-resultaat .vergelijk-tabel.compact td:first-child, .md-resultaat .vergelijk-tabel.compact th:first-child { min-width: 8em; }
     .md-resultaat td.getal, .md-resultaat th.getal { text-align: right; }
     .md-resultaat td.getal { white-space: nowrap; }
     .md-resultaat .vergelijk-tabel.compact td:first-child { min-width: 10em; }
@@ -58,11 +80,16 @@
     .md-grafiek h3 { margin: var(--ruimte-20) 0 var(--ruimte-6); font-size: var(--tekst-17); }
     .md-cijfers { margin-top: var(--ruimte-14); }
     .md-cijfers summary { cursor: pointer; font-weight: 700; color: var(--kleur-primair); font-size: var(--tekst-15); }
+    .md-aansluitkeuze { margin: 0 0 var(--ruimte-14); }
+    .md-vast-noot { margin: 0 0 var(--ruimte-14); font-size: var(--tekst-15); }
+    .md-legenda { display: flex; flex-wrap: wrap; gap: var(--ruimte-6) var(--ruimte-14); margin: 0 0 var(--ruimte-6); font-size: var(--tekst-15); }
+    .md-legenda-item { display: inline-flex; align-items: center; gap: var(--ruimte-6); }
+    .md-legenda-kleur { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
     .md-leeg { margin: 0; color: var(--kleur-tekst-licht); font-size: var(--tekst-15); }
   </style>
   <script>(function(){var K="va-disable",H=/^#(niet-tellen|wel-tellen|teller-stand)$/;function uit(){try{return!!localStorage.getItem(K)}catch(e){return false}}function toon(){var t=uit()?"Op dit moment tel je niet mee.":"Op dit moment tel je mee.";document.querySelectorAll("[data-teller-stand]").forEach(function(n){n.textContent=t})}function t(){var h=location.hash;try{if(h=="#niet-tellen")localStorage.setItem(K,"1");else if(h=="#wel-tellen")localStorage.removeItem(K)}catch(e){}if(H.test(h)&&window.opener){try{window.opener.postMessage({teller:uit()?"uit":"aan",site:location.hostname.replace(/^www\./,"")},"https://batterijmaatje.nl")}catch(e){}window.close()}if(document.readyState!="loading")toon()}t();addEventListener("hashchange",t);document.addEventListener("DOMContentLoaded",toon);window.maatjeTeltNiet=function(){return uit()||H.test(location.hash)};window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return window.maatjeTeltNiet()?null:e})})()</script>
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/assets/teller.js?v=20261123b"></script>
+  <script defer src="/assets/teller.js?v=20261124f"></script>
 </head>
 <body>
 
@@ -82,8 +109,7 @@
         <summary>Meer ▾</summary>
         <div class="nav-meer-paneel">
           <a href="regelgeving.html">Regels &amp; subsidies</a>
-          <a href="thuisbatterij-met-stekker.html">Batterij met stekker</a>
-          <a href="wat-kost-een-thuisbatterij.html">Wat kost er een?</a>
+          <a href="thuisbatterij-met-stekker.html">Batterij met stekker</a>\n          <a href="thuisbatterij-met-installateur.html">Batterij met installateur</a>\n          <a href="wat-kost-een-thuisbatterij.html">Wat kost er een?</a>
           <a href="nu-kopen-of-wachten.html">Nu kopen of wachten?</a>
           <a href="black-friday-thuisbatterij.html">Black Friday-deals</a>
           <a href="thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a>
@@ -120,7 +146,7 @@
         <input type="file" id="mdBestand" accept=".csv,.txt,text/csv">
         <span class="hint">Per kwartier of per uur, of meterstanden. Een export uit de geschiedenis van Home Assistant werkt ook.</span>
       </div>
-      <button type="button" class="knop knop-secundair md-voorbeeld" id="mdVoorbeeld">Probeer met een verzonnen jaar</button>
+      <button type="button" class="knop knop-secundair md-voorbeeld" id="mdVoorbeeld" data-teller-start>Probeer met een verzonnen jaar</button>
       <p class="md-status" id="mdStatus" role="status" aria-live="polite"></p>
       <details class="md-kolommen" id="mdKolommen" hidden>
         <summary>Herkende kolommen</summary>
@@ -180,7 +206,7 @@
     </ul>
     <p>Herkent de pagina een kolom verkeerd? Open dan "Herkende kolommen" en zet hem goed.</p>
 
-    <h2>Wat er niet in zit</h2>
+    <h2 id="niet-mee">Wat er niet in zit</h2>
     <p>Handel op uurprijzen met een dynamisch contract zit niet in deze doorrekening. Daarvoor zijn ook de uurprijzen van dezelfde periode nodig, en die staan niet in een meterexport. Met een dynamisch contract komt de echte opbrengst dus hoger uit dan hier. Het deel uit handel rekent <a href="rekenmodule.html">de rekenmodule</a> met een gemiddelde dag.</p>
     <p>Beslaat je bestand minder dan 12 maanden, dan reken ik de uitkomst om naar een jaar. Een bestand met alleen zomermaanden geeft dan een te gunstig beeld, een bestand met alleen winter een te somber. Binnen een uur kan de batterij hier laden en ontladen, wat bij wisselende bewolking iets te gunstig uitvalt.</p>
 
@@ -194,7 +220,7 @@
   <div class="container">
     <b><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 7-3 5h4l-3 5" /> <path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935" /> <path d="M22 14v-4" /> <path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936" /></svg> Batterijmaatje</b>
     <p>Onafhankelijke vergelijking van thuisbatterijen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a> (warmtepompen).</p>
-    <p><a href="/">Thuisbatterijen</a> · <a href="uitleg.html">Uitleg</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="regelgeving.html">Regels &amp; subsidies</a> · <a href="beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="black-friday-thuisbatterij.html">Black Friday-deals</a> · <a href="thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a> · <a href="thuisbatterij-dynamisch-contract.html">Met dynamisch contract</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="over-ons.html">Over mij</a> · <a href="contact.html">Contact</a> · <a href="steun.html">Steun deze site</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="/">Thuisbatterijen</a> · <a href="uitleg.html">Uitleg</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="regelgeving.html">Regels &amp; subsidies</a> · <a href="beste-thuisbatterij-home-assistant.html">Beste voor Home Assistant</a> · <a href="beste-thuisbatterij-homey.html">Beste voor Homey</a> · <a href="thuisbatterij-met-stekker.html">Batterij met stekker</a> · <a href="thuisbatterij-met-installateur.html">Batterij met installateur</a> · <a href="wat-kost-een-thuisbatterij.html">Wat kost er een?</a> · <a href="nu-kopen-of-wachten.html">Nu kopen of wachten?</a> · <a href="black-friday-thuisbatterij.html">Black Friday-deals</a> · <a href="thuisbatterij-zonder-zonnepanelen.html">Zonder zonnepanelen</a> · <a href="thuisbatterij-dynamisch-contract.html">Met dynamisch contract</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="over-ons.html">Over mij</a> · <a href="contact.html">Contact</a> · <a href="steun.html">Steun deze site</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: deze doorrekening geeft een indicatie op basis van jouw meterdata en de aannames op deze pagina en is geen financieel advies. Werkelijke opbrengsten hangen af van je verbruik, het weer, marktprijzen en beleid.</p>
   </div>
 </footer>
