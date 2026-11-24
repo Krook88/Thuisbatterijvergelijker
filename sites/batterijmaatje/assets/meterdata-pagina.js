@@ -30,6 +30,26 @@
   let laatsteRijen = [];
   // Vanaf een productpagina: deze batterij staat altijd in beeld, gemarkeerd.
   const gekozen = new URLSearchParams(location.search).get("batterij");
+  /* Wie sluit hem aan: alle, zelf (stekker) of installateur. Dezelfde knoppen
+     en dezelfde ?installatie= als op de vergelijker. Zonder deze keuze stond
+     de eerste vaste batterij met het verzonnen jaar op plek 31: stekker-
+     batterijen zijn per kWh goedkoper, dus de top 10 was altijd stekker, en
+     wie een vaste installatie zocht kreeg die nooit te zien. */
+  const AANSLUITINGEN = [["alle", "Maakt niet uit"], ["zelf", "Zelf, in het stopcontact"], ["installateur", "Door een installateur"]];
+  let aansluiting = (() => {
+    const w = new URLSearchParams(location.search).get("installatie");
+    return AANSLUITINGEN.some(([k]) => k === w) ? w : "alle";
+  })();
+
+  function zetAansluiting(w) {
+    aansluiting = w;
+    alles = false;
+    const p = new URLSearchParams(location.search);
+    if (w === "alle") p.delete("installatie"); else p.set("installatie", w);
+    const qs = p.toString();
+    history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
+    toonResultaat();
+  }
 
   function status(tekst, soort) {
     const s = el("mdStatus");
@@ -121,19 +141,21 @@
       return;
     }
 
-    let zonderPrijs = 0, hybride = 0;
-    const rijen = [];
+    let zonderPrijs = 0;
+    const hybride = [];
+    const alleRijen = [];
     for (const b of batterijen) {
       if (!(b.capaciteit_kwh > 0)) continue;
+      const telt = aansluiting === "alle" || b.installatie === aansluiting;
       // Een losse module voor een hybride omvormer zonder gebruiksklare
       // prijs: de omvormer van duizenden euro's hoort erbij en zit niet in
       // het bedrag. Dan klopt de terugverdientijd niet.
-      if (b.type === "hybride" && !b.totaalprijs_van_eur) { hybride++; continue; }
+      if (b.type === "hybride" && !b.totaalprijs_van_eur) { if (telt) hybride.push(b); continue; }
       const investering = investeringVoor(b);
-      if (!investering) { zonderPrijs++; continue; }
+      if (!investering) { if (telt) zonderPrijs++; continue; }
       const sim = M.simuleer(uren, M.batterijVoorSimulatie(b));
       const jaar = M.opbrengst(sim, t) * s.jaarFactor;
-      rijen.push({
+      alleRijen.push({
         b, investering, sim, jaar,
         opgeslagen: sim.ontladen * s.jaarFactor,
         volPct: sim.dagen ? sim.dagenVol / sim.dagen : 0,
@@ -143,7 +165,24 @@
     // Een prijs die te oud is of nergens meer af te rekenen, achteraan (zie
     // Prijs.prijsAchteraan), net als in de vergelijker.
     const achteraan = (r) => (Prijs.prijsAchteraan && Prijs.prijsAchteraan(r.b) ? 1 : 0);
-    rijen.sort((x, y) => achteraan(x) - achteraan(y) || (x.tvt ?? Infinity) - (y.tvt ?? Infinity) || y.jaar - x.jaar);
+    alleRijen.sort((x, y) => achteraan(x) - achteraan(y) || (x.tvt ?? Infinity) - (y.tvt ?? Infinity) || y.jaar - x.jaar);
+    const rijen = alleRijen.filter((r) => aansluiting === "alle" || r.b.installatie === aansluiting);
+
+    delen.push(`<div class="aansluitkeuze md-aansluitkeuze">
+      <span class="aansluitkeuze-vraag" id="mdAansluitVraag">Wie sluit hem aan?</span>
+      <div class="aansluitkeuze-knoppen" role="group" aria-labelledby="mdAansluitVraag">${AANSLUITINGEN.map(([k, t]) =>
+        `<button type="button" class="aansluit-knop${k === aansluiting ? " actief" : ""}" data-installatie="${k}" aria-pressed="${k === aansluiting}">${t}</button>`).join("")}</div>
+    </div>`);
+    if (aansluiting === "installateur") {
+      delen.push(`<p class="md-vast-noot">Een batterij die een installateur plaatst kost per kWh meer dan een stekkerbatterij, en verdient met alleen je eigen zonnestroom dus langzamer terug. Met een dynamisch contract komt daar handel op uurprijzen bij, en die rekent deze pagina niet mee (zie <a href="#niet-mee">wat er niet in zit</a>). Leg de uitkomst daarom naast <a href="rekenmodule.html">de rekenmodule</a>.${hybride.length ? ` ${hybride.length} batterijen voor een hybride omvormer staan hieronder niet, omdat er geen prijs mét omvormer en installatie van bekend is: ${hybride.map((b) => `<a href="batterij/${encodeURIComponent(b.id)}.html">${esc(b.merk)} ${esc(b.model)}</a>`).join(", ")}.` : ""} Alle vaste batterijen op een rij staan op <a href="thuisbatterij-met-installateur.html">thuisbatterij met installateur</a>.</p>`);
+    }
+    if (!rijen.length) {
+      delen.push(`<p class="md-leeg">Geen batterij met een bekende prijs in deze keuze.</p>`);
+      el("mdResultaat").innerHTML = delen.join("");
+      koppelAansluitknoppen();
+      laatsteRijen = [];
+      return;
+    }
 
     let zichtbaar = alles ? rijen : rijen.slice(0, AANTAL_EERST);
     const plek = rijen.findIndex((r) => r.b.id === gekozen);
@@ -163,7 +202,11 @@
       delen.push(`<p class="md-meer"><button type="button" class="knop knop-secundair" id="mdAlles">${alles ? `Toon de eerste ${AANTAL_EERST}` : `Toon alle ${rijen.length}`}</button></p>`);
     }
     const noten = [];
-    if (hybride) noten.push(`${hybride} batterijen voor een hybride omvormer staan er niet in, omdat hun prijs zonder die omvormer is.`);
+    if (aansluiting === "alle") {
+      const eersteVast = alleRijen.findIndex((r) => r.b.installatie === "installateur");
+      if (eersteVast >= AANTAL_EERST) noten.push(`De eerste batterij die een installateur plaatst staat op plek ${eersteVast + 1}. Kies hierboven "Door een installateur" om alleen die te zien.`);
+    }
+    if (hybride.length && aansluiting !== "installateur") noten.push(`${hybride.length} batterijen voor een hybride omvormer staan er niet in, omdat hun prijs zonder die omvormer is.`);
     if (zonderPrijs) noten.push(`${zonderPrijs} zonder bekende prijs ook niet.`);
     noten.push(`"Vol op" zegt op welk deel van de dagen de batterij helemaal volliep. Staat dat hoog, dan levert een grotere meer op; staat het laag, dan betaal je voor capaciteit die je niet vult.`);
     delen.push(`<p class="md-leeg">${noten.join(" ")}</p>`);
@@ -177,12 +220,19 @@
       </div>`);
     }
     el("mdResultaat").innerHTML = delen.join("");
+    koppelAansluitknoppen();
     const knop = el("mdAlles");
     if (knop) knop.addEventListener("click", () => { alles = !alles; toonResultaat(); });
     const keuze = el("mdGrafiekKeuze");
     if (keuze) {
       keuze.addEventListener("change", () => { grafiekId = keuze.value; toonGrafieken(t, s); });
       toonGrafieken(t, s);
+    }
+  }
+
+  function koppelAansluitknoppen() {
+    for (const k of el("mdResultaat").querySelectorAll(".aansluit-knop")) {
+      k.addEventListener("click", () => zetAansluiting(k.dataset.installatie));
     }
   }
 
