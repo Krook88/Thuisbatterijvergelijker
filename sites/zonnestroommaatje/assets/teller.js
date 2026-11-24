@@ -97,24 +97,34 @@
   /* Wordt een rekenhulp gebruikt, of alleen bekeken? Verblijfstijd zegt dat
      niet: een minuut op de rekenmodule kan lezen zijn of rekenen. "gestart" is
      de eerste keer dat je iets verandert in het formulier, "uitslag" dat het
-     resultaat daarna in beeld komt. Dezelfde ids op alle drie de sites. */
-  var formulier = document.querySelector("#rekenformulier, #adviesFormulier, #adviesformulier, #planFormulier");
+     resultaat daarna in beeld komt. Dezelfde ids op alle drie de sites.
+     De meterdata-pagina (mdFormulier) begint met een bestand kiezen of met
+     een knop zonder invoerveld; zo'n knop draagt data-teller-start. */
+  var formulier = document.querySelector("#rekenformulier, #adviesFormulier, #adviesformulier, #planFormulier, #mdFormulier");
   if (formulier) {
     var begonnen = false;
     var begin = function () {
       if (begonnen) return;
       begonnen = true;
       stap("gestart", formulier.id);
-      var uitslag = document.querySelector("#resultaat, #advies, #plan");
+      var uitslag = document.querySelector("#resultaat, #advies, #plan, #mdResultaat");
       if (!uitslag || !("IntersectionObserver" in window)) return;
+      // 30% van de uitslag in beeld, of een derde van het scherm vol ermee:
+      // een lange uitslag (de ranglijst op de meterdata-pagina) haalt die 30%
+      // op geen enkel scherm.
       new IntersectionObserver(function (w, kijker) {
-        if (!w[0].isIntersecting) return;
+        var r = w[0];
+        if (!r.isIntersecting) return;
+        if (r.intersectionRatio < 0.3 && r.intersectionRect.height < window.innerHeight / 3) return;
         stap("uitslag", uitslag.id);
         kijker.disconnect();
-      }, { threshold: 0.3 }).observe(uitslag);
+      }, { threshold: [0, 0.1, 0.2, 0.3] }).observe(uitslag);
     };
     formulier.addEventListener("input", begin, true);
     formulier.addEventListener("change", begin, true);
+    formulier.addEventListener("click", function (e) {
+      if (e.target.closest && e.target.closest("[data-teller-start]")) begin();
+    }, true);
   }
   // Middelste muisknop: opent in een nieuw tabblad zonder "click".
   document.addEventListener("auxclick", function (e) { if (e.button === 1) klik(e); }, true);
