@@ -1177,6 +1177,7 @@ function vastePagina() {
   const vermogens = vast.map((b) => b.vermogen_kw).filter(Boolean);
   const stekkerCaps = stekker.map((b) => b.capaciteit_kwh).filter(Boolean);
   const totalen = metTotaal.map((b) => b.totaalprijs_van_eur);
+  const totalenTot = metTotaal.map((b) => b.totaalprijs_tot_eur || b.totaalprijs_van_eur);
   const perKwhVast = mediaan(metTotaal.map(perKwhGeinstalleerd));
   const perKwhStekker = mediaan(stekker.map((b) => perKwhInclBtw(b)));
   const drieFase = vast.filter((b) => b.fase === "3-fase" || b.fase === "beide").length;
@@ -1247,13 +1248,13 @@ ${NAV_HTML}
   <h2>Wat je ervoor terugkrijgt</h2>
   <p>Deze ${vast.length} batterijen lopen van ${nl(Math.min(...caps))} tot ${nl(Math.max(...caps))} kWh. ${drieFase} van de ${vast.length} zijn er in een driefasige uitvoering, die op alle drie de fasen van je meterkast levert. Dat telt bij een warmtepomp of laadpaal op drie fasen.</p>
   <ul>
-    <li><b>Noodstroom voor het hele huis kan.</b> Bij ${metNoodstroom} van de ${vast.length} is noodstroom mogelijk, meestal met een aparte back-upkast of gateway die de installateur erbij plaatst. Wat die kast kost en of hij in de prijs zit, staat per model op de productpagina.</li>
+    <li><b>Noodstroom is vaak mogelijk.</b> Bij ${metNoodstroom} van de ${vast.length} kan het, soms voor de hele woning en soms alleen voor één stopcontact. Meestal is er een aparte back-upkast of gateway voor nodig die de installateur erbij plaatst. Wat die kast kost en of hij in de prijs zit, staat per model op de productpagina.</li>
     <li><b>Groter dan een stekkerbatterij.</b> De stekkermodellen hier gaan tot ${nl(Math.max(...stekkerCaps))} kWh, de vaste tot ${nl(Math.max(...caps))} kWh. Met een warmtepomp of een elektrische auto is dat verschil merkbaar.</li>
     <li><b>Een eigen groep, geen 800 W-grens.</b> Een stekkerbatterij blijft op een gewone groep tot 800 W. Een vaste batterij heeft een eigen aansluiting in de meterkast en laadt en ontlaadt hier met ${nl(Math.min(...vermogens))} tot ${nl(Math.max(...vermogens))} kW.</li>
   </ul>
 
   <h2>Wat het kost</h2>
-  <p>Een compleet geïnstalleerd systeem kost in mijn vergelijker van ${eur(Math.min(...totalen))} tot ${eur(Math.max(...totalen))}. Per kWh ligt de mediaan op ${eur(perKwhVast)}, tegenover ${eur(perKwhStekker)} per kWh voor een stekkerbatterij. Wat ik onder "geïnstalleerd" versta verschilt per bron: bij sommige modellen zit de omvormer erin, bij andere een back-upkast niet. Dat staat per model op de productpagina.</p>
+  <p>Een compleet geïnstalleerd systeem kost in mijn vergelijker van ${eur(Math.min(...totalen))} tot ${eur(Math.max(...totalenTot))}. Per kWh ligt de mediaan op ${eur(perKwhVast)}, tegenover ${eur(perKwhStekker)} per kWh voor een stekkerbatterij. Wat ik onder "geïnstalleerd" versta verschilt per bron: bij sommige modellen zit de omvormer erin, bij andere een back-upkast niet. Dat staat per model op de productpagina.</p>
   <p>Hoe die prijzen per maat uiteenlopen, staat op <a href="/${KOSTEN_BESTAND}">wat kost een thuisbatterij</a>.</p>
 
   <h2>Wanneer verdient hij zich terug?</h2>
