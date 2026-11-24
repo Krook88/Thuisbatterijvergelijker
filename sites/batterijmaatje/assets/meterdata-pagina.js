@@ -189,7 +189,7 @@
     if (plek >= AANTAL_EERST && !alles) zichtbaar = zichtbaar.concat(rijen[plek]);
     const tvtTekst = (r) => r.tvt === null ? "niet binnen 40 jaar" : `${jaarFmt.format(r.tvt)} jaar`;
     delen.push(`<div class="tabel-wrap"><table class="vergelijk-tabel compact">
-      <thead><tr><th>Batterij</th><th class="getal">Terugverdiend in</th><th class="getal">Bespaart per jaar</th><th class="getal">Prijs</th><th class="getal">Uit de batterij per jaar</th><th class="getal">Vol op (dagen)</th></tr></thead>
+      <thead><tr><th>Batterij</th><th class="getal">Terugverdiend in</th><th class="getal">Bespaart per jaar</th><th class="getal">Prijs</th><th class="getal">Uit de batterij per jaar</th><th class="getal" title="Op welk deel van de dagen de batterij helemaal volliep. Hoog: een grotere levert meer op. Laag: je betaalt voor capaciteit die je niet vult.">Vol op (dagen)</th></tr></thead>
       <tbody>${zichtbaar.map((r) => `<tr${r.b.id === gekozen ? ' class="md-gekozen"' : ""}>
         <td><a href="batterij/${encodeURIComponent(r.b.id)}.html">${esc(r.b.merk)} ${esc(r.b.model)}</a>${Prijs.nergensLeverbaar && Prijs.nergensLeverbaar(r.b) ? " <small>(nu nergens te koop)</small>" : ""}</td>
         <td class="getal"><b>${tvtTekst(r)}</b></td>
@@ -204,12 +204,11 @@
     const noten = [];
     if (aansluiting === "alle") {
       const eersteVast = alleRijen.findIndex((r) => r.b.installatie === "installateur");
-      if (eersteVast >= AANTAL_EERST) noten.push(`De eerste batterij die een installateur plaatst staat op plek ${eersteVast + 1}. Kies hierboven "Door een installateur" om alleen die te zien.`);
+      if (eersteVast >= AANTAL_EERST) noten.push(`De eerste vaste batterij staat op plek ${eersteVast + 1}.`);
     }
-    if (hybride.length && aansluiting !== "installateur") noten.push(`${hybride.length} batterijen voor een hybride omvormer staan er niet in, omdat hun prijs zonder die omvormer is.`);
-    if (zonderPrijs) noten.push(`${zonderPrijs} zonder bekende prijs ook niet.`);
-    noten.push(`"Vol op" zegt op welk deel van de dagen de batterij helemaal volliep. Staat dat hoog, dan levert een grotere meer op; staat het laag, dan betaal je voor capaciteit die je niet vult.`);
-    delen.push(`<p class="md-leeg">${noten.join(" ")}</p>`);
+    const weg = (aansluiting !== "installateur" ? hybride.length : 0) + zonderPrijs;
+    if (weg) noten.push(`${weg} zonder volledige prijs ontbreken.`);
+    if (noten.length) delen.push(`<p class="md-leeg">${noten.join(" ")}</p>`);
     laatsteRijen = rijen;
     if (!rijen.some((x) => x.b.id === grafiekId)) grafiekId = (rijen.find((x) => x.b.id === gekozen) || rijen[0] || {}).b?.id || null;
     if (grafiekId) {
