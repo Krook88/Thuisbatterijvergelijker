@@ -1,11 +1,11 @@
 {
-  "bijgewerkt": "2026-11-25",
+  "bijgewerkt": "2026-11-26",
   "punten": {
     "onbereikbaar|dyness-powerbox-g2|Zonnige Winkel": {
       "sinds": "2026-11-25",
       "soort": "onbereikbaar",
       "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: fetch failed",
-      "bevestigd": false
+      "bevestigd": true
     },
     "onbereikbaar|tsun-powertrunk-mau5000|Powerness": {
       "sinds": "2026-11-13",
@@ -40,37 +40,37 @@
     "te controleren|hoymiles-hibattery-1920-ac|StromZone (levert vanuit het buitenland)": {
       "sinds": "2026-11-25",
       "soort": "te controleren",
-      "tekst": "hoymiles-hibattery-1920-ac @ StromZone (levert vanuit het buitenland): €379 → €515 (+36%)",
+      "tekst": "hoymiles-hibattery-1920-ac @ StromZone (levert vanuit het buitenland): €379 → €526 (+39%)",
+      "bevestigd": true
+    },
+    "te controleren|tsun-solartrunk-msu2000|MediaMarkt": {
+      "sinds": "2026-11-26",
+      "soort": "te controleren",
+      "tekst": "tsun-solartrunk-msu2000 @ MediaMarkt: €1049 → €749 (-29%)",
       "bevestigd": false
     },
     "verouderd|aeg-solarcube-48|richtprijs": {
       "sinds": "2026-10-29",
       "soort": "verouderd",
-      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (48 dagen)",
+      "tekst": "aeg-solarcube-48 @ richtprijs: €1449 (49 dagen)",
       "bevestigd": true
     },
     "verouderd|aeg-solarcube-pro|aegthuisbatterij.nl (oktober 2026)": {
       "sinds": "2026-11-24",
       "soort": "verouderd",
-      "tekst": "aeg-solarcube-pro @ aegthuisbatterij.nl (oktober 2026): €1799 (22 dagen)",
-      "bevestigd": true
-    },
-    "verouderd|dyness-powerbox-g2|Zonnige Winkel": {
-      "sinds": "2026-11-24",
-      "soort": "verouderd",
-      "tekst": "dyness-powerbox-g2 @ Zonnige Winkel: €1495 (47 dagen)",
+      "tekst": "aeg-solarcube-pro @ aegthuisbatterij.nl (oktober 2026): €1799 (23 dagen)",
       "bevestigd": true
     },
     "verouderd|jackery-homepower-2000-ultra|richtprijs": {
       "sinds": "2026-11-24",
       "soort": "verouderd",
-      "tekst": "jackery-homepower-2000-ultra @ richtprijs: €669 (22 dagen)",
+      "tekst": "jackery-homepower-2000-ultra @ richtprijs: €669 (23 dagen)",
       "bevestigd": true
     },
     "verouderd|zendure-solarflow-hyper-2000|Zendure": {
       "sinds": "2026-08-16",
       "soort": "verouderd",
-      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (132 dagen)",
+      "tekst": "zendure-solarflow-hyper-2000 @ Zendure: €850 (133 dagen)",
       "bevestigd": true
     },
     "zonder bron|aeg-solarcube-48|?": {
@@ -89,12 +89,6 @@
       "sinds": "2026-11-11",
       "soort": "geweigerd",
       "tekst": "aeg-solarcube-48 @ AH Voordeelshop: HTTP 403",
-      "bevestigd": true
-    },
-    "zonder prijs|dyness-powerbrick-plus|NKON": {
-      "sinds": "2026-11-23",
-      "soort": "geweigerd",
-      "tekst": "dyness-powerbrick-plus @ NKON: HTTP 403",
       "bevestigd": true
     }
   }
