@@ -273,7 +273,7 @@ const DUBBELE_PUNT = /[a-z0-9)"'’]: [a-z]/;
    informatie: officiële website van ...", zodat elk nieuw paneel het getal
    met één ophoogde. Daarna 173, na het herschrijven van de btw-tekst.
    */
-const DUBBELE_PUNT_BUDGET = 173;
+const DUBBELE_PUNT_BUDGET = 170;
 
 const zonderRuis = (html) =>
   html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/g, " ");
