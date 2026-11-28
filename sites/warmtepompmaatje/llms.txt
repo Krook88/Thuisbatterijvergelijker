@@ -11,7 +11,15 @@
 
 ## Uitleg en achtergrond
 - [Uitleg over warmtepompen](https://warmtepompmaatje.nl/uitleg.html): hybride versus all-electric, SCOP, geluid en slim koppelen, met illustraties.
-- [ISDE-subsidie](https://warmtepompmaatje.nl/subsidie.html): hoogte van de subsidie en de voorwaarden.
+- [ISDE-subsidie](https://warmtepompmaatje.nl/subsidie.html): de bedragen voor 2026 en 2027, de overgangsregeling tot 31 december 2026 en de voorwaarden.
+- [Wat kost een warmtepomp?](https://warmtepompmaatje.nl/warmtepomp-kosten.html): totaalprijs inclusief installatie voor hybride en all-electric, extra kosten en wat de ISDE eraf haalt.
+- [Is mijn huis geschikt?](https://warmtepompmaatje.nl/warmtepomp-geschikt.html): checklist per energielabel, isolatie, radiatoren en de plek voor de buitenunit.
+- [Wordt een warmtepomp verplicht?](https://warmtepompmaatje.nl/warmtepomp-verplicht.html): het kabinetsplan voor 2029, wat vaststaat en wat nog niet.
+- [Stroomverbruik](https://warmtepompmaatje.nl/warmtepomp-stroomverbruik.html): kWh per jaar uitgerekend vanuit je gasverbruik, met COP en SCOP uitgelegd.
+- [Warmtepomp en zonnepanelen na de saldering](https://warmtepompmaatje.nl/warmtepomp-zonnepanelen.html): wat het einde van de saldering in 2027 betekent en hoe je slim aanstuurt.
+- [Offertes vergelijken](https://warmtepompmaatje.nl/warmtepomp-offerte.html): checklist in 7 punten en de valkuilen bij een offerte.
+- [Onderhoud en levensduur](https://warmtepompmaatje.nl/warmtepomp-onderhoud.html): kosten, contract, levensduur en de cv-ketel bij een hybride.
+- [Appartement, huurwoning en monument](https://warmtepompmaatje.nl/warmtepomp-appartement.html): toestemming van VvE, verhuurder of gemeente, en de alternatieven.
 - [Warmtepomp en geluid](https://warmtepompmaatje.nl/warmtepomp-geluid.html): de norm van 45 en 40 dB(A) op de erfgrens, en het verschil tussen geluidsvermogen en geluidsdruk.
 - [Monoblock of split](https://warmtepompmaatje.nl/monoblock-of-split.html): waar de techniek zit, wat dat betekent voor ruimte, installatie en je radiatoren.
 - [Airco als warmtepomp](https://warmtepompmaatje.nl/airco-als-warmtepomp.html): wat een lucht-luchtwarmtepomp kost, waarom er geen ISDE op zit en hoe hij zich verhoudt tot een hybride.

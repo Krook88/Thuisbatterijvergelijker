@@ -248,6 +248,10 @@ function kop(actief, diepte) {
       <details class="nav-meer">
         <summary>Meer ${Iconen.svg("chevron")}</summary>
         <div class="nav-meer-paneel">
+          <a href="${p}warmtepomp-kosten.html">Wat kost het?</a>
+          <a href="${p}warmtepomp-geschikt.html">Is mijn huis geschikt?</a>
+          <a href="${p}warmtepomp-verplicht.html">Verplicht vanaf 2029?</a>
+          <a href="${p}warmtepomp-offerte.html">Offertes vergelijken</a>
           <a href="${p}warmtepomp-geluid.html">Geluid</a>
           <a href="${p}monoblock-of-split.html">Monoblock of split</a>
           <a href="${p}airco-als-warmtepomp.html">Airco als warmtepomp</a>
@@ -269,7 +273,7 @@ function voet(diepte) {
   <div class="container">
     <b>${Iconen.svg("warmte")} Warmtepompmaatje</b>
     <p>Onafhankelijke vergelijking van warmtepompen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen).</p>
-    <p><a href="/">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}warmtepomp-geluid.html">Geluid</a> · <a href="${p}monoblock-of-split.html">Monoblock of split</a> · <a href="${p}airco-als-warmtepomp.html">Airco</a> · <a href="${p}black-friday-warmtepomp.html">Black Friday-deals</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="${p}over-ons.html">Over mij</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}steun.html">Steun deze site</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
+    <p><a href="/">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}warmtepomp-kosten.html">Kosten</a> · <a href="${p}warmtepomp-geschikt.html">Geschikt?</a> · <a href="${p}warmtepomp-verplicht.html">Verplicht?</a> · <a href="${p}warmtepomp-stroomverbruik.html">Stroomverbruik</a> · <a href="${p}warmtepomp-zonnepanelen.html">Zonnepanelen</a> · <a href="${p}warmtepomp-offerte.html">Offertes</a> · <a href="${p}warmtepomp-onderhoud.html">Onderhoud</a> · <a href="${p}warmtepomp-appartement.html">Appartement en huur</a> · <a href="${p}warmtepomp-geluid.html">Geluid</a> · <a href="${p}monoblock-of-split.html">Monoblock of split</a> · <a href="${p}airco-als-warmtepomp.html">Airco</a> · <a href="${p}black-friday-warmtepomp.html">Black Friday-deals</a> · <a href="/#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="${p}over-ons.html">Over mij</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}steun.html">Steun deze site</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties zijn indicaties; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
   </div>
 </footer>`;
@@ -1476,6 +1480,14 @@ const vast = [
   { loc: `${SITE}/${BOUWVORM_BESTAND}`, prio: "0.8" },
   { loc: `${SITE}/${AIRCO_BESTAND}`, prio: "0.8" },
   { loc: `${SITE}/${BLACK_FRIDAY_BESTAND}`, prio: "0.8" },
+  { loc: `${SITE}/warmtepomp-kosten.html`, prio: "0.8" },
+  { loc: `${SITE}/warmtepomp-geschikt.html`, prio: "0.8" },
+  { loc: `${SITE}/warmtepomp-verplicht.html`, prio: "0.8" },
+  { loc: `${SITE}/warmtepomp-stroomverbruik.html`, prio: "0.8" },
+  { loc: `${SITE}/warmtepomp-zonnepanelen.html`, prio: "0.8" },
+  { loc: `${SITE}/warmtepomp-offerte.html`, prio: "0.8" },
+  { loc: `${SITE}/warmtepomp-onderhoud.html`, prio: "0.8" },
+  { loc: `${SITE}/warmtepomp-appartement.html`, prio: "0.8" },
   { loc: `${SITE}/over-ons.html`, prio: "0.4" },
   { loc: `${SITE}/contact.html`, prio: "0.4" },
   { loc: `${SITE}/privacy.html`, prio: "0.2" },
