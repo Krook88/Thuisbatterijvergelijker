@@ -9,7 +9,7 @@
       "type": "hybride",
       "voorbeeld_variant": "Elga Ace 4,0 kW (monoblock)",
       "vermogen_kw": 3,
-      "scop_toelichting": "hoge COP bij lage aanvoertemperatuur; werkt samen met de cv-ketel",
+      "scop_toelichting": "SCOP 4,3 bij 35 °C aanvoer (ηs 170 tot 173%) volgens de productgegevens van de Elga Ace 4 kW bij tptechnology.nl en warmtepompvergelijker.nl. Hoge COP bij lage aanvoertemperatuur; werkt samen met de cv-ketel.",
       "scop_55": 3.4,
       "scop_55_bron": "Productgegevens Elga Ace 4 kW volgens tptechnology.nl en warmtepompvergelijker.nl: ηs 136% bij 55 °C, SCOP 3,4",
       "geluid_db": 58,
@@ -62,7 +62,9 @@
       "fase": "1-fase",
       "afbeelding": "assets/producten/remeha-elga-ace.webp",
       "afbeelding_bron": "foto: Remeha",
-      "afbeelding_herkomst": "https://edge.sitecorecloud.io/bdrthermea1-platform-production-864a/media/Project/RemehaNL/RemehaNL/Images/Products/Elga-Ace-monoblock/elga-ace-monoblock-met-buiten-unit.png?h=972&amp;iar=0&amp;w=1728"
+      "afbeelding_herkomst": "https://edge.sitecorecloud.io/bdrthermea1-platform-production-864a/media/Project/RemehaNL/RemehaNL/Images/Products/Elga-Ace-monoblock/elga-ace-monoblock-met-buiten-unit.png?h=972&amp;iar=0&amp;w=1728",
+      "scop": 4.3,
+      "scop_conditie": "35"
     },
     {
       "id": "daikin-altherma-hybrid",
@@ -118,7 +120,7 @@
       "type": "hybride",
       "voorbeeld_variant": "Quatt Single (Duo voor grotere woningen)",
       "vermogen_kw": 4,
-      "scop_toelichting": "hoge praktijkrendementen door slimme cloud-aansturing (Quatt CIC)",
+      "scop_toelichting": "SCOP 4,93 bij 35 °C aanvoer, label A+++, volgens het technische specificatieblad van Quatt (Hybrid Single en Duo). Hoge praktijkrendementen door slimme cloud-aansturing (Quatt CIC).",
       "scop_55": 3.82,
       "scop_55_bron": "Quatt-specificatieblad Hybrid: SCOP 3,82 bij 55 °C",
       "geluid_db": 56,
@@ -157,7 +159,9 @@
       ],
       "prijs_datum": "2026-11-28",
       "vermogen_conditie": "Prated",
-      "fase": "1-fase"
+      "fase": "1-fase",
+      "scop": 4.93,
+      "scop_conditie": "35"
     },
     {
       "id": "intergas-xtend",
@@ -455,8 +459,8 @@
       "type": "all-electric",
       "voorbeeld_variant": "Ecodan 6 kW (monoblock) met hydrobox",
       "vermogen_kw": 5,
-      "scop": 4.8,
-      "scop_toelichting": "hoog rendement; Ultra Quiet-uitvoeringen beschikbaar",
+      "scop": 4.55,
+      "scop_toelichting": "SCOP 4,55 bij 35 °C aanvoer (ηs 179%, A+++) volgens het productblad van de PUZ-WZ60VAA. Hier stond eerder 4,8 zonder meetconditie. Ultra Quiet-uitvoeringen beschikbaar.",
       "geluid_db": 55,
       "geluid_toelichting": "Ultra Quiet-modellen behoren tot de stilste in hun klasse",
       "koudemiddel": "R290 (natuurlijk, nieuwste generatie)",
@@ -514,7 +518,7 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "onbekend",
+      "scop_conditie": "35",
       "scop_55": 3.43,
       "scop_55_bron": "Mitsubishi Electric-datasheet PUZ-WZ60VAA (januari 2025): SCOP 3,43 bij 55 °C"
     },
@@ -525,8 +529,8 @@
       "type": "all-electric",
       "voorbeeld_variant": "Altherma 3 R 6 kW met hydrobox",
       "vermogen_kw": 6,
-      "scop": 4.6,
-      "scop_toelichting": "bewezen platform, breed leverbaar in vermogens 4 tot 8 kW",
+      "scop": 4.52,
+      "scop_toelichting": "SCOP 4,52 bij 35 °C aanvoer (ηs 178%, A+++) volgens de technische gegevens van Daikin voor de EBLA06E3V3. Hier stond eerder 4,6 zonder meetconditie. Bewezen platform, breed leverbaar in vermogens 4 tot 8 kW.",
       "geluid_db": 58,
       "geluid_toelichting": "geluidsvermogen buitenunit volgens label; nachtstand instelbaar",
       "koudemiddel": "R32",
@@ -581,7 +585,7 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "scop_conditie": "onbekend",
+      "scop_conditie": "35",
       "scop_55": 3.26,
       "scop_55_bron": "Daikin-datasheet en -catalogus Altherma 3 R 6 kW: SCOP 3,26 bij 55 °C, ηs 127%"
     },
@@ -1461,7 +1465,7 @@
       "type": "all-electric",
       "voorbeeld_variant": "Yutaki M RASM2VRE (monoblock)",
       "vermogen_kw": 4,
-      "scop_toelichting": "SCOP 3,9 tot 4,6 bij 35 graden aanvoer (vloerverwarming) en 3,2 tot 3,4 bij 55 graden (radiatoren)",
+      "scop_toelichting": "ηs 183% bij 35 °C aanvoer volgens de Hitachi-brochure Yutaki M voor de RASM-2VRE (alleen verwarmen), omgerekend SCOP 4,65. Franse leveranciers noemen 4,5 tot 4,6.",
       "geluid_toelichting": "geluidsvermogen nog niet vastgesteld",
       "koudemiddel": "R32",
       "tapwater": "via een aparte boiler",
@@ -1494,7 +1498,11 @@
           "meldcode": "KA15893"
         }
       ],
-      "vermogen_conditie": "Prated"
+      "vermogen_conditie": "Prated",
+      "scop": 4.65,
+      "scop_conditie": "35",
+      "scop_55": 3.45,
+      "scop_55_bron": "Hitachi-brochure Yutaki M, RASM-2VRE (alleen verwarmen): ηs 135% bij 55 °C, omgerekend SCOP 3,45"
     },
     {
       "id": "atlantic-alfea-extensa",
@@ -1623,7 +1631,7 @@
       "type": "all-electric",
       "voorbeeld_variant": "Vitocal 150-A 11 kW (AWO-E-AC, 400 V)",
       "vermogen_kw": 11,
-      "scop_toelichting": "de toegankelijkere lijn naast de Vitocal 250-A, gericht op grotere woningen",
+      "scop_toelichting": "SCOP 4,52 bij 35 °C aanvoer (ηs 178%) volgens het Duitse Viessmann-datablad voor type 151.A13, het type van de meldcode. De toegankelijkere lijn naast de Vitocal 250-A, gericht op grotere woningen.",
       "scop_55": 3.7,
       "scop_55_bron": "Viessmann-datasheet Vitocal 150-A 151.A10 (400 V): ηs 145% bij 55 °C, SCOP 3,7",
       "geluid_toelichting": "geluidsvermogen nog niet vastgesteld",
@@ -1665,7 +1673,9 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "fase": "3-fase"
+      "fase": "3-fase",
+      "scop": 4.52,
+      "scop_conditie": "35"
     },
     {
       "id": "panasonic-aquarea-wxg",
@@ -1674,7 +1684,7 @@
       "type": "all-electric",
       "voorbeeld_variant": "WH-WXG12ME8 (12 kW, bi-bloc)",
       "vermogen_kw": 12,
-      "scop_toelichting": "de zwaardere bi-bloc naast de L-generatie, voor woningen met een hogere warmtevraag",
+      "scop_toelichting": "SCOP 5,00 bij 35 °C en 3,46 bij 55 °C (gemiddeld klimaat) volgens de modelpagina van Panasonic voor de WH-WXG12ME8. De zwaardere bi-bloc naast de L-generatie, voor woningen met een hogere warmtevraag.",
       "scop_55": 3.46,
       "scop_55_bron": "Panasonic-specificatieblad WH-WXG12ME8: ηs 135% bij 55 °C, SCOP 3,46",
       "geluid_toelichting": "Geluidsvermogen van de buitenunit volgens de specificatietabel van Multi-Import bij de WH-WXG12ME8.",
@@ -1745,7 +1755,9 @@
       "afbeelding_herkomst": "https://www.multi-import.nl/media/catalog/product/cache/6517c62f5899ad6aa0ba23ceb3eeff97/w/h/wh-wxg09me8_2_1.jpg",
       "afbeelding_via": "https://www.multi-import.nl/wh-wxg12me8",
       "geluid_db": 53,
-      "max_aanvoer_c": 75
+      "max_aanvoer_c": 75,
+      "scop": 5.0,
+      "scop_conditie": "35"
     },
     {
       "id": "stiebel-wpl-a13",
@@ -1754,7 +1766,7 @@
       "type": "all-electric",
       "voorbeeld_variant": "WPL-A 13.2 Trend HK 400 (13 kW, driefase)",
       "vermogen_kw": 13,
-      "scop_toelichting": "grootste propaanmodel in deze vergelijking; driefase-aansluiting nodig",
+      "scop_toelichting": "SCOP 4,65 bij 35 °C aanvoer (EN 14825) volgens het Stiebel Eltron-datablad van de WPL-A 13.2 Trend HK 400 (artikel 206119). Grootste propaanmodel in deze vergelijking; driefase-aansluiting nodig.",
       "scop_55": 3.85,
       "scop_55_bron": "Stiebel Eltron-datasheet WPL-A 13.2 Trend: SCOP 3,85 bij 55 °C (EN 14825)",
       "geluid_toelichting": "geluidsvermogen nog niet vastgesteld",
@@ -1809,7 +1821,9 @@
       "afbeelding": "assets/producten/stiebel-wpl-a13.webp",
       "afbeelding_bron": "foto: Stiebel Eltron",
       "afbeelding_herkomst": "https://www.stiebel-eltron.nl/content/dam/ste/products/article_picture/pic-0012/pic-00122339.png",
-      "afbeelding_via": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-a-trend/wpl-a-13-2-trend-hk-400.html"
+      "afbeelding_via": "https://www.stiebel-eltron.nl/nl/producten/duurzame_energie/warmtepomp/lucht-water-warmtepompen/wpl-a-trend/wpl-a-13-2-trend-hk-400.html",
+      "scop": 4.65,
+      "scop_conditie": "35"
     },
     {
       "merk": "Stiebel Eltron",
@@ -1941,7 +1955,7 @@
       "type": "all-electric",
       "voorbeeld_variant": "Compress 5800i AW 12 OR-T (12 kW, driefase)",
       "vermogen_kw": 12,
-      "scop_toelichting": "driefase-uitvoering van de 5800i-reeks voor grotere woningen",
+      "scop_toelichting": "SCOP 4,66 bij 35 °C aanvoer (gemiddeld klimaat) volgens de SCOP-verklaring van Bosch voor de Compress 5800i AW 12 OR-T. Driefase-uitvoering van de 5800i-reeks voor grotere woningen.",
       "scop_55": 3.51,
       "scop_55_bron": "Productgegevens Compress 5800i AW 12 OR-T (Duitse en Deense dealer, gelijkluidend): SCOP 3,51 bij 55 °C",
       "geluid_toelichting": "Maximaal geluidsvermogensniveau overdag volgens de specificatietabel bij Aircozonderstek; in nachtmodus 46 dB(A). De 28,5 en 42 dB(A) die dezelfde pagina noemt zijn geluidsdruk op 3 respectievelijk 1 meter en niet vergelijkbaar met de labelwaarde die hier staat.",
@@ -1991,7 +2005,9 @@
       "afbeelding_bron": "foto: Bosch",
       "afbeelding_herkomst": "https://www.nefit-bosch.nl/ocsmedia/optimized/1600x99999/o546932v389_Compress_5800i_6800i_AW_v14.webp",
       "afbeelding_via": "https://www.nefit-bosch.nl/producten/warmtepompen/de-compress-5800-awr-warmtepompen/",
-      "geluid_db": 60
+      "geluid_db": 60,
+      "scop": 4.66,
+      "scop_conditie": "35"
     },
     {
       "id": "mitsubishi-ecodan-120",
@@ -2000,7 +2016,7 @@
       "type": "all-electric",
       "voorbeeld_variant": "PMHR-Z120Y-E set (10 kW, met binnenunit)",
       "vermogen_kw": 10,
-      "scop_toelichting": "complete set met binnenunit, voor woningen met een hogere warmtevraag",
+      "scop_toelichting": "SCOP 4,71 bij 35 °C aanvoer (ηs 192%, A+++) volgens het productblad van Mitsubishi Electric voor de PUZ-WZ120V/YAA. Complete set met binnenunit, voor woningen met een hogere warmtevraag.",
       "geluid_toelichting": "geluidsvermogen nog niet vastgesteld voor deze maat; de 6 kW-uitvoering staat op 55 dB(A)",
       "koudemiddel": "R290 (natuurlijk)",
       "tapwater": "via de binnenunit",
@@ -2039,7 +2055,11 @@
         }
       ],
       "vermogen_conditie": "Prated",
-      "fase": "3-fase"
+      "fase": "3-fase",
+      "scop": 4.71,
+      "scop_conditie": "35",
+      "scop_55": 3.51,
+      "scop_55_bron": "Mitsubishi Electric-productblad Ecodan R290 PUZ-WZ120V/YAA: ηs 142% bij 55 °C, SCOP 3,51"
     },
     {
       "id": "stiebel-wpl-25-ac",
